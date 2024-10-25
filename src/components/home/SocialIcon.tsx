@@ -13,7 +13,8 @@ export const SocialIcon = ({
     <a
       href={link}
       target="_blank"
-      className={`hover:-translate-y-2 transition duration-200 w-12 h-12 rounded-full flex items-center justify-center bg-[${color}]`}
+      style={{ backgroundColor: color }} // Define a cor dinamicamente
+      className="hover:-translate-y-2 transition duration-200 w-12 h-12 rounded-full flex items-center justify-center"
     >
       {icon}
     </a>
