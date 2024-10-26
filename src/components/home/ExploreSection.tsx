@@ -1,18 +1,18 @@
-"use client"; // Isto garantirá que o componente seja executado no lado do cliente
+"use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Novo import para o App Router
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LoadingScreen } from "./LoadingScreen";
 
 export const ExploreSection = () => {
-  const router = useRouter(); // Correto para o App Router
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   // Função para lidar com o clique no botão de explorar
   const handleNavigation = () => {
-    setLoading(true); // Definir o estado de carregamento para true
-    router.push("/list/events"); // Redirecionar para a página de eventos
+    setLoading(true);
+    router.push("/explorar");
   };
 
   return (

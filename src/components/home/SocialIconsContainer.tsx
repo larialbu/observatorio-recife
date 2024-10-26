@@ -2,7 +2,7 @@ import { SocialIcon } from "./SocialIcon";
 
 export const SocialIconsContainer = () => {
   return (
-    <div className="flex items-center flex-col gap-3 fixed right-0 top-1/2 w-20  ">
+    <div className="flex items-center flex-col gap-3 fixed right-0 top-1/2 w-20 trasition duration-500 transform scale-[80%] sm:scale-[80%] md:scale-100 lg:scale-100">
       <SocialIcon
         link="#"
         icon={
