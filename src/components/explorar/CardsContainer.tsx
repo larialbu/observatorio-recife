@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Card } from "@/components/explorar/Card";
 import { Popup } from "@/components/explorar/Popup";
+import "./styles.css";
 
 export const CardsContainer: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -118,7 +119,7 @@ export const CardsContainer: React.FC = () => {
                 </label>
             </div>
 
-            <div className="flex flex-wrap justify-evenly gap-4 cards-container">
+            <div className="cards-container">
                 {filteredCards.length > 0 ? (
                     filteredCards.map((card, index) => (
                         <Card

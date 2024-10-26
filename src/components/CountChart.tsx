@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import {
   RadialBarChart,
   RadialBar,
@@ -15,25 +14,28 @@ const data = [
   {
     name: "Girls",
     count: 53,
-    fill: "#F3A86B", // Laranja claro derivado de #EC6625
+    fill: "#52B348", // Laranja escuro
   },
   {
     name: "Boys",
     count: 53,
-    fill: "#88B8E7", // Azul claro derivado de #0155AE
+    fill: "#0F4C75", // Azul escuro
   },
 ];
 
-const CountChart = () => {
+interface CountChartProps {
+  title: string; // Define o tipo para a prop 'title'
+}
+
+const CountChart: React.FC<CountChartProps> = ({ title }) => {
   return (
     <div className="bg-white rounded-xl w-full h-full p-4">
       {/* TITLE */}
       <div className="flex justify-between items-center">
-        <h1 className="text-lg font-semibold">Students</h1>
-        <Image src="/moreDark.png" alt="" width={20} height={20} />
+        <h1 className="text-lg font-semibold text-[#0F4C75]">{title}</h1> {/* Azul escuro */}
       </div>
       {/* CHART */}
-      <div className="relative w-full h-[75%]">
+      <div className="relative w-full h-[75%] bg-[#f5f5f5]"> {/* Fundo cinza claro */}
         <ResponsiveContainer>
           <RadialBarChart
             cx="50%"
@@ -43,28 +45,21 @@ const CountChart = () => {
             barSize={32}
             data={data}
           >
-            <RadialBar background dataKey="count" />
+            <RadialBar background dataKey="count" fill="#ccc" /> {/* Fundo do gráfico em cinza */}
           </RadialBarChart>
         </ResponsiveContainer>
-        <Image
-          src="/maleFemale.png"
-          alt=""
-          width={50}
-          height={50}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
       </div>
       {/* BOTTOM */}
       <div className="flex justify-center gap-16">
         <div className="flex flex-col gap-1">
-          <div className="w-5 h-5 bg-[#88B8E7] rounded-full" /> {/* Azul claro */}
-          <h1 className="font-bold">1,234</h1>
-          <h2 className="text-xs text-gray-300">Boys (55%)</h2>
+          <div className="w-5 h-5 bg-[#0F4C75] rounded-full" /> {/* Azul escuro */}
+          <h1 className="font-bold text-[#0F4C75]">{data[2].count}</h1> {/* Número de meninos */}
+          <h2 className="text-xs text-[#0F4C75]">HOMENS ({((data[2].count / data[0].count) * 100).toFixed(0)}%)</h2> {/* Azul escuro para o texto */}
         </div>
         <div className="flex flex-col gap-1">
-          <div className="w-5 h-5 bg-[#F3A86B] rounded-full" /> {/* Laranja claro */}
-          <h1 className="font-bold">1,234</h1>
-          <h2 className="text-xs text-gray-300">Girls (45%)</h2>
+          <div className="w-5 h-5 bg-[#52B348] rounded-full" /> {/* Laranja escuro */}
+          <h1 className="font-bold text-[#52B348]">{data[1].count}</h1> {/* Número de meninas */}
+          <h2 className="text-xs text-[#52B348]">MULHERES ({((data[1].count / data[0].count) * 100).toFixed(0)}%)</h2> {/* Laranja escuro para o texto */}
         </div>
       </div>
     </div>
