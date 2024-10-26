@@ -1,0 +1,63 @@
+@import '../_pallete';
+
+.cards-container{
+
+    .card-content{
+        
+        border-radius: 12px;
+        background: #0155AE;
+        overflow: hidden;
+
+        .banner-content{
+            width: 100%;
+            aspect-ratio: 2;
+
+            .__banner{
+                width: 100%;
+                height: 100%;
+
+                background-position-y: bottom;
+                background-size: cover;
+            }
+        }
+
+        .presentation-content{
+
+            .first-row{
+
+                .partner-logo{
+                    width: 64px;
+                    height: 64px;
+                    aspect-ratio: 1;
+
+                    .__logo{
+                        flex-shrink: 0;
+
+                        background-size: cover;
+                    }
+                }
+            }
+
+            .second-row{
+                
+                .button-content{
+
+                    .__button{
+                       
+                        border-radius: 12px;
+                        background: $orangePrimary;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+@media screen and (max-width:475px) {
+    .cards-container{
+        .card-content{
+            transform: scale(0.85);
+        }
+    }
+}

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const Separator = () => {
   return <div className="h-[25px] mx-2 w-[1px] bg-white"></div>;
 };
@@ -11,11 +13,13 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
           : "absolute"
       } flex justify-between z-10 p-4 px-6  w-full `}
     >
-      <img
-        src="/images/logos/observatorio_logo.png"
-        alt="logo observatorio"
-        className={`${simple ? " h-10" : " w-20 h-20"}  object-cover`}
-      />
+      <Link href="/">
+        <img
+          src="/images/logos/observatorio_logo.png"
+          alt="logo observatorio"
+          className={`${simple ? " h-10" : " w-20 h-20"}  object-cover`}
+        />
+      </Link>
       <ul className="flex items-start justify-end pt-2 text-white">
         <li>
           <a href="#">Explorar</a>
