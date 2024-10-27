@@ -23,18 +23,16 @@ const AdminPage = () => {
       {/* FIRST ROW OF CHARTS */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-white shadow-lg rounded-lg p-4">
-        <CountChart title="Movimentação do aeroporto" />
+          <CountChart title="Movimentação do aeroporto" />
         </div>
         <div className="bg-white shadow-lg rounded-lg p-4">
           <AttendanceChart title="Recife" />
-
         </div>
         <div className="bg-white shadow-lg rounded-lg p-4">
-        <AttendanceChart title="Empresas" />
-
+          <AttendanceChart title="Empresas" />
         </div>
         <div className="bg-white shadow-lg rounded-lg p-4">
-        <FinanceChart title="Taxa Selic" />
+          <FinanceChart title="Taxa Selic" />
         </div>
       </div>
 
@@ -44,13 +42,13 @@ const AdminPage = () => {
           <CountChart title="Balança Comercial" />
         </div>
         <div className="bg-white shadow-lg rounded-lg p-4">
-         <CountChart title="Movimentação de emprego" />
+          <CountChart title="Movimentação de emprego" />
         </div>
         <div className="bg-white shadow-lg rounded-lg p-4">
-        <FinanceChart title="IPCA" />
+          <FinanceChart title="IPCA" />
         </div>
         <div className="bg-white shadow-lg rounded-lg p-4">
-        <FinanceChart title="Ranking Competitividade" />
+          <FinanceChart title="Ranking Competitividade" />
         </div>
       </div>
     </div>
