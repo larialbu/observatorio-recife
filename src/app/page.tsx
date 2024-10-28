@@ -7,6 +7,7 @@ import { ExploreSection } from "@/components/home/ExploreSection";
 import { CardsSection } from "@/components/explore/CardsSection";
 import { Footer } from "@/components/home/Footer";
 import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
+import { AboutSection } from "@/components/home/AboutSection";
 
 const Homepage = () => {
   return (
@@ -17,6 +18,8 @@ const Homepage = () => {
       <Carousel></Carousel>
 
       <ExploreSection></ExploreSection>
+
+      <AboutSection />
 
       {/* Cards Section */}
       <CardsSection></CardsSection>

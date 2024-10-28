@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useDashboard } from '@/context/DashboardContext';
-import CustomPieChart from '@/components/observatorio/aeroporto/graficos/PassageirosPorVoo';
+import { useEffect, useState } from "react";
+import { useDashboard } from "@/context/DashboardContext";
+import CustomPieChart from "@/components/observatorio/aeroporto/graficos/PassageirosPorVoo";
 
 // GRÁFICOS
-import ViagensPorRegiao from '@/components/observatorio/aeroporto/graficos/ViagensPorRegiao';
-import EmbarqueDesembarqueRegiao from '@/components/observatorio/aeroporto/graficos/EmbDesPorRegiao';
-import MediaViagensPorMes from '@/components/observatorio/aeroporto/graficos/MediaViagensPorMes';
-import GraficoCompanhiasPopulares from '@/components/observatorio/aeroporto/graficos/CompanhiasPopulares';
-import MediaCargaPorPassageiro from '@/components/observatorio/aeroporto/graficos/MediaCargaPorPassageiro';
+import ViagensPorRegiao from "@/components/observatorio/aeroporto/graficos/ViagensPorRegiao";
+import EmbarqueDesembarqueRegiao from "@/components/observatorio/aeroporto/graficos/EmbDesPorRegiao";
+import MediaViagensPorMes from "@/components/observatorio/aeroporto/graficos/MediaViagensPorMes";
+import GraficoCompanhiasPopulares from "@/components/observatorio/aeroporto/graficos/CompanhiasPopulares";
+import MediaCargaPorPassageiro from "@/components/observatorio/aeroporto/graficos/MediaCargaPorPassageiro";
 
 // CARDS
-import ViagensPorAno from '@/components/observatorio/aeroporto/cards/ViagensPorAno';
-import PassageirosPorAno from '@/components/observatorio/aeroporto/cards/PassageirosPorAno';
+import ViagensPorAno from "@/components/observatorio/aeroporto/cards/ViagensPorAno";
+import PassageirosPorAno from "@/components/observatorio/aeroporto/cards/PassageirosPorAno";
 
 const AdminPage = () => {
-  const { year, setAvailableYears } = useDashboard(); 
+  const { year, setAvailableYears } = useDashboard();
   const [data, setData] = useState([]);
   const [companyData, setCompanyData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -27,11 +27,13 @@ const AdminPage = () => {
   const fetchData = async (selectedYear: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://192.168.1.97:3001/api/data/aeroporto/embarque-desembarque/2023_2024`);
+      const response = await fetch(
+        `https://observatorio-recife-apis.onrender.com/api/data/aeroporto/embarque-desembarque/2023_2024`
+      );
       const json = await response.json();
       setData(json);
     } catch (error) {
-      console.log('error', error);
+      console.log("error", error);
     } finally {
       setLoading(false);
     }
@@ -40,11 +42,13 @@ const AdminPage = () => {
   const fetchCompanyData = async (selectedYear: string) => {
     setCompanyLoading(true);
     try {
-      const response = await fetch(`http://localhost:3001/api/data/aeroporto/${selectedYear}`);
+      const response = await fetch(
+        `https://observatorio-recife-apis.onrender.com/api/data/aeroporto/${selectedYear}`
+      );
       const json = await response.json();
       setCompanyData(json);
     } catch (error) {
-      console.log('error', error);
+      console.log("error", error);
     } finally {
       setCompanyLoading(false);
     }
@@ -52,7 +56,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     ////////ATENÇÃO; AQUI ESTÁ A DINÂMICA DE PASSAR AS DATAS PARA A NAV E ASSIM MUDAR DE API
-    const availableYears = ['2023', '2024'];
+    const availableYears = ["2023", "2024"];
     ////////////////////////////////
 
     setAvailableYears(availableYears);
@@ -66,10 +70,24 @@ const AdminPage = () => {
   if (loading || companyLoading) return <p>Carregando dados...</p>;
   if (error || companyError) return <p>{error || companyError}</p>;
 
-  const colors = ['#EC6625', '#0155AE', '#52B348', '#FFBB28', '#8A2BE2', '#00CED1'];
+  const colors = [
+    "#EC6625",
+    "#0155AE",
+    "#52B348",
+    "#FFBB28",
+    "#8A2BE2",
+    "#00CED1",
+  ];
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
+
+      {/* Title */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-800">Panorama de Recife</h1>
+        <p className="text-gray-600">Visão geral das métricas principais</p>
+      </div>
+
       {/* CARDS */}
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         <ViagensPorAno
@@ -78,11 +96,11 @@ const AdminPage = () => {
           year={year}
           backgroundColor={colors[0]} // Passando cor personalizada
         />
-        <PassageirosPorAno 
-        type="Média de passageiros por ano" 
-        data={data} 
-        year={year} 
-        color={colors[1]} // Cor personalizada
+        <PassageirosPorAno
+          type="Média de passageiros por ano"
+          data={data}
+          year={year}
+          color={colors[1]} // Cor personalizada
         />
       </div>
 
@@ -99,7 +117,7 @@ const AdminPage = () => {
         </div>
 
         <div className="bg-white shadow-lg rounded-lg p-4">
-          <ViagensPorRegiao 
+          <ViagensPorRegiao
             data={data}
             nameKey="AEROPORTO REGIÃO"
             colors={colors}

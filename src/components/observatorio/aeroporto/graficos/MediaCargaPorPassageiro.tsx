@@ -6,7 +6,7 @@ const abbreviateNaturezaGrupo = (name: string) => {
   const abbreviations: { [key: string]: string } = {
     'REGULAR': 'REG',
     'NÃO REGULAR': 'NÃO REG',
-    'IMPRODUTIVO': 'IMPR'
+    'IMPRODUTIVO': 'IMPR',
   };
 
   return abbreviations[name] || name;
@@ -20,17 +20,19 @@ const formatNumber = (value: number) => {
   }).format(value);
 };
 
-const MediaCargaPorPassageiro = ({ data, title, colors }: any) => {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+const MediaCargaPorPassageiro = ({ data = [], title = "", colors = ["#EC6625", "#0155AE"] }: any) => {
+  const [windowWidth, setWindowWidth] = useState(768); // valor inicial padrão
   const [showAbbreviations, setShowAbbreviations] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
+    if (typeof window !== "undefined") {
       setWindowWidth(window.innerWidth);
-    };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+      const handleResize = () => setWindowWidth(window.innerWidth);
+      window.addEventListener('resize', handleResize);
+
+      return () => window.removeEventListener('resize', handleResize);
+    }
   }, []);
 
   const processedData = data.reduce((acc: any, item: any) => {
@@ -55,33 +57,28 @@ const MediaCargaPorPassageiro = ({ data, title, colors }: any) => {
   }, {});
 
   const chartData = Object.values(processedData).map((item: any) => ({
-    name:
-      windowWidth < 768 || showAbbreviations
-        ? abbreviateNaturezaGrupo(item.grupoDeVoo)
-        : `${item.grupoDeVoo}`,
-    fullName: `${item.grupoDeVoo}`,
+    name: windowWidth < 768 || showAbbreviations
+      ? abbreviateNaturezaGrupo(item.grupoDeVoo)
+      : item.grupoDeVoo,
+    fullName: item.grupoDeVoo,
     internacional: item.countInternacional > 0 ? item.internacional / item.countInternacional : 0,
     domestica: item.countDomestica > 0 ? item.domestica / item.countDomestica : 0,
   }));
 
+  const renderExplanation = () => (
+    <div className="text-center text-sm text-gray-600 mt-2">
+      <strong>Abreviações:</strong>
+      <ul>
+        {chartData.map((item: any) => (
+          <li key={item.name}>
+            {item.name}: {item.fullName}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 
-  const renderExplanation = () => {
-    return (
-      <div className="text-center text-sm text-gray-600 mt-2">
-        <strong>Abreviações:</strong>
-        <ul>
-          {chartData.map((item: any) => (
-            <li key={item.name}>
-              {item.name}: {item.fullName}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
-
-  // mudando a fonte com base na largura da tela
-  const tickFontSize = windowWidth < 768 ? 8 : windowWidth <= 1120 ? 7 : 11;
+  const tickFontSize = windowWidth < 768 ? 8 : windowWidth <= 1120 ? 10 : 12;
 
   return (
     <div>

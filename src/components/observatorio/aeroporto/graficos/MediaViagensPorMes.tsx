@@ -7,18 +7,22 @@ const formatNumber = (value: number) => {
 };
 
 const MediaViagensPorMes = ({ data, dataKey, nameKey, colors, title, year }: any) => {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(768);
 
   useEffect(() => {
-    const handleResize = () => {
+    if (typeof window !== "undefined") {
       setWindowWidth(window.innerWidth);
-    };
 
-    window.addEventListener('resize', handleResize);
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+      };
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
   }, []);
 
   const processedData = data.reduce((acc: any, item: any) => {
@@ -69,6 +73,7 @@ const MediaViagensPorMes = ({ data, dataKey, nameKey, colors, title, year }: any
           <YAxis 
             domain={[minTick, 'auto']} 
             tick={{ fontSize: tickFontSize }}
+            tickFormatter={formatNumber}
           />
           <Tooltip formatter={(value: any) => formatNumber(value)} />
 

@@ -18,15 +18,25 @@ const Bar = ({
         menuOpen ? "14%" : "6%"
       }] p-3 bg-white h-full overflow-y-scroll`}
     >
-      <div className={`flex ${menuOpen ? "justify-end" : "justify-center"} ${menuOpen ? "h-[40px]": ""}`}>
+      <div
+        className={`flex ${menuOpen ? "justify-end" : "justify-center"} ${
+          menuOpen ? "h-[40px]" : ""
+        }`}
+      >
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="flex p-1 my-4 items-center justify-center  hover:bg-lamaSkyLight"
         >
           {menuOpen ? (
-            <svg width="35px" height="35px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="35px"
+              height="35px"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path d="M17 12L8 12" stroke="#6b7280" />
-              <path d="M11 8L7 12L11 16" stroke="#6b7280"/>
+              <path d="M11 8L7 12L11 16" stroke="#6b7280" />
             </svg>
           ) : (
             <svg
@@ -36,15 +46,12 @@ const Bar = ({
               viewBox="0 0 24 24"
               fill="none"
             >
-              <path
-                d="M4 12H20M4 8H20M4 16H12"
-                stroke="#6b7280"
-              />
+              <path d="M4 12H20M4 8H20M4 16H12" stroke="#6b7280" />
             </svg>
           )}
         </button>
       </div>
-
+ 
       <Link href="/" className="flex items-center justify-center">
         <Image
           src="/observatorio.jpg"
