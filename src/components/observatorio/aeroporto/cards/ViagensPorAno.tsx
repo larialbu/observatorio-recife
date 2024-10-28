@@ -1,26 +1,6 @@
 import Image from "next/image";
 
-const UserCard = ({ type, data, year }: { type: string, data: any[], year: string }) => {
-  // Define uma cor baseada no tipo
-  const getBackgroundColor = (type: string) => {
-    switch (type) {
-      case "Usuarios":
-        return "#0155AE"; // Azul
-      case "Voos":
-        return "#EC6625"; // Laranja
-      case "Empregabilidade":
-        return "#52B348"; // Verde
-      case "Ações":
-        return "#0155AE"; // Verde claro como alternativa
-      case "Total de viagens ao ano":
-        return "#52B348"; // Verde claro
-      default:
-        return "#0155AE"; // Laranja claro como fallback
-    }
-  };
-
-  const backgroundColor = getBackgroundColor(type);
-
+const ViagensPorAno = ({ type, data, year, backgroundColor }: { type: string, data: any[], year: string, backgroundColor: string }) => {
   // Cálculo do total de viagens ao ano, filtrando pelo ano correto
   let total = 0;
   if (type === "Total de viagens ao ano") {
@@ -48,4 +28,4 @@ const UserCard = ({ type, data, year }: { type: string, data: any[], year: strin
   );
 };
 
-export default UserCard;
+export default ViagensPorAno;

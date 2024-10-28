@@ -25,8 +25,8 @@ const Bar = ({
         >
           {menuOpen ? (
             <svg width="35px" height="35px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M17 12L8 12" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M11 8L7 12L11 16" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M17 12L8 12" stroke="#6b7280" />
+              <path d="M11 8L7 12L11 16" stroke="#6b7280"/>
             </svg>
           ) : (
             <svg
@@ -39,9 +39,6 @@ const Bar = ({
               <path
                 d="M4 12H20M4 8H20M4 16H12"
                 stroke="#6b7280"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
               />
             </svg>
           )}
