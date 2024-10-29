@@ -29,22 +29,22 @@ export const AboutSection = () => {
   }, []);
 
   return (
-    <div className="relative py-12 w-full flex flex-col mt-10 items-center justify-center text-end">
+    <div className="relative py-12 w-full flex flex-col mt-[5em] mb-10 items-center justify-center text-end">
       <img
         src={imgDirect}
         className={`absolute w-full h-full bg-cover bg-center object-cover transition-opacity duration-1000 ${
           isFading ? "opacity-0" : "opacity-100"
         }`}
       />
-      <div className="text-content w-[80%] max-w-[800px] p-4 flex items-end justify-end">
-        <div className="sm:w-[70%] w-[100%]   z-20">
+      <div className="text-content relative w-[100%] pt-4 pb-4 pr-6 lg:pr-20 flex items-end justify-end">
+        <div className="sm:w-[70%] w-[100%] max-w-[350px] sm:max-w-[500px]">
           <div className="title-content">
-            <div className="text-2xl sm:text-3xl mb-3 font-bold __title">
+            <div className="text-2xl lg:text-4xl sm:text-3xl mb-3 font-bold __title">
               <p>Sobre nós</p>
             </div>
             <div className="description-content">
               <div className="__description">
-                <p className="text-end text-[14px] sm:text-[16px]">
+                <p className="text-end text-[14px] lg:text-[18px] sm:text-[16px]">
                   O Observatório Econômico do Recife é uma iniciativa da
                   Prefeitura do Recife, em parceria com a Faculdade Senac, que
                   visa oferecer uma análise detalhada do panorama econômico da
@@ -53,12 +53,12 @@ export const AboutSection = () => {
               </div>
             </div>
 
-            <div className="text-2xl sm:text-3xl mt-8 mb-3 font-bold __title">
+            <div className="text-2xl lg:text-4xl sm:text-3xl mt-8 mb-3 font-bold __title">
               <p>Nossa visão</p>
             </div>
             <div className="description-content">
               <div className="__description">
-                <p className="text-end text-[14px] sm:text-[16px]">
+                <p className="text-end text-[14px] lg:text-[18px] sm:text-[16px]">
                   A plataforma reúne dados econômicos abertos e fornece insights
                   valiosos para governantes, investidores, estudantes e o
                   público em geral, facilitando a compreensão e acompanhamento

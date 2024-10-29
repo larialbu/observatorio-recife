@@ -30,7 +30,7 @@ export const Card: React.FC<CardProps> = ({ banner, title, logo, description, on
                     <span className="block h-[50px]"></span>
                     <div className="w-full h-full button-content">
                         <button onClick={onButtonClick} className="w-full h-full ml-2 font-medium __button">
-                            Consultar
+                            Conferir
                         </button>
                     </div>
                 </div>

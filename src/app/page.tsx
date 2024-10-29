@@ -22,7 +22,7 @@ const Homepage = () => {
       <AboutSection />
 
       {/* Cards Section */}
-      <CardsSection></CardsSection>
+      {/* <CardsSection></CardsSection> */}
 
       <SocialIconsContainer />
 
