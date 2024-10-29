@@ -196,12 +196,44 @@
 
         .popup-page{
             width: 90%;
+
+            .text-content{
+
+                .title-content{
+                    
+                    .__title{
+                        
+                        font-size: 19px;
+                        line-height: 1.5;
+                    }
+                }
+
+                .description-content{
+
+                    p{
+
+                        font-size: 14px;
+                        line-height: 1.5;
+                    }
+                }
+            }
     
             .popup-buttons-content{
                 width: 100%;
                 padding: 0 .5em 0 .5em;
                 left: 0;
+                
+            }
 
+            .suggestions-content{
+
+                .suggestions-container{
+
+                    .button-container{
+
+                        scale: 0.8;
+                    }
+                }
             }
         }
     }

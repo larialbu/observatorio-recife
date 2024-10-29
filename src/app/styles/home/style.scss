@@ -100,7 +100,7 @@ footer{
     
 
     .__background{
-
+        overflow: hidden !important;
         pointer-events: none;
         filter: hue-rotate(10deg);
 
@@ -250,10 +250,17 @@ footer{
 
         .text-content{
 
+            .title-container{
+                
+                font-size: 15px;
+            }
+
             .description-content{
                 flex-direction: column;
 
                 .description-column{
+
+                    font-size: 8px;
     
                     &.right-column{
                         margin-left: 0;

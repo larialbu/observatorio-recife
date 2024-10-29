@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./animations.css"; // Importar as animações
-import "./popupStyles.css"
 
 type PopupProps = {
   card: {
@@ -55,16 +54,16 @@ export const Popup: React.FC<PopupProps> = ({ card, onClose, onNavigate, onSugge
           </button>
         </div>
 
-        <div className="text-content h-[40%]">
+        <div className="text-content">
           <div className="max-w-[85%] title-content">
             <h2 className="text-2xl font-semibold __title">{card.title}</h2>
           </div>
           <div className="description-content">
-            <p className="mt-4">{card.detailedDescription}</p>
+            <p className="mt-4 text-lg">{card.detailedDescription}</p>
           </div>
         </div>
 
-        <div className="flex absolute w-[120%] left-[-3.2em] top-1/2 justify-between items-center popup-buttons-content">
+        <div className="flex absolute w-[120%] left-[-3.2em] top-[50%] justify-between items-center popup-buttons-content">
           <button onClick={() => handleNavigateWithAnimation("prev")} className="popup-arrow left">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.9991 19L9.83911 14C9.56672 13.7429 9.34974 13.433 9.20142 13.0891C9.0531 12.7452 8.97656 12.3745 8.97656 12C8.97656 11.6255 9.0531 11.2548 9.20142 10.9109C9.34974 10.567 9.56672 10.2571 9.83911 10L14.9991 5" />
@@ -77,22 +76,22 @@ export const Popup: React.FC<PopupProps> = ({ card, onClose, onNavigate, onSugge
           </button>
         </div>
 
-        <div className="flex absolute top-1/2 left-1/3 justify-center data-button-content">
+        <div className="flex absolute left-0 top-[50%] w-full justify-center pointer-events-none data-button-content">
           <div className="data-button-container">
-            <button onClick={handleConsultClick} className="__button">
+            <button onClick={handleConsultClick} className="pointer-events-auto __button">
               Consultar dados
             </button>
           </div>
         </div>
 
-        <div className="absolute w-full bottom-8 left-0 pl-3 pr-3 suggestions-content">
+        <div className="absolute w-full bottom-5 left-0 pl-3 pr-3 suggestions-content">
           <div className="__title">
             <h3 className="mt-6 font-semibold">Confira também:</h3>
           </div>
-          <div className="grid grid-cols-3 gap-2 justify-items-center mt-2 suggestions-container">
+          <div className="inline-flex justify-between pr-2 pl-2x w-[100%] mt-2 suggestions-container">
             {suggestions.map((suggestion, index) => (
-              <div className="relative button-container" key={index}>
-                <button onClick={() => onSuggestionClick(index)} className="flex w-[110px] h-[110px] justify-center items-center text-xs __button">
+              <div className="relative w-[110px] h-[110px] button-container" key={index}>
+                <button onClick={() => onSuggestionClick(index)} className="flex w-full h-full justify-center items-center text-xs __button">
                   <div className="absolute w-full top-0 left-0 banner-content">
                     <div style={{ backgroundImage: `url(${suggestion.banner})` }} className="w-full h-full __banner"></div>
                   </div>
