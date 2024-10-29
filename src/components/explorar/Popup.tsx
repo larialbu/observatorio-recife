@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./animations.css"; // Importar as animações
+import "./popupStyles.css"
 
 type PopupProps = {
   card: {

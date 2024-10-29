@@ -18,7 +18,7 @@ const Homepage = () => {
 
       <NavBarHome simple />
 
-      <div className="p-8 text-5xl font-bold text-black">
+      <div className="p-8 text-5xl font-bold text-black text-p">
         <p>OBSERVATÓRIO<br/>ECONÔMICO DO RECIFE</p>
       </div>
 
