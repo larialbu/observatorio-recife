@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -9,11 +9,13 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { formatNumber } from "../functions/formatNumber";
 
 export const LineGraph = ({
   title,
   chartData,
   type,
+  muni
 }: {
   title: string;
   chartData?: {
@@ -23,7 +25,28 @@ export const LineGraph = ({
     amt?: number;
   }[];
   type?: string;
+  muni?: string
 }) => {
+  const [windowWidth, setWindowWidth] = useState(768);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+      };
+
+      window.addEventListener("resize", handleResize);
+
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+  }, []);
+
+  const tickFontSize = windowWidth < 768 ? 8 : windowWidth <= 1120 ? 10 : 10;
+
   return (
     <div>
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
@@ -40,9 +63,12 @@ export const LineGraph = ({
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
+          <XAxis dataKey="month" tick={{ fontSize: tickFontSize }} />
+          <YAxis
+            tickFormatter={formatNumber}
+            tick={{ fontSize: tickFontSize }}
+          />
+          <Tooltip formatter={(value: any) => formatNumber(value)} />
           <Legend />
           <Line
             type="monotone"
@@ -54,7 +80,7 @@ export const LineGraph = ({
           {chartData && chartData[0]?.uv == 0 ? (
             ""
           ) : (
-            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+            <Line type="monotone" name={muni} dataKey="uv" stroke="#82ca9d" />
           )}
         </LineChart>
       </ResponsiveContainer>

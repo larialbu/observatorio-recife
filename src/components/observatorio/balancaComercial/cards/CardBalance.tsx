@@ -7,7 +7,7 @@ const CardBalance = ({
   color,
 }: {
   type: string;
-  data: number;
+  data: number | string;
   year: string;
   color: string;
 }) => {
@@ -15,7 +15,7 @@ const CardBalance = ({
 
   return (
     <div
-      className="rounded-2xl p-4 flex-1 min-w-[190px]"
+      className="rounded-2xl p-4 flex-1 min-w-[250px]"
       style={{ backgroundColor: color }}
     >
       <div className="flex justify-between items-center">

@@ -85,13 +85,27 @@ interface ChartData {
 
 export function getBalance(
   jsonData: ComercioExterior[],
-  anoFiltro: string
+  anoFiltro: string,
+  municipio?: string
 ): ChartData[] {
   // Filtra os dados para incluir apenas registros do ano específico
-  const dadosFiltrados = jsonData.filter((item) => item.Ano === anoFiltro);
+  const dadosFiltrados = jsonData.filter(
+    (item) =>
+      item.Município.toLowerCase().includes("recife") && item.Ano === anoFiltro
+  );
+
+  const dadosFiltrados2 = municipio
+    ? jsonData.filter(
+        (item) =>
+          item.Município.toLowerCase().includes(municipio.toLowerCase()) &&
+          item.Ano === anoFiltro
+      )
+    : "";
 
   // Inicializa um objeto para agrupar dados por mês e calcular valores totais
   const valoresPorMes: Record<string, number> = {};
+
+  const valoresPorMes2: Record<string, number> = {};
 
   // Itera sobre dados filtrados para acumular valores de importação/exportação por mês
   dadosFiltrados.forEach((item) => {
@@ -110,11 +124,29 @@ export function getBalance(
     valoresPorMes[chaveMesAno] += valor;
   });
 
+  dadosFiltrados2 != ""
+    ? (dadosFiltrados2 as ComercioExterior[]).forEach((item) => {
+        const { Mês, Ano, "Valor US$": valorString } = item;
+        const valor = parseFloat(valorString.replace(/,/g, "")); // Converte o valor para número
+
+        // Gera uma chave única para cada mês/ano
+        const chaveMesAno = `${Mês}/${Ano}`;
+
+        // Inicializa o valor se a chave ainda não existir
+        if (!valoresPorMes2[chaveMesAno]) {
+          valoresPorMes2[chaveMesAno] = 0;
+        }
+
+        // Acumula o valor total para o mês (importação + exportação)
+        valoresPorMes2[chaveMesAno] += valor;
+      })
+    : "";
+
   // Converte o objeto de valores por mês em um array de ChartData
   const chartData: ChartData[] = Object.keys(valoresPorMes).map((mesAno) => ({
     month: mesAno,
     pv: valoresPorMes[mesAno], // Total (importação + exportação)
-    uv: 0,
+    uv: dadosFiltrados2 != "" ? valoresPorMes2[mesAno] : 0,
   }));
 
   return chartData;

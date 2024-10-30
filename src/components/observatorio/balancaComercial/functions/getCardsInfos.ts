@@ -41,7 +41,7 @@ export function getCardsInfos(
   });
 
   // Calcula a diferença entre exportação e importação
-  const diference = totalExport - totalImport;
+  const diference = totalImport - totalExport;
 
   return {
     totalExport,

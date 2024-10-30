@@ -27,6 +27,9 @@ import { getMainCountry } from "@/components/observatorio/balancaComercial/funct
 import { getContinent } from "@/components/observatorio/balancaComercial/functions/getContinents";
 import { getCountrys } from "@/components/observatorio/balancaComercial/functions/getCountrys";
 import { getCardsInfos } from "@/components/observatorio/balancaComercial/functions/getCardsInfos";
+import { formatMonths } from "@/components/observatorio/balancaComercial/functions/formatMonths";
+import { formatNumber } from "@/components/observatorio/balancaComercial/functions/formatNumber";
+import { getMunicipios } from "@/components/observatorio/balancaComercial/functions/getMunicipios";
 
 const AdminPage = () => {
   const { year, setAvailableYears } = useDashboard();
@@ -52,6 +55,8 @@ const AdminPage = () => {
   const [expoData, setExpoData] = useState([]);
   const [impoData, setImpoData] = useState([]);
 
+  const { municipality, setMunicipalityAvaible } = useDashboard();
+
   const fetchData = async (selectedYear: string) => {
     setLoading(true);
     try {
@@ -61,22 +66,33 @@ const AdminPage = () => {
 
       const json = await response.json();
 
-      const cardsInfos = getCardsInfos(json, "2023");
+      const cardsInfos = getCardsInfos(json, selectedYear);
 
-      const mainCuntrys = getMainCountry(json, "2023");
-      const continents = getContinent(json, "2023");
-      const balance = getBalance(json, "2023");
-      const countrys = getCountrys(json, "2023");
-      const expo = getExport(json, "2023");
-      const impo = getImport(json, "2023");
+      const mainCuntrys = getMainCountry(json, selectedYear);
+      const continents = getContinent(json, selectedYear);
+      const balance = getBalance(json, selectedYear, municipality);
+      const countrys = getCountrys(json, selectedYear);
+      const expo = getExport(json, selectedYear, municipality);
+      const impo = getImport(json, selectedYear, municipality);
+
+      const expoal = getExport(json, selectedYear, municipality);
+      const impoal = getImport(json, selectedYear, municipality);
+
+      console.log(expo);
+      console.log(impo);
+      console.log(expoal);
+      console.log(impoal);
+
+      console.log(getMunicipios(json));
+      setMunicipalityAvaible(getMunicipios(json));
 
       setCardsInfo(cardsInfos);
-      setMainCuntrysData(mainCuntrys.data as []);
+      setMainCuntrysData(formatMonths(mainCuntrys.data) as []);
       setContinentsData(continents as []);
-      setBalanceData(balance as []);
+      setBalanceData(formatMonths(balance) as []);
       setCountrysData(countrys.data as []);
-      setExpoData(expo as []);
-      setImpoData(impo as []);
+      setExpoData(formatMonths(expo) as []);
+      setImpoData(formatMonths(impo) as []);
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -111,7 +127,7 @@ const AdminPage = () => {
   useEffect(() => {
     fetchData(year);
     // fetchCompanyData(year);
-  }, [year]);
+  }, [year, municipality]);
 
   if (loading || companyLoading) return <p>Carregando dados...</p>;
   if (error || companyError) return <p>{error || companyError}</p>;
@@ -131,21 +147,21 @@ const AdminPage = () => {
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         <CardBalance
           type="Valor de importações ao ano"
-          data={cardsInfo?.totalImport}
+          data={formatNumber(cardsInfo?.totalImport)}
           year={year}
           color={colors[0]}
         />
 
         <CardBalance
           type="Valor de exportações ao ano"
-          data={cardsInfo?.totalExport}
+          data={formatNumber(cardsInfo?.totalExport)}
           year={year}
           color={colors[1]}
         />
 
         <CardBalance
           type="diferença exportação e importação"
-          data={cardsInfo?.diference}
+          data={formatNumber(cardsInfo?.diference)}
           year={year}
           color={colors[2]}
         />
@@ -157,14 +173,14 @@ const AdminPage = () => {
           <PercentAreaChart
             type="balanca"
             chartData={mainCuntrysData}
-            title="importação e expotaçaõ para os 5 países princípais"
+            title="importação e exportação para os 5 países princípais"
           />
         </div>
 
         <div className="bg-white shadow-lg rounded-lg p-4">
           <RadarGraph
             chartData={continentsData}
-            title="continentes importação e expotaçaõ"
+            title="importação e exportação de continentes"
           />
         </div>
       </div>
@@ -173,8 +189,9 @@ const AdminPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
         <div className="bg-white shadow-lg rounded-lg p-4">
           <LineGraph
+            muni={municipality}
             chartData={balanceData}
-            title="total importação exportação mensal"
+            title="valor total de importação e exportação mensal"
             type="recife"
           />
         </div>
@@ -183,7 +200,7 @@ const AdminPage = () => {
           <BarSimpleChart
             type="balanca"
             chartData={countrysData}
-            title="paises tabela horizontal impo/expo"
+            title="importação e exportação para os 5 países princípais "
           />
         </div>
       </div>
@@ -192,6 +209,7 @@ const AdminPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white shadow-lg rounded-lg p-4">
           <LineGraph
+            muni={municipality}
             type="recife"
             chartData={expoData}
             title="importaçao por Mês"
@@ -199,6 +217,7 @@ const AdminPage = () => {
         </div>
         <div className="bg-white shadow-lg rounded-lg p-4">
           <LineGraph
+            muni={municipality}
             type="recife"
             chartData={impoData}
             title="exportação por Mês"

@@ -28,7 +28,7 @@ const AdminPage = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://observatorio-recife-apis.onrender.com/api/data/aeroporto/embarque-desembarque/2023_2024`
+        `http://localhost:3001/api/data/aeroporto/embarque-desembarque/2023_2024`
       );
       const json = await response.json();
       setData(json);
@@ -43,7 +43,7 @@ const AdminPage = () => {
     setCompanyLoading(true);
     try {
       const response = await fetch(
-        `https://observatorio-recife-apis.onrender.com/api/data/aeroporto/${selectedYear}`
+        `http://localhost:3001/api/data/aeroporto/${selectedYear}`
       );
       const json = await response.json();
       setCompanyData(json);
@@ -81,11 +81,14 @@ const AdminPage = () => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-
       {/* Title */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Movimentação de aeroportos</h1>
-        <p className="text-gray-600">Dados gerais sobre a movimentação dos aeroportos brasileiros</p>
+        <h1 className="text-3xl font-bold text-gray-800">
+          Movimentação de aeroportos
+        </h1>
+        <p className="text-gray-600">
+          Dados gerais sobre a movimentação dos aeroportos brasileiros
+        </p>
       </div>
 
       {/* CARDS */}

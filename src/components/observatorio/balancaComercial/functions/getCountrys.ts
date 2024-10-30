@@ -89,12 +89,15 @@ interface ChartData {
 
 export function getCountrys(
   jsonData: ComercioExterior[],
-  anoFiltro: string
+  anoFiltro: string,
+  municipio?: string
 ): ChartData {
   // Filtra os dados para incluir apenas os registros de Recife e do ano especificado
   const dadosFiltrados = jsonData.filter(
     (item) =>
-      item.Município.toLowerCase().includes("recife") && item.Ano === anoFiltro
+      item.Município.toLowerCase().includes(
+        municipio ? municipio.toLowerCase() : "recife"
+      ) && item.Ano === anoFiltro
   );
 
   // Inicializa um mapa para acumular valores de exportação e importação por país

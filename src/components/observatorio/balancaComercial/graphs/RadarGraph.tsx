@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, useEffect, useState } from "react";
 import {
   Radar,
   RadarChart,
@@ -7,7 +7,9 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts";
+import { formatNumber } from "../functions/formatNumber";
 
 export const RadarGraph = ({
   title,
@@ -18,14 +20,43 @@ export const RadarGraph = ({
   chartData?: { month: string; uv: number; pv?: number; total: number }[];
   type?: string;
 }) => {
+  const [windowWidth, setWindowWidth] = useState(768); // valor padrão para largura da tela
+
+  useEffect(() => {
+    // Verificar se `window` está disponível no ambiente de execução
+    const handleResize = () => {
+      if (typeof window !== "undefined") {
+        setWindowWidth(window.innerWidth);
+      }
+    };
+
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth); // Inicializar o valor no cliente
+      window.addEventListener("resize", handleResize);
+    }
+
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", handleResize);
+      }
+    };
+  }, []);
+
+  const tickFontSize = windowWidth < 768 ? 10 : windowWidth <= 1120 ? 12 : 14;
+
   return (
     <div>
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
       <ResponsiveContainer width="100%" height={300}>
         <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chartData}>
           <PolarGrid />
-          <PolarAngleAxis dataKey="month" />
-          <PolarRadiusAxis angle={30} domain={[0, 150]} />
+          <PolarAngleAxis tick={{ fontSize: tickFontSize }} dataKey="month" />
+          <PolarRadiusAxis
+            tick={{ fontSize: tickFontSize }}
+            angle={30}
+            domain={[0, 150]}
+          />
+          <Tooltip formatter={(value: any) => formatNumber(value)} />
           <Radar
             name="Importação"
             dataKey="uv"

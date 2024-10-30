@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, useEffect, useState } from "react";
 import {
   AreaChart,
   Area,
@@ -8,6 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { formatNumber } from "../functions/formatNumber";
 
 const toPercent = (decimal: any, fixed = 0) =>
   `${(decimal * 100).toFixed(fixed)}%`;
@@ -26,12 +27,15 @@ const renderTooltipContent = (o: any) => {
   );
 
   return (
-    <div className="customized-tooltip-content">
-      <p className="total">{`${label} (Total: ${total})`}</p>
+    <div className="customized-tooltip-content bg-white p-2 rounded">
+      <p className="total">{`${label} (Total: ${formatNumber(total)})`}</p>
       <ul className="list">
         {payload.map((entry: any, index: any) => (
           <li key={`item-${index}`} style={{ color: entry.color }}>
-            {`${entry.name}: ${entry.value}(${getPercent(entry.value, total)})`}
+            {`${entry.name}: ${formatNumber(entry.value)}(${getPercent(
+              entry.value,
+              total
+            )})`}
           </li>
         ))}
       </ul>
@@ -53,6 +57,26 @@ export const PercentAreaChart = ({
   }[];
   type?: string;
 }) => {
+  const [windowWidth, setWindowWidth] = useState(768);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+      };
+
+      window.addEventListener("resize", handleResize);
+
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+  }, []);
+
+  const tickFontSize = windowWidth < 768 ? 8 : windowWidth <= 1120 ? 10 : 10;
+
   return (
     <div>
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
@@ -70,9 +94,12 @@ export const PercentAreaChart = ({
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis tickFormatter={toPercent} />
-          <Tooltip content={renderTooltipContent} />
+          <XAxis tick={{ fontSize: tickFontSize }} dataKey="month" />
+          <YAxis tick={{ fontSize: tickFontSize }} tickFormatter={toPercent} />
+          <Tooltip
+            formatter={(value: any) => formatNumber(value)}
+            content={renderTooltipContent}
+          />
           <Area
             type="monotone"
             name={type == "balanca" ? "importação" : ""}
