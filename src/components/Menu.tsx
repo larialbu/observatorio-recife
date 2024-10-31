@@ -19,7 +19,7 @@ const menuItems = [
         visible: ["admin", "teacher", "student", "parent"],
       },
       {
-        icon: "/teacher.png",
+        icon: "/exam.png",
         label: "Empregos",
         href: "/observatorio/empregos",
         visible: ["admin", "teacher"],
@@ -135,9 +135,8 @@ const Menu = ({ open }: { open: boolean }) => {
       {menuItems.map((i) => (
         <div className="flex flex-col gap-2" key={i.title}>
           <span
-            className={`${
-              open ? "block" : "hidden"
-            } text-gray-400 font-light my-4`}
+            className={`${open ? "block" : "hidden"
+              } text-gray-400 font-light my-4`}
           >
             {i.title}
           </span>
@@ -147,9 +146,8 @@ const Menu = ({ open }: { open: boolean }) => {
                 <Link
                   href={item.href}
                   key={item.label}
-                  className={`flex max-w-[200px] items-center ${
-                    open ? "justify-start" : "justify-center"
-                  } gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-lamaSkyLight`}
+                  className={`flex max-w-[200px] items-center ${open ? "justify-start" : "justify-center"
+                    } gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-lamaSkyLight`}
                 >
                   <Image src={item.icon} alt="" width={20} height={20} />
                   <span className={`${open ? "block" : "hidden"}`}>
