@@ -24,9 +24,8 @@ const CardBalance = ({
         </span>
         <Image src="/more.png" alt="More options" width={20} height={20} />
       </div>
-      <h1 className="text-2xl font-semibold my-4">
+      <h1 className="text-2xl text-white font-semibold my-4">
         {data}
-        {/* Média arredondada e formatada */}
       </h1>
       <h2 className="capitalize text-sm font-semibold text-white">{type}</h2>
     </div>

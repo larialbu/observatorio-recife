@@ -10,7 +10,6 @@ const UserCard = ({ type, data, year, color }: { type: string, data: any[], year
       const passageiros = Number(item["PASSAGEIRO"]) || 0;
       const ano = item["ANO"];
       const aeroporto = item["AEROPORTO NOME"];
-      console.log(aeroporto)
 
       // filtra por ano e por Recife
       if (ano === year && aeroporto.toLowerCase().includes("recife")) {
@@ -31,10 +30,10 @@ const UserCard = ({ type, data, year, color }: { type: string, data: any[], year
         </span>
         <Image src="/more.png" alt="More options" width={20} height={20} />
       </div>
-      <h1 className="text-2xl font-semibold my-4">
+      <h1 className="text-2xl font-semibold my-4 text-white">
         {Math.round(mediaPassageiros).toLocaleString()} {/* Média arredondada e formatada */}
       </h1>
-      <h2 className="capitalize text-sm font-medium text-gray-500">{type}</h2>
+      <h2 className="capitalize text-sm font-medium text-white">{type}</h2>
     </div>
   );
 };

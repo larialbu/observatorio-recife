@@ -1,25 +1,17 @@
+// AdminPage.tsx
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { useDashboard } from "@/context/DashboardContext";
-import CustomPieChart from "@/components/observatorio/aeroporto/graficos/PassageirosPorVoo";
+import { SelectMuni } from "@/components/SelectMuni";
+import { PaginatedTable } from "@/components/observatorio/global/PaginedTable";
 
-// GRÁFICOS
-import ViagensPorRegiao from "@/components/observatorio/aeroporto/graficos/ViagensPorRegiao";
-import EmbarqueDesembarqueRegiao from "@/components/observatorio/aeroporto/graficos/EmbDesPorRegiao";
-import MediaViagensPorMes from "@/components/observatorio/aeroporto/graficos/MediaViagensPorMes";
-import GraficoCompanhiasPopulares from "@/components/observatorio/aeroporto/graficos/CompanhiasPopulares";
-import MediaCargaPorPassageiro from "@/components/observatorio/aeroporto/graficos/MediaCargaPorPassageiro";
-
-// CARDS
-import ViagensPorAno from "@/components/observatorio/aeroporto/cards/ViagensPorAno";
-import PassageirosPorAno from "@/components/observatorio/aeroporto/cards/PassageirosPorAno";
 import CardBalance from "@/components/observatorio/balancaComercial/cards/CardBalance";
 import { RadarGraph } from "@/components/observatorio/balancaComercial/graphs/RadarGraph";
 import { PercentAreaChart } from "@/components/observatorio/balancaComercial/graphs/PercentAreaGraph";
 import { LineGraph } from "@/components/observatorio/balancaComercial/graphs/LineGraph";
 import { BarSimpleChart } from "@/components/observatorio/balancaComercial/graphs/BarSimpleChart";
-import { calcularExportacaoImportacao } from "@/components/observatorio/balancaComercial/functions/calcExpImport";
 import { getExport } from "@/components/observatorio/balancaComercial/functions/getExport";
 import { getImport } from "@/components/observatorio/balancaComercial/functions/getImport";
 import { getBalance } from "@/components/observatorio/balancaComercial/functions/getBalance";
@@ -33,17 +25,16 @@ import { getMunicipios } from "@/components/observatorio/balancaComercial/functi
 
 const AdminPage = () => {
   const { year, setAvailableYears } = useDashboard();
-  const [companyData, setCompanyData] = useState([]);
+  const [municipality, setMunicipality] = useState<string>("");
+  const [municipalityAvaible, setMunicipalityAvaible] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [companyLoading, setCompanyLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [companyError, setCompanyError] = useState(null);
+  const [activeTab, setActiveTab] = useState<"charts" | "table">("charts");
 
-  const [cardsInfo, setCardsInfo] = useState<{
-    totalExport: number;
-    totalImport: number;
-    diference: number;
-  }>({
+  const [headers, setHeaders] = useState<string[]>([]);
+  const [rows, setRows] = useState<string[][]>([]);
+
+  const [cardsInfo, setCardsInfo] = useState({
     totalExport: 0,
     totalImport: 0,
     diference: 0,
@@ -55,19 +46,16 @@ const AdminPage = () => {
   const [expoData, setExpoData] = useState([]);
   const [impoData, setImpoData] = useState([]);
 
-  const { municipality, setMunicipalityAvaible } = useDashboard();
-
   const fetchData = async (selectedYear: string) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3001/api/data/balanco-comercial/geral/2023_2024`
+        `https://observatorio-recife-apis.onrender.com/api/data/balanco-comercial/geral/2023_2024`
       );
 
       const json = await response.json();
 
       const cardsInfos = getCardsInfos(json, selectedYear);
-
       const mainCuntrys = getMainCountry(json, selectedYear);
       const continents = getContinent(json, selectedYear);
       const balance = getBalance(json, selectedYear, municipality);
@@ -75,15 +63,6 @@ const AdminPage = () => {
       const expo = getExport(json, selectedYear, municipality);
       const impo = getImport(json, selectedYear, municipality);
 
-      const expoal = getExport(json, selectedYear, municipality);
-      const impoal = getImport(json, selectedYear, municipality);
-
-      console.log(expo);
-      console.log(impo);
-      console.log(expoal);
-      console.log(impoal);
-
-      console.log(getMunicipios(json));
       setMunicipalityAvaible(getMunicipios(json));
 
       setCardsInfo(cardsInfos);
@@ -93,6 +72,12 @@ const AdminPage = () => {
       setCountrysData(countrys.data as []);
       setExpoData(formatMonths(expo) as []);
       setImpoData(formatMonths(impo) as []);
+
+      // definir headers e linhas
+      if (json.length > 0) {
+        setHeaders(Object.keys(json[0]));
+        setRows(json.map((entry: any) => Object.values(entry).map(String)));
+      }
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -100,37 +85,17 @@ const AdminPage = () => {
     }
   };
 
-  //
-  // const fetchCompanyData = async (selectedYear: string) => {
-  //   setCompanyLoading(true);
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:3001/api/data/aeroporto/${selectedYear}`
-  //     );
-  //     const json = await response.json();
-  //     setCompanyData(json);
-  //   } catch (error) {
-  //     console.log("error", error);
-  //   } finally {
-  //     setCompanyLoading(false);
-  //   }
-  // };
-
   useEffect(() => {
-    ////////ATENÇÃO; AQUI ESTÁ A DINÂMICA DE PASSAR AS DATAS PARA A NAV E ASSIM MUDAR DE API
-    const availableYears = ["2023", "2024"];
-    ////////////////////////////////
-
+    const availableYears = ["2023"];
     setAvailableYears(availableYears);
   }, [setAvailableYears]);
 
   useEffect(() => {
     fetchData(year);
-    // fetchCompanyData(year);
   }, [year, municipality]);
 
-  if (loading || companyLoading) return <p>Carregando dados...</p>;
-  if (error || companyError) return <p>{error || companyError}</p>;
+  if (loading) return <p>Carregando dados...</p>;
+  if (error) return <p>{error}</p>;
 
   const colors = [
     "#EC6625",
@@ -142,45 +107,62 @@ const AdminPage = () => {
   ];
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      {/* CARDS */}
-      <div className="flex flex-wrap gap-4 justify-center mb-8">
-        <CardBalance
-          type="Valor de importações ao ano"
-          data={formatNumber(cardsInfo?.totalImport)}
-          year={year}
-          color={colors[0]}
-        />
+    <div className="p-6 min-h-screen">
+      {/* Title */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-800">Balança comercial</h1>
+        <p className="text-gray-600">
+          Dados gerais sobre a dinâmica da balança comercial brasileira
+        </p>
+      </div>
 
-        <CardBalance
-          type="Valor de exportações ao ano"
-          data={formatNumber(cardsInfo?.totalExport)}
-          year={year}
-          color={colors[1]}
-        />
-
-        <CardBalance
-          type="diferença exportação e importação"
-          data={formatNumber(cardsInfo?.diference)}
-          year={year}
-          color={colors[2]}
+      {/* Combobox de Municípios */}
+      <div className="flex justify-center w-full mb-6">
+        <SelectMuni
+          municipality={municipality}
+          setMunicipality={setMunicipality}
+          municipalityAvaible={municipalityAvaible}
         />
       </div>
 
-      {/* Primeira linha de gráficos */}
+      {/* alternar entre gráficos e tabela */}
+      <div className="mb-4 flex justify-center">
+        <button
+          onClick={() => setActiveTab("charts")}
+          className={`px-4 py-2 mx-2 ${activeTab === "charts" ? "bg-blue-500 text-white" : "bg-white text-gray-700"} rounded`}
+        >
+          Gráficos
+        </button>
+        <button
+          onClick={() => setActiveTab("table")}
+          className={`px-4 py-2 mx-2 ${activeTab === "table" ? "bg-blue-500 text-white" : "bg-white text-gray-700"} rounded`}
+        >
+          Tabela
+        </button>
+      </div>
+
+      {activeTab === "charts" && (
+        <div>
+          {/* gráficos */}
+          <div className="flex flex-wrap gap-4 justify-center mb-8">
+            <CardBalance type="Valor de importações ao ano" data={formatNumber(cardsInfo?.totalImport)} year={year} color={colors[0]} />
+            <CardBalance type="Valor de exportações ao ano" data={formatNumber(cardsInfo?.totalExport)} year={year} color={colors[1]} />
+            <CardBalance type="Diferença exportação e importação" data={formatNumber(cardsInfo?.diference)} year={year} color={colors[2]} />
+          </div>
+          {/* Primeira linha de gráficos */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
         <div className="bg-white shadow-lg rounded-lg p-4">
           <PercentAreaChart
             type="balanca"
             chartData={mainCuntrysData}
-            title="importação e exportação para os 5 países princípais"
+            title="Importação e exportação para os 5 países principais"
           />
         </div>
 
         <div className="bg-white shadow-lg rounded-lg p-4">
           <RadarGraph
             chartData={continentsData}
-            title="importação e exportação de continentes"
+            title="Importação e exportação de continentes"
           />
         </div>
       </div>
@@ -191,7 +173,7 @@ const AdminPage = () => {
           <LineGraph
             muni={municipality}
             chartData={balanceData}
-            title="valor total de importação e exportação mensal"
+            title="Valor total de importação e exportação mensal"
             type="recife"
           />
         </div>
@@ -200,7 +182,7 @@ const AdminPage = () => {
           <BarSimpleChart
             type="balanca"
             chartData={countrysData}
-            title="importação e exportação para os 5 países princípais "
+            title="Importação e exportação para os 5 países principais"
           />
         </div>
       </div>
@@ -212,7 +194,7 @@ const AdminPage = () => {
             muni={municipality}
             type="recife"
             chartData={expoData}
-            title="importaçao por Mês"
+            title="Importação por mês"
           />
         </div>
         <div className="bg-white shadow-lg rounded-lg p-4">
@@ -220,10 +202,16 @@ const AdminPage = () => {
             muni={municipality}
             type="recife"
             chartData={impoData}
-            title="exportação por Mês"
+            title="Exportação por mês"
           />
         </div>
       </div>
+        </div>
+      )}
+
+      {activeTab === "table" && headers.length > 0 && (
+        <PaginatedTable headers={headers} rows={rows} rowsPerPage={100} />
+      )}
     </div>
   );
 };

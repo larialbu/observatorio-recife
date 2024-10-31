@@ -1,11 +1,17 @@
-import { useDashboard } from "@/context/DashboardContext";
 import { useState } from "react";
 
-export const SelectMuni = () => {
-  const { setMunicipality, municipalityAvaible } = useDashboard();
-
+export const SelectMuni = ({
+  municipality,
+  setMunicipality,
+  municipalityAvaible,
+}: {
+  municipality: string;
+  setMunicipality: (val: string) => void;
+  municipalityAvaible: string[];
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const handleMuniChange = (muni: string) => {
     setMunicipality(muni);
     setIsDropdownOpen(false); // fecha o dropdown após selecionar uma opção
@@ -16,7 +22,7 @@ export const SelectMuni = () => {
   );
 
   return (
-    <div className="relative w-[45%]">
+    <div className="relative w-[50%] mb-6">
       <input
         type="text"
         placeholder="Pesquisar município"

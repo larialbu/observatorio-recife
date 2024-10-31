@@ -22,8 +22,8 @@ const ViagensPorAno = ({ type, data, year, backgroundColor }: { type: string, da
         </span>
         <Image src="/more.png" alt="More options" width={20} height={20} />
       </div>
-      <h1 className="text-2xl font-semibold my-4">{total.toLocaleString()}</h1> {/* Total formatado */}
-      <h2 className="capitalize text-sm font-medium text-gray-500">{type}</h2>
+      <h1 className="text-2xl font-semibold my-4 text-white">{total.toLocaleString()}</h1> {/* Total formatado */}
+      <h2 className="capitalize text-sm font-medium text-white">{type}</h2>
     </div>
   );
 };
