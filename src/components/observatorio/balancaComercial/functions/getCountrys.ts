@@ -12,6 +12,8 @@
 //   tipo: string; // "Exportação" ou "Importação"
 // }
 
+import { ComercioExterior } from "../types/Comerce";
+
 // interface ChartData {
 //   month: string; // país
 //   uv: number; // exportação
@@ -63,20 +65,6 @@
 
 //   return chartData;
 // }
-
-interface ComercioExterior {
-  Ano: string;
-  "Codigo SH4": string;
-  Continente: string;
-  Data: string;
-  "Descrição SH4": string;
-  Município: string;
-  Mês: string;
-  País: string;
-  "UF do Município": string;
-  "Valor US$": string;
-  tipo: string; // "Exportação" ou "Importação"
-}
 
 interface ChartData {
   countrys: string[];

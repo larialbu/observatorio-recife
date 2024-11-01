@@ -1,16 +1,6 @@
-interface ComercioExterior {
-  Ano: string;
-  "Codigo SH4": string;
-  Continente: string;
-  Data: string;
-  "Descrição SH4": string;
-  Município: string;
-  Mês: string;
-  País: string;
-  "UF do Município": string;
-  "Valor US$": string;
-  tipo: string; // "Exportação" ou "Importação"
-}
+import { ComercioExterior } from "../types/Comerce";
+
+ 
 
 export function getMunicipios(jsonData: ComercioExterior[]): string[] {
   // Utiliza um Set para armazenar os nomes dos municípios sem repetição

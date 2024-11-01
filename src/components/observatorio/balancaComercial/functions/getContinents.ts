@@ -1,16 +1,4 @@
-interface ComercioExterior {
-  Ano: string;
-  "Codigo SH4": string;
-  Continente: string;
-  Data: string;
-  "Descrição SH4": string;
-  Município: string;
-  Mês: string;
-  País: string;
-  "UF do Município": string;
-  "Valor US$": string;
-  tipo: string; // "Exportação" ou "Importação"
-}
+import { ComercioExterior } from "../types/Comerce";
 
 interface ChartData {
   month: string; // continente

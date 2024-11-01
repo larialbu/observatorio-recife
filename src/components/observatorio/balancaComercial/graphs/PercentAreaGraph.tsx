@@ -95,7 +95,10 @@ export const PercentAreaChart = ({
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis tick={{ fontSize: tickFontSize }} dataKey="month" />
-          <YAxis tick={{ fontSize: tickFontSize }} tickFormatter={toPercent} />
+          <YAxis
+            tick={{ fontSize: tickFontSize }}
+            tickFormatter={(val: any) => toPercent(val, 0)}
+          />
           <Tooltip
             formatter={(value: any) => formatNumber(value)}
             content={renderTooltipContent}

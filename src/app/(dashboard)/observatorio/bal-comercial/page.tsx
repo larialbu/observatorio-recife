@@ -12,16 +12,21 @@ import { RadarGraph } from "@/components/observatorio/balancaComercial/graphs/Ra
 import { PercentAreaChart } from "@/components/observatorio/balancaComercial/graphs/PercentAreaGraph";
 import { LineGraph } from "@/components/observatorio/balancaComercial/graphs/LineGraph";
 import { BarSimpleChart } from "@/components/observatorio/balancaComercial/graphs/BarSimpleChart";
-import { getExport } from "@/components/observatorio/balancaComercial/functions/getExport";
-import { getImport } from "@/components/observatorio/balancaComercial/functions/getImport";
-import { getBalance } from "@/components/observatorio/balancaComercial/functions/getBalance";
-import { getMainCountry } from "@/components/observatorio/balancaComercial/functions/getMainCountry";
-import { getContinent } from "@/components/observatorio/balancaComercial/functions/getContinents";
-import { getCountrys } from "@/components/observatorio/balancaComercial/functions/getCountrys";
-import { getCardsInfos } from "@/components/observatorio/balancaComercial/functions/getCardsInfos";
-import { formatMonths } from "@/components/observatorio/balancaComercial/functions/formatMonths";
-import { formatNumber } from "@/components/observatorio/balancaComercial/functions/formatNumber";
-import { getMunicipios } from "@/components/observatorio/balancaComercial/functions/getMunicipios";
+import {
+  formatMonths,
+  formatNumber,
+  getBalance,
+  getCardsInfos,
+  getContinent,
+  getCountrys,
+  getExport,
+  getImport,
+  getMainCountry,
+  getMunicipios,
+  getSHInfos,
+} from "@/components/observatorio/balancaComercial/functions/exportFunctions";
+import { LoadingScreen } from "@/components/home/LoadingScreen";
+import { SHTable } from "@/components/observatorio/balancaComercial/graphs/SHTable";
 
 const AdminPage = () => {
   const { year, setAvailableYears } = useDashboard();
@@ -45,12 +50,15 @@ const AdminPage = () => {
   const [countrysData, setCountrysData] = useState([]);
   const [expoData, setExpoData] = useState([]);
   const [impoData, setImpoData] = useState([]);
+  const [SHData, setSHData] = useState([]);
 
   const fetchData = async (selectedYear: string) => {
     setLoading(true);
     try {
+      `http://localhost:3001/api/data/balanco-comercial/geral/2023_2024`;
+
       const response = await fetch(
-        `https://observatorio-recife-apis.onrender.com/api/data/balanco-comercial/geral/2023_2024`
+        `http://localhost:3001/api/data/balanco-comercial/geral/2023_2024`
       );
 
       const json = await response.json();
@@ -62,6 +70,9 @@ const AdminPage = () => {
       const countrys = getCountrys(json, selectedYear);
       const expo = getExport(json, selectedYear, municipality);
       const impo = getImport(json, selectedYear, municipality);
+
+      console.log(json);
+      setSHData(getSHInfos(json, selectedYear, "Recife - PE") as []);
 
       setMunicipalityAvaible(getMunicipios(json));
 
@@ -94,7 +105,7 @@ const AdminPage = () => {
     fetchData(year);
   }, [year, municipality]);
 
-  if (loading) return <p>Carregando dados...</p>;
+  if (loading) return <LoadingScreen />;
   if (error) return <p>{error}</p>;
 
   const colors = [
@@ -129,13 +140,21 @@ const AdminPage = () => {
       <div className="mb-4 flex justify-center">
         <button
           onClick={() => setActiveTab("charts")}
-          className={`px-4 py-2 mx-2 ${activeTab === "charts" ? "bg-blue-500 text-white" : "bg-white text-gray-700"} rounded`}
+          className={`px-4 py-2 mx-2 ${
+            activeTab === "charts"
+              ? "bg-blue-500 text-white"
+              : "bg-white text-gray-700"
+          } rounded`}
         >
           Gráficos
         </button>
         <button
           onClick={() => setActiveTab("table")}
-          className={`px-4 py-2 mx-2 ${activeTab === "table" ? "bg-blue-500 text-white" : "bg-white text-gray-700"} rounded`}
+          className={`px-4 py-2 mx-2 ${
+            activeTab === "table"
+              ? "bg-blue-500 text-white"
+              : "bg-white text-gray-700"
+          } rounded`}
         >
           Tabela
         </button>
@@ -145,67 +164,99 @@ const AdminPage = () => {
         <div>
           {/* gráficos */}
           <div className="flex flex-wrap gap-4 justify-center mb-8">
-            <CardBalance type="Valor de importações ao ano" data={formatNumber(cardsInfo?.totalImport)} year={year} color={colors[0]} />
-            <CardBalance type="Valor de exportações ao ano" data={formatNumber(cardsInfo?.totalExport)} year={year} color={colors[1]} />
-            <CardBalance type="Diferença exportação e importação" data={formatNumber(cardsInfo?.diference)} year={year} color={colors[2]} />
+            <CardBalance
+              type="Valor de importações ao ano"
+              data={formatNumber(cardsInfo?.totalImport)}
+              year={year}
+              color={colors[0]}
+            />
+            <CardBalance
+              type="Valor de exportações ao ano"
+              data={formatNumber(cardsInfo?.totalExport)}
+              year={year}
+              color={colors[1]}
+            />
+            <CardBalance
+              type="Diferença exportação e importação"
+              data={formatNumber(cardsInfo?.diference)}
+              year={year}
+              color={colors[2]}
+            />
           </div>
           {/* Primeira linha de gráficos */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
-        <div className="bg-white shadow-lg rounded-lg p-4">
-          <PercentAreaChart
-            type="balanca"
-            chartData={mainCuntrysData}
-            title="Importação e exportação para os 5 países principais"
-          />
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
+            <div className="bg-white shadow-lg rounded-lg p-4">
+              <PercentAreaChart
+                type="balanca"
+                chartData={mainCuntrysData}
+                title="Importação e exportação para os 5 países principais"
+              />
+            </div>
 
-        <div className="bg-white shadow-lg rounded-lg p-4">
-          <RadarGraph
-            chartData={continentsData}
-            title="Importação e exportação de continentes"
-          />
-        </div>
-      </div>
+            <div className="bg-white shadow-lg rounded-lg p-4">
+              <RadarGraph
+                chartData={continentsData}
+                title="Importação e exportação de continentes"
+              />
+            </div>
+          </div>
 
-      {/* Segunda linha de gráficos */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
-        <div className="bg-white shadow-lg rounded-lg p-4">
-          <LineGraph
-            muni={municipality}
-            chartData={balanceData}
-            title="Valor total de importação e exportação mensal"
-            type="recife"
-          />
-        </div>
+          {/* Segunda linha de gráficos */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
+            <div className="bg-white shadow-lg rounded-lg p-4">
+              <LineGraph
+                muni={municipality}
+                chartData={balanceData}
+                title="Valor total de importação e exportação mensal"
+                type="recife"
+              />
+            </div>
 
-        <div className="bg-white shadow-lg rounded-lg p-4">
-          <BarSimpleChart
-            type="balanca"
-            chartData={countrysData}
-            title="Importação e exportação para os 5 países principais"
-          />
-        </div>
-      </div>
+            <div className="bg-white shadow-lg rounded-lg p-4">
+              <BarSimpleChart
+                type="balanca"
+                chartData={countrysData}
+                title="Importação e exportação para os 5 países principais"
+              />
+            </div>
+          </div>
 
-      {/* Terceira linha de gráficos */}
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white shadow-lg rounded-lg p-4">
-          <LineGraph
-            muni={municipality}
-            type="recife"
-            chartData={expoData}
-            title="Importação por mês"
-          />
-        </div>
-        <div className="bg-white shadow-lg rounded-lg p-4">
-          <LineGraph
-            muni={municipality}
-            type="recife"
-            chartData={impoData}
-            title="Exportação por mês"
-          />
-        </div>
-      </div>
+          {/* Terceira linha de gráficos */}
+          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
+            <div className="bg-white shadow-lg rounded-lg p-4">
+              <LineGraph
+                muni={municipality}
+                type="recife"
+                chartData={expoData}
+                title="Importação por mês"
+              />
+            </div>
+            <div className="bg-white shadow-lg rounded-lg p-4">
+              <LineGraph
+                muni={municipality}
+                type="recife"
+                chartData={impoData}
+                title="Exportação por mês"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="bg-white shadow-lg rounded-lg p-4">
+              <SHTable
+                type="import"
+                data={SHData}
+                title="produtos importados"
+              />
+            </div>
+            <div className="bg-white shadow-lg rounded-lg p-4">
+              <SHTable
+                type="export"
+                data={SHData}
+                title="produtos exportados"
+              />
+            </div>
+          </div>
         </div>
       )}
 
