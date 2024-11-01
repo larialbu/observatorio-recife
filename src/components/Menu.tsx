@@ -8,7 +8,7 @@ const menuItems = [
     items: [
       {
         icon: "/home.png",
-        label: "Lading page",
+        label: "Voltar",
         href: "/",
         visible: ["admin", "teacher", "student", "parent"],
       },
@@ -72,12 +72,6 @@ const menuItems = [
         href: "/observatorio/cap-pagamentos",
         visible: ["admin", "teacher", "student", "parent"],
       },
-      {
-        icon: "/result.png",
-        label: "Acesse o Boletim Econômico",
-        href: "/observatorio/teachers",
-        visible: ["admin", "teacher", "student", "parent"],
-      },
       // {
       //   icon: "/attendance.png",
       //   label: "Attendance",
@@ -104,29 +98,35 @@ const menuItems = [
       // },
     ],
   },
-  // {
-  //   title: "OTHER",
-  //   items: [
-  //     {
-  //       icon: "/profile.png",
-  //       label: "Profile",
-  //       href: "/profile",
-  //       visible: ["admin", "teacher", "student", "parent"],
-  //     },
-  //     {
-  //       icon: "/setting.png",
-  //       label: "Settings",
-  //       href: "/settings",
-  //       visible: ["admin", "teacher", "student", "parent"],
-  //     },
-  //     {
-  //       icon: "/logout.png",
-  //       label: "Logout",
-  //       href: "/logout",
-  //       visible: ["admin", "teacher", "student", "parent"],
-  //     },
-  //   ],
-  // },
+  {
+    title: "OUTROS",
+    items: [
+      {
+        icon: "/result.png",
+        label: "Acesse o Boletim Econômico",
+        href: "/observatorio/teachers",
+        visible: ["admin", "teacher", "student", "parent"],
+      }
+      // {
+      //   icon: "/profile.png",
+      //   label: "Profile",
+      //   href: "/profile",
+      //   visible: ["admin", "teacher", "student", "parent"],
+      // },
+      // {
+      //   icon: "/setting.png",
+      //   label: "Settings",
+      //   href: "/settings",
+      //   visible: ["admin", "teacher", "student", "parent"],
+      // },
+      // {
+      //   icon: "/logout.png",
+      //   label: "Logout",
+      //   href: "/logout",
+      //   visible: ["admin", "teacher", "student", "parent"],
+      // },
+    ],
+  },
 ];
 
 const Menu = ({ open }: { open: boolean }) => {

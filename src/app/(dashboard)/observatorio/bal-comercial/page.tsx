@@ -55,10 +55,10 @@ const AdminPage = () => {
   const fetchData = async (selectedYear: string) => {
     setLoading(true);
     try {
-      `http://localhost:3001/api/data/balanco-comercial/geral/2023_2024`;
+      `https://observatorio-recife-apis.onrender.com/api/data/balanco-comercial/geral/2023_2024`;
 
       const response = await fetch(
-        `http://localhost:3001/api/data/balanco-comercial/geral/2023_2024`
+        `https://observatorio-recife-apis.onrender.com/api/data/balanco-comercial/geral/2023_2024`
       );
 
       const json = await response.json();

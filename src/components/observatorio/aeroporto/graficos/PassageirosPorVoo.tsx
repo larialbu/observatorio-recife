@@ -34,7 +34,7 @@ const PassageirosPorVoo = ({ data, dataKey, nameKey, colors, title }: any) => {
     const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
 
     return (
-      <Text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" className='text-lg'>
+      <Text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" className="text-lg pointer-events-none">
         {`${(percent * 100).toFixed(1)}%`}
       </Text>
     );
@@ -44,7 +44,7 @@ const PassageirosPorVoo = ({ data, dataKey, nameKey, colors, title }: any) => {
     <div>
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
 
-      {/* botão pra mostrar ou não as porcentagens */}
+      {/* botão para mostrar ou não as porcentagens */}
       <div className="text-center mb-4">
         <button
           onClick={() => setShowPercentages(!showPercentages)}
@@ -74,6 +74,19 @@ const PassageirosPorVoo = ({ data, dataKey, nameKey, colors, title }: any) => {
           <Tooltip formatter={(value: number) => formatNumber(value)} />
         </PieChart>
       </ResponsiveContainer>
+
+      {/* Guia de Cores */}
+      <div className="flex flex-wrap justify-center mt-6 gap-2">
+        {chartData.map((entry: any, index: any) => (
+          <div key={`legend-${index}`} className="flex items-center gap-2">
+            <span
+              className="w-3 h-3 rounded-full"
+              style={{ backgroundColor: colors[index % colors.length] }}
+            ></span>
+            <span className="text-sm">{entry[nameKey]}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

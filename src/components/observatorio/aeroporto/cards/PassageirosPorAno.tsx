@@ -26,7 +26,7 @@ const UserCard = ({ type, data, year, color }: { type: string, data: any[], year
     <div className="rounded-2xl p-4 flex-1 min-w-[130px]" style={{ backgroundColor: color }}>
       <div className="flex justify-between items-center">
         <span className="text-[10px] bg-white px-2 py-1 rounded-full text-[#0155AE]">
-          Recife - {year}
+          {year}
         </span>
         <Image src="/more.png" alt="More options" width={20} height={20} />
       </div>

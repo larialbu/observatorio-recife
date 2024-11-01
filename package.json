@@ -19,6 +19,7 @@
     "react-datepicker": "^7.5.0",
     "react-dom": "^18",
     "react-hook-form": "^7.52.2",
+    "react-tooltip": "^5.28.0",
     "recharts": "^2.13.0-alpha.5",
     "sass": "^1.80.4",
     "zod": "^3.23.8"
