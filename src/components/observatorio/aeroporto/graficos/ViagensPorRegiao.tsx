@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import ChartGrabber from '../../ChartGrabber';
 
 // formatar números com separador de milhares e casas decimais
 const formatNumber = (value: number) => {
@@ -106,83 +107,85 @@ const ViagensPorRegiao = ({ data, nameKey, colors, title, year }: any) => {
 
   return (
     <div className="w-full">
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
+      <ChartGrabber>
+        <h3 className="text-center mb-4 font-semibold">{title}</h3>
 
-      {/* Botão para alternar a exibição da porcentagem */}
-      <div className="text-center mb-4">
-        <button
-          onClick={() => setShowPercentage(!showPercentage)}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          {showPercentage ? 'Ocultar Porcentagens' : 'Mostrar Porcentagens'}
-        </button>
-      </div>
-
-      <div className="text-center mb-2">
-        <div className="text-sm text-gray-600">
-          Círculo interno: Total de passageiros por região
+        {/* Botão para alternar a exibição da porcentagem */}
+        <div className="text-center mb-4 button-container">
+          <button
+            onClick={() => setShowPercentage(!showPercentage)}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            {showPercentage ? 'Ocultar Porcentagens' : 'Mostrar Porcentagens'}
+          </button>
         </div>
-        <div className="text-sm text-gray-600">
-          Círculo externo: Média de passageiros por região/mês
+
+        <div className="text-center mb-2">
+          <div className="text-sm text-gray-600">
+            Círculo interno: Total de passageiros por região
+          </div>
+          <div className="text-sm text-gray-600">
+            Círculo externo: Média de passageiros por região/mês
+          </div>
         </div>
-      </div>
 
 
-      <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            {/* círculo interno - total de passageiros */}
-            <Pie
-              data={innerCircleData}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              outerRadius={60}
-              fill="#8884d8"
-              label={showPercentage ? renderResponsiveLabel : undefined}
-              labelLine={false}
-            >
-              {innerCircleData.map((entry: any, index: number) => (
-                <Cell 
-                  key={`cell-inner-${index}`} 
-                  fill={legendData[index].color}
-                />
-              ))}
-            </Pie>
-            
-            {/* círculo externo - média de passageiros */}
-            <Pie
-              data={outerCircleData}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              innerRadius={70}
-              outerRadius={90}
-              fill="#82ca9d"
-              label={showPercentage ? renderResponsiveLabel : undefined}
-              labelLine={false}
-            >
-              {outerCircleData.map((entry: any, index: number) => (
-                <Cell 
-                  key={`cell-outer-${index}`} 
-                  fill={legendData[index].color}
-                />
-              ))}
-            </Pie>
-            
-            <Tooltip content={<CustomTooltip />} />
-            <Legend 
-              payload={legendData.map(item => ({
-                value: item.name,
-                type: 'circle',
-                color: item.color,
-              }))}
-            />
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
+        <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              {/* círculo interno - total de passageiros */}
+              <Pie
+                data={innerCircleData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={60}
+                fill="#8884d8"
+                label={showPercentage ? renderResponsiveLabel : undefined}
+                labelLine={false}
+              >
+                {innerCircleData.map((entry: any, index: number) => (
+                  <Cell 
+                    key={`cell-inner-${index}`} 
+                    fill={legendData[index].color}
+                  />
+                ))}
+              </Pie>
+              
+              {/* círculo externo - média de passageiros */}
+              <Pie
+                data={outerCircleData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                innerRadius={70}
+                outerRadius={90}
+                fill="#82ca9d"
+                label={showPercentage ? renderResponsiveLabel : undefined}
+                labelLine={false}
+              >
+                {outerCircleData.map((entry: any, index: number) => (
+                  <Cell 
+                    key={`cell-outer-${index}`} 
+                    fill={legendData[index].color}
+                  />
+                ))}
+              </Pie>
+              
+              <Tooltip content={<CustomTooltip />} />
+              <Legend 
+                payload={legendData.map(item => ({
+                  value: item.name,
+                  type: 'circle',
+                  color: item.color,
+                }))}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </ChartGrabber>
     </div>
   );
 };

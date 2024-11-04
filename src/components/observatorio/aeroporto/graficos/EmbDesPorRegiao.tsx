@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import ChartGrabber from '../../ChartGrabber';
 
 const EmbarqueDesembarqueRegiao = ({ data = [], nameKey, colors = ["#EC6625", "#0155AE"], title, year }: any) => {
   const [windowWidth, setWindowWidth] = useState(768); // valor padrão para largura da tela
+
+  
 
   useEffect(() => {
     // Verificar se `window` está disponível no ambiente de execução
@@ -66,19 +69,21 @@ const EmbarqueDesembarqueRegiao = ({ data = [], nameKey, colors = ["#EC6625", "#
   const tickFontSize = windowWidth < 768 ? 8 : windowWidth <= 1120 ? 10 : 12;
 
   return (
-    <div>
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={chartData} margin={{ top: 20, right: 15, left: 15, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey={nameKey} tick={{ fontSize: tickFontSize }} />
-          <YAxis tick={{ fontSize: tickFontSize }} />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="embarque" fill={colors[0]} name="Embarques" />
-          <Bar dataKey="desembarque" fill={colors[1]} name="Desembarques" />
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="relative bg-white">
+      <ChartGrabber>
+        <h3 className="text-center mb-4 font-semibold">{title}</h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={chartData} margin={{ top: 20, right: 15, left: 15, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey={nameKey} tick={{ fontSize: tickFontSize }} />
+            <YAxis tick={{ fontSize: tickFontSize }} />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="embarque" fill={colors[0]} name="Embarques" />
+            <Bar dataKey="desembarque" fill={colors[1]} name="Desembarques" />
+          </BarChart>
+        </ResponsiveContainer>
+      </ChartGrabber>
     </div>
   );
 };

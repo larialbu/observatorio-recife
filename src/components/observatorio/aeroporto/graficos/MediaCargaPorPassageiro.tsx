@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import ChartGrabber from '../../ChartGrabber';
 
 // abreviando os nomes de natureza e grupo de voo
 const abbreviateNaturezaGrupo = (name: string) => {
@@ -81,31 +82,32 @@ const MediaCargaPorPassageiro = ({ data = [], title = "", colors = ["#EC6625", "
   const tickFontSize = windowWidth < 768 ? 8 : windowWidth <= 1120 ? 10 : 12;
 
   return (
-    <div>
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
+    <div className="relative bg-white">
+      <ChartGrabber>
+        <h3 className="text-center mb-4 font-semibold">{title}</h3>
+        <div className="text-center mb-4 button-container">
+          <button
+            onClick={() => setShowAbbreviations(!showAbbreviations)}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            {showAbbreviations ? 'Ocultar Abreviações' : 'Mostrar Abreviações'}
+          </button>
+        </div>
 
-      <div className="text-center mb-4">
-        <button
-          onClick={() => setShowAbbreviations(!showAbbreviations)}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          {showAbbreviations ? 'Ocultar Abreviações' : 'Mostrar Abreviações'}
-        </button>
-      </div>
+        {showAbbreviations && renderExplanation()}
 
-      {showAbbreviations && renderExplanation()}
-
-      <ResponsiveContainer width="100%" height={400}>
-        <BarChart data={chartData} margin={{ top: 20, right: 20, left: 30, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" tick={{ fontSize: tickFontSize }} />
-          <YAxis tickFormatter={formatNumber} />
-          <Tooltip formatter={(value: number) => formatNumber(value)} />
-          <Legend />
-          <Bar dataKey="internacional" fill={colors[0]} name="Internacional" />
-          <Bar dataKey="domestica" fill={colors[1]} name="Doméstica" />
-        </BarChart>
-      </ResponsiveContainer>
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart data={chartData} margin={{ top: 20, right: 20, left: 30, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" tick={{ fontSize: tickFontSize }} />
+            <YAxis tickFormatter={formatNumber} />
+            <Tooltip formatter={(value: number) => formatNumber(value)} />
+            <Legend />
+            <Bar dataKey="internacional" fill={colors[0]} name="Internacional" />
+            <Bar dataKey="domestica" fill={colors[1]} name="Doméstica" />
+          </BarChart>
+        </ResponsiveContainer>
+      </ChartGrabber>
     </div>
   );
 };

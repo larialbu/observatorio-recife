@@ -1,3 +1,4 @@
+import ChartGrabber from '../../ChartGrabber';
 import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -59,35 +60,37 @@ const MediaViagensPorMes = ({ data, dataKey, nameKey, colors, title, year }: any
   const tickFontSize = windowWidth < 768 ? 8 : windowWidth <= 1120 ? 10 : 12;
 
   return (
-    <div>
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={chartData} margin={{ top: 20, right: 10, left: 0, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          
-          <XAxis 
-            dataKey="mes" 
-            tick={{ fontSize: tickFontSize }} 
-          />
+    <div className="relative bg-white">
+      <ChartGrabber>
+        <h3 className="text-center mb-4 font-semibold">{title}</h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={chartData} margin={{ top: 20, right: 10, left: 0, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            
+            <XAxis 
+              dataKey="mes" 
+              tick={{ fontSize: tickFontSize }} 
+            />
 
-          <YAxis 
-            domain={[minTick, 'auto']} 
-            tick={{ fontSize: tickFontSize }}
-            tickFormatter={formatNumber}
-          />
-          <Tooltip formatter={(value: any) => formatNumber(value)} />
+            <YAxis 
+              domain={[minTick, 'auto']} 
+              tick={{ fontSize: tickFontSize }}
+              tickFormatter={formatNumber}
+            />
+            <Tooltip formatter={(value: any) => formatNumber(value)} />
 
-          <Legend />
+            <Legend />
 
-          <Line 
-            type="monotone" 
-            dataKey="media" 
-            stroke={colors[0]}
-            strokeWidth={3}
-            name="Média de Viagens" 
-          />
-        </LineChart>
-      </ResponsiveContainer>
+            <Line 
+              type="monotone" 
+              dataKey="media" 
+              stroke={colors[0]}
+              strokeWidth={3}
+              name="Média de Viagens" 
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </ChartGrabber>
     </div>
   );
 };

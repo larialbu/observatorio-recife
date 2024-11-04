@@ -1,6 +1,6 @@
-// GraficoCargaPorMesAno.tsx
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import ChartGrabber from '@/components/observatorio/ChartGrabber';
 
 const formatNumber = (value: number) => {
   return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
@@ -64,40 +64,42 @@ const GraficoCargaPorMesAno: React.FC<GraficoCargaPorMesAnoProps> = ({ data, mun
 
   return (
     <div className="w-full bg-white p-6 rounded-lg shadow-lg">
-      <h3
-        className="text-center font-semibold mb-4"
-        style={{ fontSize: `${titleFontSize}px` }}
-      >
-        Carga Movimentada em {municipio} ({year}) {showRecife && "e Recife para Comparação"}
-      </h3>
-      <div className="text-center mb-4">
-        <button
-          onClick={() => setShowRecife(!showRecife)}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      <ChartGrabber>
+        <h3
+          className="text-center font-semibold mb-4"
+          style={{ fontSize: `${titleFontSize}px` }}
         >
-          {showRecife ? 'Ocultar Recife' : 'Mostrar Recife'}
-        </button>
-      </div>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={chartData} margin={{ top: 10, right: 20, left: 15, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="mes"
-            tick={{ fontSize: tickFontSize }}
-            label={{ value: "Meses", position: "insideBottomRight", offset: -5 }}
-          />
-          <YAxis
-            tick={{ fontSize: tickFontSize }}
-            label={{ value: "Carga (kg)", angle: -90, position: "insideLeft", offset: -5, fontSize: 12  }}
-          />
-          <Tooltip formatter={(value) => formatNumber(value as number) + " kg"} />
-          <Legend />
-          <Line type="monotone" dataKey={municipio} stroke={color[0]} strokeWidth={2} />
-          {showRecife && (
-            <Line type="monotone" dataKey="recife" stroke={color[1]} strokeWidth={2} />
-          )}
-        </LineChart>
-      </ResponsiveContainer>
+          Carga Movimentada em {municipio} ({year}) {showRecife && "e Recife para Comparação"}
+        </h3>
+        <div className="text-center mb-4 button-container">
+          <button
+            onClick={() => setShowRecife(!showRecife)}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            {showRecife ? 'Ocultar Recife' : 'Mostrar Recife'}
+          </button>
+        </div>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={chartData} margin={{ top: 10, right: 20, left: 15, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="mes"
+              tick={{ fontSize: tickFontSize }}
+              label={{ value: "Meses", position: "insideBottomRight", offset: -5 }}
+            />
+            <YAxis
+              tick={{ fontSize: tickFontSize }}
+              label={{ value: "Carga (kg)", angle: -90, position: "insideLeft", offset: -5, fontSize: 12  }}
+            />
+            <Tooltip formatter={(value) => formatNumber(value as number) + " kg"} />
+            <Legend />
+            <Line type="monotone" dataKey={municipio} stroke={color[0]} strokeWidth={2} />
+            {showRecife && (
+              <Line type="monotone" dataKey="recife" stroke={color[1]} strokeWidth={2} />
+            )}
+          </LineChart>
+        </ResponsiveContainer>
+      </ChartGrabber>
     </div>
   );
 };

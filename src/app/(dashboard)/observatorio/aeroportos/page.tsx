@@ -50,7 +50,7 @@ const AdminPage = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://observatorio-recife-apis.onrender.com/api/data/aeroporto/embarque-desembarque/2023_2024`
+        `http://localhost:3001/api/data/aeroporto/embarque-desembarque/2023_2024`
       );
       const json = await response.json();
       setData(json);
@@ -68,7 +68,7 @@ const AdminPage = () => {
     setCompanyLoading(true);
     try {
       const response = await fetch(
-        `https://observatorio-recife-apis.onrender.com/api/data/aeroporto/${selectedYear}`
+        `http://localhost:3001/api/data/aeroporto/${selectedYear}`
       );
       const json = await response.json();
       setCompanyData(json);

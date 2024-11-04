@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { PieChart, Pie, Sector, ResponsiveContainer, Tooltip, Legend, Cell } from 'recharts';
+import ChartGrabber from '../../ChartGrabber';
 
 // abreviando o nome das companhias
 const abbreviateCompanyName = (name: string) => {
@@ -10,10 +11,9 @@ const abbreviateCompanyName = (name: string) => {
     'TAM LINHAS AÉREAS S.A.': 'TAM',
     'ATA - AEROTÁXI ABAETÉ LTDA.': 'ABAETÉ',
     'AZUL CONECTA LTDA. (EX TWO TAXI AEREO LTDA)': 'Azul Conecta',
-
   };
 
-  return abbreviations[name] || name; // retornando a abreviação ou o nome original se não houver abreviação
+  return abbreviations[name] || name;
 };
 
 // formatando os números com separadores de milhares (sem casas decimais)
@@ -42,16 +42,14 @@ const GraficoCompanhiasPopulares = ({ data, title, colors }: any) => {
     return acc;
   }, {});
 
-  // calc da média das 5 maiores companhias
   const chartData = Object.values(processedData)
     .map((item: any) => ({
       name: item.name,
       value: item.totalViagens,
     }))
-    .sort((a: any, b: any) => b.value - a.value) // ordenando por popularidade
-    .slice(0, 5); // escolhendo só as 5 primeiras
+    .sort((a: any, b: any) => b.value - a.value)
+    .slice(0, 5);
 
-  // renderização básica do gráfico quando passar o mouse
   const renderActiveShape = (props: any) => {
     const RADIAN = Math.PI / 180;
     const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, value } = props;
@@ -70,28 +68,12 @@ const GraficoCompanhiasPopulares = ({ data, title, colors }: any) => {
         <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
           {payload.name}
         </text>
-        <Sector
-          cx={cx}
-          cy={cy}
-          innerRadius={innerRadius}
-          outerRadius={outerRadius}
-          startAngle={startAngle}
-          endAngle={endAngle}
-          fill={fill}
-        />
-        <Sector
-          cx={cx}
-          cy={cy}
-          startAngle={startAngle}
-          endAngle={endAngle}
-          innerRadius={outerRadius + 6}
-          outerRadius={outerRadius + 10}
-          fill={fill}
-        />
+        <Sector cx={cx} cy={cy} innerRadius={innerRadius} outerRadius={outerRadius} startAngle={startAngle} endAngle={endAngle} fill={fill} />
+        <Sector cx={cx} cy={cy} startAngle={startAngle} endAngle={endAngle} innerRadius={outerRadius + 6} outerRadius={outerRadius + 10} fill={fill} />
         <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
         <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
         <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">
-          {`${formatNumber(value)} viagens`}  {/* formatando os valores para casas de valores, ex: milhares (1.000) */}
+          {`${formatNumber(value)} viagens`}
         </text>
       </g>
     );
@@ -102,31 +84,33 @@ const GraficoCompanhiasPopulares = ({ data, title, colors }: any) => {
   };
 
   return (
-    <div>
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
-      <ResponsiveContainer width="100%" height={400}>
-        <PieChart>
-          <Pie
-            activeIndex={activeIndex}
-            activeShape={renderActiveShape}
-            data={chartData}
-            cx="50%"
-            cy="50%"
-            innerRadius={60}
-            outerRadius={80}
-            fill="#8884d8"
-            dataKey="value"
-            onMouseEnter={onPieEnter}
-          >
-            {/* Adicionar cores personalizadas a cada fatia */}
-            {chartData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-            ))}
-          </Pie>
-          <Tooltip formatter={(value: number) => formatNumber(value)} />
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
+    <div className="relative bg-white">
+      <ChartGrabber>
+        <h3 className="text-center mb-4 font-semibold">{title}</h3>
+        <ResponsiveContainer width="100%" height={400}>
+          <PieChart>
+            <Pie
+              activeIndex={activeIndex}
+              activeShape={renderActiveShape}
+              data={chartData}
+              cx="50%"
+              cy="50%"
+              innerRadius={60}
+              outerRadius={80}
+              fill="#8884d8"
+              dataKey="value"
+              onMouseEnter={onPieEnter}
+              className='companhias'
+            >
+              {chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+              ))}
+            </Pie>
+            <Tooltip formatter={(value: number) => formatNumber(value)} />
+            <Legend />
+          </PieChart>
+        </ResponsiveContainer>
+      </ChartGrabber>
     </div>
   );
 };
