@@ -7,17 +7,16 @@ const Separator = () => {
 export const NavBarHome = ({ simple }: { simple?: boolean }) => {
   return (
     <div
-      className={`${
-        simple
-          ? "bg-[url('/images/backgrounds/home_carousel/carousel_1.png')] bg-cover bg-center"
-          : "absolute"
-      } flex justify-between z-10 p-4 px-6  w-full `}
+      className={`${simple
+        ? "bg-[url('/images/backgrounds/home_carousel/carousel_1.png')] bg-cover bg-center"
+        : "absolute"
+        } flex justify-between z-10 p-4 px-6 w-full`}
     >
       <Link href="/">
         <img
           src="/images/logos/observatorio_logo.png"
           alt="logo observatorio"
-          className={`${simple ? " h-10" : " w-20 h-20"}  object-cover`}
+          className={`${simple ? " h-10" : " w-20 h-20"} object-cover`}
         />
       </Link>
       <ul className="flex items-start justify-end pt-2 text-white">
@@ -28,7 +27,9 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
           <Separator />
         </li>
         <li>
-          <a href="#">Boletim Econômico</a>
+          <Link href="/boletim-economico">
+            Boletim Econômico
+          </Link>
         </li>
       </ul>
     </div>
