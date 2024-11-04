@@ -77,7 +77,7 @@ export const IPCTable: React.FC<IPCTableProps> = ({
         placeholder="Buscar por capital"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="mb-4 p-2 border border-gray-300 rounded w-full sm:max-w-xs md:max-w-sm lg:max-w-md focus:outline-none focus:border-blue-500"
+        className="mb-4 p-2 border border-gray-300 rounded w-full   focus:outline-none focus:border-blue-500"
       />
 
       <div className="max-h-[358px] overflow-y-auto border">

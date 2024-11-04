@@ -82,11 +82,13 @@ const ChartGrabber = ({ children }: { children: React.ReactNode }) => {
           isFullScreen ? 'grid items-center pr-4 pl-4' : ''
         }`}
       >
-        <OptionsMenu
-          onDownload={handleDownload}
-          onFullScreen={isFullScreen ? handleExitFullScreen : handleFullScreen}
-          isFullScreen={isFullScreen}
-        />
+        <div className='h-[20px]'>
+          <OptionsMenu
+            onDownload={handleDownload}
+            onFullScreen={isFullScreen ? handleExitFullScreen : handleFullScreen}
+            isFullScreen={isFullScreen}
+          />
+        </div>
 
         <div className={`${isFullScreen ? '' : ''}`}>
           {children}

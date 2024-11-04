@@ -79,7 +79,7 @@ export const ItemTable: React.FC<IndiceTableProps> = ({
         placeholder="Buscar por capital"
         value={capitalQuery}
         onChange={(e) => setCapitalQuery(e.target.value)}
-        className="mb-4 p-2 border border-gray-300 rounded w-full sm:max-w-xs md:max-w-sm lg:max-w-md focus:outline-none focus:border-blue-500"
+        className="mb-4 p-2 border border-gray-300 rounded w-full   focus:outline-none focus:border-blue-500"
       />
 
       <input
@@ -87,7 +87,7 @@ export const ItemTable: React.FC<IndiceTableProps> = ({
         placeholder="Buscar por item"
         value={itemQuery}
         onChange={(e) => setItemQuery(e.target.value)}
-        className="mb-4 p-2 border border-gray-300 rounded w-full sm:max-w-xs md:max-w-sm lg:max-w-md focus:outline-none focus:border-blue-500"
+        className="mb-4 p-2 border border-gray-300 rounded w-full   focus:outline-none focus:border-blue-500"
       />
 
       <div className="max-h-[300px] overflow-y-auto border">
