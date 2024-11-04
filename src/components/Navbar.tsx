@@ -19,7 +19,8 @@ const Navbar = () => {
   const isSelectVisible =
     isClient &&
     (window.location.pathname === "/observatorio/aeroportos" ||
-      window.location.pathname === "/observatorio/bal-comercial");
+      window.location.pathname === "/observatorio/bal-comercial" ||
+      window.location.pathname === "/observatorio/ipca");
 
   return (
     <div className="flex items-center justify-between p-4">

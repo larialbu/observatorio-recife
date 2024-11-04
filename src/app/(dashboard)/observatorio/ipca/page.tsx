@@ -4,92 +4,145 @@
 
 import { useEffect, useState } from "react";
 import { useDashboard } from "@/context/DashboardContext";
-import { SelectMuni } from "@/components/SelectMuni";
 import { PaginatedTable } from "@/components/observatorio/global/PaginedTable";
 
 import CardBalance from "@/components/observatorio/ipca/cards/CardBalance";
-import { RadarGraph } from "@/components/observatorio/balancaComercial/graphs/RadarGraph";
-import { PercentAreaChart } from "@/components/observatorio/balancaComercial/graphs/PercentAreaGraph";
+
 import { LineGraph } from "@/components/observatorio/ipca/graphs/LineGraph";
-import {
-  formatMonths,
-  formatNumber,
-  getBalance,
-  getCardsInfos,
-  getContinent,
-  getCountrys,
-  getExport,
-  getImport,
-  getMainCountry,
-  getMunicipios,
-  getSHInfos,
-} from "@/components/observatorio/balancaComercial/functions/exportFunctions";
+
 import { LoadingScreen } from "@/components/home/LoadingScreen";
-import { SHTable } from "@/components/observatorio/balancaComercial/graphs/SHTable";
 import { BarGraph } from "@/components/observatorio/ipca/graphs/BarGraph";
 import { BrushBar } from "@/components/observatorio/ipca/graphs/BrushBar";
+import { IPCTable } from "@/components/observatorio/ipca/graphs/CapitalsTable";
+import { GroupTable } from "@/components/observatorio/ipca/graphs/GroupTable";
+import { SubGroupTable } from "@/components/observatorio/ipca/graphs/SubGroupTable";
+import { ItemTable } from "@/components/observatorio/ipca/graphs/ItemTable";
+import { RadarGraph } from "@/components/observatorio/ipca/graphs/RadarGraph";
+
+import {
+  getAvaibleMonths,
+  getFiveCapitals,
+  getFiveGroups,
+  getIPCAAcc,
+  getIPCACards,
+  getIPCAMonth,
+  tableInfos,
+} from "@/components/observatorio/ipca/functions/exportFunctions";
+import { SelectMonth } from "@/components/SelectMonth";
 
 const AdminPage = () => {
   const { year, setAvailableYears } = useDashboard();
-  const [municipality, setMunicipality] = useState<string>("");
-  const [municipalityAvaible, setMunicipalityAvaible] = useState<string[]>([]);
+  const [months, setMonths] = useState<string>("setembro");
+  const [monthsAvaible, setmonthsAvaible] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState<"charts" | "table">("charts");
+  const [activeTab, setActiveTab] = useState<
+    "charts" | "table general" | "table groups" | "table tables"
+  >("charts");
 
   const [headers, setHeaders] = useState<string[]>([]);
   const [rows, setRows] = useState<string[][]>([]);
 
-  const [cardsInfo, setCardsInfo] = useState({
-    totalExport: 0,
-    totalImport: 0,
-    diference: 0,
+  const [dataTables, setDataTables] = useState({
+    data1: [],
+    data2: [],
+    data3: [],
   });
-  const [mainCuntrysData, setMainCuntrysData] = useState([]);
-  const [continentsData, setContinentsData] = useState([]);
-  const [balanceData, setBalanceData] = useState([]);
-  const [countrysData, setCountrysData] = useState([]);
-  const [expoData, setExpoData] = useState([]);
-  const [impoData, setImpoData] = useState([]);
-  const [SHData, setSHData] = useState([]);
+  const [recCards, setRecCards] = useState({
+    acumulado12Meses: "",
+    acumuladoAno: "",
+    capital: "",
+    mes: "",
+    variacaoMensal: "",
+  });
+  const [braCards, setBraCards] = useState({
+    acumulado12Meses: "",
+    acumuladoAno: "",
+    capital: "",
+    mes: "",
+    variacaoMensal: "",
+  });
+  const [recAcc, setRecAcc] = useState([]);
+  const [braAcc, setBraAcc] = useState([]);
+  const [recMonth, setRecMonth] = useState([]);
+  const [braMonth, setBraMonth] = useState([]);
+  const [groupsIPCA, setGroupsIPCA] = useState([]);
+  const [capitalsIPCA, setCapitalsIPCA] = useState([]);
 
   const fetchData = async (selectedYear: string) => {
     setLoading(true);
     try {
-      `https://observatorio-recife-apis.onrender.com/api/data/balanco-comercial/geral/2023_2024`;
-
-      const response = await fetch(
-        `https://observatorio-recife-apis.onrender.com/api/data/balanco-comercial/geral/2023_2024`
+      const response1 = await fetch(
+        `http://localhost:3001/api/data/ipca/indice-geral/2023_2024`
       );
 
-      const json = await response.json();
+      const response2 = await fetch(
+        `http://localhost:3001/api/data/ipca/tabelas/2023_2024`
+      );
 
-      const cardsInfos = getCardsInfos(json, selectedYear);
-      const mainCuntrys = getMainCountry(json, selectedYear);
-      const continents = getContinent(json, selectedYear);
-      const balance = getBalance(json, selectedYear, municipality);
-      const countrys = getCountrys(json, selectedYear);
-      const expo = getExport(json, selectedYear, municipality);
-      const impo = getImport(json, selectedYear, municipality);
+      const response3 = await fetch(
+        `http://localhost:3001/api/data/ipca/grupos/2023_2024`
+      );
+      const json3 = await response3.json();
 
-      console.log(json);
-      setSHData(getSHInfos(json, selectedYear, "Recife - PE") as []);
+      const json2 = await response2.json();
 
-      setMunicipalityAvaible(getMunicipios(json));
+      const json1 = await response1.json();
 
-      setCardsInfo(cardsInfos);
-      setMainCuntrysData(formatMonths(mainCuntrys.data) as []);
-      setContinentsData(continents as []);
-      setBalanceData(formatMonths(balance) as []);
-      setCountrysData(countrys.data as []);
-      setExpoData(formatMonths(expo) as []);
-      setImpoData(formatMonths(impo) as []);
+      const cardsDataRec = getIPCACards(json1, `${months} ${year}`, "Recife");
+      const cardsDataBra = getIPCACards(json1, `${months} ${year}`, "Brasil");
+      const IPCAAccRecData = getIPCAAcc(json1, year, "Recife");
+      const IPCAAccBraData = getIPCAAcc(json1, year, "Brasil");
+      const IPCAMonthRecData = getIPCAMonth(json1, year, "Recife");
+      const IPCAMonthBraData = getIPCAMonth(json1, year, "Brasil");
+      const IPCAGroupsData = getFiveGroups(json3, `${months}/${year}`);
+      const IPCACapitalsData = getFiveCapitals(json1, `${months} ${year}`);
 
-      // definir headers e linhas
-      if (json.length > 0) {
-        setHeaders(Object.keys(json[0]));
-        setRows(json.map((entry: any) => Object.values(entry).map(String)));
-      }
+      console.log("aaaa", IPCAGroupsData);
+
+      setRecCards(
+        cardsDataRec as {
+          acumulado12Meses: string;
+          acumuladoAno: string;
+          capital: string;
+          mes: string;
+          variacaoMensal: string;
+        }
+      );
+      setBraCards(
+        cardsDataBra as {
+          acumulado12Meses: string;
+          acumuladoAno: string;
+          capital: string;
+          mes: string;
+          variacaoMensal: string;
+        }
+      );
+      setRecAcc(IPCAAccRecData as []);
+      setBraAcc(IPCAAccBraData as []);
+      setRecMonth(IPCAMonthRecData as []);
+      setBraMonth(IPCAMonthBraData as []);
+      setGroupsIPCA(IPCAGroupsData as []);
+      setCapitalsIPCA(IPCACapitalsData as []);
+
+      setDataTables({
+        data1: json1,
+        data2: json2,
+        data3: json3,
+      });
+
+      setmonthsAvaible(getAvaibleMonths(json1, year));
+
+      tableInfos(
+        {
+          data1: json1,
+          data2: json2,
+          data3: json3,
+        },
+        "table general",
+        setHeaders,
+        setRows
+      );
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -98,13 +151,17 @@ const AdminPage = () => {
   };
 
   useEffect(() => {
-    const availableYears = ["2023"];
+    tableInfos(dataTables, activeTab, setHeaders, setRows);
+  }, [activeTab]);
+
+  useEffect(() => {
+    const availableYears = ["2024", "2023"];
     setAvailableYears(availableYears);
   }, [setAvailableYears]);
 
   useEffect(() => {
     fetchData(year);
-  }, [year, municipality]);
+  }, [year, months]);
 
   if (loading) return <LoadingScreen />;
   if (error) return <p>{error}</p>;
@@ -130,12 +187,11 @@ const AdminPage = () => {
 
       {/* Combobox de Municípios */}
       <div className="flex justify-center w-full mb-6">
-        {/* <SelectMuni
-          municipality={municipality}
-          setMunicipality={setMunicipality}
-          municipalityAvaible={municipalityAvaible}
-        /> */}
-        <p> fazer input para selecionar um mês especifico</p>
+        <SelectMonth
+          months={months}
+          setMonths={setMonths}
+          monthsAvaible={monthsAvaible}
+        />
       </div>
 
       {/* alternar entre gráficos e tabela */}
@@ -151,9 +207,11 @@ const AdminPage = () => {
           Gráficos
         </button>
         <button
-          onClick={() => setActiveTab("table")}
+          onClick={() => setActiveTab("table general")}
           className={`px-4 py-2 mx-2 ${
-            activeTab === "table"
+            activeTab === "table general" ||
+            activeTab === "table groups" ||
+            activeTab === "table tables"
               ? "bg-blue-500 text-white"
               : "bg-white text-gray-700"
           } rounded`}
@@ -161,6 +219,44 @@ const AdminPage = () => {
           Tabela
         </button>
       </div>
+      {activeTab === "table general" ||
+      activeTab === "table groups" ||
+      activeTab === "table tables" ? (
+        <div className="mb-4 flex justify-center">
+          <button
+            onClick={() => setActiveTab("table general")}
+            className={`px-4 py-2 mx-2 ${
+              activeTab === "table general"
+                ? "bg-blue-500 text-white"
+                : "bg-white text-gray-700"
+            } rounded`}
+          >
+            Geral
+          </button>
+          <button
+            onClick={() => setActiveTab("table groups")}
+            className={`px-4 py-2 mx-2 ${
+              activeTab === "table groups"
+                ? "bg-blue-500 text-white"
+                : "bg-white text-gray-700"
+            } rounded`}
+          >
+            Grupos
+          </button>
+          <button
+            onClick={() => setActiveTab("table tables")}
+            className={`px-4 py-2 mx-2 ${
+              activeTab === "table tables"
+                ? "bg-blue-500 text-white"
+                : "bg-white text-gray-700"
+            } rounded`}
+          >
+            Tabelas
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
 
       {activeTab === "charts" && (
         <div>
@@ -168,41 +264,60 @@ const AdminPage = () => {
           <div className="flex flex-wrap gap-4 justify-center mb-8">
             <CardBalance
               type="IPCA acumulado ano/recife"
-              data={32.2}
+              data={recCards.acumuladoAno}
               year={year}
               color={colors[0]}
             />
             <CardBalance
               type="IPCA 12 meses/recife"
-              data={14.5}
+              data={recCards.acumulado12Meses}
               year={year}
               color={colors[1]}
             />
             <CardBalance
               type="IPCA acumulado ano/brasil"
-              data={20.2}
+              data={braCards.acumuladoAno}
               year={year}
               color={colors[2]}
             />
             <CardBalance
               type="IPCA 12 meses/brasil"
-              data={20.2}
+              data={braCards.acumulado12Meses}
               year={year}
               color={colors[1]}
             />
           </div>
           {/* Primeira linha de gráficos */}
+          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
+            <div className="bg-white shadow-lg rounded-lg p-4">
+              <LineGraph
+                type="recife"
+                chartData={recAcc}
+                title="crescimento do IPCA por mês"
+              />
+            </div>
+            <div className="bg-white shadow-lg rounded-lg p-4">
+              <LineGraph
+                type="recife"
+                chartData={braAcc}
+                title="Exportação por mês"
+              />
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
             <div className="bg-white shadow-lg rounded-lg p-4">
-              <BrushBar title="IPCA meses - Recife (talvez clocar line)" />
+              <BrushBar
+                chartData={recMonth}
+                title="IPCA meses - Recife (talvez clocar line)"
+              />
             </div>
 
             <div className="bg-white shadow-lg rounded-lg p-4">
-              <BrushBar title="IPCA meses - Brasil (talvez clocar line)" />
-              {/* <RadarGraph
-                chartData={continentsData}
-                title="princípais grupos "
-              /> */}
+              <BrushBar
+                chartData={braMonth}
+                title="IPCA meses - Brasil (talvez clocar line)"
+              />
             </div>
           </div>
 
@@ -210,71 +325,59 @@ const AdminPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
             <div className="bg-white shadow-lg rounded-lg p-4">
               <RadarGraph
-                chartData={continentsData}
-                title="particiáção dos princípais grupos em Outubro no IPCA"
+                chartData={groupsIPCA}
+                title={`particiáção dos princípais grupos em ${months} no IPCA - Recife`}
               />
-              {/* <LineGraph
-                muni={municipality}
-                chartData={balanceData}
-                title="Valor total de importação e exportação mensal"
-                type="recife"
-              /> */}
             </div>
 
             <div className="bg-white shadow-lg rounded-lg p-4">
               <BarGraph
                 type="balanca"
-                chartData={countrysData}
+                chartData={capitalsIPCA}
                 title="principais capitais"
               />
             </div>
           </div>
 
           {/* Terceira linha de gráficos */}
-          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
-            <div className="bg-white shadow-lg rounded-lg p-4">
-              <LineGraph
-                muni={municipality}
-                type="recife"
-                chartData={expoData}
-                title="crescimento do IPCA por mês"
-              />
-            </div>
-            <div className="bg-white shadow-lg rounded-lg p-4">
-              <LineGraph
-                muni={municipality}
-                type="recife"
-                chartData={impoData}
-                title="Exportação por mês"
-              />
-            </div>
-          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
-            <div className="bg-white shadow-lg rounded-lg p-4">
-              <SHTable
-                type="import"
-                data={SHData}
-                title="ranking IPCA capitais"
+            <div className="bg-white shadow-lg   rounded-lg p-4">
+              <IPCTable
+                data={dataTables.data1}
+                title="IPCA por capitais"
+                selectedMonth={`${months} ${year}`}
               />
             </div>
             <div className="bg-white shadow-lg rounded-lg p-4">
-              <SHTable type="import" data={SHData} title="IPCA por grupo" />
+              <GroupTable
+                data={dataTables.data3}
+                title="IPCA por grupo"
+                selectedMonth={`${months}/${year}`}
+              />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-white shadow-lg rounded-lg p-4">
-              <SHTable type="export" data={SHData} title="IPCA por subgrupo" />
+              <SubGroupTable
+                data={dataTables.data3}
+                title="IPCA por subgrupo"
+                selectedMonth={`${months}/${year}`}
+              />
             </div>
             <div className="bg-white shadow-lg rounded-lg p-4">
-              <SHTable type="export" data={SHData} title="IPCA por item" />
+              <ItemTable
+                data={dataTables.data3}
+                title="IPCA por item"
+                selectedMonth={`${months}/${year}`}
+              />
             </div>
           </div>
         </div>
       )}
 
-      {activeTab === "table" && headers.length > 0 && (
+      {activeTab != "charts" && headers.length > 0 && (
         <PaginatedTable headers={headers} rows={rows} rowsPerPage={100} />
       )}
     </div>

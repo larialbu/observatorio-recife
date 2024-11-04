@@ -19,7 +19,7 @@ export default function DashboardLayout({
         return "bg-[url('/images/backgrounds/dashboard/bal_comercial.png')]";
       case "/observatorio/aeroportos":
         return "bg-[url('/images/backgrounds/dashboard/aeroportos.png')]";
-        case "/observatorio/ipca":
+      case "/observatorio/ipca":
         return "bg-[url('/images/backgrounds/dashboard/ipca.png')]";
       default:
         return "bg-[#F7F8FA]";
@@ -30,7 +30,9 @@ export default function DashboardLayout({
     <DashboardProvider>
       <div className="h-screen flex">
         <Sidebar />
-        <div className={`flex-1 ${getBackgroundForRoute()} bg-cover overflow-scroll flex flex-col`}>
+        <div
+          className={`flex-1 ${getBackgroundForRoute()} bg-cover overflow-scroll flex flex-col`}
+        >
           <Navbar />
           {children}
         </div>
