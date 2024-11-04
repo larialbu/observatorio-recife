@@ -20,18 +20,17 @@ const BoletimEconomico = () => {
 
     const years = [2022, 2023, 2024];
     const months = [
-        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+        "Janeiro",
+        "Julho"
     ];
 
     const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setIsLoading(true); // Iniciar o loading
+        setIsLoading(true);
         setSelectedYear(Number(event.target.value));
         setSelectedMonth(null);
 
-        // Simular um tempo de carregamento para a animação
         setTimeout(() => {
-            setIsLoading(false); // Finalizar o loading após o tempo simulado
+            setIsLoading(false);
         }, 500);
     };
 
