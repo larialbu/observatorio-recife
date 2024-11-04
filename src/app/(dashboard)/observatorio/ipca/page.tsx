@@ -98,8 +98,6 @@ const AdminPage = () => {
       const IPCAGroupsData = getFiveGroups(json3, `${months}/${year}`);
       const IPCACapitalsData = getFiveCapitals(json1, `${months} ${year}`);
 
-      console.log("aaaa", IPCAGroupsData);
-
       setRecCards(
         cardsDataRec as {
           acumulado12Meses: string;
@@ -293,14 +291,14 @@ const AdminPage = () => {
               <LineGraph
                 type="recife"
                 chartData={recAcc}
-                title="crescimento do IPCA por mês"
+                title="IPCA (acumulado em 12 meses) por mês - Recife"
               />
             </div>
             <div className="bg-white shadow-lg rounded-lg p-4">
               <LineGraph
                 type="recife"
                 chartData={braAcc}
-                title="Exportação por mês"
+                title="IPCA (acumulado em 12 meses) por mês - Brasil"
               />
             </div>
           </div>
@@ -309,14 +307,14 @@ const AdminPage = () => {
             <div className="bg-white shadow-lg rounded-lg p-4">
               <BrushBar
                 chartData={recMonth}
-                title="IPCA meses - Recife (talvez clocar line)"
+                title="IPCA variação mensal - Recife"
               />
             </div>
 
             <div className="bg-white shadow-lg rounded-lg p-4">
               <BrushBar
                 chartData={braMonth}
-                title="IPCA meses - Brasil (talvez clocar line)"
+                title="IPCA variação mensal - Brasil"
               />
             </div>
           </div>
@@ -377,8 +375,10 @@ const AdminPage = () => {
         </div>
       )}
 
-      {activeTab != "charts" && headers.length > 0 && (
+      {activeTab != "charts" && headers.length > 0 ? (
         <PaginatedTable headers={headers} rows={rows} rowsPerPage={100} />
+      ) : (
+        <p className="text-center mt-10">nenhum dado</p>
       )}
     </div>
   );

@@ -54,7 +54,9 @@ const AdminPage = () => {
       );
       const json = await response.json();
       setData(json);
-      const uniqueMunicipios: any = Array.from(new Set(json.map((item: any) => item["AEROPORTO NOME"])));
+      const uniqueMunicipios: any = Array.from(
+        new Set(json.map((item: any) => item["AEROPORTO NOME"]))
+      );
       setMunicipios(uniqueMunicipios);
       setFilteredMunicipios(uniqueMunicipios); // Inicializa com todos os municípios
     } catch (error) {
@@ -118,7 +120,9 @@ const AdminPage = () => {
   const getTableHeadersAndRows = () => {
     if (data.length === 0) return { headers: [], rows: [] };
     const headers = Object.keys(data[0]);
-    const rows = data.map((entry: any) => headers.map((header) => entry[header]));
+    const rows = data.map((entry: any) =>
+      headers.map((header) => entry[header])
+    );
     return { headers, rows };
   };
 
@@ -127,20 +131,28 @@ const AdminPage = () => {
   return (
     <div className="p-6 min-h-screen">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Movimentação de aeroportos</h1>
-        <p className="text-gray-600">Dados gerais sobre a movimentação dos aeroportos brasileiros</p>
+        <h1 className="text-3xl font-bold text-gray-800">
+          Movimentação de aeroportos
+        </h1>
+        <p className="text-gray-600">
+          Dados gerais sobre a movimentação dos aeroportos brasileiros
+        </p>
       </div>
 
       {/* Controle de abas */}
       <div className="flex justify-center mb-8">
         <button
-          className={`px-4 py-2 mx-2 rounded ${activeTab === "charts" ? "bg-blue-500 text-white" : "bg-white"}`}
+          className={`px-4 py-2 mx-2 rounded ${
+            activeTab === "charts" ? "bg-blue-500 text-white" : "bg-white"
+          }`}
           onClick={() => setActiveTab("charts")}
         >
           Gráficos
         </button>
         <button
-          className={`px-4 py-2 mx-2 rounded ${activeTab === "table" ? "bg-blue-500 text-white" : "bg-white"}`}
+          className={`px-4 py-2 mx-2 rounded ${
+            activeTab === "table" ? "bg-blue-500 text-white" : "bg-white"
+          }`}
           onClick={() => setActiveTab("table")}
         >
           Tabela
@@ -157,17 +169,26 @@ const AdminPage = () => {
               onClick={() => setActivePage(1)}
             >
               <span className="material-icons">
-                <svg  className="w-[20px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M14.9991 19L9.83911 14C9.56672 13.7429 9.34974 13.433 9.20142 13.0891C9.0531 12.7452 8.97656 12.3745 8.97656 12C8.97656 11.6255 9.0531 11.2548 9.20142 10.9109C9.34974 10.567 9.56672 10.2571 9.83911 10L14.9991 5" stroke="white" strokeWidth={1.5} />
+                <svg
+                  className="w-[20px]"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M14.9991 19L9.83911 14C9.56672 13.7429 9.34974 13.433 9.20142 13.0891C9.0531 12.7452 8.97656 12.3745 8.97656 12C8.97656 11.6255 9.0531 11.2548 9.20142 10.9109C9.34974 10.567 9.56672 10.2571 9.83911 10L14.9991 5"
+                    stroke="white"
+                    strokeWidth={1.5}
+                  />
                 </svg>
               </span>
               <span className="hidden sm:inline">{pageTitles[0]}</span>
             </button>
-            
+
             <p className="flex-grow text-center text-xl sm:text-2xl font-semibold text-gray-800">
               {pageTitles[activePage - 1]}
             </p>
-            
+
             <button
               className="flex items-center gap-2 pl-4 py-2 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 disabled:opacity-50 transition duration-300"
               disabled={activePage === 2}
@@ -175,46 +196,98 @@ const AdminPage = () => {
             >
               <span className="hidden sm:inline">{pageTitles[1]}</span>
               <span className="material-icons">
-                <svg  className="w-[20px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path xmlns="http://www.w3.org/2000/svg" d="M9 5L14.15 10C14.4237 10.2563 14.6419 10.5659 14.791 10.9099C14.9402 11.2539 15.0171 11.625 15.0171 12C15.0171 12.375 14.9402 12.7458 14.791 13.0898C14.6419 13.4339 14.4237 13.7437 14.15 14L9 19" stroke="white" strokeWidth={1.5} />
+                <svg
+                  className="w-[20px]"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    xmlns="http://www.w3.org/2000/svg"
+                    d="M9 5L14.15 10C14.4237 10.2563 14.6419 10.5659 14.791 10.9099C14.9402 11.2539 15.0171 11.625 15.0171 12C15.0171 12.375 14.9402 12.7458 14.791 13.0898C14.6419 13.4339 14.4237 13.7437 14.15 14L9 19"
+                    stroke="white"
+                    strokeWidth={1.5}
+                  />
                 </svg>
               </span>
             </button>
           </div>
 
-
           {/* Conteúdo da página 1 */}
           {activePage === 1 && (
             <>
               <div className="flex flex-wrap gap-4 justify-center mb-8">
-                <ViagensPorAno type="Total de viagens ao ano" data={data} year={year} backgroundColor={colors[0]} />
-                <PassageirosPorAno type="Média de passageiros por ano" data={data} year={year} color={colors[1]} />
+                <ViagensPorAno
+                  type="Total de viagens ao ano"
+                  data={data}
+                  year={year}
+                  backgroundColor={colors[0]}
+                />
+                <PassageirosPorAno
+                  type="Média de passageiros por ano"
+                  data={data}
+                  year={year}
+                  color={colors[1]}
+                />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
                 <div className="bg-white shadow-lg rounded-lg p-4">
-                  <EmbarqueDesembarqueRegiao title="Embarque e Desembarque por Região" data={data} nameKey="AEROPORTO REGIÃO" colors={colors} year={year} />
+                  <EmbarqueDesembarqueRegiao
+                    title="Embarque e Desembarque por Região"
+                    data={data}
+                    nameKey="AEROPORTO REGIÃO"
+                    colors={colors}
+                    year={year}
+                  />
                 </div>
                 <div className="bg-white shadow-lg rounded-lg p-4">
-                  <ViagensPorRegiao data={data} nameKey="AEROPORTO REGIÃO" colors={colors} year={year} title="Viagens por Região" />
+                  <ViagensPorRegiao
+                    data={data}
+                    nameKey="AEROPORTO REGIÃO"
+                    colors={colors}
+                    year={year}
+                    title="Viagens por Região"
+                  />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
                 <div className="bg-white shadow-lg rounded-lg p-4">
-                  <MediaViagensPorMes title="Média de Viagens por Mês" data={data} dataKey="PASSAGEIRO" nameKey="MÊS" colors={colors} year={year} />
+                  <MediaViagensPorMes
+                    title="Média de Viagens por Mês"
+                    data={data}
+                    dataKey="PASSAGEIRO"
+                    nameKey="MÊS"
+                    colors={colors}
+                    year={year}
+                  />
                 </div>
                 <div className="bg-white shadow-lg rounded-lg p-4">
-                  <CustomPieChart title="Distribuição de Passageiros por Tipo de Voo" data={data} dataKey="PASSAGEIRO" nameKey="NATUREZA" colors={colors} />
+                  <CustomPieChart
+                    title="Distribuição de Passageiros por Tipo de Voo"
+                    data={data}
+                    dataKey="PASSAGEIRO"
+                    nameKey="NATUREZA"
+                    colors={colors}
+                  />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="bg-white shadow-lg rounded-lg p-4">
-                  <GraficoCompanhiasPopulares data={companyData} title="Top 5 Companhias Brasileiras por Voo" colors={colors} />
+                  <GraficoCompanhiasPopulares
+                    data={companyData}
+                    title="Top 5 Companhias Brasileiras por Voo"
+                    colors={colors}
+                  />
                 </div>
                 <div className="bg-white shadow-lg rounded-lg p-4">
-                  <MediaCargaPorPassageiro title="Média de Carga por Passageiro por Natureza e Grupo de Voo" data={companyData} colors={colors} />
+                  <MediaCargaPorPassageiro
+                    title="Média de Carga por Passageiro por Natureza e Grupo de Voo"
+                    data={companyData}
+                    colors={colors}
+                  />
                 </div>
               </div>
             </>
@@ -224,7 +297,10 @@ const AdminPage = () => {
           {activePage === 2 && (
             <div className="min-h-[400px] p-2">
               <div className="mb-6 relative">
-                <label htmlFor="municipio" className="block text-gray-700 font-semibold mb-2">
+                <label
+                  htmlFor="municipio"
+                  className="block text-gray-700 font-semibold mb-2"
+                >
                   Escolha um município para continuar...
                 </label>
                 <input
@@ -277,48 +353,43 @@ const AdminPage = () => {
               {/* Gráfico de Total de Passageiros por Ano */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
                 {selectedMunicipio && (
-                  <GraficoPassageirosPorMesAno 
-                    data={data} 
-                    municipio={selectedMunicipio} 
-                    year={year} 
-                    color={colors} 
+                  <GraficoPassageirosPorMesAno
+                    data={data}
+                    municipio={selectedMunicipio}
+                    year={year}
+                    color={colors}
                   />
                 )}
                 {selectedMunicipio && (
                   <GraficoDecolagensPorMesAno
-                    data={data} 
-                    municipio={selectedMunicipio} 
-                    year={year} 
-                    color={colors} 
+                    data={data}
+                    municipio={selectedMunicipio}
+                    year={year}
+                    color={colors}
                   />
                 )}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 mb-4">
                 {selectedMunicipio && (
                   <GraficoCargaPorMesAno
-                    data={data} 
-                    municipio={selectedMunicipio} 
-                    year={year} 
-                    color={colors} 
+                    data={data}
+                    municipio={selectedMunicipio}
+                    year={year}
+                    color={colors}
                   />
                 )}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
-                <RecifeDataTable 
-                  data={data}
-                  year={year}
-                  color={colors[0]}
-                />
+                <RecifeDataTable data={data} year={year} color={colors[0]} />
 
-                {selectedMunicipio && 
-                  <SelectedMunicipioDataTable 
-                    data={data} 
-                    municipio={selectedMunicipio} 
+                {selectedMunicipio && (
+                  <SelectedMunicipioDataTable
+                    data={data}
+                    municipio={selectedMunicipio}
                     year={year}
                     color={colors[1]}
                   />
-                }
-
+                )}
               </div>
             </div>
           )}
@@ -326,8 +397,10 @@ const AdminPage = () => {
       )}
 
       {/* Conteúdo da aba Tabela */}
-      {activeTab === "table" && headers.length > 0 && (
+      {activeTab != "charts" && headers.length > 0 ? (
         <PaginatedTable headers={headers} rows={rows} rowsPerPage={100} />
+      ) : (
+        <p className="text-center mt-10">nenhum dado</p>
       )}
     </div>
   );

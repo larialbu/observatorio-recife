@@ -14,6 +14,10 @@ export const tableInfos = (
     correctData = data.data3;
   }
 
+  if (correctData.length <= 1) {
+    return;
+  }
+
   if (type === "table general") {
     setHeaders(Object.keys(correctData[0]));
     setRows(correctData.map((entry: any) => Object.values(entry).map(String)));
