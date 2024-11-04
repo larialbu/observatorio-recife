@@ -21,7 +21,7 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
       </Link>
       <ul className="flex items-start justify-end pt-2 text-white">
         <li>
-          <a href="#">Explorar</a>
+          <a href="/explorar">Explorar</a>
         </li>
         <li>
           <Separator />
