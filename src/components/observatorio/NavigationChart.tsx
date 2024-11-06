@@ -108,8 +108,8 @@ export const NavigationChart = ({
               className="text-gray-600 hover:text-gray-800"
               onClick={handleNavigation}
             >
-              <p className="flex items-center font-semibold text-[12px] gap-2 hover:gap-4 transition-gap duration-500">
-                ir para dashboard
+              <p className="flex items-center font-semibold text-[13px] gap-2 hover:gap-4 transition-gap duration-500">
+                Ir para dashboard
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20px"
@@ -131,24 +131,6 @@ export const NavigationChart = ({
 
         <div>{children}</div>
       </div>
-
-      {/* Container temp para captura */}
-      {/* {showTempContainer && (
-        <div
-          style={{
-            width: "600px",
-            height: "fit-content",
-            position: "absolute",
-            top: "-9999px",
-            left: "-9999px",
-            paddingBottom: "20px",
-            background: "white",
-          }}
-          ref={tempChartRef}
-        >
-          {removeButtonContainer(children)}
-        </div>
-      )} */}
     </div>
   );
 };

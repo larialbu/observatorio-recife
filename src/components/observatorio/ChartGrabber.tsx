@@ -90,10 +90,10 @@ const ChartGrabber = ({
       <div
         ref={chartRef}
         className={`chart-container relative ${
-          isFullScreen ? "grid items-center pr-4 pl-4" : ""
+          isFullScreen ? "flex items-center justify-center pr-4 pl-4" : ""
         }`}
       >
-        <div className={`${left ? "" : "h-[20px]"} `}>
+        <div className={``}>
           <OptionsMenu
             left={left}
             onDownload={handleDownload}

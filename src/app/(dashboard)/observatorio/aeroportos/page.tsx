@@ -31,7 +31,7 @@ import DecolagensTotaisBox from "@/components/observatorio/aeroporto/cards/per_m
 // API
 import apiConfig from "@/config/apiConfig";
 
-const AdminPage = () => {
+const AeroportosPage = () => {
   const { year, setAvailableYears } = useDashboard();
   const [data, setData] = useState([]);
   const [companyData, setCompanyData] = useState([]);
@@ -471,4 +471,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default AeroportosPage;

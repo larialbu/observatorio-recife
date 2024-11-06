@@ -22,7 +22,7 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
           ? `${
               left
                 ? "top-3 right-2 transform scale-[1.5]"
-                : "top-3 right-2 transform scale-[1.5]"
+                : "top-5 right-4 transform scale-[2]"
             }`
           : `${left ? "-top-6 left-2" : "top-0 right-0"}`
       }  options-menu`}

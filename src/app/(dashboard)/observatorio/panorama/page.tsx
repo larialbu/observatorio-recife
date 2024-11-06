@@ -21,6 +21,8 @@ import {
   formatMonth2,
 } from "@/components/observatorio/panorama/functions/formatMonth";
 
+import apiConfig from "@/config/apiConfig";
+
 const carouselTexts = [
   "Bem-vindo ao Panorama de Recife! Aqui você encontra dados sobre o movimento nos aeroportos, acesso a serviços públicos e tendências de crescimento econômico.",
   "Monitoramento em Tempo Real: Dados atualizados sobre o fluxo de passageiros e logística nos aeroportos da cidade.",
@@ -29,7 +31,7 @@ const carouselTexts = [
   "Balança Comercial: Visualize os principais produtos de exportação e importação e seu impacto na economia local.",
 ];
 
-const AdminPage = () => {
+const PanoramaPage = () => {
   const { year, setAvailableYears } = useDashboard();
   const [months, setMonths] = useState<string>("setembro");
   const [loading, setLoading] = useState(false);
@@ -56,37 +58,37 @@ const AdminPage = () => {
     setLoading(true);
     try {
       const response1 = await fetch(
-        `http://localhost:3001/api/data/ipca/indice-geral/2023_2024`
+        `${apiConfig.baseURL}/ipca/indice-geral/2023_2024`
       );
       const json1 = await response1.json();
 
       const response2 = await fetch(
-        `http://localhost:3001/api/data/aeroporto/2024`
+        `${apiConfig.baseURL}/aeroporto/2024`
       );
       const json2 = await response2.json();
 
       const response25 = await fetch(
-        `http://localhost:3001/api/data/aeroporto/2023`
+        `${apiConfig.baseURL}/aeroporto/2023`
       );
       const json25 = await response25.json();
 
       const response3 = await fetch(
-        `http://localhost:3001/api/data/pib/municipios/2010_2021`
+        `${apiConfig.baseURL}/pib/municipios/2010_2021`
       );
       const json3 = await response3.json();
 
       const response4 = await fetch(
-        `http://localhost:3001/api/data/empresas/recife/ativas/2020_2024`
+        `${apiConfig.baseURL}/empresas/recife/ativas/2020_2024`
       );
       const json4 = await response4.json();
 
       const response5 = await fetch(
-        `http://localhost:3001/api/data/selic/2021_2024`
+        `${apiConfig.baseURL}/selic/2021_2024`
       );
       const json5 = await response5.json();
 
       const response6 = await fetch(
-        `http://localhost:3001/api/data/emprego/empregados/2021_2024`
+        `${apiConfig.baseURL}/emprego/empregados/2021_2024`
       );
       const json6 = await response6.json();
 
@@ -199,7 +201,7 @@ const AdminPage = () => {
           {/* { data, dataKey, nameKey, colors, title {`${year}`}} */}
           <PieChartColor
             data={companies}
-            title={`Empresas abertas - Recife - ${year}`}
+            title={`Empresas abertas / Recife - ${year}`}
             nameKey="month"
             dataKey="pv"
             colors={["#0088FE", "#00C49F", "#FFBB28", "#FF8042"]}
@@ -210,7 +212,7 @@ const AdminPage = () => {
             navigation
             type="ipca"
             chartData={ipca}
-            title={`IPCA (acumulado em 12 meses) por mês - Recife - ${year}`}
+            title={`IPCA (acumulado em 12 meses) por mês / Recife - ${year}`}
           />
         </div>
       </div>
@@ -275,4 +277,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default PanoramaPage;

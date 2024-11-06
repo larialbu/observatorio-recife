@@ -53,11 +53,11 @@ const BoletimEconomico = () => {
             <Header />
             <NavBarHome simple />
 
-            <div className="p-8 text-5xl font-bold text-gray-800 w-[90%] mt-4">
+            <div className="p-8 font-bold text-gray-800 w-[90%] text-3xl sm:text-5xl mt-4 pl-0 sm:pl-8">
                 <p>OBSERVATÓRIO<br />ECONÔMICO DO RECIFE</p>
             </div>
 
-            <div className="mt-10 mb-10 bulletin-content">
+            <div className="flex flex-col items-center mt-10 mb-10 bulletin-content">
                 {/* Título da Seção de Download */}
                 <div className="text-3xl font-semibold text-blue-700 text-center mb-3">
                     <p>Consultar o Boletim Econômico</p>
@@ -69,10 +69,10 @@ const BoletimEconomico = () => {
                 </p>
 
                 {/* Seleção de Boletim */}
-                <div className="flex justify-center mb-6">
+                <div className="flex w-[90%] justify-center mb-6">
                     <select
                         onChange={handleBoletimChange}
-                        className="p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                        className="p-3 w-[100%] border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                         value={selectedBoletim?.name || ""}
                     >
                         <option value="" disabled>Selecione o Boletim</option>

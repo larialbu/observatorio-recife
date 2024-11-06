@@ -1,5 +1,3 @@
-// AdminPage.tsx
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -33,7 +31,7 @@ import { SelectMonth } from "@/components/SelectMonth";
 //API
 import apiConfig from "@/config/apiConfig";
 
-const AdminPage = () => {
+const IpcaPage = () => {
   const { year, setAvailableYears } = useDashboard();
   const [months, setMonths] = useState<string>("setembro");
   const [monthsAvaible, setmonthsAvaible] = useState<string[]>([]);
@@ -236,7 +234,7 @@ const AdminPage = () => {
       </div>
 
       {/* alternar entre gráficos e tabela */}
-      <div className="mb-4 flex justify-center">
+      <div className="mb-4 flex justify-center mb-8">
         <button
           onClick={() => setActiveTab("charts")}
           className={`px-4 py-2 mx-2 ${
@@ -437,7 +435,7 @@ const AdminPage = () => {
       )}
 
       {activeTab.includes("export") && (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-[50px]">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
             Download de Dados 2023 - 2024
           </h2>
@@ -543,4 +541,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default IpcaPage;
