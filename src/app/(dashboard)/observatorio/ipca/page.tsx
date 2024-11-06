@@ -40,7 +40,13 @@ const AdminPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState<
-    "charts" | "table general" | "table groups" | "table tables"
+    | "charts"
+    | "table general"
+    | "table groups"
+    | "table tables"
+    | "export"
+    | "export1"
+    | "export2"
   >("charts");
 
   const [headers, setHeaders] = useState<string[]>([]);
@@ -71,6 +77,40 @@ const AdminPage = () => {
   const [braMonth, setBraMonth] = useState([]);
   const [groupsIPCA, setGroupsIPCA] = useState([]);
   const [capitalsIPCA, setCapitalsIPCA] = useState([]);
+
+  const downloadLinks: any = {
+    treated: {
+      data: {
+        all: "https://docs.google.com/spreadsheets/d/1NPOa3U0rbjHnkTXLtEcrsKMq3nVHOAd-bV4OwJOyJ-c/export?format=xlsx&authuser=",
+        group:
+          "https://docs.google.com/spreadsheets/d/1IlEOY575Oo7Qf9jb6AauUiI7B9h2bl9g6gc5t7ANsTc/export?format=xlsx&authuser=",
+        table:
+          "https://docs.google.com/spreadsheets/d/1R2_paslrBGYKNJlYwhdUTLIvG2pPSkIHDxtynM_hw0o/export?format=xlsx&authuser=",
+      },
+    },
+    brute: {
+      data: "https://docs.google.com/spreadsheets/d/1HSkl9Eu35TRaqHKEP0IEw89LTdnZrpN1-TE65Edem9k/export?format=xlsx&authuser=",
+    },
+  };
+
+  // "all"
+  // "group"
+  // "table"
+
+  const getDownloadLink = (type: any) => {
+    if (type === "all") {
+      return downloadLinks.treated.data.all;
+    } else if (type === "group") {
+      return downloadLinks.brute.data.group;
+    } else if (type === "table") {
+      return downloadLinks.brute.data.table;
+    } else if (type === "table1") {
+      return downloadLinks.brute.data;
+    } else if (type === "table2") {
+      return downloadLinks.brute.data;
+    }
+    return "#"; // fallback para caso o link não exista
+  };
 
   const fetchData = async (selectedYear: string) => {
     setLoading(true);
@@ -218,6 +258,14 @@ const AdminPage = () => {
           } rounded`}
         >
           Tabela
+        </button>
+        <button
+          className={`px-4 py-2 mx-2 rounded ${
+            activeTab === "export" ? "bg-blue-500 text-white" : "bg-white"
+          }`}
+          onClick={() => setActiveTab("export")}
+        >
+          Exportar Dados
         </button>
       </div>
       {activeTab === "table general" ||
@@ -380,11 +428,116 @@ const AdminPage = () => {
           </div>
         </div>
       )}
-
-      {activeTab != "charts" && headers.length > 0 ? (
+      {activeTab === "table general" ||
+      activeTab === "table groups" ||
+      (activeTab === "table tables" && headers.length > 0) ? (
         <PaginatedTable headers={headers} rows={rows} rowsPerPage={100} />
       ) : (
         ""
+      )}
+
+      {activeTab.includes("export") && (
+        <div className="flex flex-col items-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            Download de Dados 2023 - 2024
+          </h2>
+          <div className="flex gap-4">
+            {/* Botão para dados tratados */}
+
+            <button
+              onClick={() => setActiveTab("export1")}
+              className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+            >
+              Baixar Dados Tratados
+            </button>
+
+            {/* Botão para dados brutos */}
+
+            <button
+              onClick={() => setActiveTab("export2")}
+              className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+            >
+              Baixar Dados Brutos
+            </button>
+          </div>
+        </div>
+      )}
+      {activeTab == "export1" && (
+        <div className="justify-center flex gap-4 mt-4">
+          <a
+            href={getDownloadLink("all")}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
+              Geral
+            </button>
+          </a>
+
+          <a
+            href={
+              "https://docs.google.com/spreadsheets/d/1IlEOY575Oo7Qf9jb6AauUiI7B9h2bl9g6gc5t7ANsTc/export?format=xlsx&authuser="
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
+              Grupos
+            </button>
+          </a>
+
+          <a
+            href={
+              "https://docs.google.com/spreadsheets/d/1R2_paslrBGYKNJlYwhdUTLIvG2pPSkIHDxtynM_hw0o/export?format=xlsx&authuser="
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
+              Tabelas
+            </button>
+          </a>
+        </div>
+      )}
+
+      {activeTab == "export2" && (
+        <div className="justify-center flex gap-4 mt-4">
+          <a
+            href={
+              "https://docs.google.com/spreadsheets/d/1vsFO_kUeadrTeCSpk4UZlZlyVuk8MAPeOXNN6B_rhtY/export?format=xlsx&authuser="
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
+              Índice 12 meses
+            </button>
+          </a>
+
+          <a
+            href={
+              "https://docs.google.com/spreadsheets/d/1zSej8Xbdi5qXP3qR9dP8TujyfFeXDqBw4CwawxIbzHA/export?format=xlsx&authuser="
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
+              Mensal
+            </button>
+          </a>
+
+          <a
+            href={
+              "https://docs.google.com/spreadsheets/d/1kV18v3BONvI93paamaNLN5PqYdz-yEPaSejiP3nQPFQ/export?format=xlsx&authuser="
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
+              Acumulado
+            </button>
+          </a>
+        </div>
       )}
     </div>
   );

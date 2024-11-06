@@ -3,7 +3,7 @@ import ChartGrabber from "../../ChartGrabber";
 
 interface IndiceData {
   Capital: string;
-  Data: string; // Exemplo: "janeiro/2023"
+  Data: string;
   Grupo: string;
   Indice: string;
   Item: string;
@@ -14,7 +14,7 @@ interface IndiceData {
 interface IndiceTableProps {
   data: IndiceData[];
   title: string;
-  selectedMonth: string; // Filtro de mês e ano para exibir dados específicos
+  selectedMonth: string;
 }
 
 export const SubGroupTable: React.FC<IndiceTableProps> = ({
@@ -30,8 +30,10 @@ export const SubGroupTable: React.FC<IndiceTableProps> = ({
   } | null>(null);
   const [subgroupQuery, setSubgroupQuery] = useState<string>("");
   const [capitalQuery, setCapitalQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 10;
 
-  // Atualiza o filtro ao alterar o mês selecionado, a busca pelo subgrupo ou a capital
+  // Atualiza o filtro ao alterar o mês, busca por subgrupo ou capital
   useEffect(() => {
     const filtered = data
       .filter((item) => item.Data === selectedMonth)
@@ -44,8 +46,10 @@ export const SubGroupTable: React.FC<IndiceTableProps> = ({
 
     setFilteredData(filtered);
     setSortedData(filtered);
+    setCurrentPage(1); // Reinicia para a primeira página ao aplicar filtros
   }, [data, selectedMonth, subgroupQuery, capitalQuery]);
 
+  // Função de ordenação
   const handleSort = (key: "Indice") => {
     let direction: "asc" | "desc" = "desc";
     if (
@@ -69,6 +73,12 @@ export const SubGroupTable: React.FC<IndiceTableProps> = ({
     setSortConfig({ key, direction });
   };
 
+  // Lógica de paginação
+  const totalRows = sortedData.length;
+  const totalPages = Math.ceil(totalRows / rowsPerPage);
+  const startRow = (currentPage - 1) * rowsPerPage;
+  const paginatedData = sortedData.slice(startRow, startRow + rowsPerPage);
+
   return (
     <div className=" ">
       <ChartGrabber>
@@ -81,7 +91,7 @@ export const SubGroupTable: React.FC<IndiceTableProps> = ({
           placeholder="Buscar por capital"
           value={capitalQuery}
           onChange={(e) => setCapitalQuery(e.target.value)}
-          className="mb-4 p-2 border border-gray-300 rounded w-full   focus:outline-none focus:border-blue-500"
+          className="mb-4 p-2 border border-gray-300 rounded w-full focus:outline-none focus:border-blue-500"
         />
 
         <input
@@ -89,7 +99,7 @@ export const SubGroupTable: React.FC<IndiceTableProps> = ({
           placeholder="Buscar por subgrupo"
           value={subgroupQuery}
           onChange={(e) => setSubgroupQuery(e.target.value)}
-          className="mb-4 p-2 border border-gray-300 rounded w-full   focus:outline-none focus:border-blue-500"
+          className="mb-4 p-2 border border-gray-300 rounded w-full focus:outline-none focus:border-blue-500"
         />
 
         <div className="max-h-[300px] overflow-y-auto border">
@@ -111,7 +121,7 @@ export const SubGroupTable: React.FC<IndiceTableProps> = ({
               </tr>
             </thead>
             <tbody>
-              {sortedData.map((item, index) => (
+              {paginatedData.map((item, index) => (
                 <tr key={index} className="odd:bg-white even:bg-gray-50">
                   <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
                     {item.Capital}
@@ -126,6 +136,31 @@ export const SubGroupTable: React.FC<IndiceTableProps> = ({
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Controles de Paginação */}
+        <div className="flex justify-between mt-4">
+          <button
+            onClick={() =>
+              setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
+            }
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
+          >
+            Anterior
+          </button>
+          <span>
+            Página {currentPage} de {totalPages}
+          </span>
+          <button
+            onClick={() =>
+              setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
+          >
+            Próxima
+          </button>
         </div>
       </ChartGrabber>
     </div>

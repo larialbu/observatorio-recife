@@ -49,20 +49,21 @@ const AdminPage = () => {
   // Títulos personalizados para cada página
   const pageTitles = ["Resumo Geral", "Análise Detalhada"];
 
-  //Links de download 
+  //Links de download
   const downloadLinks: any = {
     treated: {
       year: {
-        2023: 'https://docs.google.com/spreadsheets/d/1P7GCvbo9MpxCsC6ZCcTc53d_cPCt7CVX2Eh5AibWzRQ/export?format=xlsx&authuser=',
-        2024: 'https://docs.google.com/spreadsheets/d/15aZv1mBH5hcybHxCn_ZhCNrtGusXq1r6sOBLaiu_atc/export?format=xlsx&authuser='
-      }
+        2023: "https://docs.google.com/spreadsheets/d/1P7GCvbo9MpxCsC6ZCcTc53d_cPCt7CVX2Eh5AibWzRQ/export?format=xlsx&authuser=",
+        2024: "https://docs.google.com/spreadsheets/d/15aZv1mBH5hcybHxCn_ZhCNrtGusXq1r6sOBLaiu_atc/export?format=xlsx&authuser=",
+      },
     },
     brute: {
       year: {
-        2023_2024: 'https://docs.google.com/spreadsheets/d/19rgN4oDdYu41A-hCyOcrElQgS3B2ayu47KlrvGN_xpU/export?format=xlsx&authuser='
-      }
+        2023_2024:
+          "https://docs.google.com/spreadsheets/d/19rgN4oDdYu41A-hCyOcrElQgS3B2ayu47KlrvGN_xpU/export?format=xlsx&authuser=",
+      },
     },
-  }
+  };
 
   const getDownloadLink = (type: any) => {
     if (type === "treated" && downloadLinks.treated.year[year]) {
@@ -185,7 +186,9 @@ const AdminPage = () => {
           Tabela
         </button>
         <button
-          className={`px-4 py-2 mx-2 rounded ${activeTab === "export" ? "bg-blue-500 text-white" : "bg-white"}`}
+          className={`px-4 py-2 mx-2 rounded ${
+            activeTab === "export" ? "bg-blue-500 text-white" : "bg-white"
+          }`}
           onClick={() => setActiveTab("export")}
         >
           Exportar Dados
@@ -432,7 +435,6 @@ const AdminPage = () => {
       {/* Conteúdo da aba Tabela */}
       {activeTab == "table" && headers.length > 0 && (
         <PaginatedTable headers={headers} rows={rows} rowsPerPage={100} />
-
       )}
 
       {activeTab === "export" && (
@@ -442,14 +444,22 @@ const AdminPage = () => {
           </h2>
           <div className="flex gap-4">
             {/* Botão para dados tratados */}
-            <a href={getDownloadLink("treated")} target="_blank" rel="noopener noreferrer">
+            <a
+              href={getDownloadLink("treated")}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <button className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
                 Baixar Dados Tratados
               </button>
             </a>
 
             {/* Botão para dados brutos */}
-            <a href={getDownloadLink("brute")} target="_blank" rel="noopener noreferrer">
+            <a
+              href={getDownloadLink("brute")}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <button className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
                 Baixar Dados Brutos
               </button>

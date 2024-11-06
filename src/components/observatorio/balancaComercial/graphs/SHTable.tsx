@@ -15,6 +15,8 @@ export const SHTable: React.FC<ResultTableProps> = ({ data, title, type }) => {
     direction: "asc" | "desc";
   } | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 10;
 
   const handleSort = (key: "importSH4" | "exportSH4") => {
     let direction: "asc" | "desc" = "desc";
@@ -44,7 +46,14 @@ export const SHTable: React.FC<ResultTableProps> = ({ data, title, type }) => {
       item.codeSH4.toLowerCase().includes(query)
     );
     setSortedData(filteredData);
+    setCurrentPage(1); // Reinicia para a primeira página ao aplicar filtros
   };
+
+  // Lógica de paginação
+  const totalRows = sortedData.length;
+  const totalPages = Math.ceil(totalRows / rowsPerPage);
+  const startRow = (currentPage - 1) * rowsPerPage;
+  const paginatedData = sortedData.slice(startRow, startRow + rowsPerPage);
 
   return (
     <div className=" ">
@@ -56,8 +65,9 @@ export const SHTable: React.FC<ResultTableProps> = ({ data, title, type }) => {
           placeholder="Buscar código SH4"
           value={searchQuery}
           onChange={handleSearch}
-          className="mb-4 p-2 border border-gray-300 rounded w-full   focus:outline-none focus:border-blue-500"
+          className="mb-4 p-2 border border-gray-300 rounded w-full focus:outline-none focus:border-blue-500"
         />
+
         <div className="max-h-[300px] overflow-y-auto border">
           <table className="w-full border-collapse table-auto">
             <thead>
@@ -87,7 +97,7 @@ export const SHTable: React.FC<ResultTableProps> = ({ data, title, type }) => {
               </tr>
             </thead>
             <tbody>
-              {sortedData.map((item, index) => (
+              {paginatedData.map((item, index) => (
                 <tr key={index} className="odd:bg-white even:bg-gray-50">
                   <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
                     {item.codeSH4}
@@ -109,6 +119,31 @@ export const SHTable: React.FC<ResultTableProps> = ({ data, title, type }) => {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Controles de Paginação */}
+        <div className="flex justify-between mt-4">
+          <button
+            onClick={() =>
+              setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
+            }
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
+          >
+            Anterior
+          </button>
+          <span>
+            Página {currentPage} de {totalPages}
+          </span>
+          <button
+            onClick={() =>
+              setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
+          >
+            Próxima
+          </button>
         </div>
       </ChartGrabber>
     </div>

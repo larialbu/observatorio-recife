@@ -37,7 +37,9 @@ const AdminPage = () => {
   const [municipalityAvaible, setMunicipalityAvaible] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState<"charts" | "table">("charts");
+  const [activeTab, setActiveTab] = useState<"charts" | "table" | "export">(
+    "charts"
+  );
 
   const [headers, setHeaders] = useState<string[]>([]);
   const [rows, setRows] = useState<string[][]>([]);
@@ -54,6 +56,24 @@ const AdminPage = () => {
   const [expoData, setExpoData] = useState([]);
   const [impoData, setImpoData] = useState([]);
   const [SHData, setSHData] = useState([]);
+
+  const downloadLinks: any = {
+    treated: {
+      data: "https://docs.google.com/spreadsheets/d/1FYIhzIZy9KVD30dirT7JYAmOH_qBZ4B_HAyiHQqleE4/export?format=xlsx&authuser=",
+    },
+    brute: {
+      data: "https://docs.google.com/spreadsheets/d/1HSkl9Eu35TRaqHKEP0IEw89LTdnZrpN1-TE65Edem9k/export?format=xlsx&authuser=",
+    },
+  };
+
+  const getDownloadLink = (type: any) => {
+    if (type === "treated") {
+      return downloadLinks.treated.data;
+    } else if (type === "brute") {
+      return downloadLinks.brute.data;
+    }
+    return "#"; // fallback para caso o link não exista
+  };
 
   const fetchData = async (selectedYear: string) => {
     setLoading(true);
@@ -159,6 +179,14 @@ const AdminPage = () => {
         >
           Tabela
         </button>
+        <button
+          className={`px-4 py-2 mx-2 rounded ${
+            activeTab === "export" ? "bg-blue-500 text-white" : "bg-white"
+          }`}
+          onClick={() => setActiveTab("export")}
+        >
+          Exportar Dados
+        </button>
       </div>
 
       {activeTab === "charts" && (
@@ -261,10 +289,41 @@ const AdminPage = () => {
         </div>
       )}
 
-      {activeTab != "charts" && headers.length > 0 ? (
+      {activeTab == "table" && headers.length > 0 ? (
         <PaginatedTable headers={headers} rows={rows} rowsPerPage={100} />
       ) : (
         ""
+      )}
+
+      {activeTab === "export" && (
+        <div className="flex flex-col items-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            Download de Dados {year}
+          </h2>
+          <div className="flex gap-4">
+            {/* Botão para dados tratados */}
+            <a
+              href={getDownloadLink("treated")}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
+                Baixar Dados Tratados
+              </button>
+            </a>
+
+            {/* Botão para dados brutos */}
+            <a
+              href={getDownloadLink("brute")}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
+                Baixar Dados Brutos
+              </button>
+            </a>
+          </div>
+        </div>
       )}
     </div>
   );
