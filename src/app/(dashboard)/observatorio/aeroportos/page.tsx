@@ -32,19 +32,43 @@ const AdminPage = () => {
   const { year, setAvailableYears } = useDashboard();
   const [data, setData] = useState([]);
   const [companyData, setCompanyData] = useState([]);
-  const [municipios, setMunicipios] = useState([]); // Lista de municípios para o filtro
-  const [selectedMunicipio, setSelectedMunicipio] = useState(""); // Município selecionado
-  const [searchTerm, setSearchTerm] = useState(""); // Termo de pesquisa
-  const [filteredMunicipios, setFilteredMunicipios] = useState([]); // Municípios filtrados
+  const [municipios, setMunicipios] = useState([]);
+  const [selectedMunicipio, setSelectedMunicipio] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredMunicipios, setFilteredMunicipios] = useState([]);
   const [loading, setLoading] = useState(false);
   const [companyLoading, setCompanyLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [companyError, setCompanyError] = useState(null);
+  // const [companyError, setCompanyError] = useState(null);
   const [activeTab, setActiveTab] = useState("charts");
-  const [activePage, setActivePage] = useState(1); // Controle de páginas para gráficos
+  const [activePage, setActivePage] = useState(1);
 
   // Títulos personalizados para cada página
   const pageTitles = ["Resumo Geral", "Análise Detalhada"];
+
+  //Links de download 
+  const downloadLinks: any = {
+    treated: {
+      year: {
+        2023: 'https://docs.google.com/spreadsheets/d/1P7GCvbo9MpxCsC6ZCcTc53d_cPCt7CVX2Eh5AibWzRQ/export?format=xlsx&authuser=',
+        2024: 'https://docs.google.com/spreadsheets/d/15aZv1mBH5hcybHxCn_ZhCNrtGusXq1r6sOBLaiu_atc/export?format=xlsx&authuser='
+      }
+    },
+    brute: {
+      year: {
+        2023_2024: 'https://docs.google.com/spreadsheets/d/19rgN4oDdYu41A-hCyOcrElQgS3B2ayu47KlrvGN_xpU/export?format=xlsx&authuser='
+      }
+    },
+  }
+
+  const getDownloadLink = (type: any) => {
+    if (type === "treated" && downloadLinks.treated.year[year]) {
+      return downloadLinks.treated.year[year];
+    } else if (type === "brute") {
+      return downloadLinks.brute.year["2023_2024"];
+    }
+    return "#"; // fallback para caso o link não exista
+  };
 
   const fetchData = async (selectedYear: string) => {
     setLoading(true);
@@ -156,6 +180,12 @@ const AdminPage = () => {
           onClick={() => setActiveTab("table")}
         >
           Tabela
+        </button>
+        <button
+          className={`px-4 py-2 mx-2 rounded ${activeTab === "export" ? "bg-blue-500 text-white" : "bg-white"}`}
+          onClick={() => setActiveTab("export")}
+        >
+          Exportar Dados
         </button>
       </div>
 
@@ -397,10 +427,32 @@ const AdminPage = () => {
       )}
 
       {/* Conteúdo da aba Tabela */}
-      {activeTab != "charts" && headers.length > 0 ? (
+      {activeTab == "table" && headers.length > 0 && (
         <PaginatedTable headers={headers} rows={rows} rowsPerPage={100} />
-      ) : (
-        ""
+
+      )}
+
+      {activeTab === "export" && (
+        <div className="flex flex-col items-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            Download de Dados {year}
+          </h2>
+          <div className="flex gap-4">
+            {/* Botão para dados tratados */}
+            <a href={getDownloadLink("treated")} target="_blank" rel="noopener noreferrer">
+              <button className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
+                Baixar Dados Tratados
+              </button>
+            </a>
+
+            {/* Botão para dados brutos */}
+            <a href={getDownloadLink("brute")} target="_blank" rel="noopener noreferrer">
+              <button className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
+                Baixar Dados Brutos
+              </button>
+            </a>
+          </div>
+        </div>
       )}
     </div>
   );

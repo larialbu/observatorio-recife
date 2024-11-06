@@ -220,37 +220,40 @@ const AdminPage = () => {
       {activeTab === "table general" ||
       activeTab === "table groups" ||
       activeTab === "table tables" ? (
-        <div className="mb-4 flex justify-center">
-          <button
-            onClick={() => setActiveTab("table general")}
-            className={`px-4 py-2 mx-2 ${
-              activeTab === "table general"
-                ? "bg-blue-500 text-white"
-                : "bg-white text-gray-700"
-            } rounded`}
-          >
-            Geral
-          </button>
-          <button
-            onClick={() => setActiveTab("table groups")}
-            className={`px-4 py-2 mx-2 ${
-              activeTab === "table groups"
-                ? "bg-blue-500 text-white"
-                : "bg-white text-gray-700"
-            } rounded`}
-          >
-            Grupos
-          </button>
-          <button
-            onClick={() => setActiveTab("table tables")}
-            className={`px-4 py-2 mx-2 ${
-              activeTab === "table tables"
-                ? "bg-blue-500 text-white"
-                : "bg-white text-gray-700"
-            } rounded`}
-          >
-            Tabelas
-          </button>
+        <div className="mb-4 flex flex-col items-center">
+          <p className="text-gray-500 mb-3 mt-4">Categorias de tabela:</p>
+          <div className="flex flex-row buttons-content">
+            <button
+              onClick={() => setActiveTab("table general")}
+              className={`px-4 py-2 mx-2 ${
+                activeTab === "table general"
+                  ? "bg-[#EC6625] text-white"
+                  : "bg-white text-gray-700"
+              } rounded`}
+            >
+              Geral
+            </button>
+            <button
+              onClick={() => setActiveTab("table groups")}
+              className={`px-4 py-2 mx-2 ${
+                activeTab === "table groups"
+                  ? "bg-[#EC6625] text-white"
+                  : "bg-white text-gray-700"
+              } rounded`}
+            >
+              Grupos
+            </button>
+            <button
+              onClick={() => setActiveTab("table tables")}
+              className={`px-4 py-2 mx-2 ${
+                activeTab === "table tables"
+                  ? "bg-[#EC6625] text-white"
+                  : "bg-white text-gray-700"
+              } rounded`}
+            >
+              Tabelas
+            </button>
+          </div>
         </div>
       ) : (
         ""
