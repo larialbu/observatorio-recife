@@ -1,8 +1,14 @@
-import React, { useState, useRef } from 'react';
-import html2canvas from 'html2canvas';
-import OptionsMenu from './OptionsMenu';
+import React, { useState, useRef } from "react";
+import html2canvas from "html2canvas";
+import OptionsMenu from "./OptionsMenu";
 
-const ChartGrabber = ({ children }: { children: React.ReactNode }) => {
+const ChartGrabber = ({
+  children,
+  left,
+}: {
+  children: React.ReactNode;
+  left?: boolean;
+}) => {
   const [showTempContainer, setShowTempContainer] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
@@ -17,32 +23,34 @@ const ChartGrabber = ({ children }: { children: React.ReactNode }) => {
 
   const captureChartImage = () => {
     if (tempChartRef.current) {
-
-      const buttonContainers = tempChartRef.current.getElementsByClassName('button-container');
+      const buttonContainers =
+        tempChartRef.current.getElementsByClassName("button-container");
       Array.from(buttonContainers).forEach((element) => {
         element.parentNode?.removeChild(element);
       });
 
-      html2canvas(tempChartRef.current, { backgroundColor: 'white' }).then((canvas) => {
-        const link = document.createElement('a');
-        link.download = 'grafico.png';
-        link.href = canvas.toDataURL();
-        link.click();
+      html2canvas(tempChartRef.current, { backgroundColor: "white" }).then(
+        (canvas) => {
+          const link = document.createElement("a");
+          link.download = "grafico.png";
+          link.href = canvas.toDataURL();
+          link.click();
 
-        setShowTempContainer(false);
-      });
+          setShowTempContainer(false);
+        }
+      );
     }
   };
 
   const handleFullScreen = () => {
     if (chartRef.current) {
-      chartRef.current.style.backgroundColor = 'white';
+      chartRef.current.style.backgroundColor = "white";
       chartRef.current.requestFullscreen();
       setIsFullScreen(true);
       chartRef.current.onfullscreenchange = () => {
         if (!document.fullscreenElement) {
           setIsFullScreen(false);
-          chartRef.current!.style.backgroundColor = '';
+          chartRef.current!.style.backgroundColor = "";
         }
       };
     }
@@ -63,13 +71,16 @@ const ChartGrabber = ({ children }: { children: React.ReactNode }) => {
 
     if (
       elementProps.className &&
-      typeof elementProps.className === 'string' &&
-      elementProps.className.includes('button-container')
+      typeof elementProps.className === "string" &&
+      elementProps.className.includes("button-container")
     ) {
       return null;
     }
 
-    const children = React.Children.map(elementProps.children, removeButtonContainer);
+    const children = React.Children.map(
+      elementProps.children,
+      removeButtonContainer
+    );
 
     return React.cloneElement(element, { ...elementProps }, children);
   };
@@ -79,33 +90,34 @@ const ChartGrabber = ({ children }: { children: React.ReactNode }) => {
       <div
         ref={chartRef}
         className={`chart-container relative ${
-          isFullScreen ? 'grid items-center pr-4 pl-4' : ''
+          isFullScreen ? "grid items-center pr-4 pl-4" : ""
         }`}
       >
-        <div className='h-[20px]'>
+        <div className={`${left ? "" : "h-[20px]"} `}>
           <OptionsMenu
+            left={left}
             onDownload={handleDownload}
-            onFullScreen={isFullScreen ? handleExitFullScreen : handleFullScreen}
+            onFullScreen={
+              isFullScreen ? handleExitFullScreen : handleFullScreen
+            }
             isFullScreen={isFullScreen}
           />
         </div>
 
-        <div className={`${isFullScreen ? '' : ''}`}>
-          {children}
-        </div>
+        <div className={`${isFullScreen ? "" : ""}`}>{children}</div>
       </div>
 
       {/* Container temp para captura */}
       {showTempContainer && (
         <div
           style={{
-            width: '600px',
-            height: 'fit-content',
-            position: 'absolute',
-            top: '-9999px',
-            left: '-9999px',
-            paddingBottom: '20px',
-            background: 'white',
+            width: "600px",
+            height: "fit-content",
+            position: "absolute",
+            top: "-9999px",
+            left: "-9999px",
+            paddingBottom: "20px",
+            background: "white",
           }}
           ref={tempChartRef}
         >

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ChartGrabber from "../../ChartGrabber";
 
 interface IPCAData {
   Capital: string;
@@ -67,61 +68,61 @@ export const IPCTable: React.FC<IPCTableProps> = ({
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
-      <h3 className="text-center mb-4 font-semibold">
-        {title} - {selectedMonth}
-      </h3>
-
-      <input
-        type="text"
-        placeholder="Buscar por capital"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        className="mb-4 p-2 border border-gray-300 rounded w-full   focus:outline-none focus:border-blue-500"
-      />
-
-      <div className="max-h-[358px] overflow-y-auto border">
-        <table className="w-full border-collapse table-auto">
-          <thead>
-            <tr>
-              <th className="border border-gray-300 p-2 bg-gray-200 font-semibold text-[11px] sm:text-sm md:text-base lg:text-lg">
-                Capital
-              </th>
-              <th
-                className="border border-gray-300 p-2 bg-gray-200 font-semibold cursor-pointer hover:bg-gray-300 text-[11px] sm:text-sm md:text-base lg:text-lg"
-                onClick={() =>
-                  handleSort("IPCA - Variação acumulada em 12 meses(%)")
-                }
-              >
-                IPCA 12 meses
-              </th>
-              <th
-                className="border border-gray-300 p-2 bg-gray-200 font-semibold cursor-pointer hover:bg-gray-300 text-[11px] sm:text-sm md:text-base lg:text-lg"
-                onClick={() =>
-                  handleSort("IPCA - Variação acumulado no ano(%)")
-                }
-              >
-                IPCA ano
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedData.map((item, index) => (
-              <tr key={index} className="odd:bg-white even:bg-gray-50">
-                <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
-                  {item.Capital}
-                </td>
-                <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
-                  {item["IPCA - Variação acumulada em 12 meses(%)"]}
-                </td>
-                <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
-                  {item["IPCA - Variação acumulado no ano(%)"]}
-                </td>
+    <div className="  ">
+      <ChartGrabber>
+        <h3 className="text-center mb-4 font-semibold">
+          {title} - {selectedMonth}
+        </h3>
+        <input
+          type="text"
+          placeholder="Buscar por capital"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="mb-4 p-2 border border-gray-300 rounded w-full   focus:outline-none focus:border-blue-500"
+        />
+        <div className="max-h-[358px] overflow-y-auto border">
+          <table className="w-full border-collapse table-auto">
+            <thead>
+              <tr>
+                <th className="border border-gray-300 p-2 bg-gray-200 font-semibold text-[11px] sm:text-sm md:text-base lg:text-lg">
+                  Capital
+                </th>
+                <th
+                  className="border border-gray-300 p-2 bg-gray-200 font-semibold cursor-pointer hover:bg-gray-300 text-[11px] sm:text-sm md:text-base lg:text-lg"
+                  onClick={() =>
+                    handleSort("IPCA - Variação acumulada em 12 meses(%)")
+                  }
+                >
+                  IPCA 12 meses
+                </th>
+                <th
+                  className="border border-gray-300 p-2 bg-gray-200 font-semibold cursor-pointer hover:bg-gray-300 text-[11px] sm:text-sm md:text-base lg:text-lg"
+                  onClick={() =>
+                    handleSort("IPCA - Variação acumulado no ano(%)")
+                  }
+                >
+                  IPCA ano
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {sortedData.map((item, index) => (
+                <tr key={index} className="odd:bg-white even:bg-gray-50">
+                  <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
+                    {item.Capital}
+                  </td>
+                  <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
+                    {item["IPCA - Variação acumulada em 12 meses(%)"]}
+                  </td>
+                  <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
+                    {item["IPCA - Variação acumulado no ano(%)"]}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>{" "}
+      </ChartGrabber>
     </div>
   );
 };

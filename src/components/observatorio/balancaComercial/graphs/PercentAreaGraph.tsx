@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { formatNumber } from "../functions/formatNumber";
+import ChartGrabber from "../../ChartGrabber";
 
 const toPercent = (decimal: any, fixed = 0) =>
   `${(decimal * 100).toFixed(fixed)}%`;
@@ -79,55 +80,57 @@ export const PercentAreaChart = ({
 
   return (
     <div>
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <AreaChart
-          width={500}
-          height={400}
-          data={chartData}
-          stackOffset="expand"
-          margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis tick={{ fontSize: tickFontSize }} dataKey="month" />
-          <YAxis
-            tick={{ fontSize: tickFontSize }}
-            tickFormatter={(val: any) => toPercent(val, 0)}
-          />
-          <Tooltip
-            formatter={(value: any) => formatNumber(value)}
-            content={renderTooltipContent}
-          />
-          <Area
-            type="monotone"
-            name={type == "balanca" ? "importação" : ""}
-            dataKey="pv"
-            stackId="1"
-            stroke="#8884d8"
-            fill="#8884d8"
-          />
-          <Area
-            type="monotone"
-            name={type == "balanca" ? "exportação" : ""}
-            dataKey="uv"
-            stackId="1"
-            stroke="#82ca9d"
-            fill="#82ca9d"
-          />
-          <Area
-            type="monotone"
-            dataKey="c"
-            stackId="1"
-            stroke="#ffc658"
-            fill="#ffc658"
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+      <ChartGrabber>
+        <h3 className="text-center mb-4 font-semibold">{title}</h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <AreaChart
+            width={500}
+            height={400}
+            data={chartData}
+            stackOffset="expand"
+            margin={{
+              top: 10,
+              right: 30,
+              left: 0,
+              bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis tick={{ fontSize: tickFontSize }} dataKey="month" />
+            <YAxis
+              tick={{ fontSize: tickFontSize }}
+              tickFormatter={(val: any) => toPercent(val, 0)}
+            />
+            <Tooltip
+              formatter={(value: any) => formatNumber(value)}
+              content={renderTooltipContent}
+            />
+            <Area
+              type="monotone"
+              name={type == "balanca" ? "importação" : ""}
+              dataKey="pv"
+              stackId="1"
+              stroke="#8884d8"
+              fill="#8884d8"
+            />
+            <Area
+              type="monotone"
+              name={type == "balanca" ? "exportação" : ""}
+              dataKey="uv"
+              stackId="1"
+              stroke="#82ca9d"
+              fill="#82ca9d"
+            />
+            <Area
+              type="monotone"
+              dataKey="c"
+              stackId="1"
+              stroke="#ffc658"
+              fill="#ffc658"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </ChartGrabber>
     </div>
   );
 };

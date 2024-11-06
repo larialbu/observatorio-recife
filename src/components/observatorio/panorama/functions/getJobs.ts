@@ -24,11 +24,13 @@ export function getJobs(
   anoFiltro: string
 ): ChartData[] {
   // Filtra os dados para incluir apenas os registros do ano especificado
-  const dadosFiltrados = jsonData.filter((item) =>
-    item.Data.includes(anoFiltro)
-  );
+  const dadosFiltrados = jsonData
+    .filter((item) => item.Data.includes(anoFiltro))
+    .filter((item) => item.Municipio.includes("Recife"));
 
   // Inicializa variáveis para acumular os totais de admissões, demissões e saldos
+  console.log(dadosFiltrados);
+
   let totalAdmissoes = 0;
   let totalDemissoes = 0;
   let totalSaldos = 0;

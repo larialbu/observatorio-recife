@@ -59,7 +59,8 @@ export function getCompany(
     return {
       month: grupo,
       uv: 0,
-      pv: parseFloat(porcentagem.toFixed(2)), // Converte para decimal com duas casas
+      // pv: parseFloat(porcentagem.toFixed(2)), // Converte para decimal com duas casas
+      pv: contagemPorGrupo[grupo], // Converte para decimal com duas casas
     };
   });
 

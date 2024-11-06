@@ -16,6 +16,10 @@ import { LineGraph } from "@/components/observatorio/panorama/graphs/LineGraph";
 import { BarGraph } from "@/components/observatorio/panorama/graphs/BarGraph";
 import { BarGraphHorizontal } from "@/components/observatorio/panorama/graphs/BarGraphHorizontal";
 import PieChartColor from "@/components/observatorio/panorama/graphs/PieChart";
+import {
+  formatMonth1,
+  formatMonth2,
+} from "@/components/observatorio/panorama/functions/formatMonth";
 
 const carouselTexts = [
   "Bem-vindo ao Panorama de Recife! Aqui você encontra dados sobre o movimento nos aeroportos, acesso a serviços públicos e tendências de crescimento econômico.",
@@ -61,6 +65,11 @@ const AdminPage = () => {
       );
       const json2 = await response2.json();
 
+      const response25 = await fetch(
+        `http://localhost:3001/api/data/aeroporto/2023`
+      );
+      const json25 = await response25.json();
+
       const response3 = await fetch(
         `http://localhost:3001/api/data/pib/municipios/2010_2021`
       );
@@ -81,21 +90,22 @@ const AdminPage = () => {
       );
       const json6 = await response6.json();
 
-      const ipcaData = getIPCAAcc(json1, "2024", "Recife");
-      const airportData = getAirport(json2, "2024");
+      const ipcaData = getIPCAAcc(json1, year, "Recife");
+      const airportData = getAirport(year === "2024" ? json2 : json25, year);
       const pibData = getPIB(json3, "2021");
-      const companyData = getCompany(json4, "2024");
-      const selicData = getSelic(json5, "2024");
-      const jobsData = getJobs(json6, "2024");
+      const companyData = getCompany(json4, year);
+      const selicData = getSelic(json5, year);
+      const jobsData = getJobs(json6, year);
       console.log(json5);
 
-      console.log(selicData);
+      // console.log(ipcaData);
+      console.log(json6);
 
-      setIpca(ipcaData as []);
+      setIpca(formatMonth2(ipcaData) as []);
       setAirport(airportData as []);
-      setMuniPib(pibData as []);
+      setMuniPib(pibData.sort((a, b) => b.pv - a.pv) as []);
       setCompanies(companyData as []);
-      setSelic(selicData as []);
+      setSelic(formatMonth1(selicData) as []);
       setJobs(jobsData as []);
 
       // console.log("ipca", json1);
@@ -130,6 +140,11 @@ const AdminPage = () => {
   };
 
   useEffect(() => {
+    const availableYears = ["2024", "2023"];
+    setAvailableYears(availableYears);
+  }, [setAvailableYears]);
+
+  useEffect(() => {
     fetchData(year);
   }, [year, months]);
 
@@ -137,7 +152,7 @@ const AdminPage = () => {
 
   return (
     <div className="p-4 flex flex-col gap-8">
-      {/* Title */}
+      {/* Title {`${year}`}*/}
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-gray-800">Panorama de Recife</h1>
         <p className="text-gray-600">Visão geral das métricas principais</p>
@@ -159,24 +174,32 @@ const AdminPage = () => {
       {/* FIRST ROW OF CHARTS */}
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
         <div className="bg-white shadow-lg rounded-lg p-4">
-          <BarGraph type="balanca" chartData={muniPib} title="pib capitais" />
+          <BarGraph
+            type="balanca"
+            chartData={muniPib}
+            title={`PIB per capita das capitais (NE) - ${2021}`}
+          />
         </div>
         <div className="bg-white shadow-lg rounded-lg p-4">
           <BarGraphHorizontal
             type="balanca"
             chartData={airport}
-            title="aeroporto"
+            title={`Movimentação de aeroportos - ${year}`}
           />
         </div>
       </div>
 
       {/* SECOND ROW OF CHARTS */}
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
-        <div className="bg-white shadow-lg rounded-lg p-4">
-          {/* { data, dataKey, nameKey, colors, title } */}
+        <div
+          onMouseEnter={() => console.log("a")}
+          onMouseLeave={() => console.log("b")}
+          className="bg-white shadow-lg rounded-lg p-4"
+        >
+          {/* { data, dataKey, nameKey, colors, title {`${year}`}} */}
           <PieChartColor
             data={companies}
-            title="empresas"
+            title={`Empresas abertas - Recife - ${year}`}
             nameKey="month"
             dataKey="pv"
             colors={["#0088FE", "#00C49F", "#FFBB28", "#FF8042"]}
@@ -184,21 +207,27 @@ const AdminPage = () => {
         </div>
         <div className="bg-white shadow-lg rounded-lg p-4">
           <LineGraph
-            type="recife"
+            navigation
+            type="ipca"
             chartData={ipca}
-            title="IPCA (acumulado em 12 meses) por mês - Brasil"
+            title={`IPCA (acumulado em 12 meses) por mês - Recife - ${year}`}
           />
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
         <div className="bg-white shadow-lg rounded-lg p-4">
-          <LineGraph type="recife" chartData={selic} title="Selic" />
+          <LineGraph
+            navigation={false}
+            type="selic"
+            chartData={selic}
+            title={`Selic - ${year}`}
+          />
         </div>
         <div className="bg-white shadow-lg rounded-lg p-4">
           <PieChartColor
             data={jobs}
-            title="empregos"
+            title={`Empregos - Recife - ${year}`}
             nameKey="month"
             dataKey="pv"
             colors={["#0088FE", "#00C49F", "#FFBB28", "#FF8042"]}

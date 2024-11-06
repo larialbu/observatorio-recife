@@ -400,7 +400,7 @@ const AdminPage = () => {
       {activeTab != "charts" && headers.length > 0 ? (
         <PaginatedTable headers={headers} rows={rows} rowsPerPage={100} />
       ) : (
-        <p className="text-center mt-10">nenhum dado</p>
+        ""
       )}
     </div>
   );

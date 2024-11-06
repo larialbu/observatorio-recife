@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import ChartGrabber from "../../ChartGrabber";
 
 // Função para formatar números. Use esta ou substitua por outra, conforme necessário
 
@@ -78,34 +79,36 @@ export const RadarGraph = ({
 
   return (
     <div>
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
-          <PolarGrid />
-          <PolarAngleAxis tick={{ fontSize: tickFontSize }} dataKey="month" />
-          <PolarRadiusAxis
-            tick={{ fontSize: tickFontSize }}
-            angle={30}
-            domain={[0, 10]}
-          />
-          <Tooltip formatter={(value: any) => formatNumber(value)} />
-          {/* <Radar
+      <ChartGrabber>
+        <h3 className="text-center mb-4 font-semibold">{title}</h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+            <PolarGrid />
+            <PolarAngleAxis tick={{ fontSize: tickFontSize }} dataKey="month" />
+            <PolarRadiusAxis
+              tick={{ fontSize: tickFontSize }}
+              angle={30}
+              domain={[0, 10]}
+            />
+            <Tooltip formatter={(value: any) => formatNumber(value)} />
+            {/* <Radar
             name="Importação"
             dataKey="uv"
             stroke="#8884d8"
             fill="#8884d8"
             fillOpacity={0.6}
           /> */}
-          <Radar
-            name="exportação"
-            dataKey="pv"
-            stroke="#82ca9d"
-            fill="#82ca9d"
-            fillOpacity={0.6}
-          />
-          <Legend />
-        </RadarChart>
-      </ResponsiveContainer>
+            <Radar
+              name="exportação"
+              dataKey="pv"
+              stroke="#82ca9d"
+              fill="#82ca9d"
+              fillOpacity={0.6}
+            />
+            <Legend />
+          </RadarChart>
+        </ResponsiveContainer>
+      </ChartGrabber>
     </div>
   );
 };

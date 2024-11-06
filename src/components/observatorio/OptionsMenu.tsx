@@ -1,16 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 interface OptionsMenuProps {
   onDownload: () => void;
   onFullScreen: () => void;
   isFullScreen: boolean;
+  left?: boolean;
 }
 
-const OptionsMenu: React.FC<OptionsMenuProps> = ({ onDownload, onFullScreen, isFullScreen }) => {
+const OptionsMenu: React.FC<OptionsMenuProps> = ({
+  onDownload,
+  onFullScreen,
+  isFullScreen,
+  left,
+}) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className={`absolute ${isFullScreen ? 'top-3 right-2 transform scale-[1.5]' : 'top-0 right-0'} z-20 options-menu`}>
+    <div
+      className={`absolute ${
+        isFullScreen
+          ? `${
+              left
+                ? "top-3 right-2 transform scale-[1.5]"
+                : "top-3 right-2 transform scale-[1.5]"
+            }`
+          : `${left ? "-top-6 left-2" : "top-0 right-0"}`
+      }  options-menu`}
+    >
       <button
         className="text-gray-600 hover:text-gray-800"
         onClick={() => {
@@ -33,7 +49,11 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({ onDownload, onFullScreen, isF
         )}
       </button>
       {menuOpen && !isFullScreen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+        <div
+          className={`absolute ${
+            left ? "left-0" : "right-0"
+          }  mt-2 w-48 bg-white rounded-md shadow-lg z-10`}
+        >
           <button
             onClick={() => {
               onDownload();

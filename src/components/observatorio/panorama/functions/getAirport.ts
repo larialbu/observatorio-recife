@@ -8,7 +8,7 @@ interface VooData {
 
 interface ChartData {
   month: string; // "Passageiros" ou "Cargas"
-  uv: 0;
+  uv: number;
   pv: number; // quantidade total
 }
 
@@ -43,8 +43,8 @@ export function getAirport(
     },
     {
       month: "Cargas",
-      uv: 0,
-      pv: totalCargas,
+      uv: totalCargas,
+      pv: 0,
     },
   ];
 }

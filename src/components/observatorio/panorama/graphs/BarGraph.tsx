@@ -10,7 +10,17 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { formatVal } from "../../ipca/functions/formatVal";
+import { NavigationChart } from "../../NavigationChart";
+import ChartGrabber from "../../ChartGrabber";
+
+export const formatNumber = (value: number) => {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+};
 
 export const BarGraph = ({
   title,
@@ -52,41 +62,46 @@ export const BarGraph = ({
 
   return (
     <div>
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart
-          layout="vertical"
-          width={500}
-          height={300}
-          data={chartData}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            tickFormatter={formatVal}
-            tick={{ fontSize: tickFontSize }}
-            type="number"
-          />
-          <YAxis
-            tick={{ fontSize: tickFontSize }}
-            type="category"
-            dataKey="month"
-          />
-          <Tooltip formatter={(value: any) => formatVal(value)} />
-          <Legend />
-          <Bar
-            dataKey="pv"
-            name={type == "balanca" ? "IPCA" : ""}
-            fill="#8884d8"
-            activeBar={<Rectangle fill="pink" stroke="blue" />}
-          />
-        </BarChart>
-      </ResponsiveContainer>
+      <NavigationChart to="/observatorio/ipca">
+        <ChartGrabber left>
+          <h3 className="text-center mb-4 font-semibold">{title}</h3>
+
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart
+              layout="vertical"
+              width={500}
+              height={300}
+              data={chartData}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                tickFormatter={formatNumber}
+                tick={{ fontSize: tickFontSize }}
+                type="number"
+              />
+              <YAxis
+                tick={{ fontSize: tickFontSize }}
+                type="category"
+                dataKey="month"
+              />
+              <Tooltip formatter={(value: any) => formatNumber(value)} />
+              <Legend />
+              <Bar
+                dataKey="pv"
+                name="PIB per capita"
+                fill="#8884d8"
+                activeBar={<Rectangle fill="pink" stroke="blue" />}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartGrabber>{" "}
+      </NavigationChart>
     </div>
   );
 };

@@ -10,8 +10,14 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-const formatVal = (val: any) => {
-  return val;
+import { NavigationChart } from "../../NavigationChart";
+import ChartGrabber from "../../ChartGrabber";
+
+export const formatNumber = (value: any) => {
+  return new Intl.NumberFormat("pt-BR", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
 };
 
 export const BarGraphHorizontal = ({
@@ -49,45 +55,57 @@ export const BarGraphHorizontal = ({
     };
   }, []);
 
-  const tickFontSize = windowWidth < 768 ? 10 : windowWidth <= 1120 ? 12 : 14;
+  const tickFontSize = windowWidth < 768 ? 10 : windowWidth <= 1120 ? 11 : 11;
 
   return (
     <div>
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart
-          layout="horizontal"
-          width={500}
-          height={300}
-          data={chartData}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            tickFormatter={formatVal}
-            tick={{ fontSize: tickFontSize }}
-            type="category" // Tipo do eixo Y é categórico para o gráfico horizontal
-            dataKey="month"
-          />
-          <YAxis
-            tick={{ fontSize: tickFontSize }}
-            type="number" // Tipo do eixo X é numérico para o gráfico horizontal
-          />
-          <Tooltip formatter={(value: any) => formatVal(value)} />
-          <Legend />
-          <Bar
-            dataKey="pv"
-            name={type === "balanca" ? "IPCA" : ""}
-            fill="#8884d8"
-            activeBar={<Rectangle fill="pink" stroke="blue" />}
-          />
-        </BarChart>
-      </ResponsiveContainer>
+      <NavigationChart to="/observatorio/aeroportos">
+        {" "}
+        <ChartGrabber left>
+          <h3 className="text-center mb-4 font-semibold">{title}</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart
+              layout="horizontal"
+              width={500}
+              height={300}
+              data={chartData}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                // tickFormatter={formatNumber}
+                tick={{ fontSize: tickFontSize }}
+                type="category" // Tipo do eixo Y é categórico para o gráfico horizontal
+                dataKey="month"
+              />
+              <YAxis
+                tickFormatter={formatNumber}
+                tick={{ fontSize: tickFontSize }}
+                type="number" // Tipo do eixo X é numérico para o gráfico horizontal
+              />
+              <Tooltip formatter={(value: any) => formatNumber(value)} />
+              <Legend />
+              <Bar
+                dataKey="pv"
+                name="passageiros"
+                fill="#8884d8"
+                activeBar={<Rectangle fill="pink" stroke="blue" />}
+              />
+              <Bar
+                dataKey="uv"
+                name="cargas"
+                fill="#82ca9d"
+                activeBar={<Rectangle fill="pink" stroke="blue" />}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartGrabber>{" "}
+      </NavigationChart>
     </div>
   );
 };

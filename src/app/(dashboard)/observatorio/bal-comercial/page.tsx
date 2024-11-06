@@ -239,7 +239,7 @@ const AdminPage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
             <div className="bg-white shadow-lg rounded-lg p-4">
               <SHTable
                 type="import"
@@ -261,7 +261,7 @@ const AdminPage = () => {
       {activeTab != "charts" && headers.length > 0 ? (
         <PaginatedTable headers={headers} rows={rows} rowsPerPage={100} />
       ) : (
-        <p className="text-center mt-10">nenhum dado</p>
+        ""
       )}
     </div>
   );

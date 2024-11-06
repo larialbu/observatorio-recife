@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { formatVal } from "../functions/formatVal";
+import ChartGrabber from "../../ChartGrabber";
 
 export const BrushBar = ({
   title,
@@ -46,6 +47,9 @@ export const BrushBar = ({
 
   return (
     <div>
+      <ChartGrabber >
+
+      
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
@@ -69,7 +73,7 @@ export const BrushBar = ({
           <Bar dataKey="pv" name="IPCA" fill="#8884d8" />
           {/* <Bar dataKey="uv" fill="#82ca9d" /> */}
         </BarChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer></ChartGrabber>
     </div>
   );
 };
