@@ -30,6 +30,9 @@ import {
 } from "@/components/observatorio/ipca/functions/exportFunctions";
 import { SelectMonth } from "@/components/SelectMonth";
 
+//API
+import apiConfig from "@/config/apiConfig";
+
 const AdminPage = () => {
   const { year, setAvailableYears } = useDashboard();
   const [months, setMonths] = useState<string>("setembro");
@@ -73,15 +76,15 @@ const AdminPage = () => {
     setLoading(true);
     try {
       const response1 = await fetch(
-        `http://localhost:3001/api/data/ipca/indice-geral/2023_2024`
+        `${apiConfig.baseURL}/ipca/indice-geral/2023_2024`
       );
 
       const response2 = await fetch(
-        `http://localhost:3001/api/data/ipca/tabelas/2023_2024`
+        `${apiConfig.baseURL}/ipca/tabelas/2023_2024`
       );
 
       const response3 = await fetch(
-        `http://localhost:3001/api/data/ipca/grupos/2023_2024`
+        `${apiConfig.baseURL}/ipca/grupos/2023_2024`
       );
       const json3 = await response3.json();
 

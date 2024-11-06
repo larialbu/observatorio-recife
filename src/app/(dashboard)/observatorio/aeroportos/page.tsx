@@ -28,6 +28,9 @@ import PassageirosTotaisBox from "@/components/observatorio/aeroporto/cards/per_
 import CargaTotalBox from "@/components/observatorio/aeroporto/cards/per_municipio/TotalCarga";
 import DecolagensTotaisBox from "@/components/observatorio/aeroporto/cards/per_municipio/TotalDecolagens";
 
+// API
+import apiConfig from "@/config/apiConfig";
+
 const AdminPage = () => {
   const { year, setAvailableYears } = useDashboard();
   const [data, setData] = useState([]);
@@ -74,7 +77,7 @@ const AdminPage = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3001/api/data/aeroporto/embarque-desembarque/2023_2024`
+        `${apiConfig.baseURL}/aeroporto/embarque-desembarque/2023_2024`
       );
       const json = await response.json();
       setData(json);
@@ -94,7 +97,7 @@ const AdminPage = () => {
     setCompanyLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3001/api/data/aeroporto/${selectedYear}`
+        `${apiConfig.baseURL}/aeroporto/${selectedYear}`
       );
       const json = await response.json();
       setCompanyData(json);

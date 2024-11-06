@@ -28,6 +28,9 @@ import {
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { SHTable } from "@/components/observatorio/balancaComercial/graphs/SHTable";
 
+// API
+import apiConfig from "@/config/apiConfig";
+
 const AdminPage = () => {
   const { year, setAvailableYears } = useDashboard();
   const [municipality, setMunicipality] = useState<string>("");
@@ -56,7 +59,7 @@ const AdminPage = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3001/api/data/balanco-comercial/geral/2023_2024`
+        `${apiConfig.baseURL}/balanco-comercial/geral/2023_2024`
       );
 
       const json = await response.json();

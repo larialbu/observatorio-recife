@@ -4,7 +4,6 @@ import "./styles/home/style.scss";
 import { Header } from "@/components/home/Header";
 import { Carousel } from "@/components/home/Carousel";
 import { ExploreSection } from "@/components/home/ExploreSection";
-import { CardsSection } from "@/components/explore/CardsSection";
 import { Footer } from "@/components/home/Footer";
 import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
 import { AboutSection } from "@/components/home/AboutSection";
@@ -20,9 +19,6 @@ const Homepage = () => {
       <ExploreSection></ExploreSection>
 
       <AboutSection />
-
-      {/* Cards Section */}
-      {/* <CardsSection></CardsSection> */}
 
       <SocialIconsContainer />
 
