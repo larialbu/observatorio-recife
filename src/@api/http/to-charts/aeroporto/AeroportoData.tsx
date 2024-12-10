@@ -8,6 +8,7 @@ export class AeroportoData {
 
   constructor(year: string) {
     this.year = year;
+
   }
 
   private async fetchData<T>(endpoint: string): Promise<T> {
@@ -28,6 +29,7 @@ export class AeroportoData {
   }
 
   async fetchProcessedData(): Promise<ProcessedData[]> {
+    this.year = '2023_2024';
     return this.fetchData<ProcessedData[]>(`/aeroporto/embarque-desembarque/${this.year}`);
   }
 

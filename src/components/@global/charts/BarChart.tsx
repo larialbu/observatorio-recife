@@ -19,6 +19,6 @@ const BarChart = ({ data, title, colors, xKey, bars }: any) => {
         </ResponsiveContainer>
       </div>
     );
-  };
+};
   
-  export default BarChart;
+export default BarChart;

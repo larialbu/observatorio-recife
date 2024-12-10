@@ -16,8 +16,8 @@ import GraficoPassageirosPorMesAno from "@/components/@global/charts/temp/aeropo
 import GraficoDecolagensPorMesAno from "@/components/@global/charts/temp/aeroporto/per_municipios/DecolagensPorMes";
 import GraficoCargaPorMesAno from "@/components/@global/charts/temp/aeroporto/per_municipios/CargasPorAno";
 
-import RecifeDataTable from "@/components/observatorio/aeroporto/tables/RecifeTabela";
-import SelectedMunicipioDataTable from "@/components/observatorio/aeroporto/tables/MunicipioSelecTabela";
+import RecifeDataTable from "@/components/@global/tables/temp/aeroporto/RecifeTabela";
+import SelectedMunicipioDataTable from "@/components/@global/tables/temp/aeroporto/MunicipioSelecTabela";
 
 // CARDS
 import ViagensPorAno from "@/components/observatorio/aeroporto/cards/ViagensPorAno";
