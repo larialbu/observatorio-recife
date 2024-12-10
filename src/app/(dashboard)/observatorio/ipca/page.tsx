@@ -25,7 +25,7 @@ import {
   getIPCACards,
   getIPCAMonth,
   tableInfos,
-} from "@/components/observatorio/ipca/functions/exportFunctions";
+} from "@/functions/observatorio/ipca/exportFunctions";
 import { SelectMonth } from "@/components/SelectMonth";
 
 //API
@@ -234,7 +234,7 @@ const IpcaPage = () => {
       </div>
 
       {/* alternar entre gráficos e tabela */}
-      <div className="mb-4 flex justify-center mb-8">
+      <div className=" flex justify-center mb-8">
         <button
           onClick={() => setActiveTab("charts")}
           className={`px-4 py-2 mx-2 ${

@@ -6,12 +6,12 @@ import CountChart from "@/components/CountChart";
 import FinanceChart from "@/components/FinanceChart";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { useDashboard } from "@/context/DashboardContext";
-import { getCompany } from "@/components/observatorio/panorama/functions/getCompaniesGroups";
-import { getJobs } from "@/components/observatorio/panorama/functions/getJobs";
-import { getSelic } from "@/components/observatorio/panorama/functions/getSelic";
-import { getIPCAAcc } from "@/components/observatorio/ipca/functions/getIPCAAcc";
+import { getCompany } from "@/functions/observatorio/empresas/getCompaniesGroups";
+import { getJobs } from "@/functions/observatorio/emprego/getJobs";
+import { getSelic } from "@/functions/observatorio/selic/getSelic";
+import { getIPCAAcc } from "@/functions/observatorio/ipca/getIPCAAcc";
 import { getAirport } from "@/components/observatorio/panorama/functions/getAirport";
-import { getPIB } from "@/components/observatorio/panorama/functions/getPIB";
+import { getPIB } from "@/functions/observatorio/pib/getPIB";
 import { LineGraph } from "@/components/observatorio/panorama/graphs/LineGraph";
 import { BarGraph } from "@/components/observatorio/panorama/graphs/BarGraph";
 import { BarGraphHorizontal } from "@/components/observatorio/panorama/graphs/BarGraphHorizontal";
@@ -62,14 +62,10 @@ const PanoramaPage = () => {
       );
       const json1 = await response1.json();
 
-      const response2 = await fetch(
-        `${apiConfig.baseURL}/aeroporto/2024`
-      );
+      const response2 = await fetch(`${apiConfig.baseURL}/aeroporto/2024`);
       const json2 = await response2.json();
 
-      const response25 = await fetch(
-        `${apiConfig.baseURL}/aeroporto/2023`
-      );
+      const response25 = await fetch(`${apiConfig.baseURL}/aeroporto/2023`);
       const json25 = await response25.json();
 
       const response3 = await fetch(
@@ -82,9 +78,7 @@ const PanoramaPage = () => {
       );
       const json4 = await response4.json();
 
-      const response5 = await fetch(
-        `${apiConfig.baseURL}/selic/2021_2024`
-      );
+      const response5 = await fetch(`${apiConfig.baseURL}/selic/2021_2024`);
       const json5 = await response5.json();
 
       const response6 = await fetch(

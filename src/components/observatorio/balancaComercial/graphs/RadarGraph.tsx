@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import { formatNumber } from "../functions/formatNumber";
+import { formatNumber } from "../../../../functions/observatorio/balanca-comercial/formatNumber";
 import ChartGrabber from "../../ChartGrabber";
 
 export const RadarGraph = ({

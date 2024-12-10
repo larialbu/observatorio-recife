@@ -22,7 +22,7 @@ import {
   getMainCountry,
   getMunicipios,
   getSHInfos,
-} from "@/components/observatorio/balancaComercial/functions/exportFunctions";
+} from "@/functions/observatorio/balanca-comercial/exportFunctions";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { SHTable } from "@/components/observatorio/balancaComercial/graphs/SHTable";
 

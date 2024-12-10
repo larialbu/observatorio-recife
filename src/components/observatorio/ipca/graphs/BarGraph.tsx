@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { formatVal } from "../functions/formatVal";
+import { formatVal } from "../../../../functions/observatorio/ipca/formatVal";
 import ChartGrabber from "../../ChartGrabber";
 
 export const BarGraph = ({

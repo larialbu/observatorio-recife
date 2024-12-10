@@ -9,7 +9,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { formatNumber } from "../functions/formatNumber";
+import { formatNumber } from "../../../../functions/observatorio/balanca-comercial/formatNumber";
 import ChartGrabber from "../../ChartGrabber";
 
 export const LineGraph = ({
