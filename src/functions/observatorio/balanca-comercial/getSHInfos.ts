@@ -1,5 +1,5 @@
+import { ResultSH4 } from "@/@types/observatorio/balanca-comercial/resultSH4";
 import { ComercioExterior } from "../../../components/observatorio/balancaComercial/types/Comerce";
-import { ResultSH4 } from "../../../components/observatorio/balancaComercial/types/ResultSH4";
 
 export function getSHInfos(
   jsonData: ComercioExterior[],

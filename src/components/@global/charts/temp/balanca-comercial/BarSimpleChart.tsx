@@ -10,8 +10,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { formatNumber } from "../../../../functions/observatorio/balanca-comercial/formatNumber";
-import ChartGrabber from "../../ChartGrabber";
+import { formatNumber } from "../../../../../functions/observatorio/balanca-comercial/formatNumber";
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
 
 export const BarSimpleChart = ({
   title,

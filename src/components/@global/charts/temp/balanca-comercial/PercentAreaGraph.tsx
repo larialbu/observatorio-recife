@@ -8,8 +8,8 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { formatNumber } from "../../../../functions/observatorio/balanca-comercial/formatNumber";
-import ChartGrabber from "../../ChartGrabber";
+import { formatNumber } from "../../../../../functions/observatorio/balanca-comercial/formatNumber";
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
 
 const toPercent = (decimal: any, fixed = 0) =>
   `${(decimal * 100).toFixed(fixed)}%`;

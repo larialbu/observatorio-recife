@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ChartGrabber from "../../ChartGrabber";
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
 
 interface IPCAData {
   Capital: string;
@@ -134,7 +134,9 @@ export const IPCTable: React.FC<IPCTableProps> = ({
         {/* Controles de paginação */}
         <div className="flex justify-between mt-4">
           <button
-            onClick={() => setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))}
+            onClick={() =>
+              setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
+            }
             disabled={currentPage === 1}
             className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
           >

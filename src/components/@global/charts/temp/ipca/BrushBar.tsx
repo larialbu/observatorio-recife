@@ -1,25 +1,25 @@
 import React, { PureComponent, useEffect, useState } from "react";
 import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  Legend,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  ResponsiveContainer,
+  BarChart,
+  Bar,
+  Brush,
+  ReferenceLine,
+  XAxis,
+  YAxis,
+  CartesianGrid,
   Tooltip,
+  Legend,
+  ResponsiveContainer,
 } from "recharts";
-import { formatNumber } from "../../../../functions/observatorio/balanca-comercial/formatNumber";
-import ChartGrabber from "../../ChartGrabber";
+import { formatVal } from "../../../../../functions/observatorio/ipca/formatVal";
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
 
-export const RadarGraph = ({
+export const BrushBar = ({
   title,
   chartData,
-  type,
 }: {
   title: string;
-  chartData?: { month: string; uv: number; pv?: number; total: number }[];
-  type?: string;
+  chartData: { month: string; pv: number; uv: number }[];
 }) => {
   const [windowWidth, setWindowWidth] = useState(768); // valor padrão para largura da tela
 
@@ -50,31 +50,30 @@ export const RadarGraph = ({
       <ChartGrabber>
         <h3 className="text-center mb-4 font-semibold">{title}</h3>
         <ResponsiveContainer width="100%" height={300}>
-          <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chartData}>
-            <PolarGrid />
-            <PolarAngleAxis tick={{ fontSize: tickFontSize }} dataKey="month" />
-            <PolarRadiusAxis
+          <BarChart
+            width={500}
+            height={300}
+            data={chartData}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis tick={{ fontSize: tickFontSize }} dataKey="month" />
+            <YAxis
+              tickFormatter={formatVal}
               tick={{ fontSize: tickFontSize }}
-              angle={30}
-              domain={[0, 150]}
             />
-            <Tooltip formatter={(value: any) => formatNumber(value)} />
-            <Radar
-              name="Importação"
-              dataKey="uv"
-              stroke="#8884d8"
-              fill="#8884d8"
-              fillOpacity={0.6}
-            />
-            <Radar
-              name="exportação"
-              dataKey="pv"
-              stroke="#82ca9d"
-              fill="#82ca9d"
-              fillOpacity={0.6}
-            />
-            <Legend />
-          </RadarChart>
+            <Tooltip formatter={(value: any) => formatVal(value)} />
+            <Legend verticalAlign="top" wrapperStyle={{ lineHeight: "40px" }} />
+            <ReferenceLine y={0} stroke="#000" />
+            {/* <Brush dataKey="name" height={30} stroke="#8884d8" /> */}
+            <Bar dataKey="pv" name="IPCA" fill="#8884d8" />
+            {/* <Bar dataKey="uv" fill="#82ca9d" /> */}
+          </BarChart>
         </ResponsiveContainer>
       </ChartGrabber>
     </div>

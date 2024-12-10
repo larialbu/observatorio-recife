@@ -1,10 +1,17 @@
-import { useState } from 'react';
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Text } from 'recharts';
-import ChartGrabber from '../../ChartGrabber';
+import { useState } from "react";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+  Text,
+} from "recharts";
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
 
 // formatar os números com separadores de milhares (sem casas decimais)
 const formatNumber = (value: number) => {
-  return new Intl.NumberFormat('pt-BR', {
+  return new Intl.NumberFormat("pt-BR", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(value);
@@ -29,13 +36,27 @@ const PassageirosPorVoo = ({ data, dataKey, nameKey, colors, title }: any) => {
   const chartData = Object.values(processedData);
 
   // renderizar as porcentagens dentro das fatias da pizza
-  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+  }: any) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
     const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
 
     return (
-      <Text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" className="text-lg pointer-events-none">
+      <Text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor="middle"
+        dominantBaseline="central"
+        className="text-lg pointer-events-none"
+      >
         {`${(percent * 100).toFixed(1)}%`}
       </Text>
     );
@@ -52,7 +73,7 @@ const PassageirosPorVoo = ({ data, dataKey, nameKey, colors, title }: any) => {
             onClick={() => setShowPercentages(!showPercentages)}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            {showPercentages ? 'Ocultar Porcentagens' : 'Mostrar Porcentagens'}
+            {showPercentages ? "Ocultar Porcentagens" : "Mostrar Porcentagens"}
           </button>
         </div>
 
@@ -70,7 +91,10 @@ const PassageirosPorVoo = ({ data, dataKey, nameKey, colors, title }: any) => {
               labelLine={false}
             >
               {chartData.map((entry: any, index: any) => (
-                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={colors[index % colors.length]}
+                />
               ))}
             </Pie>
             <Tooltip formatter={(value: number) => formatNumber(value)} />

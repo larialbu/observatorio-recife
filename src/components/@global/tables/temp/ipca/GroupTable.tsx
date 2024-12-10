@@ -1,24 +1,56 @@
-import React, { useState } from "react";
-import { ResultSH4 } from "../types/ResultSH4";
-import ChartGrabber from "../../ChartGrabber";
+import React, { useState, useEffect } from "react";
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
 
-interface ResultTableProps {
-  data: ResultSH4[];
-  title: string;
-  type: "import" | "export";
+interface IndiceData {
+  Capital: string;
+  Data: string;
+  Grupo: string;
+  Indice: string;
+  Item: string;
+  SubItem: string;
+  Subgrupo: string;
 }
 
-export const SHTable: React.FC<ResultTableProps> = ({ data, title, type }) => {
-  const [sortedData, setSortedData] = useState<ResultSH4[]>(data);
+interface IndiceTableProps {
+  data: IndiceData[];
+  title: string;
+  selectedMonth: string;
+}
+
+export const GroupTable: React.FC<IndiceTableProps> = ({
+  data,
+  title,
+  selectedMonth,
+}) => {
+  const [filteredData, setFilteredData] = useState<IndiceData[]>([]);
+  const [sortedData, setSortedData] = useState<IndiceData[]>([]);
   const [sortConfig, setSortConfig] = useState<{
     key: string;
     direction: "asc" | "desc";
   } | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [groupQuery, setGroupQuery] = useState<string>("");
+  const [capitalQuery, setCapitalQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 
-  const handleSort = (key: "importSH4" | "exportSH4") => {
+  // Filtra e organiza os dados ao alterar mês, grupo ou capital
+  useEffect(() => {
+    const filtered = data
+      .filter((item) => item.Data === selectedMonth)
+      .filter((item) =>
+        item.Grupo.toLowerCase().includes(groupQuery.toLowerCase())
+      )
+      .filter((item) =>
+        item.Capital.toLowerCase().includes(capitalQuery.toLowerCase())
+      );
+
+    setFilteredData(filtered);
+    setSortedData(filtered);
+    setCurrentPage(1); // Reinicia para a primeira página ao aplicar filtros
+  }, [data, selectedMonth, groupQuery, capitalQuery]);
+
+  // Função de ordenação
+  const handleSort = (key: "Indice") => {
     let direction: "asc" | "desc" = "desc";
     if (
       sortConfig &&
@@ -29,24 +61,16 @@ export const SHTable: React.FC<ResultTableProps> = ({ data, title, type }) => {
     }
 
     const sortedArray = [...sortedData].sort((a, b) => {
-      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+      const aValue = parseFloat(a[key]);
+      const bValue = parseFloat(b[key]);
+
+      if (aValue < bValue) return direction === "asc" ? -1 : 1;
+      if (aValue > bValue) return direction === "asc" ? 1 : -1;
       return 0;
     });
 
     setSortedData(sortedArray);
     setSortConfig({ key, direction });
-  };
-
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const query = event.target.value.toLowerCase();
-    setSearchQuery(query);
-
-    const filteredData = data.filter((item) =>
-      item.codeSH4.toLowerCase().includes(query)
-    );
-    setSortedData(filteredData);
-    setCurrentPage(1); // Reinicia para a primeira página ao aplicar filtros
   };
 
   // Lógica de paginação
@@ -58,13 +82,23 @@ export const SHTable: React.FC<ResultTableProps> = ({ data, title, type }) => {
   return (
     <div className=" ">
       <ChartGrabber>
-        <h3 className="text-center mb-4 font-semibold">{title}</h3>
+        <h3 className="text-center mb-4 font-semibold">
+          {title} - {selectedMonth.split("/")[0]} {selectedMonth.split("/")[1]}
+        </h3>
 
         <input
           type="text"
-          placeholder="Buscar código SH4"
-          value={searchQuery}
-          onChange={handleSearch}
+          placeholder="Buscar por capital"
+          value={capitalQuery}
+          onChange={(e) => setCapitalQuery(e.target.value)}
+          className="mb-4 p-2 border border-gray-300 rounded w-full focus:outline-none focus:border-blue-500"
+        />
+
+        <input
+          type="text"
+          placeholder="Buscar por grupo"
+          value={groupQuery}
+          onChange={(e) => setGroupQuery(e.target.value)}
           className="mb-4 p-2 border border-gray-300 rounded w-full focus:outline-none focus:border-blue-500"
         />
 
@@ -73,48 +107,31 @@ export const SHTable: React.FC<ResultTableProps> = ({ data, title, type }) => {
             <thead>
               <tr>
                 <th className="border border-gray-300 p-2 bg-gray-200 font-semibold text-[11px] sm:text-sm md:text-base lg:text-lg">
-                  Código SH4
+                  Capital
                 </th>
                 <th className="border border-gray-300 p-2 bg-gray-200 font-semibold text-[11px] sm:text-sm md:text-base lg:text-lg">
-                  Descrição SH4
+                  Grupo
                 </th>
-                {type === "import" && (
-                  <th
-                    className="border border-gray-300 p-2 bg-gray-200 font-semibold cursor-pointer hover:bg-gray-300 text-[11px] sm:text-sm md:text-base lg:text-lg"
-                    onClick={() => handleSort("importSH4")}
-                  >
-                    Importação
-                  </th>
-                )}
-                {type === "export" && (
-                  <th
-                    className="border border-gray-300 p-2 bg-gray-200 font-semibold cursor-pointer hover:bg-gray-300 text-[11px] sm:text-sm md:text-base lg:text-lg"
-                    onClick={() => handleSort("exportSH4")}
-                  >
-                    Exportação
-                  </th>
-                )}
+                <th
+                  className="border border-gray-300 p-2 bg-gray-200 font-semibold cursor-pointer hover:bg-gray-300 text-[11px] sm:text-sm md:text-base lg:text-lg"
+                  onClick={() => handleSort("Indice")}
+                >
+                  Índice
+                </th>
               </tr>
             </thead>
             <tbody>
               {paginatedData.map((item, index) => (
                 <tr key={index} className="odd:bg-white even:bg-gray-50">
                   <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
-                    {item.codeSH4}
+                    {item.Capital}
                   </td>
                   <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
-                    {item.descSH4}
+                    {item.Grupo}
                   </td>
-                  {type === "import" && (
-                    <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
-                      {item.importSH4}
-                    </td>
-                  )}
-                  {type === "export" && (
-                    <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
-                      {item.exportSH4}
-                    </td>
-                  )}
+                  <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
+                    {item.Indice}
+                  </td>
                 </tr>
               ))}
             </tbody>

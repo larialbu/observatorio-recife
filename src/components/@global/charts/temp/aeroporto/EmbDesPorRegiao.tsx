@@ -1,11 +1,24 @@
-import { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import ChartGrabber from '../../ChartGrabber';
+import { useState, useEffect } from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
 
-const EmbarqueDesembarqueRegiao = ({ data = [], nameKey, colors = ["#EC6625", "#0155AE"], title, year }: any) => {
+const EmbarqueDesembarqueRegiao = ({
+  data = [],
+  nameKey,
+  colors = ["#EC6625", "#0155AE"],
+  title,
+  year,
+}: any) => {
   const [windowWidth, setWindowWidth] = useState(768); // valor padrão para largura da tela
-
-  
 
   useEffect(() => {
     // Verificar se `window` está disponível no ambiente de execução
@@ -17,23 +30,23 @@ const EmbarqueDesembarqueRegiao = ({ data = [], nameKey, colors = ["#EC6625", "#
 
     if (typeof window !== "undefined") {
       setWindowWidth(window.innerWidth); // Inicializar o valor no cliente
-      window.addEventListener('resize', handleResize);
+      window.addEventListener("resize", handleResize);
     }
 
     return () => {
       if (typeof window !== "undefined") {
-        window.removeEventListener('resize', handleResize);
+        window.removeEventListener("resize", handleResize);
       }
     };
   }, []);
 
   const abbreviateRegion = (region: string) => {
     const abbreviations: { [key: string]: string } = {
-      'NORTE': 'N',
-      'NORDESTE': 'NE',
-      'CENTRO-OESTE': 'CO',
-      'SUDESTE': 'SE',
-      'SUL': 'S',
+      NORTE: "N",
+      NORDESTE: "NE",
+      "CENTRO-OESTE": "CO",
+      SUDESTE: "SE",
+      SUL: "S",
     };
     return abbreviations[region] || region;
   };
@@ -73,7 +86,10 @@ const EmbarqueDesembarqueRegiao = ({ data = [], nameKey, colors = ["#EC6625", "#
       <ChartGrabber>
         <h3 className="text-center mb-4 font-semibold">{title}</h3>
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={chartData} margin={{ top: 20, right: 15, left: 15, bottom: 5 }}>
+          <BarChart
+            data={chartData}
+            margin={{ top: 20, right: 15, left: 15, bottom: 5 }}
+          >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey={nameKey} tick={{ fontSize: tickFontSize }} />
             <YAxis tick={{ fontSize: tickFontSize }} />

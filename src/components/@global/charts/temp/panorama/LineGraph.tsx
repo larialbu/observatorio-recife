@@ -9,9 +9,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { formatVal } from "../../../../functions/observatorio/ipca/formatVal";
-import { NavigationChart } from "../../NavigationChart";
-import ChartGrabber from "../../ChartGrabber";
+import { formatVal } from "../../../../../functions/observatorio/ipca/formatVal";
+import { NavigationChart } from "../../../../observatorio/NavigationChart";
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
 
 export const LineGraph = ({
   title,

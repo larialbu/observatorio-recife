@@ -1,13 +1,32 @@
-import ChartGrabber from '../../ChartGrabber';
-import { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
+import { useState, useEffect } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 // formatar números com separador de milhares e sem casas decimais
 const formatNumber = (value: number) => {
-  return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
+  return new Intl.NumberFormat("pt-BR", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
 };
 
-const MediaViagensPorMes = ({ data, dataKey, nameKey, colors, title, year }: any) => {
+const MediaViagensPorMes = ({
+  data,
+  dataKey,
+  nameKey,
+  colors,
+  title,
+  year,
+}: any) => {
   const [windowWidth, setWindowWidth] = useState(768);
 
   useEffect(() => {
@@ -18,10 +37,10 @@ const MediaViagensPorMes = ({ data, dataKey, nameKey, colors, title, year }: any
         setWindowWidth(window.innerWidth);
       };
 
-      window.addEventListener('resize', handleResize);
+      window.addEventListener("resize", handleResize);
 
       return () => {
-        window.removeEventListener('resize', handleResize);
+        window.removeEventListener("resize", handleResize);
       };
     }
   }, []);
@@ -64,16 +83,16 @@ const MediaViagensPorMes = ({ data, dataKey, nameKey, colors, title, year }: any
       <ChartGrabber>
         <h3 className="text-center mb-4 font-semibold">{title}</h3>
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={chartData} margin={{ top: 20, right: 10, left: 0, bottom: 5 }}>
+          <LineChart
+            data={chartData}
+            margin={{ top: 20, right: 10, left: 0, bottom: 5 }}
+          >
             <CartesianGrid strokeDasharray="3 3" />
-            
-            <XAxis 
-              dataKey="mes" 
-              tick={{ fontSize: tickFontSize }} 
-            />
 
-            <YAxis 
-              domain={[minTick, 'auto']} 
+            <XAxis dataKey="mes" tick={{ fontSize: tickFontSize }} />
+
+            <YAxis
+              domain={[minTick, "auto"]}
               tick={{ fontSize: tickFontSize }}
               tickFormatter={formatNumber}
             />
@@ -81,12 +100,12 @@ const MediaViagensPorMes = ({ data, dataKey, nameKey, colors, title, year }: any
 
             <Legend />
 
-            <Line 
-              type="monotone" 
-              dataKey="media" 
+            <Line
+              type="monotone"
+              dataKey="media"
               stroke={colors[0]}
               strokeWidth={3}
-              name="Média de Viagens" 
+              name="Média de Viagens"
             />
           </LineChart>
         </ResponsiveContainer>

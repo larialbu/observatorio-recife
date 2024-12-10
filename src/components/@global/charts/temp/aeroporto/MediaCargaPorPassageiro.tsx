@@ -1,13 +1,22 @@
-import { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import ChartGrabber from '../../ChartGrabber';
+import { useState, useEffect } from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
 
 // abreviando os nomes de natureza e grupo de voo
 const abbreviateNaturezaGrupo = (name: string) => {
   const abbreviations: { [key: string]: string } = {
-    'REGULAR': 'REG',
-    'NÃO REGULAR': 'NÃO REG',
-    'IMPRODUTIVO': 'IMPR',
+    REGULAR: "REG",
+    "NÃO REGULAR": "NÃO REG",
+    IMPRODUTIVO: "IMPR",
   };
 
   return abbreviations[name] || name;
@@ -15,13 +24,17 @@ const abbreviateNaturezaGrupo = (name: string) => {
 
 // formatar os números com separadores de milhares (sem casas decimais)
 const formatNumber = (value: number) => {
-  return new Intl.NumberFormat('pt-BR', {
+  return new Intl.NumberFormat("pt-BR", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(value);
 };
 
-const MediaCargaPorPassageiro = ({ data = [], title = "", colors = ["#EC6625", "#0155AE"] }: any) => {
+const MediaCargaPorPassageiro = ({
+  data = [],
+  title = "",
+  colors = ["#EC6625", "#0155AE"],
+}: any) => {
   const [windowWidth, setWindowWidth] = useState(768); // valor inicial padrão
   const [showAbbreviations, setShowAbbreviations] = useState(false);
 
@@ -30,26 +43,35 @@ const MediaCargaPorPassageiro = ({ data = [], title = "", colors = ["#EC6625", "
       setWindowWidth(window.innerWidth);
 
       const handleResize = () => setWindowWidth(window.innerWidth);
-      window.addEventListener('resize', handleResize);
+      window.addEventListener("resize", handleResize);
 
-      return () => window.removeEventListener('resize', handleResize);
+      return () => window.removeEventListener("resize", handleResize);
     }
   }, []);
 
   const processedData = data.reduce((acc: any, item: any) => {
     const natureza = item["NATUREZA"];
     const grupoDeVoo = item["GRUPO DE VOO"];
-    const passageiros = Number(item["PASSAGEIROS PAGOS"]) + Number(item["PASSAGEIROS GRÁTIS"]) || 0;
-    const carga = Number(item["CARGA PAGA (KG)"]) + Number(item["CARGA GRÁTIS (KG)"]) || 0;
+    const passageiros =
+      Number(item["PASSAGEIROS PAGOS"]) + Number(item["PASSAGEIROS GRÁTIS"]) ||
+      0;
+    const carga =
+      Number(item["CARGA PAGA (KG)"]) + Number(item["CARGA GRÁTIS (KG)"]) || 0;
 
     if (!acc[grupoDeVoo]) {
-      acc[grupoDeVoo] = { grupoDeVoo, internacional: 0, domestica: 0, countInternacional: 0, countDomestica: 0 };
+      acc[grupoDeVoo] = {
+        grupoDeVoo,
+        internacional: 0,
+        domestica: 0,
+        countInternacional: 0,
+        countDomestica: 0,
+      };
     }
 
-    if (natureza === 'INTERNACIONAL') {
+    if (natureza === "INTERNACIONAL") {
       acc[grupoDeVoo].internacional += carga;
       acc[grupoDeVoo].countInternacional += passageiros;
-    } else if (natureza === 'DOMÉSTICA') {
+    } else if (natureza === "DOMÉSTICA") {
       acc[grupoDeVoo].domestica += carga;
       acc[grupoDeVoo].countDomestica += passageiros;
     }
@@ -58,12 +80,17 @@ const MediaCargaPorPassageiro = ({ data = [], title = "", colors = ["#EC6625", "
   }, {});
 
   const chartData = Object.values(processedData).map((item: any) => ({
-    name: windowWidth < 768 || showAbbreviations
-      ? abbreviateNaturezaGrupo(item.grupoDeVoo)
-      : item.grupoDeVoo,
+    name:
+      windowWidth < 768 || showAbbreviations
+        ? abbreviateNaturezaGrupo(item.grupoDeVoo)
+        : item.grupoDeVoo,
     fullName: item.grupoDeVoo,
-    internacional: item.countInternacional > 0 ? item.internacional / item.countInternacional : 0,
-    domestica: item.countDomestica > 0 ? item.domestica / item.countDomestica : 0,
+    internacional:
+      item.countInternacional > 0
+        ? item.internacional / item.countInternacional
+        : 0,
+    domestica:
+      item.countDomestica > 0 ? item.domestica / item.countDomestica : 0,
   }));
 
   const renderExplanation = () => (
@@ -90,20 +117,27 @@ const MediaCargaPorPassageiro = ({ data = [], title = "", colors = ["#EC6625", "
             onClick={() => setShowAbbreviations(!showAbbreviations)}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            {showAbbreviations ? 'Ocultar Abreviações' : 'Mostrar Abreviações'}
+            {showAbbreviations ? "Ocultar Abreviações" : "Mostrar Abreviações"}
           </button>
         </div>
 
         {showAbbreviations && renderExplanation()}
 
         <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={chartData} margin={{ top: 20, right: 20, left: 30, bottom: 5 }}>
+          <BarChart
+            data={chartData}
+            margin={{ top: 20, right: 20, left: 30, bottom: 5 }}
+          >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" tick={{ fontSize: tickFontSize }} />
             <YAxis tickFormatter={formatNumber} />
             <Tooltip formatter={(value: number) => formatNumber(value)} />
             <Legend />
-            <Bar dataKey="internacional" fill={colors[0]} name="Internacional" />
+            <Bar
+              dataKey="internacional"
+              fill={colors[0]}
+              name="Internacional"
+            />
             <Bar dataKey="domestica" fill={colors[1]} name="Doméstica" />
           </BarChart>
         </ResponsiveContainer>

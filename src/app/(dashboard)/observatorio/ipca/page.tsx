@@ -6,16 +6,16 @@ import { PaginatedTable } from "@/components/observatorio/global/PaginedTable";
 
 import CardBalance from "@/components/observatorio/ipca/cards/CardBalance";
 
-import { LineGraph } from "@/components/observatorio/ipca/graphs/LineGraph";
+import { LineGraph } from "@/components/@global/charts/temp/ipca/LineGraph";
 
 import { LoadingScreen } from "@/components/home/LoadingScreen";
-import { BarGraph } from "@/components/observatorio/ipca/graphs/BarGraph";
-import { BrushBar } from "@/components/observatorio/ipca/graphs/BrushBar";
-import { IPCTable } from "@/components/observatorio/ipca/graphs/CapitalsTable";
-import { GroupTable } from "@/components/observatorio/ipca/graphs/GroupTable";
-import { SubGroupTable } from "@/components/observatorio/ipca/graphs/SubGroupTable";
-import { ItemTable } from "@/components/observatorio/ipca/graphs/ItemTable";
-import { RadarGraph } from "@/components/observatorio/ipca/graphs/RadarGraph";
+import { BarGraph } from "@/components/@global/charts/temp/ipca/BarGraph";
+import { BrushBar } from "@/components/@global/charts/temp/ipca/BrushBar";
+import { IPCTable } from "@/components/@global/tables/temp/ipca/CapitalsTable";
+import { GroupTable } from "@/components/@global/tables/temp/ipca/GroupTable";
+import { SubGroupTable } from "@/components/@global/tables/temp/ipca/SubGroupTable";
+import { ItemTable } from "@/components/@global/tables/temp/ipca/ItemTable";
+import { RadarGraph } from "@/components/@global/charts/temp/ipca/RadarGraph";
 
 import {
   getAvaibleMonths,

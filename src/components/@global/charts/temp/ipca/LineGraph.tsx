@@ -9,8 +9,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { formatVal } from "../../../../functions/observatorio/ipca/formatVal";
-import ChartGrabber from "../../ChartGrabber";
+import { formatVal } from "../../../../../functions/observatorio/ipca/formatVal";
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
 
 export const LineGraph = ({
   title,

@@ -7,8 +7,8 @@ import {
   ResponsiveContainer,
   Text,
 } from "recharts";
-import ChartGrabber from "../../ChartGrabber";
-import { NavigationChart } from "../../NavigationChart";
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
+import { NavigationChart } from "../../../../observatorio/NavigationChart";
 
 // formatar os números com separadores de milhares (sem casas decimais)
 const formatNumber = (value: number) => {

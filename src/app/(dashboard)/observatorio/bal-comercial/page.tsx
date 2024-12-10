@@ -6,10 +6,10 @@ import { SelectMuni } from "@/components/SelectMuni";
 import { PaginatedTable } from "@/components/observatorio/global/PaginedTable";
 
 import CardBalance from "@/components/observatorio/balancaComercial/cards/CardBalance";
-import { RadarGraph } from "@/components/observatorio/balancaComercial/graphs/RadarGraph";
-import { PercentAreaChart } from "@/components/observatorio/balancaComercial/graphs/PercentAreaGraph";
-import { LineGraph } from "@/components/observatorio/balancaComercial/graphs/LineGraph";
-import { BarSimpleChart } from "@/components/observatorio/balancaComercial/graphs/BarSimpleChart";
+import { RadarGraph } from "@/components/@global/charts/temp/balanca-comercial/RadarGraph";
+import { PercentAreaChart } from "@/components/@global/charts/temp/balanca-comercial/PercentAreaGraph";
+import { LineGraph } from "@/components/@global/charts/temp/balanca-comercial/LineGraph";
+import { BarSimpleChart } from "@/components/@global/charts/temp/balanca-comercial/BarSimpleChart";
 import {
   formatMonths,
   formatNumber,
@@ -24,7 +24,7 @@ import {
   getSHInfos,
 } from "@/functions/observatorio/balanca-comercial/exportFunctions";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
-import { SHTable } from "@/components/observatorio/balancaComercial/graphs/SHTable";
+import { SHTable } from "@/components/@global/tables/temp/balanca-comercial/SHTable";
 
 // API
 import apiConfig from "@/config/apiConfig";

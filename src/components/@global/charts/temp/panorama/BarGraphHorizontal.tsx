@@ -10,19 +10,17 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { NavigationChart } from "../../NavigationChart";
-import ChartGrabber from "../../ChartGrabber";
+import { NavigationChart } from "../../../../observatorio/NavigationChart";
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
 
-export const formatNumber = (value: number) => {
+export const formatNumber = (value: any) => {
   return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(value);
 };
 
-export const BarGraph = ({
+export const BarGraphHorizontal = ({
   title,
   chartData,
   type,
@@ -36,10 +34,9 @@ export const BarGraph = ({
   }[];
   type: string;
 }) => {
-  const [windowWidth, setWindowWidth] = useState(768); // valor padrão para largura da tela
+  const [windowWidth, setWindowWidth] = useState(768);
 
   useEffect(() => {
-    // Verificar se `window` está disponível no ambiente de execução
     const handleResize = () => {
       if (typeof window !== "undefined") {
         setWindowWidth(window.innerWidth);
@@ -47,7 +44,7 @@ export const BarGraph = ({
     };
 
     if (typeof window !== "undefined") {
-      setWindowWidth(window.innerWidth); // Inicializar o valor no cliente
+      setWindowWidth(window.innerWidth);
       window.addEventListener("resize", handleResize);
     }
 
@@ -58,17 +55,17 @@ export const BarGraph = ({
     };
   }, []);
 
-  const tickFontSize = windowWidth < 768 ? 10 : windowWidth <= 1120 ? 12 : 14;
+  const tickFontSize = windowWidth < 768 ? 10 : windowWidth <= 1120 ? 11 : 11;
 
   return (
     <div>
-      <NavigationChart to="/observatorio/ipca">
+      <NavigationChart to="/observatorio/aeroportos">
+        {" "}
         <ChartGrabber left>
           <h3 className="text-center mb-4 font-semibold">{title}</h3>
-
           <ResponsiveContainer width="100%" height={300}>
             <BarChart
-              layout="vertical"
+              layout="horizontal"
               width={500}
               height={300}
               data={chartData}
@@ -81,21 +78,28 @@ export const BarGraph = ({
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
-                tickFormatter={formatNumber}
+                // tickFormatter={formatNumber}
                 tick={{ fontSize: tickFontSize }}
-                type="number"
+                type="category" // Tipo do eixo Y é categórico para o gráfico horizontal
+                dataKey="month"
               />
               <YAxis
+                tickFormatter={formatNumber}
                 tick={{ fontSize: tickFontSize }}
-                type="category"
-                dataKey="month"
+                type="number" // Tipo do eixo X é numérico para o gráfico horizontal
               />
               <Tooltip formatter={(value: any) => formatNumber(value)} />
               <Legend />
               <Bar
                 dataKey="pv"
-                name="PIB per capita"
+                name="passageiros"
                 fill="#8884d8"
+                activeBar={<Rectangle fill="pink" stroke="blue" />}
+              />
+              <Bar
+                dataKey="uv"
+                name="cargas"
+                fill="#82ca9d"
                 activeBar={<Rectangle fill="pink" stroke="blue" />}
               />
             </BarChart>

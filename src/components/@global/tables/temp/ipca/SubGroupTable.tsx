@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ChartGrabber from "../../ChartGrabber";
+import ChartGrabber from "../../../../observatorio/ChartGrabber";
 
 interface IndiceData {
   Capital: string;
@@ -17,7 +17,7 @@ interface IndiceTableProps {
   selectedMonth: string;
 }
 
-export const ItemTable: React.FC<IndiceTableProps> = ({
+export const SubGroupTable: React.FC<IndiceTableProps> = ({
   data,
   title,
   selectedMonth,
@@ -28,17 +28,17 @@ export const ItemTable: React.FC<IndiceTableProps> = ({
     key: string;
     direction: "asc" | "desc";
   } | null>(null);
-  const [itemQuery, setItemQuery] = useState<string>("");
+  const [subgroupQuery, setSubgroupQuery] = useState<string>("");
   const [capitalQuery, setCapitalQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 
-  // Filtra e organiza os dados ao alterar mês, item ou capital
+  // Atualiza o filtro ao alterar o mês, busca por subgrupo ou capital
   useEffect(() => {
     const filtered = data
       .filter((item) => item.Data === selectedMonth)
       .filter((item) =>
-        item.Item.toLowerCase().includes(itemQuery.toLowerCase())
+        item.Subgrupo.toLowerCase().includes(subgroupQuery.toLowerCase())
       )
       .filter((item) =>
         item.Capital.toLowerCase().includes(capitalQuery.toLowerCase())
@@ -47,7 +47,7 @@ export const ItemTable: React.FC<IndiceTableProps> = ({
     setFilteredData(filtered);
     setSortedData(filtered);
     setCurrentPage(1); // Reinicia para a primeira página ao aplicar filtros
-  }, [data, selectedMonth, itemQuery, capitalQuery]);
+  }, [data, selectedMonth, subgroupQuery, capitalQuery]);
 
   // Função de ordenação
   const handleSort = (key: "Indice") => {
@@ -96,9 +96,9 @@ export const ItemTable: React.FC<IndiceTableProps> = ({
 
         <input
           type="text"
-          placeholder="Buscar por item"
-          value={itemQuery}
-          onChange={(e) => setItemQuery(e.target.value)}
+          placeholder="Buscar por subgrupo"
+          value={subgroupQuery}
+          onChange={(e) => setSubgroupQuery(e.target.value)}
           className="mb-4 p-2 border border-gray-300 rounded w-full focus:outline-none focus:border-blue-500"
         />
 
@@ -110,7 +110,7 @@ export const ItemTable: React.FC<IndiceTableProps> = ({
                   Capital
                 </th>
                 <th className="border border-gray-300 p-2 bg-gray-200 font-semibold text-[11px] sm:text-sm md:text-base lg:text-lg">
-                  Item
+                  Subgrupo
                 </th>
                 <th
                   className="border border-gray-300 p-2 bg-gray-200 font-semibold cursor-pointer hover:bg-gray-300 text-[11px] sm:text-sm md:text-base lg:text-lg"
@@ -127,7 +127,7 @@ export const ItemTable: React.FC<IndiceTableProps> = ({
                     {item.Capital}
                   </td>
                   <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
-                    {item.Item}
+                    {item.Subgrupo}
                   </td>
                   <td className="border border-gray-300 p-2 text-[11px] sm:text-sm md:text-base">
                     {item.Indice}

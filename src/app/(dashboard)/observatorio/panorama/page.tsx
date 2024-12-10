@@ -12,10 +12,10 @@ import { getSelic } from "@/functions/observatorio/selic/getSelic";
 import { getIPCAAcc } from "@/functions/observatorio/ipca/getIPCAAcc";
 import { getAirport } from "@/components/observatorio/panorama/functions/getAirport";
 import { getPIB } from "@/functions/observatorio/pib/getPIB";
-import { LineGraph } from "@/components/observatorio/panorama/graphs/LineGraph";
-import { BarGraph } from "@/components/observatorio/panorama/graphs/BarGraph";
-import { BarGraphHorizontal } from "@/components/observatorio/panorama/graphs/BarGraphHorizontal";
-import PieChartColor from "@/components/observatorio/panorama/graphs/PieChart";
+import { LineGraph } from "@/components/@global/charts/temp/panorama/LineGraph";
+import { BarGraph } from "@/components/@global/charts/temp/panorama/BarGraph";
+import { BarGraphHorizontal } from "@/components/@global/charts/temp/panorama/BarGraphHorizontal";
+import PieChartColor from "@/components/@global/charts/temp/panorama/PieChart";
 import {
   formatMonth1,
   formatMonth2,
