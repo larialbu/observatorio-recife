@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { preparePassageirosPorAeroportoData } from "@/utils/process_data/observatorio/aeroporto/passageirosPorAeroporto";
 import ScrollableBarChart from "@/components/@global/charts/ScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { preparePassageirosPorAeroportoData } from "@/functions/process_data/observatorio/aeroporto/passageirosPorAeroporto";
 
 const PassageirosPorAeroporto = ({
   data,
@@ -18,9 +18,7 @@ const PassageirosPorAeroporto = ({
         data={chartData}
         title={title}
         xKey="aeroporto"
-        bars={[
-          { dataKey: "total", name: "Passageiros" },
-        ]}
+        bars={[{ dataKey: "total", name: "Passageiros" }]}
         colors={ColorPalette.default}
         yAxisFormatter={(value: number) =>
           new Intl.NumberFormat("pt-BR", {

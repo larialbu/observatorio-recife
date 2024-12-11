@@ -9,7 +9,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { formatVal } from "../../../../../functions/observatorio/ipca/formatVal";
+import { formatVal } from "../../../../../functions/process_data/observatorio/ipca/formatVal";
 import { NavigationChart } from "../../../../observatorio/NavigationChart";
 import ChartGrabber from "../../../../observatorio/ChartGrabber";
 

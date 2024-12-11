@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { processDecolagensPorAeroporto } from "@/utils/process_data/observatorio/aeroporto/decolagemPorAeroporto";
 import VerticalScrollableBarChart from "@/components/@global/charts/ScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { processDecolagensPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/decolagemPorAeroporto";
 
 const DecolagensPorAeroporto = ({
   data = [],

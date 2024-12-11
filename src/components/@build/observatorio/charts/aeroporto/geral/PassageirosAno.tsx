@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { processPassageirosAno } from "@/utils/process_data/observatorio/aeroporto/passageirosAno";
 import ChartGrabber from "@/components/observatorio/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { processPassageirosAno } from "@/functions/process_data/observatorio/aeroporto/passageirosAno";
 
 const PassageirosAno = ({
   data = [],
@@ -13,9 +13,8 @@ const PassageirosAno = ({
   title = "Passageiros ao Longo do Ano",
   year,
 }: any) => {
-
   const chartData = processPassageirosAno(data, year, "RECIFE");
-  console.log(chartData)
+  console.log(chartData);
 
   return (
     <div className="relative bg-white w-full p-4">

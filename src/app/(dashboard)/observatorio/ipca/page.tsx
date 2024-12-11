@@ -25,7 +25,7 @@ import {
   getIPCACards,
   getIPCAMonth,
   tableInfos,
-} from "@/functions/observatorio/ipca/exportFunctions";
+} from "@/functions/process_data/observatorio/ipca/exportFunctions";
 import { SelectMonth } from "@/components/random_temp/SelectMonth";
 
 //API

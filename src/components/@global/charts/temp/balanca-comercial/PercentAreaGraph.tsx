@@ -8,7 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { formatNumber } from "../../../../../functions/observatorio/balanca-comercial/formatNumber";
+import { formatNumber } from "../../../../../functions/process_data/observatorio/balanca-comercial/formatNumber";
 import ChartGrabber from "../../../../observatorio/ChartGrabber";
 
 const toPercent = (decimal: any, fixed = 0) =>

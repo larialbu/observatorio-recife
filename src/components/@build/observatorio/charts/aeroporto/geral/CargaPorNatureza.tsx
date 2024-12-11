@@ -1,15 +1,18 @@
 "use client";
 
 import React from "react";
-import { prepareCargasPorNaturezaData } from "@/utils/process_data/observatorio/aeroporto/cargaPorNatureza";
 import PieChart from "@/components/@global/charts/PieChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { prepareCargasPorNaturezaData } from "@/functions/process_data/observatorio/aeroporto/cargaPorNatureza";
 
-const CargasPorNatureza = ({ data, title = "Cargas por Natureza do Voo" , year}: any) => {
+const CargasPorNatureza = ({
+  data,
+  title = "Cargas por Natureza do Voo",
+  year,
+}: any) => {
   const chartData = prepareCargasPorNaturezaData(data, year, "RECIFE");
   console.log("Dados brutos:", data);
   console.log("Dados processados:", chartData);
-
 
   return (
     <div className="relative bg-white w-full p-4">

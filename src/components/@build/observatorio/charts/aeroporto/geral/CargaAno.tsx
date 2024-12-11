@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { processCargaAno } from "@/utils/process_data/observatorio/aeroporto/cargaAno";
 import ChartGrabber from "@/components/observatorio/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { processCargaAno } from "@/functions/process_data/observatorio/aeroporto/cargaAno";
 
 const CargaAno = ({
   data = [],
