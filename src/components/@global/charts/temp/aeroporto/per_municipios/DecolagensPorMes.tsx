@@ -1,9 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-import ChartGrabber from '@/components/observatorio/ChartGrabber';
+import React, { useState, useEffect } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 
 const formatNumber = (value: number) => {
-  return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
+  return new Intl.NumberFormat("pt-BR", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
 };
 
 interface GraficoDecolagensPorMesAnoProps {
@@ -13,7 +25,12 @@ interface GraficoDecolagensPorMesAnoProps {
   color: Array<string>;
 }
 
-const GraficoDecolagensPorMesAno: React.FC<GraficoDecolagensPorMesAnoProps> = ({ data, municipio, year, color }) => {
+const GraficoDecolagensPorMesAno: React.FC<GraficoDecolagensPorMesAnoProps> = ({
+  data,
+  municipio,
+  year,
+  color,
+}) => {
   const [showRecife, setShowRecife] = useState(true);
   const [windowWidth, setWindowWidth] = useState(768);
 
@@ -26,12 +43,12 @@ const GraficoDecolagensPorMesAno: React.FC<GraficoDecolagensPorMesAnoProps> = ({
 
     if (typeof window !== "undefined") {
       setWindowWidth(window.innerWidth);
-      window.addEventListener('resize', handleResize);
+      window.addEventListener("resize", handleResize);
     }
 
     return () => {
       if (typeof window !== "undefined") {
-        window.removeEventListener('resize', handleResize);
+        window.removeEventListener("resize", handleResize);
       }
     };
   }, []);
@@ -69,33 +86,56 @@ const GraficoDecolagensPorMesAno: React.FC<GraficoDecolagensPorMesAnoProps> = ({
           className="text-center font-semibold mb-4"
           style={{ fontSize: `${titleFontSize}px` }}
         >
-          Decolagens em {municipio} ({year}) {showRecife && "e Recife para Comparação"}
+          Decolagens em {municipio} ({year}){" "}
+          {showRecife && "e Recife para Comparação"}
         </h3>
         <div className="text-center mb-4 button-container">
           <button
             onClick={() => setShowRecife(!showRecife)}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            {showRecife ? 'Ocultar Recife' : 'Mostrar Recife'}
+            {showRecife ? "Ocultar Recife" : "Mostrar Recife"}
           </button>
         </div>
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={chartData} margin={{ top: 10, right: 20, left: 5, bottom: 5 }}>
+          <LineChart
+            data={chartData}
+            margin={{ top: 10, right: 20, left: 5, bottom: 5 }}
+          >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="mes"
               tick={{ fontSize: tickFontSize }}
-              label={{ value: "Meses", position: "insideBottomRight", offset: -5 }}
+              label={{
+                value: "Meses",
+                position: "insideBottomRight",
+                offset: -5,
+              }}
             />
             <YAxis
               tick={{ fontSize: tickFontSize }}
-              label={{ value: "Decolagens", angle: -90, position: "insideLeft", fontSize: 12  }}
+              label={{
+                value: "Decolagens",
+                angle: -90,
+                position: "insideLeft",
+                fontSize: 12,
+              }}
             />
             <Tooltip formatter={(value) => formatNumber(value as number)} />
             <Legend />
-            <Line type="monotone" dataKey={municipio} stroke={color[0]} strokeWidth={2} />
+            <Line
+              type="monotone"
+              dataKey={municipio}
+              stroke={color[0]}
+              strokeWidth={2}
+            />
             {showRecife && (
-              <Line type="monotone" dataKey="recife" stroke={color[1]} strokeWidth={2} />
+              <Line
+                type="monotone"
+                dataKey="recife"
+                stroke={color[1]}
+                strokeWidth={2}
+              />
             )}
           </LineChart>
         </ResponsiveContainer>

@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { formatVal } from "../../../../../functions/process_data/observatorio/ipca/formatVal";
-import ChartGrabber from "../../../../observatorio/ChartGrabber";
+import ChartGrabber from "../../../features/ChartGrabber";
 
 export const LineGraph = ({
   title,

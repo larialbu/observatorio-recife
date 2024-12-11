@@ -7,7 +7,7 @@ import {
   ResponsiveContainer,
   Text,
 } from "recharts";
-import ChartGrabber from "../../../../observatorio/ChartGrabber";
+import ChartGrabber from "../../../features/ChartGrabber";
 import { NavigationChart } from "../../../../observatorio/NavigationChart";
 
 // formatar os números com separadores de milhares (sem casas decimais)

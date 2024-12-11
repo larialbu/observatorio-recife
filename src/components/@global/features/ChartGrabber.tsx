@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import html2canvas from "html2canvas";
-import OptionsMenu from "./OptionsMenu";
+import OptionsMenu from "../../observatorio/OptionsMenu";
 
 const ChartGrabber = ({
   children,

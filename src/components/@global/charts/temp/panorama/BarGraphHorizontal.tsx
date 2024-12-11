@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { NavigationChart } from "../../../../observatorio/NavigationChart";
-import ChartGrabber from "../../../../observatorio/ChartGrabber";
+import ChartGrabber from "../../../features/ChartGrabber";
 
 export const formatNumber = (value: any) => {
   return new Intl.NumberFormat("pt-BR", {

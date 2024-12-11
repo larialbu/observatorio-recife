@@ -7,7 +7,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import ChartGrabber from "../../../../observatorio/ChartGrabber";
+import ChartGrabber from "../../../features/ChartGrabber";
 
 // formatar números com separador de milhares e casas decimais
 const formatNumber = (value: number) => {

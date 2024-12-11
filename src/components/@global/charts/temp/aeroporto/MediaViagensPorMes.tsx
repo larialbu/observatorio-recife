@@ -1,4 +1,4 @@
-import ChartGrabber from "../../../../observatorio/ChartGrabber";
+import ChartGrabber from "../../../features/ChartGrabber";
 import { useState, useEffect } from "react";
 import {
   LineChart,

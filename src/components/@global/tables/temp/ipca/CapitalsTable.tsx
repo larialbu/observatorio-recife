@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ChartGrabber from "../../../../observatorio/ChartGrabber";
+import ChartGrabber from "../../../features/ChartGrabber";
 
 interface IPCAData {
   Capital: string;

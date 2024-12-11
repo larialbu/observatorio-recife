@@ -8,7 +8,7 @@ import {
   Legend,
   Cell,
 } from "recharts";
-import ChartGrabber from "../../../../observatorio/ChartGrabber";
+import ChartGrabber from "../../../features/ChartGrabber";
 
 // abreviando o nome das companhias
 const abbreviateCompanyName = (name: string) => {

@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { formatVal } from "../../../../../functions/process_data/observatorio/ipca/formatVal";
 import { NavigationChart } from "../../../../observatorio/NavigationChart";
-import ChartGrabber from "../../../../observatorio/ChartGrabber";
+import ChartGrabber from "../../../features/ChartGrabber";
 
 export const LineGraph = ({
   title,

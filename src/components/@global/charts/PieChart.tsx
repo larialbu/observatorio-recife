@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import {
   PieChart as RechartsPieChart,
   Pie,
@@ -11,13 +11,21 @@ import {
 const PieChart = ({
   data,
   title,
+  underTitle,
   dataKey,
   nameKey,
   colors = [],
   showPercentages = true,
-}: any) => {
+}: {
+  data: any;
+  title: string;
+  underTitle?: ReactNode;
+  dataKey: string;
+  nameKey: string;
+  colors: string[];
+  showPercentages: boolean;
+}) => {
   const [outerRadius, setOuterRadius] = useState(120);
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -66,6 +74,7 @@ const PieChart = ({
   return (
     <div className="relative bg-white w-full h-full p-4">
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
+      {underTitle}
       <ResponsiveContainer width="100%" height={300}>
         <RechartsPieChart>
           <Pie
@@ -85,7 +94,9 @@ const PieChart = ({
               />
             ))}
           </Pie>
-          <Tooltip formatter={(value: number) => `${value.toLocaleString("pt-BR")} kg`} />
+          <Tooltip
+            formatter={(value: number) => `${value.toLocaleString("pt-BR")} kg`}
+          />
         </RechartsPieChart>
       </ResponsiveContainer>
 

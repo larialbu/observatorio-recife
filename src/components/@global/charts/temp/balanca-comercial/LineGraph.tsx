@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { formatNumber } from "../../../../../functions/process_data/observatorio/balanca-comercial/formatNumber";
-import ChartGrabber from "../../../../observatorio/ChartGrabber";
+import ChartGrabber from "../../../features/ChartGrabber";
 
 export const LineGraph = ({
   title,

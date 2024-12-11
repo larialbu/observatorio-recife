@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ChartGrabber from "../../../../observatorio/ChartGrabber";
+import ChartGrabber from "../../../features/ChartGrabber";
 import { ResultSH4 } from "@/@types/observatorio/balanca-comercial/resultSH4";
 
 interface ResultTableProps {

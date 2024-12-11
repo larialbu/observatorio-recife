@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ChartGrabber from "@/components/observatorio/ChartGrabber";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processPassageirosAno } from "@/functions/process_data/observatorio/aeroporto/passageirosAno";

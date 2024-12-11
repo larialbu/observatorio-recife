@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { formatNumber } from "../../../../../functions/process_data/observatorio/balanca-comercial/formatNumber";
-import ChartGrabber from "../../../../observatorio/ChartGrabber";
+import ChartGrabber from "../../../features/ChartGrabber";
 
 const toPercent = (decimal: any, fixed = 0) =>
   `${(decimal * 100).toFixed(fixed)}%`;
