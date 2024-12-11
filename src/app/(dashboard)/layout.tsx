@@ -1,7 +1,7 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import { Sidebar } from "@/components/Sidebar";
+import Navbar from "@/components/random_temp/Navbar";
+import { Sidebar } from "@/components/random_temp/Sidebar";
 import { DashboardProvider } from "@/context/DashboardContext";
 import { usePathname } from "next/navigation";
 

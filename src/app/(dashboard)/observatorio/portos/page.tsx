@@ -1,7 +1,7 @@
-import AttendanceChart from "@/components/AttendanceChart";
-import CountChart from "@/components/CountChart";
-import FinanceChart from "@/components/FinanceChart";
-import UserCard from "@/components/UserCard";
+import AttendanceChart from "@/components/random_temp/AttendanceChart";
+import CountChart from "@/components/random_temp/CountChart";
+import FinanceChart from "@/components/random_temp/FinanceChart";
+import UserCard from "@/components/random_temp/UserCard";
 
 const AdminPage = () => {
   return (

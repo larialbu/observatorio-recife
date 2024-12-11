@@ -93,7 +93,7 @@ const ChartGrabber = ({
           isFullScreen ? "flex items-center justify-center pr-4 pl-4" : ""
         }`}
       >
-        <div className={``}>
+        <div className={`absolute w-[100%] h-full`}>
           <OptionsMenu
             left={left}
             onDownload={handleDownload}
@@ -104,7 +104,7 @@ const ChartGrabber = ({
           />
         </div>
 
-        <div className={`${isFullScreen ? "" : ""}`}>{children}</div>
+        <div className={`${isFullScreen ? "" : ""} z-10`}>{children}</div>
       </div>
 
       {/* Container temp para captura */}

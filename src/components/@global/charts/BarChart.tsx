@@ -2,14 +2,21 @@ import React from "react";
 import { BarChart as RechartsBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 const BarChart = ({ data, title, colors, xKey, bars }: any) => {
+
+  console.log("Data:", data);
     return (
-      <div className="relative bg-white">
+      <div className="relative w-full h-full">
         <h3 className="text-center mb-4 font-semibold">{title}</h3>
-        <ResponsiveContainer width="100%" height={400}>
-          <RechartsBarChart data={data} margin={{ top: 20, right: 20, left: 30, bottom: 5 }}>
+        <ResponsiveContainer width="100%" height={300}>
+          <RechartsBarChart data={data} margin={{ top: 20, right: 20, left: 5, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey={xKey} />
-            <YAxis />
+            <XAxis 
+            dataKey={xKey} 
+            tick={{ fontSize: 12 }}
+            />
+            <YAxis 
+              tick={{ fontSize: 12 }}
+            />
             <Tooltip />
             <Legend />
             {bars.map((bar: any, index: any) => (
@@ -20,5 +27,5 @@ const BarChart = ({ data, title, colors, xKey, bars }: any) => {
       </div>
     );
 };
-  
+
 export default BarChart;

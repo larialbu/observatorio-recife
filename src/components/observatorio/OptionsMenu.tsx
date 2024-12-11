@@ -17,7 +17,7 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
 
   return (
     <div
-      className={`absolute ${
+      className={`absolute z-20 ${
         isFullScreen
           ? `${
               left

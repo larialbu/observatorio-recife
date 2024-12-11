@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useDashboard } from "@/context/DashboardContext";
-import { SelectMuni } from "@/components/SelectMuni";
+import { SelectMuni } from "@/components/random_temp/SelectMuni";
 import { PaginatedTable } from "@/components/observatorio/global/PaginedTable";
 
 import CardBalance from "@/components/observatorio/balancaComercial/cards/CardBalance";

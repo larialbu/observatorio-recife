@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AttendanceChart from "@/components/AttendanceChart";
-import CountChart from "@/components/CountChart";
-import FinanceChart from "@/components/FinanceChart";
+import AttendanceChart from "@/components/random_temp/AttendanceChart";
+import CountChart from "@/components/random_temp/CountChart";
+import FinanceChart from "@/components/random_temp/FinanceChart";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { useDashboard } from "@/context/DashboardContext";
 import { getCompany } from "@/functions/observatorio/empresas/getCompaniesGroups";

@@ -9,7 +9,7 @@ import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
 import { Footer } from "@/components/home/Footer";
 import { NavBarHome } from "@/components/home/NavBarHome";
 import { useState } from "react";
-import { ModalBoletim } from "@/components/ModalBoletim";
+import { ModalBoletim } from "@/components/random_temp/ModalBoletim";
 
 const boletins = [
     { name: "SDECTI - Edição 09 2023", link: "https://desenvolvimentoeconomico.recife.pe.gov.br/sites/default/files/2023-12/BASE%20BOLETIM%209%202023.pdf" },
