@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
-import Card from "@/components/@global/cards/Card";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+// IMPORTE AQUI NOVAS GUIAS 
+import Geral from "./(geral)/geral";
+//import Estatisticas from "./(estatisticas)/estatisticas";
 
 const AeroportosPage = () => {
   const { year } = useDashboard();
@@ -13,93 +15,7 @@ const AeroportosPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Array de gráficos
-  const charts = [
-    {
-      Component: React.lazy(
-        () =>
-          import(
-            "@/components/@build/observatorio/charts/aeroporto/geral/EmbarqueDesembarqueRegiao"
-          )
-      ),
-      title: "Embarque e Desembarque por Região",
-    },
-    {
-      Component: React.lazy(
-        () =>
-          import(
-            "@/components/@build/observatorio/charts/aeroporto/geral/PassageirosAno"
-          )
-      ),
-    },
-    {
-      Component: React.lazy(
-        () =>
-          import(
-            "@/components/@build/observatorio/charts/aeroporto/geral/CargaAno"
-          )
-      ),
-    },
-    {
-      Component: React.lazy(
-        () =>
-          import(
-            "@/components/@build/observatorio/charts/aeroporto/geral/CargaPorNatureza"
-          )
-      ),
-    },
-    {
-      Component: React.lazy(
-        () =>
-          import(
-            "@/components/@build/observatorio/charts/aeroporto/geral/PassageirosPorAeroporto"
-          )
-      ),
-    },
-    {
-      Component: React.lazy(
-        () =>
-          import(
-            "@/components/@build/observatorio/charts/aeroporto/geral/CargaPorAeroporto"
-          )
-      ),
-    },
-    {
-      Component: React.lazy(
-        () =>
-          import(
-            "@/components/@build/observatorio/charts/aeroporto/geral/DecolagemPorAeroporto"
-          )
-      ),
-    },
-    {
-      Component: React.lazy(
-        () =>
-          import(
-            "@/components/@build/observatorio/charts/aeroporto/geral/PassageirosPorNatureza"
-          )
-      ),
-    },
-  ];
-
-  const cards = [
-    {
-      Component: React.lazy(
-        () =>
-          import(
-            "@/components/@build/observatorio/cards/aeroporto/geral/PassageirosMesRecente"
-          )
-      ),
-    },
-    {
-      Component: React.lazy(
-        () =>
-          import(
-            "@/components/@build/observatorio/cards/aeroporto/geral/CargasMesRecente"
-          )
-      ),
-    },
-  ];
+  const [activeTab, setActiveTab] = useState("geral"); // ESTADO INICIAL DA GUIA
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,7 +27,6 @@ const AeroportosPage = () => {
         setData(fetchedData);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
-
         setError("Erro ao buscar os dados. Tente novamente mais tarde.");
       } finally {
         setLoading(false);
@@ -124,43 +39,46 @@ const AeroportosPage = () => {
   if (loading) return <LoadingScreen />;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
 
+  const renderContent = () => {
+    switch (activeTab) {
+      case "geral":
+        return <Geral data={data} year={year} />;
+      case "embarque":
+        return "oi";
+      default:
+        return <Geral data={data} year={year} />;
+    }
+  };
+
   return (
     <div className="p-6 min-h-screen">
       <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">
         Movimentação de Aeroportos
       </h1>
-      <div className=" flex items-center justify-between mb-6">
-        <button>aa</button>
-        <h2 className="text-2xl font-bold text-gray-800">Resumo Geral</h2>
-        <button>aa</button>
+
+      {/* Navegação entre guias */}
+      <div className="flex justify-center gap-4 mb-6">
+        <button
+          onClick={() => setActiveTab("geral")}
+          className={`px-4 py-2 rounded ${
+            activeTab === "geral" ? "bg-blue-500 text-white" : "bg-gray-200"
+          }`}
+        >
+          Resumo Geral
+        </button>
+        <button
+          onClick={() => setActiveTab("embarque")}
+          className={`px-4 py-2 rounded ${
+            activeTab === "embarque" ? "bg-blue-500 text-white" : "bg-gray-200"
+          }`}
+        >
+          Estatísticas
+        </button>
+        {/* VÁ COLOCANDO BOTÕES ONDE PRECISA */}
       </div>
 
-      <div className="flex flex-wrap gap-4 justify-center mb-8">
-        {cards.map(({ Component }, index) => (
-          <React.Suspense fallback={<LoadingScreen />}>
-            <Component
-              local={"Recife"}
-              data={data}
-              year={year}
-              color={ColorPalette.default[index]}
-            />
-          </React.Suspense>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
-        {charts.map(({ Component, title }, index) => (
-          <div
-            key={index}
-            className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
-          >
-            <React.Suspense fallback={<LoadingScreen />}>
-              {/* <h3 className="text-lg font-semibold mb-4">{title}</h3> */}
-              <Component data={data} year={year} />
-            </React.Suspense>
-          </div>
-        ))}
-      </div>
+      {/* RENDERIZAR CONTEÚDO COM BASE NA GUIA ATIVA */}
+      {renderContent()}
     </div>
   );
 };
