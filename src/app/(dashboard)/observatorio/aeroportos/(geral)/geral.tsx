@@ -13,6 +13,7 @@ const Geral = ({ data, year }: { data: any; year: string }) => (
             data={data}
             year={year}
             color={ColorPalette.default[index]}
+            date={[10, 12]}
           />
         </React.Suspense>
       ))}

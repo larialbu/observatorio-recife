@@ -1,16 +1,17 @@
 import Card from "@/components/@global/cards/Card";
-import { processPassageirosMes } from "@/functions/process_data/observatorio/aeroporto/cards/passageirosMesRecente";
+import { processDecolagensMes } from "@/functions/process_data/observatorio/aeroporto/cards/decolagensMesRecente";
 import { dateArrFormatter } from "@/utils/formatters/@global/dateArrFormatter";
 
-const PassageirosMesRecente = ({
+const DecolagensMesRecente = ({
   data,
   date,
-  title = `Passageiros`,
   local,
+  title = `Decolagens`,
   year,
   color,
-}: any) => {
-  const chartData = processPassageirosMes(data, year, "RECIFE", date);
+}: any
+) => {
+  const chartData = processDecolagensMes(data, year, "RECIFE", date);
 
   const formatDate = `(${dateArrFormatter(date)})`
 
@@ -18,11 +19,11 @@ const PassageirosMesRecente = ({
     <Card
       local={local}
       title={`${title} ${formatDate}`}
-      data={chartData.passageiros}
+      data={chartData.decolagens}
       year={year}
       color={color}
     />
   );
 };
 
-export default PassageirosMesRecente;
+export default DecolagensMesRecente;

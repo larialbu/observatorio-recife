@@ -15,6 +15,13 @@ const cards = [
       )
     ),
   },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/cards/aeroporto/geral/DecolagensMesRecente"
+      )
+    ),
+  },
 ];
 
 export default cards;

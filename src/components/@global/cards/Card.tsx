@@ -26,7 +26,7 @@ const Card = ({
         </span>
       </div>
       <h1 className="text-2xl text-white font-semibold my-4">{data}</h1>
-      <h2 className="capitalize text-sm font-semibold text-white">{title}</h2>
+      <h2 className="  text-sm font-semibold text-white">{title}</h2>
     </div>
   );
 };
