@@ -10,14 +10,14 @@ export const aeroportoDataFilter = (data: any[], filters: any) => {
     // Aplica os filtros adicionais
     if (filters.additionalFilters) {
       return filters.additionalFilters.every((filter: any) => {
-        const filterValue = filter.value; // Valor do filtro atual
-        if (!filterValue) return true; // Ignora filtros sem valor
+        if (!filter.selected || filter.selected.length === 0) return true; // Ignora filtros sem seleção
 
-        // Normaliza para comparação
+        // Verifica se o valor do item está nos valores selecionados
         const itemValue = item[filter.label]?.toString()?.toUpperCase() || "";
-        const normalizedFilterValue = filterValue.toString()?.toUpperCase();
-
-        return itemValue === normalizedFilterValue;
+        const selectedValues = filter.selected.map((val: string) =>
+          val.toUpperCase()
+        );
+        return selectedValues.includes(itemValue); // Retorna true se o valor está entre os selecionados
       });
     }
 
