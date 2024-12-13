@@ -8,11 +8,11 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 
 const DecolagensPorAeroporto = ({
   data = [],
-  year,
   title = "Decolagens por Aeroporto",
   colors = ColorPalette.default,
 }: any) => {
-  const chartData = processDecolagensPorAeroporto(data, year);
+  // O filtro por ano já deve ser feito fora do componente
+  const chartData = processDecolagensPorAeroporto(data);
 
   return (
     <div className="relative bg-white w-full p-4">
@@ -23,8 +23,8 @@ const DecolagensPorAeroporto = ({
           xKey="aeroporto"
           bars={[{ dataKey: "totalDecolagens", name: "Decolagens" }]}
           colors={colors}
-          heightPerCategory={60} // Ajusta a altura por categoria para melhor visibilidade
-          visibleHeight={400} // Altura visível do gráfico
+          heightPerCategory={60} // Define a altura de cada barra
+          visibleHeight={400} // Define a altura visível para scroll
         />
       </ChartGrabber>
     </div>

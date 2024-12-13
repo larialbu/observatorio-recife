@@ -4,23 +4,23 @@ import React, { useEffect, useState } from "react";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
+import { aeroportoDataFilter } from "@/utils/filters/data_filters/aeroportoDataFilter";
 
-// IMPORTE AQUI NOVAS GUIAS 
+// Importa as guias
 import Geral from "./(geral)/geral";
-//import Estatisticas from "./(estatisticas)/estatisticas";
 
 const AeroportosPage = () => {
-  const { year } = useDashboard();
+  const { filters } = useDashboard();
   const [data, setData] = useState([]) as any;
+  const [filteredData, setFilteredData] = useState([]) as any;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const [activeTab, setActiveTab] = useState("geral"); // ESTADO INICIAL DA GUIA
+  const [activeTab, setActiveTab] = useState("geral");
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const aeroportoService = new AeroportoData(year);
+      const aeroportoService = new AeroportoData(filters.year);
 
       try {
         const fetchedData = await aeroportoService.fetchProcessedData();
@@ -34,7 +34,12 @@ const AeroportosPage = () => {
     };
 
     fetchData();
-  }, [year]);
+  }, [filters.year]);
+
+  useEffect(() => {
+    const filtered = aeroportoDataFilter(data, filters);
+    setFilteredData(filtered);
+  }, [data, filters]);
 
   if (loading) return <LoadingScreen />;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
@@ -42,11 +47,11 @@ const AeroportosPage = () => {
   const renderContent = () => {
     switch (activeTab) {
       case "geral":
-        return <Geral data={data} year={year} />;
+        return <Geral data={filteredData} />;
       case "embarque":
-        return "oi";
+        return "Estatísticas de Embarque";
       default:
-        return <Geral data={data} year={year} />;
+        return <Geral data={filteredData} />;
     }
   };
 
@@ -56,7 +61,6 @@ const AeroportosPage = () => {
         Movimentação de Aeroportos
       </h1>
 
-      {/* Navegação entre guias */}
       <div className="flex justify-center gap-4 mb-6">
         <button
           onClick={() => setActiveTab("geral")}
@@ -74,10 +78,8 @@ const AeroportosPage = () => {
         >
           Estatísticas
         </button>
-        {/* VÁ COLOCANDO BOTÕES ONDE PRECISA */}
       </div>
 
-      {/* RENDERIZAR CONTEÚDO COM BASE NA GUIA ATIVA */}
       {renderContent()}
     </div>
   );

@@ -13,7 +13,7 @@ const PassageirosAno = ({
   title = "Passageiros ao Longo do Ano",
   year,
 }: any) => {
-  const chartData = processPassageirosAno(data, year, "RECIFE");
+  const chartData = processPassageirosAno(data);
   console.log(chartData);
 
   return (

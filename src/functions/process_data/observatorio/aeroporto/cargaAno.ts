@@ -1,11 +1,6 @@
-export const processCargaAno = (
-  data: any[],
-  year: string,
-  aeroportoNome: string // Nome do aeroporto né, definido externamente
-) => {
+export const processCargaAno = (data: any[]) => {
   // Aqui é uma array com 12 objetos, sendo 1 para cada mês do ano né
   const meses = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
-
 
   // Inicializa os dados processados com os meses
   const processedData = meses.map((mes) => ({
@@ -15,8 +10,6 @@ export const processCargaAno = (
 
   // Agora percorremos os dados pra processar
   data.forEach((item) => {
-    if (item["ANO"] !== year || item["AEROPORTO NOME"] !== aeroportoNome) return;
-
     const carga = parseFloat(
       (item["CARGA"] || "0").replace(/\./g, "").replace(",", ".")
     ); // Aqui convertemos carga pra número, tirando pontuação

@@ -3,7 +3,7 @@ import charts from "./@imports/charts";
 import cards from "./@imports/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
-const Geral = ({ data, year }: { data: any; year: string }) => (
+const Geral = ({ data }: { data: any; }) => (
   <div>
     <div className="flex flex-wrap gap-4 justify-center mb-8">
       {cards.map(({ Component }, index) => (
@@ -11,7 +11,7 @@ const Geral = ({ data, year }: { data: any; year: string }) => (
           <Component
             local={"Recife"}
             data={data}
-            year={year}
+            year="2023"
             color={ColorPalette.default[index]}
             date={[10, 12]}
           />
@@ -26,7 +26,7 @@ const Geral = ({ data, year }: { data: any; year: string }) => (
           className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
         >
           <React.Suspense fallback={<div>Loading...</div>}>
-            <Component data={data} year={year} />
+            <Component data={data} />
           </React.Suspense>
         </div>
       ))}

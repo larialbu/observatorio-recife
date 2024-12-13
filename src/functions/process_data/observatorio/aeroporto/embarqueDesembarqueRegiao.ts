@@ -17,16 +17,12 @@ const abbreviateRegion = (region: string, windowWidth: number): string => {
   return region;
 };
 
-// Processa os dados para o gráfico
 export const processEmbarqueDesembarque = (
   data: any[],
-  year: string,
   nameKey: string,
   windowWidth: number
 ) => {
   const processedData = data.reduce((acc: any, item: any) => {
-    if (item["ANO"] !== year) return acc;
-
     let key = (item[nameKey] || "").trim().toUpperCase();
     const tipo = item["TIPO"];
     const passageiros = parseFloat(
@@ -46,12 +42,8 @@ export const processEmbarqueDesembarque = (
     }
 
     return acc;
-    
   }, {});
-  
-  return Object.values(processedData).map((item: any) => ({
-    ...item,
-    embarque: item.embarque,
-    desembarque: item.desembarque,
-  }));
+
+  return Object.values(processedData);
 };
+

@@ -11,7 +11,6 @@ const CargaAno = ({
   nameKey = "mes",
   colors = ColorPalette.default,
   title = "Carga Total ao Longo do Ano",
-  year,
 }: any) => {
   const [windowWidth, setWindowWidth] = useState(768);
 
@@ -34,7 +33,8 @@ const CargaAno = ({
     };
   }, []);
 
-  const chartData = processCargaAno(data, year, "RECIFE");
+  // Dados já filtrados são processados diretamente no gráfico
+  const chartData = processCargaAno(data);
 
   return (
     <div className="relative bg-white w-full p-4">

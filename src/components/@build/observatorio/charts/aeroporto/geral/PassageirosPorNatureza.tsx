@@ -13,7 +13,7 @@ const PassageirosPorNatureza = ({
   year,
 }: any) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = preparePassageirosPorNaturezaData(data, year, "RECIFE");
+  const chartData = preparePassageirosPorNaturezaData(data);
   console.log("Dados brutos:", data);
   console.log("Dados processados:", chartData);
 

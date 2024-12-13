@@ -11,7 +11,7 @@ const EmbarqueDesembarqueRegiao = ({
   nameKey = "AEROPORTO REGIÃO",
   colors = ColorPalette.default,
   title = "Embarque e Desembarque por Região",
-  year,
+  
 }: any) => {
   const [windowWidth, setWindowWidth] = useState(768);
 
@@ -36,7 +36,6 @@ const EmbarqueDesembarqueRegiao = ({
 
   const chartData = processEmbarqueDesembarque(
     data,
-    year,
     nameKey,
     windowWidth
   );

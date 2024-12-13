@@ -11,7 +11,7 @@ const PassageirosPorAeroporto = ({
   title = "Passageiros por Aeroporto",
   year,
 }: any) => {
-  const chartData = preparePassageirosPorAeroportoData(data, year);
+  const chartData = preparePassageirosPorAeroportoData(data);
 
   return (
     <div className="relative bg-white w-full p-4">
@@ -31,7 +31,7 @@ const PassageirosPorAeroporto = ({
           tooltipFormatter={(value: number) =>
             `${value.toLocaleString("pt-BR")} passageiros`
           }
-          height={500} // Altura ajustável
+          height={500}
         />
       </ChartGrabber>
     </div>

@@ -1,42 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
-import PieChart from "@/components/@global/charts/PieChart";
+import React from "react";
+import VerticalScrollableBarChart from "@/components/@global/charts/ScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { prepareCargasPorNaturezaData } from "@/functions/process_data/observatorio/aeroporto/cargaPorNatureza";
+import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/cargaPorAeroporto";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 
-const CargasPorNatureza = ({
-  data,
-  title = "Cargas por Natureza do Voo",
-  year,
+const CargaPorAeroporto = ({
+  data = [],
+  title = "Carga por Aeroporto",
+  colors = ColorPalette.default,
 }: any) => {
-  const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = prepareCargasPorNaturezaData(data, year, "RECIFE");
-  console.log("Dados brutos:", data);
-  console.log("Dados processados:", chartData);
+  // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
+  const chartData = processCargaPorAeroporto(data);
 
   return (
     <div className="relative bg-white w-full p-4">
       <ChartGrabber>
-        <PieChart
+        <VerticalScrollableBarChart
           data={chartData}
           title={title}
-          underTitle={
-            <ShowPercentages
-              showPercentage={showPercentage}
-              setShowPercentage={setShowPercentage}
-            />
-          }
-          dataKey="total"
-          nameKey="natureza"
-          colors={ColorPalette.default}
-          showPercentages={showPercentage}
+          colors={colors}
+          xKey="aeroporto"
+          bars={[{ dataKey: "totalCarga", name: "Carga (kg)" }]}
+          height={400} // Altura do viewport visível para scroll
+          barSize={30} // Altura individual de cada barra
         />
       </ChartGrabber>
     </div>
   );
 };
 
-export default CargasPorNatureza;
+export default CargaPorAeroporto;

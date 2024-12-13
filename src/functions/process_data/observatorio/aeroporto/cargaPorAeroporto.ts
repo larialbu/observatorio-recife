@@ -1,24 +1,22 @@
-export const processCargaPorAeroporto = (data: any[], year: string) => {
-    const processedData = data.reduce((acc: any, item: any) => {
-      if (item["ANO"] !== year) return acc; // Filtra pelo ano
-  
-      const aeroporto = item["AEROPORTO NOME"] || "Indefinido"; // Caso não tenha nome, define como Indefinido
-      const carga = parseFloat(
-        (item["CARGA"] || "0").replace(/\./g, "").replace(",", ".")
-      ); // Converte para número
-  
-      if (!acc[aeroporto]) {
-        acc[aeroporto] = { aeroporto, totalCarga: 0 }; // Inicializa com carga zero
-      }
-  
-      acc[aeroporto].totalCarga += carga; // Soma a carga no aeroporto correspondente
-  
-      return acc;
-    }, {});
-  
-    // Converte o objeto em um array e ordena pelos maiores valores
-    return Object.values(processedData).sort(
-      (a: any, b: any) => b.totalCarga - a.totalCarga
-    );
-  };
-  
+export const processCargaPorAeroporto = (data: any[]) => {
+  // Reduz os dados para calcular a carga total por aeroporto
+  const processedData = data.reduce((acc: any, item: any) => {
+    const aeroporto = item["AEROPORTO NOME"] || "Indefinido";
+    const carga = parseFloat(
+      (item["CARGA"] || "0").replace(/\./g, "").replace(",", ".")
+    ); // Converte a carga para número
+
+    if (!acc[aeroporto]) {
+      acc[aeroporto] = { aeroporto, totalCarga: 0 };
+    }
+
+    acc[aeroporto].totalCarga += carga;
+
+    return acc;
+  }, {});
+
+  // Converte o objeto em uma lista e ordena pela carga total (descendente)
+  return Object.values(processedData).sort(
+    (a: any, b: any) => b.totalCarga - a.totalCarga
+  );
+};

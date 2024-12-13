@@ -3,27 +3,20 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 
 interface DashboardContextProps {
-  year: string;
-  setYear: (year: string) => void;
-  availableYears: string[];
-  setAvailableYears: (years: string[]) => void;
+  filters: Record<string, any>; // Para armazenar os filtros
+  setFilters: (filters: Record<string, any>) => void;
 }
 
 const DashboardContext = createContext<DashboardContextProps | undefined>(undefined);
 
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
-  const [year, setYear] = useState("2023"); // ano padrão inicial
-  const [availableYears, setAvailableYears] = useState<string[]>([]);
+  const [filters, setFilters] = useState<Record<string, any>>({
+    year: "2023", // Ano padrão inicial
+    additionalFilters: [], // Filtros adicionais
+  });
 
   return (
-    <DashboardContext.Provider
-      value={{
-        year,
-        setYear,
-        availableYears,
-        setAvailableYears,
-      }}
-    >
+    <DashboardContext.Provider value={{ filters, setFilters }}>
       {children}
     </DashboardContext.Provider>
   );
