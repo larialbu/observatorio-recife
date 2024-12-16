@@ -7,6 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  Cell
 } from "recharts";
 
 const VerticalScrollableBarChart = ({
@@ -25,7 +26,7 @@ const VerticalScrollableBarChart = ({
   let totalHeight = data.length * heightPerCategory;
 
   //If para terminar uma espécie de "altura mínima"
-  if(data.length <= 5) totalHeight = 150;
+  if(data.length <= 5) totalHeight = 300;
 
   return (
     <div className="relative bg-white w-full p-4">
@@ -63,9 +64,14 @@ const VerticalScrollableBarChart = ({
               <Bar
                 key={index}
                 dataKey={bar.dataKey}
-                fill={colors[index % colors.length]}
                 name={bar.name}
-              />
+              >
+                {data.map((entry: any, dataIndex: any) => {
+                  const color =
+                    entry[xKey] === "RECIFE" ? colors[index % colors.length + 1] : colors[index % colors.length]; // Cor condicional
+                  return <Cell key={`cell-${dataIndex}`} fill={color} />;
+                })}
+              </Bar>
             ))}
           </RechartsBarChart>
         </div>

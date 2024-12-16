@@ -36,7 +36,7 @@ const Navbar = () => {
     setDropdowns((prev) => ({ ...prev, [filterLabel]: !prev[filterLabel] }));
 
   const handleTimePeriodChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilters((prev: any) => ({ ...prev, year: event.target.value }));
+    setFilters((prev: any) => ({ ...prev, year: event.target.value || "2023" }));
   };
 
   const handleCheckboxChange = (filterLabel: string, value: string) => {
@@ -91,11 +91,11 @@ const Navbar = () => {
             {/* Filtro de Ano */}
             {isClient && (
               <div className="flex flex-col">
-                <label className="text-xs font-medium text-gray-600 block mb-1">Ano</label>
+                <label className="text-xs font-medium text-gray-600 block mb-1">ANO</label>
                 <select
                   value={filters.year}
                   onChange={handleTimePeriodChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 text-sm text-gray-700 transition"
+                  className="w-full px-3 py-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 text-sm text-gray-700 transition"
                 >
                   {filters.years?.map((year: string) => (
                     <option key={year} value={year}>
@@ -122,14 +122,20 @@ const Navbar = () => {
                   <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10">
                     <div className="p-4 max-h-60 overflow-y-auto">
                       <button
-                        onClick={() => handleSelectAll(filter.label)}
-                        className="text-blue-600 text-sm font-medium hover:underline mb-2 block focus:outline-none"
+                          onClick={() => handleSelectAll(filter.label)}
+                          className="text-blue-600 font-medium hover:underline block focus:outline-none"
                       >
-                        {filter.selected?.length === filter.options.length
-                          ? "Desselecionar Todos"
-                          : "Selecionar Todos"}
+                        {
+                          filter.selected?.length === filter.options.length 
+                              ? "Desselecionar Todos"
+                              : "Selecionar Todos"
+                        }
                       </button>
-                      {filter.options.map((option: string) => (
+
+                      {filter.options
+                      .slice()
+                      .sort((a: any, b: any) => a - b)
+                      .map((option: string) => (
                         <label key={option} className="flex items-center gap-2 py-1 text-sm text-gray-700">
                           <input
                             type="checkbox"

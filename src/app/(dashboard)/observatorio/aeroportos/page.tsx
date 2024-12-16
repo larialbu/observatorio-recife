@@ -5,12 +5,14 @@ import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
 import { aeroportoDataFilter } from "@/utils/filters/data_filters/aeroportoDataFilter";
+import { aeroportosFilters } from "@/utils/filters/aeroportoFilters";
+import { processFilters } from "@/utils/filters/@global/processFilters";
 
 // Importa as guias
 import Geral from "./(geral)/geral";
 
 const AeroportosPage = () => {
-  const { filters } = useDashboard();
+  const { filters, setFilters } = useDashboard();
   const [data, setData] = useState([]) as any;
   const [filteredData, setFilteredData] = useState([]) as any;
   const [loading, setLoading] = useState(false);
@@ -20,11 +22,17 @@ const AeroportosPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const aeroportoService = new AeroportoData(filters.year);
-
       try {
+        const aeroportoService = new AeroportoData(filters.year || "2023");
         const fetchedData = await aeroportoService.fetchProcessedData();
         setData(fetchedData);
+  
+        // Atualiza filtros dinamicamente
+        const dynamicFilters = processFilters(fetchedData, aeroportosFilters);
+        setFilters((prevFilters: any) => ({
+          ...prevFilters,
+          additionalFilters: dynamicFilters.additionalFilters,
+        }));
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
         setError("Erro ao buscar os dados. Tente novamente mais tarde.");
@@ -32,9 +40,10 @@ const AeroportosPage = () => {
         setLoading(false);
       }
     };
-
+  
     fetchData();
   }, [filters.year]);
+  
 
   useEffect(() => {
     const filtered = aeroportoDataFilter(data, filters);

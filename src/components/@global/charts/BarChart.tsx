@@ -3,7 +3,6 @@ import { BarChart as RechartsBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip
 
 const BarChart = ({ data, title, colors, xKey, bars }: any) => {
 
-  console.log("Data:", data);
     return (
       <div className="relative w-full h-full">
         <h3 className="text-center mb-4 font-semibold">{title}</h3>

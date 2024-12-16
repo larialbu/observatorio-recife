@@ -3,18 +3,28 @@ export const aeroportosFilters = {
   additionalFilters: [
     {
       label: "NATUREZA", // Deve corresponder exatamente à chave nos dados
-      options: ["Doméstica", "Internacional"], // Opções alinhadas aos valores da chave
+      options: ["Doméstica", "Internacional"], // Já definido manualmente
       selected: [],
     },
     {
-      label: "AEROPORTO REGIÃO", // Alterado para corresponder ao objeto de saída
-      options: ["Norte", "Nordeste", "Sul", "Sudeste", "Centro-Oeste"], // Opções válidas, automatizar para não serem inseridas à mão
+      label: "MÊS", // O Mês será preenchido dinamicamente
+      options: [], // Deixe vazio para preencher com base nos dados
+      selected: []
+    },
+    {
+      label: "AEROPORTO REGIÃO", // Região será preenchida dinamicamente
+      options: [], // Deixe vazio para preencher com base nos dados
       selected: [],
     },
     {
-      label: "AEROPORTO NOME",
-      options: ["RECIFE", "FORTALEZA"], // Opções válidas, automatizar para não serem inseridas à mão
+      label: "AEROPORTO UF",
+      options: [],
+      selected: []
+    },
+    {
+      label: "AEROPORTO NOME", // Nome dos aeroportos será preenchido dinamicamente
+      options: [], // Deixe vazio para preencher com base nos dados
       selected: [],
-    }
+    },
   ],
 };

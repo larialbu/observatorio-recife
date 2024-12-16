@@ -8,13 +8,11 @@ import { processPassageirosAno } from "@/functions/process_data/observatorio/aer
 
 const PassageirosAno = ({
   data = [],
-  nameKey = "MÊS",
   colors = ColorPalette.default,
   title = "Passageiros ao Longo do Ano",
-  year,
+  
 }: any) => {
   const chartData = processPassageirosAno(data);
-  console.log(chartData);
 
   return (
     <div className="relative bg-white w-full p-4">
