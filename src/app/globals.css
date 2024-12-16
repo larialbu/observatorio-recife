@@ -129,3 +129,37 @@
   overflow-x: scroll;
   z-index: 1000;
 }
+
+.menu-item-wrapper svg{
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.menu-item-wrapper svg path{
+ fill: gray;
+}
+
+.menu-item-wrapper svg polygon{
+  fill: gray;
+}
+
+.tooltip {
+  opacity: 0;
+  transform: translateY(-50%) translateX(-10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.tooltip-show {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.tooltip-hide {
+  opacity: 0;
+  transform: translateY(-50%) translateX(-10px);
+}
+
+
+

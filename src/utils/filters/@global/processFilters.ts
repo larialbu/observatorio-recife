@@ -1,22 +1,23 @@
 export const processFilters = (data: any[], baseFilters: any) => {
-    // Itera sobre os filtros e processa apenas aqueles que possuem "options" como vazio
-    const processedFilters = {
-      ...baseFilters,
-      additionalFilters: baseFilters.additionalFilters.map((filter: any) => {
-        if (filter.options.length > 0) return filter; // Ignora filtros que já possuem opções, para evitar as acumulações
-  
-        // Popula dinamicamente as opções baseadas nos dados
-        const uniqueOptions = Array.from(
-          new Set(data.map((item) => item[filter.label]?.toString()?.trim()))
-        ).filter(Boolean); // Remove valores nulos ou indefinidos, mas o ideal seria a filtragem já ser feita diretamente no JSON
-  
-        return {
-          ...filter,
-          options: uniqueOptions, // Define as opções dinamicamente
-        };
-      }),
-    };
-  
-    return processedFilters;
+  // Processa apenas filtros com opções vazias
+  const processedFilters = {
+    ...baseFilters,
+    additionalFilters: baseFilters.additionalFilters.map((filter: any) => {
+      if (filter.options.length > 0) return filter; // Ignora se já possui opções
+
+      // Popula dinamicamente as opções usando Map para melhor performance
+      const uniqueOptionsSet = new Map();
+      data.forEach((item) => {
+        const value = item[filter.label]?.toString()?.trim();
+        if (value) uniqueOptionsSet.set(value, true); // Garante unicidade
+      });
+
+      return {
+        ...filter,
+        options: Array.from(uniqueOptionsSet.keys()), // Converte de Map para Array
+      };
+    }),
   };
-  
+
+  return processedFilters;
+};

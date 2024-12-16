@@ -14,9 +14,9 @@ const Bar = ({
 }) => {
   return (
     <div
-      className={`${menuOpen ? "fixed z-20 shadow-2xl" : ""} w-[${
+      className={`${menuOpen ? "fixed min-w-[200px] z-30 shadow-2xl overflow-y-scroll" : ""} w-[${
         menuOpen ? "14%" : "6%"
-      }] p-3 bg-white h-full overflow-y-scroll`}
+      }] p-3 bg-white h-full`}
     >
       <div
         className={`flex ${menuOpen ? "justify-end" : "justify-center"} ${

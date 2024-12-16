@@ -6,7 +6,9 @@ import { aeroportosFilters } from "@/utils/filters/aeroportoFilters";
 
 const ChevronIcon = ({ up = false }: { up?: boolean }) => (
   <svg
-    className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${up ? "rotate-180" : ""}`}
+    className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
+      up ? "rotate-180" : ""
+    }`}
     viewBox="0 0 20 20"
     fill="none"
     stroke="currentColor"
@@ -24,23 +26,27 @@ const Navbar = () => {
   const [dropdowns, setDropdowns] = useState<Record<string, boolean>>({});
   const [filtersVisible, setFiltersVisible] = useState(true);
 
+  // Estado temporário para alterações nos filtros
+  const [tempFilters, setTempFilters] = useState<any>(null);
+
+  // Inicializa filtros temporários com os valores atuais
   useEffect(() => {
     setIsClient(true);
-    setFilters((prevFilters: any) => ({
-      ...prevFilters,
-      ...aeroportosFilters,
+    setTempFilters((prevFilters: any) => ({
+      ...filters,
+      additionalFilters: filters.additionalFilters || aeroportosFilters.additionalFilters,
     }));
-  }, [setFilters]);
+  }, [filters]);
 
   const toggleDropdown = (filterLabel: string) =>
     setDropdowns((prev) => ({ ...prev, [filterLabel]: !prev[filterLabel] }));
 
   const handleTimePeriodChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilters((prev: any) => ({ ...prev, year: event.target.value || "2023" }));
+    setTempFilters((prev: any) => ({ ...prev, year: event.target.value || "2023" }));
   };
 
   const handleCheckboxChange = (filterLabel: string, value: string) => {
-    setFilters((prev: any) => ({
+    setTempFilters((prev: any) => ({
       ...prev,
       additionalFilters: prev.additionalFilters.map((filter: any) =>
         filter.label === filterLabel
@@ -56,7 +62,7 @@ const Navbar = () => {
   };
 
   const handleSelectAll = (filterLabel: string) => {
-    setFilters((prev: any) => ({
+    setTempFilters((prev: any) => ({
       ...prev,
       additionalFilters: prev.additionalFilters.map((filter: any) =>
         filter.label === filterLabel
@@ -71,7 +77,8 @@ const Navbar = () => {
   };
 
   const applyFilters = () => {
-    console.log("Filters applied:", filters);
+    setFilters(tempFilters); // Atualiza o estado final com os filtros temporários
+    console.log("Filters applied:", tempFilters);
   };
 
   return (
@@ -84,32 +91,32 @@ const Navbar = () => {
         <ChevronIcon up={filtersVisible} />
       </button>
 
-      {filtersVisible && (
+      {filtersVisible && tempFilters && (
         <div className="w-full rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
           <h2 className="text-base font-semibold text-gray-800 mb-4">Filtros</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Filtro de Ano */}
-            {isClient && (
-              <div className="flex flex-col">
-                <label className="text-xs font-medium text-gray-600 block mb-1">ANO</label>
-                <select
-                  value={filters.year}
-                  onChange={handleTimePeriodChange}
-                  className="w-full px-3 py-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 text-sm text-gray-700 transition"
-                >
-                  {filters.years?.map((year: string) => (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
+            <div className="flex flex-col">
+              <label className="text-xs font-medium text-gray-600 block mb-1">ANO</label>
+              <select
+                value={tempFilters.year}
+                onChange={handleTimePeriodChange}
+                className="w-full px-3 py-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 text-sm text-gray-700 transition"
+              >
+                {aeroportosFilters.years.map((year: string) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
 
             {/* Filtros adicionais com dropdown */}
-            {filters.additionalFilters?.map((filter: any) => (
+            {tempFilters.additionalFilters?.map((filter: any) => (
               <div key={filter.label} className="relative flex flex-col">
-                <label className="text-xs font-medium text-gray-600 block mb-1">{filter.label}</label>
+                <label className="text-xs font-medium text-gray-600 block mb-1">
+                  {filter.label}
+                </label>
                 <button
                   onClick={() => toggleDropdown(filter.label)}
                   className="w-full flex justify-between items-center px-3 py-2 border border-gray-300 rounded-md text-left text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition"
@@ -122,30 +129,35 @@ const Navbar = () => {
                   <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10">
                     <div className="p-4 max-h-60 overflow-y-auto">
                       <button
-                          onClick={() => handleSelectAll(filter.label)}
-                          className="text-blue-600 font-medium hover:underline block focus:outline-none"
+                        onClick={() => handleSelectAll(filter.label)}
+                        className="text-blue-600 font-medium hover:underline block focus:outline-none"
                       >
-                        {
-                          filter.selected?.length === filter.options.length 
-                              ? "Desselecionar Todos"
-                              : "Selecionar Todos"
-                        }
+                        {filter.selected?.length === filter.options.length
+                          ? "Desselecionar Todos"
+                          : "Selecionar Todos"}
                       </button>
 
                       {filter.options
-                      .slice()
-                      .sort((a: any, b: any) => a - b)
-                      .map((option: string) => (
-                        <label key={option} className="flex items-center gap-2 py-1 text-sm text-gray-700">
-                          <input
-                            type="checkbox"
-                            checked={filter.selected?.includes(option) || false}
-                            onChange={() => handleCheckboxChange(filter.label, option)}
-                            className="form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
-                          />
-                          <span className="truncate">{option}</span>
-                        </label>
-                      ))}
+                        .slice()
+                        .sort((a: any, b: any) => a - b)
+                        .map((option: string) => (
+                          <label
+                            key={option}
+                            className="flex items-center gap-2 py-1 text-sm text-gray-700"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={
+                                tempFilters.additionalFilters
+                                  .find((f: any) => f.label === filter.label)
+                                  ?.selected?.includes(option) || false
+                              }
+                              onChange={() => handleCheckboxChange(filter.label, option)}
+                              className="form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                            />
+                            <span className="truncate">{option}</span>
+                          </label>
+                        ))}
                     </div>
                   </div>
                 )}
