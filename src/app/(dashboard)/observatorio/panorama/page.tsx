@@ -21,7 +21,7 @@ import {
   formatMonth2,
 } from "@/components/observatorio/panorama/functions/formatMonth";
 
-import apiConfig from "@/config/apiConfig";
+import apiConfig from "@/@api/config/apiConfig";
 
 const carouselTexts = [
   "Bem-vindo ao Panorama de Recife! Aqui você encontra dados sobre o movimento nos aeroportos, acesso a serviços públicos e tendências de crescimento econômico.",

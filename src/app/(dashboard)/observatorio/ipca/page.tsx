@@ -29,7 +29,7 @@ import {
 import { SelectMonth } from "@/components/random_temp/SelectMonth";
 
 //API
-import apiConfig from "@/config/apiConfig";
+import apiConfig from "@/@api/config/apiConfig";
 
 const IpcaPage = () => {
   const { year, setAvailableYears } = useDashboard();

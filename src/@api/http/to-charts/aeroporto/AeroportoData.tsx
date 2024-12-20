@@ -29,7 +29,7 @@ export class AeroportoData {
   }
 
   async fetchProcessedData(): Promise<ProcessedData[]> {
-    return this.fetchData<ProcessedData[]>(`/aeroporto/embarque-desembarque/2023_2024`);
+    return this.fetchData<ProcessedData[]>(`/aeroporto/embarque-desembarque/${this.year}`);
   }
 
   async fetchBruteData(): Promise<BruteData[]> {

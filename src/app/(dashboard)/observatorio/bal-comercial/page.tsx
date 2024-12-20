@@ -27,7 +27,7 @@ import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { SHTable } from "@/components/@global/tables/temp/balanca-comercial/SHTable";
 
 // API
-import apiConfig from "@/config/apiConfig";
+import apiConfig from "@/@api/config/apiConfig";
 
 const BalComercialPage = () => {
   const { year, setAvailableYears } = useDashboard();
