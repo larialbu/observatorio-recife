@@ -14,8 +14,6 @@ const PassageirosPorNatureza = ({
 }: any) => {
   const [showPercentage, setShowPercentage] = useState(true);
   const chartData = preparePassageirosPorNaturezaData(data);
-  console.log("Dados brutos:", data);
-  console.log("Dados processados:", chartData);
 
   return (
     <div className="relative bg-white w-full p-4">

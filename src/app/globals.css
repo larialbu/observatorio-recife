@@ -8,23 +8,9 @@
   padding: 0;
   box-sizing: border-box;
 
-  font-family: 'Poppins', sans-serif;
+  /* font-family: "Poppins", sans-serif; */
 }
 
-.react-calendar {
-  width: 100% !important;
-  border: none !important;
-  font-family: "Poppins", sans-serif !important;
-}
-
-.react-calendar__navigation__label__labelText {
-  font-weight: 600;
-}
-
-.react-calendar__tile--active {
-  background-color: #c3ebfa !important;
-  color: black !important;
-}
 
 .rbc-btn-group:first-child {
   display: none !important;
@@ -50,41 +36,6 @@
   box-shadow: none !important;
 }
 
-.rbc-time-view {
-  border-color: #eee !important;
-}
-
-.rbc-time-header {
-  display: none !important;
-}
-
-.rbc-time-content {
-  border: none !important;
-}
-
-.rbc-time-gutter.rbc-time-column {
-  font-size: 12px !important;
-}
-
-.rbc-time-gutter.rbc-time-column .rbc-timeslot-group {
-  padding: 0px 20px !important;
-}
-
-.rbc-timeslot-group {
-  background-color: #f7fdff !important;
-}
-
-.rbc-day-slot {
-  font-size: 14px !important;
-}
-
-.rbc-event {
-  border: none !important;
-  color: black !important;
-  padding: 10px !important;
-  margin: 10px !important;
-  width: 99% !important;
-}
 
 .rbc-event:nth-child(1) {
   background-color: #e2f8ff !important;
@@ -110,11 +61,7 @@
 .rbc-event:nth-child(8) {
   background-color: #fdf2fb !important;
 }
-
-.rbc-event-label{
-  color: gray !important;
-  margin-bottom: 5px;
-}
+ 
 
 .fullscreen {
   transform: scale(1.2);

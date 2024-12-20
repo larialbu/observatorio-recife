@@ -15,3 +15,7 @@ export const formatNumber = (
 export const parseNumber = (value: string): number => {
   return parseFloat(value.replace(/\./g, "").replace(",", "."));
 };
+
+export const formatNormalnumber = (val: number) => {
+  return Math.round(val).toLocaleString()
+}

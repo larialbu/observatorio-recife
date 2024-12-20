@@ -10,6 +10,7 @@ import { processFilters } from "@/utils/filters/@global/processFilters";
 
 // Importa as guias
 import Geral from "./(geral)/geral";
+import Comparativo from "./(comparativo)/comparativo";
 
 const AeroportosPage = () => {
   const { filters, setFilters } = useDashboard();
@@ -29,6 +30,7 @@ const AeroportosPage = () => {
   
         // Atualiza filtros dinamicamente
         const dynamicFilters = processFilters(fetchedData, aeroportosFilters);
+        console.log('dyn', dynamicFilters)
         setFilters((prevFilters: any) => ({
           ...prevFilters,
           additionalFilters: dynamicFilters.additionalFilters,
@@ -57,6 +59,8 @@ const AeroportosPage = () => {
     switch (activeTab) {
       case "geral":
         return <Geral data={filteredData} />;
+      case "comparativo":
+        return <Comparativo tempMuni={filters.additionalFilters[4].options}  data={filteredData} />;
       case "embarque":
         return "Estatísticas de Embarque";
       default:
@@ -78,6 +82,14 @@ const AeroportosPage = () => {
           }`}
         >
           Resumo Geral
+        </button>
+        <button
+          onClick={() => setActiveTab("comparativo")}
+          className={`px-4 py-2 rounded ${
+            activeTab === "comparativo" ? "bg-blue-500 text-white" : "bg-gray-200"
+          }`}
+        >
+          Comparativo
         </button>
         <button
           onClick={() => setActiveTab("embarque")}

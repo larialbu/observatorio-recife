@@ -1,3 +1,4 @@
+import { formatNormalnumber } from "@/utils/formatters/@global/numberFormatter";
 import Image from "next/image";
 
 const Card = ({
@@ -25,7 +26,7 @@ const Card = ({
           {local ? `${local} -` : ""} {year}
         </span>
       </div>
-      <h1 className="text-2xl text-white font-semibold my-4">{data}</h1>
+      <h1 className="text-2xl text-white font-semibold my-4">{formatNormalnumber(+data)}</h1>
       <h2 className="  text-sm font-semibold text-white">{title}</h2>
     </div>
   );

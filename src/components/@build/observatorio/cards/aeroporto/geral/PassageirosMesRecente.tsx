@@ -1,6 +1,5 @@
 import Card from "@/components/@global/cards/Card";
 import { processPassageirosMes } from "@/functions/process_data/observatorio/aeroporto/cards/passageirosMesRecente";
-import { dateArrFormatter } from "@/utils/formatters/@global/dateArrFormatter";
 
 const PassageirosMesRecente = ({
   data,
@@ -10,14 +9,13 @@ const PassageirosMesRecente = ({
   year,
   color,
 }: any) => {
-  const chartData = processPassageirosMes(data, year, "RECIFE", date);
+  const chartData = processPassageirosMes(data, year, "RECIFE");
 
-  const formatDate = `(${dateArrFormatter(date)})`
 
   return (
     <Card
       local={local}
-      title={`${title} ${formatDate}`}
+      title={`${title}`}
       data={chartData.passageiros}
       year={year}
       color={color}
