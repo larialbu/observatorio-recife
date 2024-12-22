@@ -68,7 +68,7 @@ const VerticalScrollableBarChart = ({
               >
                 {data.map((entry: any, dataIndex: any) => {
                   const color =
-                    entry[xKey] === "RECIFE" ? colors[index % colors.length + 1] : colors[index % colors.length]; // Cor condicional
+                    entry[xKey] === "Recife" ? colors[index % colors.length + 1] : colors[index % colors.length]; // Cor condicional
                   return <Cell key={`cell-${dataIndex}`} fill={color} />;
                 })}
               </Bar>
