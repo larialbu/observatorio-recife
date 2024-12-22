@@ -24,7 +24,7 @@ const Navbar = () => {
   const { filters, setFilters } = useDashboard();
   const [isClient, setIsClient] = useState(false);
   const [dropdowns, setDropdowns] = useState<Record<string, boolean>>({});
-  const [filtersVisible, setFiltersVisible] = useState(true);
+  const [filtersVisible, setFiltersVisible] = useState(false);
 
   // Estado temporário para alterações nos filtros
   const [tempFilters, setTempFilters] = useState<any>(null);
