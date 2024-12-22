@@ -103,7 +103,6 @@ const Comparativo = ({ tempMuni, data }: { tempMuni?: any; data: any[] }) => {
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
   // const tempFiltred = ["Rio De Janeiro", "Salvador", "Confins"];
-  // console.log("aaaaaaaaaa", tempFiltred);
 
   console.log(tempMuni);
 
@@ -220,7 +219,6 @@ const Comparativo = ({ tempMuni, data }: { tempMuni?: any; data: any[] }) => {
 
       <div className="flex items-center justify-center mb-6 gap-2">
         {tempFiltred.map((_, i) => {
-          console.log(i);
           return (
             <button
               key={i}

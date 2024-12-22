@@ -41,7 +41,6 @@ const AeroportosPage = () => {
 
         // Atualiza filtros dinamicamente
         const dynamicFilters = processFilters(fetchedData, aeroportosFilters);
-        console.log("dyn", dynamicFilters);
         setFilters((prevFilters: any) => ({
           ...prevFilters,
           additionalFilters: dynamicFilters.additionalFilters,
