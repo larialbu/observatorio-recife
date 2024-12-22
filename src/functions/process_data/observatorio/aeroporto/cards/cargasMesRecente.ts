@@ -55,16 +55,17 @@ export const processCargasMes = (
     }, 0);
 
     return {
-      intervalo: `${new Date(0, startMonth - 1).toLocaleString("pt-BR", { month: "long" })} - ${new Date(0, endMonth - 1).toLocaleString("pt-BR", { month: "long" })}`,
+      intervalo: `${new Date(0, startMonth - 1).toLocaleString("pt-BR", {
+        month: "long",
+      })} - ${new Date(0, endMonth - 1).toLocaleString("pt-BR", {
+        month: "long",
+      })}`,
       carga: cargaMes,
     };
   } else {
     // Filtra para o ano inteiro
     cargaMes = data.reduce((total, item) => {
-      if (
-        item["ANO"] === year &&
-        item["AEROPORTO NOME"] === airportName
-      ) {
+      if (item["ANO"] === year && item["AEROPORTO NOME"] === airportName) {
         const carga = parseFloat(
           (item["CARGA"] || "0").replace(/\./g, "").replace(",", ".")
         );

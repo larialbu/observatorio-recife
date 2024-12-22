@@ -27,10 +27,10 @@ const AeroportosPage = () => {
         const aeroportoService = new AeroportoData(filters.year || "2023");
         const fetchedData = await aeroportoService.fetchProcessedData();
         setData(fetchedData);
-  
+
         // Atualiza filtros dinamicamente
         const dynamicFilters = processFilters(fetchedData, aeroportosFilters);
-        console.log('dyn', dynamicFilters)
+        console.log("dyn", dynamicFilters);
         setFilters((prevFilters: any) => ({
           ...prevFilters,
           additionalFilters: dynamicFilters.additionalFilters,
@@ -42,10 +42,9 @@ const AeroportosPage = () => {
         setLoading(false);
       }
     };
-  
+
     fetchData();
   }, [filters.year]);
-  
 
   useEffect(() => {
     const filtered = aeroportoDataFilter(data, filters);
@@ -60,13 +59,20 @@ const AeroportosPage = () => {
       case "geral":
         return <Geral data={filteredData} />;
       case "comparativo":
-        return <Comparativo tempMuni={filters.additionalFilters[4].options}  data={filteredData} />;
+        return (
+          <Comparativo
+            tempMuni={filters.additionalFilters[4].options}
+            data={filteredData}
+          />
+        );
       case "embarque":
         return "Estatísticas de Embarque";
       default:
         return <Geral data={filteredData} />;
     }
   };
+
+  console.log(filteredData);
 
   return (
     <div className="p-6 min-h-screen">
@@ -86,7 +92,9 @@ const AeroportosPage = () => {
         <button
           onClick={() => setActiveTab("comparativo")}
           className={`px-4 py-2 rounded ${
-            activeTab === "comparativo" ? "bg-blue-500 text-white" : "bg-gray-200"
+            activeTab === "comparativo"
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200"
           }`}
         >
           Comparativo

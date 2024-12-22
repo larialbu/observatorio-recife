@@ -65,7 +65,7 @@ const GraficoPassageirosPorMesAno: React.FC<
   };
 
   const processedData = getProcessedData(municipio);
-  const recifeData = getProcessedData("RECIFE");
+  const recifeData = getProcessedData("Recife");
 
   const chartData = Array.from({ length: 12 }, (_, index) => ({
     mes: (index + 1).toString(),

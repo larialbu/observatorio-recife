@@ -10,8 +10,8 @@ const DecolagensCardComparativo = ({
   year,
   color,
 }: any) => {
-  console.log('toCompare', toCompare)
-  const chartData = processDecolagensMes(data, year, "RECIFE");
+  console.log("toCompare", toCompare);
+  const chartData = processDecolagensMes(data, year, "Recife");
 
   const chartData2 = processDecolagensMes(data, year, toCompare);
   return (

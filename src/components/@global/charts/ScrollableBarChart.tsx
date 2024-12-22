@@ -7,7 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  Cell
+  Cell,
 } from "recharts";
 
 const VerticalScrollableBarChart = ({
@@ -21,12 +21,11 @@ const VerticalScrollableBarChart = ({
   heightPerCategory = 50, // Altura de cada barra
   visibleHeight = 400, // Altura visível do gráfico
 }: any) => {
-
   // Calcula a altura total com base no número de categorias
   let totalHeight = data.length * heightPerCategory;
 
   //If para terminar uma espécie de "altura mínima"
-  if(data.length <= 5) totalHeight = 300;
+  if (data.length <= 5) totalHeight = 300;
 
   return (
     <div className="relative bg-white w-full p-4">
@@ -37,7 +36,9 @@ const VerticalScrollableBarChart = ({
         className="overflow-y-auto" // Scroll somente na vertical
         style={{ height: `${visibleHeight}px` }} // Define a altura visível
       >
-        <div style={{ height: `${totalHeight}px`, width: "100%" }}> {/* Altura total */}
+        <div style={{ height: `${totalHeight}px`, width: "100%" }}>
+          {" "}
+          {/* Altura total */}
           <RechartsBarChart
             data={data}
             layout="vertical" // Configura barras verticais
@@ -61,14 +62,12 @@ const VerticalScrollableBarChart = ({
             <Tooltip formatter={tooltipFormatter} />
             <Legend />
             {bars.map((bar: any, index: any) => (
-              <Bar
-                key={index}
-                dataKey={bar.dataKey}
-                name={bar.name}
-              >
+              <Bar key={index} dataKey={bar.dataKey} name={bar.name}>
                 {data.map((entry: any, dataIndex: any) => {
                   const color =
-                    entry[xKey] === "RECIFE" ? colors[index % colors.length + 1] : colors[index % colors.length]; // Cor condicional
+                    entry[xKey] === "Recife"
+                      ? colors[(index % colors.length) + 1]
+                      : colors[index % colors.length]; // Cor condicional
                   return <Cell key={`cell-${dataIndex}`} fill={color} />;
                 })}
               </Bar>

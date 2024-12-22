@@ -10,8 +10,7 @@ const PassageirosCardComparativo = ({
   year,
   color,
 }: any) => {
-  console.log('toCompare', toCompare)
-  const chartData = processPassageirosMes(data, year, "RECIFE");
+  const chartData = processPassageirosMes(data, year, "Recife");
 
   const chartData2 = processPassageirosMes(data, year, toCompare);
   return (

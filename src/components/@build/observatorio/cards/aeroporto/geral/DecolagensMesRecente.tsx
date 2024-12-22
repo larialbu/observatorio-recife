@@ -8,10 +8,8 @@ const DecolagensMesRecente = ({
   title = `Decolagens`,
   year,
   color,
-}: any
-) => {
-  const chartData = processDecolagensMes(data, year, "RECIFE");
-
+}: any) => {
+  const chartData = processDecolagensMes(data, year, "Recife");
 
   return (
     <Card

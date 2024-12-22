@@ -9,8 +9,7 @@ const PassageirosMesRecente = ({
   year,
   color,
 }: any) => {
-  const chartData = processPassageirosMes(data, year, "RECIFE");
-
+  const chartData = processPassageirosMes(data, year, "Recife");
 
   return (
     <Card

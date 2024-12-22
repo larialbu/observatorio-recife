@@ -8,10 +8,8 @@ const CargasMesRecente = ({
   title = `Cargas/Kg`,
   year,
   color,
-
 }: any) => {
-  const chartData = processCargasMes(data, year, "RECIFE");
-
+  const chartData = processCargasMes(data, year, "Recife");
 
   return (
     <Card
