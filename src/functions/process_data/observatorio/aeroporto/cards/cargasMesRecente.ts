@@ -19,7 +19,6 @@ export const processCargasMes = (
     // Filtra para um único mês
     cargaMes = data.reduce((total, item) => {
       if (
-        item["ANO"] === year &&
         item["AEROPORTO NOME"] === airportName &&
         parseInt(item["MÊS"], 10) === month
       ) {
@@ -41,7 +40,6 @@ export const processCargasMes = (
     cargaMes = data.reduce((total, item) => {
       const mesAtual = parseInt(item["MÊS"], 10);
       if (
-        item["ANO"] === year &&
         item["AEROPORTO NOME"] === airportName &&
         mesAtual >= startMonth &&
         mesAtual <= endMonth
@@ -65,7 +63,7 @@ export const processCargasMes = (
   } else {
     // Filtra para o ano inteiro
     cargaMes = data.reduce((total, item) => {
-      if (item["ANO"] === year && item["AEROPORTO NOME"] === airportName) {
+      if (item["AEROPORTO NOME"] === airportName) {
         const carga = parseFloat(
           (item["CARGA"] || "0").replace(/\./g, "").replace(",", ".")
         );

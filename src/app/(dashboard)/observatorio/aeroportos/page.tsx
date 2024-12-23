@@ -19,6 +19,8 @@ const AeroportosPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("geral");
 
+  console.log('------>>>>',filters)
+
   const prevYear = useRef<string | null>(null);
 
   useEffect(() => {
@@ -41,7 +43,6 @@ const AeroportosPage = () => {
 
         // Atualiza filtros dinamicamente
         const dynamicFilters = processFilters(fetchedData, aeroportosFilters);
-        console.log("dyn", dynamicFilters);
         setFilters((prevFilters: any) => ({
           ...prevFilters,
           additionalFilters: dynamicFilters.additionalFilters,
@@ -74,6 +75,7 @@ const AeroportosPage = () => {
           <Comparativo
             tempMuni={filters.additionalFilters[4]?.options}
             data={filteredData}
+            year={filters.year ? filters.year : filters.years[0]}
           />
         );
       case "embarque":
@@ -83,7 +85,6 @@ const AeroportosPage = () => {
     }
   };
 
-  console.log(filteredData);
 
   return (
     <div className="p-6 min-h-screen">

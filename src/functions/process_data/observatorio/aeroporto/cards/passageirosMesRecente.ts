@@ -19,7 +19,6 @@ export const processPassageirosMes = (
     // Filtra para um único mês
     passageirosMes = data.reduce((total, item) => {
       if (
-        item["ANO"] === year &&
         item["AEROPORTO NOME"] === airportName &&
         parseInt(item["MÊS"], 10) === month
       ) {
@@ -41,7 +40,6 @@ export const processPassageirosMes = (
     passageirosMes = data.reduce((total, item) => {
       const mesAtual = parseInt(item["MÊS"], 10);
       if (
-        item["ANO"] === year &&
         item["AEROPORTO NOME"] === airportName &&
         mesAtual >= startMonth &&
         mesAtual <= endMonth
@@ -62,7 +60,6 @@ export const processPassageirosMes = (
     // Filtra para o ano inteiro
     passageirosMes = data.reduce((total, item) => {
       if (
-        item["ANO"] === year &&
         item["AEROPORTO NOME"] === airportName
       ) {
         const passageiros = parseFloat(

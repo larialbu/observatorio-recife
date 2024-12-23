@@ -27,11 +27,9 @@ const SearchCompare = ({
     }
   };
 
-  // .includes(value)
 
   return (
     <div className="mb-6 relative">
-      {/* <p className="text-gray-700 font-semibold mb-2">Compare Aeroportos</p> */}
       <label
         htmlFor="municipio"
         className="block text-gray-700 font-semibold mb-2"
@@ -54,7 +52,7 @@ const SearchCompare = ({
       {dropdown && (
         <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10">
           <div className="p-4 max-h-60 overflow-y-auto">
-            <p className="text-blue-600 font-medium ">Selecione até cinco</p>
+            {/* <p className="text-blue-600 font-medium ">Selecione até cinco</p> */}
 
             {options
               .filter((filter) =>
@@ -72,14 +70,8 @@ const SearchCompare = ({
                   <input
                     type="checkbox"
                     checked={filters.includes(option)}
-                    // checked={
-                    //   tempFilters.additionalFilters
-                    //     .find((f: any) => f.label === filter.label)
-                    //     ?.selected?.includes(option) || false
-                    // }
                     onChange={() => {
                       handleSelectCheck(option);
-                      // handleCheckboxChange(filter.label, option)
                     }}
                     className="cursor-pointer form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                   />
@@ -97,17 +89,10 @@ const SearchCompare = ({
   );
 };
 
-const Comparativo = ({ tempMuni, data }: { tempMuni?: any; data: any[] }) => {
-  // colocar a função de filtro aki
-  //
+const Comparativo = ({year, tempMuni, data }: {year: string, tempMuni?: any; data: any[] }) => {
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
   // const tempFiltred = ["Rio De Janeiro", "Salvador", "Confins"];
-  // console.log("aaaaaaaaaa", tempFiltred);
-
-  console.log(tempMuni);
-
-  // const processFilters(fetchedData, aeroportosFilters)
 
   return (
     <div>
@@ -155,43 +140,13 @@ const Comparativo = ({ tempMuni, data }: { tempMuni?: any; data: any[] }) => {
                     local={"Recife"}
                     toCompare={toCompare}
                     data={data}
-                    year="2023"
+                    year={year}
                     color={ColorPalette.default[index]}
                   />
                 </div>
               </React.Suspense>
             ));
           })}
-
-          {/* {[tempFiltred[pageCompare]].map((toCompare: string) => {
-            return cards.map(({ Component }, index) => (
-              <React.Suspense fallback={<div>Loading...</div>} key={index}>
-                <div className="flex-1">
-                  <Component
-                    local={"Recife"}
-                    toCompare={toCompare}
-                    data={data}
-                    year="2023"
-                    color={ColorPalette.default[index]}
-                    date={[10, 12]}
-                  />
-                </div>
-              </React.Suspense>
-            ));
-          })} */}
-
-          {/* {cards.map(({ Component }, index) => (
-            <React.Suspense fallback={<div>Loading...</div>} key={index}>
-                <Component
-                  local={"Recife"}
-                  toCompare={tempFiltred[pageCompare]}
-                  data={data}
-                  year="2023"
-                  color={ColorPalette.default[index]}
-                  date={[10, 12]}
-                />
-            </React.Suspense>
-          ))} */}
         </div>
 
         <button
