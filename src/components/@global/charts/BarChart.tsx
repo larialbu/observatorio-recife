@@ -7,7 +7,7 @@ const BarChart = ({ data, title, colors, xKey, bars }: any) => {
       <div className="relative w-full h-full">
         <h3 className="text-center mb-4 font-semibold">{title}</h3>
         <ResponsiveContainer width="100%" height={300}>
-          <RechartsBarChart data={data} margin={{ top: 20, right: 20, left: 5, bottom: 5 }}>
+          <RechartsBarChart data={data} margin={{ top: 20, right: 20, left: 8, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis 
             dataKey={xKey} 

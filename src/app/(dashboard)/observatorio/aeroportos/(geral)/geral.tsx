@@ -11,9 +11,8 @@ const Geral = ({ data }: { data: any; }) => (
           <Component
             local={"Recife"}
             data={data}
-            year="2023"
+            year="2024" // Ajeitar isso aqui
             color={ColorPalette.default[index]}
-            date={[10, 12]}
           />
         </React.Suspense>
       ))}

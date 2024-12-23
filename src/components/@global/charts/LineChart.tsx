@@ -25,7 +25,7 @@ const LineChart = ({
       <ResponsiveContainer width="100%" height={300}>
         <RechartsLineChart
           data={data}
-          margin={{ top: 20, right: 20, left: 5, bottom: 5 }}
+          margin={{ top: 20, right: 20, left: 8, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey={xKey} tick={{ fontSize: 12, fill: "#333" }} />

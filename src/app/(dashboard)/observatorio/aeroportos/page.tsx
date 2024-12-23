@@ -36,7 +36,7 @@ const AeroportosPage = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const aeroportoService = new AeroportoData(filters.year || "2023");
+        const aeroportoService = new AeroportoData(filters.year || "2024");
         const fetchedData = await aeroportoService.fetchProcessedData();
         console.log("Fetched data:", fetchedData);
         setData(fetchedData);
@@ -75,7 +75,7 @@ const AeroportosPage = () => {
           <Comparativo
             tempMuni={filters.additionalFilters[4]?.options}
             data={filteredData}
-            year={filters.year ? filters.year : filters.years[0]}
+            year={filters.year ? filters.year : filters.years[filters.years.length-1]}
           />
         );
       case "embarque":

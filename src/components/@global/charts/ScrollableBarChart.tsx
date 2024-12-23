@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
   Cell,
+  ResponsiveContainer
 } from "recharts";
 
 const VerticalScrollableBarChart = ({
@@ -28,51 +29,49 @@ const VerticalScrollableBarChart = ({
   if (data.length <= 5) totalHeight = 300;
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="relative bg-white w-full">
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
 
       {/* Wrapper para scroll vertical */}
       <div
-        className="overflow-y-auto" // Scroll somente na vertical
+        className="overflow-y-auto overflow-x-visible" // Scroll somente na vertical
         style={{ height: `${visibleHeight}px` }} // Define a altura visível
       >
-        <div style={{ height: `${totalHeight}px`, width: "100%" }}>
-          {" "}
-          {/* Altura total */}
-          <RechartsBarChart
-            data={data}
-            layout="vertical" // Configura barras verticais
-            height={totalHeight} // Altura total do gráfico
-            width={500} // Largura fixa para evitar scroll horizontal
-            margin={{ top: 20, right: -50, left: -30, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              type="number"
-              tickFormatter={yAxisFormatter}
-              tick={{ fontSize: 12 }}
-            />
-            <YAxis
-              type="category"
-              dataKey={xKey}
-              tick={{ fontSize: 12 }}
-              interval={0} // Mostra todos os rótulos
-              width={150} // Espaço suficiente para rótulos longos
-            />
-            <Tooltip formatter={tooltipFormatter} />
-            <Legend />
-            {bars.map((bar: any, index: any) => (
-              <Bar key={index} dataKey={bar.dataKey} name={bar.name}>
-                {data.map((entry: any, dataIndex: any) => {
-                  const color =
-                    entry[xKey] === "Recife"
-                      ? colors[(index % colors.length) + 1]
-                      : colors[index % colors.length]; // Cor condicional
-                  return <Cell key={`cell-${dataIndex}`} fill={color} />;
-                })}
-              </Bar>
-            ))}
-          </RechartsBarChart>
+        <div>
+          <ResponsiveContainer width="100%" height={totalHeight}>
+            <RechartsBarChart
+              data={data}
+              layout="vertical" // Configura barras verticais
+              margin={{ top: 20, right: 0, left: -35, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                type="number"
+                tickFormatter={yAxisFormatter}
+                tick={{ fontSize: 12 }}
+              />
+              <YAxis
+                type="category"
+                dataKey={xKey}
+                tick={{ fontSize: 12 }}
+                interval={0} // Mostra todos os rótulos
+                width={150} // Espaço suficiente para rótulos longos
+              />
+              <Tooltip formatter={tooltipFormatter} />
+              <Legend />
+              {bars.map((bar: any, index: any) => (
+                <Bar key={index} dataKey={bar.dataKey} name={bar.name}>
+                  {data.map((entry: any, dataIndex: any) => {
+                    const color =
+                      entry[xKey] === "Recife"
+                        ? colors[(index % colors.length) + 1]
+                        : colors[index % colors.length]; // Cor condicional
+                    return <Cell key={`cell-${dataIndex}`} fill={color} />;
+                  })}
+                </Bar>
+              ))}
+            </RechartsBarChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>

@@ -1,14 +1,10 @@
-"use client";
-
 import { useDashboard } from "@/context/DashboardContext";
 import { useState, useEffect } from "react";
 import { aeroportosFilters } from "@/utils/filters/aeroportoFilters";
 
 const ChevronIcon = ({ up = false }: { up?: boolean }) => (
   <svg
-    className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
-      up ? "rotate-180" : ""
-    }`}
+    className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${up ? "rotate-180" : ""}`}
     viewBox="0 0 20 20"
     fill="none"
     stroke="currentColor"
@@ -28,12 +24,15 @@ const Navbar = () => {
 
   // Estado temporário para alterações nos filtros
   const [tempFilters, setTempFilters] = useState<any>(null);
-
+  console.log(filters.years)
   // Inicializa filtros temporários com os valores atuais
   useEffect(() => {
     setIsClient(true);
+
+    // Inicializa tempFilters com o valor do filtro atual ou define "2024" como valor inicial
     setTempFilters((prevFilters: any) => ({
       ...filters,
+      year: filters.year || filters.years[filters.years.length-1],
       additionalFilters: filters.additionalFilters || aeroportosFilters.additionalFilters,
     }));
   }, [filters]);
@@ -42,11 +41,10 @@ const Navbar = () => {
     setDropdowns((prev) => ({ ...prev, [filterLabel]: !prev[filterLabel] }));
 
   const handleTimePeriodChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setTempFilters((prev: any) => ({ ...prev, year: event.target.value || "2023" }));
+    setTempFilters((prev: any) => ({ ...prev, year: event.target.value || "2024" }));
   };
 
   const handleCheckboxChange = (filterLabel: string, value: string) => {
-  console.log('temp', tempFilters)
     setTempFilters((prev: any) => ({
       ...prev,
       additionalFilters: prev.additionalFilters.map((filter: any) =>
@@ -79,11 +77,7 @@ const Navbar = () => {
 
   const applyFilters = () => {
     setFilters(tempFilters); // Atualiza o estado final com os filtros temporários
-    // console.log("Filters applied:", tempFilters);
   };
-
-  // console.log('TEMPFILTERS', tempFilters)
-  // console.log('DROPDOWN', dropdowns)
 
   return (
     <div className="w-full bg-gray-50 min-h-[100px] flex flex-col items-start gap-4 py-6 px-4 sm:px-6 lg:px-8 z-20">
@@ -103,7 +97,7 @@ const Navbar = () => {
             <div className="flex flex-col">
               <label className="text-xs font-medium text-gray-600 block mb-1">ANO</label>
               <select
-                value={tempFilters.year}
+                value={tempFilters.year} // Aqui já está usando o valor de tempFilters.year
                 onChange={handleTimePeriodChange}
                 className="w-full px-3 py-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 text-sm text-gray-700 transition"
               >
@@ -118,15 +112,9 @@ const Navbar = () => {
             {/* Filtros adicionais com dropdown */}
             {tempFilters.additionalFilters?.map((filter: any) => (
               <div key={filter.label} className="relative flex flex-col">
-                <label className="text-xs font-medium text-gray-600 block mb-1">
-                  {filter.label}
-                </label>
+                <label className="text-xs font-medium text-gray-600 block mb-1">{filter.label}</label>
                 <button
-                  onClick={() => {
-                    console.log(filter.label)
-                    console.log(dropdowns)
-                    console.log(dropdowns[filter.label])
-                    toggleDropdown(filter.label)}}
+                  onClick={() => toggleDropdown(filter.label)}
                   className="w-full flex justify-between items-center px-3 py-2 border border-gray-300 rounded-md text-left text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition"
                 >
                   <span className="truncate">{filter.label}</span>
