@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
+import tables from "./@imports/tables";
 
 const SearchCompare = ({
   options,
@@ -52,8 +53,6 @@ const SearchCompare = ({
       {dropdown && (
         <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10">
           <div className="p-4 max-h-60 overflow-y-auto">
-            {/* <p className="text-blue-600 font-medium ">Selecione até cinco</p> */}
-
             {options
               .filter((filter) =>
                 filter
@@ -93,6 +92,26 @@ const Comparativo = ({year, tempMuni, data }: {year: string, tempMuni?: any; dat
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
   // const tempFiltred = ["Rio De Janeiro", "Salvador", "Confins"];
+  const [tablesRender, setTablesRender] = useState(tables)
+
+console.log('YEAR', year)
+
+  useEffect(() =>{
+    const getNewTables = tempFiltred.map((val) => {
+      console.log(val)
+      return {
+              Component: React.lazy(
+                () =>
+                  import(
+                    "@/components/@build/observatorio/tables/aeroporto/comparativo/AirportInfo"
+                  )
+              ),
+             }
+    })
+    console.log(getNewTables)
+
+    setTablesRender([...tables, ...getNewTables])
+  }, [tempFiltred])
 
   return (
     <div>
@@ -196,6 +215,16 @@ const Comparativo = ({year, tempMuni, data }: {year: string, tempMuni?: any; dat
           >
             <React.Suspense fallback={<div>Loading...</div>}>
               <Component data={data} toCompare={["Recife", ...tempFiltred]} />
+            </React.Suspense>
+          </div>
+        ))}
+         {tablesRender.map(({ Component }, index) => (
+          <div
+            key={index}
+            className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
+          >
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <Component airport={["Recife", ...tempFiltred][index]} color={ColorPalette.default[index]} data={data} year={year}  />
             </React.Suspense>
           </div>
         ))}

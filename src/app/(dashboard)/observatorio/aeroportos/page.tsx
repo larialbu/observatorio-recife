@@ -19,12 +19,10 @@ const AeroportosPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("geral");
 
-  console.log('------>>>>',filters)
 
   const prevYear = useRef<string | null>(null);
 
   useEffect(() => {
-    console.log("prevYear:", prevYear.current, "filters.year:", filters.year);
 
     if (prevYear.current === filters.year) {
       console.log("Fetch não executado, ano já foi buscado.");
@@ -38,7 +36,6 @@ const AeroportosPage = () => {
       try {
         const aeroportoService = new AeroportoData(filters.year || "2024");
         const fetchedData = await aeroportoService.fetchProcessedData();
-        console.log("Fetched data:", fetchedData);
         setData(fetchedData);
 
         // Atualiza filtros dinamicamente
