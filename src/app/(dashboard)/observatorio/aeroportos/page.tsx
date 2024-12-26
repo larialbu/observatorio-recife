@@ -66,7 +66,7 @@ const AeroportosPage = () => {
   const renderContent = () => {
     switch (activeTab) {
       case "geral":
-        return <Geral data={filteredData} />;
+        return <Geral data={filteredData} year={filters.year ? filters.year : filters.years[filters.years.length-1]} />;
       case "comparativo":
         return (
           <Comparativo
@@ -78,7 +78,7 @@ const AeroportosPage = () => {
       case "embarque":
         return "Estatísticas de Embarque";
       default:
-        return <Geral data={filteredData} />;
+        return <Geral data={filteredData} year={filters.year ? filters.year : filters.years[filters.years.length-1]} />;
     }
   };
 

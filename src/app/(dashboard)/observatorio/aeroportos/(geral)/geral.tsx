@@ -3,7 +3,7 @@ import charts from "./@imports/charts";
 import cards from "./@imports/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
-const Geral = ({ data }: { data: any; }) => (
+const Geral = ({ data, year }: { data: any; year: string }) => (
   <div>
     <div className="flex flex-wrap gap-4 justify-center mb-8">
       {cards.map(({ Component }, index) => (
@@ -11,7 +11,7 @@ const Geral = ({ data }: { data: any; }) => (
           <Component
             local={"Recife"}
             data={data}
-            year="2024" // Ajeitar isso aqui
+            year={year} // Ajeitar isso aqui
             color={ColorPalette.default[index]}
           />
         </React.Suspense>

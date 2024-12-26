@@ -207,28 +207,34 @@ console.log('YEAR', year)
         })}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
-        {charts.map(({ Component }, index) => (
-          <div
-            key={index}
-            className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
-          >
-            <React.Suspense fallback={<div>Loading...</div>}>
-              <Component data={data} toCompare={["Recife", ...tempFiltred]} />
-            </React.Suspense>
-          </div>
-        ))}
-         {tablesRender.map(({ Component }, index) => (
-          <div
-            key={index}
-            className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
-          >
-            <React.Suspense fallback={<div>Loading...</div>}>
-              <Component airport={["Recife", ...tempFiltred][index]} color={ColorPalette.default[index]} data={data} year={year}  />
-            </React.Suspense>
-          </div>
-        ))}
+      <div className="flex flex-col gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+          {charts.map(({ Component }, index) => (
+            <div
+              key={index}
+              className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
+            >
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <Component data={data} toCompare={["Recife", ...tempFiltred]} />
+              </React.Suspense>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+          {tablesRender.map(({ Component }, index) => (
+            <div
+              key={index}
+              className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
+            >
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <Component airport={["Recife", ...tempFiltred][index]} color={ColorPalette.default[index]} data={data} year={year}  />
+              </React.Suspense>
+            </div>
+          ))}
+        </div>
       </div>
+      
     </div>
   );
 };
