@@ -8,6 +8,8 @@ import {
   Text,
 } from "recharts";
 
+import { tooltipFormatter } from "@/utils/formatters/@global/graphFormatter";
+
 const PieChart = ({
   data,
   title,
@@ -16,6 +18,7 @@ const PieChart = ({
   nameKey,
   colors = [],
   showPercentages = true,
+
 }: {
   data: any;
   title: string;
@@ -72,7 +75,7 @@ const PieChart = ({
   };
 
   return (
-    <div className="relative bg-white w-full h-full p-4">
+    <div className="relative bg-white w-full h-full p-4 min-h[300px]">
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
       {underTitle}
       <ResponsiveContainer width="100%" height={300}>
@@ -94,9 +97,7 @@ const PieChart = ({
               />
             ))}
           </Pie>
-          <Tooltip
-            formatter={(value: number) => `${value.toLocaleString("pt-BR")} kg`}
-          />
+          <Tooltip formatter={tooltipFormatter}/>
         </RechartsPieChart>
       </ResponsiveContainer>
 

@@ -11,14 +11,14 @@ import {
   ResponsiveContainer
 } from "recharts";
 
+import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
+
 const VerticalScrollableBarChart = ({
   data,
   title,
   xKey,
   bars,
   colors = [],
-  yAxisFormatter = (value: number) => value,
-  tooltipFormatter = (value: number) => value,
   heightPerCategory = 50, // Altura de cada barra
   visibleHeight = 400, // Altura visível do gráfico
 }: any) => {

@@ -10,22 +10,24 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
+
 const LineChart = ({
   data,
   title,
   xKey,
   lines,
   colors = [],
-  yAxisFormatter = (value: number) => value,
-  tooltipFormatter = (value: any) => value,
+
 }: any) => {
+
   return (
     <div className="relative bg-white w-full h-full">
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
       <ResponsiveContainer width="100%" height={300}>
         <RechartsLineChart
           data={data}
-          margin={{ top: 20, right: 20, left: 8, bottom: 5 }}
+          margin={{ top: 20, right: 20, left: 13, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey={xKey} tick={{ fontSize: 12, fill: "#333" }} />

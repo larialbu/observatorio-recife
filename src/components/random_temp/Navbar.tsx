@@ -24,15 +24,14 @@ const Navbar = () => {
 
   // Estado temporário para alterações nos filtros
   const [tempFilters, setTempFilters] = useState<any>(null);
-  console.log(filters.years)
   // Inicializa filtros temporários com os valores atuais
   useEffect(() => {
     setIsClient(true);
-
+  
     // Inicializa tempFilters com o valor do filtro atual ou define "2024" como valor inicial
     setTempFilters((prevFilters: any) => ({
       ...filters,
-      year: filters.year || filters.years[filters.years.length-1],
+      year: filters.year || filters.years[filters.years.length - 1],
       additionalFilters: filters.additionalFilters || aeroportosFilters.additionalFilters,
     }));
   }, [filters]);

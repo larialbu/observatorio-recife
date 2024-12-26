@@ -19,48 +19,60 @@ const AeroportosPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("geral");
 
-  console.log('------>>>>',filters)
-
   const prevYear = useRef<string | null>(null);
+  const fetchingRef = useRef(false);
 
   useEffect(() => {
-    console.log("prevYear:", prevYear.current, "filters.year:", filters.year);
+    const currentYear = filters.year || "2024";
 
-    if (prevYear.current === filters.year) {
-      console.log("Fetch não executado, ano já foi buscado.");
+    // Prevenindo múltiplos fetches simultâneos
+    if (fetchingRef.current) {
       return;
     }
 
-    prevYear.current = filters.year;
+    // Se já buscamos dados para este ano, não busque novamente
+    if (prevYear.current === currentYear && data.length > 0) {
+      console.log("Fetch não executado, usando dados existentes.");
+      return;
+    }
 
     const fetchData = async () => {
+      fetchingRef.current = true;
       setLoading(true);
+      
       try {
-        const aeroportoService = new AeroportoData(filters.year || "2024");
+        console.log("Fetching data for year:", currentYear);
+        const aeroportoService = new AeroportoData(currentYear);
         const fetchedData = await aeroportoService.fetchProcessedData();
-        console.log("Fetched data:", fetchedData);
         setData(fetchedData);
 
-        // Atualiza filtros dinamicamente
-        const dynamicFilters = processFilters(fetchedData, aeroportosFilters);
-        setFilters((prevFilters: any) => ({
-          ...prevFilters,
-          additionalFilters: dynamicFilters.additionalFilters,
-        }));
+        // Atualiza filtros dinamicamente apenas se necessário
+        if (prevYear.current === null) {
+          const dynamicFilters = processFilters(fetchedData, aeroportosFilters);
+          setFilters((prevFilters: any) => ({
+            ...prevFilters,
+            additionalFilters: dynamicFilters.additionalFilters,
+          }));
+        }
+        
+        prevYear.current = currentYear;
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
         setError("Erro ao buscar os dados. Tente novamente mais tarde.");
       } finally {
         setLoading(false);
+        fetchingRef.current = false;
       }
     };
 
     fetchData();
-  }, [filters.year, setFilters]);
+  }, [filters.year, setFilters, data.length]);
 
   useEffect(() => {
-    const filtered = aeroportoDataFilter(data, filters);
-    setFilteredData(filtered);
+    if (data.length > 0) {
+      const filtered = aeroportoDataFilter(data, filters);
+      setFilteredData(filtered);
+    }
   }, [data, filters]);
 
   if (loading) return <LoadingScreen />;
@@ -84,7 +96,6 @@ const AeroportosPage = () => {
         return <Geral data={filteredData} />;
     }
   };
-
 
   return (
     <div className="p-6 min-h-screen">
