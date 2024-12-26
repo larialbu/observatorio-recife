@@ -25,14 +25,6 @@ const charts = [
         )
     ),
   },
-  {
-    Component: React.lazy(
-      () =>
-        import(
-          "@/components/@build/observatorio/tables/aeroporto/comparativo/AirportInfo"
-        )
-    ),
-  },
 ];
 
 export default charts;
