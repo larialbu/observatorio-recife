@@ -55,7 +55,7 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
       className={`
         ${simple
         ? "bg-[url('/images/backgrounds/home_carousel/carousel_1.png')] bg-cover bg-center items-center"
-        : "absolute"
+        : ""
         } grid grid-cols-2 justify-between z-10 p-4 pr-2 sm:pr-4 pl-3 sm:pl-4 px-6 w-full`}
     >
       <Link href="/" className="w-fit">
