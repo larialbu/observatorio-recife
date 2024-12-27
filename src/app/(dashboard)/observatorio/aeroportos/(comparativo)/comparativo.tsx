@@ -3,24 +3,38 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
+import FocusHidden from "@/components/@global/features/FocusHidden";
 
 const SearchCompare = ({
   options,
   filters,
   setFilters,
+  label,
+  placeholder,
+  noRecife = true,
+  notFoundMessage,
 }: {
   options: any[];
   filters: any[];
   setFilters: (val: any) => void;
+  label: string;
+  placeholder: string;
+  noRecife?: boolean;
+  notFoundMessage: string;
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdown, setDropdown] = useState<boolean>(false);
 
-  const toggleDropdown = () => {
-    setDropdown(!dropdown);
-  };
+  const optionsCopy = [...options]
+
+  // Remover 'Recife' das opções se a flag `noRecife` for verdadeira
+  const recifeIndex = options.indexOf("Recife");
+  if (noRecife && recifeIndex !== -1) {
+    optionsCopy.splice(recifeIndex, 1);
+  }
 
   const handleSelectCheck = (value: string) => {
+    // Adiciona ou remove o valor do filtro
     if (filters.includes(value)) {
       setFilters(filters.filter((item: string) => item !== value));
     } else {
@@ -28,57 +42,50 @@ const SearchCompare = ({
     }
   };
 
-
   return (
     <div className="mb-6 relative">
-      <label
-        htmlFor="municipio"
-        className="block text-gray-700 font-semibold mb-2"
-      >
-        Compare Aeroportos
+      <label htmlFor="municipio" className="block text-gray-700 font-semibold mb-2">
+        {label}
       </label>
       <input
         type="text"
         id="municipio"
         className="p-2 border rounded-lg w-full"
-        placeholder="Digite para buscar um aeroporto"
+        placeholder={placeholder}
         value={searchTerm}
-        onClick={() => {
-          toggleDropdown();
-          setSearchTerm("");
+        onClick={(e) => {
+          e.stopPropagation(); // Previne o fechamento do dropdown ao clicar no input
+          setDropdown(true); // Exibe o dropdown
         }}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
       {dropdown && (
-        <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10">
+        <FocusHidden open={dropdown} setOpen={setDropdown} style="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-50">
           <div className="p-4 max-h-60 overflow-y-auto">
-            {options
-              .filter((filter) =>
-                filter
-                  .toLocaleLowerCase()
-                  .includes(searchTerm.toLocaleLowerCase())
-              )
-              .slice()
-              .sort((a: any, b: any) => a - b)
-              .map((option: string) => (
-                <label
-                  key={option}
-                  className="cursor-pointer flex items-center gap-2 py-1 text-sm text-gray-700"
-                >
-                  <input
-                    type="checkbox"
-                    checked={filters.includes(option)}
-                    onChange={() => {
-                      handleSelectCheck(option);
-                    }}
-                    className="cursor-pointer form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
-                  />
-                  <span className="truncate">{option}</span>
-                </label>
-              ))}
+            {optionsCopy.filter((option) =>
+              option.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+            ).length > 0 ? (
+              optionsCopy
+                .filter((option) =>
+                  option.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+                )
+                .map((option: string) => (
+                  <label key={option} className="cursor-pointer flex items-center gap-2 py-1 text-sm text-gray-700">
+                    <input
+                      type="checkbox"
+                      checked={filters.includes(option)}
+                      onChange={() => handleSelectCheck(option)}
+                      className="cursor-pointer form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                    />
+                    <span className="truncate">{option}</span>
+                  </label>
+                ))
+            ) : (
+              <p className="text-sm text-gray-700 p-1 text-center">{notFoundMessage}</p>
+            )}
           </div>
-        </div>
+        </FocusHidden>
       )}
 
       <p className="text-gray-700 font-semibold text-sm mt-2">
@@ -120,6 +127,9 @@ console.log('YEAR', year)
         options={tempMuni}
         filters={tempFiltred}
         setFilters={setTempFiltred}
+        label="Compare Aeroportos"
+        placeholder="Digite para buscar um aeroporto"
+        notFoundMessage="Nenhum aeroporto encontrado"
       />
 
       <div className="flex justify-between items-center gap-2">

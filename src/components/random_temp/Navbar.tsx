@@ -1,6 +1,7 @@
 import { useDashboard } from "@/context/DashboardContext";
 import { useState, useEffect } from "react";
 import { aeroportosFilters } from "@/utils/filters/aeroportoFilters";
+import FocusHidden from "../@global/features/FocusHidden";
 
 const ChevronIcon = ({ up = false }: { up?: boolean }) => (
   <svg
@@ -27,8 +28,6 @@ const Navbar = () => {
   // Inicializa filtros temporários com os valores atuais
   useEffect(() => {
     setIsClient(true);
-  
-    // Inicializa tempFilters com o valor do filtro atual ou define "2024" como valor inicial
     setTempFilters((prevFilters: any) => ({
       ...filters,
       year: filters.year || filters.years[filters.years.length - 1],
@@ -36,8 +35,20 @@ const Navbar = () => {
     }));
   }, [filters]);
 
-  const toggleDropdown = (filterLabel: string) =>
-    setDropdowns((prev) => ({ ...prev, [filterLabel]: !prev[filterLabel] }));
+  const toggleDropdown = (filterLabel: string) => {
+    // Se o dropdown estiver aberto, fecha ele, senão abre apenas o que foi clicado
+    setDropdowns((prev) => {
+      const newDropdowns = { ...prev };
+      // Fechar todos os dropdowns antes de abrir o novo
+      Object.keys(newDropdowns).forEach((key) => {
+        if (key !== filterLabel) {
+          newDropdowns[key] = false;
+        }
+      });
+      newDropdowns[filterLabel] = !newDropdowns[filterLabel];
+      return newDropdowns;
+    });
+  };
 
   const handleTimePeriodChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setTempFilters((prev: any) => ({ ...prev, year: event.target.value || "2024" }));
@@ -81,7 +92,10 @@ const Navbar = () => {
   return (
     <div className="w-full bg-gray-50 min-h-[100px] flex flex-col items-start gap-4 py-6 px-4 sm:px-6 lg:px-8 z-20">
       <button
-        onClick={() => setFiltersVisible(!filtersVisible)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setFiltersVisible(true)
+        }}
         className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-300 transition"
       >
         {filtersVisible ? "Esconder Filtros" : "Exibir Filtros"}
@@ -89,14 +103,14 @@ const Navbar = () => {
       </button>
 
       {filtersVisible && tempFilters && (
-        <div className="w-full rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+        <FocusHidden open={filtersVisible} setOpen={setFiltersVisible} style="w-full rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
           <h2 className="text-base font-semibold text-gray-800 mb-4">Filtros</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Filtro de Ano */}
             <div className="flex flex-col">
               <label className="text-xs font-medium text-gray-600 block mb-1">ANO</label>
               <select
-                value={tempFilters.year} // Aqui já está usando o valor de tempFilters.year
+                value={tempFilters.year}
                 onChange={handleTimePeriodChange}
                 className="w-full px-3 py-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 text-sm text-gray-700 transition"
               >
@@ -113,7 +127,10 @@ const Navbar = () => {
               <div key={filter.label} className="relative flex flex-col">
                 <label className="text-xs font-medium text-gray-600 block mb-1">{filter.label}</label>
                 <button
-                  onClick={() => toggleDropdown(filter.label)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleDropdown(filter.label);
+                  }}
                   className="w-full flex justify-between items-center px-3 py-2 border border-gray-300 rounded-md text-left text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition"
                 >
                   <span className="truncate">{filter.label}</span>
@@ -121,7 +138,13 @@ const Navbar = () => {
                 </button>
 
                 {dropdowns[filter.label] && (
-                  <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                  <FocusHidden
+                    open={dropdowns[filter.label]}
+                    setOpen={(val: boolean) =>
+                      setDropdowns((prev) => ({ ...prev, [filter.label]: val }))
+                    }
+                    style="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10"
+                  >
                     <div className="p-4 max-h-60 overflow-y-auto">
                       <button
                         onClick={() => handleSelectAll(filter.label)}
@@ -142,11 +165,7 @@ const Navbar = () => {
                           >
                             <input
                               type="checkbox"
-                              checked={
-                                tempFilters.additionalFilters
-                                  .find((f: any) => f.label === filter.label)
-                                  ?.selected?.includes(option) || false
-                              }
+                              checked={filter.selected?.includes(option) || false}
                               onChange={() => handleCheckboxChange(filter.label, option)}
                               className="form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                             />
@@ -154,7 +173,7 @@ const Navbar = () => {
                           </label>
                         ))}
                     </div>
-                  </div>
+                  </FocusHidden>
                 )}
               </div>
             ))}
@@ -169,7 +188,7 @@ const Navbar = () => {
               </button>
             </div>
           </div>
-        </div>
+        </FocusHidden>
       )}
     </div>
   );
