@@ -20,7 +20,7 @@ const VerticalScrollableBarChart = ({
   bars,
   colors = [],
   heightPerCategory = 50, // Altura de cada barra
-  visibleHeight = 400, // Altura visível do gráfico
+  visibleHeight = 300, // Altura visível do gráfico
 }: any) => {
   // Calcula a altura total com base no número de categorias
   let totalHeight = data.length * heightPerCategory;
