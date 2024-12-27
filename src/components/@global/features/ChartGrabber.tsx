@@ -104,7 +104,7 @@ const ChartGrabber = ({
           />
         </div>
 
-        <div className={`${isFullScreen ? "" : ""} z-10`}>{children}</div>
+        <div className={`${isFullScreen ? "w-[80%]" : ""} z-10`}>{children}</div>
       </div>
 
       {/* Container temp para captura */}

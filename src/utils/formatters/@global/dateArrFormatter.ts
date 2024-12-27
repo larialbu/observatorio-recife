@@ -11,45 +11,45 @@
 // novembro 
 // dezembro
 
-const monthFormatter = (date: number) => {
+export const monthFormatter = (date: number) => {
     switch (date) {
         case 12:
-            return 'dezembro'
+            return 'Dezembro'
 
         case 11:
-            return 'novembro'
+            return 'Novembro'
 
         case 10:
-            return 'outubro'
+            return 'Outubro'
 
         case 9:
-            return 'setembro'
+            return 'Setembro'
 
         case 8:
-            return 'agosto'
+            return 'Agosto'
 
         case 7:
-            return 'julho'
+            return 'Julho'
 
         case 6:
-            return 'junho'
+            return 'Junho'
 
         case 5:
-            return 'maio'
+            return 'Maio'
 
         case 4:
-            return 'abril'
+            return 'Abril'
 
         case 3:
-            return 'março'
+            return 'Março'
 
         case 2:
-            return 'fevereiro'
+            return 'Fevereiro'
 
         case 1:
-            return 'janeiro'
+            return 'Janeiro'
 
-        default: 'anual'
+        default: 'Anual'
 
     }
 }

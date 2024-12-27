@@ -34,7 +34,7 @@ export const Banner: React.FC<BannerProps> = ({ onSearch }) => {
           <h1 className="text-white font-medium text-3xl mb-[2.5em] text-center">
             OBSERVATÓRIO ECONÔMICO DO RECIFE
           </h1>
-          <div className="relative w-2/6 input-content">
+          <div className="relative  input-content lg:w-2/6">
             <span className="absolute top-[0.5em] left-[0.5em]">
             <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M35.9518 5.20428C36.8786 4.6851 37.4838 4.34858 37.9648 4.15674C38.4178 3.9761 38.6162 3.9853 38.7514 4.0204C38.8848 4.05508 39.058 4.14116 39.3546 4.51406C39.671 4.91186 40.0208 5.49506 40.5562 6.39494L42.764 10.105C43.2996 11.0051 43.6452 11.5902 43.8418 12.0543C44.0264 12.4903 44.0124 12.6703 43.9806 12.786C43.948 12.9035 43.865 13.0695 43.4768 13.3601C43.0656 13.6679 42.463 14.008 41.536 14.5273L33.672 18.9324C32.7948 19.4237 32.2274 19.7391 31.7778 19.918C31.3566 20.0856 31.1848 20.0716 31.076 20.0428C30.9672 20.014 30.8114 19.9414 30.5314 19.5884C30.2328 19.2116 29.901 18.6585 29.3902 17.8001L27.0322 13.8376C26.5076 12.9559 26.17 12.3842 25.9778 11.931C25.7972 11.5056 25.8116 11.3328 25.841 11.224C25.8706 11.1153 25.9456 10.9586 26.3176 10.6792C26.7136 10.3816 27.2956 10.0531 28.1966 9.54838L35.9518 5.20428Z" fill="#BEC6FC"/>
@@ -43,7 +43,7 @@ export const Banner: React.FC<BannerProps> = ({ onSearch }) => {
             </svg>
             </span>
             <input
-              className="bg-white bg-opacity-7 border border-[#959595] w-full rounded-2xl py-3.5 pl-20 text-white"
+              className="bg-white bg-opacity-7 border border-[#959595] w-full rounded-2xl py-3.5 pl-20 text-white focus:outline-none hover:border-[#C5DFFF] focus:border-white focus:ring-1 focus:ring-[#C5DFFF]"
               placeholder="Pesquise por títulos, descrições..."
               type="text"
               onChange={handleInputChange} // Chama a função ao digitar

@@ -14,9 +14,6 @@ const CargasAnoComparativo = ({
   toCompare = ["Recife"],
 }: any) => {
   const chartData = processCargasAnoComparativo(data, toCompare);
-  console.log(chartData);
-  console.log(toCompare);
-  console.log(getDateKeys(toCompare));
 
   return (
     <div className="relative bg-white w-full p-4">
