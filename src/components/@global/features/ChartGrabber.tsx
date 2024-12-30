@@ -1,6 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import html2canvas from "html2canvas";
-import OptionsMenu from "../../observatorio/OptionsMenu";
+import OptionsMenu from "./OptionsMenu";
 
 const ChartGrabber = ({
   children,
@@ -11,8 +11,18 @@ const ChartGrabber = ({
 }) => {
   const [showTempContainer, setShowTempContainer] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [chartTitle, setChartTitle] = useState("grafico");
   const chartRef = useRef<HTMLDivElement>(null);
   const tempChartRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Extrai o título do componente filho, se disponível
+    React.Children.forEach(children, (child) => {
+      if (React.isValidElement(child) && child.props.title) {
+        setChartTitle(child.props.title);
+      }
+    });
+  }, [children]);
 
   const handleDownload = () => {
     setShowTempContainer(true);
@@ -32,7 +42,7 @@ const ChartGrabber = ({
       html2canvas(tempChartRef.current, { backgroundColor: "white" }).then(
         (canvas) => {
           const link = document.createElement("a");
-          link.download = "grafico.png";
+          link.download = `${chartTitle.replace(/\s+/g, "_").toLowerCase()}.png`;
           link.href = canvas.toDataURL();
           link.click();
 
@@ -103,11 +113,11 @@ const ChartGrabber = ({
             isFullScreen={isFullScreen}
           />
         </div>
-
-        <div className={`${isFullScreen ? "" : ""} z-10`}>{children}</div>
+        <div className={`${isFullScreen ? "w-[80%]" : ""} z-10`}>
+          {children}
+        </div>
       </div>
 
-      {/* Container temp para captura */}
       {showTempContainer && (
         <div
           style={{

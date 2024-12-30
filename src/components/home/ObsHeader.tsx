@@ -1,8 +1,8 @@
 import Image from "next/image";
 
-export const Header = () => {
+export const ObsHeader = () => {
     return (
-        <header className="bg-black bg-opacity-37 text-blue-900 w-full flex items-center justify-center py-3 px-3">
+        <header className="bg-white text-blue-900 w-full flex items-center justify-center py-3 px-3">
         <div className="flex w-[80%] content_wrapper">
           <div className="logo_container">
             <Image

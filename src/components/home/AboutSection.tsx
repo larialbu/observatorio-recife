@@ -37,7 +37,7 @@ export const AboutSection = () => {
         }`}
       />
       <div className="text-content relative w-[100%] pt-4 pb-4 pr-6 lg:pr-20 flex items-end justify-end">
-        <div className="sm:w-[70%] w-[100%] max-w-[350px] sm:max-w-[500px]">
+        <div className="sm:w-[70%] w-[100%] max-w-[350px] sm:max-w-[400px]">
           <div className="title-content">
             <div className="text-2xl lg:text-4xl sm:text-3xl mb-3 font-bold __title">
               <p>Sobre nós</p>

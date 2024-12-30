@@ -22,15 +22,7 @@ const PassageirosPorAeroporto = ({
           xKey="aeroporto"
           bars={[{ dataKey: "total", name: "Passageiros" }]}
           colors={ColorPalette.default}
-          yAxisFormatter={(value: number) =>
-            new Intl.NumberFormat("pt-BR", {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            }).format(value)
-          }
-          tooltipFormatter={(value: number) =>
-            `${value.toLocaleString("pt-BR")} passageiros`
-          }
+          heightPerCategory={40}
           height={500}
         />
       </ChartGrabber>

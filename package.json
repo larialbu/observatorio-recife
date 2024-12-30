@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "css-loader": "^7.1.2",
     "html2canvas": "^1.4.1",
     "moment": "^2.30.1",
     "next": "14.2.5",
@@ -16,7 +17,8 @@
     "react-dom": "^18",
     "react-tooltip": "^5.28.0",
     "recharts": "^2.13.0-alpha.5",
-    "sass": "^1.80.4"
+    "sass": "^1.80.4",
+    "style-loader": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",

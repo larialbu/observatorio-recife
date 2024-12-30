@@ -19,7 +19,6 @@ export const processDecolagensMes = (
         // Filtra para um único mês
         decolagensMes = data.reduce((total, item) => {
             if (
-                item["ANO"] === year &&
                 item["AEROPORTO NOME"] === aeroportoNome &&
                 parseInt(item["MÊS"], 10) === month
             ) {
@@ -39,7 +38,6 @@ export const processDecolagensMes = (
         decolagensMes = data.reduce((total, item) => {
             const mesAtual = parseInt(item["MÊS"], 10);
             if (
-                item["ANO"] === year &&
                 item["AEROPORTO NOME"] === aeroportoNome &&
                 mesAtual >= startMonth &&
                 mesAtual <= endMonth
@@ -58,7 +56,6 @@ export const processDecolagensMes = (
         // Filtra para o ano inteiro
         decolagensMes = data.reduce((total, item) => {
             if (
-                item["ANO"] === year &&
                 item["AEROPORTO NOME"] === aeroportoNome
             ) {
                 const decolagens = parseInt(item["DECOLAGENS"] || "0", 10);
