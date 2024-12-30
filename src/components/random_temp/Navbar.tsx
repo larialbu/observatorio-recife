@@ -5,7 +5,9 @@ import FocusHidden from "../@global/features/FocusHidden";
 
 const ChevronIcon = ({ up = false }: { up?: boolean }) => (
   <svg
-    className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${up ? "rotate-180" : ""}`}
+    className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
+      up ? "rotate-180" : ""
+    }`}
     viewBox="0 0 20 20"
     fill="none"
     stroke="currentColor"
@@ -22,26 +24,22 @@ const Navbar = () => {
   const [isClient, setIsClient] = useState(false);
   const [dropdowns, setDropdowns] = useState<Record<string, boolean>>({});
   const [filtersVisible, setFiltersVisible] = useState(false);
-
-  // Estado temporário para alterações nos filtros
   const [tempFilters, setTempFilters] = useState<any>(null);
-  // Inicializa filtros temporários com os valores atuais
+  const [searchTerms, setSearchTerms] = useState<Record<string, string>>({});
+
   useEffect(() => {
     setIsClient(true);
-  
-    // Inicializa tempFilters com o valor do filtro atual ou define "2024" como valor inicial
     setTempFilters((prevFilters: any) => ({
       ...filters,
       year: filters.year || filters.years[filters.years.length - 1],
-      additionalFilters: filters.additionalFilters || aeroportosFilters.additionalFilters,
+      additionalFilters:
+        filters.additionalFilters || aeroportosFilters.additionalFilters,
     }));
   }, [filters]);
 
   const toggleDropdown = (filterLabel: string) => {
-    // Se o dropdown estiver aberto, fecha ele, senão abre apenas o que foi clicado
     setDropdowns((prev) => {
       const newDropdowns = { ...prev };
-      // Fechar todos os dropdowns antes de abrir o novo
       Object.keys(newDropdowns).forEach((key) => {
         if (key !== filterLabel) {
           newDropdowns[key] = false;
@@ -88,7 +86,14 @@ const Navbar = () => {
   };
 
   const applyFilters = () => {
-    setFilters(tempFilters); // Atualiza o estado final com os filtros temporários
+    setFilters(tempFilters);
+  };
+
+  const handleSearchChange = (filterLabel: string, value: string) => {
+    setSearchTerms((prev) => ({
+      ...prev,
+      [filterLabel]: value,
+    }));
   };
 
   return (
@@ -96,7 +101,7 @@ const Navbar = () => {
       <button
         onClick={(e) => {
           e.stopPropagation();
-          setFiltersVisible(true)
+          setFiltersVisible(true);
         }}
         className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-300 transition"
       >
@@ -105,14 +110,17 @@ const Navbar = () => {
       </button>
 
       {filtersVisible && tempFilters && (
-        <FocusHidden open={filtersVisible} setOpen={setFiltersVisible} style="w-full rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+        <FocusHidden
+          open={filtersVisible}
+          setOpen={setFiltersVisible}
+          style="w-full rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
+        >
           <h2 className="text-base font-semibold text-gray-800 mb-4">Filtros</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Filtro de Ano */}
             <div className="flex flex-col">
               <label className="text-xs font-medium text-gray-600 block mb-1">ANO</label>
               <select
-                value={tempFilters.year} // Aqui já está usando o valor de tempFilters.year
+                value={tempFilters.year}
                 onChange={handleTimePeriodChange}
                 className="w-full px-3 py-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 text-sm text-gray-700 transition"
               >
@@ -124,10 +132,11 @@ const Navbar = () => {
               </select>
             </div>
 
-            {/* Filtros adicionais com dropdown */}
             {tempFilters.additionalFilters?.map((filter: any) => (
               <div key={filter.label} className="relative flex flex-col">
-                <label className="text-xs font-medium text-gray-600 block mb-1">{filter.label}</label>
+                <label className="text-xs font-medium text-gray-600 block mb-1">
+                  {filter.label}
+                </label>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -148,6 +157,15 @@ const Navbar = () => {
                     style="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10"
                   >
                     <div className="p-4 max-h-60 overflow-y-auto">
+                      <input
+                        type="text"
+                        placeholder="Pesquisar..."
+                        value={searchTerms[filter.label] || ""}
+                        onChange={(e) =>
+                          handleSearchChange(filter.label, e.target.value)
+                        }
+                        className="w-full mb-2 px-2 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
                       <button
                         onClick={() => handleSelectAll(filter.label)}
                         className="text-blue-600 font-medium hover:underline block focus:outline-none"
@@ -158,8 +176,13 @@ const Navbar = () => {
                       </button>
 
                       {filter.options
-                        .slice()
-                        .sort((a: any, b: any) => a - b)
+                        .filter((option: string) =>
+                          option
+                            .toLowerCase()
+                            .includes(
+                              (searchTerms[filter.label] || "").toLowerCase()
+                            )
+                        )
                         .map((option: string) => (
                           <label
                             key={option}
@@ -180,7 +203,6 @@ const Navbar = () => {
               </div>
             ))}
 
-            {/* Botão de Aplicar Filtros */}
             <div className="col-span-full flex justify-end mt-4">
               <button
                 onClick={applyFilters}
