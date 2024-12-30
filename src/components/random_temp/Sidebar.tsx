@@ -4,19 +4,24 @@ import Image from "next/image";
 import Link from "next/link";
 import Menu from "./Menu";
 import { useState } from "react";
+import { useIsMobile } from "@/hooks/useIsMobile"; // Hook para detectar visualização mobile
 
 const Bar = ({
   menuOpen,
+  isMobile,
   setMenuOpen,
 }: {
   menuOpen: boolean;
+  isMobile: boolean;
   setMenuOpen: (val: boolean) => void;
 }) => {
   return (
     <div
-      className={`${menuOpen ? "fixed min-w-[200px] z-30 shadow-2xl overflow-y-scroll" : ""} w-[${
-        menuOpen ? "14%" : "6%"
-      }] p-3 bg-white h-full`}
+      className={`
+        ${menuOpen ? "fixed min-w-[200px] z-30 shadow-2xl overflow-y-scroll" : ""} 
+        ${isMobile && !menuOpen ? "hidden" : `w-[${menuOpen ? "14%" : "6%"}]`}
+        p-3 bg-white h-full transition-all duration-300
+      `}
     >
       <div
         className={`flex ${menuOpen ? "justify-end" : "justify-center"} ${
@@ -25,7 +30,7 @@ const Bar = ({
       >
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="flex p-1 my-4 items-center justify-center  hover:bg-lamaSkyLight"
+          className="flex p-1 my-4 items-center justify-center hover:bg-lamaSkyLight"
         >
           {menuOpen ? (
             <svg
@@ -51,7 +56,7 @@ const Bar = ({
           )}
         </button>
       </div>
- 
+
       <Link href="/" className="flex items-center justify-center">
         <Image
           src="/observatorio.jpg"
@@ -67,17 +72,30 @@ const Bar = ({
 
 export const Sidebar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const isMobile = useIsMobile();
 
   return (
     <>
-      {menuOpen ? (
-        <>
-          <Bar menuOpen={false} setMenuOpen={setMenuOpen} />
-          <Bar menuOpen={true} setMenuOpen={setMenuOpen} />{" "}
-        </>
-      ) : (
-        <Bar menuOpen={false} setMenuOpen={setMenuOpen} />
+      {/* Botão flutuante pro cell */}
+      {!menuOpen && isMobile && (
+        <button
+          onClick={() => setMenuOpen(true)}
+          className="fixed top-14 left-4 p-3 bg-blue-500 text-white rounded-full shadow-lg z-40"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24px"
+            height="24px"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="white"
+            strokeWidth="2"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 12h16M4 6h16M4 18h8" />
+          </svg>
+        </button>
       )}
+      <Bar menuOpen={menuOpen} isMobile={isMobile} setMenuOpen={setMenuOpen} />
     </>
   );
 };

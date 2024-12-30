@@ -34,7 +34,7 @@ const VerticalScrollableBarChart = ({
 
       {/* Wrapper para scroll vertical */}
       <div
-        className="overflow-y-auto overflow-x-visible" // Scroll somente na vertical
+        className="overflow-y-auto overflow-x-visible" // settando scroll
         style={{ height: `${visibleHeight}px` }} // Define a altura visível
       >
         <div>
@@ -42,7 +42,7 @@ const VerticalScrollableBarChart = ({
             <RechartsBarChart
               data={data}
               layout="vertical" // Configura barras verticais
-              margin={{ top: 20, right: 0, left: -35, bottom: 5 }}
+              margin={{ top: 20, right: 5, left: -35, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
