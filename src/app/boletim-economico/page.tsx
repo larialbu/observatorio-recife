@@ -9,7 +9,8 @@ import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
 import { Footer } from "@/components/home/Footer";
 import { NavBarHome } from "@/components/home/NavBarHome";
 import { useState } from "react";
-import { ModalBoletim } from "@/components/ModalBoletim";
+import { ModalBoletim } from "@/components/random_temp/ModalBoletim";
+import { ObsHeader } from "@/components/home/ObsHeader";
 
 const boletins = [
     { name: "SDECTI - Edição 09 2023", link: "https://desenvolvimentoeconomico.recife.pe.gov.br/sites/default/files/2023-12/BASE%20BOLETIM%209%202023.pdf" },
@@ -50,7 +51,7 @@ const BoletimEconomico = () => {
 
     return (
         <div className="flex flex-col min-h-screen items-center bg-gray-100">
-            <Header />
+            <ObsHeader />
             <NavBarHome simple />
 
             <div className="p-8 font-bold text-gray-800 w-[90%] text-3xl sm:text-5xl mt-4 pl-0 sm:pl-8">

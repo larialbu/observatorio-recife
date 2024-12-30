@@ -1,29 +1,43 @@
 "use client";
 
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
+import { usePathname } from "next/navigation"; // Hook para obter a rota atual
+import { defaultFilters } from "@/utils/filters/defaultFilters";
+import { aeroportosFilters } from "@/utils/filters/aeroportoFilters";
 
 interface DashboardContextProps {
-  year: string;
-  setYear: (year: string) => void;
-  availableYears: string[];
-  setAvailableYears: (years: string[]) => void;
+  filters: Record<string, any>;
+  setFilters: (filters: Record<string, any>) => void;
+  resetFilters: () => void; // Reseta os filtros com base na rota
 }
+
+// Mapeamento de rotas para filtros
+const routeFiltersMap: Record<string, Record<string, any>> = {
+  "/observatorio/aeroportos": aeroportosFilters,
+};
+
+const getFiltersForRoute = (pathname: string): Record<string, any> => {
+  return routeFiltersMap[pathname] || defaultFilters; // Retorna os filtros da rota ou os padrões
+};
 
 const DashboardContext = createContext<DashboardContextProps | undefined>(undefined);
 
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
-  const [year, setYear] = useState("2023"); // ano padrão inicial
-  const [availableYears, setAvailableYears] = useState<string[]>([]);
+  const [filters, setFilters] = useState<Record<string, any>>(defaultFilters);
+  const pathname = usePathname(); // Obtém a rota atual
+
+  // Atualiza os filtros ao mudar a rota
+  useEffect(() => {
+    setFilters(getFiltersForRoute(pathname));
+  }, [pathname]);
+
+  // Função para redefinir os filtros manualmente
+  const resetFilters = () => {
+    setFilters(getFiltersForRoute(pathname));
+  };
 
   return (
-    <DashboardContext.Provider
-      value={{
-        year,
-        setYear,
-        availableYears,
-        setAvailableYears,
-      }}
-    >
+    <DashboardContext.Provider value={{ filters, setFilters, resetFilters }}>
       {children}
     </DashboardContext.Provider>
   );

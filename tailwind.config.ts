@@ -20,9 +20,34 @@ const config: Config = {
         lamaPurpleLight: "#F1F0FF",
         lamaYellow: "#FAE27C",
         lamaYellowLight: "#FEFCE8",
+        smokeGreyStroke: "#959595",
+        blueObs: "#0155AE",
+      },
+      opacity: {
+        '37': '0.37',  // Adiciona a opacidade de 37%
+        '7': '0.07',
+        '93': '0.93',
       },
     },
+
+    screens: {
+      'sm': '640px',
+      // => @media (min-width: 640px) { ... }
+
+      'md': '768px',
+      // => @media (min-width: 768px) { ... }
+
+      'lg': '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      'xl': '1280px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... }
+    }
   },
   plugins: [],
 };
+
 export default config;

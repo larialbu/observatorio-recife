@@ -3,18 +3,24 @@
 import "../styles/home/style.scss";
 import "../styles/explore/style.scss";
 
-import { Header } from "@/components/home/Header";
+import { ObsHeader } from "@/components/home/ObsHeader";
 import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
 import { Footer } from "@/components/home/Footer";
 import { NavBarHome } from "@/components/home/NavBarHome";
 import { CardsContainer } from "@/components/explorar/CardsContainer";
+import { Head } from "next/document";
 
 const Homepage = () => {
-
+  
+  <Head>
+    {/* Favicon */}
+    <link rel="icon" href="/favicon.ico" />
+  </Head>
 
   return (
+    
     <div className="min-h-screen">
-      <Header></Header>
+      <ObsHeader></ObsHeader>
 
       <NavBarHome simple />
 

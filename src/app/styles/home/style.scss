@@ -86,7 +86,11 @@ header{
             background: $orangePrimary;
             color: white;
             padding: 1em 5em;
-            border-radius: 12px;
+            border-radius: 100px;
+
+            :hover {
+                background-color: #C45D2C;
+            }
         }
     }
 }

@@ -3,28 +3,14 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 
-  font-family: 'Poppins', sans-serif;
+  /* font-family: "Poppins", sans-serif; */
 }
 
-.react-calendar {
-  width: 100% !important;
-  border: none !important;
-  font-family: "Poppins", sans-serif !important;
-}
-
-.react-calendar__navigation__label__labelText {
-  font-weight: 600;
-}
-
-.react-calendar__tile--active {
-  background-color: #c3ebfa !important;
-  color: black !important;
-}
 
 .rbc-btn-group:first-child {
   display: none !important;
@@ -50,41 +36,6 @@
   box-shadow: none !important;
 }
 
-.rbc-time-view {
-  border-color: #eee !important;
-}
-
-.rbc-time-header {
-  display: none !important;
-}
-
-.rbc-time-content {
-  border: none !important;
-}
-
-.rbc-time-gutter.rbc-time-column {
-  font-size: 12px !important;
-}
-
-.rbc-time-gutter.rbc-time-column .rbc-timeslot-group {
-  padding: 0px 20px !important;
-}
-
-.rbc-timeslot-group {
-  background-color: #f7fdff !important;
-}
-
-.rbc-day-slot {
-  font-size: 14px !important;
-}
-
-.rbc-event {
-  border: none !important;
-  color: black !important;
-  padding: 10px !important;
-  margin: 10px !important;
-  width: 99% !important;
-}
 
 .rbc-event:nth-child(1) {
   background-color: #e2f8ff !important;
@@ -110,11 +61,7 @@
 .rbc-event:nth-child(8) {
   background-color: #fdf2fb !important;
 }
-
-.rbc-event-label{
-  color: gray !important;
-  margin-bottom: 5px;
-}
+ 
 
 .fullscreen {
   transform: scale(1.2);
@@ -129,3 +76,37 @@
   overflow-x: scroll;
   z-index: 1000;
 }
+
+.menu-item-wrapper svg{
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.menu-item-wrapper svg path{
+ fill: gray;
+}
+
+.menu-item-wrapper svg polygon{
+  fill: gray;
+}
+
+.tooltip {
+  opacity: 0;
+  transform: translateY(-50%) translateX(-10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.tooltip-show {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.tooltip-hide {
+  opacity: 0;
+  transform: translateY(-50%) translateX(-10px);
+}
+
+
+
