@@ -4,7 +4,7 @@ import cards from "./@imports/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 
-const Geral = ({ data, year }: { data: any; year: string }) => (
+const Embarque = ({ data, year }: { data: any; year: string }) => (
   <div>
     <div className="flex flex-wrap gap-4 justify-center mb-8">
       {cards.map(({ Component }, index) => (
@@ -34,4 +34,4 @@ const Geral = ({ data, year }: { data: any; year: string }) => (
   </div>
 );
 
-export default Geral;
+export default Embarque;

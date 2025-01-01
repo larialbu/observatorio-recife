@@ -10,6 +10,7 @@ import { processFilters } from "@/utils/filters/@global/processFilters";
 
 import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
+import Embarque from "./(embarque)/embarque";
 
 const AeroportosPage = () => {
   const { filters, setFilters } = useDashboard();
@@ -39,7 +40,7 @@ const AeroportosPage = () => {
     const fetchData = async () => {
       fetchingRef.current = true;
       setLoading(true);
-      
+
       try {
         console.log("Fetching data for year:", currentYear);
         const aeroportoService = new AeroportoData(currentYear);
@@ -49,13 +50,16 @@ const AeroportosPage = () => {
         // Atualiza filtros dinamicamente apenas se necessário
         if (prevYear.current === null) {
           const dynamicFilters = processFilters(fetchedData, aeroportosFilters);
+          console.log("dynamicFilters -> ", dynamicFilters);
           setFilters((prevFilters: any) => ({
             ...prevFilters,
             additionalFilters: dynamicFilters.additionalFilters,
           }));
         }
-        
+
         prevYear.current = currentYear;
+
+        console.log("-> ->", filters);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
         setError("Erro ao buscar os dados. Tente novamente mais tarde.");
@@ -78,22 +82,67 @@ const AeroportosPage = () => {
   if (loading) return <LoadingScreen />;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
 
+  console.log("-> ->", filters);
+
   const renderContent = () => {
     switch (activeTab) {
       case "geral":
-        return <Geral data={filteredData} year={filters.year ? filters.year : filters.years[filters.years.length-1]} />;
+        return (
+          <Geral
+            data={filteredData}
+            year={
+              filters.year
+                ? filters.year
+                : filters.years[filters.years.length - 1]
+            }
+          />
+        );
       case "comparativo":
         return (
           <Comparativo
-            tempMuni={filters.additionalFilters[4]?.options}
+            toCompare={filters.additionalFilters[4]?.options}
             data={filteredData}
-            year={filters.year ? filters.year : filters.years[filters.years.length-1]}
+            year={
+              filters.year
+                ? filters.year
+                : filters.years[filters.years.length - 1]
+            }
           />
         );
       case "embarque":
-        return "Estatísticas de Embarque";
+        return (
+          <Embarque
+            toCompare={
+              filters.additionalFilters[4]?.selected.length > 0
+                ? filters.additionalFilters[4].selected
+                : ["Recife"]
+            }
+            monthRecent={
+              filters.additionalFilters[1]?.selected.length > 0
+                ? undefined
+                : +filters.additionalFilters[1].options[
+                    filters.additionalFilters[1].options.length - 1
+                  ]
+            }
+            data={filteredData}
+            year={
+              filters.year
+                ? filters.year
+                : filters.years[filters.years.length - 1]
+            }
+          />
+        );
       default:
-        return <Geral data={filteredData} year={filters.year ? filters.year : filters.years[filters.years.length-1]} />;
+        return (
+          <Geral
+            data={filteredData}
+            year={
+              filters.year
+                ? filters.year
+                : filters.years[filters.years.length - 1]
+            }
+          />
+        );
     }
   };
 
@@ -128,7 +177,7 @@ const AeroportosPage = () => {
             activeTab === "embarque" ? "bg-blue-500 text-white" : "bg-gray-200"
           }`}
         >
-          Estatísticas
+          Embarque/Desembarque
         </button>
       </div>
 
