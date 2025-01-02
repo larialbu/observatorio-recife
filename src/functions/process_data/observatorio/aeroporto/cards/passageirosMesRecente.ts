@@ -1,7 +1,7 @@
 export const processPassageirosMes = (
   data: any[],
   year: string,
-  airportName: string,
+  airportName?: string,
   months?: [number] | [number, number]
 ) => {
   if (months) {
@@ -19,7 +19,7 @@ export const processPassageirosMes = (
     // Filtra para um único mês
     passageirosMes = data.reduce((total, item) => {
       if (
-        item["AEROPORTO NOME"] === airportName &&
+        (!airportName || item["AEROPORTO NOME"] === airportName) &&
         parseInt(item["MÊS"], 10) === month
       ) {
         const passageiros = parseFloat(
@@ -40,7 +40,7 @@ export const processPassageirosMes = (
     passageirosMes = data.reduce((total, item) => {
       const mesAtual = parseInt(item["MÊS"], 10);
       if (
-        item["AEROPORTO NOME"] === airportName &&
+        (!airportName || item["AEROPORTO NOME"] === airportName) &&
         mesAtual >= startMonth &&
         mesAtual <= endMonth
       ) {
@@ -53,15 +53,17 @@ export const processPassageirosMes = (
     }, 0);
 
     return {
-      intervalo: `${new Date(0, startMonth - 1).toLocaleString("pt-BR", { month: "long" })} - ${new Date(0, endMonth - 1).toLocaleString("pt-BR", { month: "long" })}`,
+      intervalo: `${new Date(0, startMonth - 1).toLocaleString("pt-BR", {
+        month: "long",
+      })} - ${new Date(0, endMonth - 1).toLocaleString("pt-BR", {
+        month: "long",
+      })}`,
       passageiros: passageirosMes,
     };
   } else {
     // Filtra para o ano inteiro
     passageirosMes = data.reduce((total, item) => {
-      if (
-        item["AEROPORTO NOME"] === airportName
-      ) {
+      if (!airportName || item["AEROPORTO NOME"] === airportName) {
         const passageiros = parseFloat(
           (item["PASSAGEIRO"] || "0").replace(/\./g, "").replace(",", ".")
         );

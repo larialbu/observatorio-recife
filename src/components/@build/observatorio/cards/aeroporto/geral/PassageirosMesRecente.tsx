@@ -9,11 +9,13 @@ const PassageirosMesRecente = ({
   year,
   color,
 }: any) => {
-  const chartData = processPassageirosMes(data, year, "Recife");
+  // const chartData = processPassageirosMes(data, year, local.length > 0 ? undefined : 'Recife');
+  const chartData = processPassageirosMes(data, year);
 
   return (
     <Card
-      local={local}
+      // local={local.length > 0 ? '' : 'Recife'}
+      local={''}
       title={`${title}`}
       data={chartData.passageiros}
       year={year}
