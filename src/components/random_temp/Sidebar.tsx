@@ -80,7 +80,7 @@ export const Sidebar = () => {
       {!menuOpen && isMobile && (
         <button
           onClick={() => setMenuOpen(true)}
-          className="fixed top-14 left-4 p-3 bg-blue-500 text-white rounded-full shadow-lg z-40"
+          className="fixed top-14 left-4 p-3 bg-blue-500 text-white rounded-full shadow-lg z-50"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

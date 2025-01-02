@@ -15,6 +15,7 @@ const FocusHidden = ({
 
   const handleClickOutside = (e: MouseEvent) => {
     // Verifica se o clique foi fora do container do dropdown
+    console.log('oi')
     if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
       setOpen(false); // Fecha o dropdown
     }

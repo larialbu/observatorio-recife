@@ -2,6 +2,7 @@ import { useDashboard } from "@/context/DashboardContext";
 import { useState, useEffect } from "react";
 import { aeroportosFilters } from "@/utils/filters/aeroportoFilters";
 import FocusHidden from "../@global/features/FocusHidden";
+import { useNavbarHandlers } from "@/functions/@global/NavbarHandlers";
 
 const ChevronIcon = ({ up = false }: { up?: boolean }) => (
   <svg
@@ -22,10 +23,22 @@ const ChevronIcon = ({ up = false }: { up?: boolean }) => (
 const Navbar = () => {
   const { filters, setFilters } = useDashboard();
   const [isClient, setIsClient] = useState(false);
-  const [dropdowns, setDropdowns] = useState<Record<string, boolean>>({});
   const [filtersVisible, setFiltersVisible] = useState(false);
-  const [tempFilters, setTempFilters] = useState<any>(null);
-  const [searchTerms, setSearchTerms] = useState<Record<string, string>>({});
+
+  const {
+    dropdowns,
+    tempFilters,
+    searchTerms,
+    toggleDropdown,
+    handleTimePeriodChange,
+    handleCheckboxChange,
+    handleSelectAll,
+    applyFilters,
+    handleSearchChange,
+    setTempFilters,
+    setDropdowns
+  } = useNavbarHandlers();
+
 
   useEffect(() => {
     setIsClient(true);
@@ -37,71 +50,12 @@ const Navbar = () => {
     }));
   }, [filters]);
 
-  const toggleDropdown = (filterLabel: string) => {
-    setDropdowns((prev) => {
-      const newDropdowns = { ...prev };
-      Object.keys(newDropdowns).forEach((key) => {
-        if (key !== filterLabel) {
-          newDropdowns[key] = false;
-        }
-      });
-      newDropdowns[filterLabel] = !newDropdowns[filterLabel];
-      return newDropdowns;
-    });
-  };
-
-  const handleTimePeriodChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setTempFilters((prev: any) => ({ ...prev, year: event.target.value || "2024" }));
-  };
-
-  const handleCheckboxChange = (filterLabel: string, value: string) => {
-    setTempFilters((prev: any) => ({
-      ...prev,
-      additionalFilters: prev.additionalFilters.map((filter: any) =>
-        filter.label === filterLabel
-          ? {
-              ...filter,
-              selected: filter.selected.includes(value)
-                ? filter.selected.filter((item: string) => item !== value)
-                : [...filter.selected, value],
-            }
-          : filter
-      ),
-    }));
-  };
-
-  const handleSelectAll = (filterLabel: string) => {
-    setTempFilters((prev: any) => ({
-      ...prev,
-      additionalFilters: prev.additionalFilters.map((filter: any) =>
-        filter.label === filterLabel
-          ? {
-              ...filter,
-              selected:
-                filter.selected.length === filter.options.length ? [] : [...filter.options],
-            }
-          : filter
-      ),
-    }));
-  };
-
-  const applyFilters = () => {
-    setFilters(tempFilters);
-  };
-
-  const handleSearchChange = (filterLabel: string, value: string) => {
-    setSearchTerms((prev) => ({
-      ...prev,
-      [filterLabel]: value,
-    }));
-  };
-
   return (
-    <div className="w-full bg-gray-50 min-h-[100px] flex flex-col items-start gap-4 py-6 px-4 sm:px-6 lg:px-8 z-20">
+    <div className="w-full bg-gray-50 min-h-[70px] flex flex-col items-start gap-4 py-4 px-4 sm:px-6 lg:px-8 z-40">
       <button
         onClick={(e) => {
           e.stopPropagation();
-          setFiltersVisible(true);
+          setFiltersVisible(!filtersVisible);
         }}
         className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-300 transition"
       >
