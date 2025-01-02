@@ -1,11 +1,10 @@
-import { BruteData } from "@/@types/observatorio/aeroporto/bruteData";
-import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
+import { ProcessedData } from "@/@types/observatorio/balanca-comercial/processedData";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME;
 const API_PASSWORD = process.env.NEXT_PUBLIC_API_PASSWORD;
 
-export class AeroportoData {
+export class BalancaComercialData {
   private year: string;
   private static cache: Record<string, any> = {}; // Cache estático para todas as instânciasx
 
@@ -14,9 +13,9 @@ export class AeroportoData {
   }
 
   private async fetchData<T>(endpoint: string): Promise<T> {
-    if (AeroportoData.cache[endpoint]) {
+    if (BalancaComercialData.cache[endpoint]) {
       console.log("Usando dados em cache para:", endpoint);
-      return AeroportoData.cache[endpoint];
+      return BalancaComercialData.cache[endpoint];
     }
 
     try {
@@ -36,7 +35,7 @@ export class AeroportoData {
       const data = await response.json();
       console.log("Resposta JSON recebida:", data);
 
-      AeroportoData.cache[endpoint] = data;
+      BalancaComercialData.cache[endpoint] = data;
 
       return data;
     } catch (error) {
@@ -46,11 +45,11 @@ export class AeroportoData {
   }
 
   async fetchProcessedData(): Promise<ProcessedData[]> {
-    const endpoint = `/aeroporto/anac/anos/${this.year}`;
+    const endpoint = `/balanco-comercial/geral/${this.year}`;
     return this.fetchData<ProcessedData[]>(endpoint);
   }
 
   clearCache(): void {
-    AeroportoData.cache = {};
+    BalancaComercialData.cache = {};
   }
 }

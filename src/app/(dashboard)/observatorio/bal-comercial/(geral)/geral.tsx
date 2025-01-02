@@ -5,7 +5,7 @@ import cards from "./@imports/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 
-const Geral = ({ data, year }: { data: any; year: string }) => {
+const Geral = ({ toCompare, data, year }: { toCompare: string[]; data: any; year: string }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
@@ -29,6 +29,7 @@ const Geral = ({ data, year }: { data: any; year: string }) => {
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Loading...</div>} key={index}>
             <Component
+              local={toCompare ? toCompare : []}
               data={data}
               year={year}
               color={ColorPalette.default[index]}

@@ -1,6 +1,6 @@
 {
   "name": "observatorio-economico-recife",
-  "version": "2.0.0",
+  "version": "3.0.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -18,12 +18,14 @@
     "react-tooltip": "^5.28.0",
     "recharts": "^2.13.0-alpha.5",
     "sass": "^1.80.4",
+    "sortablejs": "^1.15.6",
     "style-loader": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/sortablejs": "^1.15.8",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",
