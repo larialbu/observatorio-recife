@@ -7,20 +7,23 @@ import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { embarqueNaturezaTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueNaturezaTipo";
 import HorizontalScrollableBarChart from "@/components/@global/charts/HorizontalScrollaberBarChart";
+import { embarqueDesembarqueNatureTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDesembarqueNaturezaTipo";
 
 const CargasIntEmbarque = ({
   data = [],
   toCompare = ["Recife"],
-  title = "Carga por Aeroporto",
+  title = "Cargas Internacionais",
   colors = ColorPalette.default,
   monthRecent,
+  type
 }: any) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
-  const chartData = embarqueNaturezaTipo(
+  const chartData = embarqueDesembarqueNatureTipo(
     data,
     toCompare,
     'Internacional',
     "cargas",
+    type,
     monthRecent
   );
 
@@ -34,7 +37,7 @@ const CargasIntEmbarque = ({
           title={title}
           colors={colors}
           xKey="uf"
-          bars={[{ dataKey: "total", name: "Carga (kg)" }]}
+          bars={[{ dataKey: "total", name: "Carga (Ton)" }]}
           height={400} // Altura do viewport visível para scroll
           barSize={30} // Altura individual de cada barra
           widthMultiply={130}

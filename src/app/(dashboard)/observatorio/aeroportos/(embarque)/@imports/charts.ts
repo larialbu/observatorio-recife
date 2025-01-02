@@ -106,5 +106,29 @@ const charts = [
         )
     ),
   },
+  {
+    Component: React.lazy(
+      () =>
+        import(
+          "@/components/@build/observatorio/charts/aeroporto/embarque/PassageirosComparativo"
+        )
+    ),
+  },
+  {
+    Component: React.lazy(
+      () =>
+        import(
+          "@/components/@build/observatorio/charts/aeroporto/embarque/CargasComparativo"
+        )
+    ),
+  },
+  {
+    Component: React.lazy(
+      () =>
+        import(
+          "@/components/@build/observatorio/charts/aeroporto/embarque/DecolagensComparativo"
+        )
+    ),
+  },
 ];
 export default charts;

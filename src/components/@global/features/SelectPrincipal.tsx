@@ -31,7 +31,7 @@ const SelectPrincipal = ({
 
   useEffect(() => {
     if (initialValue) {
-      setFilters([initialValue]);
+      setFilters(initialValue);
       setSearchTerm(`${initialValue}`);
     }
   }, []);

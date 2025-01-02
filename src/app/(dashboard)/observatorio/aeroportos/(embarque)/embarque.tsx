@@ -34,7 +34,7 @@ const Embarque = ({
         search={false}
       />
 
-      <div className="flex flex-wrap gap-4 justify-center mb-8">
+      {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Loading...</div>} key={index}>
             <Component
@@ -45,7 +45,7 @@ const Embarque = ({
             />
           </React.Suspense>
         ))}
-      </div>
+      </div> */}
 
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 place-items-center">
         {charts.map(({ Component }, index) => (
