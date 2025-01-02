@@ -1,6 +1,6 @@
 import { useDashboard } from "@/context/DashboardContext";
 import { useState, useEffect } from "react";
-import { aeroportosFilters } from "@/utils/filters/aeroportoFilters";
+import { defaultFilters } from "@/utils/filters/defaultFilters";
 import FocusHidden from "../@global/features/FocusHidden";
 import { useNavbarHandlers } from "@/functions/@global/NavbarHandlers";
 
@@ -44,9 +44,9 @@ const Navbar = () => {
     setIsClient(true);
     setTempFilters((prevFilters: any) => ({
       ...filters,
-      year: filters.year || filters.years[filters.years.length - 1],
+      year: filters.year || filters.years[filters.years.length - 1] || defaultFilters.years[defaultFilters.years.length - 1],
       additionalFilters:
-        filters.additionalFilters || aeroportosFilters.additionalFilters,
+        filters.additionalFilters || defaultFilters.additionalFilters,
     }));
   }, [filters]);
 
@@ -78,7 +78,7 @@ const Navbar = () => {
                 onChange={handleTimePeriodChange}
                 className="w-full px-3 py-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 text-sm text-gray-700 transition"
               >
-                {aeroportosFilters.years.map((year: string) => (
+                {filters.years.map((year: string) => (
                   <option key={year} value={year}>
                     {year}
                   </option>

@@ -95,7 +95,6 @@ const AeroportosPage = () => {
                 ? filters.year
                 : filters.years[filters.years.length - 1]
             }
-            toCompare={filters.additionalFilters[4]?.selected}
           />
         );
       case "comparativo":
@@ -142,7 +141,6 @@ const AeroportosPage = () => {
                 ? filters.year
                 : filters.years[filters.years.length - 1]
             }
-            toCompare={filters.additionalFilters[4]?.selected}
           />
         );
     }
@@ -160,7 +158,7 @@ const AeroportosPage = () => {
         className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
           activeTab === "geral"
             ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
-            : "bg-gray-300 text-gray-700"
+            : "bg-gray-300 text-gray-500"
         }`}
       >
         Resumo Geral
@@ -170,7 +168,7 @@ const AeroportosPage = () => {
         className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
           activeTab === "comparativo"
             ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
-            : "bg-gray-300 text-gray-700"
+            : "bg-gray-300 text-gray-500"
         }`}
       >
         Comparativo
@@ -180,7 +178,7 @@ const AeroportosPage = () => {
         className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
           activeTab === "embarque"
             ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
-            : "bg-gray-300 text-gray-700"
+            : "bg-gray-300 text-gray-500"
         }`}
       >
         Embarque/Desembarque

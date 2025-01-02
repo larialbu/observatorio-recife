@@ -18,7 +18,7 @@ const Bar = ({
   return (
     <div
       className={`
-        ${menuOpen ? "fixed min-w-[200px] z-30 shadow-2xl overflow-y-scroll" : ""} 
+        ${menuOpen ? "fixed min-w-[200px] z-50 shadow-2xl overflow-y-scroll" : ""} 
         ${isMobile && !menuOpen ? "hidden" : `w-[${menuOpen ? "14%" : "6%"}]`}
         p-3 bg-white h-full transition-all duration-300
       `}
