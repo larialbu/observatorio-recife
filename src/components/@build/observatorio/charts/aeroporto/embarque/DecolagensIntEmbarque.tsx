@@ -6,22 +6,21 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/cargaPorAeroporto";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { embarqueNaturezaTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueNaturezaTipo";
-import { embarqueDesembarqueNaturezaTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDesembarqueNaturezaTipo";
+import HorizontalScrollableBarChart from "@/components/@global/charts/HorizontalScrollaberBarChart";
 
-const CargasEmbarqueDom = ({
+const DecolagensIntEmbarque = ({
   data = [],
   toCompare = ["Recife"],
   title = "Carga por Aeroporto",
   colors = ColorPalette.default,
   monthRecent,
-  type
 }: any) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
-  const chartData = embarqueDesembarqueNaturezaTipo(
+  const chartData = embarqueNaturezaTipo(
     data,
     toCompare,
-    "Doméstica",
-    "cargas",
+    'Internacional',
+    "decolagens",
     monthRecent
   );
 
@@ -30,18 +29,20 @@ const CargasEmbarqueDom = ({
   return (
     <div className="relative bg-white w-full p-4">
       <ChartGrabber>
-        <VerticalScrollableBarChart
+        <HorizontalScrollableBarChart
           data={chartData}
           title={title}
           colors={colors}
           xKey="uf"
-          bars={[{ dataKey: type === 'Embarque' ? 'totalEmbarques' : 'totalDesembarques', name: "Carga (kg)" }]}
+          bars={[{ dataKey: "total", name: "Carga (kg)" }]}
           height={400} // Altura do viewport visível para scroll
           barSize={30} // Altura individual de cada barra
+          widthMultiply={130}
+          heightToPass={285}
         />
       </ChartGrabber>
     </div>
   );
 };
 
-export default CargasEmbarqueDom;
+export default DecolagensIntEmbarque;

@@ -9,11 +9,13 @@ const DecolagensMesRecente = ({
   year,
   color,
 }: any) => {
-  const chartData = processDecolagensMes(data, year, "Recife");
+  // const chartData = processDecolagensMes(data, year, local.length > 0 ? undefined : 'Recife');
+  const chartData = processDecolagensMes(data, year);
 
   return (
     <Card
-      local={local}
+      // local={local.length > 0 ? '' : 'Recife'}
+      local={''}
       title={`${title}`}
       data={chartData.decolagens}
       year={year}

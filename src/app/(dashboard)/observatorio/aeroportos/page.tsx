@@ -95,6 +95,7 @@ const AeroportosPage = () => {
                 ? filters.year
                 : filters.years[filters.years.length - 1]
             }
+            toCompare={filters.additionalFilters[4]?.selected}
           />
         );
       case "comparativo":
@@ -141,6 +142,7 @@ const AeroportosPage = () => {
                 ? filters.year
                 : filters.years[filters.years.length - 1]
             }
+            toCompare={filters.additionalFilters[4]?.selected}
           />
         );
     }

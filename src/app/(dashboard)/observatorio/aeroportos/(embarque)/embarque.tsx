@@ -16,7 +16,7 @@ const Embarque = ({
   data: any;
   year: string;
 }) => {
-  const [type, setType] = useState([]);
+  const [type, setType] = useState(['Embarque']);
 
   console.log("recent ", monthRecent);
 
@@ -58,6 +58,7 @@ const Embarque = ({
                 toCompare={toCompare}
                 data={data}
                 monthRecent={monthRecent}
+                type={type[0]}
               />
             </React.Suspense>
           </div>
