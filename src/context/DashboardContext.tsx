@@ -4,6 +4,7 @@ import React, { createContext, useState, useContext, ReactNode, useEffect } from
 import { usePathname } from "next/navigation"; // Hook para obter a rota atual
 import { defaultFilters } from "@/utils/filters/defaultFilters";
 import { aeroportosFilters } from "@/utils/filters/aeroportoFilters";
+import { balancaComercialFilters } from "@/utils/filters/balancaComercialFilters";
 
 interface DashboardContextProps {
   filters: Record<string, any>;
@@ -14,6 +15,7 @@ interface DashboardContextProps {
 // Mapeamento de rotas para filtros
 const routeFiltersMap: Record<string, Record<string, any>> = {
   "/observatorio/aeroportos": aeroportosFilters,
+  "/observatorio/bal-comercial": balancaComercialFilters,
 };
 
 const getFiltersForRoute = (pathname: string): Record<string, any> => {

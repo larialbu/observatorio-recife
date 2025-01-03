@@ -20,11 +20,9 @@ const Comparativo = ({
   // const tempFiltred = ["Rio De Janeiro", "Salvador", "Confins"];
   const [tablesRender, setTablesRender] = useState(tables);
 
-  console.log("tempFilterd", tempFiltred);
 
   useEffect(() => {
     const getNewTables = tempFiltred.map((val) => {
-      console.log(val);
       return {
         Component: React.lazy(
           () =>
@@ -34,9 +32,6 @@ const Comparativo = ({
         ),
       };
     });
-    console.log(getNewTables);
-
-    console.log("tempFilterd", tempFiltred);
 
     setTablesRender([...tables, ...getNewTables]);
   }, [tempFiltred]);
@@ -125,7 +120,6 @@ const Comparativo = ({
 
       <div className="flex items-center justify-center mb-6 gap-2">
         {tempFiltred.map((_, i) => {
-          console.log(i);
           return (
             <button
               key={i}

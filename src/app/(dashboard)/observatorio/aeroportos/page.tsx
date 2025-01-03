@@ -42,7 +42,6 @@ const AeroportosPage = () => {
       setLoading(true);
 
       try {
-        console.log("Fetching data for year:", currentYear);
         const aeroportoService = new AeroportoData(currentYear);
         const fetchedData = await aeroportoService.fetchProcessedData();
         setData(fetchedData);
@@ -50,7 +49,6 @@ const AeroportosPage = () => {
         // Atualiza filtros dinamicamente apenas se necessário
         if (prevYear.current === null) {
           const dynamicFilters = processFilters(fetchedData, aeroportosFilters);
-          console.log("dynamicFilters -> ", dynamicFilters);
           setFilters((prevFilters: any) => ({
             ...prevFilters,
             additionalFilters: dynamicFilters.additionalFilters,
@@ -59,7 +57,6 @@ const AeroportosPage = () => {
 
         prevYear.current = currentYear;
 
-        console.log("-> ->", filters);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
         setError("Erro ao buscar os dados. Tente novamente mais tarde.");
@@ -81,8 +78,6 @@ const AeroportosPage = () => {
 
   if (loading) return <LoadingScreen />;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
-
-  console.log("-> ->", filters);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -147,39 +142,43 @@ const AeroportosPage = () => {
   };
 
   return (
-    <div className="p-6 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-800 text-center mb-6">
-        Movimentação de Aeroportos
-      </h1>
+    <div className="p-6 min-h-screen ">
+    <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
+      Movimentação de Aeroportos
+    </h1>
 
-      <div className="flex justify-center gap-4 mb-6">
-        <button
-          onClick={() => setActiveTab("geral")}
-          className={`px-4 py-2 rounded ${
-            activeTab === "geral" ? "bg-blue-500 text-white" : "bg-gray-200"
-          }`}
-        >
-          Resumo Geral
-        </button>
-        <button
-          onClick={() => setActiveTab("comparativo")}
-          className={`px-4 py-2 rounded ${
-            activeTab === "comparativo"
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200"
-          }`}
-        >
-          Comparativo
-        </button>
-        <button
-          onClick={() => setActiveTab("embarque")}
-          className={`px-4 py-2 rounded ${
-            activeTab === "embarque" ? "bg-blue-500 text-white" : "bg-gray-200"
-          }`}
-        >
-          Embarque/Desembarque
-        </button>
-      </div>
+    <div className="flex justify-center gap-6 mb-8 flex-wrap">
+      <button
+        onClick={() => setActiveTab("geral")}
+        className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+          activeTab === "geral"
+            ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
+            : "bg-gray-300 text-gray-500"
+        }`}
+      >
+        Resumo Geral
+      </button>
+      <button
+        onClick={() => setActiveTab("comparativo")}
+        className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+          activeTab === "comparativo"
+            ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+            : "bg-gray-300 text-gray-500"
+        }`}
+      >
+        Comparativo
+      </button>
+      <button
+        onClick={() => setActiveTab("embarque")}
+        className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+          activeTab === "embarque"
+            ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
+            : "bg-gray-300 text-gray-500"
+        }`}
+      >
+        Embarque/Desembarque
+      </button>
+    </div>
 
       {renderContent()}
     </div>

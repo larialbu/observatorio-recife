@@ -46,7 +46,7 @@ export class AeroportoData {
   }
 
   async fetchProcessedData(): Promise<ProcessedData[]> {
-    const endpoint = `/anac/anos/${this.year}`;
+    const endpoint = `/aeroporto/anac/anos/${this.year}`;
     return this.fetchData<ProcessedData[]>(endpoint);
   }
 

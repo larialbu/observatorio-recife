@@ -8,7 +8,12 @@ const BarChart = ({
   colors, 
   xKey, 
   bars,
+  tooltipEntry
 }: any) => {
+
+  const customTooltipFormatter = (value: any) => {
+      return tooltipFormatter(value, tooltipEntry || "");
+    };
 
     return (
       <div className="relative w-full h-full">
@@ -24,7 +29,7 @@ const BarChart = ({
               tick={{ fontSize: 12 }}
               tickFormatter={yAxisFormatter}
             />
-            <Tooltip formatter={tooltipFormatter} />
+            <Tooltip formatter={customTooltipFormatter} />
             <Legend />
             {bars.map((bar: any, index: any) => (
               <Bar key={index} dataKey={bar.dataKey} fill={colors[index]} name={bar.name} />

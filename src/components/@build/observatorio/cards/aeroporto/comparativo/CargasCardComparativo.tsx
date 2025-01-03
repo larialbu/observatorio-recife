@@ -10,8 +10,7 @@ const CargasCardComparativo = ({
   year,
   color,
 }: any) => {
-  // console.log("toCompare", toCompare);
-  console.log(data);
+
   const chartData = processCargasMes(data, year, "Recife");
 
   const chartData2 = processCargasMes(data, year, toCompare);

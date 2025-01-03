@@ -16,35 +16,19 @@ const Embarque = ({
   data: any;
   year: string;
 }) => {
-  const [type, setType] = useState([]);
-
-  console.log("recent ", monthRecent);
+  const [type, setType] = useState(['Embarque']);
 
   return (
     <div>
-      <SelectPrincipal
-        options={["Desembarque", "Embarque"]}
-        filters={type}
-        setFilters={setType}
-        initialValue={["Embarque"]}
-        unique={true}
-        label="Compare Aeroportos"
-        placeholder="Digite para buscar um aeroporto"
-        notFoundMessage="Nenhum aeroporto encontrado"
-        search={false}
-      />
-
-      <div className="flex flex-wrap gap-4 justify-center mb-8">
-        {cards.map(({ Component }, index) => (
-          <React.Suspense fallback={<div>Loading...</div>} key={index}>
-            <Component
-              local={"Recife"}
-              data={data}
-              year={year} // Ajeitar isso aqui
-              color={ColorPalette.default[index]}
-            />
-          </React.Suspense>
-        ))}
+      <div className="flex items-center justify-center mb-6"> 
+          <div className="bg-[#D1D5DB] rounded-full font-medium items-center grid grid-cols-2 p-1 text-center">
+             <button onClick={() => setType(['Embarque'])} className={`${type[0] === 'Embarque' && 'bg-white hover:bg-[#eeeeee]'} transition duration-500 rounded-full py-1 px-3 hover:bg-[#bdc2c9]`}>
+              Embarque
+             </button>
+             <button onClick={() => setType(['Desembarque'])} className={`${type[0] === 'Desembarque' && 'bg-white hover:bg-[#eeeeee]'} transition duration-500 rounded-full py-1 px-3 hover:bg-[#bdc2c9]`}>
+              Desembarque
+             </button>
+          </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 place-items-center">
@@ -58,6 +42,7 @@ const Embarque = ({
                 toCompare={toCompare}
                 data={data}
                 monthRecent={monthRecent}
+                type={type[0]}
               />
             </React.Suspense>
           </div>
