@@ -18,8 +18,6 @@ const Embarque = ({
 }) => {
   const [type, setType] = useState(['Embarque']);
 
-  console.log("recent ", monthRecent);
-
   return (
     <div>
       <SelectPrincipal

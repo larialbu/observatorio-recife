@@ -17,6 +17,7 @@ const PieChart = ({
   dataKey,
   nameKey,
   colors = [],
+  tooltipEntry,
   showPercentages = true,
 
 }: {
@@ -27,6 +28,7 @@ const PieChart = ({
   nameKey: string;
   colors: string[];
   showPercentages: boolean;
+  tooltipEntry: string;
 }) => {
   const [outerRadius, setOuterRadius] = useState(120);
 
@@ -74,8 +76,12 @@ const PieChart = ({
     );
   };
 
+  const customTooltipFormatter = (value: any) => {
+      return tooltipFormatter(value, tooltipEntry || "");
+  };
+
   return (
-    <div className="relative bg-white w-full h-full p-4 min-h[300px]">
+    <div className="relative bg-white w-full h-full p-4">
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
       {underTitle}
       <ResponsiveContainer width="100%" height={300}>
@@ -97,7 +103,7 @@ const PieChart = ({
               />
             ))}
           </Pie>
-          <Tooltip formatter={tooltipFormatter}/>
+          <Tooltip formatter={customTooltipFormatter}/>
         </RechartsPieChart>
       </ResponsiveContainer>
 

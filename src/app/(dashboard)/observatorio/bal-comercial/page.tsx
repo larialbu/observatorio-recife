@@ -10,7 +10,7 @@ import { processFilters } from "@/utils/filters/@global/processFilters";
 
 import Geral from "./(geral)/geral";
 
-const AeroportosPage = () => {
+const BalancaComercialPage = () => {
   const { filters, setFilters } = useDashboard();
   const [data, setData] = useState([]) as any;
   const [filteredData, setFilteredData] = useState([]) as any;
@@ -114,7 +114,7 @@ const AeroportosPage = () => {
   return (
     <div className="p-6 min-h-screen ">
     <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
-      Movimentação de Aeroportos
+      Balança Comercial
     </h1>
 
     <div className="flex justify-center gap-6 mb-8 flex-wrap">
@@ -126,7 +126,7 @@ const AeroportosPage = () => {
             : "bg-gray-300 text-gray-500"
         }`}
       >
-        Resumo Geral
+        Balança Comercial
       </button>
     </div>
 
@@ -135,4 +135,4 @@ const AeroportosPage = () => {
   );
 };
 
-export default AeroportosPage;
+export default BalancaComercialPage;

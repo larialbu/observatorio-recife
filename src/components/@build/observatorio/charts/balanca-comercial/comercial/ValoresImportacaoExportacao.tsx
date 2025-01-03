@@ -4,17 +4,19 @@ import React from "react";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processPassageirosAno } from "@/functions/process_data/observatorio/aeroporto/geral/passageirosAno";
-import { processPassageirosAnoComparativo } from "@/functions/process_data/observatorio/aeroporto/comparativo/passageirosAnoComparativo";
+import { processValoresImportacaoExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/valoresImportacaoExportacao";
 import { getDateKeys } from "@/utils/formatters/getDataKeys";
 
-const PassageirosAnoComparativo = ({
+const CargasAnoComparativo = ({
   data = [],
   colors = ColorPalette.default,
-  title = "Passageiros ao Longo do Ano",
-  toCompare = ["Recife"],
+  title = "Valores Importação e Exportação",
 }: any) => {
-  const chartData = processPassageirosAnoComparativo(data, toCompare);
+
+  const chartData = processValoresImportacaoExportacao(data);
+
+
+  const lines = getDateKeys(["importacao", "exportacao"]);
 
   return (
     <div className="relative bg-white w-full p-4">
@@ -24,11 +26,12 @@ const PassageirosAnoComparativo = ({
           title={title}
           colors={colors}
           xKey="mes"
-          lines={[...getDateKeys(toCompare)]}
+          lines={lines}
+          tooltipEntry=" dólares"
         />
       </ChartGrabber>
     </div>
   );
 };
 
-export default PassageirosAnoComparativo;
+export default CargasAnoComparativo;

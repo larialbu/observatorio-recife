@@ -15,9 +15,6 @@ export function getJobs(
     .filter((item) => item.Data.includes(anoFiltro))
     .filter((item) => item.Municipio.includes("Recife"));
 
-  // Inicializa variáveis para acumular os totais de admissões, demissões e saldos
-  console.log(dadosFiltrados);
-
   let totalAdmissoes = 0;
   let totalDemissoes = 0;
   let totalSaldos = 0;

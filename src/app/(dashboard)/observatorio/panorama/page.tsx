@@ -188,8 +188,6 @@ const PanoramaPage = () => {
       {/* SECOND ROW OF CHARTS */}
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
         <div
-          onMouseEnter={() => console.log("a")}
-          onMouseLeave={() => console.log("b")}
           className="bg-white shadow-lg rounded-lg p-4"
         >
           {/* { data, dataKey, nameKey, colors, title {`${year}`}} */}

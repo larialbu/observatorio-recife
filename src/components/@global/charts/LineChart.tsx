@@ -18,8 +18,13 @@ const LineChart = ({
   xKey,
   lines,
   colors = [],
+  tooltipEntry
 
 }: any) => {
+
+  const customTooltipFormatter = (value: any) => {
+    return tooltipFormatter(value, tooltipEntry || "");
+  };
 
   return (
     <div className="relative bg-white w-full h-full">
@@ -27,7 +32,7 @@ const LineChart = ({
       <ResponsiveContainer width="100%" height={300}>
         <RechartsLineChart
           data={data}
-          margin={{ top: 20, right: 20, left: 13, bottom: 5 }}
+          margin={{ top: 20, right: 20, left: 20, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey={xKey} tick={{ fontSize: 12, fill: "#333" }} />
@@ -35,7 +40,7 @@ const LineChart = ({
             tick={{ fontSize: 12, fill: "#333" }}
             tickFormatter={yAxisFormatter}
           />
-          <Tooltip formatter={tooltipFormatter} />
+          <Tooltip formatter={customTooltipFormatter} />
           <Legend />
           {lines.map((line: any, index: any) => (
             <Line

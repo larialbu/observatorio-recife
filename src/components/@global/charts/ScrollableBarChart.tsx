@@ -21,12 +21,17 @@ const VerticalScrollableBarChart = ({
   colors = [],
   heightPerCategory = 50, // Altura de cada barra
   visibleHeight = 300, // Altura visível do gráfico
+  tooltipEntry
 }: any) => {
   // Calcula a altura total com base no número de categorias
   let totalHeight = data.length * heightPerCategory;
 
   //If para terminar uma espécie de "altura mínima"
   if (data.length <= 5) totalHeight = 300;
+
+  const customTooltipFormatter = (value: any) => {
+      return tooltipFormatter(value, tooltipEntry || "");
+  };
 
   return (
     <div className="relative bg-white w-full">
@@ -57,7 +62,7 @@ const VerticalScrollableBarChart = ({
                 interval={0} // Mostra todos os rótulos
                 width={150} // Espaço suficiente para rótulos longos
               />
-              <Tooltip formatter={tooltipFormatter} />
+              <Tooltip formatter={customTooltipFormatter} />
               <Legend />
               {bars.map((bar: any, index: any) => (
                 <Bar key={index} dataKey={bar.dataKey} name={bar.name}>

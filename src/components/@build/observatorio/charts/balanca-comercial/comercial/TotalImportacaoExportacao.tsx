@@ -1,19 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import PieChart from "@/components/@global/charts/PieChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { processTotalImportacaoExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/totalImportacaoExportacao";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
-import { preparePassageirosPorNaturezaData } from "@/functions/process_data/observatorio/aeroporto/geral/passageirosPorNatureza";
 
-const PassageirosPorNatureza = ({
-  data,
-  title = "Cargas por Natureza do Voo",
-  year,
+const TotalImportacaoExportacao = ({
+  data = [],
+  colors = ColorPalette.default,
+  title = "Total Importação e Exportação",
 }: any) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = preparePassageirosPorNaturezaData(data);
+
+  const chartData = processTotalImportacaoExportacao(data);
 
   return (
     <div className="relative bg-white w-full p-4">
@@ -28,14 +29,14 @@ const PassageirosPorNatureza = ({
             />
           }
           dataKey="total"
-          nameKey="natureza"
-          colors={ColorPalette.default}
+          nameKey="tipo"
+          colors={colors}
           showPercentages={showPercentage}
-          tooltipEntry=""
+          tooltipEntry=" dólares"
         />
       </ChartGrabber>
     </div>
   );
 };
 
-export default PassageirosPorNatureza;
+export default TotalImportacaoExportacao;

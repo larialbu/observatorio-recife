@@ -4,13 +4,13 @@ import { processDecolagensMes } from "@/functions/process_data/observatorio/aero
 const DecolagensCardComparativo = ({
   data,
   title = `Decolagens`,
-  local,
   toCompare,
   comparative = `${toCompare} x Recife`,
   year,
   color,
+  
 }: any) => {
-  console.log("toCompare", toCompare);
+
   const chartData = processDecolagensMes(data, year, "Recife");
 
   const chartData2 = processDecolagensMes(data, year, toCompare);

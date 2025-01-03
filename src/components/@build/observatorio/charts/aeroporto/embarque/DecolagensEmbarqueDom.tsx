@@ -3,7 +3,7 @@
 import React from "react";
 import VerticalScrollableBarChart from "@/components/@global/charts/ScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/cargaPorAeroporto";
+import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/geral/cargaPorAeroporto";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { embarqueNaturezaTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueNaturezaTipo";
 import { embarqueDesembarqueNatureTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDesembarqueNaturezaTipo";
@@ -25,8 +25,6 @@ const DecolagensEmbarqueDom = ({
     type,
     monthRecent
   );
-
-  // console.log("---->> ->>", chartData);
 
   return (
     <div className="relative bg-white w-full p-4">

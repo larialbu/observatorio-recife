@@ -29,8 +29,6 @@ const AirportInfo = ({
   const firstAggregated = Object.keys(aggregatedData)[0];
   
   if (!firstAggregated) {
-    // Se não houver dados agregados, exibe uma mensagem e retorna nulo
-    console.log("Nenhum dado encontrado para o aeroporto e ano selecionados.");
     return <div>Nenhum dado econtrado</div>;
   }
 

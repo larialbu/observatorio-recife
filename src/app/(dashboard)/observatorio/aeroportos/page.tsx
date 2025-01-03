@@ -42,7 +42,6 @@ const AeroportosPage = () => {
       setLoading(true);
 
       try {
-        console.log("Fetching data for year:", currentYear);
         const aeroportoService = new AeroportoData(currentYear);
         const fetchedData = await aeroportoService.fetchProcessedData();
         setData(fetchedData);
@@ -50,7 +49,6 @@ const AeroportosPage = () => {
         // Atualiza filtros dinamicamente apenas se necessário
         if (prevYear.current === null) {
           const dynamicFilters = processFilters(fetchedData, aeroportosFilters);
-          console.log("dynamicFilters -> ", dynamicFilters);
           setFilters((prevFilters: any) => ({
             ...prevFilters,
             additionalFilters: dynamicFilters.additionalFilters,

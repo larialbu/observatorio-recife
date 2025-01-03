@@ -4,7 +4,6 @@ import { processPassageirosMes } from "@/functions/process_data/observatorio/aer
 const PassageirosCardComparativo = ({
   data,
   title = `Passageiros`,
-  local,
   toCompare,
   comparative = `${toCompare} x Recife`,
   year,
