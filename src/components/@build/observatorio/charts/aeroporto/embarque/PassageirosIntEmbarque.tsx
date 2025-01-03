@@ -32,10 +32,10 @@ const PassageirosIntEmbarque = ({
       <ChartGrabber>
         <HorizontalScrollableBarChart
           data={chartData}
-          title={title}
-          colors={colors}
+          title={`${type} Internacional Passageiros`}
+          colors={[colors[1]]}
           xKey="uf"
-          bars={[{ dataKey: "total", name: "Carga (kg)" }]}
+          bars={[{ dataKey: "total", name: "Passageiros" }]}
           height={400} // Altura do viewport visível para scroll
           barSize={30} // Altura individual de cada barra
           widthMultiply={130}

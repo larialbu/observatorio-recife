@@ -31,10 +31,10 @@ const PassageirosEmbarqueDom = ({
       <ChartGrabber>
         <VerticalScrollableBarChart
           data={chartData}
-          title={title}
+          title={`${type} Doméstico Passageiros`}
           colors={colors}
           xKey="uf"
-          bars={[{ dataKey: "total", name: "Carga (kg)" }]}
+          bars={[{ dataKey: "total", name: "Passageiros" }]}
           height={400} // Altura do viewport visível para scroll
           barSize={30} // Altura individual de cada barra
         />

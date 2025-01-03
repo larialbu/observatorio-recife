@@ -57,7 +57,6 @@ const AeroportosPage = () => {
 
         prevYear.current = currentYear;
 
-        console.log("-> ->", filters);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
         setError("Erro ao buscar os dados. Tente novamente mais tarde.");
@@ -79,8 +78,6 @@ const AeroportosPage = () => {
 
   if (loading) return <LoadingScreen />;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
-
-  console.log("-> ->", filters);
 
   const renderContent = () => {
     switch (activeTab) {
