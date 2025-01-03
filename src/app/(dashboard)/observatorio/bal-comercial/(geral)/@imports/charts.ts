@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 
 const charts = [
   {
@@ -14,7 +14,28 @@ const charts = [
         "@/components/@build/observatorio/charts/balanca-comercial/comercial/TotalImportacaoExportacao"
       )
     )
-  }
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/balanca-comercial/comercial/ContinenteImportacaoExportacao"
+      )
+    )
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/balanca-comercial/comercial/PaisImportacaoExportacao"
+      )
+    )
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/balanca-comercial/comercial/ProdutosImportacaoExportacao"
+      )
+    )
+  },
 ];
 
 export default charts;

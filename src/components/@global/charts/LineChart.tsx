@@ -29,15 +29,15 @@ const LineChart = ({
   return (
     <div className="relative bg-white w-full h-full">
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={400}>
         <RechartsLineChart
           data={data}
-          margin={{ top: 20, right: 20, left: 20, bottom: 5 }}
+          margin={{ top: 20, right: 20, left: 23, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey={xKey} tick={{ fontSize: 12, fill: "#333" }} />
           <YAxis
-            tick={{ fontSize: 12, fill: "#333" }}
+            tick={{ fontSize: 11, fill: "#333" }}
             tickFormatter={yAxisFormatter}
           />
           <Tooltip formatter={customTooltipFormatter} />
