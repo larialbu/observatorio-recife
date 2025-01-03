@@ -26,10 +26,5 @@ export const balancaComercialFilters = {
       options: [],
       selected: [],
     },
-    {
-      label: "Tipo", // Tipo será preenchido dinamicamente (Importação/Exportação)
-      options: ["Importação", "Exportação"],
-      selected: [],
-    },
   ],
 };
