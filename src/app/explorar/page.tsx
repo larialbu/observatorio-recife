@@ -12,19 +12,19 @@ import { Head } from "next/document";
 
 const Homepage = () => {
   
-  <Head>
-    {/* Favicon */}
-    <link rel="icon" href="/favicon.ico" />
-  </Head>
+    <Head>
+      {/* Favicon */}
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
 
   return (
     
-    <div className="min-h-screen">
+    <div className="min-h-screen dark:bg-[#0C1B2B]">
       <ObsHeader></ObsHeader>
 
       <NavBarHome simple />
 
-      <div className="p-8 text-5xl font-bold text-black text-p">
+      <div className="p-8 text-5xl font-bold text-black text-p dark:text-white">
         <p>OBSERVATÓRIO<br/>ECONÔMICO DO RECIFE</p>
       </div>
 
