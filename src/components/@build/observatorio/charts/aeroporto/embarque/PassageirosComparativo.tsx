@@ -33,6 +33,7 @@ const PassageirosComparativo = ({
           nameKey="natureza"
           colors={[ColorPalette.default[2], ColorPalette.default[1]]}
           showPercentages={showPercentage}
+          tooltipEntry=""
         />
       </ChartGrabber>
     </div>

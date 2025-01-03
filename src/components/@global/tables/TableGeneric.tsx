@@ -8,6 +8,8 @@ interface PaginatedTableProps {
   rowsPerPage?: number;
   title: string
   color: string
+  onClick?: any
+  maxHeight?: number
 }
 
 const TableGeneric: React.FC<PaginatedTableProps> = ({
@@ -15,7 +17,9 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
   rows,
   rowsPerPage = 100,
   title,
-  color
+  color,
+  onClick,
+  maxHeight
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -65,6 +69,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
             <h3 className={`flex-1 bg-[${color}] w-full rounded-t-lg text-lg font-semibold px-8 py-6 text-white`}>
               {title}
             </h3>
+            
             <table className="w-full border-collapse">
               <thead className="bg-gray-200">
                 <tr>
@@ -85,6 +90,13 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
                           <td
                           key={cellIndex}
                           className="p-2 px-5 border-b border-gray-200 text-sm"
+                          onClick={() => {
+                            if (onClick) {
+                              onClick(row)
+                            } else {
+                              return
+                            }
+                            }}
                           >
                           {cell}
                           </td>

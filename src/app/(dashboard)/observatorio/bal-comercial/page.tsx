@@ -9,6 +9,7 @@ import { balancaComercialFilters } from "@/utils/filters/balancaComercialFilters
 import { processFilters } from "@/utils/filters/@global/processFilters";
 
 import Geral from "./(geral)/geral";
+import Analitico from "./(analitico)/analitico";
 
 const BalancaComercialPage = () => {
   const { filters, setFilters } = useDashboard();
@@ -73,6 +74,7 @@ const BalancaComercialPage = () => {
   useEffect(() => {
     if (data.length > 0) {
       const filtered = balancaComercialDataFilter(data, filters);
+      console.log(filtered)
       setFilteredData(filtered);
     }
   }, [data, filters]);
@@ -94,6 +96,18 @@ const BalancaComercialPage = () => {
                 : filters.years[filters.years.length - 1]
             }
             toCompare={filters.additionalFilters[4]?.selected}
+          />
+        );
+        case "analitico":
+        return (
+          <Analitico
+            toCompare={filters.additionalFilters[4]?.options}
+            data={filteredData}
+            year={
+              filters.year
+                ? filters.year
+                : filters.years[filters.years.length - 1]
+            }
           />
         );
       default:
@@ -127,6 +141,17 @@ const BalancaComercialPage = () => {
         }`}
       >
         Balança Comercial
+      </button>
+
+      <button
+        onClick={() => setActiveTab("analitico")}
+        className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+          activeTab === "analitico"
+            ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+            : "bg-gray-300 text-gray-500"
+        }`}
+      >
+        Analítico
       </button>
     </div>
 
