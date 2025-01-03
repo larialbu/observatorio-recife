@@ -11,7 +11,6 @@ const ImportacaoExportacaoContinente = ({
 }: any) => {
   const chartData = processImportacaoExportacaoPorContinente(data);
 
-
   return (
     <div className="relative bg-white w-full p-4">
       <StackedBarChart
