@@ -4,13 +4,12 @@ import "../styles/home/style.scss";
 import "../styles/explore/style.scss";
 import "../styles/boletim-economico/style.scss";
 
-import { Header } from "@/components/home/Header";
+import { ObsHeader } from "@/components/home/ObsHeader";
 import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
 import { Footer } from "@/components/home/Footer";
 import { NavBarHome } from "@/components/home/NavBarHome";
 import { useState } from "react";
 import { ModalBoletim } from "@/components/random_temp/ModalBoletim";
-import { ObsHeader } from "@/components/home/ObsHeader";
 
 const boletins = [
     { name: "SDECTI - Edição 09 2023", link: "https://desenvolvimentoeconomico.recife.pe.gov.br/sites/default/files/2023-12/BASE%20BOLETIM%209%202023.pdf" },
@@ -50,22 +49,22 @@ const BoletimEconomico = () => {
     };
 
     return (
-        <div className="flex flex-col min-h-screen items-center bg-gray-100">
+        <div className="flex flex-col min-h-screen items-center bg-gray-100 dark:bg-[#0C1B2B]">
             <ObsHeader />
             <NavBarHome simple />
 
-            <div className="p-8 font-bold text-gray-800 w-[90%] text-3xl sm:text-5xl mt-4 pl-0 sm:pl-8">
+            <div className="p-8 font-bold text-gray-800 w-[90%] text-3xl sm:text-5xl mt-4 pl-0 sm:pl-8 dark:text-white">
                 <p>OBSERVATÓRIO<br />ECONÔMICO DO RECIFE</p>
             </div>
 
             <div className="flex flex-col items-center mt-10 mb-10 bulletin-content">
                 {/* Título da Seção de Download */}
-                <div className="text-3xl font-semibold text-blue-700 text-center mb-3">
+                <div className="text-3xl font-semibold text-blue-700 text-center mb-3 dark:text-blue-300">
                     <p>Consultar o Boletim Econômico</p>
                 </div>
 
                 {/* Instrução Discreta */}
-                <p className="text-center text-gray-600 mb-6 text-sm">
+                <p className="text-center text-gray-600 mb-6 text-sm dark:text-gray-400">
                     Selecione o boletim desejado e clique em "Consultar" para acessar o relatório.
                 </p>
 

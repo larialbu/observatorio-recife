@@ -12,14 +12,62 @@ interface ExploreSectionProps {
 
 // Elementos que serão exibidos e filtrados
 const elements = [
-  { id: 1, name: "Movimentação dos Aeroportos", image: "/images/explore/aeroporto.png", route: "/observatorio/aeroportos"},
-  { id: 2, name: "Movimentação dos Portos", image: "/images/explore/porto.png", route: "/observatorio/portos"},
-  { id: 3, name: "IPCA", image: "/images/explore/ipca.png", route: "/observatorio/ipca" },
-  { id: 4, name: "Balança Comercial", image: "/images/explore/balanca-comercial.png", route: "/observatorio/bal-comercial" },
-  { id: 5, name: "Ranking de Competitividade dos Municípios", image: "/images/explore/icon-RCM.png", route: "/observatorio/ranking-comp" },
-  { id: 6, name: "Empresas da Cidade do Recife", image: "/images/explore/emp-rec.png", route: "/observatorio/empresas" },
-  { id: 7, name: "Variação e Atividade dos Empregos", image: "/images/explore/var-atv-emp.png", route: "/observatorio/empregos" },
-  { id: 8, name: "PIB - Produto Interno Bruto", image: "/images/explore/pib.png", route: "/observatorio/pib" },
+  {
+    id: 1,
+    name: "Movimentação dos Aeroportos",
+    lightImage: "/images/explore/light/aeroporto.png",
+    darkImage: "/images/explore/dark/aeroporto.png",
+    route: "/observatorio/aeroportos",
+  },
+  {
+    id: 2,
+    name: "Movimentação dos Portos",
+    lightImage: "/images/explore/light/porto.png",
+    darkImage: "/images/explore/dark/porto.png",
+    route: "/observatorio/portos",
+  },
+  {
+    id: 3,
+    name: "IPCA",
+    lightImage: "/images/explore/light/ipca.png",
+    darkImage: "/images/explore/dark/ipca.png",
+    route: "/observatorio/ipca",
+  },
+  {
+    id: 4,
+    name: "Balança Comercial",
+    lightImage: "/images/explore/light/balanca-comercial.png",
+    darkImage: "/images/explore/dark/balanca-comercial.png",
+    route: "/observatorio/bal-comercial",
+  },
+  {
+    id: 5,
+    name: "Ranking de Competitividade dos Municípios",
+    lightImage: "/images/explore/light/icon-RCM.png",
+    darkImage: "/images/explore/dark/icon-RCM.png",
+    route: "/observatorio/ranking-comp",
+  },
+  {
+    id: 6,
+    name: "Empresas da Cidade do Recife",
+    lightImage: "/images/explore/light/emp-rec.png",
+    darkImage: "/images/explore/dark/emp-rec.png",
+    route: "/observatorio/empresas",
+  },
+  {
+    id: 7,
+    name: "Variação e Atividade dos Empregos",
+    lightImage: "/images/explore/light/var-atv-emp.png",
+    darkImage: "/images/explore/dark/var-atv-emp.png",
+    route: "/observatorio/empregos",
+  },
+  {
+    id: 8,
+    name: "PIB - Produto Interno Bruto",
+    lightImage: "/images/explore/light/pib.png",
+    darkImage: "/images/explore/dark/pib.png",
+    route: "/observatorio/pib",
+  },
 ];
 
 export const ExploreSection: React.FC<ExploreSectionProps> = ({ searchTerm }) => {
@@ -37,16 +85,35 @@ export const ExploreSection: React.FC<ExploreSectionProps> = ({ searchTerm }) =>
     router.push("/explorar");
   };
 
+  // Definir classes dinâmicas com base na quantidade de elementos
+  const gridClasses =
+    filteredElements.length === 1
+      ? "grid-cols-1 justify-center items-center"
+      : filteredElements.length === 2
+      ? "grid-cols-2"
+      : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
+
+  const gapClasses =
+    filteredElements.length === 1
+      ? "gap-y-16"
+      : filteredElements.length <= 3
+      ? "gap-y-20 gap-x-10"
+      : "gap-y-24 gap-x-14";
+
   return (
-    <div className="w-full flex flex-col mt-[5em] items-center justify-center explore-content section-content">
+    <div className="w-full flex flex-col mt-[5em] items-center justify-center explore-content section-content dark:text-white dark:bg-[#0C1B2B] duration-[10ms] dark:transition-colors dark:duration-1000">
       <div className="text-content w-[80%] max-w-[60%] p-4">
         <div className="title-content">
           <div className="text-2xl sm:text-3xl lg:text-4xl mb-5 font-bold __title">
-            <p>Resultados para consulta:</p>
+            <p className="transition-all duration-[800ms]">Resultados para consulta:</p>
+            {filteredElements.length > 0 ? (
+              <p className="text-lg text-gray-600 dark:text-gray-400 font-medium">{filteredElements.length} resultado(s) encontrado(s):</p>
+            ) : (
+              <p className="text-lg text-gray-600 dark:text-gray-400 font-medium">Nenhum resultado encontrado.</p>
+            )}
           </div>
         </div>
-        <div className="mt-24 flex flex-col items-center">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-24 gap-x-14">
+        <div className={`mt-24 grid ${gridClasses} ${gapClasses} w-full`}>
           {/* Renderização dos elementos filtrados */}
           {filteredElements.map((el) => (
             <div
@@ -58,12 +125,25 @@ export const ExploreSection: React.FC<ExploreSectionProps> = ({ searchTerm }) =>
               }`}
             >
               <Link href={el.route} className="flex flex-col items-center justify-center">
-                  <Image src={el.image} alt={el.name} width={110} height={70} />
-                  <p className="text-center text-lg font-light mt-4 text-blueObs">{el.name}</p>
+                {/* Alternar entre imagens claro/escuro */}
+                <Image
+                  src={el.lightImage}
+                  alt={el.name}
+                  width={el.id === 1 ? 97 : 110}
+                  height={el.id === 1 ? 80 : 70}
+                  className="dark:hidden"
+                />
+                <Image
+                  src={el.darkImage}
+                  alt={el.name}
+                  width={el.id === 1 ? 97 : 110}
+                  height={el.id === 1 ? 80 : 70}
+                  className="hidden dark:block"
+                />
+                <p className="text-center text-lg font-light mt-4 text-blueObs dark:text-white">{el.name}</p>
               </Link>
             </div>
           ))}
-    </div>
         </div>
       </div>
       <div className="button-content mt-40">
