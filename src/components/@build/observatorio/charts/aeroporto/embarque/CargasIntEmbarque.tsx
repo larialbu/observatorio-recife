@@ -27,17 +27,16 @@ const CargasIntEmbarque = ({
     monthRecent
   );
 
-  // console.log("---->> ->>", chartData);
 
   return (
     <div className="relative bg-white w-full p-4">
       <ChartGrabber>
         <HorizontalScrollableBarChart
           data={chartData}
-          title={title}
-          colors={colors}
+          title={`${type} Internacional Cargas (ton)`}
+          colors={[colors[1]]}
           xKey="uf"
-          bars={[{ dataKey: "total", name: "Carga (Ton)" }]}
+          bars={[{ dataKey: "total", name: "Cargas (Ton)" }]}
           height={400} // Altura do viewport visível para scroll
           barSize={30} // Altura individual de cada barra
           widthMultiply={130}

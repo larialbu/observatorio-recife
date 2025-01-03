@@ -31,7 +31,7 @@ const PassageirosComparativo = ({
           }
           dataKey="total"
           nameKey="natureza"
-          colors={ColorPalette.default}
+          colors={[ColorPalette.default[2], ColorPalette.default[1]]}
           showPercentages={showPercentage}
         />
       </ChartGrabber>
