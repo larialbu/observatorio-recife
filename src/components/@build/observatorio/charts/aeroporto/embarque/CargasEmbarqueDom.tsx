@@ -1,17 +1,15 @@
 "use client";
 
 import React from "react";
-import VerticalScrollableBarChart from "@/components/@global/charts/ScrollableBarChart";
+import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/geral/cargaPorAeroporto";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { embarqueNaturezaTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueNaturezaTipo";
 import { embarqueDesembarqueNatureTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDesembarqueNaturezaTipo";
 
 const CargasEmbarqueDom = ({
   data = [],
   toCompare = ["Recife"],
-  title = "Carga por Aeroporto",
+  title = "Doméstico Cargas (ton)",
   colors = ColorPalette.default,
   monthRecent,
   type
@@ -31,7 +29,7 @@ const CargasEmbarqueDom = ({
       <ChartGrabber>
         <VerticalScrollableBarChart
           data={chartData}
-          title={`${type} Doméstico Cargas (ton)`}
+          title={`${type} ${title}`}
           colors={colors}
           xKey="uf"
           bars={[{ dataKey: 'total', name: "Cargas (Ton)" }]}

@@ -1,34 +1,37 @@
-export const processImportacaoExportacaoPorContinente = (data: any[]): any[] => {
+export const processImportacaoExportacaoPorContinente = (
+  data: any[]
+): any[] => {
   const processedData: any = {};
 
   data.forEach((item) => {
-    const continente = item["Continente"];
+    const continente = item["Continente"] || "Desconhecido"; // Evita continentes vazios
     const valor = parseFloat(
       (item["Valor US$"] || "0").replace(/\./g, "").replace(",", ".")
     );
     const tipo = item["tipo"];
 
     if (!processedData[continente]) {
-      processedData[continente] = { continente, importacao: 0, exportacao: 0 };
+      processedData[continente] = {
+        continente,
+        importacao: 0,
+        exportacao: 0,
+      };
     }
 
-    if(processedData[continente].continente){
-      if (tipo === "Importação") {
-        processedData[continente].importacao += valor;
-      } else if (tipo === "Exportação") {
-        processedData[continente].exportacao += valor;
-      }
+    if (tipo === "Importação") {
+      processedData[continente].importacao += valor;
+    } else if (tipo === "Exportação") {
+      processedData[continente].exportacao += valor;
     }
-
   });
-  
-  //Colocar no futuro uma permissão de ordenar por exportação ou importação
-  // Ordena os dados por 'importacao' de maior para menor
+
+  // Ordena os dados por total de importação + exportação
   const sortedData = Object.values(processedData)
-        .filter((item: any) => item.pais !== "")  // Filtra os itens com país vazio
-        .sort((a: any, b: any) => (b.importacao + b.exportacao) - (a.importacao + a.exportacao));  // Ordenação decrescente pelo total (importacao + exportacao)
+    .filter((item: any) => item.continente) // Evita continentes indefinidos ou vazios
+    .sort(
+      (a: any, b: any) =>
+        b.importacao + b.exportacao - (a.importacao + a.exportacao)
+    );
 
-
-
-  return sortedData.filter((item: any) => item.continente !== "")  // Filtra os itens com continente vazio);;
+  return sortedData;
 };

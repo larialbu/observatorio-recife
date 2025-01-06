@@ -15,7 +15,7 @@ const Card = ({
 }) => {
   return (
     <div
-      className="rounded-lg  p-4 flex-1 min-w-[250px] border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out"
+      className="rounded-lg  p-4 flex-1 shrink-0 min-w-[310px] w-fit border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out"
       style={{ borderLeft: `8px solid ${color}` }}
     >
       {/* Header: Local and Year */}
@@ -26,7 +26,7 @@ const Card = ({
       </div>
 
       {/* Main Data */}
-      <h1 className="text-4xl font-bold text-gray-900 mb-2">
+      <h1 className="text-4xl font-bold text-gray-900 mb-2 w-fit">
         {formatNormalnumber(+data)}
       </h1>
 

@@ -3,7 +3,6 @@ import { ReactNode, useEffect, useRef } from "react";
 const FocusHidden = ({
   children,
   style,
-  open,
   setOpen,
 }: {
   children: ReactNode;

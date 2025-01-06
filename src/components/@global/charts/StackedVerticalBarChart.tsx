@@ -8,79 +8,88 @@ import {
   Tooltip,
   Legend,
   Cell,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from "recharts";
 
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
+import CustomLegend from "../features/CustomLegend";
 
-const VerticalScrollableBarChart = ({
+const StackerBarChartVertical = ({
   data,
   title,
   xKey,
   bars,
   colors = [],
   heightPerCategory = 50, // Altura de cada barra
-  visibleHeight = 400, // Altura visível do gráfico
-  tooltipEntry
+  visibleHeight = 300, // Altura visível do gráfico
+  tooltipEntry,
+  left=-35,
+  yFontSize=12
 }: any) => {
   // Calcula a altura total com base no número de categorias
   let totalHeight = data.length * heightPerCategory;
 
-  //If para terminar uma espécie de "altura mínima"
-  if (data.length <= 5) totalHeight = 300;
+  // Define uma altura mínima para o gráfico, caso haja poucas categorias
+  if (data.length <= 5) totalHeight = 400;
 
+  // Função customizada para o tooltip
   const customTooltipFormatter = (value: any) => {
-      return tooltipFormatter(value, tooltipEntry || "");
+    return tooltipFormatter(value, tooltipEntry || "");
   };
 
   return (
     <div className="relative bg-white w-full">
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
+      <h3 className="text-center mb-[2em] font-semibold">{title}</h3>
 
       {/* Wrapper para scroll vertical */}
       <div
-        className="overflow-y-auto overflow-x-visible" // settando scroll
-        style={{ height: `${visibleHeight}px` }} // Define a altura visível
+        className="overflow-y-auto overflow-x-visible"
+        style={{ height: `${visibleHeight}px` }} // Define a altura visível do gráfico
       >
         <div>
           <ResponsiveContainer width="100%" height={totalHeight}>
             <RechartsBarChart
               data={data}
-              layout="vertical" // Configura barras verticais
-              margin={{ top: 20, right: 5, left: -35, bottom: 5 }}
+              layout="vertical"
+              margin={{ top: 0, right: 7, left: left, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 type="number"
                 tickFormatter={yAxisFormatter}
                 tick={{ fontSize: 12 }}
+                orientation="top"
               />
               <YAxis
                 type="category"
                 dataKey={xKey}
-                tick={{ fontSize: 12 }}
-                interval={0} // Mostra todos os rótulos
-                width={150} // Espaço suficiente para rótulos longos
+                tick={{ fontSize: yFontSize }}
+                interval={0}
+                width={150}
               />
               <Tooltip formatter={customTooltipFormatter} />
-              <Legend />
               {bars.map((bar: any, index: any) => (
-                <Bar key={index} dataKey={bar.dataKey} name={bar.name}>
+                <Bar key={index} dataKey={bar.dataKey} name={bar.name} stackId="stack">
                   {data.map((entry: any, dataIndex: any) => {
                     const color =
                       entry[xKey] === "Recife"
                         ? colors[(index % colors.length) + 1]
-                        : colors[index % colors.length]; // Cor condicional
+                        : colors[index % colors.length];
                     return <Cell key={`cell-${dataIndex}`} fill={color} />;
                   })}
                 </Bar>
               ))}
             </RechartsBarChart>
           </ResponsiveContainer>
+          <CustomLegend 
+            dataSetter={bars}
+            colors={colors}
+            nameKey="name"
+          />
         </div>
       </div>
     </div>
   );
 };
 
-export default VerticalScrollableBarChart;
+export default StackerBarChartVertical;

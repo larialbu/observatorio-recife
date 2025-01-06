@@ -30,6 +30,7 @@ const HorizontalScrollableBarChart = ({
                 <XAxis 
                   dataKey={xKey} 
                   tick={{ fontSize: 12 }}
+                  orientation="top"
                 />
                 <YAxis 
                   tick={{ fontSize: 12 }}

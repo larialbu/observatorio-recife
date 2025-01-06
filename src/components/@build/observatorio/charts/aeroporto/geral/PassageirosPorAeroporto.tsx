@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ScrollableBarChart from "@/components/@global/charts/ScrollableBarChart";
+import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { preparePassageirosPorAeroportoData } from "@/functions/process_data/observatorio/aeroporto/geral/passageirosPorAeroporto";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";

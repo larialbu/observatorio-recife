@@ -1,18 +1,15 @@
 "use client";
 
 import React from "react";
-import VerticalScrollableBarChart from "@/components/@global/charts/ScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/geral/cargaPorAeroporto";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { embarqueNaturezaTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueNaturezaTipo";
-import HorizontalScrollableBarChart from "@/components/@global/charts/HorizontalScrollaberBarChart";
+import HorizontalScrollableBarChart from "@/components/@global/charts/HorizontalScrollableBarChart";
 import { embarqueDesembarqueNatureTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDesembarqueNaturezaTipo";
 
 const CargasIntEmbarque = ({
   data = [],
   toCompare = ["Recife"],
-  title = "Cargas Internacionais",
+  title = "Internacional Cargas (ton)",
   colors = ColorPalette.default,
   monthRecent,
   type
@@ -32,7 +29,7 @@ const CargasIntEmbarque = ({
       <ChartGrabber>
         <HorizontalScrollableBarChart
           data={chartData}
-          title={`${type} Internacional Cargas (ton)`}
+          title={`${type} ${title}`}
           colors={[colors[1]]}
           xKey="uf"
           bars={[{ dataKey: "total", name: "Cargas (Ton)" }]}

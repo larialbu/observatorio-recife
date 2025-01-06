@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import StackedBarChart from "@/components/@global/charts/StackedBarChartVertical";
+import StackedBarChart from "@/components/@global/charts/StackedVerticalBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processComercializacaoPorProduto } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/produtosImportacaoExportacao";
 
@@ -16,7 +16,7 @@ const ImportacaoExportacaoContinente = ({
     <div className="relative bg-white w-full p-4">
       <StackedBarChart
         data={chartData}
-        colors={colors}
+        colors={colors.slice(1)}
         title={title}
         xKey="descricao"
         bars={[
