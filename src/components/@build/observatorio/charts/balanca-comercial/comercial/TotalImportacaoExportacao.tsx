@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import PieChart from "@/components/@global/charts/PieChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processTotalImportacaoExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/totalImportacaoExportacao";
+import { processTotalImportacaoExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/totalImportacaoExportacao";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 
 const TotalImportacaoExportacao = ({

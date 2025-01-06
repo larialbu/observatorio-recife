@@ -28,7 +28,7 @@ const StackerBarChartVertical = ({
   let totalHeight = data.length * heightPerCategory;
 
   // Define uma altura mínima para o gráfico, caso haja poucas categorias
-  if (data.length <= 5) totalHeight = 300;
+  if (data.length <= 5) totalHeight = 400;
 
   // Função customizada para o tooltip
   const customTooltipFormatter = (value: any) => {

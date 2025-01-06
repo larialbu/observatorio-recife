@@ -3,11 +3,12 @@
 import React from "react";
 import StackedBarChart from "@/components/@global/charts/StackedBarChartVertical";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processComercializacaoPorProduto } from "@/functions/process_data/observatorio/balanca-comercial/comercial/produtosImportacaoExportacao";
+import { processComercializacaoPorProduto } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/produtosImportacaoExportacao";
 
 const ImportacaoExportacaoContinente = ({
   data = [],
   colors = ColorPalette.default,
+  title="Produtos Comercializados"
 }: any) => {
   const chartData = processComercializacaoPorProduto(data);
 
@@ -15,8 +16,8 @@ const ImportacaoExportacaoContinente = ({
     <div className="relative bg-white w-full p-4">
       <StackedBarChart
         data={chartData}
-        title="Importação vs Exportação por Continente"
         colors={colors}
+        title={title}
         xKey="descricao"
         bars={[
           { dataKey: "importacao", name: "Importação" },
@@ -24,7 +25,7 @@ const ImportacaoExportacaoContinente = ({
         ]}
         tooltipEntry=" dólares"
         heightPerCategory={60}  // Define a altura de cada categoria (barra)
-        visibleHeight={300}
+        visibleHeight={400}
         left={15}
         yFontSize={11}
       />

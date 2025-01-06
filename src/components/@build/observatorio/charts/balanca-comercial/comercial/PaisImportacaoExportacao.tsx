@@ -3,7 +3,7 @@
 import React from "react";
 import StackerBarChartVertical from "@/components/@global/charts/StackedBarChartVertical";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processImportacaoExportacaoPorPais } from "@/functions/process_data/observatorio/balanca-comercial/comercial/paisesImportacaoExportacao";
+import { processImportacaoExportacaoPorPais } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/paisesImportacaoExportacao";
 
 const ImportacaoExportacaoPorPais = ({
   data = [],
@@ -24,7 +24,7 @@ const ImportacaoExportacaoPorPais = ({
         ]}
         tooltipEntry=" dólares"
         heightPerCategory={60}  // Define a altura de cada categoria (barra)
-        visibleHeight={300}  // Ajuste a altura do scroll
+        visibleHeight={400}  // Ajuste a altura do scroll
       />
     </div>
   );

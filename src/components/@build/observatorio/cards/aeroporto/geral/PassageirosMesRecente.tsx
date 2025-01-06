@@ -1,5 +1,5 @@
 import Card from "@/components/@global/cards/Card";
-import { processPassageirosMes } from "@/functions/process_data/observatorio/aeroporto/cards/passageirosMesRecente";
+import { processPassageirosMes } from "@/functions/process_data/observatorio/aeroporto/geral/cards/passageirosMesRecente";
 
 const PassageirosMesRecente = ({
   data,

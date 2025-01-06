@@ -24,7 +24,7 @@ const CargaPorAeroporto = ({
           xKey="aeroporto"
           bars={[{ dataKey: "totalCarga", name: "Carga (kg)" }]}
           height={400} // Altura do viewport visível para scroll
-          barSize={30} // Altura individual de cada barra
+          heightPerCategory={50}
         />
       </ChartGrabber>
     </div>

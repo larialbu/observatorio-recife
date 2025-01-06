@@ -4,7 +4,7 @@ import React from "react";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processValoresImportacaoExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/valoresImportacaoExportacao";
+import { processValoresImportacaoExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/valoresImportacaoExportacao";
 import { getDateKeys } from "@/utils/formatters/getDataKeys";
 
 const CargasAnoComparativo = ({

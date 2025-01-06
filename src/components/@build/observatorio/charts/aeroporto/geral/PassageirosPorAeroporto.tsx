@@ -22,8 +22,7 @@ const PassageirosPorAeroporto = ({
           xKey="aeroporto"
           bars={[{ dataKey: "total", name: "Passageiros" }]}
           colors={ColorPalette.default}
-          heightPerCategory={40}
-          height={500}
+          heightPerCategory={50}
         />
       </ChartGrabber>
     </div>

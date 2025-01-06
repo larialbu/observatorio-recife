@@ -1,5 +1,5 @@
 import Card from "@/components/@global/cards/Card";
-import { processDecolagensMes } from "@/functions/process_data/observatorio/aeroporto/cards/decolagensMesRecente";
+import { processDecolagensMes } from "@/functions/process_data/observatorio/aeroporto/geral/cards/decolagensMesRecente";
 
 const DecolagensMesRecente = ({
   data,

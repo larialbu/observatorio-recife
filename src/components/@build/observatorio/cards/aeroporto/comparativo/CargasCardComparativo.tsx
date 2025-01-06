@@ -1,5 +1,5 @@
 import ComparativeCard from "@/components/@global/cards/ComparativeCard";
-import { processCargasMes } from "@/functions/process_data/observatorio/aeroporto/cards/cargasMesRecente";
+import { processCargasMes } from "@/functions/process_data/observatorio/aeroporto/geral/cards/cargasMesRecente";
 
 const CargasCardComparativo = ({
   data,
