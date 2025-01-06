@@ -1,14 +1,17 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
-import { rowsCountrysByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/comercial/analitico/rowsCountrysByMunicipio";
+import { rowsCountrysByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsCountrysByMunicipio";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
+import { useState } from "react";
 
 const BalInfo = ({
   data = [],
-  municipio = 'Recife - PE',
+  municipio,
   year,
-  color = '#000000'
+  color = '#000000',
+  selectCountry,
+  title = `${municipio} (${year}) - Negociações`,
 }: any) => {
-  const aggregatedData = rowsCountrysByMunicipio(data, municipio, '2024', '11')
+  const aggregatedData = rowsCountrysByMunicipio(data, municipio, year, '11')
 
   const sortedData = Object.values(aggregatedData).sort((a: any, b: any) => parseInt(a.MÊS, 10) - parseInt(b.MÊS, 10));
 
@@ -35,7 +38,7 @@ const BalInfo = ({
         } 
     
 
-        rows.push([obj['PAÍS'], `${percent}%`, <div className="flex gap-1"><span>$</span> {formatNumber(obj.NEGOCIADO)}</div>]);
+        rows.push([obj['PAÍS'], `${percent}%`, <div className="flex gap-1 justify-center"><span>$</span> {formatNumber(obj.NEGOCIADO)}</div>]);
       });
 
     return rows;
@@ -43,7 +46,10 @@ const BalInfo = ({
 
   return (
     <div className="relative bg-white w-full p-4">
-      <TableGeneric onClick={(e: any) => console.log(e)} color={color} headers={header} title={`Dados de ${municipio} (${year})`} rows={getRows(sortedData)} />
+      <TableGeneric searchIndexes={[0]} enablePagination={false}  withClick onClick={(e: any) => {
+        // console.log('onCLick', e)
+        selectCountry(e[0])
+        }} color={color} headers={header} title={title} rows={getRows(sortedData)} />
     </div>
   );
 };

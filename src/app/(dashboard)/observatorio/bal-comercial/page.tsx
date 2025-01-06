@@ -101,7 +101,7 @@ const BalancaComercialPage = () => {
         case "analitico":
         return (
           <Analitico
-            toCompare={filters.additionalFilters[4]?.options}
+            toCompare={filters.additionalFilters[1]?.options}
             data={filteredData}
             year={
               filters.year

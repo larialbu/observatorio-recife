@@ -46,7 +46,7 @@ const AirportInfo = ({
 
   return (
     <div className="relative bg-white w-full p-4">
-      <TableGeneric maxHeight={400} color={color} headers={header} title={`Dados de ${airport} (${year})`} rows={getRows(sortedData)} />
+      <TableGeneric maxHeight={500} rowsPerPage={100} color={color} headers={header} title={`Dados de ${airport} (${year})`} rows={getRows(sortedData)} />
     </div>
   );
 };
