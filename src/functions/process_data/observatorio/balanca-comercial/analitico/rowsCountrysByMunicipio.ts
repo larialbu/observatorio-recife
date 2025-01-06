@@ -33,5 +33,5 @@ export const rowsCountrysByMunicipio = (data: any[], municipio: string, year: st
       PAÍS: item.PAÍS,
       PARTICIPAÇÃO: (item.NEGOCIADO / totalNegociado) * 100, // Calculando a porcentagem
       NEGOCIADO: item.NEGOCIADO
-    }));
+    })).sort((a, b) => b.NEGOCIADO - a.NEGOCIADO);
   };
