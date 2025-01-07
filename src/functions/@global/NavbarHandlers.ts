@@ -10,12 +10,15 @@ export const useNavbarHandlers = () => {
   const toggleDropdown = (filterLabel: string) => {
     setDropdowns((prev) => {
       const newDropdowns = { ...prev };
+
       Object.keys(newDropdowns).forEach((key) => {
         if (key !== filterLabel) {
           newDropdowns[key] = false;
         }
       });
+
       newDropdowns[filterLabel] = !newDropdowns[filterLabel];
+      
       return newDropdowns;
     });
   };
@@ -66,6 +69,21 @@ export const useNavbarHandlers = () => {
     }));
   };
 
+  const clearFilters = () => {
+    const clearedFilters = {
+      ...filters,
+      year: filters.years[filters.years.length - 1] || "2024",
+      additionalFilters: filters.additionalFilters.map((filter: any) => ({
+        ...filter,
+        selected: [],
+      })),
+    };
+  
+    setFilters(clearedFilters);
+    setTempFilters(clearedFilters);
+  };
+  
+
   return {
     dropdowns,
     tempFilters,
@@ -77,6 +95,7 @@ export const useNavbarHandlers = () => {
     applyFilters,
     handleSearchChange,
     setTempFilters,
-    setDropdowns
+    setDropdowns,
+    clearFilters
   };
 };

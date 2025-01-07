@@ -1,7 +1,6 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { rowsCountrysByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsCountrysByMunicipio";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
-import { useState } from "react";
 
 const BalInfo = ({
   data = [],

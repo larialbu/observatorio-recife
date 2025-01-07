@@ -36,13 +36,13 @@ const Navbar = () => {
     applyFilters,
     handleSearchChange,
     setTempFilters,
-    setDropdowns
+    setDropdowns, 
+    clearFilters
   } = useNavbarHandlers();
-
 
   useEffect(() => {
     setIsClient(true);
-    setTempFilters((prevFilters: any) => ({
+    setTempFilters(() => ({
       ...filters,
       year: filters.year || filters.years[filters.years.length - 1] || defaultFilters.years[defaultFilters.years.length - 1],
       additionalFilters:
@@ -50,8 +50,9 @@ const Navbar = () => {
     }));
   }, [filters]);
 
+
   return (
-    <div className="w-full bg-gray-50 min-h-[70px] flex flex-col items-start gap-4 py-4 px-4 sm:px-6 lg:px-8 z-40">
+    <div className="w-full bg-gray-50 flex flex-col items-start gap-4 py-4 px-4 sm:px-6 lg:px-8 z-40">
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -63,79 +64,116 @@ const Navbar = () => {
         <ChevronIcon up={filtersVisible} />
       </button>
 
+      {/* Mostrar filtros selecionados */}
+      <div className="w-full text-sm text-gray-700 flex flex-wrap gap-2">
+        <span className="font-medium">Filtros selecionados:</span>
+        <ul className="flex flex-wrap gap-2">
+          <li>Ano: <span className="font-semibold">{filters.year || 2024}</span></li>
+          {filters.additionalFilters?.map((filter: any) => {
+            if (filter.selected?.length > 0) {
+              const visibleItems = filter.selected.slice(0, 5); // Mostra os primeiros 5
+              const remainingCount = filter.selected.length - 5; // Calcula o resto
+
+              return (
+                <li key={filter.label}>
+                  {filter.label}:{" "}
+                  <span className="font-semibold">
+                    {visibleItems.join(", ")}
+                    {remainingCount > 0 && (
+                      <span>
+                        {" "}
+                        ...e outros {remainingCount}
+                      </span>
+                    )}
+                  </span>
+                </li>
+              );
+            }
+            return null;
+          })}
+        </ul>
+      </div>
+
       {filtersVisible && tempFilters && (
         <FocusHidden
           open={filtersVisible}
           setOpen={setFiltersVisible}
-          style="w-full rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
         >
-          <h2 className="text-base font-semibold text-gray-800 mb-4">Filtros</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="flex flex-col">
-              <label className="text-xs font-medium text-gray-600 block mb-1">ANO</label>
-              <select
-                value={tempFilters.year}
-                onChange={handleTimePeriodChange}
-                className="w-full px-3 py-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 text-sm text-gray-700 transition"
-              >
-                {filters.years.map((year: string) => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {tempFilters.additionalFilters?.map((filter: any) => (
-              <div key={filter.label} className="relative flex flex-col">
-                <label className="text-xs font-medium text-gray-600 block mb-1">
-                  {filter.label}
-                </label>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleDropdown(filter.label);
-                  }}
-                  className="w-full flex justify-between items-center px-3 py-2 border border-gray-300 rounded-md text-left text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition"
+          <div className="w-full rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+            <h2 className="text-base font-semibold text-gray-800 mb-4">Filtros</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="flex flex-col">
+                <label className="text-xs font-medium text-gray-600 block mb-1">ANO</label>
+                <select
+                  value={tempFilters.year}
+                  onChange={handleTimePeriodChange}
+                  className="w-full px-3 py-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 text-sm text-gray-700 transition"
                 >
-                  <span className="truncate">{filter.label}</span>
-                  <ChevronIcon up={dropdowns[filter.label]} />
-                </button>
+                  {filters.years.map((year: string) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-                {dropdowns[filter.label] && (
-                  <FocusHidden
-                    open={dropdowns[filter.label]}
-                    setOpen={(val: boolean) =>
-                      setDropdowns((prev) => ({ ...prev, [filter.label]: val }))
-                    }
-                    style="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10"
+              {tempFilters.additionalFilters?.map((filter: any) => (
+                <div key={filter.label} className="relative flex flex-col">
+                  <label className="text-xs font-medium text-gray-600 block mb-1">
+                    {filter.label}
+                  </label>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleDropdown(filter.label);
+                    }}
+                    className="w-full flex justify-between items-center px-3 py-2 border border-gray-300 rounded-md text-left text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition"
                   >
-                    <div className="p-4 max-h-60 overflow-y-auto">
-                      <input
-                        type="text"
-                        placeholder="Pesquisar..."
-                        value={searchTerms[filter.label] || ""}
-                        onChange={(e) =>
-                          handleSearchChange(filter.label, e.target.value)
-                        }
-                        className="w-full mb-2 px-2 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-                      <button
-                        onClick={() => handleSelectAll(filter.label)}
-                        className="text-blue-600 font-medium hover:underline block focus:outline-none"
-                      >
-                        {filter.selected?.length === filter.options.length
-                          ? "Desselecionar Todos"
-                          : "Selecionar Todos"}
-                      </button>
+                    <span className="truncate">{filter.label}</span>
+                    <ChevronIcon up={dropdowns[filter.label]} />
+                  </button>
 
-                      {filter.options
+                  {dropdowns[filter.label] && (
+                    <FocusHidden
+                      open={dropdowns[filter.label]}
+                      setOpen={(val: boolean) =>
+                        setDropdowns((prev) => ({ ...prev, [filter.label]: val }))
+                      }
+                      style="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10"
+                    >
+                      <div className="p-4 max-h-60 overflow-y-auto">
+                        <input
+                          type="text"
+                          placeholder="Pesquisar..."
+                          value={searchTerms[filter.label] || ""}
+                          onChange={(e) =>
+                            handleSearchChange(filter.label, e.target.value)
+                          }
+                          className="w-full mb-2 px-2 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        <button
+                          onClick={() => handleSelectAll(filter.label)}
+                          className="text-blue-600 font-medium hover:underline block focus:outline-none"
+                        >
+                          {filter.selected?.length === filter.options.length
+                            ? "Desselecionar Todos"
+                            : "Selecionar Todos"}
+                        </button>
+
+                        {filter.options
+                        .sort((a: string, b: string) => {
+                          if (!isNaN(Number(a)) && !isNaN(Number(b))) {
+                            // Ordenação se for só número
+                            return Number(a) - Number(b);
+                          } else {
+                            // Ordenação se for letra
+                            return a.localeCompare(b);
+                          }
+                        })
                         .filter((option: string) =>
                           option
                             .toLowerCase()
-                            .includes(
-                              (searchTerms[filter.label] || "").toLowerCase()
-                            )
+                            .includes((searchTerms[filter.label] || "").toLowerCase())
                         )
                         .map((option: string) => (
                           <label
@@ -151,19 +189,26 @@ const Navbar = () => {
                             <span className="truncate">{option}</span>
                           </label>
                         ))}
-                    </div>
-                  </FocusHidden>
-                )}
-              </div>
-            ))}
+                      </div>
+                    </FocusHidden>
+                  )}
+                </div>
+              ))}
 
-            <div className="col-span-full flex justify-end mt-4">
-              <button
-                onClick={applyFilters}
-                className="inline-flex items-center gap-2 bg-blue-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition"
-              >
-                Aplicar Filtros
-              </button>
+              <div className="col-span-full flex justify-between mt-4">
+                <button
+                  onClick={clearFilters}
+                  className="inline-flex items-center gap-2 bg-gray-100 text-gray-700 font-semibold px-6 py-2 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-1 transition"
+                >
+                  Limpar Filtros
+                </button>
+                <button
+                  onClick={applyFilters}
+                  className="inline-flex items-center gap-2 bg-blue-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition"
+                >
+                  Aplicar Filtros
+                </button>
+              </div>
             </div>
           </div>
         </FocusHidden>
