@@ -8,8 +8,9 @@ const BalInfo = ({
   year,
   color = '#000000',
   selectCountry,
-  title = `${municipio} (${year}) - Negociações`,
-  monthRecent
+  monthRecent,
+  title = `${municipio} (${monthRecent ? `${monthRecent} - ` : ''}${year}) - Negociações`,
+
 }: any) => {
   console.log('-->>', `${monthRecent}`)
   const aggregatedData = rowsCountrysByMunicipio(data, municipio, year, monthRecent)

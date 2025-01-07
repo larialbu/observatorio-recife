@@ -1,4 +1,6 @@
 import { BruteData } from "@/@types/observatorio/aeroporto/bruteData";
+import { ProcessedAenaCargasData } from "@/@types/observatorio/aeroporto/processedAenaCargasData";
+import { ProcessedAenaPassageirosData } from "@/@types/observatorio/aeroporto/processedAenaPassageirosData";
 import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -48,6 +50,16 @@ export class AeroportoData {
   async fetchProcessedData(): Promise<ProcessedData[]> {
     const endpoint = `/aeroporto/anac/anos/${this.year}`;
     return this.fetchData<ProcessedData[]>(endpoint);
+  }
+
+  async fetchProcessedAenaPassageirosData(): Promise<ProcessedAenaPassageirosData[]> {
+    const endpoint = `/aeroporto/aena/passageiro/anos${this.year}`;
+    return this.fetchData<ProcessedAenaPassageirosData[]>(endpoint);
+  }
+
+  async fetchProcessedAenaCargasData(): Promise<ProcessedAenaCargasData[]> {
+    const endpoint = `/aeroporto/aena/carga/anos${this.year}`;
+    return this.fetchData<ProcessedAenaCargasData[]>(endpoint);
   }
 
   clearCache(): void {

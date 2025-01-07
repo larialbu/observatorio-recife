@@ -1,7 +1,5 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { rowsSh4ByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsSH4Municipio";
-import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
-import { useState } from "react";
 
 const GroupProdutos = ({
   data = [],
@@ -9,8 +7,8 @@ const GroupProdutos = ({
   year,
   color = '#000000',
   country,
-  title = `${municipio} (${year}) ${country ? `- ${country}` : ''} - Grupo de produtos`,
-  monthRecent
+  monthRecent,
+  title = `${municipio} (${monthRecent ? `${monthRecent} - ` : ''}${year}) ${country ? `- ${country}` : ''} - Grupo de produtos`,
 }: any) => {
   const aggregatedData = rowsSh4ByMunicipio(data, municipio, year, monthRecent, country ? country : '')
 
