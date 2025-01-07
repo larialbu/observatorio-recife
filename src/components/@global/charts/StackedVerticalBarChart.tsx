@@ -13,6 +13,7 @@ import {
 
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
 import CustomLegend from "../features/CustomLegend";
+import CustomTooltip from "../features/CustomTooltip";
 
 const StackerBarChartVertical = ({
   data,
@@ -67,7 +68,9 @@ const StackerBarChartVertical = ({
                 interval={0}
                 width={150}
               />
-              <Tooltip formatter={customTooltipFormatter} />
+              <Tooltip
+              content={(e) => CustomTooltip({...e, customTooltipFormatter})}
+            />
               {bars.map((bar: any, index: any) => (
                 <Bar key={index} dataKey={bar.dataKey} name={bar.name} stackId="stack">
                   {data.map((entry: any, dataIndex: any) => {

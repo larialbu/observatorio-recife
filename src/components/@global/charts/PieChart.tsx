@@ -10,6 +10,7 @@ import {
 
 import { tooltipFormatter } from "@/utils/formatters/@global/graphFormatter";
 import CustomLegend from "../features/CustomLegend";
+import CustomTooltip from "../features/CustomTooltip";
 
 const PieChart = ({
   data,
@@ -104,7 +105,9 @@ const PieChart = ({
               />
             ))}
           </Pie>
-          <Tooltip formatter={customTooltipFormatter}/>
+          <Tooltip
+              content={(e) => CustomTooltip({...e, customTooltipFormatter})}
+            />
         </RechartsPieChart>
       </ResponsiveContainer>
       <CustomLegend

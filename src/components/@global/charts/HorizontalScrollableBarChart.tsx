@@ -1,6 +1,7 @@
 import React from "react";
 import { BarChart as RechartsBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
+import CustomTooltip from "../features/CustomTooltip";
 
 const HorizontalScrollableBarChart = ({ 
   data, 
@@ -36,7 +37,9 @@ const HorizontalScrollableBarChart = ({
                   tick={{ fontSize: 12 }}
                   tickFormatter={yAxisFormatter}
                 />
-                <Tooltip formatter={customTooltipFormatter} />
+                <Tooltip
+              content={(e) => CustomTooltip({...e, customTooltipFormatter})}
+            />
                 <Legend />
                 {bars.map((bar: any, index: any) => (
                   <Bar key={index} dataKey={bar.dataKey} fill={colors[index]} name={bar.name} />

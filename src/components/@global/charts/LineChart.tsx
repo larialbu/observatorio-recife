@@ -11,6 +11,7 @@ import {
 } from "recharts";
 
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
+import CustomTooltip from "../features/CustomTooltip";
 
 const LineChart = ({
   data,
@@ -40,7 +41,9 @@ const LineChart = ({
             tick={{ fontSize: 11, fill: "#333" }}
             tickFormatter={yAxisFormatter}
           />
-          <Tooltip formatter={customTooltipFormatter} />
+          <Tooltip
+              content={(e) => CustomTooltip({...e, customTooltipFormatter})}
+            />
           <Legend />
           {lines.map((line: any, index: any) => (
             <Line

@@ -12,6 +12,7 @@ import {
 } from "recharts";
 
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
+import CustomTooltip from "../features/CustomTooltip";
 
 const VerticalScrollableBarChart = ({
   data,
@@ -64,7 +65,9 @@ const VerticalScrollableBarChart = ({
                 interval={0} // Exibe todos os rótulos
                 width={150} // Espaço suficiente para rótulos longos
               />
-              <Tooltip formatter={customTooltipFormatter} />
+              <Tooltip
+              content={(e) => CustomTooltip({...e, customTooltipFormatter})}
+            />
               
               {/* Ajustando a legenda com cores dinâmicas */}
               <Legend/>
