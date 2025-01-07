@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useRef } from "react";
 
 const FocusHidden = ({
   children,
-  style,
+  style="w-full",
   setOpen,
 }: {
   children: ReactNode;
@@ -28,9 +28,9 @@ const FocusHidden = ({
   }, []);
 
   return (
-    <div ref={containerRef} className={style}>
+    <span ref={containerRef} className={style}>
       {children}
-    </div>
+    </span>
   );
 };
 
