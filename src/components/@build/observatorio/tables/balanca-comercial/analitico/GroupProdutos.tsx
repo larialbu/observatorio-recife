@@ -10,8 +10,9 @@ const GroupProdutos = ({
   color = '#000000',
   country,
   title = `${municipio} (${year}) ${country ? `- ${country}` : ''} - Grupo de produtos`,
+  monthRecent
 }: any) => {
-  const aggregatedData = rowsSh4ByMunicipio(data, municipio, year, '11', country ? country : '')
+  const aggregatedData = rowsSh4ByMunicipio(data, municipio, year, monthRecent, country ? country : '')
 
   const sortedData = Object.values(aggregatedData).sort((a: any, b: any) => parseInt(a.MÊS, 10) - parseInt(b.MÊS, 10));
 

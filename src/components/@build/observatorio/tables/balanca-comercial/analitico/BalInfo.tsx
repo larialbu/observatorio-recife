@@ -10,8 +10,10 @@ const BalInfo = ({
   color = '#000000',
   selectCountry,
   title = `${municipio} (${year}) - Negociações`,
+  monthRecent
 }: any) => {
-  const aggregatedData = rowsCountrysByMunicipio(data, municipio, year, '11')
+  console.log('-->>', `${monthRecent}`)
+  const aggregatedData = rowsCountrysByMunicipio(data, municipio, year, monthRecent)
 
   const sortedData = Object.values(aggregatedData).sort((a: any, b: any) => parseInt(a.MÊS, 10) - parseInt(b.MÊS, 10));
 

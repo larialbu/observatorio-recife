@@ -1,4 +1,3 @@
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { monthFormatter } from "@/utils/formatters/@global/dateArrFormatter";
 import { formatNormalnumber } from "@/utils/formatters/@global/numberFormatter";

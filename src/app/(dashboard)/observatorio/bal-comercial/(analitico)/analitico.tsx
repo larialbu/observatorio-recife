@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import cards from "./@imports/cards";
-import charts from "./@imports/charts";
 import tables from "./@imports/tables";
-import FocusHidden from "@/components/@global/features/FocusHidden";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 
 const Analitico = ({
   year,
   toCompare,
   data,
+  monthRecent,
 }: {
   year: string;
   toCompare?: any;
   data: any[];
+  monthRecent?: number
 }) => {
-  const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
   const [tablesRender, setTablesRender] = useState(tables);
 
@@ -40,7 +38,7 @@ const Analitico = ({
       };
     });
 
-    setTablesRender([...tables, ...getNewTables]);
+    setTablesRender([...getNewTables]);
   }, [tempFiltred]);
 
   // Update selectCountry for a specific index
@@ -58,9 +56,8 @@ const Analitico = ({
         options={toCompare}
         filters={tempFiltred}
         setFilters={setTempFiltred}
-        label="Compare Municípios"
-        placeholder="Digite para buscar um Município"
-        notFoundMessage="Nenhum Município encontrado"
+        initialValue={['Recife - PE']}
+       
       />
 
       <div className="flex justify-between items-center gap-2">
@@ -74,25 +71,27 @@ const Analitico = ({
             return (
               <React.Suspense fallback={<div>Loading...</div>} key={index}>
                 <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Component */}
                   <div style={{ backgroundColor: ColorPalette.default[index]}} className="shadow-md rounded-lg p-4 w-100 flex flex-col items-center">
                     <Component
-                      municipio={["Recife - PE", ...tempFiltred][index]}
+                      municipio={[ ...tempFiltred][index]}
                       color={ColorPalette.default[index]}
                       data={data}
                       year={year}
                       selectCountry={(country: string) => updateSelectCountry(index, country)}
+                      monthRecent={monthRecent}
+
                     />
                   </div>
 
-                  {/* Secundary */}
                   <div className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center">
                     <Secundary
-                      municipio={["Recife - PE", ...tempFiltred][index]}
+                      municipio={[ ...tempFiltred][index]}
                       color={ColorPalette.default[index]}
                       data={data}
                       year={year}
                       country={selectCountries[index]}
+                      monthRecent={monthRecent}
+
                     />
                   </div>
                 </div>

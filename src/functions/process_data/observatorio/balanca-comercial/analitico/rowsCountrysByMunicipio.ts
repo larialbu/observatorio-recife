@@ -1,9 +1,9 @@
-export const rowsCountrysByMunicipio = (data: any[], municipio: string, year: string, month?: string) => {
+export const rowsCountrysByMunicipio = (data: any[], municipio: string, year: string, month?: number) => {
     // Filtra os dados pelo município, ano e, se fornecido, mês
     const filteredData = data.filter(item => 
       item["Município"] === municipio && 
       item["Ano"] === year &&
-      (!month || item["Mês"] === month)  // Filtra pelo mês se ele for fornecido
+      (!month || +item["Mês"] === month)  // Filtra pelo mês se ele for fornecido
     );
   
     // Agrega os dados por país

@@ -5,6 +5,7 @@ import charts from "./@imports/charts";
 import tables from "./@imports/tables";
 import FocusHidden from "@/components/@global/features/FocusHidden";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 
 const Comparativo = ({
   year,
@@ -139,7 +140,7 @@ const Comparativo = ({
               key={index}
               className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
             >
-              <React.Suspense fallback={<div>Loading...</div>}>
+              <React.Suspense fallback={<GraphSkeleton />}>
                 <Component data={data} toCompare={["Recife", ...tempFiltred]} />
               </React.Suspense>
             </div>

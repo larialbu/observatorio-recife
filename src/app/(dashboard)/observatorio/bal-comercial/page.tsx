@@ -82,8 +82,6 @@ const BalancaComercialPage = () => {
   if (loading) return <LoadingScreen />;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
 
-  console.log("-> ->", filters);
-
   const renderContent = () => {
     switch (activeTab) {
       case "geral":
@@ -107,6 +105,13 @@ const BalancaComercialPage = () => {
               filters.year
                 ? filters.year
                 : filters.years[filters.years.length - 1]
+            }
+            monthRecent={
+              filters.additionalFilters[0]?.selected.length > 0
+              ? undefined
+              : +filters.additionalFilters[0]?.options.sort((a: string, b: string) => (+a) - (+b))[
+                  filters.additionalFilters[0]?.options.length - 1
+                ]
             }
           />
         );

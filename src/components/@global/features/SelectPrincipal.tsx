@@ -5,21 +5,21 @@ const SelectPrincipal = ({
   options,
   filters,
   setFilters,
-  label,
-  placeholder,
   noRecife = true,
-  notFoundMessage,
   unique = false,
-  initialValue,
   search = true,
+  label="Compare Municípios",
+  placeholder="Digite para buscar um Município",
+  notFoundMessage="Nenhum Município encontrado",
+  initialValue
 }: {
   options: any[];
   filters: any[];
   setFilters: (val: any) => void;
-  label: string;
-  placeholder: string;
+  label?: string;
+  placeholder?: string;
   noRecife?: boolean;
-  notFoundMessage: string;
+  notFoundMessage?: string;
   unique?: boolean;
   initialValue?: any;
   search?: boolean;
@@ -32,7 +32,6 @@ const SelectPrincipal = ({
   useEffect(() => {
     if (initialValue) {
       setFilters(initialValue);
-      setSearchTerm(`${initialValue}`);
     }
   }, []);
 
