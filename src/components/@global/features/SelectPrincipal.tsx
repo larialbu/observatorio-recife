@@ -83,9 +83,9 @@ const SelectPrincipal = ({
         <FocusHidden
           open={dropdown}
           setOpen={setDropdown}
-          style="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-30"
+      
         >
-          <div className="p-4 max-h-60 overflow-y-auto">
+          <div className="p-4 max-h-60 overflow-y-auto absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-30">
             {optionsCopy.filter((option) =>
               option
                 .toLocaleLowerCase()
