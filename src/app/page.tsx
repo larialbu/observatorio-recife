@@ -29,7 +29,7 @@ const Homepage = () => {
       {/* Carrossel */}
       <Banner onSearch={handleSearch} /> {/* Passando a função de busca */}
       
-      <ExploreSection searchTerm={searchTerm} /> {/* Passando o termo de busca */}
+      <ExploreSection  /> {/* Passando o termo de busca  searchTerm={searchTerm}*/}
 
       <AboutUs />
 
