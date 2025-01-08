@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
@@ -16,15 +16,23 @@ import Embarque from "./(embarque)/embarque";
 const AeroportosPage = () => {
   const { filters, setFilters } = useDashboard();
   const router = useRouter();
-  const pathname = usePathname(); // Obtém a rota atual
+  const searchParams = useSearchParams();
   const [data, setData] = useState([]) as any;
   const [filteredData, setFilteredData] = useState([]) as any;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState("geral");
+  const [activeTab, setActiveTab] = useState<string>("geral");
 
   const prevYear = useRef<string | null>(null);
   const fetchingRef = useRef(false);
+
+  useEffect(() => {
+    // Sincroniza a aba ativa com o parâmetro de URL (query string)
+    const tab = searchParams.get("tab");
+    if (tab && tab !== activeTab) {
+      setActiveTab(tab);
+    }
+  }, [searchParams, activeTab]);
 
   useEffect(() => {
     const currentYear = filters.year || "2024";
@@ -93,24 +101,24 @@ const AeroportosPage = () => {
           />
         );
       case "aena":
-        return <Geral data={filteredData} year={filters.year || "2024"} />;
+        return (
+          <div className="text-center text-gray-600">
+            <h2 className="text-xl font-bold">Aena</h2>
+            <p>Nenhum conteúdo disponível para esta aba no momento.</p>
+          </div>
+        );
       default:
         return <Geral data={filteredData} year={filters.year || "2024"} />;
     }
   };
 
-  const handleNavigation = (tab: string, appendPath?: string) => {
+  const handleNavigation = (tab: string) => {
     setActiveTab(tab);
-    if (appendPath) {
-      const newPath = pathname.endsWith(appendPath)
-        ? pathname // Evita duplicar `/aena` se já estiver na URL
-        : `${pathname}${appendPath}`;
-      router.push(newPath); // Atualiza a rota atual com `/aena`
-    }
+    router.replace(`?tab=${tab}`);
   };
 
   return (
-    <div className="p-6 min-h-screen ">
+    <div className="p-6 min-h-screen">
       <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
         Movimentação de Aeroportos
       </h1>
@@ -118,39 +126,43 @@ const AeroportosPage = () => {
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
         <button
           onClick={() => handleNavigation("geral")}
-          className={`px-6 py-3 rounded-lg ${
-            activeTab === "geral" ? "bg-orange-600 text-white" : "bg-gray-300"
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "geral"
+              ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
+              : "bg-gray-300 text-gray-500"
           }`}
         >
           Resumo Geral
         </button>
         <button
           onClick={() => handleNavigation("comparativo")}
-          className={`px-6 py-3 rounded-lg ${
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "comparativo"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-300"
+              ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+              : "bg-gray-300 text-gray-500"
           }`}
         >
           Comparativo
         </button>
         <button
           onClick={() => handleNavigation("embarque")}
-          className={`px-6 py-3 rounded-lg ${
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "embarque"
-              ? "bg-green-600 text-white"
-              : "bg-gray-300"
+              ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
+              : "bg-gray-300 text-gray-500"
           }`}
         >
           Embarque/Desembarque
         </button>
         <button
-          onClick={() => handleNavigation("aena", "/aena")}
-          className={`px-6 py-3 rounded-lg ${
-            activeTab === "aena" ? "bg-purple-600 text-white" : "bg-gray-300"
+          onClick={() => handleNavigation("aena")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "aena"
+              ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
+              : "bg-gray-300 text-gray-500"
           }`}
         >
-          Aena
+          <i>AENA</i>
         </button>
       </div>
 
