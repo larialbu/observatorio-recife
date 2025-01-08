@@ -1,5 +1,4 @@
 import { formatNormalnumber } from "@/utils/formatters/@global/numberFormatter";
-import Image from "next/image";
 
 const Card = ({
   title = "",
@@ -14,20 +13,28 @@ const Card = ({
   year: string;
   color: string;
 }) => {
-  // Variáveis para armazenar o total de passageiros e o número de registros
-
   return (
     <div
-      className="rounded-2xl p-4 flex-1 min-w-[250px]"
-      style={{ backgroundColor: color }}
+      className="rounded-lg  p-4 flex-1 shrink-0 min-w-[310px] w-fit border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out"
+      style={{ borderLeft: `8px solid ${color}` }}
     >
-      <div className="flex justify-between items-center">
-        <span className="text-[10px] bg-white px-2 py-1 rounded-full text-[#0155AE]">
+      {/* Header: Local and Year */}
+      <div className="flex justify-between items-center mb-3">
+        <span className="text-xs font-light text-gray-600">
           {local ? `${local} -` : ""} {year}
         </span>
       </div>
-      <h1 className="text-2xl text-white font-semibold my-4">{formatNormalnumber(+data)}</h1>
-      <h2 className="  text-sm font-semibold text-white">{title}</h2>
+
+      {/* Main Data */}
+      <h1 className="text-4xl font-bold text-gray-900 mb-2 w-fit">
+        {formatNormalnumber(+data)}
+      </h1>
+
+      {/* Title */}
+      <h2 className="text-lg font-medium text-gray-700 opacity-80">
+        {title}
+      </h2>
+
     </div>
   );
 };

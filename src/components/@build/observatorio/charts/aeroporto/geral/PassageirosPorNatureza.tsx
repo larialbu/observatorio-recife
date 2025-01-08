@@ -5,7 +5,7 @@ import PieChart from "@/components/@global/charts/PieChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
-import { preparePassageirosPorNaturezaData } from "@/functions/process_data/observatorio/aeroporto/passageirosPorNatureza";
+import { preparePassageirosPorNaturezaData } from "@/functions/process_data/observatorio/aeroporto/geral/passageirosPorNatureza";
 
 const PassageirosPorNatureza = ({
   data,
@@ -31,6 +31,7 @@ const PassageirosPorNatureza = ({
           nameKey="natureza"
           colors={ColorPalette.default}
           showPercentages={showPercentage}
+          tooltipEntry=""
         />
       </ChartGrabber>
     </div>

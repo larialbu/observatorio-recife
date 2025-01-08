@@ -7,7 +7,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
+  @apply transition-all ease-out duration-300;
   /* font-family: "Poppins", sans-serif; */
 }
 
@@ -109,4 +109,33 @@
 }
 
 
+/* Transições de opacidade e slide */
+.card {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.card-enter {
+  opacity: 1;
+  animation: test 0.5s normal;
+
+}
+
+.card-exit {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+@keyframes test {
+  0%{opacity: 0;}
+  10%{
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  50%{
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
 

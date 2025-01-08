@@ -11,10 +11,6 @@
 
 }
 
-body{
-
-}
-
 header{
 
     .content_wrapper{
@@ -183,13 +179,6 @@ footer{
                                 }
                             }
                         }
-                        svg{
-
-                        }
-
-                        .__description{
-
-                        }
                     }
                 }
 
@@ -199,6 +188,46 @@ footer{
             }
         }
     }
+}
+
+
+
+.observatorio-icon-wrapper{
+    svg{
+        color: black;
+
+        path{
+            fill: #0155AE;
+        }
+
+        &.darkin{
+    
+            path{
+                fill: white !important;
+            }
+        }
+    }
+
+    .icon-content{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100px;
+        aspect-ratio: 1;
+
+        .icon-wrapper{
+            width: 54px;
+            aspect-ratio: 1;
+        }
+    
+        .logo-wrapper{
+            width: 40px;
+            aspect-ratio: 1;
+            bottom: -.5em;
+            right: -1em;
+        }
+    }
+
 }
 
 @media screen and (max-width: 420px) {
