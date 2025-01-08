@@ -65,24 +65,30 @@ const Navbar = () => {
       </button>
 
       {/* Mostrar filtros selecionados */}
-      <div className="w-full text-sm text-gray-700 flex flex-wrap gap-2">
-        <span className="font-medium">Filtros selecionados:</span>
-        <ul className="flex flex-wrap gap-2">
-          <li>Ano: <span className="font-semibold">{filters.year || 2024}</span></li>
+      <div className="w-full text-sm text-gray-700 flex flex-col gap-4 p-4 bg-white shadow-md rounded-lg">
+        <span className="font-medium text-lg text-gray-800">Filtros selecionados:</span>
+        <ul className="flex flex-wrap gap-4">
+          {/* Filtro de ano */}
+          <li className="flex items-center gap-1">
+            <span className="text-gray-600">Ano:</span>
+            <span className="font-semibold text-gray-900">{filters.year || 2024}</span>
+          </li>
+
+          {/* Filtros adicionais */}
           {filters.additionalFilters?.map((filter: any) => {
             if (filter.selected?.length > 0) {
               const visibleItems = filter.selected.slice(0, 5); // Mostra os primeiros 5
               const remainingCount = filter.selected.length - 5; // Calcula o resto
 
               return (
-                <li key={filter.label}>
-                  {filter.label}:{" "}
-                  <span className="font-semibold">
+                <li key={filter.label} className="flex items-center gap-1">
+                  <span className="text-gray-600">{filter.label}:</span>
+                  <span className="font-semibold text-gray-900">
                     {visibleItems.join(", ")}
                     {remainingCount > 0 && (
-                      <span>
-                        {" "}
-                        ...e outros {remainingCount}
+                      <span className="text-blue-600">
+                        {""}
+                        ... e outros <span className="font-medium">{remainingCount}</span>
                       </span>
                     )}
                   </span>
@@ -94,12 +100,13 @@ const Navbar = () => {
         </ul>
       </div>
 
+
       {filtersVisible && tempFilters && (
         <FocusHidden
           open={filtersVisible}
           setOpen={setFiltersVisible}
         >
-          <div className="w-full rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="absolute w-[max-content] rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
             <h2 className="text-base font-semibold text-gray-800 mb-4">Filtros</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="flex flex-col">
@@ -139,7 +146,7 @@ const Navbar = () => {
                       setOpen={(val: boolean) =>
                         setDropdowns((prev) => ({ ...prev, [filter.label]: val }))
                       }
-                      style="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10"
+                      style="absolute top-full mt-2 w-[max-content] bg-white border border-gray-200 rounded-md shadow-lg z-10"
                     >
                       <div className="p-4 max-h-60 overflow-y-auto">
                         <input
@@ -153,7 +160,7 @@ const Navbar = () => {
                         />
                         <button
                           onClick={() => handleSelectAll(filter.label)}
-                          className="text-blue-600 font-medium hover:underline block focus:outline-none"
+                          className="text-blue-600 font-medium hover:underline block focus:outline-none w-[max-content]"
                         >
                           {filter.selected?.length === filter.options.length
                             ? "Desselecionar Todos"
@@ -198,7 +205,7 @@ const Navbar = () => {
               <div className="col-span-full flex justify-between mt-4">
                 <button
                   onClick={clearFilters}
-                  className="inline-flex items-center gap-2 bg-gray-100 text-gray-700 font-semibold px-6 py-2 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-1 transition"
+                  className="inline-flex items-center gap-2 bg-gray-100 mr-2 text-gray-700 font-semibold px-6 py-2 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-1 transition"
                 >
                   Limpar Filtros
                 </button>
