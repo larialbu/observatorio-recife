@@ -74,17 +74,13 @@ const AeroportosPage = () => {
   if (loading) return <LoadingScreen />;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
 
-console.log('-><-.<',filters)
-
   const renderContent = () => {
     switch (activeTab) {
       case "geral":
         return (
           <Geral
             data={filteredData}
-            year={
-              getYearSelected(filters)
-            }
+            year={getYearSelected(filters)}
           />
         );
       case "comparativo":
@@ -100,25 +96,18 @@ console.log('-><-.<',filters)
       case "embarque":
         return (
           <Embarque
-            toCompare={
-              filters.additionalFilters[4]?.selected
-            }
-            monthRecent={
-              getMonthRecent(filters, 1)
-
-            }
+            toCompare={filters.additionalFilters[4]?.selected}
+            monthRecent={getMonthRecent(filters, 1)}
             data={filteredData}
           />
         );
       case "aena":
-        return <Geral data={filteredData} year={filters.year || "2024"} />;
+        return <Geral data={filteredData} year={getYearSelected(filters)} />;
       default:
         return (
           <Geral
             data={filteredData}
-            year={
-              getYearSelected(filters)
-            }
+            year={getYearSelected(filters)}
           />
         );
     }

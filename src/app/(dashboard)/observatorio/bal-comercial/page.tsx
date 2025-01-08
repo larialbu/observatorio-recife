@@ -60,7 +60,6 @@ const BalancaComercialPage = () => {
 
         prevYear.current = currentYear;
 
-        console.log("-> ->", filters);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
         setError("Erro ao buscar os dados. Tente novamente mais tarde.");
@@ -90,9 +89,7 @@ const BalancaComercialPage = () => {
         return (
           <Geral
             data={filteredData}
-            year={
-             getYearSelected(filters)
-            }
+            year={getYearSelected(filters)}
             toCompare={filters.additionalFilters[4]?.selected}
           />
         );
@@ -104,18 +101,14 @@ const BalancaComercialPage = () => {
             year={
               getYearSelected(filters)
             }
-            monthRecent={
-              getMonthRecent(filters, 0)
-            }
+            monthRecent={getMonthRecent(filters, 0)}
           />
         );
       default:
         return (
           <Geral
             data={filteredData}
-            year={
-              getYearSelected(filters)
-            }
+            year={getYearSelected(filters)}
             toCompare={filters.additionalFilters[4]?.selected}
           />
         );
