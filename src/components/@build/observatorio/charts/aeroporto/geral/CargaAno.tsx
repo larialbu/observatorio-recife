@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processCargaAno } from "@/functions/process_data/observatorio/aeroporto/cargaAno";
+import { processCargaAno } from "@/functions/process_data/observatorio/aeroporto/geral/cargaAno";
 
 const CargaAno = ({
   data = [],
@@ -12,27 +12,7 @@ const CargaAno = ({
   colors = ColorPalette.default,
   title = "Carga Total ao Longo do Ano",
 }: any) => {
-  const [windowWidth, setWindowWidth] = useState(768);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (typeof window !== "undefined") {
-        setWindowWidth(window.innerWidth);
-      }
-    };
-
-    if (typeof window !== "undefined") {
-      setWindowWidth(window.innerWidth);
-      window.addEventListener("resize", handleResize);
-    }
-
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("resize", handleResize);
-      }
-    };
-  }, []);
-
+  
   // Dados já filtrados são processados diretamente no gráfico
   const chartData = processCargaAno(data);
 

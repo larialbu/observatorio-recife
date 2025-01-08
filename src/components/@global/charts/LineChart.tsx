@@ -11,6 +11,7 @@ import {
 } from "recharts";
 
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
+import CustomTooltip from "../features/CustomTooltip";
 
 const LineChart = ({
   data,
@@ -18,24 +19,31 @@ const LineChart = ({
   xKey,
   lines,
   colors = [],
+  tooltipEntry
 
 }: any) => {
+
+  const customTooltipFormatter = (value: any) => {
+    return tooltipFormatter(value, tooltipEntry || "");
+  };
 
   return (
     <div className="relative bg-white w-full h-full">
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={400}>
         <RechartsLineChart
           data={data}
-          margin={{ top: 20, right: 20, left: 13, bottom: 5 }}
+          margin={{ top: 20, right: 20, left: 23, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey={xKey} tick={{ fontSize: 12, fill: "#333" }} />
           <YAxis
-            tick={{ fontSize: 12, fill: "#333" }}
+            tick={{ fontSize: 11, fill: "#333" }}
             tickFormatter={yAxisFormatter}
           />
-          <Tooltip formatter={tooltipFormatter} />
+          <Tooltip
+              content={(e) => CustomTooltip({...e, customTooltipFormatter})}
+            />
           <Legend />
           {lines.map((line: any, index: any) => (
             <Line

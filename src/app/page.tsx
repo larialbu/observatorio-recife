@@ -5,7 +5,7 @@ import { Banner } from "@/components/home/Banner"
 import { ExploreSection } from "@/components/home/ExploreSection";
 import { Footer } from "@/components/home/Footer";
 import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
-import { AboutSection } from "@/components/home/AboutSection";
+import { AboutUs } from "@/components/home/AboutSection";
 import { Head } from "next/document";
 import { useState } from "react";
 
@@ -19,19 +19,19 @@ const Homepage = () => {
   };
 
 
-   <Head>
+    <Head>
       {/* Favicon */}
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-  return (
-    <div className="min-h-screen">
+  return (  
+    <div className="min-h-screen dark:bg-[#0C1B2B]">
       {/* Carrossel */}
       <Banner onSearch={handleSearch} /> {/* Passando a função de busca */}
       
-      <ExploreSection searchTerm={searchTerm} /> {/* Passando o termo de busca */}
+      <ExploreSection  /> {/* Passando o termo de busca  searchTerm={searchTerm}*/}
 
-      <AboutSection />
+      <AboutUs />
 
       <SocialIconsContainer />
 

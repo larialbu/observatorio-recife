@@ -110,14 +110,14 @@ export const CardsContainer: React.FC = () => {
     return (
         <div className="max-w-[calc(3*400px+10*5px)] mx-auto">
             <div className="flex justify-center my-10">
-                <label className="flex flex-col w-[70%]">
+                <label className="flex flex-col w-[70%] dark:text-white">
                     Pesquise aqui:
                     <input
                         type="text"
                         placeholder="Pesquise por título ou descrição..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="p-2 border border-gray-300 rounded w-full"
+                        className="mt-[5px] p-2 border border-gray-300 rounded w-full dark:bg-[#0C1B2B] focus:outline-none dark:hover:border-[#C5DFFF] dark:focus:border-white focus:ring-1 focus:ring-[#C5DFFF]"
                     />
                 </label>
             </div>

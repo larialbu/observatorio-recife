@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import VerticalScrollableBarChart from "@/components/@global/charts/ScrollableBarChart";
+import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/cargaPorAeroporto";
+import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/geral/cargaPorAeroporto";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 
 const CargaPorAeroporto = ({
@@ -24,7 +24,7 @@ const CargaPorAeroporto = ({
           xKey="aeroporto"
           bars={[{ dataKey: "totalCarga", name: "Carga (kg)" }]}
           height={400} // Altura do viewport visível para scroll
-          barSize={30} // Altura individual de cada barra
+          heightPerCategory={50}
         />
       </ChartGrabber>
     </div>
