@@ -9,6 +9,8 @@ import {
 } from "recharts";
 
 import { tooltipFormatter } from "@/utils/formatters/@global/graphFormatter";
+import CustomLegend from "../features/CustomLegend";
+import CustomTooltip from "../features/CustomTooltip";
 
 const PieChart = ({
   data,
@@ -17,6 +19,7 @@ const PieChart = ({
   dataKey,
   nameKey,
   colors = [],
+  tooltipEntry,
   showPercentages = true,
 
 }: {
@@ -27,6 +30,7 @@ const PieChart = ({
   nameKey: string;
   colors: string[];
   showPercentages: boolean;
+  tooltipEntry: string;
 }) => {
   const [outerRadius, setOuterRadius] = useState(120);
 
@@ -74,11 +78,15 @@ const PieChart = ({
     );
   };
 
+  const customTooltipFormatter = (value: any) => {
+      return tooltipFormatter(value, tooltipEntry || "");
+  };
+
   return (
-    <div className="relative bg-white w-full h-full p-4 min-h[300px]">
+    <div className="relative bg-white w-full h-full">
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
       {underTitle}
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={350}>
         <RechartsPieChart>
           <Pie
             data={data}
@@ -97,21 +105,16 @@ const PieChart = ({
               />
             ))}
           </Pie>
-          <Tooltip formatter={tooltipFormatter}/>
+          <Tooltip
+              content={(e) => CustomTooltip({...e, customTooltipFormatter})}
+            />
         </RechartsPieChart>
       </ResponsiveContainer>
-
-      <div className="flex flex-wrap justify-center mt-4 gap-2">
-        {data.map((entry: any, index: any) => (
-          <div key={`legend-${index}`} className="flex items-center gap-2">
-            <span
-              className="w-3 h-3 rounded-full"
-              style={{ backgroundColor: colors[index % colors.length] }}
-            ></span>
-            <span className="text-sm">{entry[nameKey]}</span>
-          </div>
-        ))}
-      </div>
+      <CustomLegend
+        dataSetter={data}
+        colors={colors}
+        nameKey={nameKey}
+      />
     </div>
   );
 };

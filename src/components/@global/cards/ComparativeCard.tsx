@@ -7,10 +7,8 @@ const ComparativeCard = ({
   comparative,
   year,
   color,
-  local,
 }: {
   title: string;
-  local?: string;
   data: number | string;
   data2: number | string
   comparative: string
@@ -48,7 +46,7 @@ const percentage = percentComparative(+data, +data2)
     >
       <div className="flex justify-between items-center">
         <span className="text-[10px] bg-white px-2 py-1 rounded-full text-[#0155AE]">
-          {local ? `${local} -` : ""} {year}
+          {year}
         </span>
         <span className={`bg-white rounded-full font-semibold text-[12px] px-2 ${percentage.color} py-1`}>{percentage.text} Recife</span>
       </div>

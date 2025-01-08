@@ -1,19 +1,18 @@
 import Card from "@/components/@global/cards/Card";
-import { processCargasMes } from "@/functions/process_data/observatorio/aeroporto/cards/cargasMesRecente";
+import { processCargasMes } from "@/functions/process_data/observatorio/aeroporto/geral/cards/cargasMesRecente";
 
 const CargasMesRecente = ({
   data,
-  local,
-  date,
   title = `Cargas/Kg`,
   year,
   color,
 }: any) => {
-  const chartData = processCargasMes(data, year, "Recife");
+  const chartData = processCargasMes(data, year);
 
   return (
     <Card
-      local={local}
+      // local={local.length > 0 ? '' : 'Recife'}
+      local={''}
       title={`${title}`}
       data={chartData.carga}
       year={year}

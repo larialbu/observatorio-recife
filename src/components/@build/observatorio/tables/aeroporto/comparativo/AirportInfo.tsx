@@ -1,4 +1,3 @@
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { monthFormatter } from "@/utils/formatters/@global/dateArrFormatter";
 import { formatNormalnumber } from "@/utils/formatters/@global/numberFormatter";
@@ -29,8 +28,6 @@ const AirportInfo = ({
   const firstAggregated = Object.keys(aggregatedData)[0];
   
   if (!firstAggregated) {
-    // Se não houver dados agregados, exibe uma mensagem e retorna nulo
-    console.log("Nenhum dado encontrado para o aeroporto e ano selecionados.");
     return <div>Nenhum dado econtrado</div>;
   }
 
@@ -48,7 +45,7 @@ const AirportInfo = ({
 
   return (
     <div className="relative bg-white w-full p-4">
-      <TableGeneric color={color} headers={header} title={`Dados de ${airport} (${year})`} rows={getRows(sortedData)} />
+      <TableGeneric maxHeight={500} rowsPerPage={100} color={color} headers={header} title={`Dados de ${airport} (${year})`} rows={getRows(sortedData)} />
     </div>
   );
 };
