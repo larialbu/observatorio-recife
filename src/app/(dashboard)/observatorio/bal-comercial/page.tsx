@@ -10,6 +10,8 @@ import { processFilters } from "@/utils/filters/@global/processFilters";
 
 import Geral from "./(geral)/geral";
 import Analitico from "./(analitico)/analitico";
+import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
 const BalancaComercialPage = () => {
   const { filters, setFilters } = useDashboard();
@@ -58,7 +60,6 @@ const BalancaComercialPage = () => {
 
         prevYear.current = currentYear;
 
-        console.log("-> ->", filters);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
         setError("Erro ao buscar os dados. Tente novamente mais tarde.");
@@ -88,11 +89,7 @@ const BalancaComercialPage = () => {
         return (
           <Geral
             data={filteredData}
-            year={
-              filters.year
-                ? filters.year
-                : filters.years[filters.years.length - 1]
-            }
+            year={getYearSelected(filters)}
             toCompare={filters.additionalFilters[4]?.selected}
           />
         );
@@ -102,28 +99,16 @@ const BalancaComercialPage = () => {
             toCompare={filters.additionalFilters[1]?.options}
             data={filteredData}
             year={
-              filters.year
-                ? filters.year
-                : filters.years[filters.years.length - 1]
+              getYearSelected(filters)
             }
-            monthRecent={
-              filters.additionalFilters[0]?.selected.length > 0
-              ? undefined
-              : +filters.additionalFilters[0]?.options.sort((a: string, b: string) => (+a) - (+b))[
-                  filters.additionalFilters[0]?.options.length - 1
-                ]
-            }
+            monthRecent={getMonthRecent(filters, 0)}
           />
         );
       default:
         return (
           <Geral
             data={filteredData}
-            year={
-              filters.year
-                ? filters.year
-                : filters.years[filters.years.length - 1]
-            }
+            year={getYearSelected(filters)}
             toCompare={filters.additionalFilters[4]?.selected}
           />
         );

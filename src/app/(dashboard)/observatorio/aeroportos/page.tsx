@@ -12,6 +12,8 @@ import { processFilters } from "@/utils/filters/@global/processFilters";
 import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
+import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
 const AeroportosPage = () => {
   const { filters, setFilters } = useDashboard();
@@ -83,21 +85,28 @@ const AeroportosPage = () => {
   const renderContent = () => {
     switch (activeTab) {
       case "geral":
-        return <Geral data={filteredData} year={filters.year || "2024"} />;
+        return (
+          <Geral
+            data={filteredData}
+            year={getYearSelected(filters)}
+          />
+        );
       case "comparativo":
         return (
           <Comparativo
             toCompare={filters.additionalFilters[4]?.options}
             data={filteredData}
-            year={filters.year || "2024"}
+            year={
+              getYearSelected(filters)
+            }
           />
         );
       case "embarque":
         return (
           <Embarque
-            toCompare={filters.additionalFilters[4]?.selected || ["Recife"]}
+            toCompare={filters.additionalFilters[4]?.selected}
+            monthRecent={getMonthRecent(filters, 1)}
             data={filteredData}
-            year={filters.year || "2024"}
           />
         );
       case "aena":
@@ -108,7 +117,12 @@ const AeroportosPage = () => {
           </div>
         );
       default:
-        return <Geral data={filteredData} year={filters.year || "2024"} />;
+        return (
+          <Geral
+            data={filteredData}
+            year={getYearSelected(filters)}
+          />
+        );
     }
   };
 
