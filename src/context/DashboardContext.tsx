@@ -3,7 +3,7 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
 import { usePathname } from "next/navigation"; // Hook para obter a rota atual
 import { defaultFilters } from "@/utils/filters/defaultFilters";
-import { aeroportosFilters } from "@/utils/filters/aeroportoFilters";
+import { aeroportosFilters } from "@/utils/filters/aeroporto/anacFilters";
 import { balancaComercialFilters } from "@/utils/filters/balancaComercialFilters";
 
 interface DashboardContextProps {

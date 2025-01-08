@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
-import { aeroportoDataFilter } from "@/utils/filters/data_filters/aeroportoDataFilter";
-import { aeroportosFilters } from "@/utils/filters/aeroportoFilters";
+import { aeroportoDataFilter } from "@/utils/filters/@data/aeroportoDataFilter";
+import { aeroportosFilters } from "@/utils/filters/aeroporto/anacFilters";
 import { processFilters } from "@/utils/filters/@global/processFilters";
 
 import Geral from "./(geral)/geral";
@@ -16,6 +17,8 @@ import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
 const AeroportosPage = () => {
   const { filters, setFilters } = useDashboard();
+  const router = useRouter();
+  const pathname = usePathname(); // Obtém a rota atual
   const [data, setData] = useState([]) as any;
   const [filteredData, setFilteredData] = useState([]) as any;
   const [loading, setLoading] = useState(false);
@@ -28,16 +31,8 @@ const AeroportosPage = () => {
   useEffect(() => {
     const currentYear = filters.year || "2024";
 
-    // Prevenindo múltiplos fetches simultâneos
-    if (fetchingRef.current) {
-      return;
-    }
-
-    // Se já buscamos dados para este ano, não busque novamente
-    if (prevYear.current === currentYear && data.length > 0) {
-      console.log("Fetch não executado, usando dados existentes.");
-      return;
-    }
+    if (fetchingRef.current) return;
+    if (prevYear.current === currentYear && data.length > 0) return;
 
     const fetchData = async () => {
       fetchingRef.current = true;
@@ -48,7 +43,6 @@ const AeroportosPage = () => {
         const fetchedData = await aeroportoService.fetchProcessedData();
         setData(fetchedData);
 
-        // Atualiza filtros dinamicamente apenas se necessário
         if (prevYear.current === null) {
           const dynamicFilters = processFilters(fetchedData, aeroportosFilters);
           setFilters((prevFilters: any) => ({
@@ -58,7 +52,6 @@ const AeroportosPage = () => {
         }
 
         prevYear.current = currentYear;
-
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
         setError("Erro ao buscar os dados. Tente novamente mais tarde.");
@@ -117,6 +110,8 @@ console.log('-><-.<',filters)
             data={filteredData}
           />
         );
+      case "aena":
+        return <Geral data={filteredData} year={filters.year || "2024"} />;
       default:
         return (
           <Geral
@@ -129,44 +124,60 @@ console.log('-><-.<',filters)
     }
   };
 
+  const handleNavigation = (tab: string, appendPath?: string) => {
+    setActiveTab(tab);
+    if (appendPath) {
+      const newPath = pathname.endsWith(appendPath)
+        ? pathname // Evita duplicar `/aena` se já estiver na URL
+        : `${pathname}${appendPath}`;
+      router.push(newPath); // Atualiza a rota atual com `/aena`
+    }
+  };
+
   return (
     <div className="p-6 min-h-screen ">
-    <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
-      Movimentação de Aeroportos
-    </h1>
+      <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
+        Movimentação de Aeroportos
+      </h1>
 
-    <div className="flex justify-center gap-6 mb-8 flex-wrap">
-      <button
-        onClick={() => setActiveTab("geral")}
-        className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-          activeTab === "geral"
-            ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
-            : "bg-gray-300 text-gray-500"
-        }`}
-      >
-        Resumo Geral
-      </button>
-      <button
-        onClick={() => setActiveTab("comparativo")}
-        className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-          activeTab === "comparativo"
-            ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
-            : "bg-gray-300 text-gray-500"
-        }`}
-      >
-        Comparativo
-      </button>
-      <button
-        onClick={() => setActiveTab("embarque")}
-        className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-          activeTab === "embarque"
-            ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
-            : "bg-gray-300 text-gray-500"
-        }`}
-      >
-        Embarque/Desembarque
-      </button>
-    </div>
+      <div className="flex justify-center gap-6 mb-8 flex-wrap">
+        <button
+          onClick={() => handleNavigation("geral")}
+          className={`px-6 py-3 rounded-lg ${
+            activeTab === "geral" ? "bg-orange-600 text-white" : "bg-gray-300"
+          }`}
+        >
+          Resumo Geral
+        </button>
+        <button
+          onClick={() => handleNavigation("comparativo")}
+          className={`px-6 py-3 rounded-lg ${
+            activeTab === "comparativo"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-300"
+          }`}
+        >
+          Comparativo
+        </button>
+        <button
+          onClick={() => handleNavigation("embarque")}
+          className={`px-6 py-3 rounded-lg ${
+            activeTab === "embarque"
+              ? "bg-green-600 text-white"
+              : "bg-gray-300"
+          }`}
+        >
+          Embarque/Desembarque
+        </button>
+        <button
+          onClick={() => handleNavigation("aena", "/aena")}
+          className={`px-6 py-3 rounded-lg ${
+            activeTab === "aena" ? "bg-purple-600 text-white" : "bg-gray-300"
+          }`}
+        >
+          Aena
+        </button>
+      </div>
 
       {renderContent()}
     </div>

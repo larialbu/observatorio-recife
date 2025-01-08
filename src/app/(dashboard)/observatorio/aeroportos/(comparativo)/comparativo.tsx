@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
-import FocusHidden from "@/components/@global/features/FocusHidden";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 
@@ -18,9 +17,8 @@ const Comparativo = ({
 }) => {
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
-  // const tempFiltred = ["Rio De Janeiro", "Salvador", "Confins"];
   const [tablesRender, setTablesRender] = useState(tables);
-
+  const [animationClass, setAnimationClass] = useState("card-enter");
 
   useEffect(() => {
     const getNewTables = tempFiltred.map((val) => {
@@ -37,9 +35,24 @@ const Comparativo = ({
     setTablesRender([...tables, ...getNewTables]);
   }, [tempFiltred]);
 
+  const handlePageChange = (direction: "prev" | "next") => {
+    setAnimationClass("card-exit"); // Aplica a animação de saída
+    setTimeout(() => {
+      setPageCompare((prevPage) =>
+        direction === "next"
+          ? prevPage === tempFiltred.length - 1
+            ? 0
+            : prevPage + 1
+          : prevPage === 0
+          ? tempFiltred.length - 1
+          : prevPage - 1
+      );
+      setAnimationClass("card-enter"); // Aplica a animação de entrada após a mudança
+    }, 500); // Tempo suficiente para a animação de saída
+  };
+
   return (
     <div>
-      {/*  */}
       <SelectPrincipal
         options={toCompare}
         filters={tempFiltred}
@@ -52,13 +65,7 @@ const Comparativo = ({
       <div className="flex justify-between items-center gap-2">
         <button
           className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
-          onClick={() => {
-            if (pageCompare === 0) {
-              setPageCompare(tempFiltred.length - 1);
-            } else {
-              setPageCompare(pageCompare - 1);
-            }
-          }}
+          onClick={() => handlePageChange("prev")}
         >
           <svg
             className={`h-4 w-4 text-gray-500 transition-transform duration-200 rotate-90`}
@@ -79,11 +86,10 @@ const Comparativo = ({
               <React.Suspense fallback={<div>Loading...</div>} key={index}>
                 <div
                   className={`${
-                    toCompare === tempFiltred[pageCompare] ? "" : "hidden"
+                    toCompare === tempFiltred[pageCompare] ? animationClass : "hidden"
                   } flex-1`}
                 >
                   <Component
-                    local={"Recife"}
                     toCompare={toCompare}
                     data={data}
                     year={year}
@@ -97,13 +103,7 @@ const Comparativo = ({
 
         <button
           className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
-          onClick={() => {
-            if (pageCompare === tempFiltred.length - 1) {
-              setPageCompare(0);
-            } else {
-              setPageCompare(pageCompare + 1);
-            }
-          }}
+          onClick={() => handlePageChange("next")}
         >
           <svg
             className={`h-4 w-4 text-gray-500 transition-transform duration-200 -rotate-90`}

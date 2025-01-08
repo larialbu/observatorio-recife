@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { BalancaComercialData } from "@/@api/http/to-charts/bal_comercial/BalancaComercialData";
-import { balancaComercialDataFilter } from "@/utils/filters/data_filters/balancaComercialDataFilter";
+import { balancaComercialDataFilter } from "@/utils/filters/@data/balancaComercialDataFilter";
 import { balancaComercialFilters } from "@/utils/filters/balancaComercialFilters";
 import { processFilters } from "@/utils/filters/@global/processFilters";
 

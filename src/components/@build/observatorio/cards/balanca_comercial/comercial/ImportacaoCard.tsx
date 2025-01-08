@@ -3,7 +3,7 @@ import { processImportacao } from "@/functions/process_data/observatorio/balanca
 
 const ImportacaoCard = ({
   data,
-  title = "Exportação (US$)",
+  title = "Importação (US$)",
   year,
   color,
 }: any) => {
