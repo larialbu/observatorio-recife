@@ -9,7 +9,7 @@ import { comparativeDomesticoInternacional } from "@/functions/process_data/obse
 
 const PassageirosComparativo = ({
   data,
-  title = "Cargas por Natureza do Voo",
+  title = "Passageiros por Natureza do Voo",
   toCompare = ["Recife"],
   monthRecent,
   type

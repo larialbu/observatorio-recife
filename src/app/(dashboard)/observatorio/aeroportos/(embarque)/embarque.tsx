@@ -1,20 +1,15 @@
 import React, { useState } from "react";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import charts from "./@imports/charts";
-import cards from "./@imports/cards";
-import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 
 const Embarque = ({
   toCompare,
   monthRecent,
   data,
-  year,
 }: {
   toCompare: string[];
   monthRecent?: number;
   data: any;
-  year: string;
 }) => {
   const [type, setType] = useState(['Embarque']);
 

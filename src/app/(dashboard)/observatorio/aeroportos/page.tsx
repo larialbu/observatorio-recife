@@ -11,6 +11,8 @@ import { processFilters } from "@/utils/filters/@global/processFilters";
 import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
+import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
 const AeroportosPage = () => {
   const { filters, setFilters } = useDashboard();
@@ -79,6 +81,8 @@ const AeroportosPage = () => {
   if (loading) return <LoadingScreen />;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
 
+console.log('-><-.<',filters)
+
   const renderContent = () => {
     switch (activeTab) {
       case "geral":
@@ -86,9 +90,7 @@ const AeroportosPage = () => {
           <Geral
             data={filteredData}
             year={
-              filters.year
-                ? filters.year
-                : filters.years[filters.years.length - 1]
+              getYearSelected(filters)
             }
           />
         );
@@ -98,9 +100,7 @@ const AeroportosPage = () => {
             toCompare={filters.additionalFilters[4]?.options}
             data={filteredData}
             year={
-              filters.year
-                ? filters.year
-                : filters.years[filters.years.length - 1]
+              getYearSelected(filters)
             }
           />
         );
@@ -108,23 +108,13 @@ const AeroportosPage = () => {
         return (
           <Embarque
             toCompare={
-              filters.additionalFilters[4]?.selected.length > 0
-                ? filters.additionalFilters[4].selected
-                : ["Recife"]
+              filters.additionalFilters[4]?.selected
             }
             monthRecent={
-              filters.additionalFilters[1]?.selected.length > 0
-                ? undefined
-                : +filters.additionalFilters[1].options[
-                    filters.additionalFilters[1].options.length - 1
-                  ]
+              getMonthRecent(filters, 1)
+
             }
             data={filteredData}
-            year={
-              filters.year
-                ? filters.year
-                : filters.years[filters.years.length - 1]
-            }
           />
         );
       default:
@@ -132,9 +122,7 @@ const AeroportosPage = () => {
           <Geral
             data={filteredData}
             year={
-              filters.year
-                ? filters.year
-                : filters.years[filters.years.length - 1]
+              getYearSelected(filters)
             }
           />
         );

@@ -10,6 +10,8 @@ import { processFilters } from "@/utils/filters/@global/processFilters";
 
 import Geral from "./(geral)/geral";
 import Analitico from "./(analitico)/analitico";
+import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
 const BalancaComercialPage = () => {
   const { filters, setFilters } = useDashboard();
@@ -89,9 +91,7 @@ const BalancaComercialPage = () => {
           <Geral
             data={filteredData}
             year={
-              filters.year
-                ? filters.year
-                : filters.years[filters.years.length - 1]
+             getYearSelected(filters)
             }
             toCompare={filters.additionalFilters[4]?.selected}
           />
@@ -102,16 +102,10 @@ const BalancaComercialPage = () => {
             toCompare={filters.additionalFilters[1]?.options}
             data={filteredData}
             year={
-              filters.year
-                ? filters.year
-                : filters.years[filters.years.length - 1]
+              getYearSelected(filters)
             }
             monthRecent={
-              filters.additionalFilters[0]?.selected.length > 0
-              ? undefined
-              : +filters.additionalFilters[0]?.options.sort((a: string, b: string) => (+a) - (+b))[
-                  filters.additionalFilters[0]?.options.length - 1
-                ]
+              getMonthRecent(filters, 0)
             }
           />
         );
@@ -120,9 +114,7 @@ const BalancaComercialPage = () => {
           <Geral
             data={filteredData}
             year={
-              filters.year
-                ? filters.year
-                : filters.years[filters.years.length - 1]
+              getYearSelected(filters)
             }
             toCompare={filters.additionalFilters[4]?.selected}
           />

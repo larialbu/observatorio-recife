@@ -9,7 +9,7 @@ import { comparativeDomesticoInternacional } from "@/functions/process_data/obse
 
 const DecolagensComparativo = ({
   data,
-  title = "Cargas por Natureza do Voo",
+  title = "Decolagens por Natureza do Voo",
   toCompare = ["Recife"],
   monthRecent,
   type
