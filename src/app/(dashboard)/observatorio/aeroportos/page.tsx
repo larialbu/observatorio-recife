@@ -14,6 +14,7 @@ import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
 import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
+import { getMonths } from "@/utils/filters/@global/getMonths";
 
 const AeroportosPage = () => {
   const { filters, setFilters } = useDashboard();
@@ -89,6 +90,7 @@ const AeroportosPage = () => {
           <Geral
             data={filteredData}
             year={getYearSelected(filters)}
+            months={getMonths(filters, 1)}
           />
         );
       case "comparativo":
@@ -99,6 +101,8 @@ const AeroportosPage = () => {
             year={
               getYearSelected(filters)
             }
+            months={getMonths(filters, 1)}
+
           />
         );
       case "embarque":
@@ -121,6 +125,7 @@ const AeroportosPage = () => {
           <Geral
             data={filteredData}
             year={getYearSelected(filters)}
+            months={getMonths(filters, 1)}
           />
         );
     }

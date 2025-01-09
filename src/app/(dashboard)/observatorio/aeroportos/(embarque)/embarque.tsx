@@ -16,13 +16,28 @@ const Embarque = ({
   return (
     <div>
       <div className="flex items-center justify-center mb-6"> 
-          <div className="bg-[#D1D5DB] rounded-full font-medium items-center grid grid-cols-2 p-1 text-center">
-             <button onClick={() => setType(['Embarque'])} className={`${type[0] === 'Embarque' && 'bg-white hover:bg-[#eeeeee]'} transition duration-500 rounded-full py-1 px-3 hover:bg-[#bdc2c9]`}>
+          <div className="bg-[#D1D5DB] rounded-full p-1">
+            <div className="bg-white rounded-full font-semibold items-center grid grid-cols-2  gap-2 text-center relative text-gray-500 p-2">
+             <div className={`transition duration-300 absolute bg-gradient-to-r from-blue-500 to-blue-700 w-1/2 h-full rounded-full ${type[0] === 'Embarque' ? 'transform translate-x-0' : 'transform translate-x-full'} p-4 `}></div>
+             <button onClick={() => {
+              if (type[0] !== 'Embarque') {
+                setType(['Embarque'])
+              } else if (type[0] === 'Embarque') {
+                setType(['Desembarque'])
+              }
+              }} className={`${type[0] === 'Embarque' && 'text-white'} z-20 px-3`}>
               Embarque
              </button>
-             <button onClick={() => setType(['Desembarque'])} className={`${type[0] === 'Desembarque' && 'bg-white hover:bg-[#eeeeee]'} transition duration-500 rounded-full py-1 px-3 hover:bg-[#bdc2c9]`}>
+             <button onClick={() => {
+              if (type[0] !== 'Desembarque') {
+                setType(['Desembarque'])
+              } else if (type[0] === 'Desembarque') {
+                setType(['Embarque'])
+              }
+              }} className={`${type[0] === 'Desembarque' && 'text-white'} z-20 px-3`}>
               Desembarque
              </button>
+          </div>
           </div>
       </div>
 
