@@ -10,10 +10,12 @@ const Comparativo = ({
   year,
   toCompare,
   data,
+  months,
 }: {
   year: string;
   toCompare?: any;
   data: any[];
+  months: number
 }) => {
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
@@ -141,7 +143,7 @@ const Comparativo = ({
               className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
             >
               <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={data} toCompare={["Recife", ...tempFiltred]} />
+                <Component data={data} toCompare={["Recife", ...tempFiltred]} months={months} />
               </React.Suspense>
             </div>
           ))}
