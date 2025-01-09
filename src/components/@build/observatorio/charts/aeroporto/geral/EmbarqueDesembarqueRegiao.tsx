@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import BarChart from "@/components/@global/charts/BarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processEmbarqueDesembarque } from "@/functions/process_data/observatorio/aeroporto/geral/embarqueDesembarqueRegiao";
+import { processEmbarqueDesembarque } from "@/functions/process_data/observatorio/aeroporto/geral/charts/embarqueDesembarqueRegiao";
 
 const EmbarqueDesembarqueRegiao = ({
   data = [],

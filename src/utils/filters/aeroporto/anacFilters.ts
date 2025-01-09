@@ -1,4 +1,4 @@
-export const aeroportosFilters = {
+export const anacFilters = {
   years: ["2021", "2022", "2023", "2024"], // Filtra por ano
   additionalFilters: [
     {

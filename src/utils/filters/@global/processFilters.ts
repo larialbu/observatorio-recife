@@ -19,5 +19,6 @@ export const processFilters = (data: any[], baseFilters: any) => {
     }),
   };
 
+  console.log(processedFilters)
   return processedFilters;
 };

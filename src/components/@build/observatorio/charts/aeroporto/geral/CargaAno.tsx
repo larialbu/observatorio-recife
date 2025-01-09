@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processCargaAno } from "@/functions/process_data/observatorio/aeroporto/geral/cargaAno";
+import { processCargaAno } from "@/functions/process_data/observatorio/aeroporto/geral/charts/cargaAno";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
 
 const CargaAno = ({
