@@ -7,20 +7,24 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processPassageirosAno } from "@/functions/process_data/observatorio/aeroporto/geral/passageirosAno";
 import { processPassageirosAnoComparativo } from "@/functions/process_data/observatorio/aeroporto/comparativo/passageirosAnoComparativo";
 import { getDateKeys } from "@/utils/formatters/getDataKeys";
+import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
 
 const PassageirosAnoComparativo = ({
   data = [],
   colors = ColorPalette.default,
   title = "Passageiros ao Longo do Ano",
-  toCompare = ["Recife"],
+  toCompare,
+  months
 }: any) => {
   const chartData = processPassageirosAnoComparativo(data, toCompare);
+
+  const updatedData = updatedMonthChartData(chartData, months);
 
   return (
     <div className="relative bg-white w-full p-4">
       <ChartGrabber>
         <LineChart
-          data={chartData}
+          data={updatedData}
           title={title}
           colors={colors}
           xKey="mes"

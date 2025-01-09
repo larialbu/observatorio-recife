@@ -12,6 +12,7 @@ import Geral from "./(geral)/geral";
 import Analitico from "./(analitico)/analitico";
 import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
+import { getMonths } from "@/utils/filters/@global/getMonths";
 
 const BalancaComercialPage = () => {
   const { filters, setFilters } = useDashboard();
@@ -91,6 +92,7 @@ const BalancaComercialPage = () => {
             data={filteredData}
             year={getYearSelected(filters)}
             toCompare={filters.additionalFilters[4]?.selected}
+            months={getMonths(filters, 0)}
           />
         );
         case "analitico":
@@ -110,6 +112,7 @@ const BalancaComercialPage = () => {
             data={filteredData}
             year={getYearSelected(filters)}
             toCompare={filters.additionalFilters[4]?.selected}
+            months={getMonths(filters, 0)}
           />
         );
     }
