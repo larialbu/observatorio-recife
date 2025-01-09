@@ -99,9 +99,7 @@ const AeroportosPage = () => {
           <Comparativo
             toCompare={filters.additionalFilters[4]?.options}
             data={filteredData}
-            year={
-              getYearSelected(filters)
-            }
+            year={getYearSelected(filters)}
             months={getMonths(filters, 1)}
 
           />

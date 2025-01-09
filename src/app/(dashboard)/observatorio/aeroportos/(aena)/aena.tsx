@@ -9,6 +9,8 @@ import { aenaFilters } from "@/utils/filters/aeroporto/aenaFilters";
 import { aeroportoDataFilter } from "@/utils/filters/@data/aeroportoDataFilter";
 import { ProcessedAenaPassageirosData } from "@/@types/observatorio/aeroporto/processedAenaPassageirosData";
 import { ProcessedAenaCargasData } from "@/@types/observatorio/aeroporto/processedAenaCargasData";
+import charts from "./@imports/carga/charts";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 
 const AenaPage = () => {
   const { filters, setFilters } = useDashboard();
@@ -60,6 +62,8 @@ const AenaPage = () => {
     fetchData();
   }, [filters.year, setFilters, passageirosData.length, cargasData.length]);
 
+
+
   useEffect(() => {
     if (passageirosData.length > 0) {
       const filteredPassageiros = aeroportoDataFilter(passageirosData, filters);
@@ -75,30 +79,41 @@ const AenaPage = () => {
   if (loading) return <LoadingScreen />;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
 
+  // filteredPassageirosData
+  // filteredCargasData
+
+console.log('Cargas -><-', filteredCargasData)
+console.log('Passageiros -><-', filteredPassageirosData)
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Dados da AENA</h1>
+    <div>
+    {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
+      {cards.map(({ Component }, index) => (
+        <React.Suspense fallback={<div>Loading...</div>} key={index}>
+          <Component
+            data={data}
+            year={year}
+            color={ColorPalette.default[index]}
+          />
+        </React.Suspense>
+      ))}
+    </div> */}
 
-      {/* Dados de Passageiros */}
-      <h2 className="text-lg font-semibold">Passageiros</h2>
-      <ul>
-        {filteredPassageirosData.map((item, index) => (
-          <li key={index}>
-            {item.Aeroporto}
-          </li>
-        ))}
-      </ul>
+    <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+    {charts.map(({ Component }, index) => (
+  <div
+    key={index}
+    className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
+  >
+    <React.Suspense fallback={<div>Loading...</div>}>
+      {/* Passando os dados filtrados ao invés dos não filtrados */}
+      <Component passageirosData={filteredPassageirosData} cargasData={filteredCargasData} />
+    </React.Suspense>
+  </div>
+))}
 
-      {/* Dados de Cargas */}
-      <h2 className="text-lg font-semibold mt-4">Cargas</h2>
-      <ul>
-        {filteredCargasData.map((item, index) => (
-          <li key={index}>
-            {item.Aeroporto}: {item.Quantidade} {item.Tipo}
-          </li>
-        ))}
-      </ul>
     </div>
+  </div>
   );
 };
 
