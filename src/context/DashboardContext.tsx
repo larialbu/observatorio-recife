@@ -1,9 +1,10 @@
 "use client";
 
 import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
-import { usePathname } from "next/navigation"; // Hook para obter a rota atual
+import { usePathname, useSearchParams } from "next/navigation"; // Adicionado para buscar parâmetros da URL
 import { defaultFilters } from "@/utils/filters/defaultFilters";
-import { aeroportosFilters } from "@/utils/filters/aeroporto/anacFilters";
+import { anacFilters } from "@/utils/filters/aeroporto/anacFilters";
+import { aenaFilters } from "@/utils/filters/aeroporto/aenaFilters";
 import { balancaComercialFilters } from "@/utils/filters/balancaComercialFilters";
 
 interface DashboardContextProps {
@@ -14,12 +15,16 @@ interface DashboardContextProps {
 
 // Mapeamento de rotas para filtros
 const routeFiltersMap: Record<string, Record<string, any>> = {
-  "/observatorio/aeroportos": aeroportosFilters,
+  "/observatorio/aeroportos": anacFilters,
   "/observatorio/bal-comercial": balancaComercialFilters,
 };
 
-const getFiltersForRoute = (pathname: string): Record<string, any> => {
-  return routeFiltersMap[pathname] || defaultFilters; // Retorna os filtros da rota ou os padrões
+const getFiltersForRoute = (pathname: string, tab: string | null): Record<string, any> => {
+  console.log(tab)
+  if (pathname === "/observatorio/aeroportos" && tab === "aena") {
+    return aenaFilters;
+  }
+  return routeFiltersMap[pathname] || defaultFilters;
 };
 
 const DashboardContext = createContext<DashboardContextProps | undefined>(undefined);
@@ -27,15 +32,20 @@ const DashboardContext = createContext<DashboardContextProps | undefined>(undefi
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const [filters, setFilters] = useState<Record<string, any>>(defaultFilters);
   const pathname = usePathname(); // Obtém a rota atual
+  const searchParams = useSearchParams(); // Obtém os parâmetros da URL
 
-  // Atualiza os filtros ao mudar a rota
+  // Atualiza os filtros ao mudar a rota ou o parâmetro "tab"
   useEffect(() => {
-    setFilters(getFiltersForRoute(pathname));
-  }, [pathname]);
+    const tab = searchParams.get("tab");
+    const filtersForRoute = getFiltersForRoute(pathname, tab);
+    setFilters(filtersForRoute);
+  }, [pathname, searchParams]);
+  
 
   // Função para redefinir os filtros manualmente
   const resetFilters = () => {
-    setFilters(getFiltersForRoute(pathname));
+    const tab = searchParams.get("tab");
+    setFilters(getFiltersForRoute(pathname, tab));
   };
 
   return (

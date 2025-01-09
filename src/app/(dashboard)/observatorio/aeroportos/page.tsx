@@ -6,12 +6,13 @@ import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
 import { aeroportoDataFilter } from "@/utils/filters/@data/aeroportoDataFilter";
-import { aeroportosFilters } from "@/utils/filters/aeroporto/anacFilters";
+import { anacFilters } from "@/utils/filters/aeroporto/anacFilters";
 import { processFilters } from "@/utils/filters/@global/processFilters";
 
 import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
+import AenaPage from "./(aena)/aena";
 import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
@@ -52,7 +53,7 @@ const AeroportosPage = () => {
         setData(fetchedData);
 
         if (prevYear.current === null) {
-          const dynamicFilters = processFilters(fetchedData, aeroportosFilters);
+          const dynamicFilters = processFilters(fetchedData, anacFilters);
           setFilters((prevFilters: any) => ({
             ...prevFilters,
             additionalFilters: dynamicFilters.additionalFilters,
@@ -111,10 +112,7 @@ const AeroportosPage = () => {
         );
       case "aena":
         return (
-          <div className="text-center text-gray-600">
-            <h2 className="text-xl font-bold">Aena</h2>
-            <p>Nenhum conteúdo disponível para esta aba no momento.</p>
-          </div>
+          <AenaPage />
         );
       default:
         return (

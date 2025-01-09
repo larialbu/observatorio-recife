@@ -53,12 +53,12 @@ export class AeroportoData {
   }
 
   async fetchProcessedAenaPassageirosData(): Promise<ProcessedAenaPassageirosData[]> {
-    const endpoint = `/aeroporto/aena/passageiro/anos${this.year}`;
+    const endpoint = `/aeroporto/aena/passageiro/anos/${this.year}`;
     return this.fetchData<ProcessedAenaPassageirosData[]>(endpoint);
   }
 
   async fetchProcessedAenaCargasData(): Promise<ProcessedAenaCargasData[]> {
-    const endpoint = `/aeroporto/aena/carga/anos${this.year}`;
+    const endpoint = `/aeroporto/aena/carga/anos/${this.year}`;
     return this.fetchData<ProcessedAenaCargasData[]>(endpoint);
   }
 
