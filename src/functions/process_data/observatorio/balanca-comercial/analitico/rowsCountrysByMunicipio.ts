@@ -1,37 +1,44 @@
 export const rowsCountrysByMunicipio = (data: any[], municipio: string, year: string, month?: number) => {
-    // Filtra os dados pelo município, ano e, se fornecido, mês
-    const filteredData = data.filter(item => 
-      item["Município"] === municipio && 
-      item["Ano"] === year &&
-      (!month || +item["Mês"] === month)  // Filtra pelo mês se ele for fornecido
-    );
+  const filteredData = data.filter(item => 
+    item["Município"] === municipio && 
+    item["Ano"] === year &&
+    (!month || +item["Mês"] === month)   
+  );
   
-    // Agrega os dados por país
-    const aggregatedData = filteredData.reduce((acc: any, item: any) => {
-      const pais = item["País"];
-      const valor = Number(item["Valor US$"]) || 0;
+  const aggregatedData = filteredData.reduce((acc: any, item: any) => {
+    const pais = item["País"];
+    const valor = Number(item["Valor US$"]) || 0;
+    const tipo = item["tipo"];  
   
-      // Inicializa o país no acumulador se não existir
-      if (!acc[pais]) {
-        acc[pais] = { PAÍS: pais, NEGOCIADO: 0 };
-      }
+    if (!acc[pais]) {
+      acc[pais] = { 
+        PAÍS: pais, 
+        IMPORTACAO: 0, 
+        EXPORTACAO: 0,
+        NEGOCIADO: 0 
+      };
+    }
   
-      // Soma o valor negociado para o país
-      acc[pais].NEGOCIADO += valor;
+    if (tipo === "Importação") {
+      acc[pais].IMPORTACAO += valor;
+    } else if (tipo === "Exportação") {
+      acc[pais].EXPORTACAO += valor;
+    }
   
-      return acc;
-    }, {});
+    acc[pais].NEGOCIADO += valor;
   
-    // Converte o objeto acumulado em um array
-    const aggregatedArray = Object.values(aggregatedData);
+    return acc;
+  }, {});
   
-    // Calcula o total negociado com todos os países
-    const totalNegociado: any = aggregatedArray.reduce((total, item: any) => total + item.NEGOCIADO, 0);
+  const aggregatedArray = Object.values(aggregatedData);
   
-    // Calcula a participação de cada país
-    return aggregatedArray.map((item: any) => ({
-      PAÍS: item.PAÍS,
-      PARTICIPAÇÃO: (item.NEGOCIADO / totalNegociado) * 100, // Calculando a porcentagem
-      NEGOCIADO: item.NEGOCIADO
-    })).sort((a, b) => b.NEGOCIADO - a.NEGOCIADO);
-  };
+  const totalNegociado: any = aggregatedArray.reduce((total, item: any) => total + item.NEGOCIADO, 0);
+  
+  return aggregatedArray.map((item: any) => ({
+    PAÍS: item.PAÍS,
+    PARTICIPAÇÃO: (item.NEGOCIADO / totalNegociado) * 100,  
+    NEGOCIADO: item.NEGOCIADO,
+    IMPORTAÇÃO: item.IMPORTACAO,
+    EXPORTAÇÃO: item.EXPORTACAO,
+  })).sort((a, b) => b.NEGOCIADO - a.NEGOCIADO);
+};
