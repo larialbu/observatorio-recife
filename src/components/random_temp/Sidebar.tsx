@@ -59,9 +59,9 @@ const Bar = ({
 
       <Link href="/" className="flex items-center justify-center">
         <Image
-          src="/observatorio.jpg"
+          src={menuOpen ? "/observatorio.jpg" : "/images/logos/observatorio_logo.png"} // Alteração aqui
           alt="logo"
-          width={menuOpen ? 150 : 35}
+          width={menuOpen ? 150 : 35} // Tamanho baseado no estado do menu
           height={32}
         />
       </Link>
@@ -76,7 +76,7 @@ export const Sidebar = () => {
 
   return (
     <>
-      {/* Botão flutuante pro cell */}
+      {/* Botão flutuante pro celular */}
       {!menuOpen && isMobile && (
         <button
           onClick={() => setMenuOpen(true)}

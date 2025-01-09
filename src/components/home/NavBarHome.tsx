@@ -19,16 +19,22 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
 
   const navItems = [
     {
+      text: "Panorama",
+      href: "#",
+      onClick: null,
+      className: `${responsiveNavItem} px-[10px] py-[2px] bg-[#ec6625] rounded-full font-medium hover:bg-[#ce5a21] hover:scale-105`,
+    },
+    {
       text: "Explorar",
       href: "/explorar",
       onClick: null,
-      className: `${responsiveNavItem}`,
+      className: `${responsiveNavItem} hover:underline`,
     },
     {
       text: "Boletim Econômico",
       href: "/boletim-economico",
       onClick: null,
-      className: `${responsiveNavItem} flex-shrink-0`,
+      className: `${responsiveNavItem} flex-shrink-0 hover:underline`,
     },
   ];
 

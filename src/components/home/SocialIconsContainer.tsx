@@ -19,7 +19,7 @@ export const SocialIconsContainer = () => {
         }`}
       >
         <SocialIcon
-          link="http://www.sdec.pe.gov.br/"
+          link="https://desenvolvimentoeconomico.recife.pe.gov.br/"
           icon={
             <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 32 32">
               {/* Ícone de Globo*/}
@@ -30,7 +30,7 @@ export const SocialIconsContainer = () => {
         />
 
         <SocialIcon
-          link="https://www.instagram.com/secti.pernambuco/"
+          link="https://www.instagram.com/sdec.recife/"
           icon={
             <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 32 32">
               {/* Ícone do Instagram */}
