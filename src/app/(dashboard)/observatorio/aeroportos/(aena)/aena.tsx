@@ -4,16 +4,13 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
-import { processFilters } from "@/utils/filters/@global/processFilters";
-import { aenaFilters } from "@/utils/filters/aeroporto/aenaFilters";
 import { aeroportoDataFilter } from "@/utils/filters/@data/aeroportoDataFilter";
 import { ProcessedAenaPassageirosData } from "@/@types/observatorio/aeroporto/processedAenaPassageirosData";
 import { ProcessedAenaCargasData } from "@/@types/observatorio/aeroporto/processedAenaCargasData";
 import charts from "./@imports/carga/charts";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 
 const AenaPage = () => {
-  const { filters, setFilters } = useDashboard();
+  const { filters, processAndSetFilters } = useDashboard(); // Usando a nova função do contexto
   const [passageirosData, setPassageirosData] = useState<ProcessedAenaPassageirosData[]>([]);
   const [cargasData, setCargasData] = useState<ProcessedAenaCargasData[]>([]);
   const [filteredPassageirosData, setFilteredPassageirosData] = useState<ProcessedAenaPassageirosData[]>([]);
@@ -25,6 +22,7 @@ const AenaPage = () => {
   const fetchingRef = useRef(false);
 
   useEffect(() => {
+    console.log('ploc')
     const currentYear = filters.year || "2024";
 
     if (fetchingRef.current) return;
@@ -42,11 +40,7 @@ const AenaPage = () => {
         setCargasData(cargas);
 
         if (prevYear.current === null) {
-          const dynamicFilters = processFilters(passageiros, aenaFilters);
-          setFilters((prevFilters: any) => ({
-            ...prevFilters,
-            additionalFilters: dynamicFilters.additionalFilters,
-          }));
+          processAndSetFilters(passageiros, filters); // Usando a função do contexto para processar os filtros
         }
 
         prevYear.current = currentYear;
@@ -60,9 +54,7 @@ const AenaPage = () => {
     };
 
     fetchData();
-  }, [filters.year, setFilters, passageirosData.length, cargasData.length]);
-
-
+  }, [filters.year, processAndSetFilters, passageirosData.length, cargasData.length]);
 
   useEffect(() => {
     if (passageirosData.length > 0) {
@@ -79,41 +71,22 @@ const AenaPage = () => {
   if (loading) return <LoadingScreen />;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
 
-  // filteredPassageirosData
-  // filteredCargasData
-
-console.log('Cargas -><-', filteredCargasData)
-console.log('Passageiros -><-', filteredPassageirosData)
-
   return (
     <div>
-    {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
-      {cards.map(({ Component }, index) => (
-        <React.Suspense fallback={<div>Loading...</div>} key={index}>
-          <Component
-            data={data}
-            year={year}
-            color={ColorPalette.default[index]}
-          />
-        </React.Suspense>
-      ))}
-    </div> */}
-
-    <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
-    {charts.map(({ Component }, index) => (
-  <div
-    key={index}
-    className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
-  >
-    <React.Suspense fallback={<div>Loading...</div>}>
-      {/* Passando os dados filtrados ao invés dos não filtrados */}
-      <Component passageirosData={filteredPassageirosData} cargasData={filteredCargasData} />
-    </React.Suspense>
-  </div>
-))}
-
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+        {charts.map(({ Component }, index) => (
+          <div
+            key={index}
+            className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
+          >
+            <React.Suspense fallback={<div>Loading...</div>}>
+              {/* Passando os dados filtrados */}
+              <Component passageirosData={filteredPassageirosData} cargasData={filteredCargasData} />
+            </React.Suspense>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
   );
 };
 

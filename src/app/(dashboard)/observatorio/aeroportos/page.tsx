@@ -6,8 +6,6 @@ import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
 import { aeroportoDataFilter } from "@/utils/filters/@data/aeroportoDataFilter";
-import { anacFilters } from "@/utils/filters/aeroporto/anacFilters";
-import { processFilters } from "@/utils/filters/@global/processFilters";
 
 import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
@@ -17,8 +15,10 @@ import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
 
+import { anacFilters } from "@/utils/filters/aeroporto/anacFilters";
+
 const AeroportosPage = () => {
-  const { filters, setFilters } = useDashboard();
+  const { filters, setFilters, processAndSetFilters } = useDashboard();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [data, setData] = useState([]) as any;
@@ -31,8 +31,8 @@ const AeroportosPage = () => {
   const fetchingRef = useRef(false);
 
   useEffect(() => {
-    // Sincroniza a aba ativa com o parâmetro de URL (query string)
     const tab = searchParams.get("tab");
+    console.log(tab)
     if (tab && tab !== activeTab) {
       setActiveTab(tab);
     }
@@ -54,11 +54,7 @@ const AeroportosPage = () => {
         setData(fetchedData);
 
         if (prevYear.current === null) {
-          const dynamicFilters = processFilters(fetchedData, anacFilters);
-          setFilters((prevFilters: any) => ({
-            ...prevFilters,
-            additionalFilters: dynamicFilters.additionalFilters,
-          }));
+          processAndSetFilters(fetchedData, anacFilters);
         }
 
         prevYear.current = currentYear;
@@ -72,7 +68,7 @@ const AeroportosPage = () => {
     };
 
     fetchData();
-  }, [filters.year, setFilters, data.length]);
+  }, [filters.year, processAndSetFilters, data.length]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -101,7 +97,6 @@ const AeroportosPage = () => {
             data={filteredData}
             year={getYearSelected(filters)}
             months={getMonths(filters, 1)}
-
           />
         );
       case "embarque":
@@ -113,9 +108,7 @@ const AeroportosPage = () => {
           />
         );
       case "aena":
-        return (
-          <AenaPage />
-        );
+        return <AenaPage />;
       default:
         return (
           <Geral
@@ -128,6 +121,7 @@ const AeroportosPage = () => {
   };
 
   const handleNavigation = (tab: string) => {
+    console.log('settando a tab:', tab)
     setActiveTab(tab);
     router.replace(`?tab=${tab}`);
   };
