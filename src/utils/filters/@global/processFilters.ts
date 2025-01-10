@@ -19,6 +19,6 @@ export const processFilters = (data: any[], baseFilters: any) => {
     }),
   };
 
-  console.log(processedFilters)
+  console.log('filtros que foram procesados:', processedFilters)
   return processedFilters;
 };
