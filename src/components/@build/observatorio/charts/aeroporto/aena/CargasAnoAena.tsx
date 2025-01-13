@@ -6,17 +6,20 @@ import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processPassageirosAno } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosAno";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
-import { processPassageirosAnoAena } from "@/functions/process_data/observatorio/aeroporto/aena/passageirosAnoAena";
+import { processCargaAnoAena } from "@/functions/process_data/observatorio/aeroporto/aena/cargasAnoAena";
 
-const PassageirosAnoAena = ({
-   data,
+const CargasAnoAena = ({
+    data,
     colors = ColorPalette.default,
     title = "Passageiros ao Longo do Ano",
   }: any) => {
  
-    console.log(data)
-    const chartData = processPassageirosAnoAena(data);
+console.log(data)
+
+    const chartData = processCargaAnoAena(data);
   
+console.log(chartData)
+
     return (
       <div className="relative bg-white w-full p-4">
         <ChartGrabber>
@@ -25,7 +28,7 @@ const PassageirosAnoAena = ({
             title={title}
             colors={colors}
             xKey="mes"
-            lines={[{ dataKey: "passageiros", name: "Passageiros", strokeWidth: 2 }]}
+            lines={[{ dataKey: "quantidade", name: "Cargas (ton)", strokeWidth: 2 }]}
           />
         </ChartGrabber>
       </div>
@@ -35,4 +38,4 @@ const PassageirosAnoAena = ({
   
   
 
-export default PassageirosAnoAena;
+export default CargasAnoAena;

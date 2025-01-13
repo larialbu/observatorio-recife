@@ -7,7 +7,8 @@ import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
 import { aeroportoDataFilter } from "@/utils/filters/@data/aeroportoDataFilter";
 import { ProcessedAenaPassageirosData } from "@/@types/observatorio/aeroporto/processedAenaPassageirosData";
 import { ProcessedAenaCargasData } from "@/@types/observatorio/aeroporto/processedAenaCargasData";
-import charts from "./@imports/carga/charts";
+import chartsCargas from "./@imports/carga/charts";
+import chartsPassageiros from "./@imports/passageiro/charts";
 
 const AenaPage = () => {
   const { filters, processAndSetFilters } = useDashboard(); // Usando a nova função do contexto
@@ -71,17 +72,30 @@ const AenaPage = () => {
   if (loading) return <LoadingScreen />;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
 
+  console.log(passageirosData)
+
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
-        {charts.map(({ Component }, index) => (
+        {chartsPassageiros.map(({ Component }, index) => (
           <div
             key={index}
             className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
           >
             <React.Suspense fallback={<div>Loading...</div>}>
               {/* Passando os dados filtrados */}
-              <Component passageirosData={filteredPassageirosData} cargasData={filteredCargasData} />
+              <Component data={passageirosData} />
+            </React.Suspense>
+          </div>
+        ))}
+        {chartsCargas.map(({ Component }, index) => (
+          <div
+            key={index}
+            className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
+          >
+            <React.Suspense fallback={<div>Loading...</div>}>
+              {/* Passando os dados filtrados */}
+              <Component data={cargasData} />
             </React.Suspense>
           </div>
         ))}
