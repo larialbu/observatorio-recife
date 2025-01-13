@@ -29,7 +29,8 @@ const DashboardContext = createContext<DashboardContextProps | undefined>(undefi
 
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const [filters, setFilters] = useState<Record<string, any>>(defaultFilters);
-  const [data, setData] = useState<any>({});
+  const [data, setData] = useState<any>([]);
+  const [filteredData, setFilteredData] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -41,48 +42,50 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const fetchedData = await aeroportoDataService.fetchDataForTab(tab);
-        console.log('dados fetchados',fetchedData[0]);
+        // Passa o ano atual dos filtros para o serviço
+        console.log('filtros agora:',currentFilters)
+        console.log('ano atual:', data)
+        const fetchedData = await aeroportoDataService.fetchDataForTab(
+          tab, 
+          filters.year || "2024"
+        );
+        let processedData: any[] = [];
 
-        let processedData = [];
+        if (fetchedData && fetchedData.length > 0 && typeof fetchedData[0] === "object") {
+          const fetchedItem = fetchedData[0];
 
-        // Verifica se fetchedData tem mais de uma chave
-        console.log('mae')
-
-        if (Object.keys(fetchedData[0]).length > 1) {
-          console.log('tem')
-          // Processa para cada chave
-          for (const key in fetchedData[0]) {
-            const processedFilters = processFilters(fetchedData[0][key], currentFilters);
-            processedData.push({
-              key: key,
-              data: fetchedData[0][key],
-              filters: processedFilters.additionalFilters
-            });
+          if (Object.keys(fetchedItem).length > 1) {
+            // Processa cada chave quando há várias
+            for (const key in fetchedItem) {
+              const processedFilters = processFilters(fetchedItem[key], currentFilters);
+              processedData.push({
+                key,
+                data: fetchedItem[key],
+                filters: processedFilters.additionalFilters,
+              });
+            }
+          } else {
+            // Processa quando há apenas uma chave
+            const key = Object.keys(fetchedItem)[0];
+            const processedFilters = processFilters(fetchedItem[key], currentFilters);
+            processedData = [
+              {
+                key,
+                data: fetchedItem[key],
+                filters: processedFilters.additionalFilters,
+              },
+            ];
           }
+
+          // Atualiza o estado global de filtros e dados
+          setFilters({
+            ...currentFilters,
+            additionalFilters: processedData[0]?.filters || [],
+          });
+          setData(processedData);
         } else {
-          // Se houver apenas uma chave, processa o primeiro item
-          console.log('data processado:', fetchedData[0]);
-          
-          // Acessando o primeiro valor de fetchedData
-          const key = Object.keys(fetchedData[0])[0]; // Pega a primeira chave
-          console.log(fetchedData[0][key])
-          const processedFilters = processFilters(fetchedData[0][key], currentFilters);
-
-          console.log('filtros processados:',processedFilters)
-          
-          processedData = [{
-            key: key, // usa a chave para identificar
-            data: fetchedData[0][key], // pega o valor da primeira chave
-            filters: processedFilters.additionalFilters
-          }];
+          console.error("Formato inesperado de fetchedData:", fetchedData);
         }
-
-        setFilters({
-          ...currentFilters,
-          additionalFilters: processedData[0].filters, // Ajuste conforme necessário
-        });
-        setData(processedData); // Atualiza o estado com os dados processados
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       } finally {
@@ -95,8 +98,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     } else {
       setFilters(currentFilters);
     }
-  }, [pathname, searchParams]);
-
+  }, [pathname, searchParams, filters.year]);
 
   const resetFilters = () => {
     const tab = searchParams.get("tab");
@@ -109,11 +111,19 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       ...prevFilters,
       additionalFilters: dynamicFilters.additionalFilters,
     }));
+    console.log('filtros dinamicos:',dynamicFilters)
   };
 
   return (
     <DashboardContext.Provider
-      value={{ filters, setFilters, resetFilters, processAndSetFilters, isLoading, data }}
+      value={{
+        filters,
+        setFilters,
+        resetFilters,
+        processAndSetFilters,
+        isLoading,
+        data,
+      }}
     >
       {children}
     </DashboardContext.Provider>

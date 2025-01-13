@@ -2,8 +2,6 @@ import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
 
 export class AeroportoDataService {
   private static instance: AeroportoDataService;
-  private currentYear: string = "2024";
-  private dataCache: Record<string, any> = {};
 
   private constructor() {}
 
@@ -14,16 +12,8 @@ export class AeroportoDataService {
     return AeroportoDataService.instance;
   }
 
-  public setYear(year: string) {
-    this.currentYear = year;
-  }
-
-  private getCacheKey(tab: string): string {
-    return `${tab}-${this.currentYear}`;
-  }
-
-  private async fetchAenaData() {
-    const aeroportoService = new AeroportoData(this.currentYear);
+  private async fetchAenaData(year: string) {
+    const aeroportoService = new AeroportoData(year);
     const [passageiros, cargas] = await Promise.all([
       aeroportoService.fetchProcessedAenaPassageirosData(),
       aeroportoService.fetchProcessedAenaCargasData()
@@ -31,42 +21,29 @@ export class AeroportoDataService {
     return { passageiros, cargas };
   }
 
-    private async fetchAnacData() {
-        const aeroportoService = new AeroportoData(this.currentYear);
-        const [geral] = await Promise.all([
-        aeroportoService.fetchProcessedData()
-        ]);
-        
-        return [ { geral }];
-    }
+  private async fetchAnacData(year: string) {
+    const aeroportoService = new AeroportoData(year);
+    const [geral] = await Promise.all([
+      aeroportoService.fetchProcessedData()
+    ]);
+    return [{ geral }];
+  }
 
-  public async fetchDataForTab(tab: string): Promise<any> {
-    const cacheKey = this.getCacheKey(tab);
-    
-    if (this.dataCache[cacheKey]) {
-      return this.dataCache[cacheKey];
-    }
-
+  public async fetchDataForTab(tab: string, year: string = "2024"): Promise<any> {
     let data;
     switch (tab) {
       case "aena":
-        data = [await this.fetchAenaData()];
+        data = [await this.fetchAenaData(year)];
         break;
       case "geral":
       case "comparativo":
       case "embarque":
-        data = await this.fetchAnacData();
+        data = await this.fetchAnacData(year);
         break;
       default:
-        data = await this.fetchAnacData();
+        data = await this.fetchAnacData(year);
     }
-
-    this.dataCache[cacheKey] = data;
     return data;
-  }
-
-  public clearCache() {
-    this.dataCache = {};
   }
 }
 

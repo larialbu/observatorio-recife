@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { aeroportoDataFilter } from "@/utils/filters/@data/aeroportoDataFilter";
@@ -8,9 +8,22 @@ import charts from "./@imports/carga/charts";
 
 const AenaPage = () => {
   const { filters, isLoading, data } = useDashboard();
-  console.log('oi', data[0]?.data)
-  const filteredPassageiros = aeroportoDataFilter(data[0]?.data || [], filters);
-  const filteredCargas = aeroportoDataFilter(data[1]?.data || [], filters);
+  const [filteredPassageiros, setFilteredPassageiros] = useState([]);
+  const [filteredCargas, setFilteredCargas] = useState([]);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      // Filtra os dados com base nos filtros
+      const passageirosFiltered: any = aeroportoDataFilter(data[0]?.data || [], filters);
+      const cargasFiltered: any = aeroportoDataFilter(data[1]?.data || [], filters);
+
+      setFilteredPassageiros(passageirosFiltered);
+      setFilteredCargas(cargasFiltered);
+
+      console.log("Dados filtrados - Passageiros:", passageirosFiltered);
+      console.log("Dados filtrados - Cargas:", cargasFiltered);
+    }
+  }, [filters, data]);
 
   if (isLoading) return <LoadingScreen />;
 
@@ -32,6 +45,5 @@ const AenaPage = () => {
     </div>
   );
 };
-
 
 export default AenaPage;
