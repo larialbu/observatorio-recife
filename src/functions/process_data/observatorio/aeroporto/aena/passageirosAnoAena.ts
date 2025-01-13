@@ -9,7 +9,7 @@ export const processPassageirosAnoAena = (data: any[]) => {
   }));
 
   // Agora percorremos os dados para processar
-  data.forEach((item) => {
+  data?.forEach((item) => {
     const passageiros = parseFloat(
       (item["Passageiros"] || "0").replace(/\./g, "").replace(",", ".")
     ); // Transforma pra número e remove formatação

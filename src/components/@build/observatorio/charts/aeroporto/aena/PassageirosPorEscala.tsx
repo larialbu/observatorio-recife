@@ -5,16 +5,16 @@ import PieChart from "@/components/@global/charts/PieChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
-import { preparePassageirosPorNaturezaData } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosPorNatureza";
+import { preparePassageirosPorEscalaData } from "@/functions/process_data/observatorio/aeroporto/aena/passageirosPorEscalaAena";
 
-const PassageirosPorNatureza = ({
+const PassageirosPorEscala = ({
   data,
-  title = "Cargas por Natureza do Voo",
+  title = "Passageiros por conexão",
   year,
 }: any) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = preparePassageirosPorNaturezaData(data);
-
+  
+  const chartData = preparePassageirosPorEscalaData(data);
 
   return (
     <div className="relative bg-white w-full p-4">
@@ -29,7 +29,7 @@ const PassageirosPorNatureza = ({
             />
           }
           dataKey="total"
-          nameKey="natureza"
+          nameKey="escala"
           colors={ColorPalette.default}
           showPercentages={showPercentage}
           tooltipEntry=""
@@ -39,4 +39,4 @@ const PassageirosPorNatureza = ({
   );
 };
 
-export default PassageirosPorNatureza;
+export default PassageirosPorEscala;

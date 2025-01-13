@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { aeroportoDataFilter } from "@/utils/filters/@data/aeroportoDataFilter";
-import { useDashboard } from "@/context/DashboardContext";
-import { LoadingScreen } from "@/components/home/LoadingScreen";
-import Geral from "./(geral)/geral";
-import Comparativo from "./(comparativo)/comparativo";
-import Embarque from "./(embarque)/embarque";
-import AenaPage from "./(aena)/aena";
+  import React, {useState, useEffect} from "react";
+  import { useSearchParams, useRouter } from "next/navigation";
+  import { useDashboard } from "@/context/DashboardContext";
+  import { LoadingScreen } from "@/components/home/LoadingScreen";
+  import Geral from "./(geral)/geral";
+  import Comparativo from "./(comparativo)/comparativo";
+  import Embarque from "./(embarque)/embarque";
+  import AenaPage from "./(aena)/aena";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
+import { getMonths } from "@/utils/filters/@global/getMonths";
+import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();

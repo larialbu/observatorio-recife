@@ -25,17 +25,14 @@ const Menu = ({ open }: { open: boolean }) => {
 
           {/* Ícones e Links */}
           {section.items.map((item) => (
-            <div
-              key={item.label}
-              className="relative group"
-              onMouseEnter={() => setHoveredItem(item.label)}
-              onMouseLeave={() => setHoveredItem(null)}
-            >
+            <div key={item.label} className="relative group">
               <Link
                 href={item.href}
                 className={`flex max-w-[200px] items-center ${
                   open ? "justify-start" : "justify-center"
                 } gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-lamaSkyLight menu-item-wrapper`}
+                onMouseEnter={() => setHoveredItem(item.label)} // Detecta hover no link
+                onMouseLeave={() => setHoveredItem(null)} // Remove hover ao sair do link
               >
                 {item.icon}
                 {open && <span>{item.label}</span>}
@@ -44,8 +41,10 @@ const Menu = ({ open }: { open: boolean }) => {
               {/* Tooltip para Sidebar Fechada */}
               {!open && (
                 <div
-                  className={`absolute left-full top-1/2 -translate-y-1/2 ml-2 bg-white shadow-lg px-3 py-1 rounded-md z-[999] opacity-0 group-hover:opacity-100 transition-all duration-300 ${
-                    hoveredItem === item.label ? "tooltip-show" : "tooltip-hide"
+                  className={`absolute left-full top-1/2 -translate-y-1/2 ml-2 bg-white shadow-lg px-3 py-1 z-50 rounded-md transition-all duration-500 transform ${
+                    hoveredItem === item.label
+                      ? "opacity-100 translate-x-2"
+                      : "opacity-0 translate-x-[-10px]"
                   }`}
                 >
                   {item.label}

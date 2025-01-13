@@ -29,7 +29,7 @@ const Geral = ({ toCompare, data, year, months }: { toCompare: string[]; data: a
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Loading...</div>} key={index}>
             <Component
-              local={toCompare ? toCompare : []}
+              // local={toCompare ? toCompare : []}
               data={data}
               year={year}
               color={ColorPalette.default[index]}
