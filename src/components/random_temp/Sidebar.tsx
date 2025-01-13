@@ -63,6 +63,7 @@ const Bar = ({
           alt="logo"
           width={menuOpen ? 150 : 35} // Tamanho baseado no estado do menu
           height={32}
+          className={menuOpen ? "" : "hover:rotate-45"}
         />
       </Link>
       <Menu open={menuOpen} />
