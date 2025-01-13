@@ -6,17 +6,42 @@ import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { aeroportoDataFilter } from "@/utils/filters/@data/aeroportoDataFilter";
 import chartsCargas from "./@imports/carga/charts";
 import chartsPassageiros from "./@imports/passageiro/charts";
+import cardsPassageiros from "./@imports/passageiro/cards";
+import cardsCargas from "./@imports/carga/cards";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
-const AenaPage = () => {
+const AenaPage = ({ year }: {year: string}) => {
   const { filters, isLoading, data } = useDashboard();
-  console.log('oi', data[0]?.data)
   const filteredPassageiros = aeroportoDataFilter(data[0]?.data || [], filters);
   const filteredCargas = aeroportoDataFilter(data[1]?.data || [], filters);
 
   if (isLoading) return <LoadingScreen />;
 
+  console.log('filtredPassageiros',filteredPassageiros)
+
   return (
     <div>
+      <div className="flex flex-wrap gap-4 justify-center mb-8">
+        {cardsPassageiros.map(({ Component }, index) => (
+          <React.Suspense fallback={<div>Loading...</div>} key={index}>
+            <Component
+              data={filteredPassageiros}
+              year={year}
+              color={ColorPalette.default[index]}
+            />
+          </React.Suspense>
+        ))}
+        {cardsCargas.map(({ Component }, index) => (
+          <React.Suspense fallback={<div>Loading...</div>} key={index}>
+            <Component
+              data={filteredCargas}
+              year={year}
+              color={ColorPalette.default[index]}
+            />
+          </React.Suspense>
+        ))}
+      </div>
+     
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
         {chartsCargas.map(({ Component }, index) => (
           <div

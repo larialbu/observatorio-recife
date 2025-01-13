@@ -14,11 +14,8 @@ const CargasAnoAena = ({
     title = "Passageiros ao Longo do Ano",
   }: any) => {
  
-console.log(data)
-
     const chartData = processCargaAnoAena(data);
   
-console.log(chartData)
 
     return (
       <div className="relative bg-white w-full p-4">

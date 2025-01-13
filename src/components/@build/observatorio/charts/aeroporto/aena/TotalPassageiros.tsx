@@ -14,7 +14,6 @@ const TotalPassageiros = ({
 }: any) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
   const chartData = processPassageirosPorAeroportoAena(data);
-console.log(chartData)
 
   return (
     <div className="relative bg-white w-full p-4">

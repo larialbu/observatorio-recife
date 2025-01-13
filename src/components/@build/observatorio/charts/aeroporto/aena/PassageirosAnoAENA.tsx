@@ -14,9 +14,8 @@ const PassageirosAnoAena = ({
     title = "Passageiros ao Longo do Ano",
   }: any) => {
  
-    console.log(data)
     const chartData = processPassageirosAnoAena(data);
-  
+
     return (
       <div className="relative bg-white w-full p-4">
         <ChartGrabber>
