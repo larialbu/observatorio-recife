@@ -10,7 +10,7 @@ import cardsPassageiros from "./@imports/passageiro/cards";
 import cardsCargas from "./@imports/carga/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
-const AenaPage = ({ year }: {year: string}) => {
+const AenaPage = ({ year, months }: {year: string, months: number}) => {
   const { filters, isLoading, data } = useDashboard();
   const [filteredPassageiros, setFilteredPassageiros] = useState([]);
   const [filteredCargas, setFilteredCargas] = useState([]);
@@ -64,7 +64,7 @@ const AenaPage = ({ year }: {year: string}) => {
           >
             <React.Suspense fallback={<div>Loading...</div>}>
               {/* Passando os dados filtrados */}
-              <Component data={filteredCargas} />
+              <Component data={filteredCargas} months={months} />
             </React.Suspense>
           </div>
         ))}
@@ -75,7 +75,7 @@ const AenaPage = ({ year }: {year: string}) => {
           >
             <React.Suspense fallback={<div>Loading...</div>}>
               {/* Passando os dados filtrados */}
-              <Component data={filteredPassageiros} />
+              <Component data={filteredPassageiros} months={months} />
             </React.Suspense>
           </div>
         ))}

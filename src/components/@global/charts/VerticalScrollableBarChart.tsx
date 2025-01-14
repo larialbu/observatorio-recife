@@ -1,4 +1,3 @@
-import React from "react";
 import {
   BarChart as RechartsBarChart,
   Bar,
@@ -13,6 +12,7 @@ import {
 
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
 import CustomTooltip from "../features/CustomTooltip";
+import CustomLegend from "../features/CustomLegend";
 
 const VerticalScrollableBarChart = ({
   data,
@@ -70,7 +70,20 @@ const VerticalScrollableBarChart = ({
             />
               
               {/* Ajustando a legenda com cores dinâmicas */}
-              <Legend/>
+              <Legend 
+                  verticalAlign="top" 
+                  align="center"
+                  content={({ payload }) =>{ 
+                     
+                    return  (<div className="flex justify-center ml-10 mt-2">
+                      <div className="w-[90%]">
+                      <CustomLegend payload={payload} />
+                    </div>
+                    </div>)
+                   
+                     }}
+                  iconSize={20}
+                />
               
               {/* Desenhando as barras e aplicando as cores */}
               {bars.map((bar: any, index: any) => (

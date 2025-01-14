@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import {
   PieChart as RechartsPieChart,
   Pie,
@@ -6,9 +6,11 @@ import {
   Tooltip,
   ResponsiveContainer,
   Text,
+  Legend,
 } from "recharts";
 
 import { tooltipFormatter } from "@/utils/formatters/@global/graphFormatter";
+// import CustomLegend from "../features/CustomLegends";
 import CustomLegend from "../features/CustomLegend";
 import CustomTooltip from "../features/CustomTooltip";
 
@@ -85,7 +87,9 @@ const PieChart = ({
   return (
     <div className="relative bg-white w-full h-full">
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
+      <div className="mb-2">
       {underTitle}
+      </div>
       <ResponsiveContainer width="100%" height={350}>
         <RechartsPieChart>
           <Pie
@@ -108,13 +112,19 @@ const PieChart = ({
           <Tooltip
               content={(e) => CustomTooltip({...e, customTooltipFormatter})}
             />
+            <Legend 
+                  verticalAlign="top" 
+                  align="center"
+                  content={({ payload }) => <CustomLegend payload={payload} noBorder />}
+                  iconSize={20}
+                />
         </RechartsPieChart>
       </ResponsiveContainer>
-      <CustomLegend
+      {/* <CustomLegend
         dataSetter={data}
         colors={colors}
         nameKey={nameKey}
-      />
+      /> */}
     </div>
   );
 };

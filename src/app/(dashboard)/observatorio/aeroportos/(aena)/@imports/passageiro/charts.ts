@@ -11,21 +11,21 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/aeroporto/aena/TotalPassageiros"
+        "@/components/@build/observatorio/charts/aeroporto/aena/TotalPassageirosAena"
       )
     ),
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/aeroporto/aena/PassageirosPorClassificacao"
+        "@/components/@build/observatorio/charts/aeroporto/aena/PassageirosPorClassificacaoAena"
       )
     ),
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/aeroporto/aena/PassageirosPorEscala"
+        "@/components/@build/observatorio/charts/aeroporto/aena/PassageirosPorEscalaAena"
       )
     ),
   },
