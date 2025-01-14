@@ -27,10 +27,10 @@ const getFiltersForRoute = (pathname: string, tab: string | null): Record<string
 
 const DashboardContext = createContext<DashboardContextProps | undefined>(undefined);
 
+
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const [filters, setFilters] = useState<Record<string, any>>(defaultFilters);
   const [data, setData] = useState<any>([]);
-  const [filteredData, setFilteredData] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -39,25 +39,33 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     const tab = searchParams.get("tab") || "aena";
     const currentFilters = getFiltersForRoute(pathname, tab);
 
+    setFilters((prevFilters) => ({
+      ...currentFilters,
+      ...prevFilters,
+      year: prevFilters.year || currentFilters.year,
+    }));
+  }, [pathname, searchParams]);
+
+  useEffect(() => {
     const fetchData = async () => {
+      const tab = searchParams.get("tab") || "aena";
+
+      if (data.some((item: any) => item.year === filters.year)) {
+        console.log("Usando dados em cache para o ano:", filters.year);
+        return;
+      }
+
       setIsLoading(true);
       try {
-        // Passa o ano atual dos filtros para o serviço
-        console.log('filtros agora:',currentFilters)
-        console.log('ano atual:', data)
-        const fetchedData = await aeroportoDataService.fetchDataForTab(
-          tab, 
-          filters.year || "2024"
-        );
-        let processedData: any[] = [];
+        const fetchedData = await aeroportoDataService.fetchDataForTab(tab, filters.year || "2024");
 
+        let processedData: any[] = [];
         if (fetchedData && fetchedData.length > 0 && typeof fetchedData[0] === "object") {
           const fetchedItem = fetchedData[0];
 
           if (Object.keys(fetchedItem).length > 1) {
-            // Processa cada chave quando há várias
             for (const key in fetchedItem) {
-              const processedFilters = processFilters(fetchedItem[key], currentFilters);
+              const processedFilters = processFilters(fetchedItem[key], filters);
               processedData.push({
                 key,
                 data: fetchedItem[key],
@@ -65,9 +73,8 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
               });
             }
           } else {
-            // Processa quando há apenas uma chave
             const key = Object.keys(fetchedItem)[0];
-            const processedFilters = processFilters(fetchedItem[key], currentFilters);
+            const processedFilters = processFilters(fetchedItem[key], filters);
             processedData = [
               {
                 key,
@@ -75,16 +82,14 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
                 filters: processedFilters.additionalFilters,
               },
             ];
+            console.log(processedFilters)
           }
-
-          // Atualiza o estado global de filtros e dados
-          setFilters({
-            ...currentFilters,
+          
+          setFilters((prevFilters) => ({
+            ...prevFilters,
             additionalFilters: processedData[0]?.filters || [],
-          });
+          }));
           setData(processedData);
-        } else {
-          console.error("Formato inesperado de fetchedData:", fetchedData);
         }
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
@@ -95,23 +100,23 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
     if (pathname.includes("/observatorio/aeroportos")) {
       fetchData();
-    } else {
-      setFilters(currentFilters);
     }
-  }, [pathname, searchParams, filters.year]);
+  }, [filters.year, pathname, searchParams]);
 
   const resetFilters = () => {
-    const tab = searchParams.get("tab");
-    setFilters(getFiltersForRoute(pathname, tab));
+    const tab = searchParams.get("tab") || "aena";
+    setFilters((prevFilters) => ({
+      ...getFiltersForRoute(pathname, tab),
+      year: prevFilters.year, // Preserva o ano ao redefinir os filtros
+    }));
   };
 
   const processAndSetFilters = (data: any, filterSet: any) => {
     const dynamicFilters = processFilters(data, filterSet);
     setFilters((prevFilters) => ({
       ...prevFilters,
-      additionalFilters: dynamicFilters.additionalFilters,
+      additionalFilters: dynamicFilters.additionalFilters, // Adiciona novos filtros dinamicamente
     }));
-    console.log('filtros dinamicos:',dynamicFilters)
   };
 
   return (

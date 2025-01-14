@@ -11,6 +11,7 @@
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
 import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
+import { aeroportoDataFilter } from "@/utils/filters/@data/aeroportoDataFilter";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
@@ -25,10 +26,10 @@ const AeroportosPage = () => {
       setActiveTab(tab);
     }
   }, [searchParams, activeTab]);
-
+  
   useEffect(() => {
     const applyFilters = () => {
-      if (data.length > 0) {
+      if (data?.length > 0) {
         const filtered = aeroportoDataFilter(data[0]?.data || [], filters);
         setFilteredData(filtered);
         console.log("Dados filtrados:", filtered);
