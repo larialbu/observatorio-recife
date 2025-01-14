@@ -5,16 +5,16 @@ import PieChart from "@/components/@global/charts/PieChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
-import { preparePassageirosPorEscalaData } from "@/functions/process_data/observatorio/aeroporto/aena/passageirosPorEscalaAena";
+import { preparePassageirosPorClassificacaoData } from "@/functions/process_data/observatorio/aeroporto/aena/passageirosPorClassificacaoAena";
 
-const PassageirosPorEscala = ({
+const PassageirosPorClassificacaoAena = ({
   data,
-  title = "Passageiros por conexão",
+  title = "Passageiros por classificação da viagem",
   year,
 }: any) => {
   const [showPercentage, setShowPercentage] = useState(true);
   
-  const chartData = preparePassageirosPorEscalaData(data);
+  const chartData = preparePassageirosPorClassificacaoData(data);
 
   return (
     <div className="relative bg-white w-full p-4">
@@ -29,7 +29,7 @@ const PassageirosPorEscala = ({
             />
           }
           dataKey="total"
-          nameKey="escala"
+          nameKey="classificação"
           colors={ColorPalette.default}
           showPercentages={showPercentage}
           tooltipEntry=""
@@ -39,4 +39,4 @@ const PassageirosPorEscala = ({
   );
 };
 
-export default PassageirosPorEscala;
+export default PassageirosPorClassificacaoAena;

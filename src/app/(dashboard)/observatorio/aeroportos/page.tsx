@@ -11,6 +11,7 @@
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
 import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
+import { aeroportoDataFilter } from "@/utils/filters/@data/aeroportoDataFilter";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
@@ -43,15 +44,26 @@ const AeroportosPage = () => {
   const renderContent = () => {
     switch (activeTab) {
       case "geral":
-        return <Geral data={filteredData} />;
+        return   <Geral
+        data={data[0]?.data}
+        year={getYearSelected(filters)}
+        months={getMonths(filters, 1)}
+      />;
       case "comparativo":
-        return <Comparativo data={filteredData} />;
+        return <Comparativo toCompare={filters.additionalFilters[4]?.options} data={data[0]?.data} year={
+          getYearSelected(filters)
+        }
+        months={getMonths(filters, 1)}
+/>;
       case "embarque":
-        return <Embarque data={filteredData} />;
+        return <Embarque toCompare={filters.additionalFilters[4]?.selected}
+        monthRecent={getMonthRecent(filters, 1)} data={data[0]?.data} />;
       case "aena":
-        return <AenaPage />;
+        return <AenaPage year={getYearSelected(filters)} months={getMonths(filters, 0)} />;
       default:
-        return <Geral data={filteredData} />;
+        return <Geral data={data[0]?.data}
+        year={getYearSelected(filters)}
+        months={getMonths(filters, 1)} />;
     }
   };
 

@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
 import StackerBarChartVertical from "@/components/@global/charts/StackedVerticalBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processImportacaoExportacaoPorPais } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/paisesImportacaoExportacao";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 
 const ImportacaoExportacaoPorPais = ({
   data = [],
@@ -13,7 +13,8 @@ const ImportacaoExportacaoPorPais = ({
 
   return (
     <div className="relative bg-white w-full p-4">
-      <StackerBarChartVertical
+      <ChartGrabber>
+        <StackerBarChartVertical
         data={chartData}
         title="Importação vs Exportação por País"
         colors={colors.slice(1)}
@@ -26,6 +27,8 @@ const ImportacaoExportacaoPorPais = ({
         heightPerCategory={60}  // Define a altura de cada categoria (barra)
         visibleHeight={400}  // Ajuste a altura do scroll
       />
+      </ChartGrabber>
+      
     </div>
   );
 };

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   BarChart as RechartsBarChart,
   Bar,
@@ -13,6 +12,7 @@ import {
 
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
 import CustomLegend from "../features/CustomLegend";
+// import CustomLegend from "../features/CustomLegends";
 import CustomTooltip from "../features/CustomTooltip";
 
 const StackerBarChartVertical = ({
@@ -71,8 +71,22 @@ const StackerBarChartVertical = ({
               <Tooltip
               content={(e) => CustomTooltip({...e, customTooltipFormatter})}
             />
+            <Legend 
+                  verticalAlign="top" 
+                  align="center"
+                  content={({ payload }) =>{ 
+                     
+                    return  (<div className="flex justify-center ml-10 mt-2">
+                      <div className="w-[90%]">
+                      <CustomLegend payload={payload} />
+                    </div>
+                    </div>)
+                   
+                     }}
+                  iconSize={20}
+                />
               {bars.map((bar: any, index: any) => (
-                <Bar key={index} dataKey={bar.dataKey} name={bar.name} stackId="stack">
+                <Bar key={index} dataKey={bar.dataKey} name={bar.name} stackId="stack" fill={colors[index]}>
                   {data.map((entry: any, dataIndex: any) => {
                     const color =
                       entry[xKey] === "Recife"
@@ -84,11 +98,11 @@ const StackerBarChartVertical = ({
               ))}
             </RechartsBarChart>
           </ResponsiveContainer>
-          <CustomLegend 
+          {/* <CustomLegend 
             dataSetter={bars}
             colors={colors}
             nameKey="name"
-          />
+          /> */}
         </div>
       </div>
     </div>

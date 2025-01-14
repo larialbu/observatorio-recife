@@ -1,7 +1,7 @@
-import React from "react";
 import { BarChart as RechartsBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
 import CustomTooltip from "../features/CustomTooltip";
+import CustomLegend from "../features/CustomLegend";
 
 const BarChart = ({ 
   data, 
@@ -23,8 +23,8 @@ const BarChart = ({
           <RechartsBarChart data={data} margin={{ top: 20, right: 20, left: 13, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis 
-            dataKey={xKey} 
-            tick={{ fontSize: 12 }}
+              dataKey={xKey} 
+              tick={{ fontSize: 12 }}
             />
             <YAxis 
               tick={{ fontSize: 12 }}
@@ -33,7 +33,12 @@ const BarChart = ({
             <Tooltip
               content={(e) => CustomTooltip({...e, customTooltipFormatter})}
             />
-            <Legend />
+            <Legend 
+              verticalAlign="top" 
+              align="center"
+              content={({ payload }) => <CustomLegend payload={payload} />}
+              iconSize={20}
+            />
             {bars.map((bar: any, index: any) => (
               <Bar key={index} dataKey={bar.dataKey} fill={colors[index]} name={bar.name} />
             ))}
