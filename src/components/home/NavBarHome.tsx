@@ -44,6 +44,12 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
       onClick: null,
       className: `${responsiveNavItem} flex-shrink-0 hover:underline`,
     },
+    {
+      text: "Sobre",
+      href: "/sobre",
+      onClick: null,
+      className: `${responsiveNavItem} flex-shrink-0 hover:underline`,
+    },
   ];
 
   useEffect(() => {
