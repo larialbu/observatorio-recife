@@ -4,9 +4,7 @@ import React, { createContext, useState, useContext, ReactNode, useEffect } from
 import { usePathname, useSearchParams } from "next/navigation";
 import { defaultFilters } from "@/utils/filters/defaultFilters";
 import { anacFilters } from "@/utils/filters/aeroporto/anacFilters";
-import { aenaFilters } from "@/utils/filters/aeroporto/aenaFilters";
-import { balancaComercialFilters } from "@/utils/filters/balancaComercialFilters";
-import { processFilters } from "@/utils/filters/@global/processFilters";
+import { applyGenericFilters } from "@/utils/filters/applyGenericFilters";
 import { aeroportoDataService } from "@/services/@data/aeroportoDataService";
 
 interface DashboardContextProps {
@@ -16,27 +14,29 @@ interface DashboardContextProps {
   processAndSetFilters: (data: any, filterSet: any) => void;
   isLoading: boolean;
   data: any;
+  filteredData: any; // Adicionado
+  setFilteredData: (data: any) => void; // Adicionado
 }
 
 const getFiltersForRoute = (pathname: string, tab: string | null): Record<string, any> => {
   if (pathname === "/observatorio/aeroportos") {
-    return tab === "aena" ? aenaFilters : anacFilters;
+    return anacFilters; // Altere conforme necessário para filtros específicos
   }
-  return pathname === "/observatorio/bal-comercial" ? balancaComercialFilters : defaultFilters;
+  return defaultFilters;
 };
 
 const DashboardContext = createContext<DashboardContextProps | undefined>(undefined);
 
-
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const [filters, setFilters] = useState<Record<string, any>>(defaultFilters);
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<any[]>([]);
+  const [filteredData, setFilteredData] = useState<any[]>([]); // Adicionado
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const tab = searchParams.get("tab") || "aena";
+    const tab = searchParams.get("tab");
     const currentFilters = getFiltersForRoute(pathname, tab);
 
     setFilters((prevFilters) => ({
@@ -48,63 +48,40 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const tab = searchParams.get("tab") || "aena";
-
-      if (data.some((item: any) => item.year === filters.year)) {
-        console.log("Usando dados em cache para o ano:", filters.year);
-        return;
-      }
-
+      const tab = searchParams.get("tab") || "geral";
       setIsLoading(true);
+  
       try {
-        const fetchedData = await aeroportoDataService.fetchDataForTab(tab, filters.year || "2024");
-
-        let processedData: any[] = [];
-        if (fetchedData && fetchedData.length > 0 && typeof fetchedData[0] === "object") {
-          const fetchedItem = fetchedData[0];
-
-          if (Object.keys(fetchedItem).length > 1) {
-            for (const key in fetchedItem) {
-              const processedFilters = processFilters(fetchedItem[key], filters);
-              processedData.push({
-                key,
-                data: fetchedItem[key],
-                filters: processedFilters.additionalFilters,
-              });
-            }
-          } else {
-            const key = Object.keys(fetchedItem)[0];
-            const processedFilters = processFilters(fetchedItem[key], filters);
-            processedData = [
-              {
-                key,
-                data: fetchedItem[key],
-                filters: processedFilters.additionalFilters,
-              },
-            ];
-            console.log(processedFilters)
-          }
-          
-          setFilters((prevFilters) => ({
-            ...prevFilters,
-            additionalFilters: processedData[0]?.filters || [],
-          }));
-          setData(processedData);
+        const { rawData, filteredData } = await aeroportoDataService.fetchDataForTab(
+          tab,
+          filters.year || "2024",
+          filters
+        );
+  
+        if (!rawData || rawData.length === 0) {
+          console.warn("Dados brutos estão vazios:", rawData);
+          return;
         }
+  
+        console.log("Filtros:", filters);
+        console.log("Dados brutos:", rawData);
+        console.log("Dados filtrados:", filteredData);
+  
+        setData(rawData);
+        setFilteredData(filteredData);
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       } finally {
         setIsLoading(false);
       }
     };
-
-    if (pathname.includes("/observatorio/aeroportos")) {
-      fetchData();
-    }
-  }, [filters.year, pathname, searchParams]);
-
+  
+    fetchData();
+  }, [filters, searchParams]);
+  
+  
   const resetFilters = () => {
-    const tab = searchParams.get("tab") || "aena";
+    const tab = searchParams.get("tab");
     setFilters((prevFilters) => ({
       ...getFiltersForRoute(pathname, tab),
       year: prevFilters.year, // Preserva o ano ao redefinir os filtros
@@ -112,26 +89,29 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const processAndSetFilters = (data: any, filterSet: any) => {
-    const dynamicFilters = processFilters(data, filterSet);
+    console.log(filterSet)
+    const filtered: any = applyGenericFilters(data, filterSet);
     setFilters((prevFilters) => ({
       ...prevFilters,
-      additionalFilters: dynamicFilters.additionalFilters, // Adiciona novos filtros dinamicamente
+      additionalFilters: filtered?.additionalFilters || [], // Use fallback vazio
     }));
   };
 
   return (
     <DashboardContext.Provider
-      value={{
-        filters,
-        setFilters,
-        resetFilters,
-        processAndSetFilters,
-        isLoading,
-        data,
-      }}
-    >
-      {children}
-    </DashboardContext.Provider>
+    value={{
+      filters,
+      setFilters,
+      resetFilters,
+      processAndSetFilters,
+      isLoading,
+      data,
+      filteredData, // Expondo dados filtrados
+      setFilteredData, // Expondo função para atualizar dados filtrados
+    }}
+  >
+    {children}
+  </DashboardContext.Provider>
   );
 };
 

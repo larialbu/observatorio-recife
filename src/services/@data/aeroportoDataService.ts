@@ -1,50 +1,43 @@
 import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
+import { applyGenericFilters } from "@/utils/filters/applyGenericFilters";
 
-export class AeroportoDataService {
-  private static instance: AeroportoDataService;
+export const aeroportoDataService = {
+  fetchDataForTab: async (tab: string, year: string, filters: Record<string, any> = {}) => {
+    const aeroportoData = new AeroportoData(year);
 
-  private constructor() {}
+    try {
+      let data: any[] = [];
 
-  public static getInstance(): AeroportoDataService {
-    if (!AeroportoDataService.instance) {
-      AeroportoDataService.instance = new AeroportoDataService();
+      switch (tab) {
+        case "aena-passageiros":
+          data = await aeroportoData.fetchProcessedAenaPassageirosData();
+          break;
+        case "aena-cargas":
+          data = await aeroportoData.fetchProcessedAenaCargasData();
+          break;
+        case "anac":
+        default:
+          data = await aeroportoData.fetchProcessedData();
+          break;
+      }
+
+      if (!data || data.length === 0) {
+        console.warn("Dados brutos estão vazios:", data);
+        return { rawData: [], filteredData: [] };
+      }
+
+      console.log("Dados brutos carregados:", data);
+
+      const filteredData = applyGenericFilters(data, filters);
+      console.log("Dados filtrados retornados:", filteredData);
+
+      return {
+        rawData: data,
+        filteredData,
+      };
+    } catch (error) {
+      console.error(`Erro ao buscar dados para a aba ${tab}:`, error);
+      throw error;
     }
-    return AeroportoDataService.instance;
-  }
-
-  private async fetchAenaData(year: string) {
-    const aeroportoService = new AeroportoData(year);
-    const [passageiros, cargas] = await Promise.all([
-      aeroportoService.fetchProcessedAenaPassageirosData(),
-      aeroportoService.fetchProcessedAenaCargasData()
-    ]);
-    return { passageiros, cargas };
-  }
-
-  private async fetchAnacData(year: string) {
-    const aeroportoService = new AeroportoData(year);
-    const [geral] = await Promise.all([
-      aeroportoService.fetchProcessedData()
-    ]);
-    return [{ geral }];
-  }
-
-  public async fetchDataForTab(tab: string, year: string = "2024"): Promise<any> {
-    let data;
-    switch (tab) {
-      case "aena":
-        data = [await this.fetchAenaData(year)];
-        break;
-      case "geral":
-      case "comparativo":
-      case "embarque":
-        data = await this.fetchAnacData(year);
-        break;
-      default:
-        data = await this.fetchAnacData(year);
-    }
-    return data;
-  }
-}
-
-export const aeroportoDataService = AeroportoDataService.getInstance();
+  },
+};
