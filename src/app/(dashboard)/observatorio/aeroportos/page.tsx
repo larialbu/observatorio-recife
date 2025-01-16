@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import React, { useState, useEffect, Suspense } from "react";
+import { useRouter } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import Geral from "./(geral)/geral";
@@ -13,18 +13,16 @@ import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
 import { getMonths } from "@/utils/filters/@global/getMonths";
 
 const AeroportosPage = () => {
-  const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
   const [anac, setAnac] = useState([]);
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
 
   useEffect(() => {
-    const tab = searchParams.get("tab");
-    if (tab && tab !== activeTab) {
-      setActiveTab(tab);
-    }
-  }, [searchParams, activeTab]);
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get("tab") || "geral";
+    setActiveTab(tab);
+  }, []);
 
   useEffect(() => {
       console.log("Dados recebidos:", data);
@@ -39,12 +37,10 @@ const AeroportosPage = () => {
         console.log(filters.additionalFilters[4]);
       }
     }, [data]);
-  
-    if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
     if (!data) {
-      return <div className="text-center text-gray-600">Carregando dados...</div>;
+      return <LoadingScreen />;
     }
 
     switch (activeTab) {
@@ -88,30 +84,32 @@ const AeroportosPage = () => {
   if (isLoading) return <LoadingScreen />;
 
   return (
-    <div className="p-6 min-h-screen">
-      <h1 className="text-4xl font-bold text-gray-800 text-center mb-8">
-        Movimentação de Aeroportos
-      </h1>
-      <div className="flex justify-center gap-6 mb-8 flex-wrap">
-        {["geral", "comparativo", "embarque", "aena"].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => handleNavigation(tab)}
-            className={`px-6 py-3 rounded-lg text-lg font-semibold ${
-              activeTab === tab ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-600"
-            }`}
-          >
-          { /* Caprichozinho para colocar aena estilizado */}
-            { tab.charAt(0).toUpperCase() + tab.slice(1) === "Aena" ? (
-                <i>AENA</i>
-                ) : (
-                tab.charAt(0).toUpperCase() + tab.slice(1)
-            )}
-          </button>
-        ))}
+    <Suspense fallback={<LoadingScreen />}>
+      <div className="p-6 min-h-screen">
+        <h1 className="text-4xl font-bold text-gray-800 text-center mb-8">
+          Movimentação de Aeroportos
+        </h1>
+        <div className="flex justify-center gap-6 mb-8 flex-wrap">
+          {["geral", "comparativo", "embarque", "aena"].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => handleNavigation(tab)}
+              className={`px-6 py-3 rounded-lg text-lg font-semibold ${
+                activeTab === tab ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-600"
+              }`}
+            >
+            { /* Caprichozinho para colocar aena estilizado */}
+              { tab.charAt(0).toUpperCase() + tab.slice(1) === "Aena" ? (
+                  <i>AENA</i>
+                  ) : (
+                  tab.charAt(0).toUpperCase() + tab.slice(1)
+              )}
+            </button>
+          ))}
+        </div>
+        {renderContent()}
       </div>
-      {renderContent()}
-    </div>
+    </Suspense>
   );
 };
 
