@@ -1,31 +1,30 @@
 import { ReactNode, useEffect, useRef } from "react";
 
-const FocusHidden = ({
-  children,
-  style="",
-  setOpen,
-}: {
+interface FocusHiddenProps {
   children: ReactNode;
   style?: string;
   open: boolean;
-  setOpen: any;
-}) => {
+  setOpen: (value: boolean) => void;
+}
+
+const FocusHidden = ({ children, style = "", open, setOpen }: FocusHiddenProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const handleClickOutside = (e: MouseEvent) => {
-    // Verifica se o clique foi fora do container do dropdown
+    // Se já não está aberto, não precisa fechar
+    if (!open) return;
     if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-      setOpen(false); // Fecha o dropdown
+      setOpen(false); 
     }
   };
 
   useEffect(() => {
-    window.addEventListener("click", handleClickOutside);
-
+    // Usa mousedown para evitar conflito com clique no botão
+    window.addEventListener("mousedown", handleClickOutside);
     return () => {
-      window.removeEventListener("click", handleClickOutside);
+      window.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [open]);
 
   return (
     <span ref={containerRef} className={style}>

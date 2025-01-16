@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
 import StackedBarChart from "@/components/@global/charts/StackedVerticalBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processComercializacaoPorProduto } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/produtosImportacaoExportacao";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 
 const ImportacaoExportacaoContinente = ({
   data = [],
@@ -14,7 +14,8 @@ const ImportacaoExportacaoContinente = ({
 
   return (
     <div className="relative bg-white w-full p-4">
-      <StackedBarChart
+      <ChartGrabber>
+        <StackedBarChart
         data={chartData}
         colors={colors.slice(1)}
         title={title}
@@ -29,6 +30,8 @@ const ImportacaoExportacaoContinente = ({
         left={15}
         yFontSize={11}
       />
+      </ChartGrabber>
+      
     </div>
   );
 };

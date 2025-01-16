@@ -9,7 +9,7 @@ export const balancaComercialFilters = {
     {
       label: "Município", // Município será preenchido dinamicamente
       options: [], // Deixe vazio para preencher com base nos dados
-      selected: [],
+      selected: ["Recife - PE"],
     },
     {
       label: "UF do Município", // UF será preenchido dinamicamente

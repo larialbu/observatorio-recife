@@ -1,5 +1,6 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { rowsSh4ByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsSH4Municipio";
+import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
 
 const GroupProdutos = ({
   data = [],
@@ -20,23 +21,44 @@ const GroupProdutos = ({
     return <div>Nenhum dado econtrado</div>;
   }
 
-  const header = Object.keys(firstAggregated);
+  const header: any = Object.keys(firstAggregated);
 
   const getRows = (values: any) => {
     const rows: string[][] = [];
     
+    console.log()
+    
+    const formatPercent = (val: number) => {
+      let percent 
+  
+      if ((Math.round(val * 100) / 100) != 0 ) {
+          percent = Math.round(val * 100) / 100
+      } else if ((Math.round(val * 100) / 100) == 0 && (Math.round(val * 1000) / 1000) != 0) {
+          percent = Math.round(val * 1000) / 1000
+      } else if ((Math.round(val * 1000) / 1000) == 0 && (Math.round(val * 10000) / 10000) != 0) {
+          percent = Math.round(val * 10000) / 10000
+      } else if ((Math.round(val * 10000) / 10000) == 0 && (Math.round(val * 100000) / 100000) != 0) {
+        percent = Math.round(val * 100000) / 100000
+    } else if ((Math.round(val * 100000) / 100000) == 0 && (Math.round(val * 100000) / 100000) != 0) {
+      percent = Math.round(val * 1000000) / 1000000
+  }  
+ 
+      return percent
+    } 
+
     values.map((obj: any) => {
-        rows.push([obj['CODIGO_SH4'], obj['DESCRICAO_SH4']]);
+        rows.push([<div className="text-center flex items-center justify-center">{formatPercent(obj['PARTICIPAÇÃO'])}%</div>, obj['CÓDIGO SH4'], obj['DESCRIÇÃO SH4'], <div className="flex gap-1 justify-center"><span>$</span> {formatNumber(obj.NEGOCIADO)}</div>, <div className="flex gap-1 justify-center"><span>$</span> {formatNumber(obj['IMPORTAÇÃO'])}</div>, <div className="flex gap-1 justify-center"><span>$</span> {formatNumber(obj['EXPORTAÇÃO'])}</div>]);
       });
 
     return rows;
   };
 
+
   return (
     <div className="relative bg-white w-full p-4">
-      <TableGeneric searchIndexes={[0, 1]} enablePagination={false} onClick={(e: any) => {
+      <TableGeneric searchIndexes={[1, 2]} enablePagination={false} onClick={(e: any) => {
         console.log('onCLick', e)
-        }} color={color} headers={['CÓDIGO', 'DESCRIÇÃO']} title={title} rows={getRows(sortedData)} />
+        }} color={color} headers={header} title={title} rows={getRows(sortedData)} />
     </div>
   );
 };
