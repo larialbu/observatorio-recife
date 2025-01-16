@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import React, { useState, useEffect, Suspense } from "react";
+import { useRouter } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import Geral from "./(geral)/geral";
@@ -12,7 +12,6 @@ import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
 
 const AeroportosPage = () => {
-  const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
   const [anac, setAnac] = useState([]);
   const [activeTab, setActiveTab] = useState("geral");
@@ -39,12 +38,10 @@ const AeroportosPage = () => {
   
       }
     }, [data]);
-  
-    if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
     if (!data) {
-      return <div className="text-center text-gray-600">Carregando dados...</div>;
+      return <LoadingScreen />;
     }
 
     switch (activeTab) {
@@ -135,8 +132,7 @@ const AeroportosPage = () => {
           <i>AENA</i>
         </button>
       </div>
-      {renderContent()}
-    </div>
+    </Suspense>
   );
 };
 

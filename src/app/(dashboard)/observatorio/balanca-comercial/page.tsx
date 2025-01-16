@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import React, { useState, useEffect, Suspense } from "react";
+import { useRouter } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 
@@ -18,7 +18,6 @@ import { getMonths } from "@/utils/filters/@global/getMonths";
  * e deixando só a lógica de tabs e renderização local.
  */
 const BalancaComercialPage = () => {
-  const searchParams = useSearchParams();
   const router = useRouter();
 
   // Pegamos do contexto: isLoading e data (já filtrados).
@@ -44,7 +43,7 @@ const BalancaComercialPage = () => {
     // Se data ainda não estiver disponível,
     // podemos mostrar um pequeno aviso ou algo similar.
     if (!data) {
-      return <div className="text-center text-gray-600">Carregando dados...</div>;
+      return <LoadingScreen />;
     }
 
     // Obs.: assumindo que "data.geral" é onde estão os registros filtrados
@@ -100,22 +99,36 @@ const BalancaComercialPage = () => {
           }`}
         >
           Balança Comercial
-        </button>
+        </h1>
 
-        <button
-          onClick={() => handleNavigation("analitico")}
-          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "analitico"
-              ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
-              : "bg-gray-300 text-gray-500"
-          }`}
-        >
-          Analítico
-        </button>
+        {/* Botões de navegação de aba */}
+        <div className="flex justify-center gap-6 mb-8 flex-wrap">
+          <button
+            onClick={() => handleNavigation("geral")}
+            className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+              activeTab === "geral"
+                ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
+                : "bg-gray-300 text-gray-500"
+            }`}
+          >
+            Balança Comercial
+          </button>
+
+          <button
+            onClick={() => handleNavigation("analitico")}
+            className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+              activeTab === "analitico"
+                ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+                : "bg-gray-300 text-gray-500"
+            }`}
+          >
+            Analítico
+          </button>
+        </div>
+
+        {renderContent()}
       </div>
-
-      {renderContent()}
-    </div>
+    </Suspense>
   );
 };
 

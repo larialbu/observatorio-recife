@@ -34,7 +34,6 @@ const DashboardContext = createContext<DashboardContextProps | undefined>(undefi
 
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const [filters, setFilters] = useState<Filters>({} as any);
   const [data, setData] = useState<Data | null>(null);
