@@ -19,9 +19,10 @@ export class AeroportoDataService {
     this.currentYear = year;
   }
 
-  private getCacheKey(tab: string): string {
-    return `${tab}-${this.currentYear}`;
+  private getCacheKey(tab: string, filters: Record<string, any>): string {
+    return `${tab}-${this.currentYear}-${JSON.stringify(filters.additionalFilters)}`;
   }
+  
 
   private async fetchAenaData(filters: Record<string, any>) {
     const aeroportoService = new AeroportoData(this.currentYear);
@@ -43,31 +44,29 @@ export class AeroportoDataService {
     const aeroportoService = new AeroportoData(this.currentYear);
     const geral = await aeroportoService.fetchProcessedData();
     const geralFiltered = applyGenericFilters(geral, filters);
-    console.log(geralFiltered)
+    console.log(geralFiltered);
 
     return { geral: geralFiltered };
   }
 
-  public async fetchDataForTab(tab: string, filters: Record<string, any>): Promise<any> {
-    const cacheKey = this.getCacheKey(tab);
-
+  public async fetchDataForTab(tab: string, filters: Record<string, any>) {
+    // Agora usamos getCacheKey que recebe (tab, filters)
+    const cacheKey = this.getCacheKey(tab, filters);
+  
+    // Se já existe no cache com as mesmas seleções:
     if (this.dataCache[cacheKey]) {
       return this.dataCache[cacheKey];
     }
-
+  
     let data;
     if (tab === "aena") {
       data = await this.fetchAenaData(filters);
     } else {
       data = await this.fetchAnacData(filters);
     }
-
+  
     this.dataCache[cacheKey] = data;
     return data;
-  }
-
-  public clearCache() {
-    this.dataCache = {};
   }
 }
 
