@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
 // ^ Nova função análoga a getFiltersForRoute, mas que retorna o "service" certo
@@ -18,7 +18,6 @@ const DashboardContext = createContext<DashboardContextProps | undefined>(undefi
 
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [data, setData] = useState<any>(null);
@@ -29,7 +28,10 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(true);
     try {
       // Descobrimos a tab (ou definimos "geral" por padrão)
-      const tab = searchParams.get("tab") || "geral";
+      const tab =
+      typeof window !== "undefined"
+        ? new URLSearchParams(window.location.search).get("tab")
+        : null;
 
       // Aqui a mágica: pegamos o service certo
       const service = getServiceForRoute(pathname, tab);
@@ -83,18 +85,25 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
   // Ao mudar rota ou tab => pega filtros default e chama fetch
   useEffect(() => {
-    const tab = searchParams.get("tab");
-    const baseFilters = getFiltersForRoute(pathname, tab);
+  const tab =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("tab")
+      : null;
 
-    setFilters(baseFilters);
-    fetchData(baseFilters);
+  const baseFilters = getFiltersForRoute(pathname, tab);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, searchParams]);
+  setFilters(baseFilters);
+  fetchData(baseFilters);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [pathname]);
 
   // Limpa filtros => zera "selected" e reapply
   const resetFilters = () => {
-    const tab = searchParams.get("tab");
+    const tab =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("tab")
+      : null;
     let baseFilters = getFiltersForRoute(pathname, tab);
 
     if (baseFilters.additionalFilters) {

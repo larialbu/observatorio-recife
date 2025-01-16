@@ -27,7 +27,7 @@ const Geral = ({ data, year, months }: { data: any; year: string, months: number
     <div>
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
-          <React.Suspense fallback={<div>Loading...</div>} key={index}>
+          <React.Suspense fallback={<div>Carregando...</div>} key={index}>
             <Component
               data={data}
               year={year}

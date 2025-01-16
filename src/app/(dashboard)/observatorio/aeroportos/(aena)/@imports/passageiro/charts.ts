@@ -4,7 +4,7 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/aeroporto/aena/PassageirosAnoAena"
+        "@/components/@build/observatorio/charts/aeroporto/aena/PassageirosAnoAENA"
       )
     ),
   },
