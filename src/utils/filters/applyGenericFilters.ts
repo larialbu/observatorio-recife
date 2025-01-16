@@ -1,31 +1,43 @@
 export const applyGenericFilters = (data: any[], filters: Record<string, any>) => {
-    const filterKeyMap: Record<string, string> = {
-      years: "ANO", // Mapeia 'years' para 'ANO'
-    };
-  
-    console.log("Dados recebidos para filtragem:", data);
-    console.log("Filtros aplicados:", filters);
-  
-    return data.filter((item) => {
-      return Object.keys(filters).every((key) => {
-        const filterValue = filters[key];
-        if (!filterValue || (Array.isArray(filterValue) && filterValue.length === 0)) {
-          return true; // Ignora filtros vazios ou inválidos
+  console.log("Dados antes da filtragem:", data);
+  console.log("Filtros aplicados:", filters);
+
+  const yearFilter = filters.year || "2024";
+  console.log("Ano utilizado para filtragem:", yearFilter);
+
+  const filteredData = data.filter((item) => {
+    // Filtra por ano
+    if (item["ANO"] !== yearFilter && item["Ano"] !== yearFilter) {
+      return false;
+    }
+
+    // Se houver additionalFilters
+    if (filters.additionalFilters) {
+      for (const f of filters.additionalFilters) {
+        // Se não tem selected ou está vazio, ignora
+        if (!f.selected || f.selected.length === 0) continue;
+        // item[f.label] => ex.: item["MÊS"], item["AEROPORTO NOME"], etc.
+        const val = item[f.label];
+        // Se val não está em f.selected, rejeita
+        if (!f.selected.includes(val)) {
+          return false;
         }
-  
-        const mappedKey = filterKeyMap[key] || key; // Usa o mapeamento ou a chave original
-        console.log(`Chave: ${key}, Valor do filtro: ${filterValue}, Valor no item: ${item[mappedKey]}`);
-  
-        if (Array.isArray(filterValue)) {
-          return filterValue.includes(item[mappedKey]);
-        }
-  
-        if (typeof filterValue === "string" || typeof filterValue === "number") {
-          return item[mappedKey] === filterValue;
-        }
-  
-        return true; // Ignora filtros não aplicáveis
-      });
-    });
-  };
-  
+      }
+    }
+
+    return true;
+  });
+
+  // Calcula options se quiser
+  const additionalFiltersOptions =
+    filters.additionalFilters?.map((f) => {
+      const uniqueOptions = Array.from(new Set(filteredData.map((item) => item[f.label]))).filter(
+        (v) => v != null
+      );
+      return { ...f, options: uniqueOptions };
+    }) || [];
+
+  console.log("Dados filtrados retornados:", filteredData);
+
+  return { filteredData, additionalFiltersOptions };
+};

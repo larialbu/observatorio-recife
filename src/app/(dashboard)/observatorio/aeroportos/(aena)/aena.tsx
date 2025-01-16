@@ -1,83 +1,76 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
-import { aeroportoDataFilter } from "@/utils/filters/@data/aeroportoDataFilter";
 import chartsCargas from "./@imports/carga/charts";
 import chartsPassageiros from "./@imports/passageiro/charts";
 import cardsPassageiros from "./@imports/passageiro/cards";
 import cardsCargas from "./@imports/carga/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
-const AenaPage = ({ year, months }: {year: string, months: number}) => {
-  const { filters, isLoading, data } = useDashboard();
+const AenaPage = () => {
+  const { data, isLoading } = useDashboard();
   const [filteredPassageiros, setFilteredPassageiros] = useState([]);
   const [filteredCargas, setFilteredCargas] = useState([]);
 
   useEffect(() => {
-    if (data.length > 0) {
-      // Filtra os dados com base nos filtros
-      const passageirosFiltered: any = aeroportoDataFilter(data[0]?.data || [], filters);
-      const cargasFiltered: any = aeroportoDataFilter(data[1]?.data || [], filters);
+    console.log("Dados recebidos:", data);
 
-      setFilteredPassageiros(passageirosFiltered);
-      setFilteredCargas(cargasFiltered);
+    if (data) {
+      // Extraindo os dados de passageiros e cargas
+      const passageirosData = data.passageiros || {};
+      const cargasData = data.cargas || {};
 
-      console.log("Dados filtrados - Passageiros:", passageirosFiltered);
-      console.log("Dados filtrados - Cargas:", cargasFiltered);
+      setFilteredPassageiros(passageirosData.filteredData || []);
+      setFilteredCargas(cargasData.filteredData || []);
+
+      console.log("Dados filtrados - Passageiros:", passageirosData.filteredData);
+      console.log("Dados filtrados - Cargas:", cargasData.filteredData);
     }
-  }, [filters, data]);
+  }, [data]);
 
   if (isLoading) return <LoadingScreen />;
 
-  console.log('filtredPassageiros',filteredPassageiros)
-
   return (
-    <div>
+    <div className="p-6">
+      <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
+        Movimentação AENA
+      </h2>
+
+      {/* Cards de Passageiros e Cargas */}
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cardsPassageiros.map(({ Component }, index) => (
-          <React.Suspense fallback={<div>Loading...</div>} key={index}>
-            <Component
-              data={filteredPassageiros}
-              year={year}
-              color={ColorPalette.default[index]}
-            />
-          </React.Suspense>
+          <Component
+            key={`passageiro-card-${index}`}
+            data={filteredPassageiros}
+            year="2024"
+            color={ColorPalette.default[index]}
+          />
         ))}
         {cardsCargas.map(({ Component }, index) => (
-          <React.Suspense fallback={<div>Loading...</div>} key={index}>
-            <Component
-              data={filteredCargas}
-              year={year}
-              color={ColorPalette.default[index]}
-            />
-          </React.Suspense>
+          <Component
+            key={`carga-card-${index}`}
+            data={filteredCargas}
+            year="2024"
+            color={ColorPalette.default[index]}
+          />
         ))}
       </div>
-     
+
+      {/* Gráficos de Passageiros e Cargas */}
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
         {chartsCargas.map(({ Component }, index) => (
-          <div
-            key={index}
-            className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
-          >
-            <React.Suspense fallback={<div>Loading...</div>}>
-              {/* Passando os dados filtrados */}
-              <Component data={filteredCargas} months={months} />
-            </React.Suspense>
-          </div>
+          <Component
+            key={`carga-chart-${index}`}
+            data={filteredCargas}
+            months={[1, 12]}
+          />
         ))}
         {chartsPassageiros.map(({ Component }, index) => (
-          <div
-            key={index}
-            className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
-          >
-            <React.Suspense fallback={<div>Loading...</div>}>
-              {/* Passando os dados filtrados */}
-              <Component data={filteredPassageiros} months={months} />
-            </React.Suspense>
-          </div>
+          <Component
+            key={`passageiro-chart-${index}`}
+            data={filteredPassageiros}
+            months={[1, 12]}
+          />
         ))}
       </div>
     </div>
