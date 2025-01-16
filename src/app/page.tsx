@@ -29,9 +29,6 @@ const Page = () => {
       {/* Seção de notícias */}
       <NewsSection />
 
-      {/* Sobre nós */}
-      <AboutUs />
-
       {/* Ícones sociais */}
       <SocialIconsContainer />
 
