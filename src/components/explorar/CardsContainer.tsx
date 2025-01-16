@@ -9,12 +9,12 @@ export const CardsContainer: React.FC = () => {
 
     const cardsData = [
         {
-            banner: "/images/banners/ipca_banner.png",
-            title: "IPCA - Índice Nacional de Preços ao Consumidor Amplo",
-            logo: "/images/logos/partners/ibge_logo.png",
-            description: "Fique por dentro da variação dos valores!",
-            detailedDescription: "O IPCA é um índice que mede a inflação oficial do Brasil, calculado mensalmente pelo IBGE, considerando os preços de uma cesta básica de bens e serviços em diversas regiões do país.",
-            route: "/observatorio/ipca"
+            banner: "/images/banners/aeroporto_banner.png",
+            title: "Movimentação dos aeroportos",
+            logo: "/images/logos/partners/anac_logo.png",
+            description: "Explore a decolagem das tendências no tráfego aéreo!",
+            detailedDescription: "A movimentação dos aeroportos abrange dados sobre o fluxo de passageiros, carga e operações aéreas, proporcionando uma visão sobre o crescimento e as variações no setor de aviação civil.",
+            route: "/observatorio/aeroportos?tab=geral"
         },
         {
             banner: "/images/banners/porto_recife_banner.png",
@@ -25,12 +25,12 @@ export const CardsContainer: React.FC = () => {
             route: "/observatorio/portos"
         },
         {
-            banner: "/images/banners/aeroporto_banner.png",
-            title: "Movimentação dos aeroportos",
-            logo: "/images/logos/partners/anac_logo.png",
-            description: "Explore a decolagem das tendências no tráfego aéreo!",
-            detailedDescription: "A movimentação dos aeroportos abrange dados sobre o fluxo de passageiros, carga e operações aéreas, proporcionando uma visão sobre o crescimento e as variações no setor de aviação civil.",
-            route: "/observatorio/aeroportos"
+            banner: "/images/banners/ipca_banner.png",
+            title: "IPCA - Índice Nacional de Preços ao Consumidor Amplo",
+            logo: "/images/logos/partners/ibge_logo.png",
+            description: "Fique por dentro da variação dos valores!",
+            detailedDescription: "O IPCA é um índice que mede a inflação oficial do Brasil, calculado mensalmente pelo IBGE, considerando os preços de uma cesta básica de bens e serviços em diversas regiões do país.",
+            route: "/observatorio/ipca"
         },
         {
             banner: "/images/banners/balanca_comercial_banner.png",
@@ -38,7 +38,7 @@ export const CardsContainer: React.FC = () => {
             logo: "/images/logos/partners/comex_stat_logo.png",
             description: "Explore os bastidores da balança comercial: o que entra e sai do Brasil!",
             detailedDescription: "A balança comercial reflete a diferença entre exportações e importações do Brasil, sendo um indicador importante da saúde econômica e das relações comerciais com o resto do mundo.",
-            route: "/observatorio/bal-comercial"
+            route: "/observatorio/balanca-comercial?tab=geral"
         },
         {
             banner: "/images/banners/ranking_banner.png",

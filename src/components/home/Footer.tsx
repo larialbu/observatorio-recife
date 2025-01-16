@@ -38,7 +38,7 @@ export const Footer = () => {
                         </svg>
                     </div>
                         <a href="mailto:desenvolvimento@recife.pe.gov.br">
-                            <p className="__description">desenvolvimento@recife.pe.gov.br</p>
+                            <p className="__description hover:underline">desenvolvimento@recife.pe.gov.br</p>
                         </a>
                     </div>
                     <div className="flex items-center __row item3">
@@ -48,7 +48,7 @@ export const Footer = () => {
                     </svg>
                     </div>
                     <a href="https://desenvolvimentoeconomico.recife.pe.gov.br/" target="_blank">
-                        <p className="__description">desenvolvimentoeconomico.recife.pe.gov.br</p>
+                        <p className="__description hover:underline">desenvolvimentoeconomico.recife.pe.gov.br</p>
                     </a>
                     </div>
                 </div>
@@ -63,7 +63,9 @@ export const Footer = () => {
                         </g>
                     </svg>
                     </div>
-                    <p className="__description">Rua do Brum, 123 - 3º andar - Empresarial Maurício<br/>Brandão Mattos - Bairro do Recife, Recife-PE</p>
+                        <a href="https://maps.app.goo.gl/s1BEFPhGSWBmdxAE8" target="_blank">
+                            <p className="__description hover:underline">Rua do Brum, 123 - 3º andar - Empresarial Maurício<br/>Brandão Mattos - Bairro do Recife, Recife-PE</p>
+                        </a>  
                     </div>
                     <div className="flex items-center __row item2">
                     <div className="__icon">

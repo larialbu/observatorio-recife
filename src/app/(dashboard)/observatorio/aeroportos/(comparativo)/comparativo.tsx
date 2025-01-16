@@ -10,10 +10,12 @@ const Comparativo = ({
   year,
   toCompare,
   data,
+  months,
 }: {
   year: string;
   toCompare?: any;
   data: any[];
+  months: number
 }) => {
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
@@ -31,7 +33,7 @@ const Comparativo = ({
         ),
       };
     });
-
+    console.log(toCompare)
     setTablesRender([...tables, ...getNewTables]);
   }, [tempFiltred]);
 
@@ -83,7 +85,7 @@ const Comparativo = ({
         <div className="w-[85%] flex flex-wrap gap-4 justify-center mb-2">
           {tempFiltred.map((toCompare: string) => {
             return cards.map(({ Component }, index) => (
-              <React.Suspense fallback={<div>Loading...</div>} key={index}>
+              <React.Suspense fallback={<div>Carregando...</div>} key={index}>
                 <div
                   className={`${
                     toCompare === tempFiltred[pageCompare] ? animationClass : "hidden"
@@ -141,7 +143,7 @@ const Comparativo = ({
               className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
             >
               <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={data} toCompare={["Recife", ...tempFiltred]} />
+                <Component data={data} toCompare={["Recife", ...tempFiltred]} months={months} />
               </React.Suspense>
             </div>
           ))}
@@ -153,7 +155,7 @@ const Comparativo = ({
               key={index}
               className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
             >
-              <React.Suspense fallback={<div>Loading...</div>}>
+              <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
                   airport={["Recife", ...tempFiltred][index]}
                   color={ColorPalette.default[index]}

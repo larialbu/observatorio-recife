@@ -1,8 +1,8 @@
-import { useDashboard } from "@/context/DashboardContext";
+"use client";
+
 import { useState, useEffect } from "react";
-import { defaultFilters } from "@/utils/filters/defaultFilters";
 import FocusHidden from "../@global/features/FocusHidden";
-import { useNavbarHandlers } from "@/functions/@global/NavbarHandlers";
+import { useDashboard } from "@/context/DashboardContext";
 
 const ChevronIcon = ({ up = false }: { up?: boolean }) => (
   <svg
@@ -10,208 +10,245 @@ const ChevronIcon = ({ up = false }: { up?: boolean }) => (
       up ? "rotate-180" : ""
     }`}
     viewBox="0 0 20 20"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
   >
     <path d="M6 8l4 4 4-4" />
   </svg>
 );
 
 const Navbar = () => {
-  const { filters, setFilters } = useDashboard();
-  const [isClient, setIsClient] = useState(false);
+  const { filters, applyFilters, resetFilters } = useDashboard();
+
+  // Estado local: "tempFilters" é o rascunho do que o usuário edita antes de aplicar
+  const [tempFilters, setTempFilters] = useState(filters);
+
+  // Exibe ou oculta o modal de filtros
   const [filtersVisible, setFiltersVisible] = useState(false);
 
-  const {
-    dropdowns,
-    tempFilters,
-    searchTerms,
-    toggleDropdown,
-    handleTimePeriodChange,
-    handleCheckboxChange,
-    handleSelectAll,
-    applyFilters,
-    handleSearchChange,
-    setTempFilters,
-    setDropdowns, 
-    clearFilters
-  } = useNavbarHandlers();
+  // Dropdowns abertos para cada label
+  const [dropdowns, setDropdowns] = useState<Record<string, boolean>>({});
 
+  // Campos de busca por label
+  const [searchTerms, setSearchTerms] = useState<Record<string, string>>({});
+
+  // Mensagem inicial (true => exibe)
+  const [showInitialMessage, setShowInitialMessage] = useState(true);
+
+  // Sempre que o 'filters' global mudar, copiamos para "tempFilters"
   useEffect(() => {
-    setIsClient(true);
-    setTempFilters(() => ({
-      ...filters,
-      year: filters.year || filters.years[filters.years.length - 1] || defaultFilters.years[defaultFilters.years.length - 1],
-      additionalFilters:
-        filters.additionalFilters || defaultFilters.additionalFilters,
-    }));
+    setTempFilters(filters);
   }, [filters]);
 
+  /** Some com a mensagem inicial ao menor sinal de interação */
+  const hideInitialMessage = () => {
+    if (showInitialMessage) {
+      setShowInitialMessage(false);
+    }
+  };
+
+  /** Toggle do painel principal de filtros */
+  const toggleFiltersVisible = () => {
+    setFiltersVisible((prev) => !prev);
+  };
+
+  /** Toggle do dropdown específico */
+  const toggleDropdown = (label: string) => {
+    setDropdowns((prev) => ({ ...prev, [label]: !prev[label] }));
+  };
+
+  /** Marca/desmarca individualmente */
+  const handleCheckboxChange = (label: string, option: string) => {
+    setTempFilters((prev) => {
+      const updated = prev.additionalFilters.map((f: any) =>
+        f.label === label
+          ? {
+              ...f,
+              selected: f.selected.includes(option)
+                ? f.selected.filter((x: string) => x !== option)
+                : [...f.selected, option],
+            }
+          : f
+      );
+      return { ...prev, additionalFilters: updated };
+    });
+  };
+
+  /** Selecionar/deselecionar tudo */
+  const handleSelectAll = (label: string) => {
+    setTempFilters((prev) => {
+      const updated = prev.additionalFilters.map((f: any) => {
+        if (f.label !== label) return f;
+        const allSelected = f.selected.length === f.options.length;
+        return {
+          ...f,
+          selected: allSelected ? [] : [...f.options],
+        };
+      });
+      return { ...prev, additionalFilters: updated };
+    });
+  };
+
+  /** Busca local */
+  const handleSearchChange = (label: string, value: string) => {
+    setSearchTerms((prev) => ({ ...prev, [label]: value }));
+  };
+
+  /** Ao clicar em "Aplicar", chamamos applyFilters do contexto */
+  const onApplyFilters = () => {
+    hideInitialMessage();
+    applyFilters(tempFilters);
+    setFiltersVisible(false);
+  };
+
+  /** Ao clicar em "Limpar Filtros" */
+  const onResetFilters = () => {
+    hideInitialMessage();
+    resetFilters();
+  };
 
   return (
-    <div className="w-full bg-gray-50 flex flex-col items-start gap-4 py-4 px-4 sm:px-6 lg:px-8 z-40">
+    <div className="relative w-full bg-[#d6d6d686] flex flex-col items-start gap-4 py-4 px-4">
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setFiltersVisible(!filtersVisible);
-        }}
-        className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-300 transition"
+        onClick={toggleFiltersVisible}
+        className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 px-4 py-2 border bg-white border-gray-300 rounded-md"
       >
         {filtersVisible ? "Esconder Filtros" : "Exibir Filtros"}
         <ChevronIcon up={filtersVisible} />
       </button>
 
-      {/* Mostrar filtros selecionados */}
-      <div className="w-full text-sm text-gray-700 flex flex-col gap-4 p-4 bg-white shadow-md rounded-lg">
+      {/* Resumo dos filtros atuais */}
+      <div className="p-4 bg-white shadow-md rounded-lg text-sm text-gray-700">
         <span className="font-medium text-lg text-gray-800">Filtros selecionados:</span>
-        <ul className="flex flex-wrap gap-4">
-          {/* Filtro de ano */}
-          <li className="flex items-center gap-1">
-            <span className="text-gray-600">Ano:</span>
-            <span className="font-semibold text-gray-900">{filters.year || 2024}</span>
+        <ul className="flex flex-wrap gap-4 mt-2">
+          <li>
+            Ano: <strong>{filters.year || 2024}</strong>
           </li>
-
-          {/* Filtros adicionais */}
-          {filters.additionalFilters?.map((filter: any) => {
-            if (filter.selected?.length > 0) {
-              const visibleItems = filter.selected.slice(0, 5); // Mostra os primeiros 5
-              const remainingCount = filter.selected.length - 5; // Calcula o resto
-
+          {filters.additionalFilters?.map((f: any) => {
+            if (f.selected?.length > 0) {
+              const visible = f.selected.slice(0, 5).join(", ");
+              const remaining = f.selected.length - 5;
               return (
-                <li key={filter.label} className="flex items-center gap-1">
-                  <span className="text-gray-600">{filter.label}:</span>
-                  <span className="font-semibold text-gray-900">
-                    {visibleItems.join(", ")}
-                    {remainingCount > 0 && (
-                      <span className="text-blue-600">
-                        {""}
-                        ... e outros <span className="font-medium">{remainingCount}</span>
-                      </span>
-                    )}
-                  </span>
+                <li key={f.label}>
+                  {f.label}: <strong>{visible}</strong>
+                  {remaining > 0 && <span> ... e outros {remaining}</span>}
                 </li>
               );
             }
             return null;
           })}
         </ul>
+
+        {/* Aviso inicial */}
+        {showInitialMessage && (
+          <p className="mt-2 text-xs text-red-600">
+            Para consultar todos os dados: limpe, desselecione Recife ou&nbsp;
+            <button onClick={ onResetFilters }><u>clique aqui.</u></button>
+          </p>
+        )}
       </div>
 
-
+      {/* Modal principal de filtros */}
       {filtersVisible && tempFilters && (
-        <FocusHidden
-          open={filtersVisible}
-          setOpen={setFiltersVisible}
-        >
-          <div className="absolute w-[max-content] rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-base font-semibold text-gray-800 mb-4">Filtros</h2>
+        <FocusHidden open={filtersVisible} setOpen={setFiltersVisible}>
+          <div className="absolute rounded-lg border bg-white p-6 shadow-sm z-50">
+            <h2 className="mb-4 text-base font-semibold text-gray-800">Filtros</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* Seletor de Ano */}
               <div className="flex flex-col">
-                <label className="text-xs font-medium text-gray-600 block mb-1">ANO</label>
+                <label className="text-xs font-medium text-gray-600 mb-1">ANO</label>
                 <select
-                  value={tempFilters.year}
-                  onChange={handleTimePeriodChange}
-                  className="w-full px-3 py-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 text-sm text-gray-700 transition"
+                  value={tempFilters.year || "2024"}
+                  onChange={(e) => {
+                    setTempFilters((prev) => ({ ...prev, year: e.target.value }));
+                  }}
+                  className="px-3 py-2 border text-sm rounded-md"
                 >
-                  {filters.years.map((year: string) => (
-                    <option key={year} value={year}>
-                      {year}
+                  {filters.years?.map((yr: string) => (
+                    <option key={yr} value={yr}>
+                      {yr}
                     </option>
                   ))}
                 </select>
               </div>
 
-              {tempFilters.additionalFilters?.map((filter: any) => (
-                <div key={filter.label} className="relative flex flex-col">
-                  <label className="text-xs font-medium text-gray-600 block mb-1">
-                    {filter.label}
-                  </label>
+              {/* Additional filters */}
+              {tempFilters.additionalFilters?.map((f: any) => (
+                <div key={f.label} className="relative flex flex-col">
+                  <label className="text-xs font-medium text-gray-600 mb-1">{f.label}</label>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleDropdown(filter.label);
+                    onClick={() => {
+                      toggleDropdown(f.label);
                     }}
-                    className="w-full flex justify-between items-center px-3 py-2 border border-gray-300 rounded-md text-left text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition"
+                    className="w-full flex justify-between items-center px-3 py-2 border rounded-md text-sm"
                   >
-                    <span className="truncate">{filter.label}</span>
-                    <ChevronIcon up={dropdowns[filter.label]} />
+                    <span>
+                      {f.selected?.length
+                        ? `${f.selected.length} selecionado(s)`
+                        : "Nenhum selecionado"}
+                    </span>
+                    <ChevronIcon up={dropdowns[f.label]} />
                   </button>
 
-                  {dropdowns[filter.label] && (
+                  {dropdowns[f.label] && (
                     <FocusHidden
-                      open={dropdowns[filter.label]}
-                      setOpen={(val: boolean) =>
-                        setDropdowns((prev) => ({ ...prev, [filter.label]: val }))
+                      open={dropdowns[f.label]}
+                      setOpen={(val) =>
+                        setDropdowns((prev) => ({ ...prev, [f.label]: val }))
                       }
-                      style="absolute top-full mt-2 w-[max-content] bg-white border border-gray-200 rounded-md shadow-lg z-10"
                     >
-                      <div className="p-4 max-h-60 overflow-y-auto">
+                      <div className="absolute z-50 mt-1 p-4 bg-white border shadow-md max-h-60 overflow-y-auto">
                         <input
                           type="text"
                           placeholder="Pesquisar..."
-                          value={searchTerms[filter.label] || ""}
-                          onChange={(e) =>
-                            handleSearchChange(filter.label, e.target.value)
-                          }
-                          className="w-full mb-2 px-2 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          value={searchTerms[f.label] || ""}
+                          onChange={(e) => {
+                            handleSearchChange(f.label, e.target.value);
+                          }}
+                          className="border rounded mb-2 px-2 py-1 text-sm w-full"
                         />
                         <button
-                          onClick={() => handleSelectAll(filter.label)}
-                          className="text-blue-600 font-medium hover:underline block focus:outline-none w-[max-content]"
+                          onClick={() => {
+                            handleSelectAll(f.label);
+                          }}
+                          className="text-blue-600 font-medium hover:underline w-[max-content] block mb-2"
                         >
-                          {filter.selected?.length === filter.options.length
+                          {f.selected.length === f.options.length
                             ? "Desselecionar Todos"
                             : "Selecionar Todos"}
                         </button>
 
-                        {filter.options
-                        .sort((a: string, b: string) => {
-                          if (!isNaN(Number(a)) && !isNaN(Number(b))) {
-                            // Ordenação se for só número
-                            return Number(a) - Number(b);
-                          } else {
-                            // Ordenação se for letra
-                            return a.localeCompare(b);
-                          }
-                        })
-                        .filter((option: string) =>
-                          option
-                            .toLowerCase()
-                            .includes((searchTerms[filter.label] || "").toLowerCase())
-                        )
-                        .map((option: string) => (
-                          <label
-                            key={option}
-                            className="flex items-center gap-2 py-1 text-sm text-gray-700"
-                          >
-                            <input
-                              type="checkbox"
-                              checked={filter.selected?.includes(option) || false}
-                              onChange={() => handleCheckboxChange(filter.label, option)}
-                              className="form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
-                            />
-                            <span className="truncate">{option}</span>
-                          </label>
-                        ))}
+                        {f.options
+                          .filter((op: string) =>
+                            op
+                              .toLowerCase()
+                              .includes((searchTerms[f.label] || "").toLowerCase())
+                          )
+                          .map((op: string) => (
+                            <label key={op} className="flex items-center gap-2 py-1 text-sm">
+                              <input
+                                type="checkbox"
+                                checked={f.selected.includes(op)}
+                                onChange={() => {
+                                  handleCheckboxChange(f.label, op);
+                                }}
+                                className="h-4 w-4 text-blue-600"
+                              />
+                              {op}
+                            </label>
+                          ))}
                       </div>
                     </FocusHidden>
                   )}
                 </div>
               ))}
 
-              <div className="col-span-full flex justify-between mt-4">
-                <button
-                  onClick={clearFilters}
-                  className="inline-flex items-center gap-2 bg-gray-100 mr-2 text-gray-700 font-semibold px-6 py-2 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-1 transition"
-                >
+              {/* Botões no final */}
+              <div className="col-span-full flex justify-end mt-4 gap-4">
+                <button onClick={onResetFilters} className="bg-gray-100 px-4 py-2 rounded-md">
                   Limpar Filtros
                 </button>
                 <button
-                  onClick={applyFilters}
-                  className="inline-flex items-center gap-2 bg-blue-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition"
+                  onClick={onApplyFilters}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md"
                 >
                   Aplicar Filtros
                 </button>

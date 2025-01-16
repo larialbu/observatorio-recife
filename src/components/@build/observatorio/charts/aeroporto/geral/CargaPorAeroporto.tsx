@@ -3,7 +3,7 @@
 import React from "react";
 import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/geral/cargaPorAeroporto";
+import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/geral/charts/cargaPorAeroporto";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 
 const CargaPorAeroporto = ({

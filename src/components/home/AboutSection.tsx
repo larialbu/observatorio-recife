@@ -69,7 +69,7 @@ export const AboutUs = () => {
   );
 
   return (
-    <section className="relative w-full flex flex-col items-center justify-center overflow-hidden text-white mt-32 mb-4 z-0">
+    <section className="relative w-full flex flex-col items-center justify-center overflow-hidden text-white mt-4 mb-4 z-0">
       {/* Fundo com transição de imagem */}
       <div className="absolute inset-0">
         <img
