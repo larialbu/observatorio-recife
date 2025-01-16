@@ -9,7 +9,7 @@ export const aenaFilters = {
       {
         label: "Aeroporto", // Nome dos aeroportos será preenchido dinamicamente
         options: [], // Deixe vazio para preencher com base nos dados
-        selected: [],
+        selected: ["Recife"],
       },
     ],
   };

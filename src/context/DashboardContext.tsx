@@ -2,18 +2,9 @@
 
 import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { defaultFilters } from "@/utils/filters/defaultFilters";
-import { anacFilters } from "@/utils/filters/aeroporto/anacFilters";
-import { aenaFilters } from "@/utils/filters/aeroporto/aenaFilters";
-import { aeroportoDataService } from "@/services/@data/aeroportoDataService";
-
-/** Decide os filtros default de acordo com a rota/tab */
-function getFiltersForRoute(pathname: string, tab: string | null): Record<string, any> {
-  if (pathname.includes("/observatorio/aeroportos")) {
-    return tab === "aena" ? aenaFilters : anacFilters;
-  }
-  return defaultFilters;
-}
+import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
+import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
+// ^ Nova função análoga a getFiltersForRoute, mas que retorna o "service" certo
 
 interface DashboardContextProps {
   filters: Record<string, any>;
@@ -23,37 +14,39 @@ interface DashboardContextProps {
   resetFilters: () => void;
 }
 
-/** Cria o contexto */
 const DashboardContext = createContext<DashboardContextProps | undefined>(undefined);
 
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  /** Estado global de filtros, data e isLoading */
-  const [filters, setFilters] = useState<Record<string, any>>(defaultFilters);
+  const [filters, setFilters] = useState<Record<string, any>>({});
   const [data, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  /** 
-   * Faz o fetch usando o AeroportoDataService,
-   * e se "passengers" ou "geral" retornar additionalFiltersOptions,
-   * mesclamos sem perder `selected`.
-   */
+  // Pega o service correto (aeroportoDataService / balancaDataService / etc.)
   const fetchData = async (filtersToUse: Record<string, any>) => {
     setIsLoading(true);
     try {
-      // Ajusta o "ano" no serviço se precisar
-      aeroportoDataService.setYear(filtersToUse.year || "2024");
+      // Descobrimos a tab (ou definimos "geral" por padrão)
+      const tab = searchParams.get("tab") || "geral";
 
-      // Determina a aba (padrão: "aena")
-      const tab = searchParams.get("tab") || "aena";
+      // Aqui a mágica: pegamos o service certo
+      const service = getServiceForRoute(pathname, tab);
+      if (!service) {
+        console.warn("Nenhum serviço compatível com esta rota/tab. Definindo data = null.");
+        setData(null);
+        return;
+      }
 
-      // Faz a busca
-      const fetched = await aeroportoDataService.fetchDataForTab(tab, filtersToUse);
+      // Ajustar ano no service (se for implementado)
+      service.setYear(filtersToUse.year || "2024");
+
+      // Chama fetch
+      const fetched = await service.fetchDataForTab(tab, filtersToUse);
       setData(fetched);
 
-      // Se vierem additionalFiltersOptions, mesclar:
+      // Se vier additionalFiltersOptions (geral, passageiros...), mesclar
       const newAdditional =
         fetched?.passageiros?.additionalFiltersOptions ||
         fetched?.geral?.additionalFiltersOptions ||
@@ -61,14 +54,11 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
       if (newAdditional.length) {
         setFilters((prev) => {
-          // mesclar sem perder `selected`
           const merged = newAdditional.map((newF: any) => {
             const oldF = prev.additionalFilters?.find((o: any) => o.label === newF.label);
             if (!oldF) {
-              // Se não existia, inicializa selected vazio ou do backend
               return { ...newF, selected: newF.selected || [] };
             }
-            // Se já existia, preserva o que estava selecionado
             return {
               ...newF,
               selected: oldF.selected || [],
@@ -79,39 +69,43 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
+      setData(null);
     } finally {
       setIsLoading(false);
     }
   };
 
-  /**
-   * Função que o Navbar (ou outros) chamam ao clicar em “Aplicar Filtros”.
-   * Faz `setFilters(newFilters)` e chama fetch para refiltrar/recarregar.
-   */
+  // Ao aplicar novos filtros
   const applyFilters = async (newFilters: Record<string, any>) => {
     setFilters(newFilters);
     await fetchData(newFilters);
   };
 
-  /**
-   * Efeito: quando pathname ou searchParams mudarem (ex.: tab=?, rota),
-   * pegamos o "filtro base" e fazemos fetch inicial.
-   */
+  // Ao mudar rota ou tab => pega filtros default e chama fetch
   useEffect(() => {
-    const tab = searchParams.get("tab") || "aena";
+    const tab = searchParams.get("tab");
     const baseFilters = getFiltersForRoute(pathname, tab);
 
     setFilters(baseFilters);
     fetchData(baseFilters);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, searchParams]);
 
-  /**
-   * Reseta os filtros para o default da rota e refaz fetch
-   */
+  // Limpa filtros => zera "selected" e reapply
   const resetFilters = () => {
-    const tab = searchParams.get("tab") || "aena";
-    const baseFilters = getFiltersForRoute(pathname, tab);
+    const tab = searchParams.get("tab");
+    let baseFilters = getFiltersForRoute(pathname, tab);
+
+    if (baseFilters.additionalFilters) {
+      baseFilters = {
+        ...baseFilters,
+        additionalFilters: baseFilters.additionalFilters.map((f: any) => ({
+          ...f,
+          selected: [],
+        })),
+      };
+    }
     applyFilters(baseFilters);
   };
 

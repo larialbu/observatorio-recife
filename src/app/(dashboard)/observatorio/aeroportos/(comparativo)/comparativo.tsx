@@ -33,7 +33,7 @@ const Comparativo = ({
         ),
       };
     });
-
+    console.log(toCompare)
     setTablesRender([...tables, ...getNewTables]);
   }, [tempFiltred]);
 

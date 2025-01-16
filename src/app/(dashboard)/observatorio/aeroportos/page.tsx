@@ -8,10 +8,13 @@ import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
 import AenaPage from "./(aena)/aena";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
+import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
+import { getMonths } from "@/utils/filters/@global/getMonths";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
-  const { isLoading, data } = useDashboard();
+  const { isLoading, data, filters } = useDashboard();
   const [anac, setAnac] = useState([]);
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
@@ -33,6 +36,7 @@ const AeroportosPage = () => {
         setAnac(anacData.filteredData || []);
   
         console.log("Dados filtrados - Anac:", anac);
+        console.log(filters.additionalFilters[4]);
       }
     }, [data]);
   
@@ -45,15 +49,34 @@ const AeroportosPage = () => {
 
     switch (activeTab) {
       case "geral":
-        return <Geral data={anac || []} />;
+        return <Geral 
+          data={anac || []}
+          year={getYearSelected(filters)}
+          months={getMonths(filters, 1)}
+        />;
+        //FAVOR, EDITAR ESTE TOCOMPARE PARA SER SETTADO COM BASE EM DATA PARA DEPOIS SÓ PRECISAR SETAR O FILTRO DA TAB COMO
+        // DEFAULTFILTERS E CONSEGUIR PASSAR SOMENTE O ANO.
       case "comparativo":
-        return <Comparativo data={anac || []} />;
+        return <Comparativo
+          toCompare={filters?.additionalFilters[4]?.options || []}
+          data={anac || []} 
+          year={getYearSelected(filters)}
+          months={getMonths(filters, 1)}
+        />;
       case "embarque":
-        return <Embarque data={anac || []} />;
+        return <Embarque 
+          data={anac || []}
+          toCompare={filters.additionalFilters[4]?.selected}
+          monthRecent={getMonthRecent(filters, 1)}
+        />;
       case "aena":
         return <AenaPage />;
       default:
-        return <Geral data={data?.geral || []} />;
+        return <Geral 
+        data={anac || []}
+        year={getYearSelected(filters)}
+        months={getMonths(filters, 1)}
+        />;
     }
   };
 
@@ -69,7 +92,7 @@ const AeroportosPage = () => {
       <h1 className="text-4xl font-bold text-gray-800 text-center mb-8">
         Movimentação de Aeroportos
       </h1>
-      <div className="flex justify-center gap-6 mb-8">
+      <div className="flex justify-center gap-6 mb-8 flex-wrap">
         {["geral", "comparativo", "embarque", "aena"].map((tab) => (
           <button
             key={tab}
@@ -78,7 +101,12 @@ const AeroportosPage = () => {
               activeTab === tab ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-600"
             }`}
           >
-            {tab.toUpperCase()}
+          { /* Caprichozinho para colocar aena estilizado */}
+            { tab.charAt(0).toUpperCase() + tab.slice(1) === "Aena" ? (
+                <i>AENA</i>
+                ) : (
+                tab.charAt(0).toUpperCase() + tab.slice(1)
+            )}
           </button>
         ))}
       </div>

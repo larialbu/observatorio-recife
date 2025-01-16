@@ -30,7 +30,7 @@ export const applyGenericFilters = (data: any[], filters: Record<string, any>) =
 
   // Calcula options se quiser
   const additionalFiltersOptions =
-    filters.additionalFilters?.map((f) => {
+    filters.additionalFilters?.map((f: any) => {
       const uniqueOptions = Array.from(new Set(filteredData.map((item) => item[f.label]))).filter(
         (v) => v != null
       );

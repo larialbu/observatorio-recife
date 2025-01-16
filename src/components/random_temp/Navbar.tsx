@@ -106,10 +106,10 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full bg-gray-50 flex flex-col items-start gap-4 py-4 px-4">
+    <div className="relative w-full bg-[#d6d6d686] flex flex-col items-start gap-4 py-4 px-4">
       <button
         onClick={toggleFiltersVisible}
-        className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 px-4 py-2 border border-gray-300 rounded-md"
+        className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 px-4 py-2 border bg-white border-gray-300 rounded-md"
       >
         {filtersVisible ? "Esconder Filtros" : "Exibir Filtros"}
         <ChevronIcon up={filtersVisible} />
@@ -140,7 +140,8 @@ const Navbar = () => {
         {/* Aviso inicial */}
         {showInitialMessage && (
           <p className="mt-2 text-xs text-red-600">
-            Para consultar todos os dados, limpe ou altere os filtros.
+            Para consultar todos os dados: limpe, desselecione Recife ou&nbsp;
+            <button onClick={ onResetFilters }><u>clique aqui.</u></button>
           </p>
         )}
       </div>

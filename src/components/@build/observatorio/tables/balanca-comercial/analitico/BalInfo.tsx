@@ -43,7 +43,7 @@ const BalInfo = ({
         return percent
       } 
       
-    console.log(obj['PARTICIPAÇÃO'], obj['IMPORTAÇÃO'], obj['EXPORTAÇÃO'])
+    // console.log(obj['PARTICIPAÇÃO'], obj['IMPORTAÇÃO'], obj['EXPORTAÇÃO'])
 
         // rows.push([obj['PAÍS'], `${formatPercent(+obj['PARTICIPAÇÃO'])}%`, <div className="flex gap-1 justify-center"><span>$</span> {formatNumber(obj.NEGOCIADO)}</div>, `${formatPercent(+obj['IMPORTAÇÃO'])}%`, `${formatPercent(+obj['EXPORTAÇÃO'])}%`]);
         rows.push([obj['PAÍS'], `${formatPercent(+obj['PARTICIPAÇÃO'])}%`, <div className="flex gap-1 justify-center"><span>$</span> {formatNumber(obj.NEGOCIADO)}</div>, <div className="flex gap-1 justify-center"><span>$</span> {formatNumber(obj['IMPORTAÇÃO'])}</div>, <div className="flex gap-1 justify-center"><span>$</span> {formatNumber(obj['EXPORTAÇÃO'])}</div>]);

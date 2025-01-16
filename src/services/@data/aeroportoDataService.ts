@@ -1,5 +1,5 @@
 import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
-import { applyGenericFilters } from "@/utils/filters/applyGenericFilters";
+import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
 
 export class AeroportoDataService {
   private static instance: AeroportoDataService;

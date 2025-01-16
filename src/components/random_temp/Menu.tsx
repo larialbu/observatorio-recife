@@ -44,7 +44,7 @@ const Menu = ({ open }: { open: boolean }) => {
                   className={`absolute left-full top-1/2 -translate-y-1/2 ml-2 bg-white shadow-lg px-3 py-1 z-50 rounded-md transition-all duration-500 transform ${
                     hoveredItem === item.label
                       ? "opacity-100 translate-x-2"
-                      : "opacity-0 translate-x-[-10px]"
+                      : "opacity-0 translate-x-[-10px] pointer-events-none"
                   }`}
                 >
                   {item.label}
