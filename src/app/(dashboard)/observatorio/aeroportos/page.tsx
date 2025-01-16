@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
-import { applyGenericFilters } from "@/utils/filters/applyGenericFilters";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
@@ -12,9 +11,9 @@ import AenaPage from "./(aena)/aena";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
-  const { filters, isLoading, data } = useDashboard();
+  const { isLoading, data } = useDashboard();
+  const [anac, setAnac] = useState([]);
   const [activeTab, setActiveTab] = useState("geral");
-  const [filteredData, setFilteredData] = useState<any>({});
   const router = useRouter();
 
   useEffect(() => {
@@ -25,26 +24,36 @@ const AeroportosPage = () => {
   }, [searchParams, activeTab]);
 
   useEffect(() => {
-    if (data?.length > 0) {
-      const filtered = applyGenericFilters(data[0]?.data || [], filters);
-      setFilteredData(filtered);
-    }
-  }, [filters, data]);
-
-  if (isLoading) return <LoadingScreen />;
+      console.log("Dados recebidos:", data);
+  
+      if (data) {
+        // Extraindo os dados de passageiros e cargas
+        const anacData = data.geral || {};
+  
+        setAnac(anacData.filteredData || []);
+  
+        console.log("Dados filtrados - Anac:", anac);
+      }
+    }, [data]);
+  
+    if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
+    if (!data) {
+      return <div className="text-center text-gray-600">Carregando dados...</div>;
+    }
+
     switch (activeTab) {
       case "geral":
-        return <Geral data={filteredData} />;
+        return <Geral data={anac || []} />;
       case "comparativo":
-        return <Comparativo data={filteredData} />;
+        return <Comparativo data={anac || []} />;
       case "embarque":
-        return <Embarque data={filteredData} />;
+        return <Embarque data={anac || []} />;
       case "aena":
-        return <AenaPage data={filteredData} />;
+        return <AenaPage />;
       default:
-        return <Geral data={filteredData} />;
+        return <Geral data={data?.geral || []} />;
     }
   };
 
@@ -52,6 +61,8 @@ const AeroportosPage = () => {
     setActiveTab(tab);
     router.replace(`?tab=${tab}`);
   };
+
+  if (isLoading) return <LoadingScreen />;
 
   return (
     <div className="p-6 min-h-screen">
