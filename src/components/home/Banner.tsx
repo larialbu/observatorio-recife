@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { NavBarHome } from "./NavBarHome";
+import { ExploreDiv } from "./ExploreDiv";
+import { iconsExplore } from "./ExploreIconsObservatorio";
 
 interface BannerProps {
   onSearch: (term: string) => void;

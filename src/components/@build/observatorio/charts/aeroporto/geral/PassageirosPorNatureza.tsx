@@ -5,7 +5,7 @@ import PieChart from "@/components/@global/charts/PieChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
-import { preparePassageirosPorNaturezaData } from "@/functions/process_data/observatorio/aeroporto/geral/passageirosPorNatureza";
+import { preparePassageirosPorNaturezaData } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosPorNatureza";
 
 const PassageirosPorNatureza = ({
   data,
@@ -14,6 +14,7 @@ const PassageirosPorNatureza = ({
 }: any) => {
   const [showPercentage, setShowPercentage] = useState(true);
   const chartData = preparePassageirosPorNaturezaData(data);
+
 
   return (
     <div className="relative bg-white w-full p-4">

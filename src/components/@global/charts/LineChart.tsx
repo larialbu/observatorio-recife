@@ -1,4 +1,3 @@
-import React from "react";
 import {
   LineChart as RechartsLineChart,
   Line,
@@ -12,6 +11,7 @@ import {
 
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
 import CustomTooltip from "../features/CustomTooltip";
+import CustomLegend from "../features/CustomLegend";
 
 const LineChart = ({
   data,
@@ -44,7 +44,12 @@ const LineChart = ({
           <Tooltip
               content={(e) => CustomTooltip({...e, customTooltipFormatter})}
             />
-          <Legend />
+            <Legend 
+                  verticalAlign="top" 
+                  align="center"
+                  content={({ payload }) => <CustomLegend payload={payload} />}
+                  iconSize={20}
+                />
           {lines.map((line: any, index: any) => (
             <Line
               key={index}
