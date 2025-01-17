@@ -28,7 +28,7 @@ export const routeFiltersMap: Record<
       ...balancaComercialFilters,
     },
     analitico: {
-      ...defaultFilters
+      ...balancaComercialFilters
     },
   },
 

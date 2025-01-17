@@ -52,21 +52,23 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         fetched?.geral?.additionalFiltersOptions ||
         [];
 
-      if (newAdditional.length) {
-        setFilters((prev) => {
-          const merged = newAdditional.map((newF: any) => {
-            const oldF = prev.additionalFilters?.find((o: any) => o.label === newF.label);
-            if (!oldF) {
-              return { ...newF, selected: newF.selected || [] };
-            }
-            return {
-              ...newF,
-              selected: oldF.selected || [],
-            };
+        if (newAdditional.length) {
+          setFilters((prev) => {
+            const merged = newAdditional.map((newF: any) => {
+              const oldF = prev.additionalFilters?.find((o: any) => o.label === newF.label);
+              if (!oldF) {
+                return { ...newF, selected: newF.selected || [] };
+              }
+              // substitui options, mas preserva oldF.selected
+              return {
+                ...newF,
+                selected: oldF.selected || [],
+              };
+            });
+            return { ...prev, additionalFilters: merged };
           });
-          return { ...prev, additionalFilters: merged };
-        });
-      }
+        }
+        
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
       setData(null);
