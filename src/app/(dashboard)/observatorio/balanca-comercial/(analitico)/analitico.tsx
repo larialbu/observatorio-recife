@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
+import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
+import { ProcessedData } from "@/@types/observatorio/balanca-comercial/processedData";
 
 const Analitico = ({
   year,
-  toCompare,
   data,
+  toCompare = getUniqueValues<ProcessedData, 'Município'>(data, 'Município'),
   monthRecent,
 }: {
   year: string;

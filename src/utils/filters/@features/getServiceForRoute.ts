@@ -12,6 +12,8 @@ export function getServiceForRoute(
     if (foundRouteKey) {
       const servicesForTabs = routeServicesMap[foundRouteKey];
       if (typeof servicesForTabs === "object" && tab && servicesForTabs[tab]) {
+        console.log(servicesForTabs)
+        console.log(servicesForTabs[tab])
         return servicesForTabs[tab];
       }
   

@@ -5,11 +5,16 @@ import charts from "./@imports/charts";
 import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
+import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
+
+// AEROPORTO NOME
+
 
 const Comparativo = ({
   year,
-  toCompare,
   data,
+  toCompare = getUniqueValues<ProcessedData, 'AEROPORTO NOME'>(data, "AEROPORTO NOME"),
   months,
 }: {
   year: string;

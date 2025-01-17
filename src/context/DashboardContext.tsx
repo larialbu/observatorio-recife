@@ -30,9 +30,12 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     try {
       // Descobrimos a tab (ou definimos "geral" por padrão)
       const tab = searchParams.get("tab") || "geral";
+      console.log('tab no context', tab)
 
+      console.log('path e tab no context', pathname, tab)
       // Aqui a mágica: pegamos o service certo
       const service = getServiceForRoute(pathname, tab);
+      console.log('service no context', service)
       if (!service) {
         console.warn("Nenhum serviço compatível com esta rota/tab. Definindo data = null.");
         setData(null);
@@ -47,9 +50,11 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       setData(fetched);
 
       // Se vier additionalFiltersOptions (geral, passageiros...), mesclar
+      console.log(fetched)
       const newAdditional =
         fetched?.passageiros?.additionalFiltersOptions ||
         fetched?.geral?.additionalFiltersOptions ||
+        fetched?.grupos?.additionalFiltersOptions ||
         [];
 
         if (newAdditional.length) {

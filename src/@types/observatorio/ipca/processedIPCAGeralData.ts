@@ -1,4 +1,4 @@
-export interface ProcessedIPCAGeralData {
+export interface ProcessedIpcaGeralData {
     Capital: string;
     Mês: string;
     "variação mensal": string;

@@ -8,7 +8,6 @@ import { LoadingScreen } from "@/components/home/LoadingScreen";
 import Geral from "./(geral)/geral";
 import Analitico from "./(analitico)/analitico";
 
-import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
 
@@ -56,8 +55,6 @@ const BalancaComercialPage = () => {
             // Exemplo: se "data.geral?.filteredData" serve pro analítico também
             data={geralData}
             year={getYearSelected(filters)}
-            monthRecent={getMonthRecent(filters, 0)}
-            toCompare={filters.additionalFilters?.[1]?.options || []}
           />
         );
 
@@ -67,8 +64,6 @@ const BalancaComercialPage = () => {
           <Geral
             data={geralData}
             year={getYearSelected(filters)}
-            // Ajuste: se "toCompare" é outro array, mude esse index [4]
-            toCompare={filters.additionalFilters?.[4]?.selected}
             months={getMonths(filters, 0)}
           />
         );

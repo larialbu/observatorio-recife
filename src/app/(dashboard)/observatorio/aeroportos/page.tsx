@@ -9,7 +9,6 @@ import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
 import AenaPage from "./(aena)/aena";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
-import { getMonthRecent } from "@/utils/filters/@global/getMonthRecent";
 import { getMonths } from "@/utils/filters/@global/getMonths";
 
 const AeroportosPage = () => {
@@ -58,7 +57,6 @@ const AeroportosPage = () => {
         // DEFAULTFILTERS E CONSEGUIR PASSAR SOMENTE O ANO.
       case "comparativo":
         return <Comparativo
-          toCompare={filters?.additionalFilters[4]?.options || []}
           data={anac || []} 
           year={getYearSelected(filters)}
           months={getMonths(filters, 1)}
@@ -67,7 +65,6 @@ const AeroportosPage = () => {
         return <Embarque 
           data={anac || []}
           toCompare={filters.additionalFilters[4]?.selected}
-          monthRecent={getMonthRecent(filters, 1)}
         />;
       case "aena":
         return <AenaPage />;

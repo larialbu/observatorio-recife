@@ -1,6 +1,3 @@
-import { ProcessedIPCAGeralData } from "@/@types/observatorio/ipca/processedIPCAGeralData";
-import { ProcessedIPCAGruposData } from "@/@types/observatorio/ipca/processedIPCAGruposData";
-import { ProcessedIPCATabelasData } from "@/@types/observatorio/ipca/processedIPCATabelasData";
 import { ProcessedRankingDimensaoData } from "@/@types/observatorio/ranking/processedRankingDimensaoData";
 import { ProcessedRankingGeralData } from "@/@types/observatorio/ranking/processedRankingGeralData";
 import { ProcessedRankingIndicadorData } from "@/@types/observatorio/ranking/processedRankingIndicadorData";
