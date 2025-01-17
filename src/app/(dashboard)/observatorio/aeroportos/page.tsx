@@ -89,26 +89,51 @@ const AeroportosPage = () => {
 
   return (
     <div className="p-6 min-h-screen">
-      <h1 className="text-4xl font-bold text-gray-800 text-center mb-8">
+      <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
         Movimentação de Aeroportos
       </h1>
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
-        {["geral", "comparativo", "embarque", "aena"].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => handleNavigation(tab)}
-            className={`px-6 py-3 rounded-lg text-lg font-semibold ${
-              activeTab === tab ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-600"
-            }`}
-          >
-          { /* Caprichozinho para colocar aena estilizado */}
-            { tab.charAt(0).toUpperCase() + tab.slice(1) === "Aena" ? (
-                <i>AENA</i>
-                ) : (
-                tab.charAt(0).toUpperCase() + tab.slice(1)
-            )}
-          </button>
-        ))}
+        {/* Botões de navegação */}
+        <button
+          onClick={() => handleNavigation("geral")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "geral"
+              ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          Resumo Geral
+        </button>
+        <button
+          onClick={() => handleNavigation("comparativo")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "comparativo"
+              ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          Comparativo
+        </button>
+        <button
+          onClick={() => handleNavigation("embarque")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "embarque"
+              ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          Embarque/Desembarque
+        </button>
+        <button
+          onClick={() => handleNavigation("aena")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "aena"
+              ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          <i>AENA</i>
+        </button>
       </div>
       {renderContent()}
     </div>
