@@ -9,6 +9,7 @@ import { Footer } from "@/components/home/Footer";
 import { ObsHeader } from "@/components/home/ObsHeader";
 import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
 import Timeline from "@/components/sobre/Timeline";
+import { FaqSection } from "@/components/sobre/FaqSection";
 
 const SobreNos: React.FC = () => {
   const [currentImage, setCurrentImage] = useState<string>("/images/about/about-1.png");
@@ -104,19 +105,7 @@ const SobreNos: React.FC = () => {
 
       <Timeline></Timeline>
 
-
-      {/* Call-to-Action */}
-      <section className="bg-blue-600 dark:bg-[#0C1B2B] text-white py-20 text-center">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-4xl font-bold">Junte-se a Nós</h2>
-          <p className="mt-4 text-lg">
-            Seja parte do futuro do Recife, participando e colaborando com nossas iniciativas.
-          </p>
-          <button className="mt-6 px-6 py-3 bg-white text-blue-600 font-semibold rounded-full shadow-lg hover:bg-gray-100 transition">
-            Saiba Mais
-          </button>
-        </div>
-      </section>
+      <FaqSection />
 
       <SocialIconsContainer />
       <Footer />

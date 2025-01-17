@@ -39,6 +39,12 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
       className: `${responsiveNavItem} flex-shrink-0 hover:underline`,
     },
     {
+      text: "Colaboradores",
+      href: "/colaboradores",
+      onClick: null,
+      className: `${responsiveNavItem} flex-shrink-0 hover:underline`,
+    },
+    {
       text: "Equipe",
       href: "/equipe",
       onClick: null,
