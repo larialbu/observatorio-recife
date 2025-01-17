@@ -39,8 +39,8 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
       className: `${responsiveNavItem} flex-shrink-0 hover:underline`,
     },
     {
-      text: "Colaboradores",
-      href: "/colaboradores",
+      text: "Fontes",
+      href: "/fontes",
       onClick: null,
       className: `${responsiveNavItem} flex-shrink-0 hover:underline`,
     },
@@ -178,9 +178,11 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
         >
           <ul className="flex flex-col space-y-2">
             {displayedNavItems.map((item) => (
-              <li key={item.href} className="hover:underline">
-                <Link href={item.href}>{item.text}</Link>
-              </li>
+              <Link href={item.href}>{item.text}
+                <li key={item.href} className="hover:underline">
+                  <hr className="opacity-30 mt-2 border-black"/>
+                </li>
+              </Link>
             ))}
             <li>
               <div
