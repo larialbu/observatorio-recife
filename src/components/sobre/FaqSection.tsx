@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 export const FaqSection: React.FC = () => {
-  // Exemplo de perguntas e respostas
+  // Perguntas e respostas
   const faqs = [
     {
       question: "Qual o objetivo principal do Observatório Econômico do Recife?",
@@ -21,19 +21,14 @@ export const FaqSection: React.FC = () => {
     },
   ];
 
-  // Agora, em vez de um único índice ou null, vamos armazenar
-  // vários valores (um para cada FAQ), indicando se está aberto (true) ou fechado (false).
+  // Controla qual FAQ está aberto (true) ou fechado (false)
   const [openFaqs, setOpenFaqs] = useState<boolean[]>(
-    // Inicialmente, todos estarão fechados (false)
-    faqs.map(() => false)
+    faqs.map(() => false) // inicialmente todos fechados
   );
 
   const toggleFaq = (index: number) => {
-    // Faz uma cópia do array atual
     const newOpenFaqs = [...openFaqs];
-    // Inverte o estado do índice clicado
     newOpenFaqs[index] = !newOpenFaqs[index];
-    // Atualiza o state
     setOpenFaqs(newOpenFaqs);
   };
 
@@ -46,31 +41,38 @@ export const FaqSection: React.FC = () => {
 
         <div className="space-y-4">
           {faqs.map((faq, index) => {
-            const isOpen = openFaqs[index]; // true ou false
-
+            const isOpen = openFaqs[index]; // se true, mostra a resposta
             return (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-900 rounded-lg shadow p-6"
+                onClick={() => toggleFaq(index)} // <-- clique no card todo
+                className="
+                  bg-white
+                  dark:bg-gray-900
+                  rounded-lg
+                  shadow
+                  p-6
+                  cursor-pointer
+                  transition-transform
+                  hover:-translate-y-1
+                "
               >
-                <button
-                  onClick={() => toggleFaq(index)}
-                  className="flex justify-between items-center w-full text-left"
-                >
+                {/* Cabeçalho: Pergunta + Ícone */}
+                <div className="flex justify-between items-center w-full">
                   <span className="text-lg font-semibold text-gray-800 dark:text-white">
                     {faq.question}
                   </span>
                   <span className="text-blue-600 dark:text-blue-400 ml-2">
                     {isOpen ? <FaChevronUp /> : <FaChevronDown />}
                   </span>
-                </button>
+                </div>
 
-                {/* Container do texto com transição de altura e opacidade */}
+                {/* Resposta - com transição de altura/opacidade */}
                 <div
                   className={`
                     mt-4 text-gray-600 dark:text-gray-400
                     transition-all duration-300 ease-in-out
-                    overflow-hidden 
+                    overflow-hidden
                     ${isOpen ? "max-h-[200px] opacity-100" : "max-h-0 opacity-0"}
                   `}
                 >
