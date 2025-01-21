@@ -87,7 +87,7 @@ const VerticalScrollableBarChart = ({
               
               {/* Desenhando as barras e aplicando as cores */}
               {bars.map((bar: any, index: any) => (
-                <Bar key={index} dataKey={bar.dataKey} name={bar.name} fill={colors[1]}>
+                <Bar key={index} dataKey={bar.dataKey} name={bar.name} fill={colors[0]}>
                   {data.map((entry: any, dataIndex: any) => {
                     const color =
                       entry[xKey] === "Recife"

@@ -29,6 +29,7 @@ export const applyGenericFilters = (data: any[], filters: Record<string, any>) =
       for (const f of filters.additionalFilters) {
         if (!f.selected || f.selected.length === 0) continue;
         const val = item[f.label];
+        if (f.fixed?.includes(val)) return true;
         if (!f.selected.includes(val)) {
           return false;
         }
@@ -44,7 +45,10 @@ export const applyGenericFilters = (data: any[], filters: Record<string, any>) =
       // Pegamos todos os valores (ex.: todos aeroportos) no datasetParaOptions
       const uniqueValues = Array.from(
         new Set(datasetParaOptions.map((item) => item[f.label]))
-      ).filter((v) => v != null);
+      )
+        .filter((v) => v != null)
+        // **Exclui as opções fixas**
+        .filter((op: string) => !(f.fixed && f.fixed.includes(op)));
 
       return { ...f, options: uniqueValues };
     }) || [];

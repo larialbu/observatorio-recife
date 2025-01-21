@@ -1,20 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processPassageirosAno } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosAno";
+import { processBrasilVariacaoMensal } from "@/functions/process_data/observatorio/ipca/geral/charts/ipcaBrasilPorMeses";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
 
-const PassageirosAno = ({
+const IpcaPorMeses = ({
   data = [],
+  nameKey = "mes",
   colors = ColorPalette.default,
-  title = "Passageiros ao Longo do Ano",
-  months
+  title = "Variação Mensal do IPCA no Brasil",
+  months,
 }: any) => {
-  const chartData = processPassageirosAno(data);
+  
+  // Processamento inicial dos dados
+  const chartData = processBrasilVariacaoMensal(data);
 
+  // Atualização dos dados com base nos meses fornecidos
   const updatedData = updatedMonthChartData(chartData, months);
 
   return (
@@ -23,10 +27,10 @@ const PassageirosAno = ({
         <LineChart
           data={updatedData}
           title={title}
-          colors={colors}
-          xKey="mes"
+          colors={colors.slice(2)}
+          xKey={nameKey}
           lines={[
-            { dataKey: "passageiros", name: "Passageiros", strokeWidth: 2 },
+            { dataKey: "variaçãoMensal", name: "Variação Mensal (%)", strokeWidth: 2 },
           ]}
         />
       </ChartGrabber>
@@ -34,4 +38,4 @@ const PassageirosAno = ({
   );
 };
 
-export default PassageirosAno;
+export default IpcaPorMeses;
