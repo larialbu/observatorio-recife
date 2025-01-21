@@ -64,7 +64,7 @@ const BalancaComercialPage = () => {
           <Geral
             data={geralData}
             year={getYearSelected(filters)}
-            months={getMonths(filters, 0)}
+            months={getMonths(filters)}
           />
         );
     }

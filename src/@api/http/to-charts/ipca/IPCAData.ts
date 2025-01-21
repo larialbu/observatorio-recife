@@ -49,7 +49,7 @@ console.log('FETCEHD', BASE_URL, endpoint)
   }
 
   async fetchProcessedGeralData(): Promise<ProcessedIpcaGeralData[]> {
-    const endpoint = `/ipca/indice_geral/anos/${this.year}`;
+    const endpoint = `/ipca/geral/anos/${this.year}`;
     return this.fetchData<ProcessedIpcaGeralData[]>(endpoint);
   }
 
@@ -59,7 +59,7 @@ console.log('FETCEHD', BASE_URL, endpoint)
   }
 
   async fetchProcessedTabelasData(): Promise<ProcessedIpcaTabelasData[]> {
-    const endpoint = `/ipca/tabelas/anos/${this.year}`;
+    const endpoint = `/ipca/analitico/anos/${this.year}`;
     return this.fetchData<ProcessedIpcaTabelasData[]>(endpoint);
   }
 

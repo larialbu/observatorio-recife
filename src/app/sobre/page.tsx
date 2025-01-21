@@ -55,7 +55,10 @@ const SobreNos: React.FC = () => {
 
       {/* Valores e Missão */}
       <section className="py-16 px-6 w-full flex flex-col items-center dark:bg-[#0C1B2B]">
-      <div className="mb-14 text-center">
+      <div className="mb-14 text-center flex flex-col items-center">
+        <div className="w-20 flex hover:rotate-45 transition-transform">
+          <img src="/images/logos/observatorio_logo.png" alt="Logo Observatorio" />
+        </div>
         <h1 className="text-5xl font-extrabold text-gray-800 dark:text-white">Sobre Nós</h1>
           <p className="mt-4 text-lg  text-gray-600 dark:text-gray-400">
             Descubra mais sobre o Observatório Econômico do Recife e nossa missão de inovação.

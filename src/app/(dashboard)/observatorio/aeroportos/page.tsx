@@ -51,7 +51,7 @@ const AeroportosPage = () => {
         return <Geral 
           data={anac || []}
           year={getYearSelected(filters)}
-          months={getMonths(filters, 1)}
+          months={getMonths(filters)}
         />;
         //FAVOR, EDITAR ESTE TOCOMPARE PARA SER SETTADO COM BASE EM DATA PARA DEPOIS SÓ PRECISAR SETAR O FILTRO DA TAB COMO
         // DEFAULTFILTERS E CONSEGUIR PASSAR SOMENTE O ANO.
@@ -59,7 +59,7 @@ const AeroportosPage = () => {
         return <Comparativo
           data={anac || []} 
           year={getYearSelected(filters)}
-          months={getMonths(filters, 1)}
+          months={getMonths(filters)}
         />;
       case "embarque":
         return <Embarque 
@@ -72,7 +72,7 @@ const AeroportosPage = () => {
         return <Geral 
         data={anac || []}
         year={getYearSelected(filters)}
-        months={getMonths(filters, 1)}
+        months={getMonths(filters)}
         />;
     }
   };

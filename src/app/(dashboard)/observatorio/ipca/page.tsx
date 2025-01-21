@@ -8,9 +8,6 @@ import Geral from "./(geral)/geral";
 
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
-import Comparativo from "../aeroportos/(comparativo)/comparativo";
-import Embarque from "../aeroportos/(embarque)/embarque";
-import AenaPage from "../aeroportos/(aena)/aena";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
@@ -52,28 +49,26 @@ const AeroportosPage = () => {
         return <Geral 
           data={anac || []}
           year={getYearSelected(filters)}
-          months={getMonths(filters, 1)}
+          months={getMonths(filters)}
         />;
-        //FAVOR, EDITAR ESTE TOCOMPARE PARA SER SETTADO COM BASE EM DATA PARA DEPOIS SÓ PRECISAR SETAR O FILTRO DA TAB COMO
-        // DEFAULTFILTERS E CONSEGUIR PASSAR SOMENTE O ANO.
-      case "comparativo":
-        return <Comparativo
-          data={anac || []} 
-          year={getYearSelected(filters)}
-          months={getMonths(filters, 1)}
-        />;
-      case "embarque":
-        return <Embarque 
+      case "grupos":
+        return <Geral 
           data={anac || []}
-          toCompare={filters.additionalFilters[4]?.selected}
+          year={getYearSelected(filters)}
+          months={getMonths(filters)}
         />;
-      case "aena":
-        return <AenaPage />;
+
+        case "analitico":
+          return <Geral 
+            data={anac || []}
+            year={getYearSelected(filters)}
+            months={getMonths(filters)}
+          />;
       default:
         return <Geral 
         data={anac || []}
         year={getYearSelected(filters)}
-        months={getMonths(filters, 1)}
+        months={getMonths(filters)}
         />;
     }
   };
@@ -87,26 +82,41 @@ const AeroportosPage = () => {
 
   return (
     <div className="p-6 min-h-screen">
-      <h1 className="text-4xl font-bold text-gray-800 text-center mb-8">
-        Movimentação de Aeroportos
+      <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
+        Por Grupos
       </h1>
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
-        {["geral", "comparativo", "embarque", "aena"].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => handleNavigation(tab)}
-            className={`px-6 py-3 rounded-lg text-lg font-semibold ${
-              activeTab === tab ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-600"
-            }`}
-          >
-          { /* Caprichozinho para colocar aena estilizado */}
-            { tab.charAt(0).toUpperCase() + tab.slice(1) === "Aena" ? (
-                <i>AENA</i>
-                ) : (
-                tab.charAt(0).toUpperCase() + tab.slice(1)
-            )}
-          </button>
-        ))}
+        {/* Botões de navegação */}
+        <button
+          onClick={() => handleNavigation("geral")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "geral"
+              ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          Resumo Geral
+        </button>
+        <button
+          onClick={() => handleNavigation("grupos")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "comparativo"
+              ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          Por Grupos
+        </button>
+        <button
+          onClick={() => handleNavigation("analitico")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "embarque"
+              ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          Analítico
+        </button>
       </div>
       {renderContent()}
     </div>

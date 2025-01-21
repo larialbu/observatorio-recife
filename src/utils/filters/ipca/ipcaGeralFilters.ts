@@ -6,6 +6,12 @@ export const ipcaGeralFilters = {
         options: [], // Deixe vazio para preencher com base nos dados
         selected: []
       },
+      {
+        label: "Capital",
+        options: [],
+        selected: ["Recife"],
+        fixed: ["Brasil"]
+      }
     ],
   };
   
