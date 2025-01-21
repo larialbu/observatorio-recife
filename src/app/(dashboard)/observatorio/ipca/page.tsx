@@ -8,6 +8,7 @@ import Geral from "./(geral)/geral";
 
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
+import Analitico from "./(analitico)/analitico";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
@@ -24,52 +25,61 @@ const AeroportosPage = () => {
   }, [searchParams, activeTab]);
 
   useEffect(() => {
-      console.log("Dados recebidos:", data);
-  
-      if (data) {
-        // Extraindo os dados de passageiros e cargas
-        const anacData = data.geral || {};
-  
-        setAnac(anacData.filteredData || []);
-  
-        console.log("Dados filtrados - Anac:", anac);
-        console.log(filters.additionalFilters[4]);
-      }
-    }, [data]);
-  
-    if (isLoading) return <LoadingScreen />;
+    console.log("Dados recebidos:", data);
+
+    if (data) {
+      // Extraindo os dados de passageiros e cargas
+      const anacData = data.geral || {};
+
+      setAnac(anacData.filteredData || []);
+
+      console.log("Dados filtrados - Anac:", anac);
+      console.log(filters.additionalFilters[4]);
+    }
+  }, [data]);
+
+  if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
     if (!data) {
-      return <div className="text-center text-gray-600">Carregando dados...</div>;
+      return (
+        <div className="text-center text-gray-600">Carregando dados...</div>
+      );
     }
 
     switch (activeTab) {
       case "geral":
-        return <Geral 
-          data={anac || []}
-          year={getYearSelected(filters)}
-          months={getMonths(filters)}
-        />;
-      case "grupos":
-        return <Geral 
-          data={anac || []}
-          year={getYearSelected(filters)}
-          months={getMonths(filters)}
-        />;
-
-        case "analitico":
-          return <Geral 
+        return (
+          <Geral
             data={anac || []}
             year={getYearSelected(filters)}
             months={getMonths(filters)}
-          />;
+          />
+        );
+      case "grupos":
+        return (
+          <Geral
+            data={anac || []}
+            year={getYearSelected(filters)}
+            months={getMonths(filters)}
+          />
+        );
+
+      case "analitico":
+        return (
+          <Analitico
+            year={getYearSelected(filters)}
+            // months={11}
+          />
+        );
       default:
-        return <Geral 
-        data={anac || []}
-        year={getYearSelected(filters)}
-        months={getMonths(filters)}
-        />;
+        return (
+          <Geral
+            data={anac || []}
+            year={getYearSelected(filters)}
+            months={getMonths(filters)}
+          />
+        );
     }
   };
 
@@ -110,7 +120,7 @@ const AeroportosPage = () => {
         <button
           onClick={() => handleNavigation("analitico")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "embarque"
+            activeTab === "analitico"
               ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
