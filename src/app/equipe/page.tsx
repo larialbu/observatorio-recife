@@ -38,7 +38,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Pedro Lacerda",
     role: "Gerente Geral do Investe Recife",
-    image: "/",
+    image: "/images/team/ger-pedro.jpg",
   },
   {
     name: "Ben-Hur Beltrão",
