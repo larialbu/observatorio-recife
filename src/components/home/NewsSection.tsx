@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 
 interface NewsItem {
@@ -30,7 +32,7 @@ const newsData: NewsItem[] = [
   },
   {
     id: 3,
-    title: "Recife dispara como a capital com mais estudantes de TI do Brasil",
+    title: "Recife dispara como a capital com mais estudantes em Tecnologia do Brasil",
     description:
       "Recife lidera no Brasil em estudantes de TI por habitante, impulsionado pelo programa Embarque Digital, parceria entre o Porto Digital e a Prefeitura, promovendo qualificação e inovação tecnológica.",
     image: "/images/news/news2.jpg",
@@ -57,7 +59,7 @@ const newsData: NewsItem[] = [
   },
 ];
 
-const NewsSection = () => {
+function NewsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slidesToShow, setSlidesToShow] = useState(3);
 
@@ -95,7 +97,7 @@ const NewsSection = () => {
           {/* Botão Anterior */}
           <button
             onClick={handlePrev}
-            className="absolute left-0 ml-[-23px] z-10 p-4 text-white bg-blue-600 dark:bg-[#EC6625] rounded-full shadow-md hover:bg-blue-700 dark:hover:bg-[#cc6633] transition-transform transform hover:scale-110"
+            className="absolute left-0 ml-[-23px] z-10 p-4 text-white bg-[#0155AE] dark:bg-[#EC6625] rounded-full shadow-md hover:bg-[#144880] dark:hover:bg-[#cc6633] transition-transform transform hover:scale-110"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -104,12 +106,7 @@ const NewsSection = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
 
@@ -127,7 +124,11 @@ const NewsSection = () => {
                   className="flex-shrink-0 w-[calc(100%/3)] px-4"
                   style={{ width: `${100 / slidesToShow}%` }}
                 >
-                  <div className="flex flex-col h-full bg-white dark:bg-[#142b42] shadow-lg rounded-lg overflow-hidden">
+                  <div
+                    onClick={() => window.open(news.link, "_blank")}
+                    className="flex flex-col h-full bg-white dark:bg-[#142b42] shadow-lg rounded-lg overflow-hidden"
+                    style={{ cursor: "pointer" }}
+                  >
                     <img
                       src={news.image}
                       alt={news.title}
@@ -137,15 +138,15 @@ const NewsSection = () => {
                       <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
                         {news.title}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
+                      <p className="text-gray-600 dark:text-gray-300 text-sm mb-[3em] line-clamp-3">
                         {news.description}
                       </p>
-                      <div className="text-gray-500 dark:text-gray-400 text-xs mb-4">
+                      <div className="absolute bottom-[3em] text-gray-500 dark:text-gray-400 text-xs mb-4">
                         {news.date}
                       </div>
                       <a
                         href={news.link}
-                        className="text-blue-600 dark:text-[#EC6625] font-semibold hover:underline mt-auto"
+                        className="text-[#0155AE] dark:text-[#EC6625] font-semibold hover:underline mt-auto"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -161,7 +162,7 @@ const NewsSection = () => {
           {/* Botão Próximo */}
           <button
             onClick={handleNext}
-            className="absolute right-0 mr-[-23px] z-10 p-4 text-white bg-blue-600 dark:bg-[#EC6625] rounded-full shadow-md hover:bg-blue-700 dark:hover:bg-[#cc6633] transition-transform transform hover:scale-110"
+            className="absolute right-0 mr-[-23px] z-10 p-4 text-white bg-[#0155AE] dark:bg-[#EC6625] rounded-full shadow-md hover:bg-[#144880] dark:hover:bg-[#cc6633] transition-transform transform hover:scale-110"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -170,18 +171,14 @@ const NewsSection = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
         </div>
       </div>
     </div>
   );
-};
+}
 
+// Aqui o export default
 export default NewsSection;

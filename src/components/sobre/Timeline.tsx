@@ -63,7 +63,7 @@ export default function Timeline() {
                     ring-4 
                     ring-white 
                     dark:ring-gray-800 
-                    dark:bg-blue-900
+                    dark:bg-[#8b380f]
                     group-hover:scale-110 
                     transition-transform 
                     duration-300 
@@ -72,7 +72,7 @@ export default function Timeline() {
                 >
                   <svg
                     aria-hidden="true"
-                    className="w-5 h-5 text-blue-600 dark:text-blue-400"
+                    className="w-5 h-5 text-blue-600 dark:text-[#EC6625]"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -120,7 +120,7 @@ export default function Timeline() {
                     ring-4 
                     ring-white 
                     dark:ring-gray-800 
-                    dark:bg-blue-900 
+                    dark:bg-[#8b380f]
                     group-hover:scale-110 
                     transition-transform 
                     duration-300 
@@ -129,7 +129,7 @@ export default function Timeline() {
                 >
                   <svg
                     aria-hidden="true"
-                    className="w-5 h-5 text-blue-600 dark:text-blue-400"
+                    className="w-5 h-5 text-blue-600 dark:text-[#EC6625]"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -175,7 +175,7 @@ export default function Timeline() {
                     ring-4 
                     ring-white 
                     dark:ring-gray-800 
-                    dark:bg-blue-900 
+                    dark:bg-[#8b380f]
                     group-hover:scale-110 
                     transition-transform 
                     duration-300 
@@ -184,7 +184,7 @@ export default function Timeline() {
                 >
                   <svg
                     aria-hidden="true"
-                    className="w-5 h-5 text-blue-600 dark:text-blue-400"
+                    className="w-5 h-5 text-blue-600 dark:text-[#EC6625]"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
