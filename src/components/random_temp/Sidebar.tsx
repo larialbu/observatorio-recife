@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import Menu from "./Menu";
-import { useState } from "react";
-import { useIsMobile } from "@/hooks/useIsMobile"; // Hook para detectar visualização mobile
+import { useState, useRef, useCallback } from "react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const Bar = ({
   menuOpen,
@@ -59,9 +59,9 @@ const Bar = ({
 
       <Link href="/" className="flex items-center justify-center">
         <Image
-          src={menuOpen ? "/observatorio.jpg" : "/images/logos/observatorio_logo.png"} // Alteração aqui
+          src={menuOpen ? "/observatorio.jpg" : "/images/logos/observatorio_logo.png"}
           alt="logo"
-          width={menuOpen ? 150 : 35} // Tamanho baseado no estado do menu
+          width={menuOpen ? 150 : 35}
           height={32}
           className={menuOpen ? "" : "hover:rotate-45"}
         />
@@ -75,13 +75,56 @@ export const Sidebar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const isMobile = useIsMobile();
 
+  // ESTADOS PARA DRAG DA BOLA (BOTÃO FLUTUANTE)
+  const [dragging, setDragging] = useState(false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 }); // diferença entre clique e posição
+  const [pos, setPos] = useState({ x: 16, y: 56 }); // posição inicial (left=16px, top=56px)
+
+  // HANDLERS
+  const onPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (!isMobile) return; // só arrasta em mobile
+
+    setDragging(true);
+    // Permite continuar recebendo eventos do pointer mesmo se sair do alvo
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+
+    // offset (clicado - pos atual)
+    setOffset({
+      x: e.clientX - pos.x,
+      y: e.clientY - pos.y,
+    });
+  };
+
+  const onPointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (!isMobile || !dragging) return;
+
+    const newX = e.clientX - offset.x;
+    const newY = e.clientY - offset.y;
+    setPos({ x: newX, y: newY });
+  };
+
+  const onPointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (!isMobile) return;
+    setDragging(false);
+    (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+  };
+
   return (
     <>
-      {/* Botão flutuante pro celular */}
+      {/* Botão flutuante pro celular (arrastável) */}
       {!menuOpen && isMobile && (
         <button
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
           onClick={() => setMenuOpen(true)}
-          className="fixed top-14 left-4 p-3 bg-blue-500 text-white rounded-full shadow-lg z-50"
+          className="p-3 bg-blue-500 text-white rounded-full shadow-lg z-50"
+          style={{
+            position: "fixed",
+            left: pos.x,
+            top: pos.y,
+            touchAction: "none", // permite arrastar sem scroll
+          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -96,6 +139,7 @@ export const Sidebar = () => {
           </svg>
         </button>
       )}
+
       <Bar menuOpen={menuOpen} isMobile={isMobile} setMenuOpen={setMenuOpen} />
     </>
   );

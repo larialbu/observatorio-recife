@@ -51,6 +51,19 @@ const AeroportosPage = () => {
           year={getYearSelected(filters)}
           months={getMonths(filters)}
         />;
+      case "grupos":
+        return <Geral 
+          data={anac || []}
+          year={getYearSelected(filters)}
+          months={getMonths(filters)}
+        />;
+
+        case "analitico":
+          return <Geral 
+            data={anac || []}
+            year={getYearSelected(filters)}
+            months={getMonths(filters)}
+          />;
       default:
         return <Geral 
         data={anac || []}
@@ -70,7 +83,7 @@ const AeroportosPage = () => {
   return (
     <div className="p-6 min-h-screen">
       <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
-        IPCA
+        Por Grupos
       </h1>
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
         {/* Botões de navegação */}
@@ -83,6 +96,26 @@ const AeroportosPage = () => {
           }`}
         >
           Resumo Geral
+        </button>
+        <button
+          onClick={() => handleNavigation("grupos")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "comparativo"
+              ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          Por Grupos
+        </button>
+        <button
+          onClick={() => handleNavigation("analitico")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "embarque"
+              ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          Analítico
         </button>
       </div>
       {renderContent()}

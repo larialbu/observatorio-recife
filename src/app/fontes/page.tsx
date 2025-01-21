@@ -39,14 +39,14 @@ const collaborators: Collaborator[] = [
     description:
       "Instituto responsável por estatísticas e pesquisas socioeconômicas no Brasil.",
     imageUrl: "/images/colab/ibge-logo.png",
-    href: "",
+    href: "https://www.ibge.gov.br/",
   },
   {
     name: "CLP - Centro de Liderança Pública",
     description:
       "Organização que visa desenvolver competitividade e boa governança no setor público.",
     imageUrl: "/images/colab/clp-logo.png",
-    href: "",
+    href: "https://clp.org.br/",
   },
   {
     name: "Portos do Recife S.A",
@@ -77,7 +77,7 @@ const collaborators: Collaborator[] = [
     name: "ANTAQ",
     description: "Agência Nacional de Transportes Aquaviários.",
     imageUrl: "/images/colab/antaq-logo.png",
-    href: "",
+    href: "https://www.gov.br/antaq/pt-br",
   },
   {
     name: "Empresas & Negócios - Gov.br",
