@@ -120,7 +120,7 @@ export default function TeamPage() {
 
         {/* LINHA EXCLUSIVA - JOÃO CAMPOS */}
         {joao && (
-          <div className="flex flex-col-reverse lg:flex-row items-center gap-8 max-w-6xl mx-auto mb-12">
+          <div className="flex flex-col lg:flex-row items-center gap-8 max-w-6xl mx-auto mb-12">
             {/* Card com só a FOTO do João (à esquerda em telas grandes) */}
             <div
               className="
@@ -158,9 +158,8 @@ export default function TeamPage() {
                 {joao.role}
               </h3>
               <p className="text-base text-gray-700 dark:text-gray-300">
-                Aqui você pode inserir uma descrição mais ampla sobre João Campos.
-                Destaque suas principais iniciativas, trajetória política, valores e
-                objetivos para a cidade do Recife, etc.
+                Engenheiro civil formado pela UFPE, João Campos é o prefeito mais jovem da história do Recife. 
+                Eleito em 2020 e reeleito em 2024, sua gestão prioriza o desenvolvimento sustentável e a inovação, promovendo políticas públicas que fortalecem a economia local, atraem investimentos e impulsionam novos negócios, consolidando o Recife como um polo econômico estratégico.
               </p>
             </div>
           </div>
@@ -178,9 +177,9 @@ export default function TeamPage() {
                 {carlos.role}
               </h3>
               <p className="text-base text-gray-700 dark:text-gray-300">
-                Aqui você pode inserir uma descrição sobre o Secretário Carlos
-                Andrade Lima, suas estratégias para o desenvolvimento econômico,
-                iniciativas de inovação, etc.
+              Como Secretário de Desenvolvimento Econômico do Recife, Carlos Andrade Lima lidera iniciativas para impulsionar o crescimento sustentável da cidade, 
+              com foco na geração de negócios, atração de investimentos e fortalecimento de empreendimentos. 
+              Advogado, combina visão estratégica com ações para consolidar o Recife como um polo inovador e atrativo.
               </p>
             </div>
 
@@ -218,7 +217,7 @@ export default function TeamPage() {
 
         {/* LINHA EXCLUSIVA - GELISA BOSI */}
         {gelisa && (
-          <div className="flex flex-col-reverse lg:flex-row items-center gap-8 max-w-6xl mx-auto mb-12">
+          <div className="flex flex-col lg:flex-row items-center gap-8 max-w-6xl mx-auto mb-12">
             {/* Card com só a FOTO do João (à esquerda em telas grandes) */}
             <div
               className="
@@ -256,16 +255,15 @@ export default function TeamPage() {
                 {gelisa.role}
               </h3>
               <p className="text-base text-gray-700 dark:text-gray-300">
-                Aqui você pode inserir uma descrição mais ampla sobre João Campos.
-                Destaque suas principais iniciativas, trajetória política, valores e
-                objetivos para a cidade do Recife, etc.
+              Responsável por promover o crescimento econômico sustentável do Recife, Gelisa Bosi atua na atração de investimentos, 
+              fortalecimento de negócios e integração com o sistema de ciência, tecnologia e inovação, consolidando a cidade como um polo atrativo para empresas e pessoas.
               </p>
             </div>
           </div>
         )}
 
         {/* GRID COM OS DEMAIS MEMBROS */}
-        <div className="flex flex-wrap items-start justify-between max-w-6xl mx-auto gap-y-8">
+        <div className="flex flex-wrap items-center justify-center lg:justify-between max-w-6xl mx-auto gap-y-8">
   {others.map((member, index) => (
     <div
       key={index}
@@ -313,7 +311,7 @@ export default function TeamPage() {
       </section>
 
       {/* Última Seção com 5 Membros */}
-      <section className="relative w-full bg-gradient-to-t from-white to-blue-50 dark:bg-[#0c2136] dark:from-[#0c2136] dark:to-[#0c2136] px-6 py-16 overflow-hidden">
+      <section className="relative w-full bg-gradient-to-t from-white to-blue-50 dark:bg-[#0c2136] dark:from-[#0c2136] dark:to-[#0c2136] px-6 py-16 overflow-hidden flex flex-col justify-center">
         {/* Forma de onda no topo (conectando com a seção anterior) */}
         <svg
           className="absolute top-0 left-0 w-full pointer-events-none fill-white dark:fill-[#0C1B2B]"
