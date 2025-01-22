@@ -20,17 +20,21 @@ const CargasAnoComparativo = ({
 
   return (
     <div className="relative bg-white w-full p-4">
-      <ChartGrabber>
-        <LineChart
-          data={updatedData}
-          title={title}
-          colors={colors}
-          xKey="mes"
-          lines={[...getDateKeys(["importacao", "exportacao"])]}
-          tooltipEntry=" dólares"
-        />
-      </ChartGrabber>
-    </div>
+  <ChartGrabber>
+    <LineChart
+      data={updatedData}
+      title="Importação e Exportação"
+      colors={["#1f77b4", "#ff7f0e"]} // Exemplo de cores
+      xKey="mes"
+      lines={[
+        { dataKey: "importacao", name: "Importação" },
+        { dataKey: "exportacao", name: "Exportação" },
+      ]}
+      tooltipEntry=" dólares"
+    />
+  </ChartGrabber>
+</div>
+
   );
 };
 

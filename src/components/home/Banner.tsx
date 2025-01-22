@@ -1,8 +1,4 @@
-import { useState } from "react";
-import Image from "next/image";
 import { NavBarHome } from "./NavBarHome";
-import { ExploreDiv } from "./ExploreDiv";
-import { iconsExplore } from "./ExploreIconsObservatorio";
 import { Header } from "./Header";
 
 interface BannerProps {

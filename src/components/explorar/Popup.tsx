@@ -9,7 +9,7 @@ type PopupProps = {
   onClose: () => void;
   onNavigate: (direction: "prev" | "next") => void;
   onSuggestionClick: (index: number) => void;
-  suggestions: { title: string; banner: string; detailedDescription: string }[];
+  suggestions: { title: string; banner: string; detailedDescription: string; name: string }[];
   route: string;
 };
 
@@ -146,7 +146,7 @@ export const Popup: React.FC<PopupProps> = ({
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
             Confira também:
           </h3>
-          <div className="flex justify-center space-x-4 overflow-x-auto px-4">
+          <div className="flex justify-center space-x-4 overflow-x-visible px-4">
             {suggestions.map((suggestion, index) => (
               <button
                 key={index}
@@ -158,12 +158,21 @@ export const Popup: React.FC<PopupProps> = ({
                   backgroundPosition: "center",
                 }}
               >
-                <p className="bg-black bg-opacity-50 text-white text-xs md:text-sm p-1 md:p-2 absolute bottom-0 left-0 w-full text-center rounded-b-lg">
-                  {suggestion.title}
+                <p
+                  className="bg-black bg-opacity-50 text-white text-xs md:text-sm p-1 md:p-2 absolute bottom-0 left-0 w-full text-center rounded-b-lg overflow-hidden"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    WebkitLineClamp: 2,
+                    overflow: "hidden",
+                  }}
+                >
+                  {suggestion.name}
                 </p>
               </button>
             ))}
           </div>
+
         </div>
       </div>
     </div>

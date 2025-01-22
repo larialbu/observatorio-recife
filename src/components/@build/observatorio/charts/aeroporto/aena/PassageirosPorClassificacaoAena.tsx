@@ -17,7 +17,7 @@ const PassageirosPorClassificacaoAena = ({
   const chartData = preparePassageirosPorClassificacaoData(data);
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="chart-wrapper">
       <ChartGrabber>
         <PieChart
           data={chartData}
