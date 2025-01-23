@@ -9,7 +9,7 @@ export const processMunicipiosCompetitividade = (data: any): { ano: string; [key
       });
     });
   
-    const municipios = Array.from(municipiosSet).slice(0, 30);
+    const municipios = Array.from(municipiosSet).slice(0, 25);
   
     // Inicializa os dados processados com os anos e municípios
     const processedData = Object.keys(data).map((year) => {

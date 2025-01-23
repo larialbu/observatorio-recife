@@ -69,7 +69,7 @@ const Geral = ({
                 className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center"
               >
                 <React.Suspense fallback={<GraphSkeleton />}>
-                  <Component data={data} months={months} />
+                  <Component data={data} />
                 </React.Suspense>
               </div>
             ))}
