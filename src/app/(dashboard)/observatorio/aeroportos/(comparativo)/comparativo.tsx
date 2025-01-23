@@ -33,7 +33,7 @@ const Comparativo = ({
         Component: React.lazy(
           () =>
             import(
-              "@/components/@build/observatorio/tables/aeroporto/comparativo/AirportInfo"
+              "@/components/@build/observatorio/tables/aeroporto/comparativo/AeroportoInfo"
             )
         ),
       };
@@ -158,7 +158,7 @@ const Comparativo = ({
           {tablesRender.map(({ Component }, index) => (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
+              className="bg-white shadow-md rounded-lg w-100 flex flex-col items-center"
             >
               <React.Suspense fallback={<div>Loading...</div>}>
                 <Component

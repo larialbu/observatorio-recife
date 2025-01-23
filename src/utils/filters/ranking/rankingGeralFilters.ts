@@ -1,5 +1,5 @@
 export const rankingGeralFilters = {
-    years: ["2023", "2024"], // Filtra por ano
+    years: ["2021", "2022", "2023", "2024"], // Filtra por ano
     additionalFilters: [
       {
         label: "MÊS", // O Mês será preenchido dinamicamente
@@ -7,29 +7,19 @@ export const rankingGeralFilters = {
         selected: []
       },
       {
-        label: "Capital", // O Mês será preenchido dinamicamente
-        options: [], // Deixe vazio para preencher com base nos dados
-        selected: ['Recife']
-      },
-      {
-        label: "Grupo", // O Mês será preenchido dinamicamente
+        label: "Região",
         options: [], // Deixe vazio para preencher com base nos dados
         selected: []
       },
       {
-        label: "Subgrupo", // O Mês será preenchido dinamicamente
+        label: "Estado",
         options: [], // Deixe vazio para preencher com base nos dados
         selected: []
       },
       {
-        label: "Item", // O Mês será preenchido dinamicamente
+        label: "Município",
         options: [], // Deixe vazio para preencher com base nos dados
-        selected: []
-      },
-      {
-        label: "SubItem", // O Mês será preenchido dinamicamente
-        options: [], // Deixe vazio para preencher com base nos dados
-        selected: []
+        selected: ["Recife"]
       },
     ],
   };

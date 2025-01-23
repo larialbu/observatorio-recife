@@ -255,8 +255,8 @@ export default function TeamPage() {
                 {gelisa.role}
               </h3>
               <p className="text-base text-gray-700 dark:text-gray-300">
-              Responsável por promover o crescimento econômico sustentável do Recife, Gelisa Bosi atua na atração de investimentos, 
-              fortalecimento de negócios e integração com o sistema de ciência, tecnologia e inovação, consolidando a cidade como um polo atrativo para empresas e pessoas.
+                Responsável por promover o crescimento econômico sustentável do Recife, 
+                Gelisa Bosi atua na atração de investimentos, no fortalecimento de negócios e na melhoria do ambiente de negócios, consolidando a cidade como um polo atrativo para empresas e pessoas.
               </p>
             </div>
           </div>

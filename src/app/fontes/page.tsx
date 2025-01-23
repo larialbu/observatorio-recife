@@ -81,7 +81,7 @@ const collaborators: Collaborator[] = [
   },
   {
     name: "Empresas & Negócios - Gov.br",
-    description: "Plataforma unificada de serviços do governo federal.",
+    description: "Plataforma de serviços para empresas e empreendedores, promovendo acesso e desburocratização.",
     imageUrl: "/images/colab/empresas&negocios-govbr-logo.png",
     href: "https://www.gov.br/empresas-e-negocios/pt-br/mapa-de-empresas/painel-mapa-de-empresas",
   },

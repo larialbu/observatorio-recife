@@ -39,7 +39,7 @@ const SobreNos: React.FC = () => {
   const renderCard = (title: string, description: string, icon: React.ReactNode) => (
     <div className="group bg-white dark:bg-gray-900 rounded-3xl shadow-lg p-6 hover:shadow-2xl transform hover:-translate-y-3 transition duration-300">
       <div className="flex items-center space-x-4 mb-4">
-        <div className="bg-blue-100 dark:bg-[#0C1B2B] p-4 rounded-full">
+        <div className="bg-blue-100 dark:bg-gray-800 p-4 rounded-full">
           {icon}
         </div>
         <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{title}</h2>

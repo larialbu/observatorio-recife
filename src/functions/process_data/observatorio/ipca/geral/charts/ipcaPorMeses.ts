@@ -11,7 +11,6 @@ export const processVariacaoMensal = (data: any[]): { mes: string; [key: string]
     categoriasSet.add(categoriaNome);
   });
 
-  // Converte para array e limita a 5 categorias
   const categorias = Array.from(categoriasSet);
 
   // Inicializa os meses

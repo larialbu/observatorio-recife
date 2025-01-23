@@ -5,10 +5,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import Geral from "./(geral)/geral";
-
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
-import Analitico from "./(analitico)/analitico";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
@@ -25,61 +23,41 @@ const AeroportosPage = () => {
   }, [searchParams, activeTab]);
 
   useEffect(() => {
-    console.log("Dados recebidos:", data);
-
-    if (data) {
-      // Extraindo os dados de passageiros e cargas
-      const anacData = data.geral || {};
-
-      setAnac(anacData.filteredData || []);
-
-      console.log("Dados filtrados - Anac:", anac);
-      console.log(filters.additionalFilters[4]);
-    }
-  }, [data]);
-
-  if (isLoading) return <LoadingScreen />;
+      console.log("Dados recebidos:", data);
+  
+      if (data) {
+        // Extraindo os dados de passageiros e cargas
+        const anacData = data.geral || {};
+  
+        setAnac(anacData.filteredData || []);
+  
+        console.log("Dados filtrados - Anac:", anac);
+        console.log(filters?.additionalFilters[4]);
+      }
+    }, [data]);
+  
+    if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
     if (!data) {
-      return (
-        <div className="text-center text-gray-600">Carregando dados...</div>
-      );
+      return <div className="text-center text-gray-600">Carregando dados...</div>;
     }
 
     switch (activeTab) {
       case "geral":
-        return (
-          <Geral
-            data={anac || []}
-            year={getYearSelected(filters)}
-            months={getMonths(filters)}
-          />
-        );
-      case "grupos":
-        return (
-          <Geral
-            data={anac || []}
-            year={getYearSelected(filters)}
-            months={getMonths(filters)}
-          />
-        );
-
-      case "analitico":
-        return (
-          <Analitico
-            year={getYearSelected(filters)}
-            // months={11}
-          />
-        );
+        return <Geral 
+          data={anac || []}
+          year={getYearSelected(filters)}
+          months={getMonths(filters)}
+          rawData={data?.geral.rawData}
+        />;
       default:
-        return (
-          <Geral
-            data={anac || []}
-            year={getYearSelected(filters)}
-            months={getMonths(filters)}
-          />
-        );
+        return <Geral 
+        data={anac || []}
+        year={getYearSelected(filters)}
+        months={getMonths(filters)}
+        rawData={data?.geral.rawData}
+        />;
     }
   };
 
@@ -93,7 +71,7 @@ const AeroportosPage = () => {
   return (
     <div className="p-6 min-h-screen">
       <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
-        IPCA
+        Ranking Geral de Competitividade
       </h1>
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
         {/* Botões de navegação */}
@@ -108,24 +86,34 @@ const AeroportosPage = () => {
           Resumo Geral
         </button>
         <button
-          onClick={() => handleNavigation("grupos")}
+          onClick={() => handleNavigation("comparativo")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "comparativo"
               ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Por Grupos
+          Comparativo
         </button>
         <button
-          onClick={() => handleNavigation("analitico")}
+          onClick={() => handleNavigation("embarque")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "analitico"
+            activeTab === "embarque"
               ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Analítico
+          Embarque/Desembarque
+        </button>
+        <button
+          onClick={() => handleNavigation("aena")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "aena"
+              ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          <i>AENA</i>
         </button>
       </div>
       {renderContent()}

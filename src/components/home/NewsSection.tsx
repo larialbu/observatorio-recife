@@ -97,7 +97,7 @@ function NewsSection() {
           {/* Botão Anterior */}
           <button
             onClick={handlePrev}
-            className="absolute left-0 ml-[-23px] z-10 p-4 text-white bg-[#0155AE] dark:bg-[#EC6625] rounded-full shadow-md hover:bg-[#144880] dark:hover:bg-[#cc6633] transition-transform transform hover:scale-110"
+            className="absolute left-0 ml-[-23px] z-10 p-4 text-white bg-[#0155AE] dark:bg-[#EC6625] rounded-full shadow-md hover:bg-[#144880] dark:hover:bg-[#c45016] transition-transform transform hover:scale-110"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +126,7 @@ function NewsSection() {
                 >
                   <div
                     onClick={() => window.open(news.link, "_blank")}
-                    className="flex flex-col h-full bg-white dark:bg-[#142b42] shadow-lg rounded-lg overflow-hidden"
+                    className="flex flex-col h-full bg-white hover:bg-gray-200 dark:bg-[#142b42] dark:hover:bg-[#21466b] shadow-lg rounded-lg overflow-hidden"
                     style={{ cursor: "pointer" }}
                   >
                     <img
@@ -141,14 +141,13 @@ function NewsSection() {
                       <p className="text-gray-600 dark:text-gray-300 text-sm mb-[3em] line-clamp-3">
                         {news.description}
                       </p>
-                      <div className="absolute bottom-[3em] text-gray-500 dark:text-gray-400 text-xs mb-4">
+                      <div className="absolute bottom-[3em] text-gray-500 dark:text-gray-400 text-xs mb-4 w-[max-content]">
                         {news.date}
                       </div>
                       <a
                         href={news.link}
                         className="text-[#0155AE] dark:text-[#EC6625] font-semibold hover:underline mt-auto"
                         target="_blank"
-                        rel="noopener noreferrer"
                       >
                         Ler mais →
                       </a>
@@ -162,7 +161,7 @@ function NewsSection() {
           {/* Botão Próximo */}
           <button
             onClick={handleNext}
-            className="absolute right-0 mr-[-23px] z-10 p-4 text-white bg-[#0155AE] dark:bg-[#EC6625] rounded-full shadow-md hover:bg-[#144880] dark:hover:bg-[#cc6633] transition-transform transform hover:scale-110"
+            className="absolute right-0 mr-[-23px] z-10 p-4 text-white bg-[#0155AE] dark:bg-[#EC6625] rounded-full shadow-md hover:bg-[#144880] dark:hover:bg-[#c45016] transition-transform transform hover:scale-110"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

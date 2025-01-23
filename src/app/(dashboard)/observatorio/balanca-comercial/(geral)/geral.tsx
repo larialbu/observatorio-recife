@@ -47,7 +47,7 @@ const Geral = ({ toCompare, data, year, months }: { toCompare?: string[]; data: 
           return (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center"
+              className="bg-white shadow-md rounded-lg p-4 w-full flex flex-col items-center"
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component data={data} months={months} />

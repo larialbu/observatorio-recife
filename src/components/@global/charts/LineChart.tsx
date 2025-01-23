@@ -29,7 +29,7 @@ const LineChart = ({
 
   return (
     <div className="relative bg-white w-full h-full">
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
+      <h3 className="text-center font-semibold">{title}</h3>
       <ResponsiveContainer width="100%" height={400}>
         <RechartsLineChart
           data={data}
