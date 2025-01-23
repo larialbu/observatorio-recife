@@ -18,72 +18,78 @@ interface Collaborator {
   href: string;
 }
 
-// LISTA DE COLABORADORES
+// LISTA DE sourcesORADORES
 const collaborators: Collaborator[] = [
   {
     name: "Anac",
     description:
       "Agência Nacional de Aviação Civil, responsável pela regulação e fiscalização da aviação civil no Brasil.",
-    imageUrl: "/images/colab/anac-logo.png",
+    imageUrl: "/images/sources/anac-logo.png",
     href: "https://www.gov.br/anac/pt-br/assuntos/dados-e-estatisticas/dados-estatisticos/dados-estatisticos",
   },
   {
     name: "Aena",
     description:
       "Aena é a empresa que administra diversos aeroportos no Brasil e em outros países.",
-    imageUrl: "/images/colab/aena-logo.png",
+    imageUrl: "/images/sources/aena-logo.png",
     href: "https://www.aenabrasil.com.br/pt/corporativo/Estatisticas.html",
   },
   {
     name: "IBGE",
     description:
       "Instituto responsável por estatísticas e pesquisas socioeconômicas no Brasil.",
-    imageUrl: "/images/colab/ibge-logo.png",
+    imageUrl: "/images/sources/ibge-logo.png",
     href: "https://www.ibge.gov.br/",
   },
   {
     name: "CLP - Centro de Liderança Pública",
     description:
       "Organização que visa desenvolver competitividade e boa governança no setor público.",
-    imageUrl: "/images/colab/clp-logo.png",
+    imageUrl: "/images/sources/clp-logo.png",
     href: "https://clp.org.br/",
   },
   {
     name: "Portos do Recife S.A",
     description:
       "Empresa responsável pela administração e operação do porto na capital pernambucana.",
-    imageUrl: "/images/colab/porto-recife-logo.png",
+    imageUrl: "/images/sources/porto-recife-logo.png",
     href: "https://www.portodorecife.pe.gov.br/mep.php",
   },
   {
     name: "Novo Caged",
     description: "Compila dados sobre o mercado de trabalho formal no Brasil.",
-    imageUrl: "/images/colab/novo-caged-logo.png",
+    imageUrl: "/images/sources/novo-caged-logo.png",
     href: "http://pdet.mte.gov.br/novo-caged",
   },
   {
     name: "Comex Stat",
     description: "Sistema de estatísticas do comércio exterior brasileiro.",
-    imageUrl: "/images/colab/comex-stat-logo.png",
+    imageUrl: "/images/sources/comex-stat-logo.png",
     href: "http://comexstat.mdic.gov.br/pt/municipio",
   },
   {
     name: "Prefeitura do Recife",
     description: "Administração municipal da capital pernambucana.",
-    imageUrl: "/images/colab/prefeitura-recife-logo.png",
+    imageUrl: "/images/sources/prefeitura-recife-logo.png",
     href: "http://dados.recife.pe.gov.br/dataset/empresas-da-cidade-do-recife/resource/87fc9349-312c-4dcb-a311-1c97365bd9f5",
   },
   {
     name: "ANTAQ",
     description: "Agência Nacional de Transportes Aquaviários.",
-    imageUrl: "/images/colab/antaq-logo.png",
+    imageUrl: "/images/sources/antaq-logo.png",
     href: "https://www.gov.br/antaq/pt-br",
   },
   {
     name: "Empresas & Negócios - Gov.br",
     description: "Plataforma de serviços para empresas e empreendedores, promovendo acesso e desburocratização.",
-    imageUrl: "/images/colab/empresas&negocios-govbr-logo.png",
+    imageUrl: "/images/sources/empresas&negocios-govbr-logo.png",
     href: "https://www.gov.br/empresas-e-negocios/pt-br/mapa-de-empresas/painel-mapa-de-empresas",
+  },
+  {
+    name: "Secretaria do Tesouro Nacional - STN",
+    description: "Órgão do governo brasileiro responsável por gerir o dinheiro público do país.",
+    imageUrl: "/images/sources/tesouro-nacional-logo.png",
+    href: "http://www.tesourotransparente.gov.br/ckan/dataset/capag-municipios",
   },
 ];
 
@@ -101,7 +107,7 @@ export default function SourcesPage() {
   function handleCloseModal() {
     // Fecha a modal
     setOpenModal(false);
-    // Limpa o colaborador após um pequeno atraso (para animação de saída)
+    // Limpa o sourcesorador após um pequeno atraso (para animação de saída)
     setTimeout(() => {
       setActiveCollaborator(null);
     }, 300);
@@ -169,7 +175,7 @@ export default function SourcesPage() {
           </p>
         </div>
 
-        {/* GRID DE COLABORADORES */}
+        {/* GRID DE sourcesORADORES */}
         <div
           className="
             w-full

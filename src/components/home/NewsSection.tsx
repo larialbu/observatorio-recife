@@ -45,7 +45,7 @@ const newsData: NewsItem[] = [
     description:
       "O Porto Digital, maior parque tecnológico urbano da América Latina, projeta ultrapassar o setor de construção civil até 2025, consolidando-se como o 2º maior em receita no Recife, com faturamento que já triplicou desde 2018.",
     image: "/images/news/news4.jpg",
-    date: "18 de Maio de 2025",
+    date: "18 de Maio de 2024",
     link: "https://www.poder360.com.br/poder-tech/porto-digital-estima-ser-o-2o-maior-servico-no-recife-em-2025/",
   },
   {

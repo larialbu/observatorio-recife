@@ -50,7 +50,7 @@ export const CardsContainer: React.FC = () => {
             logo: "/images/logos/partners/clp_logo.png",
             description: "Descubra quais municípios estão no topo da competitividade!",
             detailedDescription: "O Ranking de Competitividade dos Municípios analisa aspectos como infraestrutura, capital humano e inovação, destacando os municípios mais preparados para o desenvolvimento econômico.",
-            route: "/observatorio/ranking-comp",
+            route: "/observatorio/ranking-municipios?tab=geral",
             name: "Ranking",
         },
         {
@@ -79,6 +79,15 @@ export const CardsContainer: React.FC = () => {
             detailedDescription: "O PIB representa o valor total de bens e serviços produzidos em uma região em um período específico, servindo como principal indicador do crescimento econômico e da prosperidade.",
             route: "/observatorio/pib",
             name: "PIB",
+        },
+        {
+            banner: "/images/banners/capacidade-de-pagamento-banner.png",
+            title: "CAPAG - Capacidade de Pagamentos",
+            logo: "/images/logos/partners/tesouro-nacional-logo.png",
+            description: "Verifique a saúde financeira e a confiabilidade de pagamentos do município.",
+            detailedDescription: "Capacidade de pagamento é a capacidade de uma pessoa ou empresa cumprir com suas obrigações financeiras. É um critério usado para avaliar a viabilidade de uma pessoa ou empresa honrar com suas dívidas, despesas e outros compromissos. ",
+            route: "/observatorio/capag",
+            name: "CAPAG",
         },
     ];
 
