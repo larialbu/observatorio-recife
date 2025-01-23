@@ -20,17 +20,45 @@ export class RankingDataService {
   }
 
   private getCacheKey(tab: string, filters: Record<string, any>): string {
-    return `${tab}-${this.currentYear}-${JSON.stringify(filters.additionalFilters)}`;
+    return `${tab}-${JSON.stringify(filters.additionalFilters)}`;
   }
 
   private async fetchRankingGeralData(filters: Record<string, any>) {
-    const rankingService = new RankingData(this.currentYear);
-    const geral = await rankingService.fetchProcessedGeralData();
-    const geralFiltered = applyGenericFilters(geral, filters);
-    console.log(geralFiltered);
-
-    return { geral: geralFiltered };
+    const years = filters.years; // Lista de anos a serem buscados
+    const selectedYear = filters.year; // Ano selecionado para rawData
+    const geralDataByYear: Record<string, any[]> = {};
+  
+    // Busca os dados para todos os anos especificados
+    for (const year of years) {
+      const rankingService = new RankingData(year);
+      const data = await rankingService.fetchProcessedGeralData();
+      geralDataByYear[year] = data; // Organiza os dados por ano
+    }
+  
+    // Aplica os filtros aos dados de cada ano sem interferir no ano selecionado
+    const filteredData: Record<string, any[]> = {};
+    Object.keys(geralDataByYear).forEach((year) => {
+      // Aplica filtros apenas aos dados do ano específico
+      filteredData[year] = applyGenericFilters(geralDataByYear[year], {
+        ...filters,
+        year,
+      });
+    });
+  
+    // Define os dados brutos com base no ano selecionado
+    const rawData = geralDataByYear[this.currentYear] || [];
+  
+    const geral = {
+      filteredData,
+      rawData,
+    };
+  
+    console.log(geral);
+  
+    return { geral }; // Retorna os dados no formato especificado
   }
+  
+  
 
   private async fetchRankingDimensaolData(filters: Record<string, any>) {
     const rankingService = new RankingData(this.currentYear);
@@ -59,27 +87,24 @@ export class RankingDataService {
     return { pilares: pilaresFiltered };
   }
 
-
   public async fetchDataForTab(tab: string, filters: Record<string, any>) {
-    // Agora usamos getCacheKey que recebe (tab, filters)
     const cacheKey = this.getCacheKey(tab, filters);
-  
-    // Se já existe no cache com as mesmas seleções:
+
     if (this.dataCache[cacheKey]) {
       return this.dataCache[cacheKey];
     }
-  
+
     let data;
     if (tab === "dimensao") {
       data = await this.fetchRankingDimensaolData(filters);
-    } else if (tab === 'indicador') {
-        data = await this.fetchRankingIndicadorlData(filters);
-    } else if (tab === 'pilares') {
-        data = await this.fetchRankingPilareslData(filters);
+    } else if (tab === "indicador") {
+      data = await this.fetchRankingIndicadorlData(filters);
+    } else if (tab === "pilares") {
+      data = await this.fetchRankingPilareslData(filters);
     } else {
       data = await this.fetchRankingGeralData(filters);
     }
-  
+
     this.dataCache[cacheKey] = data;
     return data;
   }
