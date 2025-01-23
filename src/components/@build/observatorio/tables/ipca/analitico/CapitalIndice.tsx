@@ -1,25 +1,32 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { rowsCountrysByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsCountrysByMunicipio";
+import { rowsCapitalsIndice } from "@/functions/process_data/observatorio/ipca/analitico/tables/rowsCapitalsIndice";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
 
 const CapitalIndice = ({
   data = [],
-  municipio,
+  capital,
   year,
   color = "#000000",
   selectCountry,
   monthRecent,
-  title = `${municipio} (${
+  title = `${capital} (${
     monthRecent ? `${monthRecent} - ` : ""
-  }${year}) - Negociações`,
+  }${year}) - Índices`,
 }: any) => {
-  console.log("-->>", `${monthRecent}`);
-  const aggregatedData = rowsCountrysByMunicipio(
-    data,
-    municipio,
-    year,
-    monthRecent
-  );
+  // console.log("-->>", `${monthRecent}`);
+  // const aggregatedData = rowsCountrysByMunicipio(
+  //   data,
+  //   capital,
+  //   year,
+  //   monthRecent
+  // );
+
+  console.log("DADOS DA TABELA RECEBIDOS", data);
+
+  const aggregatedData = rowsCapitalsIndice(data, year, capital, monthRecent);
+
+  console.log("AGRRGATE DATA", aggregatedData);
 
   const sortedData = Object.values(aggregatedData).sort(
     (a: any, b: any) => parseInt(a.MÊS, 10) - parseInt(b.MÊS, 10)
@@ -32,6 +39,8 @@ const CapitalIndice = ({
   }
 
   const header = Object.keys(firstAggregated);
+
+  console.log(header);
 
   const getRows = (values: any) => {
     const rows: string[][] = [];
@@ -52,6 +61,8 @@ const CapitalIndice = ({
           Math.round(val * 10000) / 10000 != 0
         ) {
           percent = Math.round(val * 10000) / 10000;
+        } else if (val === 0) {
+          percent = 0;
         }
 
         return percent;
@@ -61,17 +72,19 @@ const CapitalIndice = ({
 
       // rows.push([obj['PAÍS'], `${formatPercent(+obj['PARTICIPAÇÃO'])}%`, <div className="flex gap-1 justify-center"><span>$</span> {formatNumber(obj.NEGOCIADO)}</div>, `${formatPercent(+obj['IMPORTAÇÃO'])}%`, `${formatPercent(+obj['EXPORTAÇÃO'])}%`]);
       rows.push([
-        obj["PAÍS"],
-        `${formatPercent(+obj["PARTICIPAÇÃO"])}%`,
-        <div className="flex gap-1 justify-center">
-          <span>$</span> {formatNumber(obj.NEGOCIADO)}
-        </div>,
-        <div className="flex gap-1 justify-center">
-          <span>$</span> {formatNumber(obj["IMPORTAÇÃO"])}
-        </div>,
-        <div className="flex gap-1 justify-center">
-          <span>$</span> {formatNumber(obj["EXPORTAÇÃO"])}
-        </div>,
+        obj["GRUPO"],
+        `${formatPercent(+obj["VARIAÇÃO_MENSAL"])}%`,
+        `${formatPercent(+obj["VARIAÇÃO_ACUMULADA"])}%`,
+        `${formatPercent(+obj["PESO_MENSAL"])}%`,
+        // <div className="flex gap-1 justify-center">
+        //   <span>$</span> {formatNumber(obj["PESO_MENSAL"])}
+        // </div>,
+        // <div className="flex gap-1 justify-center">
+        //   <span>$</span> {formatNumber(obj["VARIAÇÃO_ACUMULADA"])}
+        // </div>,
+        // <div className="flex gap-1 justify-center">
+        //   <span>$</span> {formatNumber(obj["VARIAÇÃO_MENSAL"])}
+        // </div>,
       ]);
     });
 
@@ -91,7 +104,7 @@ const CapitalIndice = ({
         color={color}
         headers={header}
         title={title}
-        rows={getRows(sortedData)}
+        rows={getRows(aggregatedData)}
       />
     </div>
   );
