@@ -173,16 +173,13 @@ const Analitico = ({
               <React.Suspense fallback={<div>Loading...</div>} key={index}>
                 <div
                   style={{ backgroundColor: ColorPalette.default[index] }}
-                  className="shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
+                  className="shadow-md rounded-lg w-100 flex flex-col items-center"
                 >
                   <Component
                     capital={[...tempFiltred][index]}
                     color={ColorPalette.default[index]}
                     data={anaiticoData}
                     year={year}
-                    selectCountry={(country: string) =>
-                      updateSelectCountry(index, country)
-                    }
                     monthRecent={monthRecent}
                   />
                 </div>

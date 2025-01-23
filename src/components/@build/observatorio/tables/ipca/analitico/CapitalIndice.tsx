@@ -8,25 +8,12 @@ const CapitalIndice = ({
   capital,
   year,
   color = "#000000",
-  selectCountry,
   monthRecent,
   title = `${capital} (${
     monthRecent ? `${monthRecent} - ` : ""
   }${year}) - Índices`,
 }: any) => {
-  // console.log("-->>", `${monthRecent}`);
-  // const aggregatedData = rowsCountrysByMunicipio(
-  //   data,
-  //   capital,
-  //   year,
-  //   monthRecent
-  // );
-
-  console.log("DADOS DA TABELA RECEBIDOS", data);
-
   const aggregatedData = rowsCapitalsIndice(data, year, capital, monthRecent);
-
-  console.log("AGRRGATE DATA", aggregatedData);
 
   const sortedData = Object.values(aggregatedData).sort(
     (a: any, b: any) => parseInt(a.MÊS, 10) - parseInt(b.MÊS, 10)
@@ -68,23 +55,11 @@ const CapitalIndice = ({
         return percent;
       };
 
-      // console.log(obj['PARTICIPAÇÃO'], obj['IMPORTAÇÃO'], obj['EXPORTAÇÃO'])
-
-      // rows.push([obj['PAÍS'], `${formatPercent(+obj['PARTICIPAÇÃO'])}%`, <div className="flex gap-1 justify-center"><span>$</span> {formatNumber(obj.NEGOCIADO)}</div>, `${formatPercent(+obj['IMPORTAÇÃO'])}%`, `${formatPercent(+obj['EXPORTAÇÃO'])}%`]);
       rows.push([
         obj["GRUPO"],
         `${formatPercent(+obj["VARIAÇÃO_MENSAL"])}%`,
         `${formatPercent(+obj["VARIAÇÃO_ACUMULADA"])}%`,
         `${formatPercent(+obj["PESO_MENSAL"])}%`,
-        // <div className="flex gap-1 justify-center">
-        //   <span>$</span> {formatNumber(obj["PESO_MENSAL"])}
-        // </div>,
-        // <div className="flex gap-1 justify-center">
-        //   <span>$</span> {formatNumber(obj["VARIAÇÃO_ACUMULADA"])}
-        // </div>,
-        // <div className="flex gap-1 justify-center">
-        //   <span>$</span> {formatNumber(obj["VARIAÇÃO_MENSAL"])}
-        // </div>,
       ]);
     });
 
@@ -92,15 +67,11 @@ const CapitalIndice = ({
   };
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="relative bg-white w-full">
       <TableGeneric
         searchIndexes={[0]}
         enablePagination={false}
         withClick
-        onClick={(e: any) => {
-          // console.log('onCLick', e)
-          selectCountry(e[0]);
-        }}
         color={color}
         headers={header}
         title={title}
