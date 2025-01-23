@@ -7,6 +7,7 @@ import { LoadingScreen } from "@/components/home/LoadingScreen";
 import Geral from "./(geral)/geral";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
+import Dimensao from "./(dimensao)/dimensao";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
@@ -23,41 +24,61 @@ const AeroportosPage = () => {
   }, [searchParams, activeTab]);
 
   useEffect(() => {
-      console.log("Dados recebidos:", data);
-  
-      if (data) {
-        // Extraindo os dados de passageiros e cargas
-        const anacData = data.geral || {};
-  
-        setAnac(anacData.filteredData || []);
-  
-        console.log("Dados filtrados - Anac:", anac);
-        console.log(filters?.additionalFilters[4]);
-      }
-    }, [data]);
-  
-    if (isLoading) return <LoadingScreen />;
+    console.log("Dados recebidos:", data);
+
+    if (data) {
+      // Extraindo os dados de passageiros e cargas
+      const anacData = data.geral || {};
+
+      setAnac(anacData.filteredData || []);
+
+      console.log("Dados filtrados - Anac:", anac);
+      console.log(filters?.additionalFilters[4]);
+    }
+  }, [data]);
+
+  if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
     if (!data) {
-      return <div className="text-center text-gray-600">Carregando dados...</div>;
+      return (
+        <div className="text-center text-gray-600">Carregando dados...</div>
+      );
     }
+
+    console.log(getYearSelected(filters));
+    console.log(getMonths(filters));
+    console.log(data);
+    // console.log(data?.geral.rawData);
 
     switch (activeTab) {
       case "geral":
-        return <Geral 
-          data={anac || []}
-          year={getYearSelected(filters)}
-          months={getMonths(filters)}
-          rawData={data?.geral.rawData}
-        />;
+        return (
+          <Geral
+            data={anac || []}
+            year={getYearSelected(filters)}
+            months={getMonths(filters)}
+            rawData={data?.geral?.rawData || []}
+          />
+        );
+      case "dimensao":
+        return (
+          <Dimensao
+            data={anac || []}
+            year={getYearSelected(filters)}
+            months={getMonths(filters)}
+            rawData={data?.dimensao?.rawData || []}
+          />
+        );
       default:
-        return <Geral 
-        data={anac || []}
-        year={getYearSelected(filters)}
-        months={getMonths(filters)}
-        rawData={data?.geral.rawData}
-        />;
+        return (
+          <Geral
+            data={anac || []}
+            year={getYearSelected(filters)}
+            months={getMonths(filters)}
+            rawData={data?.geral.rawData}
+          />
+        );
     }
   };
 
@@ -86,14 +107,14 @@ const AeroportosPage = () => {
           Resumo Geral
         </button>
         <button
-          onClick={() => handleNavigation("comparativo")}
+          onClick={() => handleNavigation("dimensao")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "comparativo"
+            activeTab === "dimensao"
               ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Comparativo
+          Dimensão
         </button>
         <button
           onClick={() => handleNavigation("embarque")}
