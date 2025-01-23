@@ -42,14 +42,14 @@ const LineChart = ({
             tickFormatter={yAxisFormatter}
           />
           <Tooltip
-              content={(e) => CustomTooltip({...e, customTooltipFormatter})}
-            />
-            <Legend 
-                  verticalAlign="top" 
-                  align="center"
-                  content={({ payload }) => <CustomLegend payload={payload} />}
-                  iconSize={20}
-                />
+            content={(e) => CustomTooltip({...e, customTooltipFormatter})}
+          />
+          <Legend 
+            verticalAlign="top" 
+            align="center"
+            content={({ payload }) => <CustomLegend payload={payload} />}
+            iconSize={20}
+          />
           {lines.map((line: any, index: any) => (
             <Line
               key={index}

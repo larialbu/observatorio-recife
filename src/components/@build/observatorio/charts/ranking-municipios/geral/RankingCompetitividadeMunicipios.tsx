@@ -44,6 +44,7 @@ import { processMunicipiosCompetitividade } from "@/functions/process_data/obser
             }))}
           />
         </ChartGrabber>
+        <div><p className="text-xs text-gray-500">Máximo de 25 items para visualização, somente os primeiros serão incluídos alfabeticamente.</p></div>
       </div>
     );
   };
