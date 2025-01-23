@@ -1,8 +1,5 @@
-import { useState } from "react";
-import Image from "next/image";
 import { NavBarHome } from "./NavBarHome";
-import { ExploreDiv } from "./ExploreDiv";
-import { iconsExplore } from "./ExploreIconsObservatorio";
+import { Header } from "./Header";
 
 interface BannerProps {
   onSearch: (term: string) => void;
@@ -22,30 +19,16 @@ export const Banner: React.FC<BannerProps> = ({ onSearch }) => {
       <div className="absolute bottom-0 w-full h-[50px] bg-gradient-to-b from-transparent to-[#0C1B2B] transition-opacity duration-[300ms] ease-out opacity-0 dark:opacity-100 dark:duration-[590ms]"></div>
 
       {/* Seção principal */}
-      <section className="bg-[url('/images/backgrounds/home_carousel/goodJesusStreet.png')] w-full bg-center">
+      <section className="bg-[url('/images/backgrounds/home_carousel/goodJesusStreet.png')] w-full bg-center bg-cover">
         {/* Cabeçalho */}
-        <header className="bg-black bg-opacity-37 text-blue-900 w-full flex items-center justify-center py-3 px-3">
-          <div className="flex w-[80%] content_wrapper">
-            <div className="logo_container">
-              <Image
-                src="/images/logos/PREF-REC-LOGO.png"
-                alt="Prefeitura do Recife"
-                width={100}
-                height={60}
-              />
-            </div>
-            <div className="flex items-center ml-auto text-sm title-container">
-              <p className="text-white text-sm">Prefeitura da Cidade do Recife</p>
-            </div>
-          </div>
-        </header>
+        <Header></Header>
 
         {/* Navegação */}
         <NavBarHome />
 
         {/* Conteúdo */}
         <div className="flex flex-col justify-center items-center">
-          <div className="pt-32 pb-60 gap-px w-full flex flex-col justify-center items-center">
+          <div className="pt-32 pb-60 gap-px w-full flex flex-col px-3 justify-center items-center">
             <h1 className="text-white font-medium text-3xl mb-[2.5em] text-center">
               OBSERVATÓRIO ECONÔMICO DO RECIFE
             </h1>

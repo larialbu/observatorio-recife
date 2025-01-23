@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useEffect,
+} from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
@@ -14,7 +20,9 @@ interface DashboardContextProps {
   resetFilters: () => void;
 }
 
-const DashboardContext = createContext<DashboardContextProps | undefined>(undefined);
+const DashboardContext = createContext<DashboardContextProps | undefined>(
+  undefined
+);
 
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
@@ -30,14 +38,16 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     try {
       // Descobrimos a tab (ou definimos "geral" por padrão)
       const tab = searchParams.get("tab") || "geral";
-      console.log('tab no context', tab)
+      console.log("tab no context", tab);
 
-      console.log('path e tab no context', pathname, tab)
+      console.log("path e tab no context", pathname, tab);
       // Aqui a mágica: pegamos o service certo
       const service = getServiceForRoute(pathname, tab);
-      console.log('service no context', service)
+      console.log("service no context", service);
       if (!service) {
-        console.warn("Nenhum serviço compatível com esta rota/tab. Definindo data = null.");
+        console.warn(
+          "Nenhum serviço compatível com esta rota/tab. Definindo data = null."
+        );
         setData(null);
         return;
       }
@@ -50,30 +60,32 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       setData(fetched);
 
       // Se vier additionalFiltersOptions (geral, passageiros...), mesclar
-      console.log(fetched)
+      console.log(fetched);
       const newAdditional =
         fetched?.passageiros?.additionalFiltersOptions ||
         fetched?.geral?.additionalFiltersOptions ||
         fetched?.grupos?.additionalFiltersOptions ||
+        fetched?.tabelas?.additionalFiltersOptions ||
         [];
 
-        if (newAdditional.length) {
-          setFilters((prev) => {
-            const merged = newAdditional.map((newF: any) => {
-              const oldF = prev.additionalFilters?.find((o: any) => o.label === newF.label);
-              if (!oldF) {
-                return { ...newF, selected: newF.selected || [] };
-              }
-              // substitui options, mas preserva oldF.selected
-              return {
-                ...newF,
-                selected: oldF.selected || [],
-              };
-            });
-            return { ...prev, additionalFilters: merged };
+      if (newAdditional.length) {
+        setFilters((prev) => {
+          const merged = newAdditional.map((newF: any) => {
+            const oldF = prev.additionalFilters?.find(
+              (o: any) => o.label === newF.label
+            );
+            if (!oldF) {
+              return { ...newF, selected: newF.selected || [] };
+            }
+            // substitui options, mas preserva oldF.selected
+            return {
+              ...newF,
+              selected: oldF.selected || [],
+            };
           });
-        }
-        
+          return { ...prev, additionalFilters: merged };
+        });
+      }
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
       setData(null);
@@ -134,7 +146,9 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 export const useDashboard = () => {
   const context = useContext(DashboardContext);
   if (!context) {
-    throw new Error("useDashboard deve ser usado dentro de um DashboardProvider");
+    throw new Error(
+      "useDashboard deve ser usado dentro de um DashboardProvider"
+    );
   }
   return context;
 };

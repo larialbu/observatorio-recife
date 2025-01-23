@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 export const FaqSection: React.FC = () => {
   // Perguntas e respostas
@@ -21,11 +20,13 @@ export const FaqSection: React.FC = () => {
     },
   ];
 
-  // Controla qual FAQ está aberto (true) ou fechado (false)
+  // Estado para controlar quais FAQs estão abertas
   const [openFaqs, setOpenFaqs] = useState<boolean[]>(
-    faqs.map(() => false) // inicialmente todos fechados
+    // Todos fechados inicialmente
+    faqs.map(() => false)
   );
 
+  // Função para trocar o estado (abre/fecha)
   const toggleFaq = (index: number) => {
     const newOpenFaqs = [...openFaqs];
     newOpenFaqs[index] = !newOpenFaqs[index];
@@ -41,11 +42,12 @@ export const FaqSection: React.FC = () => {
 
         <div className="space-y-4">
           {faqs.map((faq, index) => {
-            const isOpen = openFaqs[index]; // se true, mostra a resposta
+            const isOpen = openFaqs[index]; // se estiver true, mostra a resposta
+
             return (
               <div
                 key={index}
-                onClick={() => toggleFaq(index)} // <-- clique no card todo
+                onClick={() => toggleFaq(index)} // clique no card todo
                 className="
                   bg-white
                   dark:bg-gray-900
@@ -62,8 +64,37 @@ export const FaqSection: React.FC = () => {
                   <span className="text-lg font-semibold text-gray-800 dark:text-white">
                     {faq.question}
                   </span>
-                  <span className="text-blue-600 dark:text-blue-400 ml-2">
-                    {isOpen ? <FaChevronUp /> : <FaChevronDown />}
+                  <span className="text-[#0155AE] dark:text-[#EC6625] ml-2">
+                    {/* Se isOpen for true, mostramos ícone "chevron up", caso contrário "chevron down" */}
+                    {isOpen ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M18 15l-6-6-6 6" />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M6 9l6 6 6-6" />
+                      </svg>
+                    )}
                   </span>
                 </div>
 

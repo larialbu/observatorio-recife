@@ -37,7 +37,7 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
 
   return (
     <div
-      className={`absolute z-20 ${isFullScreen ? `${left ? "top-3 right-2 transform scale-[1.5]" : "top-5 right-4 transform scale-[2]"}` : `${left ? "-top-6 left-2" : "top-0 right-0"}`} options-menu`}
+      className={`absolute z-20 ${isFullScreen ? `${left ? "top-3 right-2 transform scale-[1.5]" : "top-5 right-4 transform scale-[2]"}` : `${left ? "-top-6 left-2" : "top-[-.7em] right-[-.7em]"}`} options-menu`}
     >
       <button
         ref={buttonRef}  // Associando a ref ao botão

@@ -39,7 +39,7 @@ const SobreNos: React.FC = () => {
   const renderCard = (title: string, description: string, icon: React.ReactNode) => (
     <div className="group bg-white dark:bg-gray-900 rounded-3xl shadow-lg p-6 hover:shadow-2xl transform hover:-translate-y-3 transition duration-300">
       <div className="flex items-center space-x-4 mb-4">
-        <div className="bg-blue-100 dark:bg-[#0C1B2B] p-4 rounded-full">
+        <div className="bg-blue-100 dark:bg-gray-800 p-4 rounded-full">
           {icon}
         </div>
         <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{title}</h2>
@@ -55,7 +55,10 @@ const SobreNos: React.FC = () => {
 
       {/* Valores e Missão */}
       <section className="py-16 px-6 w-full flex flex-col items-center dark:bg-[#0C1B2B]">
-      <div className="mb-14 text-center">
+      <div className="mb-14 text-center flex flex-col items-center">
+        <div className="w-20 flex hover:rotate-45 transition-transform">
+          <img src="/images/logos/observatorio_logo.png" alt="Logo Observatorio" />
+        </div>
         <h1 className="text-5xl font-extrabold text-gray-800 dark:text-white">Sobre Nós</h1>
           <p className="mt-4 text-lg  text-gray-600 dark:text-gray-400">
             Descubra mais sobre o Observatório Econômico do Recife e nossa missão de inovação.
