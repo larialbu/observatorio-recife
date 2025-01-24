@@ -6,14 +6,16 @@ import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processMunicipiosCompetitividade } from "@/functions/process_data/observatorio/ranking-municipios/geral/charts/rankingCompetitividadeMunicipios";
 
-interface CompetitividadePorAnoProps {
+interface RankingCompetitividadeDimensaoMunicipiosProps {
   data: any;
   colors?: string[];
   title?: string;
   nameKey?: string;
 }
 
-const CompetitividadePorAno: React.FC<CompetitividadePorAnoProps> = ({
+const RankingCompetitividadeDimensaoMunicipios: React.FC<
+  RankingCompetitividadeDimensaoMunicipiosProps
+> = ({
   data,
   colors = ColorPalette.default,
   title = "Posição Geral de Competitividade dos Municípios",
@@ -57,4 +59,4 @@ const CompetitividadePorAno: React.FC<CompetitividadePorAnoProps> = ({
   );
 };
 
-export default CompetitividadePorAno;
+export default RankingCompetitividadeDimensaoMunicipios;

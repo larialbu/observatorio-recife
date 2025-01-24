@@ -60,7 +60,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       setData(fetched);
 
       // Se vier additionalFiltersOptions (geral, passageiros...), mesclar
-      console.log(fetched);
+      console.log(fetched?.geral);
       const newAdditional =
         fetched?.passageiros?.additionalFiltersOptions ||
         fetched?.geral?.additionalFiltersOptions ||

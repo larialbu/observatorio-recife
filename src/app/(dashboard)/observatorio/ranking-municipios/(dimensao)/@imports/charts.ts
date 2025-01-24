@@ -2,12 +2,22 @@ import React from "react";
 
 const charts = [
   {
-    Component: React.lazy(() =>
-      import(
-        "@/components/@build/observatorio/charts/ranking-municipios/geral/RankingCompetitividadeMunicipios"
-      )
+    Component: React.lazy(
+      () =>
+        import(
+          "@/components/@build/observatorio/charts/ranking-municipios/dimensao/RankingCompetitividadeDimensaoMunicipios"
+        )
     ),
-    title: "Embarque e Desembarque por Região",
+    title: "",
+  },
+  {
+    Component: React.lazy(
+      () =>
+        import(
+          "@/components/@build/observatorio/charts/ranking-municipios/dimensao/VariacaoCompetividadeDimensaoMunicipios"
+        )
+    ),
+    title: "",
   },
 ];
 

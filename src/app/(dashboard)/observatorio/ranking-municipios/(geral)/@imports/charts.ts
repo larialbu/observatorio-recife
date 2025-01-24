@@ -7,7 +7,15 @@ const charts = [
         "@/components/@build/observatorio/charts/ranking-municipios/geral/RankingCompetitividadeMunicipios"
       )
     ),
-    title: "Embarque e Desembarque por Região",
+    title: "",
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/ranking-municipios/geral/VariacaoCompetitividadeMunicipios"
+      )
+    ),
+    title: "",
   },
 ];
 

@@ -47,10 +47,15 @@ export class RankingDataService {
 
     // Define os dados brutos com base no ano selecionado
     const rawData = geralDataByYear[this.currentYear] || [];
+    const additionalFiltersOptions = applyGenericFilters(
+      rawData,
+      filters
+    ).additionalFiltersOptions;
 
     const geral = {
       filteredData,
       rawData,
+      additionalFiltersOptions,
     };
 
     console.log(geral);
