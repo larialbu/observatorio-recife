@@ -7,7 +7,7 @@ export const rankingDimensaoFilters = {
       selected: [],
     },
     {
-      label: "Estado",
+      label: "UF",
       options: [], // Deixe vazio para preencher com base nos dados
       selected: [],
     },

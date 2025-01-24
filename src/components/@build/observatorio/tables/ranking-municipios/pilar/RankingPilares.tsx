@@ -3,26 +3,29 @@
 import React from "react";
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 
-const MunicipalityInfo = ({
+const RankingPilares = ({
   data = [],
   year,
   color = "#000000",
 }: any) => {
   // Filtra os dados com base no ano
   const aggregatedData = data
-    .filter((item: any) => item["ANO"] === `${year}`)
+    .filter((item: any) => item["ANO"] === `2024`)
     .map((item: any) => ({
+      ANO: item["ANO"],
       Município: item["Município"] || "Desconhecido",
       UF: item["UF"] || "-",
-      Nota: (parseFloat(item["Nota"].replace(',', '.')) || 0).toFixed(2),
+      Nota: (parseFloat(item["Nota"].replace(",", ".")) || 0).toFixed(2),
       Colocação: item["Colocação"] || "-",
     }));
 
   // Ordena os dados por colocação (ascendente)
   const sortedData = aggregatedData.sort((a: any, b: any) => a.Colocação - b.Colocação);
 
+    console.log(data)
+
   // Cabeçalho para a tabela
-  const header = ["Município", "UF", "Nota", "Colocação"];
+  const header = ["ANO", "Município", "UF", "Nota", "Colocação"];
 
   // Gera as linhas da tabela
   const getRows = (values: any) => {
@@ -30,6 +33,7 @@ const MunicipalityInfo = ({
 
     values.map((obj: any) => {
       rows.push([
+        obj.ANO,
         obj.Município,
         obj.UF,
         obj.Nota,
@@ -59,4 +63,4 @@ const MunicipalityInfo = ({
   );
 };
 
-export default MunicipalityInfo;
+export default RankingPilares;

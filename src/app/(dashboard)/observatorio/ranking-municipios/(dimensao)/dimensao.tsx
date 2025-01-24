@@ -3,17 +3,13 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
-import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
 import { useDashboard } from "@/context/DashboardContext";
 
 // AEROPORTO NOME
 
 const Dimensao = ({
   year,
-  // data,
-  months,
   rawData,
 }: {
   year: string;

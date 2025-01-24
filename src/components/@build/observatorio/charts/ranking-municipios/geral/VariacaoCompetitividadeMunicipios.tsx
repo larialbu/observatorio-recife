@@ -15,30 +15,25 @@ interface Props {
 const GraficoMunicipiosPorAno: React.FC<Props> = ({
   data = [],
   colors = ColorPalette.default,
-  title = "Comparativo por Município ao longo dos anos",
+  title = "Variação da Posição no Ranking Geral de Competitividade dos Municípios",
 }) => {
-  // 1) Pivot / processamento
   const chartData = processVariacaoPosicao(data);
 
-  // 2) Se não há dados, exiba algo ou retorne null
   if (!chartData || chartData.length === 0) {
     return <p>Nenhum dado disponível.</p>;
   }
 
-  // 3) Identificar as chaves (municípios) disponíveis, exceto a "ano"
   const allKeys = Object.keys(chartData[0]);
   const municipios = allKeys.filter((key) => key !== "ano");
 
-  // 4) Criar dinamicamente as linhas
-  //    (Opcional: limitar a 25 pra não poluir, etc.)
   const lines = municipios.map((municipio) => ({
     dataKey: municipio,
-    name: municipio, // Label na legenda
+    name: municipio,
     strokeWidth: 2,
   }));
 
   return (
-    <div className="relative bg-white w-full">
+    <div className="relative bg-white w-full p-4">
       <ChartGrabber>
         <LineChart
           data={chartData}

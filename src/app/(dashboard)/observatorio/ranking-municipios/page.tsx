@@ -4,10 +4,12 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
-import Geral from "./(geral)/geral";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
+
+import Geral from "./(geral)/geral";
 import Dimensao from "./(dimensao)/dimensao";
+import Pilar from "./(pilar)/pilar";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
@@ -46,10 +48,6 @@ const AeroportosPage = () => {
       );
     }
 
-    console.log(getYearSelected(filters));
-    console.log(getMonths(filters));
-    console.log(data);
-    // console.log(data?.geral.rawData);
 
     switch (activeTab) {
       case "geral":
@@ -68,6 +66,15 @@ const AeroportosPage = () => {
             year={getYearSelected(filters)}
             months={getMonths(filters)}
             rawData={data?.dimensao?.rawData || []}
+          />
+        );
+      case "pilar":
+        return (
+          <Pilar
+            data={anac || []}
+            year={getYearSelected(filters)}
+            months={getMonths(filters)}
+            rawData={data?.pilar?.rawData || []}
           />
         );
       default:
@@ -117,14 +124,14 @@ const AeroportosPage = () => {
           Dimensão
         </button>
         <button
-          onClick={() => handleNavigation("embarque")}
+          onClick={() => handleNavigation("pilar")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "embarque"
+            activeTab === "pilar"
               ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Embarque/Desembarque
+          Pilar
         </button>
         <button
           onClick={() => handleNavigation("aena")}

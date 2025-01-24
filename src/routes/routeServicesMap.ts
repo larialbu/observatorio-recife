@@ -19,7 +19,7 @@ export const routeServicesMap: Record<
   "/observatorio/ranking": {
     geral: rankingDataService,
     dimensao: rankingDataService,
-    pilares: rankingDataService,
+    pilar: rankingDataService,
     indicador: rankingDataService,
     // etc. Se quiser mesmo service, ok
   },

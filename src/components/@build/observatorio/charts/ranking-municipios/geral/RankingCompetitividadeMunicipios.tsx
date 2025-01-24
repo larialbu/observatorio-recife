@@ -39,6 +39,7 @@ const CompetitividadePorAno: React.FC<CompetitividadePorAnoProps> = ({
           title={title}
           colors={selectedColors}
           xKey={nameKey}
+          yAxis={{ reversed: true }}
           lines={limitedMunicipios.map((municipio, i) => ({
             dataKey: municipio,
             name: municipio,
@@ -47,7 +48,7 @@ const CompetitividadePorAno: React.FC<CompetitividadePorAnoProps> = ({
         />
       </ChartGrabber>
       <p className="text-xs text-gray-500">
-        Máximo de 25 itens para visualização, somente os primeiros serão incluídos alfabeticamente.
+        Máximo de 25 itens para visualização, somente os primeiros selecionados serão incluídos alfabeticamente.
       </p>
     </div>
   );

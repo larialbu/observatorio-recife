@@ -42,6 +42,7 @@ const RankingCompetitividadeDimensaoMunicipios: React.FC<
           title={title}
           colors={selectedColors}
           xKey={nameKey}
+          yAxis={{ reversed: true }}
           lines={municipios.map((municipio) => ({
             dataKey: municipio,
             name: municipio,

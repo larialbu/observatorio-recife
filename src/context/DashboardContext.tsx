@@ -53,19 +53,21 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       }
 
       // Ajustar ano no service (se for implementado)
-      service.setYear(filtersToUse.year || "2024");
+      service.setYear(filtersToUse?.year || "2024");
 
       // Chama fetch
       const fetched = await service.fetchDataForTab(tab, filtersToUse);
       setData(fetched);
 
       // Se vier additionalFiltersOptions (geral, passageiros...), mesclar
-      console.log(fetched?.geral);
+      console.log(fetched);
       const newAdditional =
         fetched?.passageiros?.additionalFiltersOptions ||
         fetched?.geral?.additionalFiltersOptions ||
         fetched?.grupos?.additionalFiltersOptions ||
         fetched?.tabelas?.additionalFiltersOptions ||
+        fetched?.dimensao?.additionalFiltersOptions ||
+        fetched?.pilar?.additionalFiltersOptions ||
         [];
 
       if (newAdditional.length) {

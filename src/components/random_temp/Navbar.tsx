@@ -58,16 +58,22 @@ const Navbar = () => {
   /** Marca/desmarca individualmente */
   const handleCheckboxChange = (label: string, option: string) => {
     setTempFilters((prev) => {
-      const updated = prev.additionalFilters.map((f: any) =>
-        f.label === label
-          ? {
-              ...f,
-              selected: f.selected.includes(option)
-                ? f.selected.filter((x: string) => x !== option)
-                : [...f.selected, option],
-            }
-          : f
-      );
+      const updated = prev.additionalFilters.map((f: any) => {
+        if (f.label === label) {
+          const isAllowMultiple = f.allowMultiple !== false; // Se não existir, assume true
+          const isSelected = f.selected.includes(option);
+  
+          return {
+            ...f,
+            selected: isAllowMultiple
+              ? isSelected
+                ? f.selected.filter((x: string) => x !== option) // Remove se já está selecionado
+                : [...f.selected, option] // Adiciona se não está selecionado
+              : [option], // Substitui por apenas o novo selecionado
+          };
+        }
+        return f;
+      });
       return { ...prev, additionalFilters: updated };
     });
   };
@@ -217,10 +223,19 @@ const Navbar = () => {
                         </button>
 
                         {f.options
+                          .sort((a: string, b: string) => {
+                            // verifica se são números
+                            const numA = parseFloat(a);
+                            const numB = parseFloat(b);
+
+                            if (!isNaN(numA) && !isNaN(numB)) {
+                              return numA - numB; // ordem numérica
+                            }
+
+                            return a.localeCompare(b, undefined, { sensitivity: "base" });
+                          })
                           .filter((op: string) =>
-                            op
-                              .toLowerCase()
-                              .includes((searchTerms[f.label] || "").toLowerCase())
+                            op.toLowerCase().includes((searchTerms[f.label] || "").toLowerCase())
                           )
                           .map((op: string) => (
                             <label key={op} className="flex items-center gap-2 py-1 text-sm">

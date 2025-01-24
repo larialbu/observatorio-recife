@@ -17,6 +17,7 @@ const LineChart = ({
   data,
   title,
   xKey,
+  yAxis,
   lines,
   colors = [],
   tooltipEntry
@@ -40,6 +41,7 @@ const LineChart = ({
           <YAxis
             tick={{ fontSize: 11, fill: "#333" }}
             tickFormatter={yAxisFormatter}
+            {...yAxis}
           />
           <Tooltip
             content={(e) => CustomTooltip({...e, customTooltipFormatter})}
