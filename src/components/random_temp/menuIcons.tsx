@@ -90,7 +90,7 @@ export const menuItems = [
               </defs>
             </svg>
           ),
-          href: "/observatorio/ranking-comp",
+          href: "/observatorio/ranking-municipios?tab=geral",
           visible: ["admin"],
         },
 
