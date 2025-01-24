@@ -67,14 +67,14 @@ export class RankingDataService {
   private async fetchRankingDimensaoData(filters: Record<string, any>) {
     const years = filters.years; // Lista de anos a serem buscados
     const dimensaoDataByYear: Record<string, any[]> = {};
-
+  
     // Busca os dados para todos os anos especificados
     for (const year of years) {
       const rankingService = new RankingData(year);
       const data = await rankingService.fetchProcessedDimensaoData();
       dimensaoDataByYear[year] = data; // Organiza os dados por ano
     }
-
+  
     // Aplica os filtros aos dados de cada ano sem interferir no ano selecionado
     const filteredData: Record<string, any[]> = {};
     Object.keys(dimensaoDataByYear).forEach((year) => {
@@ -84,24 +84,45 @@ export class RankingDataService {
         year,
       });
     });
-
-    // Define os dados brutos com base no ano selecionado
-    const rawData = dimensaoDataByYear[this.currentYear] || [];
+  
+    // Filtrando com base na "Dimensão"
+    const dimensaoFilter = filters.additionalFilters.find(
+      (filter: any) => filter.label === "Dimensão"
+    );
+  
+    // Define os dados brutos com base no filtro de "Dimensão"
+    let rawData = [];
+  
+    if (dimensaoFilter && dimensaoFilter.selected) {
+      const selectedDimensao = dimensaoFilter.selected; // Valores selecionados
+      rawData = dimensaoDataByYear[this.currentYear].filter((data) => {
+        // Verifica se o valor de Dimensão no rawData corresponde ao selecionado
+        return selectedDimensao.includes(data.Dimensão); // Certifique-se de que selectedDimensao é um array
+      });
+    } else {
+      rawData = dimensaoDataByYear[this.currentYear] || []; // Caso não tenha filtro, retorna todos os dados do ano
+    }
+  
+    // Aplicando filtros adicionais
     const additionalFiltersOptions = applyGenericFilters(
-      rawData,
+      dimensaoDataByYear[this.currentYear],
       filters
     ).additionalFiltersOptions;
-
+  
+    // Estruturando o objeto final
     const dimensao = {
-      filteredData,
-      rawData,
-      additionalFiltersOptions
+      filteredData, // Dados filtrados por ano
+      rawData, // Dados brutos com base na "Dimensão"
+      additionalFiltersOptions, // Opções de filtros adicionais
     };
-
+  
     console.log(dimensao);
-
-    return { dimensao }; // Retorna os dados no formato especificado
+  
+    // Retornando os dados no formato especificado
+    return { dimensao };
   }
+  
+
 
   private async fetchRankingIndicadorData(filters: Record<string, any>) {
     const rankingService = new RankingData(this.currentYear);
@@ -133,7 +154,7 @@ export class RankingDataService {
       });
     });
 
-    const pilarFilter = Object.values(filters.additionalFilters).find((item) => item.label === "Pilar") as any;
+    const pilarFilter = Object.values(filters.additionalFilters).find((item: any) => item.label === "Pilar") as any;
     console.log(pilarFilter.selected);
 
     // Declare rawData fora da condicional
