@@ -125,12 +125,64 @@ export class RankingDataService {
 
 
   private async fetchRankingIndicadorData(filters: Record<string, any>) {
-    const rankingService = new RankingData(this.currentYear);
-    const indicador = await rankingService.fetchProcessedIndicadorData();
-    const indicadorFiltered = applyGenericFilters(indicador, filters);
-    console.log(indicadorFiltered);
+    const years = filters.years; // Lista de anos a serem buscados
+    const indicadorDataByYear: Record<string, any[]> = {};
 
-    return { indicador: indicadorFiltered };
+    // Busca os dados para todos os anos especificados
+    for (const year of years) {
+      const rankingService = new RankingData(year);
+      const data = await rankingService.fetchProcessedIndicadorData();
+      indicadorDataByYear[year] = data; // Organiza os dados por ano
+    }
+
+    // Aplica os filtros aos dados de cada ano sem interferir no ano selecionado
+    const filteredData: Record<string, any[]> = {};
+    Object.keys(indicadorDataByYear).forEach((year) => {
+      // Aplica filtros apenas aos dados do ano específico
+      filteredData[year] = applyGenericFilters(indicadorDataByYear[year], {
+        ...filters,
+        year,
+      });
+    });
+
+    const indicadorFilter = Object.values(filters.additionalFilters).find((item: any) => item.label === "Indicador") as any;
+    console.log('ADPIFJSDOIFFOIÇJ', indicadorFilter.selected);
+
+
+
+    // Declare rawData fora da condicional
+    let rawData = [];
+
+    if (indicadorFilter && indicadorFilter.selected) {
+      const selectedindicador = indicadorFilter.selected; // Aqui você pega os valores selecionados
+      rawData = indicadorDataByYear[this.currentYear].filter((data) => {
+        // Verifica se o valor de indicador no rawData corresponde ao que foi selecionado
+        return selectedindicador.includes(data.Indicador); // Verifique se selectedindicador é um array
+      });
+      console.log('ROWDATAFUNC111 sdfsdf', indicadorDataByYear[this.currentYear])
+      console.log('ROWDATAFUNC1111', rawData)
+    } else {
+      rawData = indicadorDataByYear[this.currentYear] || []; // Caso não tenha filtro, retorna todos os dados do ano
+      console.log('ROWDATAFUNC222', rawData)
+    }
+
+    // Definindo os dados brutos para o ano selecionado e filtrando com base no indicador
+    console.log(rawData);
+
+    // Aplicando filtros adicionais
+    const additionalFiltersOptions = applyGenericFilters(indicadorDataByYear[this.currentYear], filters).additionalFiltersOptions;
+
+    // Estruturando o objeto final
+    const indicador = {
+      filteredData,  // Certifique-se de que filteredData esteja definido corretamente antes
+      rawData,
+      additionalFiltersOptions
+    };
+
+    console.log(indicador);
+
+    // Retornando os dados no formato especificado
+    return { indicador };
   }
 
   private async fetchRankingPilarData(filters: Record<string, any>) {

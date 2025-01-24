@@ -13,7 +13,6 @@ const Pilar = ({
 }: {
   year: string;
   data: any[];
-  months: number;
   rawData: any[];
 }) => {
   const { data, isLoading } = useDashboard();

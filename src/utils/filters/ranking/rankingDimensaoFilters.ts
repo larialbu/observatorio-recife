@@ -20,6 +20,7 @@ export const rankingDimensaoFilters = {
       label: "Dimensão",
       options: [], // Deixe vazio para preencher com base nos dados
       selected: ["Instituições"],
+      allowMultiple: false
     },
   ],
 };

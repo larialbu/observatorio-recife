@@ -10,6 +10,7 @@ import { getMonths } from "@/utils/filters/@global/getMonths";
 import Geral from "./(geral)/geral";
 import Dimensao from "./(dimensao)/dimensao";
 import Pilar from "./(pilar)/pilar";
+import Indicador from "./(indicador)/indicador";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
@@ -22,6 +23,10 @@ const AeroportosPage = () => {
     const tab = searchParams.get("tab");
     if (tab && tab !== activeTab) {
       setActiveTab(tab);
+      
+    }else if (!tab){
+      setActiveTab('geral');
+      router.replace(`?tab=${'geral'}`);
     }
   }, [searchParams, activeTab]);
 
@@ -55,7 +60,6 @@ const AeroportosPage = () => {
           <Geral
             data={anac || []}
             year={getYearSelected(filters)}
-            months={getMonths(filters)}
             rawData={data?.geral?.rawData || []}
           />
         );
@@ -64,7 +68,6 @@ const AeroportosPage = () => {
           <Dimensao
             data={anac || []}
             year={getYearSelected(filters)}
-            months={getMonths(filters)}
             rawData={data?.dimensao?.rawData || []}
           />
         );
@@ -73,16 +76,22 @@ const AeroportosPage = () => {
           <Pilar
             data={anac || []}
             year={getYearSelected(filters)}
-            months={getMonths(filters)}
             rawData={data?.pilar?.rawData || []}
           />
         );
+        case "indicador":
+          return (
+            <Indicador
+              data={anac || []}
+              year={getYearSelected(filters)}
+              rawData={data?.indicador?.rawData || []}
+            />
+          );
       default:
         return (
           <Geral
             data={anac || []}
             year={getYearSelected(filters)}
-            months={getMonths(filters)}
             rawData={data?.geral.rawData}
           />
         );
@@ -134,14 +143,14 @@ const AeroportosPage = () => {
           Pilar
         </button>
         <button
-          onClick={() => handleNavigation("aena")}
+          onClick={() => handleNavigation("indicador")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "aena"
+            activeTab === "indicador"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          <i>AENA</i>
+           Indicador 
         </button>
       </div>
       {renderContent()}

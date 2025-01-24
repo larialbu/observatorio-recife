@@ -3,7 +3,7 @@
 import React from "react";
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 
-const RankingPilares = ({
+const RankingIndicador = ({
   data = [],
   year,
   color = "#000000",
@@ -15,16 +15,16 @@ const RankingPilares = ({
       ANO: item["ANO"],
       Município: item["Município"] || "Desconhecido",
       UF: item["UF"] || "-",
-      Nota: (parseFloat(item["Nota"].replace(",", ".")) || 0).toFixed(2),
+      Nota: (parseFloat(item["Nota normalizada"].replace(",", ".")) || 0).toFixed(2),
       Colocação: item["Colocação"] || "-",
-      Pilar: item["Pilar"] || "-"
+      Indicador: item["Indicador"] || "-"
     }));
 
   // Ordena os dados por colocação (ascendente)
   const sortedData = aggregatedData.sort((a: any, b: any) => a.Colocação - b.Colocação);
 
   // Cabeçalho para a tabela
-  const header = ["ANO", "Município", "UF", "Nota", "Colocação", "Pilar"];
+  const header = ["ANO", "Município", "UF", "Nota", "Colocação", "Indicador"];
 
   // Gera as linhas da tabela
   const getRows = (values: any) => {
@@ -37,7 +37,7 @@ const RankingPilares = ({
         obj.UF,
         obj.Nota,
         obj.Colocação.toString(),
-        obj.Pilar
+        obj.Indicador
       ]);
     });
 
@@ -63,4 +63,4 @@ const RankingPilares = ({
   );
 };
 
-export default RankingPilares;
+export default RankingIndicador;

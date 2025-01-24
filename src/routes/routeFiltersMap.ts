@@ -13,6 +13,7 @@ import { ipcaAnaliticoFilters } from "@/utils/filters/ipca/ipcaAnaliticoFilters"
 import { rankingGeralFilters } from "@/utils/filters/ranking/rankingGeralFilters";
 import { rankingDimensaoFilters } from "@/utils/filters/ranking/rankingDimensaoFilters";
 import { rankingPilarFilters } from "@/utils/filters/ranking/rankingPilarFilters";
+import { rankingIndicadorFilters } from "@/utils/filters/ranking/rankingIndicadorFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 export const routeFiltersMap: Record<
@@ -30,7 +31,7 @@ export const routeFiltersMap: Record<
       geral: rankingGeralFilters,
       dimensao: rankingDimensaoFilters,
       pilar: rankingPilarFilters,
-      indicador: rankingPilarFilters,
+      indicador: rankingIndicadorFilters,
       // etc. Se quiser mesmo service, ok
     },
 

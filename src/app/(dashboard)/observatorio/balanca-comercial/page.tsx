@@ -29,11 +29,15 @@ const BalancaComercialPage = () => {
 
   // Sempre que "tab" mudar na URL, atualizamos localmente
   useEffect(() => {
-    const tabFromUrl = searchParams.get("tab");
-    if (tabFromUrl && tabFromUrl !== activeTab) {
-      setActiveTab(tabFromUrl);
-    }
-  }, [searchParams, activeTab]);
+      const tab = searchParams.get("tab");
+      if (tab && tab !== activeTab) {
+        setActiveTab(tab);
+        
+      }else if (!tab){
+        setActiveTab('geral');
+        router.replace(`?tab=${'geral'}`);
+      }
+    }, [searchParams, activeTab]);
 
   // Conteúdo principal, dependendo da aba
   const renderContent = () => {
