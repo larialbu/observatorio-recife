@@ -68,8 +68,8 @@ const LineAreaChart = ({
                 <React.Fragment key={key}>
                 <defs>
                     <linearGradient id={`splitColor-${key}`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset={off} stopColor={color} stopOpacity={1} />
-                    <stop offset={off} stopColor="red" stopOpacity={1} />
+                      <stop offset={off} stopColor={color} stopOpacity={1} />
+                      <stop offset={off} stopColor="red" stopOpacity={1} />
                     </linearGradient>
                 </defs>
                 <Area

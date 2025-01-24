@@ -1,47 +1,55 @@
 "use client";
+
 import React from "react";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import LineAreaChart from "@/components/@global/charts/LineAreaChart";
+import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processVariacaoPosicao } from "@/functions/process_data/observatorio/ranking-municipios/geral/charts/variacaoCompetitividadeMunicipios";
 
-interface VariacaoPosicaoCompetitividadeProps {
-  data: any;
+interface Props {
+  data: any[];  // filteredData
   colors?: string[];
   title?: string;
-  nameKey?: string;
 }
 
-const VariacaoPosicaoCompetitividade: React.FC<VariacaoPosicaoCompetitividadeProps> = ({
-  data,
+const GraficoMunicipiosPorAno: React.FC<Props> = ({
+  data = [],
   colors = ColorPalette.default,
-  title = "Variação de Posição no Ranking Geral de Competitividade dos Municípios",
-  nameKey = "ano",
+  title = "Comparativo por Município ao longo dos anos",
 }) => {
-  // Processamento inicial dos dados para variação de posição
+  // 1) Pivot / processamento
   const chartData = processVariacaoPosicao(data);
-  console.log(chartData)
-  
-  const municipios = Object.keys(chartData[0] || {}).filter((key) => key !== "ano");
 
-  const selectedColors = municipios.map((_, index) => colors[index % colors.length]);
+  // 2) Se não há dados, exiba algo ou retorne null
+  if (!chartData || chartData.length === 0) {
+    return <p>Nenhum dado disponível.</p>;
+  }
+
+  // 3) Identificar as chaves (municípios) disponíveis, exceto a "ano"
+  const allKeys = Object.keys(chartData[0]);
+  const municipios = allKeys.filter((key) => key !== "ano");
+
+  // 4) Criar dinamicamente as linhas
+  //    (Opcional: limitar a 25 pra não poluir, etc.)
+  const lines = municipios.map((municipio) => ({
+    dataKey: municipio,
+    name: municipio, // Label na legenda
+    strokeWidth: 2,
+  }));
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="relative bg-white w-full">
       <ChartGrabber>
-        <LineAreaChart
+        <LineChart
           data={chartData}
           title={title}
-          colors={selectedColors}
-          xKey={nameKey}
-          areaKeys={municipios}
+          colors={colors}
+          xKey="ano"
+          lines={lines}
         />
       </ChartGrabber>
-      <p className="text-xs text-gray-500">
-        Máximo de 25 items para visualização, somente os primeiros serão incluídos alfabeticamente.
-      </p>
     </div>
   );
 };
 
-export default VariacaoPosicaoCompetitividade;
+export default GraficoMunicipiosPorAno;
