@@ -11,7 +11,7 @@ import { getMonths } from "@/utils/filters/@global/getMonths";
 import Analitico from "./(analitico)/analitico";
 import Grupos from "./(grupos)/grupos";
 
-const AeroportosPage = () => {
+const IpcaPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
   const [anac, setAnac] = useState([]);
@@ -22,6 +22,10 @@ const AeroportosPage = () => {
     const tab = searchParams.get("tab");
     if (tab && tab !== activeTab) {
       setActiveTab(tab);
+
+    }else{
+      setActiveTab('geral');
+      router.replace(`?tab=${'geral'}`);
     }
   }, [searchParams, activeTab]);
 
@@ -132,4 +136,4 @@ const AeroportosPage = () => {
   );
 };
 
-export default AeroportosPage;
+export default IpcaPage;

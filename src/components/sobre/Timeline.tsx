@@ -1,6 +1,6 @@
 export default function Timeline() {
     return (
-      <section className="bg-gray-50 dark:bg-gray-800 py-16 px-6">
+      <section className="bg-gray-50 dark:bg-[#1d2b3d] py-16 px-6">
         {/* Keyframes e classe para animação de entrada pela esquerda */}
         <style>
           {`

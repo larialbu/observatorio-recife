@@ -11,7 +11,7 @@ import Geral from "./(geral)/geral";
 import Dimensao from "./(dimensao)/dimensao";
 import Pilar from "./(pilar)/pilar";
 
-const AeroportosPage = () => {
+const RankingPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
   const [anac, setAnac] = useState([]);
@@ -22,6 +22,10 @@ const AeroportosPage = () => {
     const tab = searchParams.get("tab");
     if (tab && tab !== activeTab) {
       setActiveTab(tab);
+      
+    }else{
+      setActiveTab('geral');
+      router.replace(`?tab=${'geral'}`);
     }
   }, [searchParams, activeTab]);
 
@@ -149,4 +153,4 @@ const AeroportosPage = () => {
   );
 };
 
-export default AeroportosPage;
+export default RankingPage;

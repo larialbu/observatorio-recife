@@ -19,11 +19,15 @@ const AeroportosPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const tab = searchParams.get("tab");
-    if (tab && tab !== activeTab) {
-      setActiveTab(tab);
-    }
-  }, [searchParams, activeTab]);
+      const tab = searchParams.get("tab");
+      if (tab && tab !== activeTab) {
+        setActiveTab(tab);
+        
+      }else{
+        setActiveTab('geral');
+        router.replace(`?tab=${'geral'}`);
+      }
+    }, [searchParams, activeTab]);
 
   useEffect(() => {
       console.log("Dados recebidos:", data);
