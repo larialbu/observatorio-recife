@@ -3,18 +3,26 @@ import Sortable from "sortablejs";
 import charts from "./@imports/charts";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import { useDashboard } from "@/context/DashboardContext";
+import { processPercentageByType } from "@/functions/process_data/observatorio/ipca/grupos/charts/participacaoGrupo";
 
-const Geral = ({
-  data,
+const Grupos = ({
   year,
-  months,
 }: {
-  data: any;
   year: string;
-  months: number;
 }) => {
+  const { data, isLoading } = useDashboard();
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
+  const [gruposData, setGruposData] = useState([])
   const sortableContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (data) {
+      const gruposData = data.grupos || {}
+
+      setGruposData(gruposData.filteredData || [])
+    }
+  }, [data]);
 
   useEffect(() => {
     if (sortableContainerRef.current) {
@@ -44,7 +52,7 @@ const Geral = ({
               className="bg-white shadow-md rounded-lg p-4 w-full flex flex-col items-center"
             >
               <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={data} months={months} />
+                <Component data={gruposData}   />
               </React.Suspense>
             </div>
           );
@@ -54,4 +62,4 @@ const Geral = ({
   );
 };
 
-export default Geral;
+export default Grupos;

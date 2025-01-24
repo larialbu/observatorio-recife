@@ -9,6 +9,7 @@ import Geral from "./(geral)/geral";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
 import Analitico from "./(analitico)/analitico";
+import Grupos from "./(grupos)/grupos";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
@@ -58,10 +59,8 @@ const AeroportosPage = () => {
         );
       case "grupos":
         return (
-          <Geral
-            data={anac || []}
+          <Grupos
             year={getYearSelected(filters)}
-            months={getMonths(filters)}
           />
         );
 
@@ -110,7 +109,7 @@ const AeroportosPage = () => {
         <button
           onClick={() => handleNavigation("grupos")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "comparativo"
+            activeTab === "grupos"
               ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}

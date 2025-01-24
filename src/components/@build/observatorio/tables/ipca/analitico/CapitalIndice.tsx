@@ -27,8 +27,6 @@ const CapitalIndice = ({
 
   const header = Object.keys(firstAggregated);
 
-  console.log(header);
-
   const getRows = (values: any) => {
     const rows: string[][] = [];
 
