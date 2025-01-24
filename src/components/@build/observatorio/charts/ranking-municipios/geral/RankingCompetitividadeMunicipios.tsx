@@ -19,16 +19,15 @@ const CompetitividadePorAno: React.FC<CompetitividadePorAnoProps> = ({
   title = "Posição Geral de Competitividade dos Municípios",
   nameKey = "ano",
 }) => {
-  // Processamento inicial dos dados
   const chartData = processMunicipiosCompetitividade(data);
-
-  // Identifica os municípios presentes nos dados processados
+  
   const municipios = Object.keys(chartData[0] || {}).filter(
-    (key) => key !== "ano"
+    (key) => key !== nameKey
   );
 
-  // Seleciona as cores para os municípios (limite de 5)
-  const selectedColors = municipios.map(
+  const limitedMunicipios = municipios.slice(0, 25);
+
+  const selectedColors = limitedMunicipios.map(
     (_, index) => colors[index % colors.length]
   );
 
@@ -40,19 +39,16 @@ const CompetitividadePorAno: React.FC<CompetitividadePorAnoProps> = ({
           title={title}
           colors={selectedColors}
           xKey={nameKey}
-          lines={municipios.map((municipio) => ({
+          lines={limitedMunicipios.map((municipio, i) => ({
             dataKey: municipio,
             name: municipio,
             strokeWidth: 2,
           }))}
         />
       </ChartGrabber>
-      <div>
-        <p className="text-xs text-gray-500">
-          Máximo de 25 items para visualização, somente os primeiros serão
-          incluídos alfabeticamente.
-        </p>
-      </div>
+      <p className="text-xs text-gray-500">
+        Máximo de 25 itens para visualização, somente os primeiros serão incluídos alfabeticamente.
+      </p>
     </div>
   );
 };

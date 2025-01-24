@@ -1,64 +1,44 @@
-export const processVariacaoPosicao = (data: any): { ano: number; [key: string]: number }[] => {
-    // Extrai todos os municípios únicos de todos os anos
-    const municipiosSet = new Set<string>();
-    Object.keys(data).forEach((year) => {
-        data[year].filteredData.forEach((item: any) => {
-            municipiosSet.add(item["Município"]);
-        });
-    });
-
-    // Organiza anos cronologicamente
+export const processVariacaoPosicao = (
+    data: any
+  ): { ano: number | string; [key: string]: number }[] => {
+    // 1) Extrair os anos e ordenar
     const sortedYears = Object.keys(data).sort();
-
-    // Armazena rankings históricos de cada município
-    const rankingHistorico: { [municipio: string]: { [ano: string]: number } } = {};
-
-    // Primeira passagem: popula o histórico de rankings
+  
+    // 2) Criar um Set com todos os municípios encontrados
+    const municipiosSet = new Set<string>();
     sortedYears.forEach((year) => {
-        data[year].filteredData.forEach((item: any) => {
-            const municipio = item["Município"];
-            const ranking = parseInt(item["Colocação"], 10) || 0;
-            
-            if (!rankingHistorico[municipio]) {
-                rankingHistorico[municipio] = {};
-            }
-            rankingHistorico[municipio][year] = ranking;
-        });
+      data[year].filteredData.forEach((item: any) => {
+        municipiosSet.add(item["Município"]);
+      });
     });
-
-    // Segunda passagem: calcula variações
-    const processedData: { ano: number; [key: string]: number }[] = [];
-
-    sortedYears.forEach((year, yearIndex) => {
-        const anoData: { [key: string]: number } = { ano: year } as any;
-
-        const municipiosArray = Array.from(municipiosSet);
-
-        // Filtra os 25 municípios com melhor ranking no primeiro ano
-        if (yearIndex === 0) {
-            municipiosArray.sort((a, b) => {
-                const rankingA = rankingHistorico[a][year] || Infinity;
-                const rankingB = rankingHistorico[b][year] || Infinity;
-                return rankingA - rankingB; // ordena pelo ranking
-            });
-
-            municipiosArray.splice(25); // mantém apenas os 25 primeiros
-        }
-
-        municipiosArray.forEach((municipio) => {
-            const currentRanking = rankingHistorico[municipio][year] || 0;
-
-            if (yearIndex > 0) {
-                const previousYear = sortedYears[yearIndex - 1];
-                const previousRanking = rankingHistorico[municipio][previousYear] || 0;
-                anoData[municipio] = previousRanking - currentRanking;
-            } else {
-                anoData[municipio] = currentRanking;
-            }
-        });
-
-        processedData.push(anoData as any);
+  
+    // 3) Converter o Set de municípios em array e ordenar alfabeticamente
+    const allMunicipios = Array.from(municipiosSet).sort();
+  
+    // 4) Limitar aos top 25 municípios ordenados alfabeticamente
+    const top25 = allMunicipios.slice(0, 25);
+  
+    // 5) Processar os dados com base em Delta colocação
+    const processedData: { ano: number | string; [key: string]: number }[] = [];
+  
+    sortedYears.forEach((year) => {
+      const anoData: { [key: string]: number | string } = { ano: year };
+  
+      // Para cada município no top25
+      top25.forEach((municipio) => {
+        const municipioData = data[year].filteredData.find(
+          (item: any) => item["Município"] === municipio
+        );
+  
+        // Usar "Delta colocação" se disponível; caso contrário, 0
+        anoData[municipio] = municipioData
+          ? parseInt(municipioData["Delta colocação"], 10) || 0
+          : 0;
+      });
+  
+      processedData.push(anoData);
     });
-
+  
     return processedData;
-};
+  };
+  
