@@ -6,28 +6,31 @@ import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processMunicipiosCompetitividade } from "@/functions/process_data/observatorio/ranking-municipios/geral/charts/rankingCompetitividadeMunicipios";
 
-interface CompetitividadePorAnoProps {
+interface RankingCompetitividadeDimensaoMunicipiosProps {
   data: any;
   colors?: string[];
   title?: string;
   nameKey?: string;
 }
 
-const CompetitividadePorAno: React.FC<CompetitividadePorAnoProps> = ({
+const RankingCompetitividadeDimensaoMunicipios: React.FC<
+  RankingCompetitividadeDimensaoMunicipiosProps
+> = ({
   data,
   colors = ColorPalette.default,
   title = "Posição Geral de Competitividade dos Municípios",
   nameKey = "ano",
 }) => {
+  // Processamento inicial dos dados
   const chartData = processMunicipiosCompetitividade(data);
-  
+
+  // Identifica os municípios presentes nos dados processados
   const municipios = Object.keys(chartData[0] || {}).filter(
-    (key) => key !== nameKey
+    (key) => key !== "ano"
   );
 
-  const limitedMunicipios = municipios.slice(0, 25);
-
-  const selectedColors = limitedMunicipios.map(
+  // Seleciona as cores para os municípios (limite de 5)
+  const selectedColors = municipios.map(
     (_, index) => colors[index % colors.length]
   );
 
@@ -39,18 +42,21 @@ const CompetitividadePorAno: React.FC<CompetitividadePorAnoProps> = ({
           title={title}
           colors={selectedColors}
           xKey={nameKey}
-          lines={limitedMunicipios.map((municipio, i) => ({
+          lines={municipios.map((municipio) => ({
             dataKey: municipio,
             name: municipio,
             strokeWidth: 2,
           }))}
         />
       </ChartGrabber>
-      <p className="text-xs text-gray-500">
-        Máximo de 25 itens para visualização, somente os primeiros serão incluídos alfabeticamente.
-      </p>
+      <div>
+        <p className="text-xs text-gray-500">
+          Máximo de 25 items para visualização, somente os primeiros serão
+          incluídos alfabeticamente.
+        </p>
+      </div>
     </div>
   );
 };
 
-export default CompetitividadePorAno;
+export default RankingCompetitividadeDimensaoMunicipios;

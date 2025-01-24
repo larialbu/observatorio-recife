@@ -27,14 +27,14 @@ export class RankingDataService {
     const years = filters.years; // Lista de anos a serem buscados
     const selectedYear = filters.year; // Ano selecionado para rawData
     const geralDataByYear: Record<string, any[]> = {};
-  
+
     // Busca os dados para todos os anos especificados
     for (const year of years) {
       const rankingService = new RankingData(year);
       const data = await rankingService.fetchProcessedGeralData();
       geralDataByYear[year] = data; // Organiza os dados por ano
     }
-  
+
     // Aplica os filtros aos dados de cada ano sem interferir no ano selecionado
     const filteredData: Record<string, any[]> = {};
     Object.keys(geralDataByYear).forEach((year) => {
@@ -44,31 +44,72 @@ export class RankingDataService {
         year,
       });
     });
-  
+
     // Define os dados brutos com base no ano selecionado
     const rawData = geralDataByYear[this.currentYear] || [];
-    const additionalFiltersOptions = applyGenericFilters(rawData, filters).additionalFiltersOptions
-  
+    const additionalFiltersOptions = applyGenericFilters(
+      rawData,
+      filters
+    ).additionalFiltersOptions;
+
     const geral = {
       filteredData,
       rawData,
-      additionalFiltersOptions
+      additionalFiltersOptions,
     };
-  
+
     console.log(geral);
-  
+
     return { geral }; // Retorna os dados no formato especificado
   }
-  
-  
 
   private async fetchRankingDimensaolData(filters: Record<string, any>) {
-    const rankingService = new RankingData(this.currentYear);
-    const dimensao = await rankingService.fetchProcessedDimensaoData();
-    const dimensaoFiltered = applyGenericFilters(dimensao, filters);
-    console.log(dimensaoFiltered);
+    const years = filters.years; // Lista de anos a serem buscados
+    const selectedYear = filters.year; // Ano selecionado para rawData
+    const dimensaoDataByYear: Record<string, any[]> = {};
 
-    return { dimensao: dimensaoFiltered };
+    // Busca os dados para todos os anos especificados
+    for (const year of years) {
+      const rankingService = new RankingData(year);
+      const data = await rankingService.fetchProcessedDimensaoData();
+      dimensaoDataByYear[year] = data; // Organiza os dados por ano
+    }
+
+    // Aplica os filtros aos dados de cada ano sem interferir no ano selecionado
+    const filteredData: Record<string, any[]> = {};
+    Object.keys(dimensaoDataByYear).forEach((year) => {
+      // Aplica filtros apenas aos dados do ano específico
+      filteredData[year] = applyGenericFilters(dimensaoDataByYear[year], {
+        ...filters,
+        year,
+      });
+    });
+
+    // Define os dados brutos com base no ano selecionado
+    const rawData = applyGenericFilters(
+      dimensaoDataByYear[this.currentYear] || [],
+      {
+        additionalFilters: [
+          {
+            label: "Dimensão",
+            options: [], // Deixe vazio para preencher com base nos dados
+            selected: filters.additionalFilters.find(
+              (obj: any) => obj.label === "Dimensão"
+            ).selected,
+          },
+        ],
+        year: this.currentYear,
+      }
+    ).filteredData;
+
+    const dimensao = {
+      filteredData,
+      rawData,
+    };
+
+    console.log(dimensao);
+
+    return { dimensao }; // Retorna os dados no formato especificado
   }
 
   private async fetchRankingIndicadorlData(filters: Record<string, any>) {
