@@ -23,7 +23,7 @@ const RankingPage = () => {
     if (tab && tab !== activeTab) {
       setActiveTab(tab);
       
-    }else{
+    }else if (!tab){
       setActiveTab('geral');
       router.replace(`?tab=${'geral'}`);
     }
