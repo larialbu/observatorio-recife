@@ -112,7 +112,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="relative w-full bg-[#d6d6d686] flex flex-col items-start gap-4 py-4 px-4">
+    <div className="fixed w-full bg-[#d6d6d686] flex flex-col items-start gap-4 py-4 px-4 z-40">
       <button
         onClick={toggleFiltersVisible}
         className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 px-4 py-2 border bg-white border-gray-300 rounded-md"
