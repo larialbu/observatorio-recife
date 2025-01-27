@@ -35,7 +35,7 @@ const Dimensao = ({
             <div key={index} className="bg-white shadow-md rounded-lg h-full">
               <React.Suspense fallback={<div>Loading...</div>}>
                 <Component
-                  color={ColorPalette.default[index]}
+                  color={ColorPalette.default[1]}
                   data={rawData}
                   year={year}
                 />
