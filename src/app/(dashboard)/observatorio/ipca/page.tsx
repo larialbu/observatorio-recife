@@ -15,6 +15,7 @@ const AeroportosPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
   const [anac, setAnac] = useState([]);
+  const [anacRawData, setAnacRawData] = useState([]);
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
 
@@ -35,8 +36,10 @@ const AeroportosPage = () => {
     if (data) {
       // Extraindo os dados de passageiros e cargas
       const anacData = data.geral || {};
+      // const anacRawData = data.rawData || {};
 
       setAnac(anacData.filteredData || []);
+      setAnacRawData(anacData.rawData)
 
       console.log("Dados filtrados - Anac:", anac);
       console.log(filters.additionalFilters[4]);
@@ -57,6 +60,7 @@ const AeroportosPage = () => {
         return (
           <Geral
             data={anac || []}
+            rawData={data?.geral?.rawData || []}
             year={getYearSelected(filters)}
             months={getMonths(filters)}
           />
@@ -79,6 +83,7 @@ const AeroportosPage = () => {
         return (
           <Geral
             data={anac || []}
+            rawData={data?.geral?.rawData || []}
             year={getYearSelected(filters)}
             months={getMonths(filters)}
           />

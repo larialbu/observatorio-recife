@@ -1,4 +1,5 @@
 import { IpcaData } from "@/@api/http/to-charts/ipca/IPCAData";
+import { getRawData } from "@/utils/filters/@data/getRawData";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
 
 export class IpcaDataService {
@@ -26,9 +27,11 @@ export class IpcaDataService {
   }
 
   private async fetchIpcaGeralData(filters: Record<string, any>) {
+
     const ipcaService = new IpcaData(this.currentYear);
     const geral = await ipcaService.fetchProcessedGeralData();
-    const geralFiltered = applyGenericFilters(geral, filters);
+    const rawData = await getRawData({applyGenericFilters, service: ipcaService, nameFunc: 'fetchProcessedGeralData', currentYear: this.currentYear, years: filters.years, keyName: 'Capital', filters, lengthIgnore: 1})
+    const geralFiltered = {...applyGenericFilters(geral, filters), rawData};
 
     return { geral: geralFiltered };
   }

@@ -7,14 +7,14 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processIpcaNoAno } from "@/functions/process_data/observatorio/ipca/geral/charts/ipcaNoAno";
 
 const IpcaAcumuladoPorCapital = ({
-  data = [],
+  rawData = [],
   nameKey = "capital",
   colors = ColorPalette.default,
   title = "IPCA Acumulado ao Ano por Capital",
 }: any) => {
   
   // Processamento inicial dos dados
-  const chartData = processIpcaNoAno(data);
+  const chartData = processIpcaNoAno(rawData);
 
   return (
     <div className="relative bg-white w-full p-4">

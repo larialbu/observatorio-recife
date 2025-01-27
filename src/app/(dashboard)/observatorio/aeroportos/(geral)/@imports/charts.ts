@@ -23,13 +23,6 @@ const charts = [
       )
     ),
   },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/charts/aeroporto/geral/CargaPorNatureza"
-  //     )
-  //   ),
-  // },
   {
     Component: React.lazy(() =>
       import(

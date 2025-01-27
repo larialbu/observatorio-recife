@@ -54,6 +54,7 @@ const AeroportosPage = () => {
       case "geral":
         return <Geral 
           data={anac || []}
+          rawData={data?.geral?.rawData || []}
           year={getYearSelected(filters)}
           months={getMonths(filters)}
         />;
@@ -75,6 +76,7 @@ const AeroportosPage = () => {
       default:
         return <Geral 
         data={anac || []}
+        rawData={data?.geral?.rawData || []}
         year={getYearSelected(filters)}
         months={getMonths(filters)}
         />;

@@ -13,7 +13,6 @@ const AenaPage = () => {
   const [filteredCargas, setFilteredCargas] = useState([]);
 
   useEffect(() => {
-    console.log("Dados recebidos:", data);
 
     if (data) {
       // Extraindo os dados de passageiros e cargas
@@ -62,6 +61,7 @@ const AenaPage = () => {
           <Component
             key={`carga-chart-${index}`}
             data={filteredCargas}
+            rawData={data?.cargas?.rawDataCargas || []}
             months={[1, 12]}
           />
         ))}
@@ -69,6 +69,7 @@ const AenaPage = () => {
           <Component
             key={`passageiro-chart-${index}`}
             data={filteredPassageiros}
+            rawData={data?.passageiros?.rawDataPassageiros || []}
             months={[1, 12]}
           />
         ))}

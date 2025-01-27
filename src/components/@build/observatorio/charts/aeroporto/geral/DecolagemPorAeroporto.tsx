@@ -7,12 +7,12 @@ import { processDecolagensPorAeroporto } from "@/functions/process_data/observat
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 
 const DecolagensPorAeroporto = ({
-  data = [],
+  rawData = [],
   title = "Decolagens por Aeroporto",
   colors = ColorPalette.default,
 }: any) => {
   // O filtro por ano já deve ser feito fora do componente
-  const chartData = processDecolagensPorAeroporto(data);
+  const chartData = processDecolagensPorAeroporto(rawData);
 
   return (
     <div className="relative bg-white w-full p-4">

@@ -7,12 +7,13 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processCargasPorAeroportoAena } from "@/functions/process_data/observatorio/aeroporto/aena/totalCargasAeroporto";
 
 const TotalCargasAena = ({
-  data = [],
-  title = "Cargas por Aeroporto",
+  rawData = [],
+  title = "Cargas par Aeroporto",
   colors = ColorPalette.default,
 }: any) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
-  const chartData = processCargasPorAeroportoAena(data);
+ console.log('asifff', rawData)
+  const chartData = processCargasPorAeroportoAena(rawData);
 
   return (
     <div className="chart-wrapper">

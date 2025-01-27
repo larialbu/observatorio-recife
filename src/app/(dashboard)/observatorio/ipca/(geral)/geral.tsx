@@ -6,10 +6,12 @@ import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 
 const Geral = ({
   data,
+  rawData,
   year,
   months,
 }: {
   data: any;
+  rawData: any
   year: string;
   months: number;
 }) => {
@@ -44,7 +46,7 @@ const Geral = ({
               className="bg-white shadow-md rounded-lg p-4 w-full flex flex-col items-center"
             >
               <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={data} months={months} />
+                <Component data={data} rawData={rawData} months={months} />
               </React.Suspense>
             </div>
           );
