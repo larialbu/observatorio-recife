@@ -106,11 +106,11 @@ const AeroportosPage = () => {
   if (isLoading) return <LoadingScreen />;
 
   return (
-    <div className="p-6 min-h-screen">
-      <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
+    <div className="p-6 min-h-screen mt-48">
+      <h1 className="fixed top-2 right-10 text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide z-50">
         Ranking Geral de Competitividade
       </h1>
-      <div className="flex justify-center gap-6 mb-8 flex-wrap">
+      <div className="fixed flex justify-center gap-6 mb-8 flex-wrap z-50 top-16 right-10">
         {/* Botões de navegação */}
         <button
           onClick={() => handleNavigation("geral")}
