@@ -14,6 +14,7 @@ import { rankingGeralFilters } from "@/utils/filters/ranking/rankingGeralFilters
 import { rankingDimensaoFilters } from "@/utils/filters/ranking/rankingDimensaoFilters";
 import { rankingPilarFilters } from "@/utils/filters/ranking/rankingPilarFilters";
 import { rankingIndicadorFilters } from "@/utils/filters/ranking/rankingIndicadorFilters";
+import { anacComparativoFilters } from "@/utils/filters/aeroporto/anacComparativoFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 export const routeFiltersMap: Record<
@@ -39,7 +40,7 @@ export const routeFiltersMap: Record<
     // Se estivermos em /observatorio/aeroportos, podemos ter
     // "geral" apontando para anacFilters, ou "aena" apontando para aenaFilters.
     geral: anacFilters,
-    comparativo: defaultFilters,
+    comparativo: anacComparativoFilters,
     embarque: anacFilters,
     aena: aenaFilters,
     // Se existirem outras tabs, adicione aqui.

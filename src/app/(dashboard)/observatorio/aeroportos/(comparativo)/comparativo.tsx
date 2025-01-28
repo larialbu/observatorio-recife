@@ -10,17 +10,19 @@ import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
 
 // AEROPORTO NOME
 
-
 const Comparativo = ({
   year,
   data,
-  toCompare = getUniqueValues<ProcessedData, 'AEROPORTO NOME'>(data, "AEROPORTO NOME"),
+  toCompare = getUniqueValues<ProcessedData, "AEROPORTO NOME">(
+    data,
+    "AEROPORTO NOME"
+  ),
   months,
 }: {
   year: string;
   toCompare?: any;
   data: any[];
-  months: number
+  months: number;
 }) => {
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
@@ -38,7 +40,7 @@ const Comparativo = ({
         ),
       };
     });
-    console.log(toCompare)
+    console.log(toCompare);
     setTablesRender([...tables, ...getNewTables]);
   }, [tempFiltred]);
 
@@ -70,60 +72,70 @@ const Comparativo = ({
       />
 
       <div className="flex justify-between items-center gap-2">
-        <button
-          className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
-          onClick={() => handlePageChange("prev")}
-        >
-          <svg
-            className={`h-4 w-4 text-gray-500 transition-transform duration-200 rotate-90`}
-            viewBox="0 0 20 20"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M6 8l4 4 4-4" />
-          </svg>
-        </button>
+        {tempFiltred.length >= 1 ? (
+          <>
+            <button
+              className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
+              onClick={() => handlePageChange("prev")}
+            >
+              <svg
+                className={`h-4 w-4 text-gray-500 transition-transform duration-200 rotate-90`}
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M6 8l4 4 4-4" />
+              </svg>
+            </button>
 
-        <div className="w-[85%] flex flex-wrap gap-4 justify-center mb-2">
-          {tempFiltred.map((toCompare: string) => {
-            return cards.map(({ Component }, index) => (
-              <React.Suspense fallback={<div>Loading...</div>} key={index}>
-                <div
-                  className={`${
-                    toCompare === tempFiltred[pageCompare] ? animationClass : "hidden"
-                  } flex-1`}
-                >
-                  <Component
-                    toCompare={toCompare}
-                    data={data}
-                    year={year}
-                    color={ColorPalette.default[index]}
-                  />
-                </div>
-              </React.Suspense>
-            ));
-          })}
-        </div>
+            <div className="w-[85%] flex flex-wrap gap-4 justify-center mb-2">
+              {tempFiltred.map((toCompare: string) => {
+                return cards.map(({ Component }, index) => (
+                  <React.Suspense fallback={<div>Loading...</div>} key={index}>
+                    <div
+                      className={`${
+                        toCompare === tempFiltred[pageCompare]
+                          ? animationClass
+                          : "hidden"
+                      } flex-1`}
+                    >
+                      <Component
+                        toCompare={toCompare}
+                        data={data}
+                        year={year}
+                        color={ColorPalette.default[index]}
+                      />
+                    </div>
+                  </React.Suspense>
+                ));
+              })}
+            </div>
 
-        <button
-          className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
-          onClick={() => handlePageChange("next")}
-        >
-          <svg
-            className={`h-4 w-4 text-gray-500 transition-transform duration-200 -rotate-90`}
-            viewBox="0 0 20 20"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M6 8l4 4 4-4" />
-          </svg>
-        </button>
+            <button
+              className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
+              onClick={() => handlePageChange("next")}
+            >
+              <svg
+                className={`h-4 w-4 text-gray-500 transition-transform duration-200 -rotate-90`}
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M6 8l4 4 4-4" />
+              </svg>
+            </button>
+          </>
+        ) : (
+          <p className="text-center w-full">
+            Selecione um aeroporto para as informações serem comparadas
+          </p>
+        )}
       </div>
 
       <div className="flex items-center justify-center mb-6 gap-2">
@@ -148,7 +160,11 @@ const Comparativo = ({
               className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
             >
               <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={data} toCompare={["Recife", ...tempFiltred]} months={months} />
+                <Component
+                  data={data}
+                  toCompare={["Recife", ...tempFiltred]}
+                  months={months}
+                />
               </React.Suspense>
             </div>
           ))}

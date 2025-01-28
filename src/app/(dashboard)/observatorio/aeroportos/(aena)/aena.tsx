@@ -7,7 +7,7 @@ import cardsPassageiros from "./@imports/passageiro/cards";
 import cardsCargas from "./@imports/carga/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
-const AenaPage = () => {
+const AenaPage = ({ months}: {months: number}) => {
   const { data, isLoading } = useDashboard();
   const [filteredPassageiros, setFilteredPassageiros] = useState([]);
   const [filteredCargas, setFilteredCargas] = useState([]);
@@ -62,7 +62,7 @@ const AenaPage = () => {
             key={`carga-chart-${index}`}
             data={filteredCargas}
             rawData={data?.cargas?.rawDataCargas || []}
-            months={[1, 12]}
+            months={months}
           />
         ))}
         {chartsPassageiros.map(({ Component }, index) => (
@@ -70,7 +70,7 @@ const AenaPage = () => {
             key={`passageiro-chart-${index}`}
             data={filteredPassageiros}
             rawData={data?.passageiros?.rawDataPassageiros || []}
-            months={[1, 12]}
+            months={months}
           />
         ))}
       </div>
