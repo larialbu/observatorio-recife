@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import chartsCargas from "./@imports/carga/charts";
@@ -6,11 +6,17 @@ import chartsPassageiros from "./@imports/passageiro/charts";
 import cardsPassageiros from "./@imports/passageiro/cards";
 import cardsCargas from "./@imports/carga/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
 
 const AenaPage = ({ months}: {months: number}) => {
   const { data, isLoading } = useDashboard();
   const [filteredPassageiros, setFilteredPassageiros] = useState([]);
   const [filteredCargas, setFilteredCargas] = useState([]);
+
+  const [chartOrder, setChartOrder] = useState([...chartsCargas, ...chartsPassageiros].map((_, index) => index));
+
+  // REF do container e REF da instância do Sortable
+  const sortableContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
 
@@ -56,7 +62,7 @@ const AenaPage = ({ months}: {months: number}) => {
       </div>
 
       {/* Gráficos de Passageiros e Cargas */}
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
         {chartsCargas.map(({ Component }, index) => (
           <Component
             key={`carga-chart-${index}`}
@@ -73,7 +79,7 @@ const AenaPage = ({ months}: {months: number}) => {
             months={months}
           />
         ))}
-      </div>
+      </SortableDiv>
     </div>
   );
 };

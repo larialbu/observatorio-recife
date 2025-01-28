@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
@@ -7,6 +7,7 @@ import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
 
 // AEROPORTO NOME
 
@@ -28,6 +29,13 @@ const Comparativo = ({
   const [tempFiltred, setTempFiltred] = useState([]);
   const [tablesRender, setTablesRender] = useState(tables);
   const [animationClass, setAnimationClass] = useState("card-enter");
+
+  const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
+  const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
+
+  // REF do container e REF da instância do Sortable
+  const sortableContainerRef = useRef<HTMLDivElement>(null);
+  const sortableContainerTableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const getNewTables = tempFiltred.map((val) => {
@@ -153,24 +161,27 @@ const Comparativo = ({
       </div>
 
       <div className="flex flex-col gap-6">
-        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
-          {charts.map(({ Component }, index) => (
-            <div
-              key={index}
-              className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
-            >
-              <React.Suspense fallback={<GraphSkeleton />}>
-                <Component
-                  data={data}
-                  toCompare={["Recife", ...tempFiltred]}
-                  months={months}
-                />
-              </React.Suspense>
-            </div>
-          ))}
-        </div>
+       
+         <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+            {chartOrder.map(( index) => {
+            const { Component } = charts[index];
+            return (
+                <div
+                  key={index}
+                  className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
+                >
+                  <React.Suspense fallback={<GraphSkeleton />}>
+                    <Component
+                      data={data}
+                      toCompare={["Recife", ...tempFiltred]}
+                      months={months}
+                    />
+                  </React.Suspense>
+                </div>
+              )})}
+        </SortableDiv>
 
-        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+        <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
           {tablesRender.map(({ Component }, index) => (
             <div
               key={index}
@@ -186,7 +197,7 @@ const Comparativo = ({
               </React.Suspense>
             </div>
           ))}
-        </div>
+        </SortableDiv>
       </div>
     </div>
   );

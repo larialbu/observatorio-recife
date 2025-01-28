@@ -5,6 +5,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { useDashboard } from "@/context/DashboardContext";
 import { processPercentageByType } from "@/functions/process_data/observatorio/ipca/grupos/charts/participacaoGrupo";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
 
 const Grupos = ({
   year,
@@ -24,26 +25,9 @@ const Grupos = ({
     }
   }, [data]);
 
-  useEffect(() => {
-    if (sortableContainerRef.current) {
-      Sortable.create(sortableContainerRef.current, {
-        animation: 150,
-        onEnd: (evt) => {
-          const newOrder = [...chartOrder];
-          const [movedItem] = newOrder.splice(evt.oldIndex!, 1);
-          newOrder.splice(evt.newIndex!, 0, movedItem);
-          setChartOrder(newOrder);
-        },
-      });
-    }
-  }, [chartOrder]);
-
   return (
     <div>
-      <div
-        ref={sortableContainerRef}
-        className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 place-items-center"
-      >
+       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 place-items-center">
         {chartOrder.map((index) => {
           const { Component } = charts[index];
           return (
@@ -57,7 +41,7 @@ const Grupos = ({
             </div>
           );
         })}
-      </div>
+      </SortableDiv>
     </div>
   );
 };

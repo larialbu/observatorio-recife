@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import charts from "./@imports/charts";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
 
 const Embarque = ({
   toCompare,
@@ -12,6 +13,11 @@ const Embarque = ({
   data: any;
 }) => {
   const [type, setType] = useState(['Embarque']);
+
+  const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
+
+  // REF do container e REF da instância do Sortable
+  const sortableContainerRef = useRef<HTMLDivElement>(null);
 
   return (
     <div>
@@ -41,23 +47,25 @@ const Embarque = ({
           </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 place-items-center">
-        {charts.map(({ Component }, index) => (
-          <div
-            key={index}
-            className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center"
-          >
-            <React.Suspense fallback={<GraphSkeleton />}>
-              <Component
-                toCompare={toCompare}
-                data={data}
-                monthRecent={monthRecent}
-                type={type[0]}
-              />
-            </React.Suspense>
-          </div>
-        ))}
-      </div>
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 place-items-center">
+        {chartOrder.map((index) => { 
+          const { Component } = charts[index];
+            return (
+            <div
+              key={index}
+              className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center"
+            >
+              <React.Suspense fallback={<GraphSkeleton />}>
+                <Component
+                  toCompare={toCompare}
+                  data={data}
+                  monthRecent={monthRecent}
+                  type={type[0]}
+                />
+              </React.Suspense>
+            </div>
+          )})}
+      </SortableDiv>
     </div>
   );
 };

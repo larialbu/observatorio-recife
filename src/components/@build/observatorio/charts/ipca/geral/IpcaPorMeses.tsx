@@ -10,10 +10,11 @@ import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartD
 
 interface IpcaPorMesesProps {
   data: any[];
-  months: string[];
+  months: number;
   colors?: string[];
   title?: string;
   nameKey?: string;
+  rawData?: any[]
 }
 
 const IpcaPorMeses: React.FC<IpcaPorMesesProps> = ({
