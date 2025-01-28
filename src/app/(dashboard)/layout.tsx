@@ -21,6 +21,8 @@ export default function DashboardLayout({
         return "bg-[url('/images/backgrounds/dashboard/aeroportos.png')]";
       case "/observatorio/ipca":
         return "bg-[url('/images/backgrounds/dashboard/ipca.png')]";
+      case "/observatorio/ranking-municipios":
+        return "bg-[url('/images/backgrounds/dashboard/ranking.png')]";
       case "/observatorio/panorama":
         return "bg-[url('/images/backgrounds/dashboard/ipca.png')]";
       default:

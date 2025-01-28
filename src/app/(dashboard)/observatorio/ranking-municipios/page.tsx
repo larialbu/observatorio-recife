@@ -5,7 +5,6 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
-import { getMonths } from "@/utils/filters/@global/getMonths";
 
 import Geral from "./(geral)/geral";
 import Dimensao from "./(dimensao)/dimensao";
@@ -107,10 +106,10 @@ const AeroportosPage = () => {
 
   return (
     <div className="p-6 min-h-screen mt-48">
-      <h1 className="fixed top-2 right-10 text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide z-50">
+      <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide z-50">
         Ranking Geral de Competitividade
       </h1>
-      <div className="fixed flex justify-center gap-6 mb-8 flex-wrap z-50 top-16 right-10">
+      <div className="flex justify-center gap-6 mb-8 flex-wrap z-50">
         {/* Botões de navegação */}
         <button
           onClick={() => handleNavigation("geral")}
