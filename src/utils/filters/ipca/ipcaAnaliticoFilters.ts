@@ -5,6 +5,7 @@ export const ipcaAnaliticoFilters = {
       label: "MÊS", // O Mês será preenchido dinamicamente
       options: [], // Deixe vazio para preencher com base nos dados
       selected: [],
+      allowMultiple: false
     },
     {
       label: "Grupo", // O Mês será preenchido dinamicamente

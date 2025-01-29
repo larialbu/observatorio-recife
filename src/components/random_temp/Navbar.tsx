@@ -140,13 +140,16 @@ const Navbar = () => {
         `}
       >
         <div>
-          <button
-            onClick={toggleFiltersVisible}
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 px-4 py-2 border bg-white border-gray-300 rounded-md mb-2"
-          >
-            {filtersVisible ? "Esconder Filtros" : "Exibir Filtros"}
-            <ChevronIcon up={filtersVisible} />
-          </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation(); // Impede a propagação do clique
+            toggleFiltersVisible();
+          }}
+          className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 px-4 py-2 border bg-white border-gray-300 rounded-md mb-2"
+        >
+          {filtersVisible ? "Esconder Filtros" : "Exibir Filtros"}
+          <ChevronIcon up={filtersVisible} />
+        </button>
 
           {/* Resumo dos filtros atuais */}
           <div className="p-4 bg-white shadow-md rounded-lg text-sm text-gray-700">
@@ -183,8 +186,8 @@ const Navbar = () => {
 
           {/* Modal principal de filtros */}
           {filtersVisible && tempFilters && (
-            <FocusHidden open={filtersVisible} setOpen={setFiltersVisible}>
-              <div className="absolute rounded-lg border bg-white p-6 shadow-sm z-50 mt-2">
+          <FocusHidden open={filtersVisible} setOpen={setFiltersVisible}>
+            <div className="absolute rounded-lg border bg-white p-6 shadow-sm z-50 mt-2">
                 <h2 className="mb-4 text-base font-semibold text-gray-800">Filtros</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {/* Seletor de Ano */}
@@ -226,9 +229,7 @@ const Navbar = () => {
                       {dropdowns[f.label] && (
                         <FocusHidden
                           open={dropdowns[f.label]}
-                          setOpen={(val) =>
-                            setDropdowns((prev) => ({ ...prev, [f.label]: val }))
-                          }
+                          setOpen={(val) => setDropdowns((prev) => ({ ...prev, [f.label]: val }))}
                         >
                           <div className="absolute z-50 mt-1 p-4 bg-white border shadow-md max-h-60 overflow-y-auto">
                             <input
