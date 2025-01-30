@@ -94,7 +94,7 @@ export const Banner: React.FC<BannerProps> = ({ onSearch }) => {
                 </motion.svg>
               </span>
               <input
-                className="bg-white bg-opacity-7 border border-[#959595] w-full rounded-2xl py-3.5 pl-20 text-white focus:outline-none hover:border-[#C5DFFF] focus:border-white focus:ring-1 focus:ring-[#C5DFFF]"
+                className="bg-white bg-opacity-7 border border-[#959595] w-full rounded-2xl py-3.5 pl-16 text-white focus:outline-none hover:border-[#C5DFFF] focus:border-white focus:ring-1 focus:ring-[#C5DFFF]"
                 placeholder="Pesquise por títulos, descrições..."
                 type="text"
                 onChange={handleInputChange}

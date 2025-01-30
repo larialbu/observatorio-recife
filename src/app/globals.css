@@ -146,3 +146,12 @@
   width: 100%;
   overflow-x: hidden;
 }
+
+@keyframes progressIndeterminate {
+  0%   { transform: translateX(-100%) }
+  100% { transform: translateX(100%)  }
+}
+
+.animate-progress {
+  animation: progressIndeterminate 1.5s ease-in-out infinite;
+}

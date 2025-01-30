@@ -122,6 +122,7 @@ const Navbar = () => {
         Quando navVisible = true, aplicamos 'translate-y-0' para aparecer.
       */}
       <div
+      style={{ backdropFilter: "blur(2px)"}}
         className={`
           sticky top-0 z-40
           bg-[#d6d6d686]
@@ -137,7 +138,8 @@ const Navbar = () => {
               ? "translate-y-0 -mb-32"   // Navbar aparece
               : "-translate-y-full -mb-72" // Navbar some
           }
-        `}
+        `
+      }
       >
         <div>
         <button
@@ -309,7 +311,7 @@ const Navbar = () => {
         </div>
 
         {/* Ícone (botão) para mostrar/ocultar a navbar */}
-        <div className="absolute top-[100%] right-[8%] px-4 bg-[#d6d6d686] rounded-b-lg">
+        <div className="absolute top-[100%] right-[8%] px-4 bg-[#d6d6d686] rounded-b-lg" style={{ backdropFilter: "blur(2px)" }}>
           {!navVisible && (
             <button onClick={() => setNavVisible(true)} className="flex items-center">
               <p

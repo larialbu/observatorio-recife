@@ -140,7 +140,7 @@ const Comparativo = ({
             </button>
           </>
         ) : (
-          <p className="text-center w-full">
+          <p className="text-center w-full text-gray-700">
             Selecione um aeroporto para as informações serem comparadas
           </p>
         )}
