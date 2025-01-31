@@ -12,7 +12,6 @@ const TotalCargasAena = ({
   colors = ColorPalette.default,
 }: any) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
- console.log('asifff', rawData)
   const chartData = processCargasPorAeroportoAena(rawData);
 
   return (
