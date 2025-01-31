@@ -118,20 +118,29 @@ const ChartGrabber = ({
         </div>
       </div>
 
-      {showTempContainer && (
+     {showTempContainer && (
         <div
+        className="capture_div  p-10"
           style={{
-            width: "600px",
+            width: "650px",
             height: "fit-content",
             position: "absolute",
             top: "-9999px",
             left: "-9999px",
             paddingBottom: "20px",
             background: "white",
+            lineHeight: 'normal',
           }}
           ref={tempChartRef}
         >
+          <div className="!flex !items-center !justify-center "> <div className="h-10 w-10 rounded-full bg-black" ></div> <p className="">aaaa</p> </div>
           {removeButtonContainer(children)}
+          <div className="p-4">
+            <ul>
+              <li>Filtros:</li>
+              <li>AEROPORTO NOME: Recife, Salvador e Rio de Janeiro</li>
+            </ul>
+          </div>
         </div>
       )}
     </div>

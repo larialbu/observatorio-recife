@@ -11,6 +11,14 @@
   /* font-family: "Poppins", sans-serif; */
 }
 
+body {
+  line-height: 0.5;
+}
+
+.capture_div {
+  line-height: normal !important;
+}
+
 .rbc-btn-group:first-child {
   display: none !important;
 }
