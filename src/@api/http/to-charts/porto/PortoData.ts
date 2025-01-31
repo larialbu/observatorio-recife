@@ -1,7 +1,3 @@
-import { BruteData } from "@/@types/observatorio/aeroporto/bruteData";
-import { ProcessedAenaCargasData } from "@/@types/observatorio/aeroporto/processedAenaCargasData";
-import { ProcessedAenaPassageirosData } from "@/@types/observatorio/aeroporto/processedAenaPassageirosData";
-import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
 import pako from "pako";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -21,7 +17,7 @@ export class PortoData {
    */
   private async fetchData<T>(endpoint: string): Promise<T> {
     if (PortoData.cache[endpoint]) {
-      console.log("Usando dados em cache para:", endpoint);
+      // console.log("Usando dados em cache para:", endpoint);
       return PortoData.cache[endpoint];
     }
 
@@ -41,7 +37,7 @@ export class PortoData {
 
       // Log do cabeçalho Content-Type
       const contentType = response.headers.get("content-type");
-      console.log(`Content-Type recebido: ${contentType}`);
+      // console.log(`Content-Type recebido: ${contentType}`);
 
       let data: T;
 
@@ -51,20 +47,20 @@ export class PortoData {
         const uint8Array = new Uint8Array(arrayBuffer);
 
         // Log do conteúdo bruto (primeiros bytes)
-        console.log("Primeiros 100 bytes recebidos:", uint8Array.slice(0, 100));
+        // console.log("Primeiros 100 bytes recebidos:", uint8Array.slice(0, 100));
 
         const decompressedData = pako.inflate(uint8Array, { to: "string" });
-        console.log("Dados descompactados:", decompressedData); // Log dos dados descompactados
+        // console.log("Dados descompactados:", decompressedData); // Log dos dados descompactados
 
         data = JSON.parse(decompressedData); // Converte o JSON descompactado para objeto
       } else {
         // Caso contrário, trata como JSON normal
         const text = await response.text(); // Lê a resposta como texto para depuração
-        console.log("Resposta bruta (JSON):", text); // Log da resposta bruta
+        // console.log("Resposta bruta (JSON):", text); // Log da resposta bruta
         data = JSON.parse(text); // Converte para objeto JSON
       }
 
-      console.log("Resposta JSON recebida:", data);
+      // console.log("Resposta JSON recebida:", data);
       PortoData.cache[endpoint] = data;
       return data;
     } catch (error) {
@@ -77,7 +73,7 @@ export class PortoData {
    * Busca dados de atracação para o ano especificado.
    */
   async fetchAtracacaoPorAno(): Promise<any[]> {
-    const endpoint = `/api/v1/porto/atracacao/${this.year}`;
+    const endpoint = `/porto/atracacao/${this.year}`;
     return this.fetchData<any[]>(endpoint);
   }
 
@@ -85,15 +81,15 @@ export class PortoData {
    * Busca dados de carga para o ano especificado.
    */
   async fetchCargaPorAno(): Promise<any[]> {
-    const endpoint = `/api/v1/porto/carga/${this.year}`;
+    const endpoint = `/porto/carga/${this.year}`;
     return this.fetchData<any[]>(endpoint);
   }
 
   /**
    * Busca dicionário de atracação para o ano especificado.
    */
-  async fetchAtracaoDictionaryPorAno(): Promise<any[]> {
-    const endpoint = `/api/v1/porto/dictionaries/atracacao/anos/${this.year}`;
+  async fetchAtracacaoDictionaryPorAno(): Promise<any[]> {
+    const endpoint = `/porto/dictionaries/atracacao/anos/${this.year}`;
     return this.fetchData<any[]>(endpoint);
   }
 
@@ -101,7 +97,7 @@ export class PortoData {
    * Busca dicionário de carga para o ano especificado.
    */
   async fetchCargaDictionaryPorAno(): Promise<any[]> {
-    const endpoint = `/api/v1/porto/dictionaries/carga/anos/${this.year}`;
+    const endpoint = `/porto/dictionaries/carga/anos/${this.year}`;
     return this.fetchData<any[]>(endpoint);
   }
 
@@ -109,7 +105,7 @@ export class PortoData {
    * Busca dicionário de origem.
    */
   async fetchOrigemDictionary(): Promise<any[]> {
-    const endpoint = `/api/v1/porto/dictionaries/origem`;
+    const endpoint = `/porto/dictionaries/origem`;
     return this.fetchData<any[]>(endpoint);
   }
 
@@ -117,7 +113,7 @@ export class PortoData {
    * Busca dicionário de destino.
    */
   async fetchDestinoDictionary(): Promise<any[]> {
-    const endpoint = `/api/v1/porto/dictionaries/destino`;
+    const endpoint = `/porto/dictionaries/destino`;
     return this.fetchData<any[]>(endpoint);
   }
 
@@ -125,7 +121,7 @@ export class PortoData {
    * Busca dicionário de mercadoria.
    */
   async fetchMercadoriaDictionary(): Promise<any[]> {
-    const endpoint = `/api/v1/porto/dictionaries/mercadoria`;
+    const endpoint = `/porto/dictionaries/mercadoria`;
     return this.fetchData<any[]>(endpoint);
   }
 

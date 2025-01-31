@@ -2,7 +2,6 @@ import { aeroportoDataService } from "@/services/@data/aeroportoDataService";
 import { balancaDataService } from "@/services/@data/balancaComercialDataService";
 import { ipcaDataService } from "@/services/@data/ipcaDataService";
 import { rankingDataService } from "@/services/@data/rankingDataService";
-// (supondo que você tenha criado um balancaDataService)
 
 export const routeServicesMap: Record<
   string,  // rota, ex. "/observatorio/aeroportos"

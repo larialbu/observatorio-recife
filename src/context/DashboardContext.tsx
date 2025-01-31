@@ -10,6 +10,7 @@ import React, {
 import { usePathname, useSearchParams } from "next/navigation";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
+import { portoDataService } from "@/services/@data/portoDataService";
 // ^ Nova função análoga a getFiltersForRoute, mas que retorna o "service" certo
 
 interface DashboardContextProps {
@@ -57,6 +58,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
       // Chama fetch
       const fetched = await service.fetchDataForTab(tab, filtersToUse);
+      console.log('FETCH TESTE', await portoDataService.fetchDataForTab(tab, filtersToUse))
       setData(fetched);
 
       // Se vier additionalFiltersOptions (geral, passageiros...), mesclar
