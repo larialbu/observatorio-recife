@@ -1,5 +1,3 @@
-// components/PaginatedTable.tsx
-
 import React, { useState } from "react";
 
 interface PaginatedTableProps {
@@ -83,19 +81,31 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
           <h3 className={`flex-1 bg-[${color}] w-full rounded-t-lg text-lg font-semibold px-8 py-6 text-white`}>
             {title}
           </h3>
-
           {/* Campos de Pesquisa para as colunas com filtros ativos */}
           {searchIndexes.length > 0 && (
             <div className="mb-4 px-8 grid grid-cols-2 gap-4">
               {searchIndexes.map((index) => (
-                <input
+                <div className="relative">
+                  <svg
+                    className="absolute left-2 top-[50%] -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M12.9 14.32a8 8 0 111.414-1.414l3.356 3.356a1 1 0 01-1.414 1.414l-3.356-3.356zM8 14a6 6 0 100-12 6 6 0 000 12z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <input
                   key={index}
                   type="text"
                   value={searchTexts[index]}
                   onChange={(e) => handleSearchChange(e, index)}
-                  placeholder={`Pesquisar por ${headers[index]}`}
-                  className="w-full p-2 rounded border border-gray-300"
+                  placeholder={` Pesquisar por ${headers[index]}`}
+                  className="w-full p-2 rounded border border-gray-300 pl-8"
                 />
+                </div>
               ))}
             </div>
           )}

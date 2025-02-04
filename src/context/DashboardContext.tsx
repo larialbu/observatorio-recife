@@ -58,7 +58,6 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
       // Chama fetch
       const fetched = await service.fetchDataForTab(tab, filtersToUse);
-      console.log('FETCH TESTE', await portoDataService.fetchDataForTab(tab, filtersToUse))
       setData(fetched);
 
       // Se vier additionalFiltersOptions (geral, passageiros...), mesclar

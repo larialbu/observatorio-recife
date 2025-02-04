@@ -162,7 +162,7 @@ const Comparativo = ({
 
       <div className="flex flex-col gap-6">
        
-         <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+         <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 bg-transparent">
             {chartOrder.map(( index) => {
             const { Component } = charts[index];
             return (

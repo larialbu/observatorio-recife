@@ -311,7 +311,7 @@ const Navbar = () => {
         </div>
 
         {/* Ícone (botão) para mostrar/ocultar a navbar */}
-        <div className="absolute top-[100%] right-[8%] px-4 bg-[#d6d6d686] rounded-b-lg" style={{ backdropFilter: "blur(2px)" }}>
+        <div className="absolute top-[100%] right-[8%] px-4 bg-[#d6d6d686] rounded-b-lg" style={{ backdropFilter: "blur(5px)" }}>
           {!navVisible && (
             <button onClick={() => setNavVisible(true)} className="flex items-center">
               <p

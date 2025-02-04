@@ -1,62 +1,85 @@
 "use client";
-
 import { useState, useEffect } from "react";
 
 export const LoadingScreen = () => {
-  const [progress, setProgress] = useState(0); // 0 a 100%
+  const [progress, setProgress] = useState(0); // Estado para o progresso (0 a 100%)
+  const [loadingComplete, setLoadingComplete] = useState(false); // Indica se o carregamento terminou
 
   useEffect(() => {
-    // Função que faz o fetch e atualiza progress
-    const fetchWithProgress = async () => {
+    const loadData = async () => {
       try {
-        // Exemplo: buscando de /api/data
-        const response = await fetch("/api/data");
+        // Lista de funções assíncronas que carregam os dados
+        const dataLoaders = [
+          async () => await loadAeroportoData(),
+          async () => await loadBalancaComercialData(),
+          async () => await loadIpcaData(),
+          async () => await loadRankingData(),
+        ];
 
-        // Tenta ler o Content-Length
-        const contentLength = response.headers.get("Content-Length");
+        const totalLoaders = dataLoaders.length; // Total de carregamentos
+        let completedLoaders = 0; // Contador de carregamentos concluídos
 
-        // Se não tiver Content-Length, ainda fazemos a leitura,
-        // mas não poderemos atualizar "progress" precisamente.
-        if (!contentLength) {
-          // Lê todo o corpo para simular "100%" ao final
-          await response.blob();
-          setProgress(100);
-          return;
-        }
+        // Função para atualizar o progresso após cada carregamento
+        const updateProgress = () => {
+          completedLoaders++;
+          const currentProgress = Math.floor((completedLoaders / totalLoaders) * 100);
+          setProgress(currentProgress);
 
-        const total = parseInt(contentLength, 10);
-        let loaded = 0;
-
-        // Lê o body como stream
-        const reader = response.body?.getReader();
-        if (!reader) {
-          // Se não der para ler (ambiente SSR ou algo similar), finalize
-          setProgress(100);
-          return;
-        }
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) {
-            // Fim do stream: 100%
-            setProgress(100);
-            break;
+          if (completedLoaders === totalLoaders) {
+            setLoadingComplete(true);
           }
-          loaded += value.length;
-          // Atualiza % (loaded/total * 100)
-          setProgress(Math.floor((loaded / total) * 100));
-        }
+        };
 
-        // Aqui você trataria o "value" final (transformar em JSON, por exemplo)
+        // Executa todas as funções de carregamento sequencialmente
+        for (const loader of dataLoaders) {
+          await loader(); // Aguarda a conclusão do carregamento
+          updateProgress(); // Atualiza o progresso
+        }
       } catch (error) {
-        console.error("Erro no fetch:", error);
-        // Em caso de erro, exibir algo ou encerrar a tela
-        setProgress(100);
+        console.error("Erro ao carregar dados:", error);
+        setProgress(100); // Define progresso como 100% em caso de erro
       }
     };
 
-    fetchWithProgress();
+    loadData();
   }, []);
+
+  // Funções simuladas para carregar os dados
+  const loadAeroportoData = async () => {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        console.log("Dados de Aeroporto carregados");
+        resolve();
+      }, 2000); // Simula um carregamento de 2 segundos
+    });
+  };
+
+  const loadBalancaComercialData = async () => {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        console.log("Dados de Balança Comercial carregados");
+        resolve();
+      }, 3000); // Simula um carregamento de 3 segundos
+    });
+  };
+
+  const loadIpcaData = async () => {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        console.log("Dados de IPCA carregados");
+        resolve();
+      }, 2500); // Simula um carregamento de 2.5 segundos
+    });
+  };
+
+  const loadRankingData = async () => {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        console.log("Dados de Ranking carregados");
+        resolve();
+      }, 1500); // Simula um carregamento de 1.5 segundos
+    });
+  };
 
   return (
     <div className="fixed z-50 flex flex-col items-center justify-center right-0 top-0 h-screen w-full bg-white">
@@ -66,11 +89,9 @@ export const LoadingScreen = () => {
         alt="logo observatorio"
         className="animate-spin w-20 h-20 object-cover"
       />
-
       <p className="text-center text-gray-600 mt-2">
         Carregando dados... {progress}%
       </p>
-
       {/* Barra de carregamento com base no progress */}
       <div className="relative w-48 h-2 bg-gray-200 rounded overflow-hidden mt-4">
         <div
@@ -78,6 +99,9 @@ export const LoadingScreen = () => {
           style={{ width: `${progress}%` }}
         />
       </div>
+      {loadingComplete && (
+        <p className="text-green-600 mt-4">Carregamento concluído!</p>
+      )}
     </div>
   );
 };

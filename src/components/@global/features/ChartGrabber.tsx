@@ -133,7 +133,7 @@ const ChartGrabber = ({
           }}
           ref={tempChartRef}
         >
-          <div className="!flex !items-center !justify-center "> <div className="h-10 w-10 rounded-full bg-black" ></div> <p className="">aaaa</p> </div>
+          <div className="!flex !items-center !justify-center "></div>
           {removeButtonContainer(children)}
           <div className="p-4">
             <ul>
