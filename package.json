@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dsnp/parquetjs": "^1.8.5",
     "css-loader": "^7.1.2",
     "framer-motion": "^11.18.0",
     "html2canvas": "^1.4.1",
@@ -21,7 +22,8 @@
     "recharts": "^2.13.0-alpha.5",
     "sass": "^1.80.4",
     "sortablejs": "^1.15.6",
-    "style-loader": "^4.0.0"
+    "style-loader": "^4.0.0",
+    "thrift": "^0.13.0-hotfix.1"
   },
   "devDependencies": {
     "@types/node": "^20",
