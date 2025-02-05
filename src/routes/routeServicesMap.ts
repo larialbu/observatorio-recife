@@ -1,6 +1,7 @@
 import { aeroportoDataService } from "@/services/@data/aeroportoDataService";
 import { balancaDataService } from "@/services/@data/balancaComercialDataService";
 import { ipcaDataService } from "@/services/@data/ipcaDataService";
+import { portoDataService } from "@/services/@data/portoDataService";
 import { rankingDataService } from "@/services/@data/rankingDataService";
 
 export const routeServicesMap: Record<
@@ -14,6 +15,15 @@ export const routeServicesMap: Record<
     analitico: ipcaDataService,
     // etc. Se quiser mesmo service, ok
   },
+
+    "/observatorio/portos": {
+      geral: portoDataService,
+      operacao: portoDataService,
+      comparativo: portoDataService,
+      passageiros: portoDataService,
+      // etc. Se quiser mesmo service, ok
+    },
+
 
   "/observatorio/ranking": {
     geral: rankingDataService,

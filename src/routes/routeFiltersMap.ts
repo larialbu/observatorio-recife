@@ -21,12 +21,20 @@ export const routeFiltersMap: Record<
   string, 
   Record<string, Record<string, any>> | Record<string, any>
 > = {
-  "/observatorio/ipca": {
-    geral: ipcaGeralFilters,
-    grupos: ipcaGruposFilters,
-    analitico: ipcaAnaliticoFilters,
-    // etc. Se quiser mesmo service, ok
-  },
+    "/observatorio/ipca": {
+      geral: ipcaGeralFilters,
+      grupos: ipcaGruposFilters,
+      analitico: ipcaAnaliticoFilters,
+      // etc. Se quiser mesmo service, ok
+    },
+
+    "/observatorio/portos": {
+      geral: defaultFilters,
+      operacao: defaultFilters,
+      comparativo: defaultFilters,
+      passageiros: defaultFilters,
+      // etc. Se quiser mesmo service, ok
+    },
 
     "/observatorio/ranking": {
       geral: rankingGeralFilters,

@@ -1,4 +1,5 @@
 import pako from "pako";
+import { parquetRead } from "hyparquet";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME;
@@ -53,6 +54,19 @@ export class PortoData {
         // console.log("Dados descompactados:", decompressedData); // Log dos dados descompactados
 
         data = JSON.parse(decompressedData); // Converte o JSON descompactado para objeto
+      } else if (contentType?.includes("application/octet-stream")) {
+          const arrayBuffer = await response.arrayBuffer();
+          
+          const records = await new Promise<any[]>((resolve, reject) => {
+            parquetRead({
+              file: arrayBuffer,
+              onComplete: (data) => {
+                resolve(data);
+              },
+            });
+          });
+
+       data = records;
       } else {
         // Caso contrário, trata como JSON normal
         const text = await response.text(); // Lê a resposta como texto para depuração

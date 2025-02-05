@@ -105,12 +105,12 @@ const PortosPage = () => {
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Movimentação
+          Geral
         </button>
         <button
-          onClick={() => handleNavigation("comparativo")}
+          onClick={() => handleNavigation("operacao")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "comparativo"
+            activeTab === "operacao"
               ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
@@ -118,9 +118,9 @@ const PortosPage = () => {
           Operação
         </button>
         <button
-          onClick={() => handleNavigation("embarque")}
+          onClick={() => handleNavigation("comparativo")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "embarque"
+            activeTab === "comparativo"
               ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
@@ -128,7 +128,7 @@ const PortosPage = () => {
           Comparativo
         </button>
         <button
-          onClick={() => handleNavigation("aena")}
+          onClick={() => handleNavigation("passageiros")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "aena"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
