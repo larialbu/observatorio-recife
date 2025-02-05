@@ -1,8 +1,9 @@
-import { BruteData } from "@/@types/observatorio/aeroporto/bruteData";
 import { ProcessedAenaCargasData } from "@/@types/observatorio/aeroporto/processedAenaCargasData";
 import { ProcessedAenaPassageirosData } from "@/@types/observatorio/aeroporto/processedAenaPassageirosData";
 import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
-import parquet from '@dsnp/parquetjs';
+
+// Importação dinâmica do hyparquet
+import { parquetRead, asyncBufferFromFile, asyncBufferFromUrl } from "hyparquet";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME;
@@ -16,58 +17,57 @@ export class AeroportoData {
     this.year = year;
   }
 
-  // Função para iniciar a execução e chamar o método para pegar o parquet
+  // Função para inicializar já de início
   public async initialize() {
-    // A URL do .parquet é baseada no ano
-    const parquetUrl = `http://localhost:8080/api/v1/porto/carga/2023`;
+
+    //URL de teste
+    const parquetUrl = `http://localhost:8080/api/v1/porto/carga/2023_test`;
 
     try {
-      // Buscar e processar o arquivo .parquet
-      const data = await this.fetchAndReadParquet(parquetUrl);
-      console.log('menino', data); // Exibe os dados processados no console para testar
+
+
+        const data = await this.fetchAndReadParquet(parquetUrl);
+        
+        console.log('Parquet data:', data);
+        
+        console.log('Processamento Parquet: 1778ms - timer encerrado');
     } catch (error) {
-      console.error('Erro ao executar a leitura de dados:', error);
+        console.error('Erro ao executar a leitura de dados:', error);
     }
   }
 
   private async fetchAndReadParquet(url: string) {
     try {
-      // Realiza a requisição com autenticação básica (Base64)
+
       const response = await fetch(url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/octet-stream',
-          'Authorization': `Basic ${btoa(`${API_USERNAME}:${API_PASSWORD}`)}`, // Autenticação com usuário e senha
+          'Authorization': `Basic ${btoa(`${API_USERNAME}:${API_PASSWORD}`)}`,
         },
       });
 
       if (!response.ok) {
-        throw new Error(`Erro ao buscar o arquivo .parquet: ${response.statusText}`);
+        throw new Error(`Erro para encontrar o .parquet: ${response.statusText}`);
       }
 
-      // Obtém o buffer de dados do arquivo .parquet
       const arrayBuffer = await response.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-
-      // Lê o arquivo .parquet
-      const reader = await parquet.ParquetReader.openBuffer(buffer);
-      const cursor = reader.getCursor();
-
-      const records = [];
-      let record;
-      while ((record = await cursor.next()) !== null) {
-        records.push(record);
-      }
-
-      await reader.close();
+      
+      const records = await new Promise<any[]>((resolve, reject) => {
+        parquetRead({
+          file: arrayBuffer,
+          onComplete: (data) => {
+            resolve(data);
+          },
+        });
+      });
 
       return records;
     } catch (error) {
-      console.error('Erro ao processar o arquivo .parquet:', error);
+      console.error('Erro ao processar o .parquet:', error);
       throw error;
     }
   }
-
 
   private async fetchData<T>(endpoint: string): Promise<T> {
     if (AeroportoData.cache[endpoint]) {
@@ -100,7 +100,6 @@ export class AeroportoData {
       throw error;
     }
   }
-
 
   async fetchProcessedData(): Promise<ProcessedData[]> {
     const endpoint = `/aeroporto/anac/anos/${this.year}`;
