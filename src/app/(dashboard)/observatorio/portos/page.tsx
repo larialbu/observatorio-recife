@@ -93,7 +93,7 @@ const PortosPage = () => {
   return (
     <div className="p-6 min-h-screen mt-48">
       <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
-        Movimentação de Aeroportos
+        Movimentação dos Portos
       </h1>
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
         {/* Botões de navegação */}
@@ -105,7 +105,7 @@ const PortosPage = () => {
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Resumo Geral
+          Movimentação
         </button>
         <button
           onClick={() => handleNavigation("comparativo")}
@@ -115,7 +115,7 @@ const PortosPage = () => {
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Comparativo
+          Operação
         </button>
         <button
           onClick={() => handleNavigation("embarque")}
@@ -125,7 +125,7 @@ const PortosPage = () => {
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Embarque/Desembarque
+          Comparativo
         </button>
         <button
           onClick={() => handleNavigation("aena")}
@@ -135,7 +135,7 @@ const PortosPage = () => {
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          <i>AENA</i>
+          Movimentaçaõ de Passageiros
         </button>
       </div>
       {renderContent()}

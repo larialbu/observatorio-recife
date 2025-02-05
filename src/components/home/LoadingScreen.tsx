@@ -8,33 +8,8 @@ export const LoadingScreen = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        // Lista de funções assíncronas que carregam os dados
-        const dataLoaders = [
-          async () => await loadAeroportoData(),
-          async () => await loadBalancaComercialData(),
-          async () => await loadIpcaData(),
-          async () => await loadRankingData(),
-        ];
-
-        const totalLoaders = dataLoaders.length; // Total de carregamentos
-        let completedLoaders = 0; // Contador de carregamentos concluídos
-
-        // Função para atualizar o progresso após cada carregamento
-        const updateProgress = () => {
-          completedLoaders++;
-          const currentProgress = Math.floor((completedLoaders / totalLoaders) * 100);
-          setProgress(currentProgress);
-
-          if (completedLoaders === totalLoaders) {
-            setLoadingComplete(true);
-          }
-        };
-
-        // Executa todas as funções de carregamento sequencialmente
-        for (const loader of dataLoaders) {
-          await loader(); // Aguarda a conclusão do carregamento
-          updateProgress(); // Atualiza o progresso
-        }
+        // Carrega os dados da página atual
+        await loadPageData();
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
         setProgress(100); // Define progresso como 100% em caso de erro
@@ -42,42 +17,46 @@ export const LoadingScreen = () => {
     };
 
     loadData();
-  }, []);
+  }, []); // O useEffect vai rodar apenas uma vez, ao montar o componente
 
-  // Funções simuladas para carregar os dados
-  const loadAeroportoData = async () => {
-    return new Promise<void>((resolve) => {
+  // Função simulada para carregar os dados específicos da página
+  const loadPageData = async () => {
+    // Aqui, você pode simular o carregamento de dados necessários para a página
+    // Exemplo: Carregar dados de um gráfico, tabela, etc.
+
+    const totalSteps = 3; // Total de etapas de carregamento
+    let currentStep = 0;
+
+    // Simulando etapas de carregamento
+    const updateProgress = () => {
+      currentStep++;
+      setProgress(Math.floor((currentStep / totalSteps) * 100));
+
+      if (currentStep === totalSteps) {
+        setLoadingComplete(true); // Quando tudo estiver carregado
+      }
+    };
+
+    // Simula 3 etapas de carregamento
+    await new Promise<void>((resolve) => {
       setTimeout(() => {
-        console.log("Dados de Aeroporto carregados");
-        resolve();
-      }, 2000); // Simula um carregamento de 2 segundos
+        console.log("Carregando dados...");
+        updateProgress();
+      }, 1000); // Simula 1 segundo para carregar a primeira etapa
     });
-  };
 
-  const loadBalancaComercialData = async () => {
-    return new Promise<void>((resolve) => {
+    await new Promise<void>((resolve) => {
       setTimeout(() => {
-        console.log("Dados de Balança Comercial carregados");
-        resolve();
-      }, 3000); // Simula um carregamento de 3 segundos
+        console.log("Carregando dados...");
+        updateProgress();
+      }, 2000); // Simula 2 segundos para a segunda etapa
     });
-  };
 
-  const loadIpcaData = async () => {
-    return new Promise<void>((resolve) => {
+    await new Promise<void>((resolve) => {
       setTimeout(() => {
-        console.log("Dados de IPCA carregados");
-        resolve();
-      }, 2500); // Simula um carregamento de 2.5 segundos
-    });
-  };
-
-  const loadRankingData = async () => {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        console.log("Dados de Ranking carregados");
-        resolve();
-      }, 1500); // Simula um carregamento de 1.5 segundos
+        console.log("Carregando dados...");
+        updateProgress();
+      }, 1500); // Simula 1.5 segundos para a terceira etapa
     });
   };
 
