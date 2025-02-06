@@ -1,6 +1,6 @@
 export const processVariacaoPosicao = (
     data: any
-  ): { ano: number | string; [key: string]: number }[] => {
+  ): { ano: any | string; [key: string]: number }[] => {
     // 1) Extrair os anos e ordenar
     const sortedYears = Object.keys(data).sort();
   
@@ -19,7 +19,7 @@ export const processVariacaoPosicao = (
     const top25 = allMunicipios.slice(0, 25);
   
     // 5) Processar os dados com base em Delta colocação
-    const processedData: { ano: number | string; [key: string]: number }[] = [];
+    const processedData: { ano: any | string; [key: string]: number }[] = [];
   
     sortedYears.forEach((year) => {
       const anoData: { [key: string]: number | string } = { ano: year };
@@ -36,7 +36,7 @@ export const processVariacaoPosicao = (
           : 0;
       });
   
-      processedData.push(anoData);
+      processedData.push(anoData as any);
     });
   
     return processedData;

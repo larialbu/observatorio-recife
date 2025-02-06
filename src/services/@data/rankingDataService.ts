@@ -36,7 +36,7 @@ export class RankingDataService {
     }
 
     // Aplica os filtros aos dados de cada ano sem interferir no ano selecionado
-    const filteredData: Record<string, any[]> = {};
+    const filteredData: Record<string, any> = {};
     Object.keys(geralDataByYear).forEach((year) => {
       // Aplica filtros apenas aos dados do ano específico
       filteredData[year] = applyGenericFilters(geralDataByYear[year], {
@@ -76,7 +76,7 @@ export class RankingDataService {
     }
   
     // Aplica os filtros aos dados de cada ano sem interferir no ano selecionado
-    const filteredData: Record<string, any[]> = {};
+    const filteredData: Record<string, any> = {};
     Object.keys(dimensaoDataByYear).forEach((year) => {
       // Aplica filtros apenas aos dados do ano específico
       filteredData[year] = applyGenericFilters(dimensaoDataByYear[year], {
@@ -136,7 +136,7 @@ export class RankingDataService {
     }
 
     // Aplica os filtros aos dados de cada ano sem interferir no ano selecionado
-    const filteredData: Record<string, any[]> = {};
+    const filteredData: Record<string, any> = {};
     Object.keys(indicadorDataByYear).forEach((year) => {
       // Aplica filtros apenas aos dados do ano específico
       filteredData[year] = applyGenericFilters(indicadorDataByYear[year], {
@@ -197,7 +197,7 @@ export class RankingDataService {
     }
 
     // Aplica os filtros aos dados de cada ano sem interferir no ano selecionado
-    const filteredData: Record<string, any[]> = {};
+    const filteredData: Record<string, any> = {};
     Object.keys(pilarDataByYear).forEach((year) => {
       // Aplica filtros apenas aos dados do ano específico
       filteredData[year] = applyGenericFilters(pilarDataByYear[year], {
