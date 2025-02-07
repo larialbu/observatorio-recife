@@ -8,6 +8,7 @@ import "../styles/home/style.scss";
 import "../styles/explore/style.scss";
 import { Modal } from "@/components/fontes/Modal"; // Novo componente Modal
 import { SourcesCard } from "@/components/fontes/SourcesCard"; // Novo componente para os cards
+import { Zenitho, Lumiflex } from "uvcanvas";
 
 interface Sources {
   name: string;
@@ -113,14 +114,11 @@ export default function SourcesPage() {
       <section className="relative w-full min-h-[70vh] flex flex-col items-center justify-center text-white">
         {/* Background e Ondas */}
         <div className="absolute inset-0">
-          <div className="bg-gradient-to-r from-cyan-500 via-blue-600 to-blue-800 w-full h-full opacity-90 dark:from-cyan-600 dark:via-blue-800 dark:to-blue-900" />
-          <svg
-            className="absolute bottom-0 left-0 w-full pointer-events-none fill-white"
-            viewBox="0 0 1440 320"
-          >
-            <path fillOpacity="0.5" d="M0,224L1440,288L1440,320L0,320Z" />
-          </svg>
+          <div className="hue-rotate-[170deg]">
+            <Zenitho />
+          </div>
         </div>
+
 
         {/* Título e Descrição */}
         <div className="relative z-10 max-w-4xl text-center px-4 __title">

@@ -24,7 +24,8 @@
     "sass": "^1.80.4",
     "sortablejs": "^1.15.6",
     "style-loader": "^4.0.0",
-    "thrift": "^0.13.0-hotfix.1"
+    "thrift": "^0.13.0-hotfix.1",
+    "uvcanvas": "^0.2.2"
   },
   "devDependencies": {
     "@types/node": "^20",
