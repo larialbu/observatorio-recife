@@ -18,11 +18,13 @@ export const portoGeralFilters = {
         selected: []
       },
       {
-        label: "Porto Atracação", // O Mês será preenchido dinamicamente
+        label: "Porto Atracação",
         options: [], // Deixe vazio para preencher com base nos dados
+        // selected: []
+        // selected: ["Vitória"]
         selected: ['Recife']
       },
-      {
+      { 
         label: "Ação", // O Mês será preenchido dinamicamente
         options: [], // Deixe vazio para preencher com base nos dados
         selected: []

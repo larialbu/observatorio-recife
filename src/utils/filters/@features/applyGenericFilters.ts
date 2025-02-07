@@ -4,25 +4,11 @@ export const applyGenericFilters = (data: any[], filters: Record<string, any>, n
 
   const yearFilter = filters.year || "2024";
 
-  // 1) "datasetParaOptions": Filtramos SÓ por ano (opcional).
-  //    Assim as 'options' terão todos os aeroportos do ano selecionado,
-  //    independente de ter marcado "Recife" ou não.
-  const datasetParaOptions = data.filter((item) => {
-    // Se você quiser ignorar até o ano, remova esse if
-    if (item["ANO"] !== yearFilter && item["Ano"] !== yearFilter) {
-      return false;
-    }
-    return true;
-  });
 
   // 2) "filteredData": Filtra por ano + additionalFilters selecionados.
   //    Isso afeta só a exibição final, não as 'options'.
   const filteredData = data.filter((item) => {
-    // Filtra por ano
-    if (item["ANO"] !== yearFilter && item["Ano"] !== yearFilter && !noData) {
-      return false;
-    }
-
+  
     // Aqui, se 'filters.additionalFilters' tiver “Recife” selecionado em “AEROPORTO NOME”,
     // filtramos. Assim, o dataset final mostra só Recife, mas as options mostram todos.
     if (filters.additionalFilters) {
@@ -38,13 +24,13 @@ export const applyGenericFilters = (data: any[], filters: Record<string, any>, n
     return true;
   });
 
-  // 3) Montamos 'additionalFiltersOptions' a partir de 'datasetParaOptions',
+  // 3) Montamos 'additionalFiltersOptions' a partir de 'data',
   //    ou seja, pega TODOS os aeroportos (outra label) do ano, sem restringir pela seleção
   const additionalFiltersOptions =
     filters.additionalFilters?.map((f: any) => {
-      // Pegamos todos os valores (ex.: todos aeroportos) no datasetParaOptions
+      // Pegamos todos os valores (ex.: todos aeroportos) no data
       const uniqueValues = Array.from(
-        new Set(datasetParaOptions.map((item) => item[f.label]))
+        new Set(data.map((item) => item[f.label]))
       )
         .filter((v) => v != null)
         // **Exclui as opções fixas**
@@ -54,10 +40,10 @@ export const applyGenericFilters = (data: any[], filters: Record<string, any>, n
     }) || [];
 
   console.log("filteredData (exibição final):", filteredData);
-  console.log("datasetParaOptions (para combos):", datasetParaOptions);
+  console.log("data (para combos):", data);
   console.log("additionalFiltersOptions:", additionalFiltersOptions);
 
   // Retornamos o "filteredData" pra exibir no gráfico ou tabela,
-  // mas as 'options' vêm de 'datasetParaOptions'.
+  // mas as 'options' vêm de 'data'.
   return { filteredData, additionalFiltersOptions };
 };

@@ -16,6 +16,7 @@ import { rankingPilarFilters } from "@/utils/filters/ranking/rankingPilarFilters
 import { rankingIndicadorFilters } from "@/utils/filters/ranking/rankingIndicadorFilters";
 import { anacComparativoFilters } from "@/utils/filters/aeroporto/anacComparativoFilters";
 import { portoGeralFilters } from "@/utils/filters/porto/portoGeralFilters";
+import { balancaComercialAnaliticoFilters } from "@/utils/filters/balanca-comercial/balancaComercialAnaliticoFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 export const routeFiltersMap: Record<
@@ -60,7 +61,7 @@ export const routeFiltersMap: Record<
       ...balancaComercialFilters,
     },
     analitico: {
-      ...balancaComercialFilters
+      ...balancaComercialAnaliticoFilters
     },
   },
 

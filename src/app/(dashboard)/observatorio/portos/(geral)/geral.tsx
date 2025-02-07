@@ -26,25 +26,25 @@ console.log('GERAL - 0 -', data)
 
   return (
     <div>
-      <div className="flex flex-wrap gap-4 justify-center mb-8">
+      {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Loading...</div>} key={index}>
-            {/* <Component data={data} year={year} color={ColorPalette.default[index]} /> */}
+            <Component data={data} year={year} color={ColorPalette.default[index]} />
           </React.Suspense>
         ))}
-      </div>
+      </div> */}
 
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 place-items-center">
         {chartOrder.map((index) => {
-          // const { Component } = charts[index];
+          const { Component } = charts[index];
           return (
             <div
               key={index}
               className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center"
             >
-              {/* <React.Suspense fallback={<GraphSkeleton />}>
+              <React.Suspense fallback={<GraphSkeleton />}>
                 <Component data={data}  months={months} />
-              </React.Suspense> */}
+              </React.Suspense>
             </div>
           );
         })}

@@ -40,19 +40,21 @@ export class PortoDataService {
         portoService.fetchMercadoriaDictionary(),
       ]);
 
+      // console.log('FFIILSTES', atracacao, filters, applyGenericFilters(atracacao, filters, true))
+
       // const atracacaoFiltered = applyGenericDictionary(atracacao, atracacaoDictionary[0]) 
       // const cargaFiltered =  applyGenericDictionary(carga, cargaDictionary[0]) 
       // console.log('FILTERS - 1- ', filters, applyGenericDictionary(carga, cargaDictionary[0]) )
-      const atracacaoFiltered = applyGenericFilters(applyGenericDictionary(atracacao, atracacaoDictionary[0]), filters)
+      // const atracacaoFiltered = applyGenericFilters(applyGenericDictionary(atracacao, atracacaoDictionary[0]), filters)
+      const atracacaoFiltered = applyGenericFilters(atracacao, filters, true)
       // const cargaFiltered = applyGenericFilters(applyGenericDictionary(carga, cargaDictionary[0]), filters, true)
-      const cargaFiltered = applyGenericDictionary(carga, cargaDictionary[0])
+      const cargaFiltered = carga
 
       //   console.log('FETCHEEDs', {
       //   atracacao: atracacao,
       //   carga: carga,
       //   dictionaries:{ atracacao: atracacaoDictionary[0], carga: cargaDictionary[0], origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary}
       // })
-      console.log('FFIILSTES', filters)
       
       console.log('FETCHEEDs', {
         atracacao: atracacaoFiltered,
