@@ -1,4 +1,4 @@
-export const applyGenericFilters = (data: any[], filters: Record<string, any>) => {
+export const applyGenericFilters = (data: any[], filters: Record<string, any>, noData:boolean = false) => {
   console.log("Dados brutos:", data);
   console.log("Filtros aplicados:", filters);
 
@@ -19,7 +19,7 @@ export const applyGenericFilters = (data: any[], filters: Record<string, any>) =
   //    Isso afeta só a exibição final, não as 'options'.
   const filteredData = data.filter((item) => {
     // Filtra por ano
-    if (item["ANO"] !== yearFilter && item["Ano"] !== yearFilter) {
+    if (item["ANO"] !== yearFilter && item["Ano"] !== yearFilter && !noData) {
       return false;
     }
 

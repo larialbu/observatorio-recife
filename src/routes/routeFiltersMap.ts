@@ -15,6 +15,7 @@ import { rankingDimensaoFilters } from "@/utils/filters/ranking/rankingDimensaoF
 import { rankingPilarFilters } from "@/utils/filters/ranking/rankingPilarFilters";
 import { rankingIndicadorFilters } from "@/utils/filters/ranking/rankingIndicadorFilters";
 import { anacComparativoFilters } from "@/utils/filters/aeroporto/anacComparativoFilters";
+import { portoGeralFilters } from "@/utils/filters/porto/portoGeralFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 export const routeFiltersMap: Record<
@@ -29,10 +30,10 @@ export const routeFiltersMap: Record<
     },
 
     "/observatorio/portos": {
-      geral: defaultFilters,
-      operacao: defaultFilters,
-      comparativo: defaultFilters,
-      passageiros: defaultFilters,
+      geral: portoGeralFilters,
+      operacao: portoGeralFilters,
+      comparativo: portoGeralFilters,
+      passageiros: portoGeralFilters,
       // etc. Se quiser mesmo service, ok
     },
 

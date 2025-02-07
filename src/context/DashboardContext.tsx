@@ -61,11 +61,9 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       setData(fetched);
 
       // Se vier additionalFiltersOptions (geral, passageiros...), mesclar
-      console.log('FETCHEEEEED', fetched, Object.keys(fetched));
+      // console.log('FETCHEEEEED', fetched, Object.keys(fetched));
       // to pegando a key automatica agora
-      const newAdditional =
-      fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions ||
-      [];
+      const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
 
 
       if (newAdditional.length) {

@@ -9,15 +9,16 @@ import { SortableDiv } from "@/components/@global/features/SortableDiv";
 
 const Geral = ({
   data,
-  rawData,
-  year,
+  // year,
   months,
 }: {
   data: any;
-  rawData: any;
-  year: string;
+  // year: string;
   months: number;
 }) => {
+
+console.log('GERAL - 0 -', data)
+
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
 
   // REF do container e REF da instância do Sortable
@@ -28,22 +29,22 @@ const Geral = ({
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Loading...</div>} key={index}>
-            <Component data={data} year={year} color={ColorPalette.default[index]} />
+            {/* <Component data={data} year={year} color={ColorPalette.default[index]} /> */}
           </React.Suspense>
         ))}
       </div>
 
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 place-items-center">
         {chartOrder.map((index) => {
-          const { Component } = charts[index];
+          // const { Component } = charts[index];
           return (
             <div
               key={index}
               className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center"
             >
-              <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={data} rawData={rawData} months={months} />
-              </React.Suspense>
+              {/* <React.Suspense fallback={<GraphSkeleton />}>
+                <Component data={data}  months={months} />
+              </React.Suspense> */}
             </div>
           );
         })}

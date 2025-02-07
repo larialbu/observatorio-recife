@@ -55,16 +55,21 @@ export class PortoData {
 
         data = JSON.parse(decompressedData); // Converte o JSON descompactado para objeto
       } else if (contentType?.includes("application/octet-stream")) {
-          const arrayBuffer = await response.arrayBuffer();
-          
-          const records = await new Promise<any[]>((resolve, reject) => {
-            parquetRead({
-              file: arrayBuffer,
-              onComplete: (data) => {
-                resolve(data);
-              },
-            });
+        const startTime = performance.now();
+
+        const arrayBuffer = await response.arrayBuffer();
+        
+        const records = await new Promise((resolve, reject) => {
+          parquetRead({
+            file: arrayBuffer,
+            rowFormat: 'object',
+            onComplete: (data) => resolve(data),
           });
+        });
+        
+        const endTime = performance.now();
+        console.log(`Tempo de execução: ${(endTime - startTime).toFixed(2)} ms`);
+      
 
        data = records;
       } else {
