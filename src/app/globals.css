@@ -16,10 +16,6 @@
   font-family: "Poppins", sans-serif;
 }
 
-/* body{
-  line-height: 0.5;
-} */
-
 .capture_div {
   line-height: normal !important;
 }
@@ -167,4 +163,15 @@
 
 .animate-progress {
   animation: progressIndeterminate 1.5s ease-in-out infinite;
+}
+
+/* SVG WAVE HOME PAGE*/
+:root {
+  --svg-gradient-start: #eff6ff; /* from-blue-50 (modo claro) */
+  --svg-gradient-end:   #dbeafe; /* to-blue-100 (modo claro) */
+}
+
+.dark {
+  --svg-gradient-start: #2b3a4d; /* from-[#27384b] (modo escuro) */
+  --svg-gradient-end:   #0C1B2B; /* to-[#0C1B2B] (modo escuro) */
 }

@@ -10,7 +10,7 @@ interface SourcesCardProps {
   onClick: () => void;
 }
 
-export const SourcesCard: React.FC<SourcesCardProps> = ({
+ export const SourcesCard: React.FC<SourcesCardProps> = ({
   collaborator,
   onClick,
 }) => (
