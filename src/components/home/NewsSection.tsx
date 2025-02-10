@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
 interface NewsItem {
@@ -87,7 +88,7 @@ function NewsSection() {
   };
 
   return (
-    <div className="relative bg-gradient-to-b from-blue-50 to-blue-100 dark:from-[#27384b] dark:to-[#0C1B2B] py-12 px-6 mt-16">
+    <div className="relative bg-gradient-to-b from-blue-50 to-blue-100 dark:from-[#27384b] dark:to-[#0C1B2B] py-12 px-6">
       <div className="max-w-7xl mx-auto relative">
         <h2 className="text-4xl font-bold text-center mb-8 text-gray-800 dark:text-white">
           Últimas Notícias
@@ -126,7 +127,7 @@ function NewsSection() {
                 >
                   <div
                     onClick={() => window.open(news.link, "_blank")}
-                    className="flex flex-col h-full bg-white hover:bg-gray-200 dark:bg-[#142b42] dark:hover:bg-[#21466b] shadow-lg rounded-lg overflow-hidden"
+                    className="flex flex-col h-full bg-white hover:bg-gray-200 dark:bg-[#142b42] dark:hover:bg-[#21466b] rounded-lg overflow-hidden"
                     style={{ cursor: "pointer" }}
                   >
                     <img
@@ -144,13 +145,16 @@ function NewsSection() {
                       <div className="absolute bottom-[3em] text-gray-500 dark:text-gray-400 text-xs mb-4 w-[max-content]">
                         {news.date}
                       </div>
-                      <a
+                      <Link
                         href={news.link}
-                        className="text-[#0155AE] dark:text-[#EC6625] font-semibold hover:underline mt-auto"
+                        className="text-[#0155AE] dark:text-[#EC6625] font-semibold hover:underline mt-auto flex items-center gap-[4px]"
                         target="_blank"
                       >
-                        Ler mais →
-                      </a>
+                        Ler mais
+                        <svg className="fill-[#0155AE] dark:fill-[#EC6625]" height="13px" width="13px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 330">
+                          <path id="XMLID_222_" d="M250.606,154.389l-150-149.996c-5.857-5.858-15.355-5.858-21.213,0.001  c-5.857,5.858-5.857,15.355,0.001,21.213l139.393,139.39L79.393,304.394c-5.857,5.858-5.857,15.355,0.001,21.213  C82.322,328.536,86.161,330,90,330s7.678-1.464,10.607-4.394l149.999-150.004c2.814-2.813,4.394-6.628,4.394-10.606  C255,161.018,253.42,157.202,250.606,154.389z"/>
+                        </svg>
+                      </Link>
                     </div>
                   </div>
                 </div>

@@ -9,10 +9,9 @@ export const SocialIconsContainer = () => {
   };
 
   return (
-    <div className={`flex items-center flex-col gap-3 fixed right-[-5px] top-[450px] w-20 transition duration-500 transform scale-[80%] sm:scale-[80%] md:scale-100 lg:scale-100 z-[100] sm:right-[29px] sm:top-[580px] ${
+    <div className={`flex items-center flex-col gap-3 fixed right-[-5px] top-[500px] w-20 transition duration-500 transform scale-[80%] sm:scale-[80%] md:scale-100 lg:scale-100 z-[100] sm:right-[29px] sm:top-[480px] md:top-[500px] lg:top-[600px] ${
       isVisible ? "pointer-events-auto" : "pointer-events-none"
     }`}>
-      {/* Contêiner dos ícones sociais */}
       <div
         className={`transition-all duration-500 flex flex-col gap-3 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-6 pointer-events-none"
