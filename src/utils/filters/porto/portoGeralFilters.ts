@@ -10,7 +10,6 @@ export const portoGeralFilters = {
         label: "Município", // O Mês será preenchido dinamicamente
         options: [], // Deixe vazio para preencher com base nos dados
         selected: []
-        // selected: ['Recife']
       },
       {
         label: "SGUF", // O Mês será preenchido dinamicamente
@@ -20,8 +19,6 @@ export const portoGeralFilters = {
       {
         label: "Porto Atracação",
         options: [], // Deixe vazio para preencher com base nos dados
-        // selected: []
-        // selected: ["Vitória"]
         selected: ['Recife']
       },
       { 
@@ -29,12 +26,6 @@ export const portoGeralFilters = {
         options: [], // Deixe vazio para preencher com base nos dados
         selected: []
       },
-    //   {
-    //     label: "Capital",
-    //     options: [],
-    //     selected: ["Recife"],
-    //     fixed: ["Brasil"]
-    //   }
     ],
   };
   

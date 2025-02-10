@@ -1,8 +1,9 @@
 
 import { PortoData } from "@/@api/http/to-charts/porto/PortoData";
-import { getRawData } from "@/utils/filters/@data/getRawData";
-import { applyGenericDictionary } from "@/utils/filters/@features/applyGenericDictionary";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
+import { setDataHeaders } from "@/utils/filters/@features/setDataHeaders";
+import { atracacaoHeader } from "@/utils/headers/porto/atracacaoHeader";
+import { cargaHeader } from "@/utils/headers/porto/cargaHeader";
 
 export class PortoDataService {
   private static instance: PortoDataService;
@@ -39,27 +40,26 @@ export class PortoDataService {
         portoService.fetchDestinoDictionary(),
         portoService.fetchMercadoriaDictionary(),
       ]);
-
-      // console.log('FFIILSTES', atracacao, filters, applyGenericFilters(atracacao, filters, true))
-
-      // const atracacaoFiltered = applyGenericDictionary(atracacao, atracacaoDictionary[0]) 
-      // const cargaFiltered =  applyGenericDictionary(carga, cargaDictionary[0]) 
-      // console.log('FILTERS - 1- ', filters, applyGenericDictionary(carga, cargaDictionary[0]) )
-      // const atracacaoFiltered = applyGenericFilters(applyGenericDictionary(atracacao, atracacaoDictionary[0]), filters)
-      const atracacaoFiltered = applyGenericFilters(atracacao, filters, true)
-      // const cargaFiltered = applyGenericFilters(applyGenericDictionary(carga, cargaDictionary[0]), filters, true)
-      const cargaFiltered = carga
-
-      //   console.log('FETCHEEDs', {
-      //   atracacao: atracacao,
-      //   carga: carga,
-      //   dictionaries:{ atracacao: atracacaoDictionary[0], carga: cargaDictionary[0], origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary}
-      // })
       
-      console.log('FETCHEEDs', {
-        atracacao: atracacaoFiltered,
-        carga: cargaFiltered,
-        dictionaries:{ atracacao: atracacaoDictionary[0], carga: cargaDictionary[0], origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary}
+      const atracacaoHeaderData = setDataHeaders({
+        data: atracacao,
+        header: atracacaoHeader
+      })
+
+
+      const cargaHeaderData = setDataHeaders({
+        data: carga,
+        header: cargaHeader
+      })
+
+      const atracacaoFiltered = applyGenericFilters(atracacaoHeaderData, filters, true)
+
+      const codCDTUP = atracacaoFiltered.filteredData[0]['CDTUP']
+    
+      const cargaFiltered = cargaHeaderData.filter((item) => {
+        if (item.Origem === codCDTUP || item.Destino === codCDTUP) {
+          return item
+        }
       })
 
     return {
@@ -79,16 +79,13 @@ export class PortoDataService {
     if (this.dataCache[cacheKey]) {
       return this.dataCache[cacheKey];
     }
-  
-    let data = await this.fetchPortoData(filters);
 
-
-    // let data;
-    // if (tab === "aena") {
-    //   data = await this.fetchPortoData(filters);
-    // } else {
-    // //   data = await this.fetchAnacData(filters);
-    // }
+    let data;
+    if (tab === "geral") {
+      data = await this.fetchPortoData(filters);
+    } else {
+      data = await this.fetchPortoData(filters)
+    }
   
     this.dataCache[cacheKey] = data;
     return data;

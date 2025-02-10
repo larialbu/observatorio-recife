@@ -6,14 +6,10 @@ import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
-import Embarque from "./(embarque)/embarque";
+import Operacao from "./(embarque)/operacao";
 import AenaPage from "./(aena)/aena";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
-import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorAcao";
-import { processAtracacoesPorCarga } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoProdutos";
-import { processAtracacoesPorMes } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorMes";
-import { processarCargasPorTipo } from "@/functions/process_data/observatorio/porto/operacao/cards/portosCargasTotalizadores";
 
 const PortosPage = () => {
   const searchParams = useSearchParams();
@@ -34,41 +30,14 @@ const PortosPage = () => {
     }, [searchParams, activeTab]);
 
   useEffect(() => {
-      // console.log("Dados recebidos:", data);
-  
       if (data) {
-        // Extraindo os dados de passageiros e cargas
-        // const anacData = data.geral || {};
-  
-        // const portoData = {
-        //   atracacao: data?.atracacao?.filteredData,
-        //   carga: data?.carga?.filteredData,
-        //   ...data
-        // }
-
         const portoData = {
           ...data,
           atracacao: data?.atracacao?.filteredData,
           carga: data?.carga,
         }
 
-        // console.log('ATRACACAA', data?.atracacao?.filteredData)
-        console.log('PORTODATA ___---___', portoData)
-        console.log('dfdfnj', portoData.atracacao, portoData.carga)
-        // console.log('GRAFICO 1 de pizza', prepareCargasPorAcaoData(portoData.atracacao, portoData.carga))
-        // console.log('GRAFICO 2 de tabela', processAtracacoesPorCarga(portoData.atracacao, portoData.carga))
-        // console.log('GRAFICO 3 de LINHA', processAtracacoesPorMes(portoData.atracacao, portoData.carga))
-
-        // console.log('OPERACAO CARDS', processarCargasPorTipo(portoData.atracacao, portoData.carga))
-
         setPorto(portoData)
-
-        // setPorto(anacData.filteredData || []);
-  
-        // console.log('AAA_M', data)
-
-        // console.log("Dados filtrados - Anac:", anac);
-        // console.log(filters.additionalFilters[4]);
       }
     }, [data]);
   
@@ -96,9 +65,10 @@ const PortosPage = () => {
         months={getMonths(filters)}
       />;
     case "embarque":
-      return <Embarque 
-        data={porto || []}
-        toCompare={filters.additionalFilters[4]?.selected}
+      return <Operacao 
+        data={porto || {}}
+        months={getMonths(filters)}
+        // toCompare={filters.additionalFilters[4]?.selected}
       />;
     case "aena":
       return <AenaPage months={getMonths(filters)} />;

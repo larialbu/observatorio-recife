@@ -1,4 +1,3 @@
-import pako from "pako";
 import { parquetRead } from "hyparquet";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -42,19 +41,7 @@ export class PortoData {
 
       let data: T;
 
-      if (contentType?.includes("application/gzip")) {
-        // Se for .gz, descompacta os dados
-        const arrayBuffer = await response.arrayBuffer();
-        const uint8Array = new Uint8Array(arrayBuffer);
-
-        // Log do conteúdo bruto (primeiros bytes)
-        // console.log("Primeiros 100 bytes recebidos:", uint8Array.slice(0, 100));
-
-        const decompressedData = pako.inflate(uint8Array, { to: "string" });
-        // console.log("Dados descompactados:", decompressedData); // Log dos dados descompactados
-
-        data = JSON.parse(decompressedData); // Converte o JSON descompactado para objeto
-      } else if (contentType?.includes("application/octet-stream")) {
+       if (contentType?.includes("application/octet-stream")) {
         const startTime = performance.now();
 
         const arrayBuffer = await response.arrayBuffer();
