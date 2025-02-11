@@ -37,6 +37,8 @@ const PortosPage = () => {
           carga: data?.carga,
         }
 
+        console.log('PORTODADAAD', portoData)
+
         setPorto(portoData)
       }
     }, [data]);
@@ -58,17 +60,17 @@ const PortosPage = () => {
       />;
       //FAVOR, EDITAR ESTE TOCOMPARE PARA SER SETTADO COM BASE EM DATA PARA DEPOIS SÓ PRECISAR SETAR O FILTRO DA TAB COMO
       // DEFAULTFILTERS E CONSEGUIR PASSAR SOMENTE O ANO.
+    case "operacao":
+      return <Operacao 
+       data={porto || {}}
+       months={getMonths(filters)}
+          // toCompare={filters.additionalFilters[4]?.selected}
+     />;
     case "comparativo":
       return <Comparativo
         data={porto || []} 
         year={getYearSelected(filters)}
         months={getMonths(filters)}
-      />;
-    case "embarque":
-      return <Operacao 
-        data={porto || {}}
-        months={getMonths(filters)}
-        // toCompare={filters.additionalFilters[4]?.selected}
       />;
     case "aena":
       return <AenaPage months={getMonths(filters)} />;

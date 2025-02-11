@@ -1,5 +1,6 @@
 
 import { PortoData } from "@/@api/http/to-charts/porto/PortoData";
+import { portosCargastotalizadas } from "@/functions/process_data/observatorio/porto/operacao/cards/portosCargastotalizadas";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
 import { setDataHeaders } from "@/utils/filters/@features/setDataHeaders";
 import { atracacaoHeader } from "@/utils/headers/porto/atracacaoHeader";
@@ -61,6 +62,14 @@ export class PortoDataService {
           return item
         }
       })
+
+      console.log('FEETCHEDD!.', {
+        atracacao: atracacaoFiltered,
+        carga: cargaFiltered,
+        dictionaries:{ atracacao: atracacaoDictionary[0], carga: cargaDictionary[0], origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary}
+      })
+
+      console.log('UPGRHPU -a-z-a-v-', portosCargastotalizadas(atracacaoFiltered.filteredData, cargaFiltered))
 
     return {
         atracacao: atracacaoFiltered,

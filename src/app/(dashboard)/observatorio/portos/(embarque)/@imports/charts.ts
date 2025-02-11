@@ -4,7 +4,7 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/porto/geral/MovimentacaoPorTipo"
+        "@/components/@build/observatorio/charts/porto/operacao/OperacaoCargasAno"
       )
     ),
   },
@@ -18,7 +18,14 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/porto/geral/CargasAno"
+        "@/components/@build/observatorio/charts/porto/operacao/PaisesImportados"
+      )
+    ),
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/porto/operacao/PaisesExportados"
       )
     ),
   },
