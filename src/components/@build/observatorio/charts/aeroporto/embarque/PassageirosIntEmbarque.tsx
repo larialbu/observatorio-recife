@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
@@ -12,6 +11,7 @@ const PassageirosIntEmbarque = ({
   title = "Internacional Passageiros",
   colors = ColorPalette.default,
   monthRecent,
+  subText = 'País Destino',
   type
 }: any) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
@@ -38,6 +38,16 @@ const PassageirosIntEmbarque = ({
           widthMultiply={130}
           heightToPass={285}
         />
+        <div className="w-full flex justify-center mt-4">
+          {subText && (
+            <p
+              className="font-medium"
+              style={{ color: colors[1] }} // Aplica a cor dinamicamente
+            >
+              {subText}
+            </p>
+          )}
+        </div>
       </ChartGrabber>
     </div>
   );

@@ -12,6 +12,7 @@ const CargasEmbarqueDom = ({
   title = "Doméstico Cargas (ton)",
   colors = ColorPalette.default,
   monthRecent,
+  subText = 'UF Destino',
   type
 }: any) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
@@ -36,6 +37,16 @@ const CargasEmbarqueDom = ({
           height={400} // Altura do viewport visível para scroll
           barSize={30} // Altura individual de cada barra
         />
+        <div className="absolute -rotate-90 top-[50%]">
+          {subText && (
+            <p
+              className="font-medium"
+              style={{ color: colors[6] }} // Aplica a cor dinamicamente
+            >
+              {subText}
+            </p>
+          )}
+        </div>
       </ChartGrabber>
     </div>
   );
