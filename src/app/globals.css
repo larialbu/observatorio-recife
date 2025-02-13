@@ -175,3 +175,33 @@
   --svg-gradient-start: #2b3a4d; /* from-[#27384b] (modo escuro) */
   --svg-gradient-end:   #0C1B2B; /* to-[#0C1B2B] (modo escuro) */
 }
+
+.leaflet-container{
+  z-index: 0 !important;
+  filter:saturate(1.5) hue-rotate(10deg);
+}
+
+/* Estiliza o balão do popup */
+.leaflet-popup-content-wrapper {
+  background: #f8f9fa !important; /* Cinza claro para um tom mais suave */
+  color: #333; /* Cor do texto */
+  font-family: Arial, sans-serif;
+  border-radius: 12px; /* Bordas mais arredondadas */
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
+  padding: 12px;
+  border: 2px solid #0077cc; /* Borda azul */
+}
+
+/* Estiliza a "frestinha" do balão */
+.leaflet-popup-tip-container {
+}
+
+/* OU: Se quiser apenas mudar a cor da flecha */
+.leaflet-popup-tip {
+  background: #0077cc !important; /* Mesma cor da borda do balão */
+}
+
+.leaflet-control-attribution{
+  display: inline-flex;
+  width: max-content;
+}

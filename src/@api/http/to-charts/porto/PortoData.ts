@@ -128,6 +128,11 @@ export class PortoData {
     return this.fetchData<any[]>(endpoint);
   }
 
+  async fetchCoordinates(): Promise<any[]> {
+    const endpoint= `/porto/charts/coords/${this.year}`
+    return this.fetchData<any[]>(endpoint);
+  }
+
   /**
    * Limpa o cache de dados.
    */

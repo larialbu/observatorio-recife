@@ -31,7 +31,7 @@ export class PortoDataService {
   private async fetchPortoData(filters: Record<string, any>) {
     const portoService = new PortoData(this.currentYear);
 
-    const [atracacao, carga, atracacaoDictionary, cargaDictionary, origemDictionary, destinoDictionary, mercadoriaDictionary] = await Promise.all([
+    const [atracacao, carga, atracacaoDictionary, cargaDictionary, origemDictionary, destinoDictionary, mercadoriaDictionary, coords] = await Promise.all([
         portoService.fetchAtracacaoPorAno(),
         portoService.fetchCargaPorAno(),
         portoService.fetchAtracacaoDictionaryPorAno(),
@@ -39,6 +39,7 @@ export class PortoDataService {
         portoService.fetchOrigemDictionary(),
         portoService.fetchDestinoDictionary(),
         portoService.fetchMercadoriaDictionary(),
+        portoService.fetchCoordinates(),
       ]);
       
       const atracacaoHeaderData = setDataHeaders({
@@ -58,15 +59,18 @@ export class PortoDataService {
     
       const cargaFiltered = cargaHeaderData.filter((item) => {
         if (item.Origem === codCDTUP || item.Destino === codCDTUP) {
-          return item
+          return item;
         }
       })
+
+      console.log(coords)
 
     return {
         atracacao: atracacaoFiltered,
         carga: cargaFiltered,
         rawData: { atracacao: atracacaoHeaderData, carga: cargaHeaderData},
-        dictionaries:{ atracacao: atracacaoDictionary[0], carga: cargaDictionary[0], origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary}
+        dictionaries:{ atracacao: atracacaoDictionary[0], carga: cargaDictionary[0], origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary},
+        coords: coords,
       };
   }
 
