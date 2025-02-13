@@ -12,6 +12,7 @@ const DecolagensIntEmbarque = ({
   title = "Internacional Decolagens",
   colors = ColorPalette.default,
   monthRecent,
+  subText = 'País Destino',
   type
 }: any) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
@@ -38,6 +39,16 @@ const DecolagensIntEmbarque = ({
           widthMultiply={130}
           heightToPass={285}
         />
+        <div className="w-full flex justify-center mt-4">
+          {subText && (
+            <p
+              className="font-medium"
+              style={{ color: colors[1] }} // Aplica a cor dinamicamente
+            >
+              {subText}
+            </p>
+          )}
+        </div>
       </ChartGrabber>
     </div>
   );
