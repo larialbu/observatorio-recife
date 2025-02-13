@@ -15,9 +15,6 @@ const PaisesImportados = ({
 
   const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao, data.carga, 'importacao'), data.dictionaries.origem, 'Origem')
 
-//   const chartData = processAtracacoesPorCarga(data.atracacao, data.carga)
-  console.log('CAHARTDATA -0-0-0-0--', chartData)
-
   return (
     <div className="relative bg-white w-full p-4">
       <ChartGrabber>

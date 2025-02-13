@@ -1,5 +1,4 @@
 export const processCargasLongoCurso = (atracacoes: any[], cargas: any[], type: 'importacao' | 'exportacao') => {
-    // console.log('DAD', atracacoes, cargas);
 
     // Define o tipo de operação
     const tipoOperacao = type === 'importacao' ? "Longo Curso Importação" : "Longo Curso Exportação";

@@ -1,6 +1,5 @@
 
 import { PortoData } from "@/@api/http/to-charts/porto/PortoData";
-import { portosCargastotalizadas } from "@/functions/process_data/observatorio/porto/operacao/cards/portosCargastotalizadas";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
 import { setDataHeaders } from "@/utils/filters/@features/setDataHeaders";
 import { atracacaoHeader } from "@/utils/headers/porto/atracacaoHeader";
@@ -62,18 +61,6 @@ export class PortoDataService {
           return item
         }
       })
-
-      // talez adicionar o filtro de operação nos dados de carga 
-      // console.log('TESTANDO MAIS DE UM FILTRO :0> é pra pegar filtro de operação', applyGenericFilters(cargaHeaderData, filters))
-
-      console.log('FEETCHEDD!.', {
-        atracacao: atracacaoFiltered,
-        carga: cargaFiltered,
-        rawData: { atracacao: atracacaoHeaderData, carga: cargaHeaderData},
-        dictionaries:{ atracacao: atracacaoDictionary[0], carga: cargaDictionary[0], origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary}
-      })
-
-      // console.log('UPGRHPU -a-z-a-v-', portosCargastotalizadas(atracacaoFiltered.filteredData, cargaFiltered))
 
     return {
         atracacao: atracacaoFiltered,

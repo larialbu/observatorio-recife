@@ -35,7 +35,6 @@ export class AeroportoData {
       }
 
       const data = await response.json();
-      console.log("Resposta JSON recebida:", data);
 
       AeroportoData.cache[endpoint] = data;
 

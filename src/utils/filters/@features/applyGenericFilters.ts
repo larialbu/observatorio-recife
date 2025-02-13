@@ -1,6 +1,4 @@
 export const applyGenericFilters = (data: any[], filters: Record<string, any>, noData:boolean = false) => {
-  console.log("Dados brutos:", data);
-  console.log("Filtros aplicados:", filters);
 
   const yearFilter = filters.year || "2024";
 
@@ -38,10 +36,6 @@ export const applyGenericFilters = (data: any[], filters: Record<string, any>, n
 
       return { ...f, options: uniqueValues };
     }) || [];
-
-  console.log("filteredData (exibição final):", filteredData);
-  console.log("data (para combos):", data);
-  console.log("additionalFiltersOptions:", additionalFiltersOptions);
 
   // Retornamos o "filteredData" pra exibir no gráfico ou tabela,
   // mas as 'options' vêm de 'data'.

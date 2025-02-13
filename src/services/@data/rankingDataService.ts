@@ -16,7 +16,7 @@ export class RankingDataService {
   }
 
   public setYear(year: string) {
-    console.log(year)
+    
     this.currentYear = year;
   }
 
@@ -59,7 +59,7 @@ export class RankingDataService {
       additionalFiltersOptions,
     };
 
-    console.log(geral);
+    
 
     return { geral }; // Retorna os dados no formato especificado
   }
@@ -116,7 +116,7 @@ export class RankingDataService {
       additionalFiltersOptions, // Opções de filtros adicionais
     };
   
-    console.log(dimensao);
+    
   
     // Retornando os dados no formato especificado
     return { dimensao };
@@ -146,7 +146,7 @@ export class RankingDataService {
     });
 
     const indicadorFilter = Object.values(filters.additionalFilters).find((item: any) => item.label === "Indicador") as any;
-    console.log('ADPIFJSDOIFFOIÇJ', indicadorFilter.selected);
+    
 
 
 
@@ -159,15 +159,15 @@ export class RankingDataService {
         // Verifica se o valor de indicador no rawData corresponde ao que foi selecionado
         return selectedindicador.includes(data.Indicador); // Verifique se selectedindicador é um array
       });
-      console.log('ROWDATAFUNC111 sdfsdf', indicadorDataByYear[this.currentYear])
-      console.log('ROWDATAFUNC1111', rawData)
+      
+      
     } else {
       rawData = indicadorDataByYear[this.currentYear] || []; // Caso não tenha filtro, retorna todos os dados do ano
-      console.log('ROWDATAFUNC222', rawData)
+      
     }
 
     // Definindo os dados brutos para o ano selecionado e filtrando com base no indicador
-    console.log(rawData);
+    
 
     // Aplicando filtros adicionais
     const additionalFiltersOptions = applyGenericFilters(indicadorDataByYear[this.currentYear], filters).additionalFiltersOptions;
@@ -179,7 +179,7 @@ export class RankingDataService {
       additionalFiltersOptions
     };
 
-    console.log(indicador);
+    
 
     // Retornando os dados no formato especificado
     return { indicador };
@@ -207,7 +207,7 @@ export class RankingDataService {
     });
 
     const pilarFilter = Object.values(filters.additionalFilters).find((item: any) => item.label === "Pilar") as any;
-    console.log(pilarFilter.selected);
+    
 
     // Declare rawData fora da condicional
     let rawData = [];
@@ -223,7 +223,7 @@ export class RankingDataService {
     }
 
     // Definindo os dados brutos para o ano selecionado e filtrando com base no Pilar
-    console.log(rawData);
+    
 
     // Aplicando filtros adicionais
     const additionalFiltersOptions = applyGenericFilters(pilarDataByYear[this.currentYear], filters).additionalFiltersOptions;
@@ -235,7 +235,7 @@ export class RankingDataService {
       additionalFiltersOptions
     };
 
-    console.log(pilar);
+    
 
     // Retornando os dados no formato especificado
     return { pilar };

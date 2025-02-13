@@ -31,7 +31,6 @@ const AeroportosPage = () => {
     }, [searchParams, activeTab]);
 
   useEffect(() => {
-    console.log("Dados recebidos:", data);
 
     if (data) {
       // Extraindo os dados de passageiros e cargas
@@ -41,8 +40,6 @@ const AeroportosPage = () => {
       setAnac(anacData.filteredData || []);
       setAnacRawData(anacData.rawData)
 
-      console.log("Dados filtrados - Anac:", anac);
-      console.log(filters.additionalFilters[4]);
     }
   }, [data]);
 

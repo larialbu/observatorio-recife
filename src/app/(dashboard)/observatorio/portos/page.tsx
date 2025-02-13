@@ -37,8 +37,6 @@ const PortosPage = () => {
           carga: data?.carga,
         }
 
-        console.log('PORTODADAAD -0--------0-0-0-s', portoData)
-
         setPorto(portoData)
       }
     }, [data]);

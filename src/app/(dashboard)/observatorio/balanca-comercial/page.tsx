@@ -50,7 +50,6 @@ const BalancaComercialPage = () => {
     // Obs.: assumindo que "data.geral" é onde estão os registros filtrados
     // ou outra estrutura. Ajuste se for "data.filteredData", etc.
     const geralData = data.geral?.filteredData || [];
-    console.log(filters.additionalFilters)
 
     switch (activeTab) {
       case "analitico":

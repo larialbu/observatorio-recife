@@ -15,8 +15,6 @@ const PaisesExportados = ({
 
   const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao, data.carga, 'exportacao'), data.dictionaries.destino, 'Destino')
 
-  console.log('CAHARTDATA -0-0-0-0--Expo', chartData)
-
   return (
     <div className="relative bg-white w-full p-4">
       <ChartGrabber>

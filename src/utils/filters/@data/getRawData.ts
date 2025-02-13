@@ -33,7 +33,6 @@ export const getRawData = async ({applyGenericFilters ,service, nameFunc, curren
   }
 
   // Definindo os dados brutos para o ano selecionado e filtrando com base no indicador
-  console.log(rawData);
 
   return rawData
   }

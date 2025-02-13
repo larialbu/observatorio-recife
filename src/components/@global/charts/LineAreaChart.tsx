@@ -32,7 +32,6 @@ const LineAreaChart = ({
 
     return dataMax / (dataMax - dataMin);
   };
-  console.log(colors)
 
   const customTooltipFormatter = (value: any) => {
     return tooltipFormatter(value, tooltipEntry || "");

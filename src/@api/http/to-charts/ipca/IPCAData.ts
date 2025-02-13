@@ -20,8 +20,6 @@ export class IpcaData {
       return IpcaData.cache[endpoint];
     }
 
-console.log('FETCEHD', BASE_URL, endpoint)
-
     try {
       const response = await fetch(`${BASE_URL}${endpoint}`, {
         method: "GET",
@@ -37,7 +35,6 @@ console.log('FETCEHD', BASE_URL, endpoint)
       }
 
       const data = await response.json();
-      console.log("Resposta JSON recebida:", data);
 
       IpcaData.cache[endpoint] = data;
 

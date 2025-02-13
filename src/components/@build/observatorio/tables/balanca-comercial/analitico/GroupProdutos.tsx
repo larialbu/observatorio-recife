@@ -36,8 +36,6 @@ const GroupProdutos = ({
   const getRows = (values: any) => {
     const rows: string[][] = [];
 
-    console.log();
-
     const formatPercent = (val: number) => {
       let percent;
 
@@ -96,7 +94,7 @@ const GroupProdutos = ({
         searchIndexes={[1, 2]}
         enablePagination={false}
         onClick={(e: any) => {
-          console.log("onCLick", e);
+          
         }}
         color={color}
         headers={header}

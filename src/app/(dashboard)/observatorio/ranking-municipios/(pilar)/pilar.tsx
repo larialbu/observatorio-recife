@@ -21,13 +21,10 @@ const Pilar = ({
   useEffect(() => {
     if (data) {
       const pilarData = data.pilar || {};
-      console.log(data)
 
       setPilarData(pilarData.filteredData || []);
     }
   }, [data]);
-
-  console.log(rawData)
 
   return (
     <div>

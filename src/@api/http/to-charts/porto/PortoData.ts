@@ -37,7 +37,6 @@ export class PortoData {
 
       // Log do cabeçalho Content-Type
       const contentType = response.headers.get("content-type");
-      // console.log(`Content-Type recebido: ${contentType}`);
 
       let data: T;
 
@@ -59,15 +58,12 @@ export class PortoData {
       
 
        data = records;
-       console.log('DDAATAA ---asd',data)
       } else {
         // Caso contrário, trata como JSON normal
         const text = await response.text(); // Lê a resposta como texto para depuração
-        // console.log("Resposta bruta (JSON):", text); // Log da resposta bruta
         data = JSON.parse(text); // Converte para objeto JSON
       }
 
-      // console.log("Resposta JSON recebida:", data);
       PortoData.cache[endpoint] = data;
       return data;
     } catch (error) {

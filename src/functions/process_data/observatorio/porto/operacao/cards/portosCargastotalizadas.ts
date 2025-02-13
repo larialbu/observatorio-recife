@@ -30,7 +30,6 @@ export const portosCargastotalizadas = (atracacoes: any[], cargas: any[]) => {
         operacoesSoma[tipoOperacao].VLPesoCargaBruta += parseInt(carga.VLPesoCargaBruta || "0");
   
         // Soma os totais gerais (sem distinção de operação)
-        console.log('QUANTIDADDE DE VEZES QUE FOI LID O')
         operacoesSoma.total.QTCarga += parseInt(carga.QTCarga || "0");
         operacoesSoma.total.VLPesoCargaBruta += parseInt(carga.VLPesoCargaBruta || "0");
     //   }

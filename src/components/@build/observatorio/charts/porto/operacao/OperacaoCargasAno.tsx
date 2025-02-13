@@ -17,8 +17,6 @@ const OperacaoCargasAno = ({
   const chartData = processAtracacoesPorMes(data.atracacao, data.carga)
 
   const updatedData = updatedMonthChartData(chartData, months);
-
-  console.log('UPDATED +-', updatedData)
    
   return (
     <div className="relative bg-white w-full p-4">

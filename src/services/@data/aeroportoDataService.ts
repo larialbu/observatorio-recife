@@ -40,11 +40,6 @@ export class AeroportoDataService {
     const passageirosFiltered = {...applyGenericFilters(passageiros, filters), rawDataPassageiros};
     const cargasFiltered = {...applyGenericFilters(cargas, filters), rawDataCargas};
 
-    console.log('AENA DATA FIL', {
-      passageiros: passageirosFiltered,
-      cargas: cargasFiltered,
-    })
-
     return {
       passageiros: passageirosFiltered,
       cargas: cargasFiltered,

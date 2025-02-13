@@ -28,16 +28,13 @@ const PibPage = () => {
     }, [searchParams, activeTab]);
 
   useEffect(() => {
-      console.log("Dados recebidos:", data);
   
       if (data) {
         // Extraindo os dados de passageiros e cargas
         const anacData = data.geral || {};
   
         setAnac(anacData.filteredData || []);
-  
-        console.log("Dados filtrados - Anac:", anac);
-        console.log(filters.additionalFilters[4]);
+
       }
     }, [data]);
   

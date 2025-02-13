@@ -38,8 +38,6 @@ const AeroportosPage = () => {
 
       setAnac(anacData.filteredData || []);
 
-      console.log("Dados filtrados - Anac:", anac);
-      console.log(filters?.additionalFilters[4]);
     }
   }, [data]);
 

@@ -13,7 +13,7 @@ const BalInfo = ({
     monthRecent ? `${monthRecent} - ` : ""
   }${year}) - Negociações`,
 }: any) => {
-  console.log("-->>", `${monthRecent}`);
+
   const aggregatedData = rowsCountrysByMunicipio(
     data,
     municipio,
@@ -57,9 +57,6 @@ const BalInfo = ({
         return percent;
       };
 
-      // console.log(obj['PARTICIPAÇÃO'], obj['IMPORTAÇÃO'], obj['EXPORTAÇÃO'])
-
-      // rows.push([obj['PAÍS'], `${formatPercent(+obj['PARTICIPAÇÃO'])}%`, <div className="flex gap-1 justify-center"><span>$</span> {formatNumber(obj.NEGOCIADO)}</div>, `${formatPercent(+obj['IMPORTAÇÃO'])}%`, `${formatPercent(+obj['EXPORTAÇÃO'])}%`]);
       rows.push([
         obj["PAÍS"],
         `${formatPercent(+obj["PARTICIPAÇÃO"])}%`,
@@ -85,7 +82,6 @@ const BalInfo = ({
         enablePagination={false}
         withClick
         onClick={(e: any) => {
-          // console.log('onCLick', e)
           selectCountry(e[0]);
         }}
         color={color}

@@ -12,7 +12,6 @@ const PrincipaisProdutos = ({
   year,
 }: any) => {
   const chartData = processAtracacoesPorCarga(data.atracacao, data.carga)
-  console.log('CAHARTDATA', chartData)
 
   return (
     <div className="relative bg-white w-full p-4">

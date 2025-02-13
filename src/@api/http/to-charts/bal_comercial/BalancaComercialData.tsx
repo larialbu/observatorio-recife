@@ -33,7 +33,6 @@ export class BalancaComercialData {
       }
 
       const data = await response.json();
-      console.log("Resposta JSON recebida:", data);
 
       BalancaComercialData.cache[endpoint] = data;
 

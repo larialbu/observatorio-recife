@@ -28,8 +28,6 @@ const AenaPage = ({ months}: {months: number}) => {
       setFilteredPassageiros(passageirosData.filteredData || []);
       setFilteredCargas(cargasData.filteredData || []);
 
-      console.log("Dados filtrados - Passageiros:", passageirosData.filteredData);
-      console.log("Dados filtrados - Cargas:", cargasData.filteredData);
     }
   }, [data]);
 

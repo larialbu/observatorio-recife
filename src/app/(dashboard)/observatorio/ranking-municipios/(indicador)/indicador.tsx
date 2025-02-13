@@ -20,13 +20,11 @@ const Indicador = ({
   useEffect(() => {
     if (data) {
       const indicadorData = data.indicador || {};
-      console.log(data)
 
       setIndicadorData(indicadorData.filteredData || []);
     }
   }, [data]);
 
-  console.log(rawData)
 
   return (
     <div>

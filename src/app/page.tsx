@@ -14,7 +14,6 @@ const Page = () => {
 
   // Função para atualizar o termo de busca
   const handleSearch = (term: string) => {
-    console.log("Termo pesquisado:", term); // Para depuração
     setSearchTerm(term.toLowerCase());
   };
 

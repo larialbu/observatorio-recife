@@ -21,7 +21,6 @@ export class RankingData {
       return RankingData.cache[endpoint];
     }
 
-console.log('FETCEHD', BASE_URL, endpoint)
 
     try {
       const response = await fetch(`${BASE_URL}${endpoint}`, {
@@ -38,7 +37,6 @@ console.log('FETCEHD', BASE_URL, endpoint)
       }
 
       const data = await response.json();
-      console.log("Resposta JSON recebida:", data);
 
       RankingData.cache[endpoint] = data;
 
