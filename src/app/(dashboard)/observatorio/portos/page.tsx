@@ -14,7 +14,7 @@ import { getMonths } from "@/utils/filters/@global/getMonths";
 const PortosPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
-  const [porto, setPorto] = useState({});
+  const [porto, setPorto] = useState({} as any);
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
 
@@ -37,7 +37,7 @@ const PortosPage = () => {
           carga: data?.carga,
         }
 
-        console.log('PORTODADAAD', portoData)
+        console.log('PORTODADAAD -0--------0-0-0-s', portoData)
 
         setPorto(portoData)
       }
@@ -68,9 +68,11 @@ const PortosPage = () => {
      />;
     case "comparativo":
       return <Comparativo
-        data={porto || []} 
+        data={porto || {}} 
+        rawData={porto.rawData || {}}
         year={getYearSelected(filters)}
         months={getMonths(filters)}
+        toCompare={filters.additionalFilters[3]?.options}
       />;
     case "aena":
       return <AenaPage months={getMonths(filters)} />;

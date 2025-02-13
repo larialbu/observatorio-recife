@@ -53,7 +53,7 @@ export class PortoDataService {
         header: cargaHeader
       })
 
-      const atracacaoFiltered = applyGenericFilters(atracacaoHeaderData, filters, true)
+      const atracacaoFiltered = applyGenericFilters(atracacaoHeaderData, filters)
 
       const codCDTUP = atracacaoFiltered.filteredData[0]['CDTUP']
     
@@ -63,17 +63,22 @@ export class PortoDataService {
         }
       })
 
+      // talez adicionar o filtro de operação nos dados de carga 
+      // console.log('TESTANDO MAIS DE UM FILTRO :0> é pra pegar filtro de operação', applyGenericFilters(cargaHeaderData, filters))
+
       console.log('FEETCHEDD!.', {
         atracacao: atracacaoFiltered,
         carga: cargaFiltered,
+        rawData: { atracacao: atracacaoHeaderData, carga: cargaHeaderData},
         dictionaries:{ atracacao: atracacaoDictionary[0], carga: cargaDictionary[0], origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary}
       })
 
-      console.log('UPGRHPU -a-z-a-v-', portosCargastotalizadas(atracacaoFiltered.filteredData, cargaFiltered))
+      // console.log('UPGRHPU -a-z-a-v-', portosCargastotalizadas(atracacaoFiltered.filteredData, cargaFiltered))
 
     return {
         atracacao: atracacaoFiltered,
         carga: cargaFiltered,
+        rawData: { atracacao: atracacaoHeaderData, carga: cargaHeaderData},
         dictionaries:{ atracacao: atracacaoDictionary[0], carga: cargaDictionary[0], origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary}
       };
   }

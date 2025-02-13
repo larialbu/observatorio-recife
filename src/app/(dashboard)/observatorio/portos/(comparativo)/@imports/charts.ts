@@ -5,7 +5,7 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/aeroporto/comparativo/PassageirosAnoComparativo"
+          "@/components/@build/observatorio/charts/porto/comparativo/OperacaoCargasAno"
         )
     ),
   },
@@ -13,7 +13,7 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/aeroporto/comparativo/CargasAnoComparativo"
+          "@/components/@build/observatorio/charts/porto/comparativo/PaisesExportados"
         )
     ),
   },
@@ -21,10 +21,45 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/aeroporto/comparativo/DecolagensAnoComparaivo"
+          "@/components/@build/observatorio/charts/porto/comparativo/PaisesImportados"
         )
     ),
   },
+  {
+    Component: React.lazy(
+      () =>
+        import(
+          "@/components/@build/observatorio/charts/porto/comparativo/PrincipaisProdutos"
+        )
+    ),
+  },
+
+
+
+  // {
+  //   Component: React.lazy(
+  //     () =>
+  //       import(
+  //         "@/components/@build/observatorio/charts/aeroporto/comparativo/PassageirosAnoComparativo"
+  //       )
+  //   ),
+  // },
+  // {
+  //   Component: React.lazy(
+  //     () =>
+  //       import(
+  //         "@/components/@build/observatorio/charts/aeroporto/comparativo/CargasAnoComparativo"
+  //       )
+  //   ),
+  // },
+  // {
+  //   Component: React.lazy(
+  //     () =>
+  //       import(
+  //         "@/components/@build/observatorio/charts/aeroporto/comparativo/DecolagensAnoComparaivo"
+  //       )
+  //   ),
+  // },
 ];
 
 export default charts;
