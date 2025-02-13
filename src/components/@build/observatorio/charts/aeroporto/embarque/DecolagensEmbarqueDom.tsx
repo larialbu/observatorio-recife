@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
@@ -37,8 +36,8 @@ const DecolagensEmbarqueDom = ({
           height={400} // Altura do viewport visível para scroll
           barSize={30} // Altura individual de cada barra
         />
-      </ChartGrabber>
-      <div className="absolute -rotate-90 top-[50%]">
+        {/* Renderiza o subText dentro do ChartGrabber */}
+        <div className="absolute -rotate-90 top-[50%] -left-6">
           {subText && (
             <p
               className="font-medium"
@@ -48,6 +47,7 @@ const DecolagensEmbarqueDom = ({
             </p>
           )}
         </div>
+      </ChartGrabber>
     </div>
   );
 };

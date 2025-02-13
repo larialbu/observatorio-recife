@@ -26,7 +26,7 @@ const CargasEmbarqueDom = ({
   );
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="relative bg-white w-full p-4 ">
       <ChartGrabber>
         <VerticalScrollableBarChart
           data={chartData}
@@ -37,7 +37,7 @@ const CargasEmbarqueDom = ({
           height={400} // Altura do viewport visível para scroll
           barSize={30} // Altura individual de cada barra
         />
-        <div className="absolute -rotate-90 top-[50%]">
+        <div className="absolute -rotate-90 top-[50%] -left-6">
           {subText && (
             <p
               className="font-medium"

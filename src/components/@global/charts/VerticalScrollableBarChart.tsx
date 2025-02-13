@@ -63,7 +63,7 @@ const VerticalScrollableBarChart = ({
                 dataKey={xKey}
                 tick={{ fontSize: 12 }}
                 interval={0} // Exibe todos os rótulos
-                width={150} // Espaço suficiente para rótulos longos
+                width={100} // Espaço suficiente para rótulos longos
               />
               <Tooltip
               content={(e) => CustomTooltip({...e, customTooltipFormatter})}
