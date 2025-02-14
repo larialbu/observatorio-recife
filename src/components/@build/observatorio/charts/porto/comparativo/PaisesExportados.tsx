@@ -14,14 +14,8 @@ const PaisesExportados = ({
   year,
 }: any) => {
 
-  console.log('PORTO SELECIONADO', porto)
-  console.log('ATRA FILTR', data.atracacao.filter((a: any) => a["Porto Atracação"] === porto))
-  console.log('DATA Q ESTÀ SENDO PASSADO GRAFICO 2', data)
-  console.log('DDAO MERDA ', processCargasLongoCurso(data.atracacao.filter((a: any) => a["Porto Atracação"] === porto), data.carga, 'exportacao'))
-
+  
   const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao.filter((a: any) => a["Porto Atracação"] === porto), data.carga, 'exportacao'), data.dictionaries.destino, 'Destino')
-
-  console.log('CAHARTDATA -0-0-0-0--Expo', chartData)
 
   return (
     <div className="relative bg-white w-full p-4">

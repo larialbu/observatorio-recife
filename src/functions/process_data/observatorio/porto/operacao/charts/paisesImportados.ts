@@ -11,6 +11,8 @@ export const processCargasLongoCurso = (atracacoes: any[], cargas: any[], type: 
         carga["Tipo Operação da Carga"] === tipoOperacao
     );
   
+
+
     // Processa os dados agrupando por origem/destino e somando as quantidades e o peso bruto
     const processedData = cargasFiltradas.reduce((acc, carga) => {
         const origemDestino = carga[campoOrigemDestino] || "Indefinido"; // Agrupa pela origem ou destino
@@ -26,7 +28,8 @@ export const processCargasLongoCurso = (atracacoes: any[], cargas: any[], type: 
     
         acc[origemDestino].totalQTCarga += qtCarga;
         acc[origemDestino].totalVLPesoCargaBruta += vlPesoCargaBruta;
-    
+
+        
         return acc;
     }, {});
   

@@ -3,7 +3,7 @@ export const processAtracacoesPorCarga = (atracacoes: any[], cargas: any[]) => {
     const cargasFiltradas = cargas.filter((carga) => 
       atracacoes.some((atracacao) => +atracacao.IDAtracacao === +carga.IDAtracacao)
     );
-  
+
     // Processa os dados agrupando por CDMercadoria
     const processedData = cargasFiltradas.reduce((acc: any, carga: any) => {
       const cdMercadoria = carga.CDMercadoria || "Indefinido";

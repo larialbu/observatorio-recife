@@ -39,8 +39,7 @@ const Comparativo = ({
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
 
-  const [atracacaoFiltred, setAtracacaoFiltred] = useState([])
-  const [cargaFiltred, setCargaFiltred] = useState([])
+  const [portosDataFiltred, setPortosDataFiltred] = useState([])
 
   // REF do container e REF da instância do Sortable
   const sortableContainerRef = useRef<HTMLDivElement>(null);
@@ -52,41 +51,61 @@ const Comparativo = ({
 //   "Porto Atracação"
 // ),)
 
-
-  const getFiltredData = (portos: string[]) => {
-    // const filtredAtracacao = [[atracacao com o mesmo porto], [atracacao com o mesmo porto]]
-    // const filtredCarga = [[cargas com o mesmo cod], [cargas com o mesmo cod]]
-
-    // talvez guardar por porto { porto: recife, atracacao, cargas }
-
-    // eu quero passar os coisas 
-
-    if (!rawData || !rawData['atracacao'] || !rawData['carga']) {
-      return { atracacaoFiltred: [], cargaFiltred: [] };  
-    }
-
-    const filtredAtracacao = rawData['atracacao'].filter((item: any) => {
-      if (portos.includes(item['Porto Atracação'])) {
-        return item
-      }
-    }) || []
-
-    const uniqueCDTUPs = getUniqueValues<processedAtracacaoData, "CDTUP">(
-      filtredAtracacao,
-      "CDTUP"
-    )
-
-    const filtredCarga =  rawData['carga'].filter((item: any) => {
-      if (uniqueCDTUPs.includes(item.Origem) || uniqueCDTUPs.includes(item.Destino)) {
-        return item
-      }
-    }) || []
-
-    return { atracacaoFiltred: filtredAtracacao, cargaFiltred: filtredCarga}
+const getFiltredData2 = (rawData: any, portos: any) => {
+  console.log('RAWDATA POROTOS', rawData, portos)
+  if (!rawData || !rawData['atracacao'] || !rawData['carga']) {
+    return []
   }
 
-  useEffect(() => {
-  const { atracacaoFiltred, cargaFiltred } = getFiltredData(['Recife', ...tempFiltred])
+  // Filtra atracações pelos portos selecionados
+  const filtredAtracacao = rawData['atracacao'].filter((item: any) =>
+    portos.includes(item['Porto Atracação']),
+  )
+
+  // Obtém os CDTUPs únicos das atracações filtradas
+  const uniqueCDTUPs = [
+    ...new Set(filtredAtracacao.map((item: any) => item.CDTUP)),
+  ]
+
+  // Filtra as cargas que tenham Origem ou Destino nos CDTUPs das atracações filtradas
+  const filtredCarga = rawData['carga'].filter(
+    (item: any) =>
+      uniqueCDTUPs.includes(item.Origem) ||
+      uniqueCDTUPs.includes(item.Destino),
+  )
+
+  console.log('QUANTIDADE DE CARGAS QUE FORAM FILTRADOS', filtredCarga)
+
+  // Organiza os dados por porto
+  const dadosPorPorto = portos.map((porto: any) => {
+    const atracacoes = filtredAtracacao.filter(
+      (atracacao: any) => atracacao['Porto Atracação'] === porto,
+    )
+
+    // Filtra cargas associadas às atracações desse porto
+
+    // a mudanca tem q ser aki nos não poemos fazer essa correlçaão pois os alguns tem ids diferentes atracacao.IDAtracacao === carga.IDAtracacao,, por isso precisamos que a correlação tem q ser com o o codigo CDTUP caso o ocdigo do porto está na origem ou destino da carga, a carga possui a este porto, 
+
+
+    const cargas = filtredCarga.filter((carga: any) =>
+      atracacoes.some(
+        (atracacao: any) => atracacao.IDAtracacao === carga.IDAtracacao,
+      ),
+    )
+
+    return {
+      porto,
+      atracacao: atracacoes,
+      cargas,
+    }
+  })
+
+  return dadosPorPorto
+}
+
+useEffect(() => {
+  const portosDataFIltred = getFiltredData2(rawData, ['Recife', ...tempFiltred])
+  console.log('CAHCRRO', portosDataFIltred)
 
   // console.log('FILTREDF A ', atracacaoFiltred, cargaFiltred )
 
@@ -127,8 +146,7 @@ const Comparativo = ({
     ];
     });
 
-    setAtracacaoFiltred(atracacaoFiltred)
-    setCargaFiltred(cargaFiltred)
+    setPortosDataFiltred(portosDataFIltred)
     setTablesRender([[...charts], ...getNewTables]);
   }, [tempFiltred, rawData]);
 
@@ -258,7 +276,8 @@ const Comparativo = ({
                     porto={["Recife", ...tempFiltred][index]}
                     // rawData={rawData}
                     color={ColorPalette.default[index]}
-                    data={{ ...data, atracacao: atracacaoFiltred, carga: cargaFiltred }}
+                    data={{ ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], rawData: {} }}
+                    // data={{ ...data, atracacao: atracacaoFiltred, carga: cargaFiltred, rawData: {} }}
                     // data={data}
                     year={year}
                   />

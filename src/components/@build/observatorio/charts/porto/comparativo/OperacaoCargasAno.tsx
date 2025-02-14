@@ -14,19 +14,12 @@ const OperacaoCargasAno = ({
   title = "Movimentação de Cargas (Ton)",
   months
 }: any) => {
-//   const chartData = processPassageirosAno(data);
 
-  // console.log('POOOOORTSO', porto)
-
-  // console.log('RAAAWA DATA AA', rawData)
-
-  // console.log('DATA Q ESTÀ SENDO PASSADO GRAFICO 1', data)
 
   const chartData = processAtracacoesPorMes(data.atracacao.filter((a: any) => a["Porto Atracação"] === porto), data.carga)
 
   const updatedData = updatedMonthChartData(chartData, months);
 
-  // console.log('UPDATED +-', updatedData)
    
   return (
     <div className="relative bg-white w-full p-4">
