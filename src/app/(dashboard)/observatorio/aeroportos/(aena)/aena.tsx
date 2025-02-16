@@ -7,6 +7,7 @@ import cardsPassageiros from "./@imports/passageiro/cards";
 import cardsCargas from "./@imports/carga/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 
 const AenaPage = ({ months}: {months: number}) => {
   const { data, isLoading } = useDashboard();
@@ -60,23 +61,28 @@ const AenaPage = ({ months}: {months: number}) => {
       </div>
 
       {/* Gráficos de Passageiros e Cargas */}
-      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
-        {chartsCargas.map(({ Component }, index) => (
-          <Component
-            key={`carga-chart-${index}`}
-            data={filteredCargas}
-            rawData={data?.cargas?.rawDataCargas || []}
-            months={months}
-          />
-        ))}
-        {chartsPassageiros.map(({ Component }, index) => (
-          <Component
-            key={`passageiro-chart-${index}`}
-            data={filteredPassageiros}
-            rawData={data?.passageiros?.rawDataPassageiros || []}
-            months={months}
-          />
-        ))}
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+        {chartOrder.map((index) => {
+          const charts = [
+            ...chartsCargas.map(chart => ({ ...chart, type: 'carga' })), 
+            ...chartsPassageiros.map(chart => ({ ...chart, type: 'passageiro' }))
+          ];
+
+          const { Component, type } = charts[index]; // 'type' pode indicar se é carga ou passageiro
+          const filteredData = type === 'carga' ? filteredCargas : filteredPassageiros;
+          const rawData = type === 'carga' ? data?.cargas?.rawDataCargas || [] : data?.passageiros?.rawDataPassageiros || [];
+
+          return (
+            <div
+              key={`chart-${index}`}
+              className={`chart-content-wrapper`}
+            >
+              <React.Suspense fallback={<GraphSkeleton />}>
+                <Component data={filteredData} rawData={rawData} months={months} />
+              </React.Suspense>
+            </div>
+          );
+        })}
       </SortableDiv>
     </div>
   );

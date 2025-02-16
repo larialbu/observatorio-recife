@@ -97,7 +97,7 @@ const ChartGrabber = ({
   };
 
   return (
-    <div className="relative pb-4 bg-white">
+    <div className="w-full">
       <div
         ref={chartRef}
         className={`chart-container relative ${

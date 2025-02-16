@@ -19,13 +19,13 @@ const Geral = ({
   const [tablesRender, setTablesRender] = useState(tables);
 
   return (
-    <div>
+    <div className="pb-4">
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="h-full">
           {tablesRender.map(({ Component }, index) => (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg h-full"
+              className="h-full"
             >
               <React.Suspense fallback={<div>Loading...</div>}>
                 <Component
@@ -40,11 +40,11 @@ const Geral = ({
         </div>
 
         <div className="flex flex-col w-full gap-6">
-          <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6 h-full">
             {charts.map(({ Component }, index) => (
               <div
                 key={index}
-                className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center"
+                className="chart-content-wrapper"
               >
                 <React.Suspense fallback={<GraphSkeleton />}>
                   <Component data={data} />

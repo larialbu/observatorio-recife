@@ -49,7 +49,7 @@ const VerticalScrollableBarChart = ({
             <RechartsBarChart
               data={data}
               layout="vertical" // Layout para barras verticais
-              margin={{ top: 0, right: 5, left: -35, bottom: 5 }}
+              margin={{ top: 0, right: 10, left: -15, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis

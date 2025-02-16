@@ -39,10 +39,10 @@ export default function DashboardLayout({
   return (
     <Suspense fallback={< LoadingScreen />}>
       <DashboardProvider>
-        <div className="h-screen flex">
+        <div className="h-screen flex overflow-hidden">
           <Sidebar />
           <div
-            className={`flex-1 ${getBackgroundForRoute()} bg-cover overflow-scroll flex flex-col`}
+            className={`flex-1 ${getBackgroundForRoute()} bg-cover overflow-scroll flex flex-col pb-[1em]`}
           >
             <Navbar />
             {children}

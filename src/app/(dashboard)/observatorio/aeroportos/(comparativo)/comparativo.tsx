@@ -161,26 +161,28 @@ const Comparativo = ({
 
       <div className="flex flex-col gap-6">
        
-         <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 bg-transparent">
-            {chartOrder.map(( index) => {
-            const { Component } = charts[index];
-            return (
-                <div
-                  key={index}
-                  className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
-                >
-                  <React.Suspense fallback={<GraphSkeleton />}>
-                    <Component
-                      data={data}
-                      toCompare={["Recife", ...tempFiltred]}
-                      months={months}
-                    />
-                  </React.Suspense>
-                </div>
-              )})}
-        </SortableDiv>
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+        {chartOrder.map((index) => {
+          const { Component } = charts[index];
+          return (
+            <div
+              key={index}
+              className={`chart-content-wrapper`}
+            >
+              <React.Suspense fallback={<GraphSkeleton />}>
+                <Component
+                  data={data}
+                  toCompare={["Recife", ...tempFiltred]}
+                  months={months}
+                />
+              </React.Suspense>
+            </div>
+          );
+        })}
+      </SortableDiv>
 
-        <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
           {tablesRender.map(({ Component }, index) => (
             <div
               key={index}

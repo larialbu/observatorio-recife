@@ -60,7 +60,7 @@ const AenaPage = ({ months}: {months: number}) => {
       </div>
 
       {/* Gráficos de Passageiros e Cargas */}
-      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartsCargas.map(({ Component }, index) => (
           <Component
             key={`carga-chart-${index}`}

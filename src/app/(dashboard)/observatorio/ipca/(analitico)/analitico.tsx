@@ -80,7 +80,7 @@ const Analitico = ({
   };
 
   return (
-    <div>
+    <div className="pb-4">
       <SelectPrincipal
         options={toCompare}
         filters={tempFiltred}

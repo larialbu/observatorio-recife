@@ -37,7 +37,7 @@ const IpcaPorMeses: React.FC<IpcaPorMesesProps> = ({
   const selectedColors = categorias.map((_, index) => colors[index % colors.length]);
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="chart-wrapper">
       <ChartGrabber>
         <LineChart
           data={updatedData}

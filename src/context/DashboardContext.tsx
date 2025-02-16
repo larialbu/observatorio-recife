@@ -10,76 +10,68 @@ import React, {
 import { usePathname, useSearchParams } from "next/navigation";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
-import { portoDataService } from "@/services/@data/portoDataService";
-// ^ Nova função análoga a getFiltersForRoute, mas que retorna o "service" certo
 
+// Tipagem para os filtros e dados
+interface Filters {
+  [key: string]: any;
+  additionalFilters?: { label: string; selected: string[] }[];
+}
+
+interface Data {
+  [key: string]: any;
+}
+
+// Interface para tipar o contexto do Dashboard
 interface DashboardContextProps {
-  filters: Record<string, any>;
-  data: any;
+  filters: Filters;
+  data: Data | null;
   isLoading: boolean;
-  applyFilters: (newFilters: Record<string, any>) => Promise<void>;
+  applyFilters: (newFilters: Filters) => Promise<void>;
   resetFilters: () => void;
 }
 
-const DashboardContext = createContext<DashboardContextProps | undefined>(
-  undefined
-);
+const DashboardContext = createContext<DashboardContextProps | undefined>(undefined);
 
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [filters, setFilters] = useState<Record<string, any>>({});
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [filters, setFilters] = useState<Filters>({});
+  const [data, setData] = useState<Data | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Pega o service correto (aeroportoDataService / balancaDataService / etc.)
-  const fetchData = async (filtersToUse: Record<string, any>) => {
+  // Busca os dados corretos com base na rota e filtros
+  const fetchData = async (filtersToUse: Filters) => {
     setIsLoading(true);
     try {
-      // Descobrimos a tab (ou definimos "geral" por padrão)
-      const tab = searchParams.get("tab") || "geral";
+      const tab = searchParams.get("tab") || "geral"; // Define tab padrão
       console.log("tab no context", tab);
 
       console.log("path e tab no context", pathname, tab);
-      // Aqui a mágica: pegamos o service certo
-      const service = getServiceForRoute(pathname, tab);
+      const service = getServiceForRoute(pathname, tab); // Obtém o service correto
       console.log("service no context", service);
+      
       if (!service) {
-        console.warn(
-          "Nenhum serviço compatível com esta rota/tab. Definindo data = null."
-        );
+        console.warn("Nenhum serviço encontrado para essa rota/tab.");
         setData(null);
         return;
       }
 
-      // Ajustar ano no service (se for implementado)
+      // Define o ano no service, se suportado
       service.setYear(filtersToUse?.year || "2024");
 
-      // Chama fetch
-      const fetched = await service.fetchDataForTab(tab, filtersToUse);
+      // Chama o serviço para buscar os dados
+      const fetched: Data = await service.fetchDataForTab(tab, filtersToUse);
       setData(fetched);
 
-      // Se vier additionalFiltersOptions (geral, passageiros...), mesclar
-      // console.log('FETCHEEEEED', fetched, Object.keys(fetched));
-      // to pegando a key automatica agora
+      // Mescla os additionalFiltersOptions se existirem
       const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
-
 
       if (newAdditional.length) {
         setFilters((prev) => {
           const merged = newAdditional.map((newF: any) => {
-            const oldF = prev.additionalFilters?.find(
-              (o: any) => o.label === newF.label
-            );
-            if (!oldF) {
-              return { ...newF, selected: newF.selected || [] };
-            }
-            // substitui options, mas preserva oldF.selected
-            return {
-              ...newF,
-              selected: oldF.selected || [],
-            };
+            const oldF = prev.additionalFilters?.find((o) => o.label === newF.label);
+            return oldF ? { ...newF, selected: oldF.selected || [] } : { ...newF, selected: newF.selected || [] };
           });
           return { ...prev, additionalFilters: merged };
         });
@@ -92,24 +84,21 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Ao aplicar novos filtros
-  const applyFilters = async (newFilters: Record<string, any>) => {
+  // Aplica novos filtros e recarrega os dados
+  const applyFilters = async (newFilters: Filters) => {
     setFilters(newFilters);
     await fetchData(newFilters);
   };
 
-  // Ao mudar rota ou tab => pega filtros default e chama fetch
+  // Monitora mudanças na rota/tab e aplica filtros padrão
   useEffect(() => {
     const tab = searchParams.get("tab");
     const baseFilters = getFiltersForRoute(pathname, tab);
-
     setFilters(baseFilters);
     fetchData(baseFilters);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, searchParams]);
 
-  // Limpa filtros => zera "selected" e reapply
+  // Reseta os filtros (zera os selected e recarrega dados)
   const resetFilters = () => {
     const tab = searchParams.get("tab");
     let baseFilters = getFiltersForRoute(pathname, tab);
@@ -117,25 +106,14 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     if (baseFilters.additionalFilters) {
       baseFilters = {
         ...baseFilters,
-        additionalFilters: baseFilters.additionalFilters.map((f: any) => ({
-          ...f,
-          selected: [],
-        })),
+        additionalFilters: baseFilters.additionalFilters.map((f: Object) => ({ ...f, selected: [] })),
       };
     }
     applyFilters(baseFilters);
   };
 
   return (
-    <DashboardContext.Provider
-      value={{
-        filters,
-        data,
-        isLoading,
-        applyFilters,
-        resetFilters,
-      }}
-    >
+    <DashboardContext.Provider value={{ filters, data, isLoading, applyFilters, resetFilters }}>
       {children}
     </DashboardContext.Provider>
   );
@@ -144,9 +122,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 export const useDashboard = () => {
   const context = useContext(DashboardContext);
   if (!context) {
-    throw new Error(
-      "useDashboard deve ser usado dentro de um DashboardProvider"
-    );
+    throw new Error("useDashboard deve ser usado dentro de um DashboardProvider");
   }
   return context;
 };

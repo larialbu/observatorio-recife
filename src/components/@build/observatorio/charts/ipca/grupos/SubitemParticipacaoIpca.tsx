@@ -17,7 +17,7 @@ const SubitemParticipacaoIpca = ({
   const chartData = processPercentageByType(data, 'item');
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="chart-wrapper">
       <ChartGrabber>
         <VerticalScrollableBarChart
           data={chartData}

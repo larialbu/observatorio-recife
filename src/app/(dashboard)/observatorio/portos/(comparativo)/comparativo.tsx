@@ -262,7 +262,7 @@ useEffect(() => {
 
       <div className="flex flex-col gap-6">
        
-      <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+      <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
           {/* {tablesRender.map(({ Component }, index) => { */}
           {tablesRender.map((arrChart, index) => {
             return arrChart.map(({ Component }) => {
@@ -286,7 +286,7 @@ useEffect(() => {
             )})})}
         </SortableDiv>
 
-         {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+         {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
             {chartOrder.map(( index) => {
             const { Component } = charts[index];
             return (
@@ -305,7 +305,7 @@ useEffect(() => {
               )})}
         </SortableDiv> */}
 
-        {/* <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
           {tablesRender.map(({ Component }, index) => (
             <div
               key={index}

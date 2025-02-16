@@ -61,7 +61,7 @@ const Analitico = ({
         initialValue={["Recife - PE"]}
       />
 
-      <div className="flex justify-between items-center gap-2">
+      <div className="flex justify-between items-center gap-2 h-full">
         <div className="flex flex-col gap-6">
           {tablesRender.map(({ Component, Secundary }, index) => {
             // Ensure selectCountry has an initial empty string value

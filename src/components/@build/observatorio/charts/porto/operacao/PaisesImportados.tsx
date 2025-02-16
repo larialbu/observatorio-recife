@@ -16,7 +16,7 @@ const PaisesImportados = ({
   const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao, data.carga, 'importacao'), data.dictionaries.origem, 'Origem')
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="chart-wrapper">
       <ChartGrabber>
         <ScrollableBarChart
           data={chartData}

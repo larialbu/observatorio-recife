@@ -27,13 +27,13 @@ const Grupos = ({
 
   return (
     <div>
-       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 place-items-center">
+       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
           const { Component } = charts[index];
           return (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg p-4 w-full flex flex-col items-center"
+              className={`chart-content-wrapper`}
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component data={gruposData}   />
