@@ -26,11 +26,6 @@ const Geral = ({
 
   return (
     <div>
-      <div className="place-items-center z-0 mb-6">
-        <div className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center">
-          <Component data={data.coords || []} />
-        </div>
-      </div>
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 place-items-center">
         {chartOrder.map((index) => {
           const { Component } = charts[index];
@@ -46,6 +41,11 @@ const Geral = ({
           );
         })}
       </SortableDiv>
+      <div className="place-items-center z-0 mb-6">
+        <div className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center">
+          <Component data={data.coords || []} />
+        </div>
+      </div>
     </div>
   );
 };
