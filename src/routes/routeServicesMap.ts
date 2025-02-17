@@ -3,7 +3,6 @@ import { balancaDataService } from "@/services/@data/balancaComercialDataService
 import { ipcaDataService } from "@/services/@data/ipcaDataService";
 import { portoDataService } from "@/services/@data/portoDataService";
 import { rankingDataService } from "@/services/@data/rankingDataService";
-import { pibDataService } from "@/services/@data/pibDataService"; // Importa o pibDataService
 
 export const routeServicesMap: Record<
   string,  // rota, ex. "/observatorio/aeroportos"
@@ -16,13 +15,16 @@ export const routeServicesMap: Record<
     analitico: ipcaDataService,
     // etc. Se quiser mesmo service, ok
   },
-  "/observatorio/portos": {
-    geral: portoDataService,
-    operacao: portoDataService,
-    comparativo: portoDataService,
-    passageiros: portoDataService,
-    // etc. Se quiser mesmo service, ok
-  },
+
+    "/observatorio/portos": {
+      geral: portoDataService,
+      operacao: portoDataService,
+      comparativo: portoDataService,
+      passageiros: portoDataService,
+      // etc. Se quiser mesmo service, ok
+    },
+
+
   "/observatorio/ranking": {
     geral: rankingDataService,
     dimensao: rankingDataService,
@@ -30,6 +32,7 @@ export const routeServicesMap: Record<
     indicador: rankingDataService,
     // etc. Se quiser mesmo service, ok
   },
+
   // Aeroportos
   "/observatorio/aeroportos": {
     geral: aeroportoDataService,
@@ -38,16 +41,13 @@ export const routeServicesMap: Record<
     aena: aeroportoDataService,
     // etc. Se quiser mesmo service, ok
   },
+
   // Balança Comercial
   "/observatorio/balanca-comercial": {
     // Se tiver tabs diferentes ("geral", "analitico", etc.), aponte para balancaDataService
     geral: balancaDataService,
     analitico: balancaDataService,
   },
-  // PIB
-  "/observatorio/pib": {
-    geral: pibDataService, // Aba "Geral" para PIB total, variação, rankings e evolução
-    per_capita: pibDataService, // Aba "Per Capita" para PIB per capita
-  },
+
   // E assim por diante ...
 };
