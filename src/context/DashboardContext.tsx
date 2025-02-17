@@ -1,5 +1,4 @@
 "use client";
-
 import React, {
   createContext,
   useState,
@@ -10,9 +9,9 @@ import React, {
 import { usePathname, useSearchParams } from "next/navigation";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
-import { portoDataService } from "@/services/@data/portoDataService";
-// ^ Nova função análoga a getFiltersForRoute, mas que retorna o "service" certo
+import { pibGeralFilters, PibFilter } from "@/utils/filters/pib/pibGeralFilters"; // Importa os filtros e o tipo
 
+// Interface para o contexto
 interface DashboardContextProps {
   filters: Record<string, any>;
   data: any;
@@ -28,62 +27,45 @@ const DashboardContext = createContext<DashboardContextProps | undefined>(
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [data, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Pega o service correto (aeroportoDataService / balancaDataService / etc.)
+  /**
+   * Busca os dados com base no serviço correto.
+   */
   const fetchData = async (filtersToUse: Record<string, any>) => {
     setIsLoading(true);
     try {
-      // Descobrimos a tab (ou definimos "geral" por padrão)
       const tab = searchParams.get("tab") || "geral";
-      console.log("tab no context", tab);
+      console.log("Tab atual:", tab);
 
-      console.log("path e tab no context", pathname, tab);
-      // Aqui a mágica: pegamos o service certo
       const service = getServiceForRoute(pathname, tab);
-      console.log("service no context", service);
       if (!service) {
-        console.warn(
-          "Nenhum serviço compatível com esta rota/tab. Definindo data = null."
-        );
+        console.warn("Nenhum serviço compatível com esta rota/tab.");
         setData(null);
         return;
       }
 
-      // Ajustar ano no service (se for implementado)
-      service.setYear(filtersToUse?.year || "2024");
+      const selectedYear =
+        filtersToUse?.years?.[filtersToUse?.years.length - 1] || "2021";
+      console.log("Ano selecionado:", selectedYear);
 
-      // Chama fetch
-      const fetched = await service.fetchDataForTab(tab, filtersToUse);
-      setData(fetched);
-
-      // Se vier additionalFiltersOptions (geral, passageiros...), mesclar
-      // console.log('FETCHEEEEED', fetched, Object.keys(fetched));
-      // to pegando a key automatica agora
-      const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
-
-
-      if (newAdditional.length) {
-        setFilters((prev) => {
-          const merged = newAdditional.map((newF: any) => {
-            const oldF = prev.additionalFilters?.find(
-              (o: any) => o.label === newF.label
-            );
-            if (!oldF) {
-              return { ...newF, selected: newF.selected || [] };
-            }
-            // substitui options, mas preserva oldF.selected
-            return {
-              ...newF,
-              selected: oldF.selected || [],
-            };
-          });
-          return { ...prev, additionalFilters: merged };
-        });
+      const validYears = Array.from({ length: 2021 - 2010 + 1 }, (_, i) =>
+        (2010 + i).toString()
+      );
+      if (!validYears.includes(selectedYear)) {
+        throw new Error(
+          `Ano inválido: ${selectedYear}. Os dados de PIB estão disponíveis apenas entre 2010 e 2021.`
+        );
       }
+
+      service.setYear(selectedYear);
+
+      const fetchedData = await service.fetchDataForTab(tab, filtersToUse);
+      setData(fetchedData);
+
+      updateAdditionalFilters(fetchedData);
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
       setData(null);
@@ -92,39 +74,87 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Ao aplicar novos filtros
+  /**
+   * Atualiza os filtros adicionais com base nos dados retornados.
+   */
+  const updateAdditionalFilters = (fetchedData: any) => {
+    const newAdditionalFilters =
+      fetchedData?.[Object.keys(fetchedData)[0]]?.additionalFiltersOptions || [];
+    if (newAdditionalFilters.length) {
+      setFilters((prev) => ({
+        ...prev,
+        additionalFilters: mergeAdditionalFilters(
+          prev.additionalFilters ?? [],
+          newAdditionalFilters
+        ),
+      }));
+    }
+  };
+
+  /**
+   * Mescla os filtros adicionais antigos com os novos.
+   */
+  const mergeAdditionalFilters = (oldFilters: any[], newFilters: any[]) => {
+    return newFilters.map((newF) => {
+      const oldF = oldFilters?.find((o) => o.label === newF.label);
+      return {
+        ...newF,
+        selected: oldF?.selected || [],
+      };
+    });
+  };
+
+  /**
+   * Aplica novos filtros.
+   */
   const applyFilters = async (newFilters: Record<string, any>) => {
     setFilters(newFilters);
     await fetchData(newFilters);
   };
 
-  // Ao mudar rota ou tab => pega filtros default e chama fetch
-  useEffect(() => {
-    const tab = searchParams.get("tab");
-    const baseFilters = getFiltersForRoute(pathname, tab);
-
-    setFilters(baseFilters);
-    fetchData(baseFilters);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, searchParams]);
-
-  // Limpa filtros => zera "selected" e reapply
+  /**
+   * Limpa os filtros e busca os dados novamente.
+   */
   const resetFilters = () => {
     const tab = searchParams.get("tab");
     let baseFilters = getFiltersForRoute(pathname, tab);
 
-    if (baseFilters.additionalFilters) {
+    // Substitui os filtros padrão para PIB
+    if (pathname === "/observatorio/pib") {
       baseFilters = {
-        ...baseFilters,
-        additionalFilters: baseFilters.additionalFilters.map((f: any) => ({
+        ...pibGeralFilters, // Usa os filtros específicos do PIB
+        additionalFilters: pibGeralFilters.additionalFilters?.map((f) => ({
           ...f,
           selected: [],
-        })),
+        })) ?? [], // Garante que additionalFilters seja um array vazio se for undefined
       };
     }
+
     applyFilters(baseFilters);
   };
+
+  /**
+   * Efeito para carregar dados ao mudar de rota ou aba.
+   */
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    let baseFilters = getFiltersForRoute(pathname, tab);
+
+    // Substitui os filtros padrão para PIB
+    if (pathname === "/observatorio/pib") {
+      baseFilters = {
+        ...pibGeralFilters, // Usa os filtros específicos do PIB
+        additionalFilters: pibGeralFilters.additionalFilters?.map((f) => ({
+          ...f,
+          selected: [],
+        })) ?? [], // Garante que additionalFilters seja um array vazio se for undefined
+      };
+    }
+
+    console.log("Filtros iniciais:", baseFilters);
+    setFilters(baseFilters);
+    fetchData(baseFilters);
+  }, [pathname, searchParams]);
 
   return (
     <DashboardContext.Provider
@@ -144,9 +174,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 export const useDashboard = () => {
   const context = useContext(DashboardContext);
   if (!context) {
-    throw new Error(
-      "useDashboard deve ser usado dentro de um DashboardProvider"
-    );
+    throw new Error("useDashboard deve ser usado dentro de um DashboardProvider");
   }
   return context;
 };
