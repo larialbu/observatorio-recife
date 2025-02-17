@@ -14,7 +14,9 @@ const MovimentacaoPorTipo = ({
   year,
 }: any) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = prepareCargasPorAcaoData(data.atracacao, data.carga)
+  const chartData = prepareCargasPorAcaoData(data.atracacao, data.carga, false)
+
+console.log('CAHHHHHHHAHAA', chartData)
 
   return (
     <div className="chart-wrapper">

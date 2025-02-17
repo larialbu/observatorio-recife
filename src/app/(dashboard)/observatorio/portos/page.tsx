@@ -18,6 +18,14 @@ const PortosPage = () => {
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
 
+  const defaultData = {
+    atracacao: [],
+    carga: [],
+    coords: [],
+    dictionaries: { atracacao: [], carga: [], origem: [], destino: [], mercado: [] },
+    rawData: { atracacao: [], carga: [] }
+  }
+
   useEffect(() => {
       const tab = searchParams.get("tab");
       if (tab && tab !== activeTab) {
@@ -51,7 +59,7 @@ const PortosPage = () => {
   switch (activeTab) {
     case "geral":
       return <Geral 
-        data={porto || {}}
+        data={Object.keys(porto).length != 0 ? porto : defaultData}
         // rawData={data?.geral?.rawData || []}
         // year={getYearSelected(filters)}
         months={getMonths(filters)}
@@ -60,13 +68,14 @@ const PortosPage = () => {
       // DEFAULTFILTERS E CONSEGUIR PASSAR SOMENTE O ANO.
     case "operacao":
       return <Operacao 
-       data={porto || {}}
+       data={Object.keys(porto).length != 0 ? porto : defaultData}
        months={getMonths(filters)}
-          // toCompare={filters.additionalFilters[4]?.selected}
+       year={getYearSelected(filters)}
+        // toCompare={filters.additionalFilters[4]?.selected}
      />;
     case "comparativo":
       return <Comparativo
-        data={porto || {}} 
+        data={Object.keys(porto).length != 0 ? porto : defaultData} 
         rawData={porto.rawData || {}}
         year={getYearSelected(filters)}
         months={getMonths(filters)}
@@ -76,7 +85,7 @@ const PortosPage = () => {
       return <AenaPage months={getMonths(filters)} />;
     default:
       return <Geral 
-      data={porto || {}}
+      data={Object.keys(porto).length != 0 ? porto : defaultData}
       // year={getYearSelected(filters)}
       months={getMonths(filters)}
       />;

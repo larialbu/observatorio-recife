@@ -5,7 +5,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/cards/aeroporto/geral/PassageirosMesRecente"
+          "@/components/@build/observatorio/cards/porto/MovimentacaoTotal"
         )
     ),
   },
@@ -13,7 +13,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/cards/aeroporto/geral/CargasMesRecente"
+          "@/components/@build/observatorio/cards/porto/MovimentacaoImportacao"
         )
     ),
   },
@@ -21,7 +21,23 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/cards/aeroporto/geral/DecolagensMesRecente"
+          "@/components/@build/observatorio/cards/porto/MovimentacaoExportacao"
+        )
+    ),
+  },
+  {
+    Component: React.lazy(
+      () =>
+        import(
+          "@/components/@build/observatorio/cards/porto/MovimentacaoCabotagem"
+        )
+    ),
+  },
+  {
+    Component: React.lazy(
+      () =>
+        import(
+          "@/components/@build/observatorio/cards/porto/MovimentacaoOutros"
         )
     ),
   },

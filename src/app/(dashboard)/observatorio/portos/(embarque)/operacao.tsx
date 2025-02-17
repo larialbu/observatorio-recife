@@ -4,17 +4,18 @@ import React, { useRef, useState } from "react";
 import charts from "./@imports/charts";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import cards from "./@imports/cards";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const Operacao = ({
   data,
-  // year,
+  year,
   months,
 }: {
   data: any;
-  // year: string;
+  year: string;
   months: number;
 }) => {
-
 
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
 

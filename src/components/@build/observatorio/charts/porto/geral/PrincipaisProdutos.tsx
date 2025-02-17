@@ -5,13 +5,14 @@ import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBa
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processAtracacoesPorCarga } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoProdutos";
+import { getPortoProductNameByCode } from "@/utils/formatters/getPortoProductNameByCode";
 
 const PrincipaisProdutos = ({
   data,
   title = "Passageiros por Aeroporto",
   year,
 }: any) => {
-  const chartData = processAtracacoesPorCarga(data.atracacao, data.carga)
+  const chartData = getPortoProductNameByCode(processAtracacoesPorCarga(data.atracacao, data.carga), data.dictionaries.mercado)
 
   return (
     <div className="chart-wrapper">

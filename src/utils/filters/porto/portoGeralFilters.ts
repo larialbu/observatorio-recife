@@ -19,8 +19,9 @@ export const portoGeralFilters = {
       {
         label: "Porto Atracação",
         options: [], // Deixe vazio para preencher com base nos dados
-        selected: ['Recife']
-      },
+        selected: ['Recife'],
+        allowMultiple: false
+    },
       { 
         label: "Ação", // O Mês será preenchido dinamicamente
         options: [], // Deixe vazio para preencher com base nos dados
