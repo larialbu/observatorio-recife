@@ -5,7 +5,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/cards/porto/MovimentacaoTotal"
+          "@/components/@build/observatorio/cards/porto/operacao/MovimentacaoGeral"
         )
     ),
   },
@@ -13,7 +13,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/cards/porto/MovimentacaoImportacao"
+          "@/components/@build/observatorio/cards/porto/operacao/MovimentacaoTotal"
         )
     ),
   },
@@ -21,7 +21,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/cards/porto/MovimentacaoExportacao"
+          "@/components/@build/observatorio/cards/porto/operacao/MovimentacaoImportacao"
         )
     ),
   },
@@ -29,7 +29,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/cards/porto/MovimentacaoCabotagem"
+          "@/components/@build/observatorio/cards/porto/operacao/MovimentacaoExportacao"
         )
     ),
   },
@@ -37,7 +37,15 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/cards/porto/MovimentacaoOutros"
+          "@/components/@build/observatorio/cards/porto/operacao/MovimentacaoCabotagem"
+        )
+    ),
+  },
+  {
+    Component: React.lazy(
+      () =>
+        import(
+          "@/components/@build/observatorio/cards/porto/operacao/MovimentacaoOutros"
         )
     ),
   },

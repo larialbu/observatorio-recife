@@ -179,7 +179,7 @@ useEffect(() => {
       />
 
       <div className="flex justify-between items-center gap-2">
-        {tempFiltred.length >= 1 ? (
+        {['Recife', ...tempFiltred].length >= 1 ? (
           <>
             <button
               className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
@@ -199,28 +199,38 @@ useEffect(() => {
             </button>
 
             <div className="w-[85%] flex flex-wrap gap-4 justify-center mb-2">
-              {tempFiltred.map((toCompare: string) => {
-                return cards.map(({ Component }, index) => (
-                  <div></div>
-                  // <React.Suspense fallback={<div>Loading...</div>} key={index}>
-                  //   <div
-                  //     className={`${
-                  //       toCompare === tempFiltred[pageCompare]
-                  //         ? animationClass
-                  //         : "hidden"
-                  //     } flex-1`}
-                  //   >
-                  //     <Component
-                  //       toCompare={toCompare}
-                  //       data={data}
-                  //       year={year}
-                  //       color={ColorPalette.default[index]}
-                  //     />
-                  //   </div>
-                  // </React.Suspense>
+              {['Recife', ...tempFiltred].map((toCompare: string) => {
+                return cards.slice(0, 1).map(({ Component }, index) => (
+                  // <div key={index}></div>
+                  <React.Suspense fallback={<div>Loading...</div>} key={index}>
+                    <div
+                      className={`${
+                        toCompare === ['Recife', ...tempFiltred][pageCompare]
+                          ? animationClass
+                          : "hidden"
+                      } flex-1`}
+                    >
+                      {/* <Component
+                        toCompare={toCompare}
+                        data={data}
+                        year={year}
+                        color={ColorPalette.default[index]}
+                      /> */}
+                      {/* data={{ ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], rawData: {} }} */}
+                      <Component data={data} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
+                    </div>
+                  </React.Suspense>
                 ));
               })}
             </div>
+
+            {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
+        {cards.slice(0, 1).map(({ Component }, index) => (
+          <React.Suspense fallback={<div>Loading...</div>} key={index}>
+            <Component data={data} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
+          </React.Suspense>
+        ))}
+      </div> */}
 
             <button
               className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
@@ -269,7 +279,8 @@ useEffect(() => {
               return (
               <div
                 key={index}
-                className="bg-white shadow-md rounded-lg w-100 flex flex-col items-center"
+                className={`chart-content-wrapper`}
+                // className="bg-white shadow-md rounded-lg w-100 flex flex-col items-center"
               >
                 <React.Suspense fallback={<div>Loading...</div>}>
                   <Component

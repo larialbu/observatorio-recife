@@ -11,13 +11,13 @@ const MovimentacaoTotal = ({
   color,
 }: any) => {
 
-    console.log('UNIQUE VALEUS ', getUniqueValues<any, "Tipo Operação da Carga">(
-        data.carga,
-        "Tipo Operação da Carga"
-      ),)
+    // console.log('UNIQUE VALEUS ', getUniqueValues<any, "Tipo Operação da Carga">(
+    //     data.carga,
+    //     "Tipo Operação da Carga"
+    //   ),)
    
 
-  const chartData = prepareCargasPorAcaoData(data.atracacao, data.carga, true).find((data: any) => data.acao === 'Total')?.totalPeso || 0
+  const chartData = data.find((data: any) => data.acao === 'Total')?.totalPeso || 0
 
   return (
     <Card

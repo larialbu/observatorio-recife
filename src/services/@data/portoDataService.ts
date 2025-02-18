@@ -55,13 +55,23 @@ export class PortoDataService {
 
       const atracacaoFiltered = applyGenericFilters(atracacaoHeaderData, filters)
 
-      const codCDTUP = atracacaoFiltered.filteredData[0]['CDTUP']
+      // const codCDTUP = atracacaoFiltered.filteredData[0]['CDTUP']
     
-      const cargaFiltered = cargaHeaderData.filter((item) => {
-        if (item.Origem === codCDTUP || item.Destino === codCDTUP) {
-          return item;
-        }
-      })
+      // const cargaFiltered = cargaHeaderData.filter((item) => {
+      //   if (item.Origem === codCDTUP || item.Destino === codCDTUP) {
+      //     return item;
+      //   }
+      // })
+      // const cargaFiltered = cargaHeaderData.filter((item) => {
+      //   if (atracacaoFiltered.filteredData.find((atracacao) => atracacao.IDAtracacao === item.IDAtracacao)) {
+      //     return item
+      //   }
+      // })
+      const atracacaoIds = new Set(atracacaoFiltered.filteredData.map((atracacao) => atracacao.IDAtracacao));
+
+      const cargaFiltered = cargaHeaderData.filter((item) => atracacaoIds.has(item.IDAtracacao));
+
+      // const cargaFiltered = cargaHeaderData 
 
       console.log(coords)
 
