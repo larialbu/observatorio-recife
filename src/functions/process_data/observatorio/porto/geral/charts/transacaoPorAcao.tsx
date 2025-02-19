@@ -26,26 +26,49 @@ export interface Atracacao {
     atracacoes: any[], 
     cargas: any[], 
     incluirTotal: boolean = true // Parâmetro para controlar a inclusão do total
-  ): Record<string, ProcessedCarga> => 
+  ): Record<string, ProcessedCarga> =>
     cargas.reduce((acc, carga) => {
       const acao = carga["Ação"] || "Indefinida";
-      const atracacao = atracacoes.find(a => +a["IDAtracacao"] === +carga["IDAtracacao"]) || null;
+      const atracacao = atracacoes.find(a => a["IDAtracacao"] == carga["IDAtracacao"]) || null;
   
       if (!atracacao) return acc; // Ignora cargas sem atracação relacionada
-  
+   
+      if (atracacao) {
+        console.log('DEUE BOOOOOM')
+      }
+
+      if (!atracacao) {
+        console.log('DEUM ERDAAADDAD')
+      }
+     
       // Atualiza a entrada para a ação correspondente
+      // antigo
+      // acc[acao] ??= { acao, totalPeso: 0, totalQuantidade: 0, cargas: [] };
+      // acc[acao].totalPeso += parseInt((String(carga["VLPesoCargaBruta"]) || "0").replace(",", "."), 10);
+      // acc[acao].totalQuantidade += parseInt(String(carga["QTCarga"]) || "0", 10);
+      // acc[acao].cargas.push({ ...carga, atracacao });
+  
+      // // Adiciona os totais gerais, somente se incluirTotal for verdadeiro
+      // if (incluirTotal) {
+      //   acc["Total"] ??= { acao: "Total", totalPeso: 0, totalQuantidade: 0, cargas: [] };
+      //   acc["Total"].totalPeso += parseInt((String(carga["VLPesoCargaBruta"]) || "0").replace(",", "."), 10);
+      //   acc["Total"].totalQuantidade += parseInt(String(carga["QTCarga"]) || "0", 10);
+      //   acc["Total"].cargas.push({ ...carga, atracacao });
+      // }
+      
       acc[acao] ??= { acao, totalPeso: 0, totalQuantidade: 0, cargas: [] };
-      acc[acao].totalPeso += parseInt((String(carga["VLPesoCargaBruta"]) || "0").replace(",", "."), 10);
+      acc[acao].totalPeso += Math.round(parseFloat((String(carga["VLPesoCargaBruta"]) || "0").replace(",", ".")));
       acc[acao].totalQuantidade += parseInt(String(carga["QTCarga"]) || "0", 10);
       acc[acao].cargas.push({ ...carga, atracacao });
-  
+      
       // Adiciona os totais gerais, somente se incluirTotal for verdadeiro
       if (incluirTotal) {
         acc["Total"] ??= { acao: "Total", totalPeso: 0, totalQuantidade: 0, cargas: [] };
-        acc["Total"].totalPeso += parseInt((String(carga["VLPesoCargaBruta"]) || "0").replace(",", "."), 10);
+        acc["Total"].totalPeso += Math.round(parseFloat((String(carga["VLPesoCargaBruta"]) || "0").replace(",", ".")));
         acc["Total"].totalQuantidade += parseInt(String(carga["QTCarga"]) || "0", 10);
         acc["Total"].cargas.push({ ...carga, atracacao });
       }
+      
   
       return acc;
     }, {} as Record<string, ProcessedCarga>);

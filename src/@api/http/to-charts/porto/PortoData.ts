@@ -52,6 +52,17 @@ export class PortoData {
             onComplete: (data) => resolve(data),
           });
         });
+ 
+        const records2 = await new Promise((resolve, reject) => {
+          parquetRead({
+            file: arrayBuffer,
+            onComplete: (data) => resolve(data),
+          });
+        });
+ 
+
+        console.log('RECCORDS OBJECT FORMAT', records)
+        console.log('RECCORDS ALEATORIO', records2)
         
         const endTime = performance.now();
         console.log(`Tempo de execução: ${(endTime - startTime).toFixed(2)} ms`);
@@ -76,7 +87,7 @@ export class PortoData {
    * Busca dados de atracação para o ano especificado.
    */
   async fetchAtracacaoPorAno(): Promise<any[]> {
-    const endpoint = `/porto/atracacao/2023_test`;
+    const endpoint = `/porto/atracacao/${this.year}_test`;
     return this.fetchData<any[]>(endpoint);
   }
 
@@ -84,7 +95,7 @@ export class PortoData {
    * Busca dados de carga para o ano especificado.
    */
   async fetchCargaPorAno(): Promise<any[]> {
-    const endpoint = `/porto/carga/2023_test`;
+    const endpoint = `/porto/carga/${this.year}_test`;
     return this.fetchData<any[]>(endpoint);
   }
 

@@ -15,13 +15,13 @@ const MovimentacaoGeral = ({
 }: any) => {
 
 
-console.log('DATA GGERAL', data)
+// console.log('DATA GGERAL', data)
 
 
-console.log('UNIQUE VALEUS ação', getUniqueValues<any, "Ação">(
-    data.carga,
-    "Ação"
-  ),)
+// console.log('UNIQUE VALEUS ação', getUniqueValues<any, "Ação">(
+//     data.carga,
+//     "Ação"
+//   ),)
 
 
 // console.log('UNIQUE VALEUS Tipo Navegação', getUniqueValues<any, "Tipo Navegação">(

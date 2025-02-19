@@ -4,11 +4,7 @@ import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
-import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import { processedAtracacaoData } from "@/@types/observatorio/porto/processedAtracacaoData";
 
 // AEROPORTO NOME
 
@@ -51,7 +47,9 @@ const Comparativo = ({
 //   "Porto Atracação"
 // ),)
 
-const getFiltredData2 = (rawData: any, portos: any) => {
+const attTempFiltred = ['Recife', ...tempFiltred]
+
+const getFiltredData = (rawData: any, portos: any) => {
   console.log('RAWDATA POROTOS', rawData, portos)
   if (!rawData || !rawData['atracacao'] || !rawData['carga']) {
     return []
@@ -62,19 +60,24 @@ const getFiltredData2 = (rawData: any, portos: any) => {
     portos.includes(item['Porto Atracação']),
   )
 
-  // Obtém os CDTUPs únicos das atracações filtradas
-  const uniqueCDTUPs = [
-    ...new Set(filtredAtracacao.map((item: any) => item.CDTUP)),
-  ]
+  // // Obtém os CDTUPs únicos das atracações filtradas
+  // const uniqueCDTUPs = [
+  //   ...new Set(filtredAtracacao.map((item: any) => item.CDTUP)),
+  // ]
 
-  // Filtra as cargas que tenham Origem ou Destino nos CDTUPs das atracações filtradas
-  const filtredCarga = rawData['carga'].filter(
-    (item: any) =>
-      uniqueCDTUPs.includes(item.Origem) ||
-      uniqueCDTUPs.includes(item.Destino),
-  )
+  // // Filtra as cargas que tenham Origem ou Destino nos CDTUPs das atracações filtradas
+  // const filtredCarga = rawData['carga'].filter(
+  //   (item: any) =>
+  //     uniqueCDTUPs.includes(item.Origem) ||
+  //     uniqueCDTUPs.includes(item.Destino),
+  // )
 
-  console.log('QUANTIDADE DE CARGAS QUE FORAM FILTRADOS', filtredCarga)
+  const atracacaoIds = new Set(filtredAtracacao.map((atracacao: any) => atracacao.IDAtracacao));
+
+  const filtredCarga = rawData['carga'].filter((item: any) => atracacaoIds.has(item.IDAtracacao));
+
+
+  // console.log('QUANTIDADE DE CARGAS QUE FORAM FILTRADOS', filtredCarga)
 
   // Organiza os dados por porto
   const dadosPorPorto = portos.map((porto: any) => {
@@ -104,7 +107,7 @@ const getFiltredData2 = (rawData: any, portos: any) => {
 }
 
 useEffect(() => {
-  const portosDataFIltred = getFiltredData2(rawData, ['Recife', ...tempFiltred])
+  const portosDataFIltred = getFiltredData(rawData, attTempFiltred)
   console.log('CAHCRRO', portosDataFIltred)
 
   // console.log('FILTREDF A ', atracacaoFiltred, cargaFiltred )
@@ -155,11 +158,11 @@ useEffect(() => {
     setTimeout(() => {
       setPageCompare((prevPage) =>
         direction === "next"
-          ? prevPage === tempFiltred.length - 1
+          ? prevPage === attTempFiltred.length - 1
             ? 0
             : prevPage + 1
           : prevPage === 0
-          ? tempFiltred.length - 1
+          ? attTempFiltred.length - 1
           : prevPage - 1
       );
       setAnimationClass("card-enter"); // Aplica a animação de entrada após a mudança
@@ -179,7 +182,7 @@ useEffect(() => {
       />
 
       <div className="flex justify-between items-center gap-2">
-        {['Recife', ...tempFiltred].length >= 1 ? (
+        {attTempFiltred.length >= 1 ? (
           <>
             <button
               className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
@@ -199,13 +202,19 @@ useEffect(() => {
             </button>
 
             <div className="w-[85%] flex flex-wrap gap-4 justify-center mb-2">
-              {['Recife', ...tempFiltred].map((toCompare: string) => {
-                return cards.slice(0, 1).map(({ Component }, index) => (
+              {attTempFiltred.map((toCompare: string, index: number) => {
+                return cards.slice(0, 1).map(({ Component }) => {
+                //  console.log('IIINDEEEEXXXXX', index)
+                //  console.log('PORTOS DATA FILTR', portosDataFiltred)
+                //  console.log('COISA POR INDEX', ["Recife", ...tempFiltred][index], ["Recife", ...tempFiltred])
+                //  console.log('DATA ALGUAA', { ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], rawData: {} })
+                 
+                  return (
                   // <div key={index}></div>
                   <React.Suspense fallback={<div>Loading...</div>} key={index}>
                     <div
                       className={`${
-                        toCompare === ['Recife', ...tempFiltred][pageCompare]
+                        toCompare === attTempFiltred[pageCompare]
                           ? animationClass
                           : "hidden"
                       } flex-1`}
@@ -217,10 +226,10 @@ useEffect(() => {
                         color={ColorPalette.default[index]}
                       /> */}
                       {/* data={{ ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], rawData: {} }} */}
-                      <Component data={data} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
+                      <Component data={{ ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], rawData: {} }} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
                     </div>
                   </React.Suspense>
-                ));
+                )});
               })}
             </div>
 
@@ -257,7 +266,7 @@ useEffect(() => {
       </div>
 
       <div className="flex items-center justify-center mb-6 gap-2">
-        {tempFiltred.map((_, i) => {
+        {attTempFiltred.map((_, i) => {
           return (
             <button
               key={i}

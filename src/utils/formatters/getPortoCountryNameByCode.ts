@@ -2,7 +2,7 @@ export function getPortoCountryNameByCode(cargaArray: any, origemArray: any, nom
     // First, we map and add the `Country ${nomeOrigem}` to the carga objects
     const cargaWithCountry = cargaArray.map((carga: any) => {
         // Finding the origin in the second array based on the passed field name
-        const origemInfo = origemArray.find((origem: any) => origem[nomeOrigem].toLowerCase() === carga['codigo'].toLowerCase());
+        const origemInfo = origemArray.find((origem: any) => origem[nomeOrigem]?.toLowerCase() === carga['codigo'].toLowerCase());
 
         // If the origin is found, add the country to the carga object
         if (origemInfo) {

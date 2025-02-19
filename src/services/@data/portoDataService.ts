@@ -75,6 +75,15 @@ export class PortoDataService {
 
       console.log(coords)
 
+
+      console.log('TEM ALGUMA COISA ERRADA', {
+        atracacao: atracacaoFiltered,
+        carga: cargaFiltered,
+        rawData: { atracacao: atracacaoHeaderData, carga: cargaHeaderData},
+        dictionaries:{ atracacao: atracacaoDictionary[0], carga: cargaDictionary[0], origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary},
+        coords: coords,
+      })
+
     return {
         atracacao: atracacaoFiltered,
         carga: cargaFiltered,
