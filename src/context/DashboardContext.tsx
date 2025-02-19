@@ -6,12 +6,12 @@ import React, {
   useContext,
   ReactNode,
   useEffect,
+  useRef,
 } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
 
-// Tipagem para os filtros e dados
 interface Filters {
   [key: string]: any;
   additionalFilters?: { label: string; selected: string[] }[];
@@ -21,7 +21,6 @@ interface Data {
   [key: string]: any;
 }
 
-// Interface para tipar o contexto do Dashboard
 interface DashboardContextProps {
   filters: Filters;
   data: Data | null;
@@ -40,41 +39,40 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<Data | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Busca os dados corretos com base na rota e filtros
-  const fetchData = async (filtersToUse: Filters) => {
-    setIsLoading(true);
-    try {
-      const tab = searchParams.get("tab") || "geral"; // Define tab padrão
-      console.log("tab no context", tab);
+  const prevFiltersRef = useRef<Filters | null>(null); // armazenar os filtros anteriores
 
-      console.log("path e tab no context", pathname, tab);
-      const service = getServiceForRoute(pathname, tab); // Obtém o service correto
-      console.log("service no context", service);
-      
+  // Função para buscar os dados com base nos filtros
+  const fetchData = async (filtersToUse: Filters) => {
+    console.log("🔄 Chamando fetchData..."); // QUE LINDO
+    setIsLoading(true);
+
+    try {
+      const tab = searchParams.get("tab") || "geral";
+      const service = getServiceForRoute(pathname, tab);
+
       if (!service) {
         console.warn("Nenhum serviço encontrado para essa rota/tab.");
         setData(null);
         return;
       }
 
-      // Define o ano no service, se suportado
       service.setYear(filtersToUse?.year || "2024");
-
-      // Chama o serviço para buscar os dados
       const fetched: Data = await service.fetchDataForTab(tab, filtersToUse);
+
+      console.log("✅ Dados carregados:", fetched); // REMOVER ISSO AQUI DEPOIS
+
       setData(fetched);
 
-      // Mescla os additionalFiltersOptions se existirem
+      // Atualiza os filtros apenas se additionalFiltersOptions existirem
       const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
-
       if (newAdditional.length) {
-        setFilters((prev) => {
-          const merged = newAdditional.map((newF: any) => {
+        setFilters((prev) => ({
+          ...prev,
+          additionalFilters: newAdditional.map((newF: any) => {
             const oldF = prev.additionalFilters?.find((o) => o.label === newF.label);
             return oldF ? { ...newF, selected: oldF.selected || [] } : { ...newF, selected: newF.selected || [] };
-          });
-          return { ...prev, additionalFilters: merged };
-        });
+          }),
+        }));
       }
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
@@ -84,21 +82,13 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Aplica novos filtros e recarrega os dados
   const applyFilters = async (newFilters: Filters) => {
-    setFilters(newFilters);
-    await fetchData(newFilters);
+    if (JSON.stringify(filters) !== JSON.stringify(newFilters)) {
+      setFilters(newFilters);
+      await fetchData(newFilters);
+    }
   };
 
-  // Monitora mudanças na rota/tab e aplica filtros padrão
-  useEffect(() => {
-    const tab = searchParams.get("tab");
-    const baseFilters = getFiltersForRoute(pathname, tab);
-    setFilters(baseFilters);
-    fetchData(baseFilters);
-  }, [pathname, searchParams]);
-
-  // Reseta os filtros (zera os selected e recarrega dados)
   const resetFilters = () => {
     const tab = searchParams.get("tab");
     let baseFilters = getFiltersForRoute(pathname, tab);
@@ -111,6 +101,21 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     }
     applyFilters(baseFilters);
   };
+
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    const baseFilters = getFiltersForRoute(pathname, tab);
+
+    // Se os filtros não MUDAREM, não faz nada <-- EVITAR REFETCH'S ALEATÓRIOS 
+    if (JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters)) {
+      console.log("🟡 Nenhuma mudança nos filtros, pulando fetchData.");
+      return;
+    }
+
+    console.log("🔵 Filtros mudaram, chamando fetchData...");
+    prevFiltersRef.current = baseFilters;
+    fetchData(baseFilters);
+  }, [pathname, searchParams]); // Só roda quando a URL muda
 
   return (
     <DashboardContext.Provider value={{ filters, data, isLoading, applyFilters, resetFilters }}>

@@ -1,3 +1,7 @@
+/**
+ * ESTA PÁGINA NÃO DEVE ARMAZENAR CACHE PELO TAMANHO DE DATA RECEBID
+ */
+
 import { parquetRead } from "hyparquet";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -6,7 +10,6 @@ const API_PASSWORD = process.env.NEXT_PUBLIC_API_PASSWORD;
 
 export class PortoData {
   private year: string;
-  private static cache: Record<string, any> = {}; // Cache estático para todas as instâncias
 
   constructor(year: string) {
     this.year = year;
@@ -16,10 +19,6 @@ export class PortoData {
    * Método genérico para buscar dados da API.
    */
   private async fetchData<T>(endpoint: string): Promise<T> {
-    if (PortoData.cache[endpoint]) {
-      // console.log("Usando dados em cache para:", endpoint);
-      return PortoData.cache[endpoint];
-    }
 
     try {
       const response = await fetch(`${BASE_URL}${endpoint}`, {
@@ -38,7 +37,7 @@ export class PortoData {
       // Log do cabeçalho Content-Type
       const contentType = response.headers.get("content-type");
 
-      let data: T;
+      let data: any;
 
        if (contentType?.includes("application/octet-stream")) {
         const startTime = performance.now();
@@ -52,17 +51,8 @@ export class PortoData {
             onComplete: (data) => resolve(data),
           });
         });
- 
-        const records2 = await new Promise((resolve, reject) => {
-          parquetRead({
-            file: arrayBuffer,
-            onComplete: (data) => resolve(data),
-          });
-        });
- 
 
         console.log('RECCORDS OBJECT FORMAT', records)
-        console.log('RECCORDS ALEATORIO', records2)
         
         const endTime = performance.now();
         console.log(`Tempo de execução: ${(endTime - startTime).toFixed(2)} ms`);
@@ -75,7 +65,7 @@ export class PortoData {
         data = JSON.parse(text); // Converte para objeto JSON
       }
 
-      PortoData.cache[endpoint] = data;
+
       return data;
     } catch (error) {
       console.error(`Erro em fetchData (${endpoint}):`, error);
@@ -144,10 +134,5 @@ export class PortoData {
     return this.fetchData<any[]>(endpoint);
   }
 
-  /**
-   * Limpa o cache de dados.
-   */
-  clearCache(): void {
-    PortoData.cache = {};
-  }
+
 }
