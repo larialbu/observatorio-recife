@@ -11,7 +11,7 @@ import Dimensao from "./(dimensao)/dimensao";
 import Pilar from "./(pilar)/pilar";
 import Indicador from "./(indicador)/indicador";
 
-const AeroportosPage = () => {
+const RankingPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
   const [anac, setAnac] = useState([]);
@@ -155,4 +155,4 @@ const AeroportosPage = () => {
   );
 };
 
-export default AeroportosPage;
+export default RankingPage;

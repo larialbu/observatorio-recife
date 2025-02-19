@@ -11,7 +11,7 @@ import { getMonths } from "@/utils/filters/@global/getMonths";
 import Analitico from "./(analitico)/analitico";
 import Grupos from "./(grupos)/grupos";
 
-const AeroportosPage = () => {
+const IpcaPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
   const [anac, setAnac] = useState([]);
@@ -138,4 +138,4 @@ const AeroportosPage = () => {
   );
 };
 
-export default AeroportosPage;
+export default IpcaPage;

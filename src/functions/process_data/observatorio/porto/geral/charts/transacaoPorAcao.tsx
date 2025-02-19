@@ -33,13 +33,6 @@ export interface Atracacao {
   
       if (!atracacao) return acc; // Ignora cargas sem atracação relacionada
    
-      if (atracacao) {
-        console.log('DEUE BOOOOOM')
-      }
-
-      if (!atracacao) {
-        console.log('DEUM ERDAAADDAD')
-      }
      
       // Atualiza a entrada para a ação correspondente
       // antigo

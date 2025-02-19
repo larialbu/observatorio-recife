@@ -60,7 +60,7 @@ const Navbar = () => {
 
   /** Marca/desmarca individualmente */
   const handleCheckboxChange = (label: string, option: string) => {
-    setTempFilters((prev) => {
+    setTempFilters((prev: any) => {
       const updated = prev.additionalFilters.map((f: any) => {
         if (f.label === label) {
           const isAllowMultiple = f.allowMultiple !== false; // Se não existir, assume true
@@ -83,7 +83,7 @@ const Navbar = () => {
 
   /** Selecionar/deselecionar tudo */
   const handleSelectAll = (label: string) => {
-    setTempFilters((prev) => {
+    setTempFilters((prev: any) => {
       const updated = prev.additionalFilters.map((f: any) => {
         if (f.label !== label) return f;
         const allSelected = f.selected.length === f.options.length;
