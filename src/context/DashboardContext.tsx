@@ -67,7 +67,9 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
       if (newAdditional.length) {
         setFilters((prev) => ({
-          ...prev,
+          // unica coisa q alterei 
+          // ...prev,
+          ...prevFiltersRef.current,
           additionalFilters: newAdditional.map((newF: any) => {
             const oldF = prev.additionalFilters?.find((o) => o.label === newF.label);
             return oldF ? { ...newF, selected: oldF.selected || [] } : { ...newF, selected: newF.selected || [] };
