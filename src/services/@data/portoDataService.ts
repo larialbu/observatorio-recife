@@ -31,44 +31,14 @@ export class PortoDataService {
         portoService.fetchCoordinates(),
       ]);
       
-      // const atracacaoHeaderData = setDataHeaders({
-      //   data: atracacao,
-      //   header: atracacaoHeader
-      // })
-
-
       const atracacaoFiltered = applyGenericFilters(atracacao, filters)
-
-      // const atracacaoIds = new Set(atracacaoFiltered.filteredData.map((atracacao) => atracacao.IDAtracacao));
-      // console.log(atracacaoIds)
-
-      // const cargaFiltered = carga.filter((item) => atracacaoIds.has(item.IDAtracacao));
-      // console.log(cargaFiltered)
-
-
 
       const atracacaoIds = new Set(atracacaoFiltered.filteredData.map((atracacao) => atracacao.IDAtracacao));
       console.log(atracacaoIds);
-      // Array com os tipos de operação da carga que queremos filtrar
-      const tiposOperacaoPermitidos = new Set([
-        "Apoio",
-        "Longo Curso Exportação", // --
-        "Cabotagem",              // --
-        "Longo Curso Importação", // --
-        "Interior",
-        "Transferência Interna",
-        "Longo Curso Importação Com Baldeação De Carga Estrangeira",
-        "Baldeação De Carga Estrangeira De Passagem", // --
-        "Longo Curso Exportação Com Baldeação De Carga Estrangeira",
-        "Baldeação De Carga Nacional", // --
-      ]);
-      
-      // Filtrando 'carga' com base em atracacaoIds e nos tipos permitidos
-      const cargaFiltered = carga.filter((item) => 
-        atracacaoIds.has(item.IDAtracacao) && tiposOperacaoPermitidos.has(item["Tipo Operação da Carga"])
+
+      const cargaFiltered = carga.filter((item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga'] === 1
       );
       console.log(cargaFiltered)
-
 
       console.log('TEM ALGUMA COISA ERRADA', {
         atracacao: atracacaoFiltered,
