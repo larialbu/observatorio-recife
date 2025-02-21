@@ -7,18 +7,15 @@ export const processAtracacoesPorCarga = (atracacoes: any[], cargas: any[]) => {
     // Processa os dados agrupando por CDMercadoria
     const processedData = cargasFiltradas.reduce((acc: any, carga: any) => {
       const cdMercadoria = carga.CDMercadoria || "Indefinido";
-      const qtCarga = parseFloat(String(carga.QTCarga)?.replace(",", ".") || "0");
       const vlPesoCargaBruta = parseFloat(String(carga.VLPesoCargaBruta)?.replace(",", ".") || "0");
   
       if (!acc[cdMercadoria]) {
         acc[cdMercadoria] = {
           CDMercadoria: cdMercadoria, 
-          totalQTCarga: 0,
           totalVLPesoCargaBruta: 0,
         };
       }
   
-      acc[cdMercadoria].totalQTCarga += qtCarga;
       acc[cdMercadoria].totalVLPesoCargaBruta += vlPesoCargaBruta;
   
       return acc;

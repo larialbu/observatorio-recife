@@ -22,12 +22,10 @@ export function getPortoCountryNameByCode(cargaArray: any, origemArray: any, nom
             // If the country doesn't exist yet, create the entry
             groupedByCountry[country] = {
                 pais: country,
-                totalQTCarga: carga.totalQTCarga,
                 totalVLPesoCargaBruta: carga.totalVLPesoCargaBruta
             };
         } else {
             // If the country already exists, sum the values
-            groupedByCountry[country].totalQTCarga += carga.totalQTCarga;
             groupedByCountry[country].totalVLPesoCargaBruta += carga.totalVLPesoCargaBruta;
         }
     });

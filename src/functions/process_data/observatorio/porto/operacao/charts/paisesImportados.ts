@@ -17,17 +17,14 @@ export const processCargasLongoCurso = (atracacoes: any[], cargas: any[], type: 
     // Processa os dados agrupando por origem/destino e somando as quantidades e o peso bruto
     const processedData = cargasFiltradas.reduce((acc, carga) => {
         const origemDestino = carga[campoOrigemDestino] || "Indefinido"; // Agrupa pela origem ou destino
-        const qtCarga = parseInt(String(carga.QTCarga)?.replace(",", ".") || "0");
         const vlPesoCargaBruta = parseInt(String(carga.VLPesoCargaBruta)?.replace(",", ".") || "0");
     
         if (!acc[origemDestino]) {
             acc[origemDestino] = {
-                totalQTCarga: 0,
                 totalVLPesoCargaBruta: 0
             };
         }
     
-        acc[origemDestino].totalQTCarga += qtCarga;
         acc[origemDestino].totalVLPesoCargaBruta += vlPesoCargaBruta;
 
         
@@ -37,7 +34,6 @@ export const processCargasLongoCurso = (atracacoes: any[], cargas: any[], type: 
     // Organiza os dados no formato final
     const result = Object.keys(processedData).map((origemDestino) => ({
         codigo: origemDestino,
-        totalQTCarga: processedData[origemDestino].totalQTCarga,
         totalVLPesoCargaBruta: processedData[origemDestino].totalVLPesoCargaBruta
     }));
   

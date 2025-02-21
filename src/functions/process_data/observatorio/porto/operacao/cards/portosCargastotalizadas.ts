@@ -3,7 +3,6 @@ export const portosCargastotalizadas = (atracacoes: any[], cargas: any[]) => {
     const operacoesSoma: any = {
       total: {
         operacao: "total", // Nome para o total geral
-        QTCarga: 0,
         VLPesoCargaBruta: 0,
       }
     };
@@ -11,7 +10,7 @@ export const portosCargastotalizadas = (atracacoes: any[], cargas: any[]) => {
     // Itera sobre as cargas e soma os dados por operação
     cargas.forEach((carga: any) => {
       // Encontra a atracação correspondente com base no IDAtracacao
-      const atracacao = atracacoes.find((atracacao: any) => atracacao.IDAtracacao === carga.IDAtracacao);
+      // const atracacao = atracacoes.find((atracacao: any) => atracacao.IDAtracacao === carga.IDAtracacao);
   
     //   if (atracacao) {
         const tipoOperacao = carga["Tipo Operação da Carga"].toLowerCase(); // Obtém o tipo de operação
@@ -20,17 +19,14 @@ export const portosCargastotalizadas = (atracacoes: any[], cargas: any[]) => {
         if (!operacoesSoma[tipoOperacao]) {
           operacoesSoma[tipoOperacao] = {
             operacao: tipoOperacao,
-            QTCarga: 0,
             VLPesoCargaBruta: 0,
           };
         }
   
         // Soma a quantidade de carga e peso bruto por tipo de operação
-        operacoesSoma[tipoOperacao].QTCarga += parseInt(carga.QTCarga || "0");
         operacoesSoma[tipoOperacao].VLPesoCargaBruta += parseInt(carga.VLPesoCargaBruta || "0");
   
         // Soma os totais gerais (sem distinção de operação)
-        operacoesSoma.total.QTCarga += parseInt(carga.QTCarga || "0");
         operacoesSoma.total.VLPesoCargaBruta += parseInt(carga.VLPesoCargaBruta || "0");
     //   }
     }

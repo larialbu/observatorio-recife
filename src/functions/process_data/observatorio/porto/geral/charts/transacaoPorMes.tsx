@@ -41,7 +41,6 @@ export const processAtracacoesPorMes = (atracacoes: any[], cargas: any[]) => {
   // Inicializa os dados processados com os meses do ano
   const processedData = meses.map((mes) => ({
     mes,
-    totalQTCarga: 0,
     totalVLPesoCargaBruta: 0,
     outrosCarga: 0,
     cabotagemCarga: 0,
@@ -56,7 +55,6 @@ export const processAtracacoesPorMes = (atracacoes: any[], cargas: any[]) => {
 
   // Processa os dados agrupando por mês
   cargasFiltradas.forEach((carga) => {
-    const qtCarga = parseInt(String(carga.QTCarga)?.replace(",", ".") || "0");
     const vlPesoCargaBruta = parseInt(String(carga.VLPesoCargaBruta)?.replace(",", ".") || "0");
     const atracacao = atracacoes.find((a) => +a.IDAtracacao === +carga.IDAtracacao);
 
@@ -65,7 +63,6 @@ export const processAtracacoesPorMes = (atracacoes: any[], cargas: any[]) => {
       const mesIndex = meses.indexOf(mes);
 
       if (mesIndex !== -1) {
-        processedData[mesIndex].totalQTCarga += qtCarga;
         processedData[mesIndex].totalVLPesoCargaBruta += vlPesoCargaBruta;
 
         // Classifica as cargas por tipo de operação

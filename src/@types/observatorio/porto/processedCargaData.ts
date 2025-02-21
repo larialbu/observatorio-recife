@@ -5,7 +5,7 @@ export interface processedCargaData {
         IDAtracacao: number;
         IDCarga: number;
         Origem: string | null;
-        QTCarga: number;
+        // QTCarga: number;
         "Tipo Navegação": string;
         "Tipo Operação da Carga": string;
         VLPesoCargaBruta: string;

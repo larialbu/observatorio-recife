@@ -5,7 +5,7 @@ export const cargaHeader = {
     IDAtracacao: true,
     IDCarga: true,
     Origem: true,
-    QTCarga: true,
+    // QTCarga: true,
     "Tipo Navegação": true,
     "Tipo Operação da Carga": true,
     VLPesoCargaBruta: true,

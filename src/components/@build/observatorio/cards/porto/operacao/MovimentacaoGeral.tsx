@@ -1,6 +1,6 @@
 import Card from "@/components/@global/cards/Card";
 import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorAcao";
-import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
+import { getUniqueValues, getUniqueValuesArr } from "@/utils/filters/@global/getUniqueValues";
 import React, { ElementType } from "react";
 
 const MovimentacaoGeral = ({
@@ -30,10 +30,15 @@ const MovimentacaoGeral = ({
 //   ),)
 
       
-// console.log('UNIQUE VALEUS Tipo Operação da Carga', getUniqueValues<any, "Tipo Operação da Carga">(
-//     data.carga,
-//     "Tipo Operação da Carga"
-//   ),)
+console.log('UNIQUE VALEUS Tipo Operação da Carga', getUniqueValues<any, "Tipo Operação da Carga">(
+    data.carga,
+    "Tipo Operação da Carga"
+  ),)
+
+  console.log('UNIQUE VALEUS Tipo Operação da Carga ARRAY ', getUniqueValuesArr<any, "Tipo Operação da Carga">(
+    data.carga,
+    "Tipo Operação da Carga"
+  ),)
 
   const chartData = prepareCargasPorAcaoData(data.atracacao, data.carga, true)
 

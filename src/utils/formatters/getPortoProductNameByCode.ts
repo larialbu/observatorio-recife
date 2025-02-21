@@ -11,12 +11,10 @@ export function getPortoProductNameByCode(mercadoriaArray: any[], mercadoriaDict
       // Se o CDMercadoria já existe no Map, somamos os valores, caso contrário, adicionamos um novo item
       if (resultMap.has(nomenclatura)) {
         const existing = resultMap.get(nomenclatura);
-        existing.totalQTCarga += mercadoriaItem.totalQTCarga;
         existing.totalVLPesoCargaBruta += mercadoriaItem.totalVLPesoCargaBruta;
       } else {
         resultMap.set(nomenclatura, {
           CDMercadoria: nomenclatura,
-          totalQTCarga: mercadoriaItem.totalQTCarga,
           totalVLPesoCargaBruta: mercadoriaItem.totalVLPesoCargaBruta
         });
       }

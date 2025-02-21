@@ -17,7 +17,6 @@ export interface AcaoCount {
 export interface ProcessedCarga {
     acao: string;
     totalPeso: number;
-    totalQuantidade: number;
     cargas: (Carga & { atracacao: Atracacao | null })[];
 }
 
@@ -34,17 +33,14 @@ export const processCargasPorAcao = (
 
         // USANDO FLOAT ????
         const pesoCarga = parseFloat(String(carga["VLPesoCargaBruta"]).replace(",", ".")) || 0;
-        const quantidadeCarga = parseFloat(String(carga["QTCarga"]).replace(",", ".")) || 0;
 
-        acc[acao] ??= { acao, totalPeso: 0, totalQuantidade: 0, cargas: [] };
+        acc[acao] ??= { acao, totalPeso: 0, cargas: [] };
         acc[acao].totalPeso += pesoCarga;
-        acc[acao].totalQuantidade += quantidadeCarga;
         acc[acao].cargas.push({ ...carga, atracacao });
 
         if (incluirTotal) {
-            acc["Total"] ??= { acao: "Total", totalPeso: 0, totalQuantidade: 0, cargas: [] };
+            acc["Total"] ??= { acao: "Total", totalPeso: 0, cargas: [] };
             acc["Total"].totalPeso += pesoCarga;
-            acc["Total"].totalQuantidade += quantidadeCarga;
             acc["Total"].cargas.push({ ...carga, atracacao });
         }
 
