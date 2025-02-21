@@ -32,7 +32,7 @@ export const processCargasPorAcao = (
         if (!atracacao) return acc;
 
         // USANDO FLOAT ????
-        const pesoCarga = parseFloat(String(carga["VLPesoCargaBruta"]).replace(",", ".")) || 0;
+        const pesoCarga = carga["VLPesoCargaBruta"] || 0;
 
         acc[acao] ??= { acao, totalPeso: 0, cargas: [] };
         acc[acao].totalPeso += pesoCarga;
@@ -45,8 +45,8 @@ export const processCargasPorAcao = (
         }
 
         // Arredonda para duas casas decimais no final
-        acc[acao].totalPeso = Math.round(acc[acao].totalPeso * 100) / 100; 
-        if (acc["Total"]) acc["Total"].totalPeso = Math.round(acc["Total"].totalPeso * 100) / 100; 
+        acc[acao].totalPeso = acc[acao].totalPeso  
+        if (acc["Total"]) acc["Total"].totalPeso =  acc["Total"].totalPeso  
 
         return acc;
     }, {} as Record<string, ProcessedCarga>);

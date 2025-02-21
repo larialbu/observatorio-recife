@@ -30,15 +30,15 @@ const MovimentacaoGeral = ({
 //   ),)
 
       
-console.log('UNIQUE VALEUS Tipo Operação da Carga', getUniqueValues<any, "Tipo Operação da Carga">(
-    data.carga,
-    "Tipo Operação da Carga"
-  ),)
+// console.log('UNIQUE VALEUS Tipo Operação da Carga', getUniqueValues<any, "Tipo Operação da Carga">(
+//     data.carga,
+//     "Tipo Operação da Carga"
+//   ),)
 
-  console.log('UNIQUE VALEUS Tipo Operação da Carga ARRAY ', getUniqueValuesArr<any, "Tipo Operação da Carga">(
-    data.carga,
-    "Tipo Operação da Carga"
-  ),)
+//   console.log('UNIQUE VALEUS Tipo Operação da Carga ARRAY ', getUniqueValuesArr<any, "Tipo Operação da Carga">(
+//     data.carga,
+//     "Tipo Operação da Carga"
+//   ),)
 
   const chartData = prepareCargasPorAcaoData(data.atracacao, data.carga, true)
 
