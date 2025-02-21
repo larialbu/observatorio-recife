@@ -33,17 +33,19 @@ export class PortoDataService {
         portoService.fetchCoordinates(),
       ]);
       
-      const atracacaoHeaderData = setDataHeaders({
-        data: atracacao,
-        header: atracacaoHeader
-      })
+      // const atracacaoHeaderData = setDataHeaders({
+      //   data: atracacao,
+      //   header: atracacaoHeader
+      // })
 
 
-      const atracacaoFiltered = applyGenericFilters(atracacaoHeaderData, filters)
+      const atracacaoFiltered = applyGenericFilters(atracacao, filters)
 
       const atracacaoIds = new Set(atracacaoFiltered.filteredData.map((atracacao) => atracacao.IDAtracacao));
+      console.log(atracacaoIds)
 
       const cargaFiltered = carga.filter((item) => atracacaoIds.has(item.IDAtracacao));
+      console.log(cargaFiltered)
 
 
       console.log('TEM ALGUMA COISA ERRADA', {
@@ -56,7 +58,7 @@ export class PortoDataService {
       return {
         atracacao: atracacaoFiltered,
         carga: cargaFiltered,
-        rawData: { atracacao: atracacaoHeaderData, carga: carga},
+        rawData: { atracacao: atracacao, carga: carga},
         dictionaries:{ origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary},
         coords: coords,
       };

@@ -66,15 +66,22 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       // Atualiza os filtros apenas se additionalFiltersOptions existirem
       const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
       if (newAdditional.length) {
-        setFilters((prev) => ({
-          // unica coisa q alterei 
-          // ...prev,
-          ...prevFiltersRef.current,
-          additionalFilters: newAdditional.map((newF: any) => {
-            const oldF = prev.additionalFilters?.find((o) => o.label === newF.label);
-            return oldF ? { ...newF, selected: oldF.selected || [] } : { ...newF, selected: newF.selected || [] };
-          }),
-        }));
+        setFilters((prev) => {
+          const merged = newAdditional.map((newF: any) => {
+            const oldF = prev.additionalFilters?.find(
+              (o: any) => o.label === newF.label
+            );
+            if (!oldF) {
+              return { ...newF, selected: newF.selected || [] };
+            }
+            // substitui options, mas preserva oldF.selected
+            return {
+              ...newF,
+              selected: oldF.selected || [],
+            };
+          });
+          return { ...prev, additionalFilters: merged };
+        });
       }
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
@@ -116,6 +123,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
     console.log("🔵 Filtros mudaram, chamando fetchData...");
     prevFiltersRef.current = baseFilters;
+    setFilters(baseFilters);
     fetchData(baseFilters);
   }, [pathname, searchParams]); // Só roda quando a URL muda
 

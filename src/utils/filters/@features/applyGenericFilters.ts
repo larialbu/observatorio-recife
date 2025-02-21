@@ -1,7 +1,5 @@
 export const applyGenericFilters = (data: any[], filters: Record<string, any>, noData:boolean = false) => {
 
-  const yearFilter = filters.year || "2024";
-
 
   // 2) "filteredData": Filtra por ano + additionalFilters selecionados.
   //    Isso afeta só a exibição final, não as 'options'.

@@ -265,11 +265,14 @@ const Navbar = () => {
                                 }
                                 return a.localeCompare(b, undefined, { sensitivity: "base" });
                               })
-                              .filter((op: string) =>
-                                op
-                                  .toLowerCase()
-                                  .includes((searchTerms[f.label] || "").toLowerCase())
-                              )
+                              .filter((op: string) => {
+                                const searchTerm = searchTerms[f.label] || "";
+                              
+                                if (typeof op === "string") {
+                                  return op.toLowerCase().includes(searchTerm.toLowerCase());
+                                }
+                                return String(op).includes(searchTerm);
+                              })
                               .map((op: string) => (
                                 <label key={op} className="flex items-center gap-2 py-1 text-sm">
                                   <input

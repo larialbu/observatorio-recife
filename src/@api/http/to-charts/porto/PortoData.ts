@@ -77,7 +77,7 @@ export class PortoData {
    * Busca dados de atracação para o ano especificado.
    */
   async fetchAtracacaoPorAno(): Promise<any[]> {
-    const endpoint = `/porto/atracacao/${this.year}_test`;
+    const endpoint = `/porto/atracacao/${this.year}`;
     return this.fetchData<any[]>(endpoint);
   }
 
@@ -85,7 +85,7 @@ export class PortoData {
    * Busca dados de carga para o ano especificado.
    */
   async fetchCargaPorAno(): Promise<any[]> {
-    const endpoint = `/porto/carga/${this.year}_test`;
+    const endpoint = `/porto/carga/${this.year}`;
     return this.fetchData<any[]>(endpoint);
   }
 
