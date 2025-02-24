@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef } from "react";
+import React, { ReactNode, useEffect, useRef } from "react";
 import Sortable from "sortablejs";
 
 interface SortableDivProps {
@@ -66,5 +66,15 @@ export const SortableDiv = ({ chartOrder, setChartOrder, sortableContainerRef, c
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [chartOrder]);
 
-      return <div ref={sortableContainerRef} className={`${style}`}>{children}</div>
+      return (
+        <div ref={sortableContainerRef} className={style}>
+          {React.Children.map(children, (child, index) => {
+            if (React.isValidElement(child)) {
+              return React.cloneElement(child, { key: index });
+            }
+            return null; // Se o 'child' não for um componente válido, não renderize nada
+          })}
+        </div>
+      );
+      
 }
