@@ -16,7 +16,6 @@ const Operacao = ({
   year: string;
   months: number;
 }) => {
-
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
 
   // REF do container e REF da instância do Sortable
@@ -39,10 +38,10 @@ const Operacao = ({
         style="charts-items-wrapper"
       >
         {chartOrder.map((index) => {
-          const { Component } = charts[index];
+          const { Component, col } = charts[index];
 
           return (
-            <div key={index} className="chart-content-wrapper">
+            <div key={index} className={`chart-content-wrapper ${col === 'full' && 'col-span-full'}`}>
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component data={data} months={months} />
               </React.Suspense>

@@ -22,19 +22,20 @@ export class PortoDataService {
   private async fetchPortoData(filters: Record<string, any>) {
     const portoService = new PortoData(this.currentYear);
 
-    const [atracacao, carga, origemDictionary, destinoDictionary, mercadoriaDictionary, coords] = await Promise.all([
+    const [atracacao, carga, origemDictionary, destinoDictionary, mercadoriaDictionary, coords, portosOperations] = await Promise.all([
         portoService.fetchAtracacaoPorAno(),
         portoService.fetchCargaPorAno(),
         portoService.fetchOrigemDictionary(),
         portoService.fetchDestinoDictionary(),
         portoService.fetchMercadoriaDictionary(),
         portoService.fetchCoordinates(),
+        portoService.fetchPortosOperations()
       ]);
       
       const atracacaoFiltered = applyGenericFilters(atracacao, filters)
 
       const atracacaoIds = new Set(atracacaoFiltered.filteredData.map((atracacao) => atracacao.IDAtracacao));
-      console.log(atracacaoIds);
+      // console.log(atracacaoIds);
 
       const cargaFiltered = carga.filter((item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga'] === 1
       );
@@ -53,6 +54,7 @@ export class PortoDataService {
         rawData: { atracacao: atracacao, carga: carga},
         dictionaries:{ origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary},
         coords: coords,
+        charts: { portos: portosOperations}
       };
   }
 

@@ -18,13 +18,13 @@ const MovimentacaoGeral = ({
   const chartData = prepareCargasPorAcaoData(data.atracacao, data.carga, true)
 
   return (
-    <>
+    <div className="flex flex-wrap gap-4 justify-center mb-2">
     {cards.map(({ Component }: {Component: ElementType}, index: number) => (
       <React.Suspense fallback={<div>Loading...</div>} key={index}>
         <Component data={chartData} year={year} color={ColorPalette[index]} />
       </React.Suspense>
     ))}
-  </>
+  </div>
   );
 };
 

@@ -50,7 +50,7 @@ const SelectPrincipal = ({
     } else if (!includes && !unique) {
       setFilters([...filters, value]);
     } else if (includes && unique) {
-      setFilters([filters.filter((item: string) => item !== value)]);
+      setFilters([...filters.filter((item: string) => item !== value)]);
       setSearchTerm(`${value}`);
     } else if (!includes && unique) {
       setFilters([value]);

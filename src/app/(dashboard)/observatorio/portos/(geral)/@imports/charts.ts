@@ -22,6 +22,13 @@ const charts = [
       )
     ),
   },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/porto/geral/OperacaoPortos"
+      )
+    ),
+  },
 ];
 
 export default charts;

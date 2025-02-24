@@ -10,7 +10,7 @@ import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/
 
 const MovimentacaoPorTipo = ({
   data,
-  title = "Tipo de Transação (Ton) - por Porto",
+  title = "Tipo de Transação (Ton)",
   year,
 }: any) => {
   const [showPercentage, setShowPercentage] = useState(true);

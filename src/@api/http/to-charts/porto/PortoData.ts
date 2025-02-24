@@ -134,5 +134,9 @@ export class PortoData {
     return this.fetchData<any[]>(endpoint);
   }
 
-
+  async fetchPortosOperations(): Promise<any[]> {
+    const endpoint= `/porto/charts/coords/${this.year}`
+    return this.fetchData<any[]>(endpoint);
+  }
+  
 }

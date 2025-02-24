@@ -9,7 +9,7 @@ import { getPortoProductNameByCode } from "@/utils/formatters/getPortoProductNam
 
 const PrincipaisProdutos = ({
   data,
-  title = "Passageiros por Aeroporto",
+  title = "Produtos Comercializados (Ton)",
   year,
 }: any) => {
   const chartData = getPortoProductNameByCode(processAtracacoesPorCarga(data.atracacao, data.carga), data.dictionaries.mercado)

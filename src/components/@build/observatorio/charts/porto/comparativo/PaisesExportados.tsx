@@ -10,12 +10,12 @@ import { processCargasLongoCurso } from "@/functions/process_data/observatorio/p
 const PaisesExportados = ({
   data,
   porto,
-  title = "Passageiros por Aeroporto",
+  title = "Países Exportados"  + ` - ${porto}`,
   year,
 }: any) => {
 
   
-  const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao.filter((a: any) => a["Porto Atracação"] === porto), data.carga, 'exportacao'), data.dictionaries.destino, 'Destino')
+  const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao, data.carga, 'exportacao'), data.dictionaries.destino, 'Destino')
 
   return (
     <div className="chart-wrapper">

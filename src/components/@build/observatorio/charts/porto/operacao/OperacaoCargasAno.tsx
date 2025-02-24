@@ -19,7 +19,7 @@ const OperacaoCargasAno = ({
   const updatedData = updatedMonthChartData(chartData, months);
    
   return (
-    <div className="chart-wrapper">
+    <div className="chart-wrapper col-span-full">
       <ChartGrabber>
         <LineChart
           data={updatedData}

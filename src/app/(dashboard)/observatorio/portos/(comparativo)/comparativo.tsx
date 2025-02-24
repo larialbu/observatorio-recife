@@ -25,7 +25,8 @@ const Comparativo = ({
   months: number;
   rawData: any
 }) => {
-  const [pageCompare, setPageCompare] = useState(0);
+  const [pageCompare, setPageCompare] = useState(0);  console.log('CONSO>LOGO DO COMPARATIVO DATA', data)
+  
   const [tempFiltred, setTempFiltred] = useState([]);
   // const [tablesRender, setTablesRender] = useState(tables);
   const [tablesRender, setTablesRender] = useState([charts]);
@@ -41,13 +42,9 @@ const Comparativo = ({
   const sortableContainerRef = useRef<HTMLDivElement>(null);
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
 
-// console.log('COMPARATIVO DATAS', data, toCompare)
-// console.log('UNIQUER VALUES',  getUniqueValues<processedAtracacaoData, "Porto Atracação">(
-//   data.atracacao,
-//   "Porto Atracação"
-// ),)
-
 const attTempFiltred = ['Recife', ...tempFiltred]
+
+console.log('ATTEMPFILTRED', attTempFiltred)
 
 const getFiltredData = (rawData: any, portos: any) => {
   console.log('RAWDATA POROTOS', rawData, portos)
@@ -59,18 +56,6 @@ const getFiltredData = (rawData: any, portos: any) => {
   const filtredAtracacao = rawData['atracacao'].filter((item: any) =>
     portos.includes(item['Porto Atracação']),
   )
-
-  // // Obtém os CDTUPs únicos das atracações filtradas
-  // const uniqueCDTUPs = [
-  //   ...new Set(filtredAtracacao.map((item: any) => item.CDTUP)),
-  // ]
-
-  // // Filtra as cargas que tenham Origem ou Destino nos CDTUPs das atracações filtradas
-  // const filtredCarga = rawData['carga'].filter(
-  //   (item: any) =>
-  //     uniqueCDTUPs.includes(item.Origem) ||
-  //     uniqueCDTUPs.includes(item.Destino),
-  // )
 
   const atracacaoIds = new Set(filtredAtracacao.map((atracacao: any) => atracacao.IDAtracacao));
 
@@ -121,6 +106,7 @@ useEffect(() => {
               "@/components/@build/observatorio/charts/porto/comparativo/OperacaoCargasAno"
             )
         ),
+        col: 'full'
       }, 
        {
           Component: React.lazy(
@@ -218,6 +204,7 @@ useEffect(() => {
                           ? animationClass
                           : "hidden"
                       } flex-1`}
+                      // } flex-1`}
                     >
                       {/* <Component
                         toCompare={toCompare}
@@ -284,13 +271,11 @@ useEffect(() => {
       <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
           {/* {tablesRender.map(({ Component }, index) => { */}
           {tablesRender.map((arrChart, index) => {
-            return arrChart.map(({ Component }) => {
+          console.log('PORTOS DATA FILTREEEDDSSA', portosDataFiltred)
+          
+          return arrChart.map(({ Component, col }) => {
               return (
-              <div
-                key={index}
-                className={`chart-content-wrapper`}
-                // className="bg-white shadow-md rounded-lg w-100 flex flex-col items-center"
-              >
+                <div key={index} className={`chart-content-wrapper ${col === 'full' && 'col-span-full'}`}>
                 <React.Suspense fallback={<div>Loading...</div>}>
                   <Component
                     porto={["Recife", ...tempFiltred][index]}
@@ -305,43 +290,6 @@ useEffect(() => {
               </div>
             )})})}
         </SortableDiv>
-
-         {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
-            {chartOrder.map(( index) => {
-            const { Component } = charts[index];
-            return (
-                <div
-                  key={index}
-                  className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
-                >
-                  <React.Suspense fallback={<GraphSkeleton />}>
-                    <Component
-                      data={data}
-                      toCompare={["Recife", ...tempFiltred]}
-                      months={months}
-                    />
-                  </React.Suspense>
-                </div>
-              )})}
-        </SortableDiv> */}
-
-        {/* <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
-          {tablesRender.map(({ Component }, index) => (
-            <div
-              key={index}
-              className="bg-white shadow-md rounded-lg w-100 flex flex-col items-center"
-            >
-              <React.Suspense fallback={<div>Loading...</div>}>
-                <Component
-                  airport={["Recife", ...tempFiltred][index]}
-                  color={ColorPalette.default[index]}
-                  data={data}
-                  year={year}
-                />
-              </React.Suspense>
-            </div>
-          ))}
-        </SortableDiv> */}
       </div>
     </div>
   );

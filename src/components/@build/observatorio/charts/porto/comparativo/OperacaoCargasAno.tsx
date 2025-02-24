@@ -11,12 +11,12 @@ const OperacaoCargasAno = ({
   data = [],
   porto,
   colors = ColorPalette.default,
-  title = "Movimentação de Cargas (Ton)",
+  title = "Movimentação de Cargas (Ton)"  + ` - ${porto}`,
   months
 }: any) => {
 
 
-  const chartData = processAtracacoesPorMes(data.atracacao.filter((a: any) => a["Porto Atracação"] === porto), data.carga)
+  const chartData = processAtracacoesPorMes(data.atracacao, data.carga)
 
   const updatedData = updatedMonthChartData(chartData, months);
 

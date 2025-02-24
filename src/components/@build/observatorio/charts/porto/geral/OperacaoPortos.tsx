@@ -7,18 +7,16 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processAtracacoesPorCarga } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoProdutos";
 import { getPortoProductNameByCode } from "@/utils/formatters/getPortoProductNameByCode";
 
-const PrincipaisProdutos = ({
-  data,
-  porto,
-  title = "Produtos Comercializados (Ton)" + ` - ${porto}`,
+const OperacaoPortos = ({
+  data, 
+  title = "Produtos Comercializados (Ton)",
   year,
 }: any) => {
+    console.log('DDATA OPERACAO PORTOS ->', data)
 
-  console.log('DATA Q ESTÀ SENDO PASSADO GRAFICO 4', data)
+  const chartData = data.charts.portos.sort((a: any, b: any) => b.VLPesoCargaBruta - a.VLPesoCargaBruta)
 
-  // const chartData = processAtracacoesPorCarga(data.atracacao.filter((a: any) => a["Porto Atracação"] === porto), data.carga)
-  // console.log('CAHARTDATA', chartData)
-  const chartData = getPortoProductNameByCode(processAtracacoesPorCarga(data.atracacao, data.carga), data.dictionaries.mercado)
+    console.log('CHARTDA ADDAAD', chartData)
 
   return (
     <div className="chart-wrapper">
@@ -26,8 +24,8 @@ const PrincipaisProdutos = ({
         <ScrollableBarChart
           data={chartData}
           title={title}
-          xKey="CDMercadoria"
-          bars={[{ dataKey: "totalVLPesoCargaBruta", name: "Produto" }]}
+          xKey="Porto Atracação"
+          bars={[{ dataKey: "VLPesoCargaBruta", name: "Produto" }]}
           colors={ColorPalette.default}
           heightPerCategory={50}
         />
@@ -36,4 +34,4 @@ const PrincipaisProdutos = ({
   );
 };
 
-export default PrincipaisProdutos;
+export default OperacaoPortos;

@@ -35,7 +35,7 @@ const Geral = ({
               className={`chart-content-wrapper`}
             >
               <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={data}  months={months} />
+                <Component data={data} months={months} />
               </React.Suspense>
             </div>
           );

@@ -23,7 +23,8 @@ const PortosPage = () => {
     carga: [],
     coords: [],
     dictionaries: { atracacao: [], carga: [], origem: [], destino: [], mercado: [] },
-    rawData: { atracacao: [], carga: [] }
+    rawData: { atracacao: [], carga: [] },
+    charts: { portos: []}
   }
 
   useEffect(() => {
@@ -68,18 +69,18 @@ const PortosPage = () => {
       // DEFAULTFILTERS E CONSEGUIR PASSAR SOMENTE O ANO.
     case "operacao":
       return <Operacao 
-       data={Object.keys(porto).length != 0 ? porto : defaultData}
+       data={Object.keys(porto).length != 0 ? {...porto, rawData: [], charts: {}, coords: []} : defaultData}
        months={getMonths(filters)}
        year={getYearSelected(filters)}
         // toCompare={filters.additionalFilters[4]?.selected}
      />;
     case "comparativo":
       return <Comparativo
-        data={Object.keys(porto).length != 0 ? porto : defaultData} 
+        data={Object.keys(porto).length != 0 ? {...porto, atracacao: [], carga: [], charts: {}, coords: []} : defaultData} 
         rawData={porto.rawData || {}}
         year={getYearSelected(filters)}
         months={getMonths(filters)}
-        toCompare={filters.additionalFilters[3]?.options}
+        toCompare={filters.additionalFilters[3]?.options }
       />;
     case "aena":
       return <AenaPage months={getMonths(filters)} />;

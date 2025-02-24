@@ -10,13 +10,13 @@ import { processCargasLongoCurso } from "@/functions/process_data/observatorio/p
 const PaisesImportados = ({
   data,
   porto,
-  title = "Passageiros por Aeroporto",
+  title = "Países Importados"  + ` - ${porto}`,
   year,
 }: any) => {
 
   // console.log('DATA Q ESTÀ SENDO PASSADO GRAFICO 3', data)
 
-  const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao.filter((a: any) => a["Porto Atracação"] === porto), data.carga, 'importacao'), data.dictionaries.origem, 'Origem')
+  const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao, data.carga, 'importacao'), data.dictionaries.origem, 'Origem')
 
 //   const chartData = processAtracacoesPorCarga(data.atracacao, data.carga)
   // console.log('CAHARTDATA -0-0-0-0--', chartData)
