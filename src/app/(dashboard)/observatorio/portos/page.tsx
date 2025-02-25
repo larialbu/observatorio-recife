@@ -82,7 +82,7 @@ const PortosPage = () => {
         months={getMonths(filters)}
         toCompare={filters.additionalFilters[3]?.options }
       />;
-    case "aena":
+    case "passageiro":
       return <AenaPage months={getMonths(filters)} />;
     default:
       return <Geral 
@@ -138,14 +138,14 @@ const PortosPage = () => {
           Comparativo
         </button>
         <button
-          onClick={() => handleNavigation("passageiros")}
+          onClick={() => handleNavigation("passageiro")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "aena"
+            activeTab === "passageiro"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Movimentaçaõ de Passageiros
+          Movimentaçaõ de Passageiros (Recife)
         </button>
       </div>
       {renderContent()}

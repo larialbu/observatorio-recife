@@ -20,7 +20,7 @@ export const routeServicesMap: Record<
       geral: portoDataService,
       operacao: portoDataService,
       comparativo: portoDataService,
-      passageiros: portoDataService,
+      passageiro: portoDataService,
       // etc. Se quiser mesmo service, ok
     },
 

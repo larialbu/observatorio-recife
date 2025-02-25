@@ -58,13 +58,27 @@ export class PortoDataService {
       };
   }
 
+    private async fetchPortoPassageirosData(filters: Record<string, any>) {
+      const pastYear = `${+this.currentYear - 1}`
+      
+      const portoServiceCur = new PortoData(this.currentYear);
+      const portoServicePast = new PortoData(pastYear);
+      
+      const [passageirosCur, passageirosPast] = await Promise.all([portoServiceCur.fetchPassageirosPorAno(), portoServicePast.fetchPassageirosPorAno().catch(() => [])]);
+      
+      const passageirosCurFiltered = applyGenericFilters(passageirosCur, filters);
+      const passageirosPastFiltered = applyGenericFilters(passageirosPast || [], filters);
+  
+      console.log('PASSAGEIROS AAAA', { passageiros: { current: passageirosCurFiltered, past:  passageirosPastFiltered}})
 
+      return { passageiros: { current: passageirosCurFiltered, past:  passageirosPastFiltered}};
+    }
+  
 
   public async fetchDataForTab(tab: string, filters: Record<string, any>) {
-
     let data;
-    if (tab === "geral") {
-      data = await this.fetchPortoData(filters);
+    if (tab === "passageiro") {
+      data = await this.fetchPortoPassageirosData(filters);
     } else {
       data = await this.fetchPortoData(filters)
     }

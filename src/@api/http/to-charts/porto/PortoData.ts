@@ -90,6 +90,14 @@ export class PortoData {
   }
 
   /**
+   * Busca dados de passageiros para o ano especificado.
+   */
+  async fetchPassageirosPorAno(): Promise<any[]> {
+    const endpoint = `/porto/passageiros/${this.year}`;
+    return this.fetchData<any[]>(endpoint)
+  }
+
+  /**
    * Busca dicionário de atracação para o ano especificado.
    */
   async fetchAtracacaoDictionaryPorAno(): Promise<any[]> {
