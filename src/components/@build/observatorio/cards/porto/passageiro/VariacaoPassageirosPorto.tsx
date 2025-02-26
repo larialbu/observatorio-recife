@@ -8,7 +8,7 @@ const VariacaoPassageirosPorto = ({
   color,
   capital,
 }: any) => {
-  const chartData = variacaoMensalAnualIpca(data, capital);
+  const chartData = data.variant
   return (
     <Card
       local={capital}

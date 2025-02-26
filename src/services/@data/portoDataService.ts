@@ -37,7 +37,7 @@ export class PortoDataService {
       const atracacaoIds = new Set(atracacaoFiltered.filteredData.map((atracacao) => atracacao.IDAtracacao));
       // console.log(atracacaoIds);
 
-      const cargaFiltered = carga.filter((item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga'] === 1
+      const cargaFiltered = carga.filter((item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga']
       );
       console.log(cargaFiltered)
 

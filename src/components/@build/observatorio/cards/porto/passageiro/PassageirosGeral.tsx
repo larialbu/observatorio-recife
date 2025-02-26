@@ -15,10 +15,15 @@ const PassageirosGeral = ({
   color,
 }: any) => {
 
-  const current = processPassageirosTotalizados(data.passageiros.current)
-  const past = processPassageirosTotalizados(data.passageiros.past)
+console.log('DADTA', data)
+
+  console.log('TROÇOV', data.passageiros.current,
+    data.passageiros.past)
+
+  const current = processPassageirosTotalizados(data.passageiros.current || [])
+  const past = processPassageirosTotalizados(data.passageiros.past || [])
  
-  console.log('PASSAGIEROS TOTALIZADOSS', current)
+  console.log('PASSAGIEROS TOTALIZADOSSa', current)
   console.log('PASSAGIEROS TOTALIZADOSS', past)
     
 
@@ -27,12 +32,14 @@ const PassageirosGeral = ({
   const chartData = {
     current: current,
     past: past,
-    // variant: ,
+    variant: past > 0 ? ((current - past) / past) * 100 : 0,
   }
+
+  console.log('ChasrtData cards', chartData)
 
   return (
     <div className="flex flex-wrap gap-4 justify-center mb-2">
-    {cards.map(({ Component }: {Component: ElementType}, index: number) => (
+    {cards.map(({ Component }: { Component: ElementType }, index: number) => (
       <React.Suspense fallback={<div>Loading...</div>} key={index}>
         <Component data={chartData} year={year} color={ColorPalette[index]} />
       </React.Suspense>

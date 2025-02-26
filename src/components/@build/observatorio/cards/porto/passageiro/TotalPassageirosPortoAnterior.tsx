@@ -3,12 +3,12 @@ import Card from "@/components/@global/cards/Card";
 const TotalPassageirosPortoAnterior = ({
   data,
   date,
-  title = `Movimentacão de cargas`,
+  title = `Total Passageiros (ano anterior)`,
   local,
   year,
   color,
 }: any) => {
-  const chartData = data.find((data: any) => data.acao === 'Total')?.totalPeso || 0
+  const chartData = data.past || 0
 
   return (
     <Card

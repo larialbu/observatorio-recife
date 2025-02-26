@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
-import chartsCargas from "./@imports/carga/charts";
-import chartsPassageiros from "./@imports/passageiro/charts";
-import cardsPassageiros from "./@imports/passageiro/cards";
-import cardsCargas from "./@imports/carga/cards";
+import chartsCargas from "./@imports/charts";
+import chartsPassageiros from "./@imports/charts";
+import cardsPassageiros from "./@imports/cards";
+import cardsCargas from "./@imports/cards";
+import cards from "./@imports/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import { processPassageirosTotalizados } from "@/functions/process_data/observatorio/porto/passageiro/cards/passageirosTotalizados";
@@ -13,7 +14,7 @@ import { processPassageirosPorOperacao } from "@/functions/process_data/observat
 
 const AenaPage = ({ months}: {months: number}) => {
   const { data, isLoading } = useDashboard();
-  const [passageiros, setPassageiros] = useState({})
+  const [passageiros, setPassageiros] = useState({ passageiros: { current: [], past:  []}})
   const [filteredPassageiros, setFilteredPassageiros] = useState([]);
   const [filteredCargas, setFilteredCargas] = useState([]);
 
@@ -53,24 +54,13 @@ const AenaPage = ({ months}: {months: number}) => {
       </h2>
 
       {/* Cards de Passageiros e Cargas */}
-      {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
-        {cardsPassageiros.map(({ Component }, index) => (
-          <Component
-            key={`passageiro-card-${index}`}
-            data={filteredPassageiros}
-            year="2024"
-            color={ColorPalette.default[index]}
-          />
+      <div className="flex flex-wrap gap-4 justify-center mb-8">
+        {cards.slice(0, 1).map(({ Component }, index) => (
+          <React.Suspense fallback={<div>Loading...</div>} key={index}>
+            <Component data={passageiros} cards={cards.slice(1)} ColorPalette={ColorPalette.default} />
+          </React.Suspense>
         ))}
-        {cardsCargas.map(({ Component }, index) => (
-          <Component
-            key={`carga-card-${index}`}
-            data={filteredCargas}
-            year="2024"
-            color={ColorPalette.default[index]}
-          />
-        ))}
-      </div> */}
+      </div>
 
       {/* Gráficos de Passageiros e Cargas */}
       {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
