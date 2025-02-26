@@ -8,7 +8,7 @@ type PortoData = {
   Longitude: string;
   Latitude: string;
   "Porto Atracação": string;
-  QTCarga: number;
+  VLPesoCargaBruta: number;
 };
 
 type GeoJSONFeature = {
@@ -47,7 +47,7 @@ function convertToGeoJSON(data: PortoData[]): GeoJSON {
       },
       properties: {
         name: item["Porto Atracação"],
-        qtCarga: item.QTCarga,
+        qtCarga: parseInt(item.VLPesoCargaBruta as any),
       },
     })),
   };
