@@ -14,10 +14,6 @@ const PrincipaisProdutos = ({
   year,
 }: any) => {
 
-  console.log('DATA Q ESTÀ SENDO PASSADO GRAFICO 4', data)
-
-  // const chartData = processAtracacoesPorCarga(data.atracacao.filter((a: any) => a["Porto Atracação"] === porto), data.carga)
-  // console.log('CAHARTDATA', chartData)
   const chartData = getPortoProductNameByCode(processAtracacoesPorCarga(data.atracacao, data.carga), data.dictionaries.mercado)
 
   return (

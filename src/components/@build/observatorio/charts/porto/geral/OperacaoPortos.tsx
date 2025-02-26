@@ -12,11 +12,8 @@ const OperacaoPortos = ({
   title = "Produtos Comercializados (Ton)",
   year,
 }: any) => {
-    console.log('DDATA OPERACAO PORTOS ->', data)
 
   const chartData = data.charts.portos.sort((a: any, b: any) => b.VLPesoCargaBruta - a.VLPesoCargaBruta)
-
-    console.log('CHARTDA ADDAAD', chartData)
 
   return (
     <div className="chart-wrapper">

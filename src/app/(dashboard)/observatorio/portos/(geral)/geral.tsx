@@ -21,7 +21,6 @@ const Geral = ({
   // REF do container e REF da instância do Sortable
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
-  console.log(maps[0])
   const { Component }: any = maps[0]
 
   return (

@@ -26,8 +26,6 @@ const ComponentDistributor: React.FC<ComponentDistributorProps> = ({
     return <div>Erro: Dados não disponíveis</div>;
   }
 
-  // Log para verificar o conteúdo de renderData
-  console.log("RenderData:", renderData);
 
   return (
     <SortableDiv

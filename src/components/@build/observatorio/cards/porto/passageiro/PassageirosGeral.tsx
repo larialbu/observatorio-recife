@@ -15,16 +15,14 @@ const PassageirosGeral = ({
   color,
 }: any) => {
 
-console.log('DADTA', data)
 
-  console.log('TROÇOV', data.passageiros.current,
-    data.passageiros.past)
+
+
 
   const current = processPassageirosTotalizados(data.passageiros.current || [])
   const past = processPassageirosTotalizados(data.passageiros.past || [])
  
-  console.log('PASSAGIEROS TOTALIZADOSSa', current)
-  console.log('PASSAGIEROS TOTALIZADOSS', past)
+
     
 
 //   item.past > 0 ? ((item.current - item.past) / item.past) * 100 : 0
@@ -34,8 +32,6 @@ console.log('DADTA', data)
     past: past,
     variant: past > 0 ? ((current - past) / past) * 100 : 0,
   }
-
-  console.log('ChasrtData cards', chartData)
 
   return (
     <div className="flex flex-wrap gap-4 justify-center mb-2">

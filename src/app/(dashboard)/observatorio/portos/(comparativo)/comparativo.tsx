@@ -25,7 +25,7 @@ const Comparativo = ({
   months: number;
   rawData: any
 }) => {
-  const [pageCompare, setPageCompare] = useState(0);  console.log('CONSO>LOGO DO COMPARATIVO DATA', data)
+  const [pageCompare, setPageCompare] = useState(0);
   
   const [tempFiltred, setTempFiltred] = useState([]);
   // const [tablesRender, setTablesRender] = useState(tables);
@@ -44,10 +44,8 @@ const Comparativo = ({
 
 const attTempFiltred = ['Recife', ...tempFiltred]
 
-console.log('ATTEMPFILTRED', attTempFiltred)
-
 const getFiltredData = (rawData: any, portos: any) => {
-  console.log('RAWDATA POROTOS', rawData, portos)
+
   if (!rawData || !rawData['atracacao'] || !rawData['carga']) {
     return []
   }
@@ -60,9 +58,6 @@ const getFiltredData = (rawData: any, portos: any) => {
   const atracacaoIds = new Set(filtredAtracacao.map((atracacao: any) => atracacao.IDAtracacao));
 
   const filtredCarga = rawData['carga'].filter((item: any) => atracacaoIds.has(item.IDAtracacao));
-
-
-  // console.log('QUANTIDADE DE CARGAS QUE FORAM FILTRADOS', filtredCarga)
 
   // Organiza os dados por porto
   const dadosPorPorto = portos.map((porto: any) => {
@@ -93,9 +88,6 @@ const getFiltredData = (rawData: any, portos: any) => {
 
 useEffect(() => {
   const portosDataFIltred = getFiltredData(rawData, attTempFiltred)
-  console.log('CAHCRRO', portosDataFIltred)
-
-  // console.log('FILTREDF A ', atracacaoFiltred, cargaFiltred )
 
     const getNewTables = tempFiltred.map((val) => {
       return [{
@@ -190,10 +182,6 @@ useEffect(() => {
             <div className="w-[85%] flex flex-wrap gap-4 justify-center mb-2">
               {attTempFiltred.map((toCompare: string, index: number) => {
                 return cards.slice(0, 1).map(({ Component }) => {
-                //  console.log('IIINDEEEEXXXXX', index)
-                //  console.log('PORTOS DATA FILTR', portosDataFiltred)
-                //  console.log('COISA POR INDEX', ["Recife", ...tempFiltred][index], ["Recife", ...tempFiltred])
-                //  console.log('DATA ALGUAA', { ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], rawData: {} })
                  
                   return (
                   // <div key={index}></div>
@@ -271,7 +259,6 @@ useEffect(() => {
       <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
           {/* {tablesRender.map(({ Component }, index) => { */}
           {tablesRender.map((arrChart, index) => {
-          console.log('PORTOS DATA FILTREEEDDSSA', portosDataFiltred)
           
           return arrChart.map(({ Component, col }) => {
               return (

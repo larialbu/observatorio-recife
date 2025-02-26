@@ -52,7 +52,6 @@ export class PortoData {
           });
         });
 
-        console.log('RECCORDS OBJECT FORMAT', records)
         
         const endTime = performance.now();
         console.log(`Tempo de execução: ${(endTime - startTime).toFixed(2)} ms`);

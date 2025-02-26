@@ -29,17 +29,8 @@ const AenaPage = ({ months}: {months: number}) => {
   useEffect(() => {
 
     if (data) {
-      console.log('DATA NA PAGINA AAA', data)
-      // console.log('ALGUMA COISA 1', data.passageiros.current.filteredData)
-      // console.log('ALGUMA COISA 2', data.passageiros.past.filteredData)
 
       const passageirosData = { passageiros: { current: data.passageiros.current.filteredData, past: data.passageiros.past.filteredData}}
-      console.log('DATA NA PAGINA BBBB', passageirosData)
-
-      console.log('PASSAGIEROS TOTALIZADOSS', processPassageirosTotalizados(passageirosData.passageiros.current))
-      console.log('PASSAGIEROS TOTALIZADOSS', processPassageirosTotalizados(passageirosData.passageiros.past))
-      console.log('PASSAGIEROS POR MES ', processPassageirosAnoPorto(passageirosData.passageiros.current, passageirosData.passageiros.past))
-      console.log('PASSAGEIROS POR COISA ', processPassageirosPorOperacao(passageirosData.passageiros.current))
 
       setPassageiros(passageirosData)
     }

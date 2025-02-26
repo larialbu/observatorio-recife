@@ -35,18 +35,9 @@ export class PortoDataService {
       const atracacaoFiltered = applyGenericFilters(atracacao, filters)
 
       const atracacaoIds = new Set(atracacaoFiltered.filteredData.map((atracacao) => atracacao.IDAtracacao));
-      // console.log(atracacaoIds);
 
       const cargaFiltered = carga.filter((item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga']
       );
-      console.log(cargaFiltered)
-
-      console.log('TEM ALGUMA COISA ERRADA', {
-        atracacao: atracacaoFiltered,
-        carga: cargaFiltered,
-        dictionaries:{ origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary},
-        coords: coords,
-      })
 
       return {
         atracacao: atracacaoFiltered,
@@ -68,8 +59,6 @@ export class PortoDataService {
       
       const passageirosCurFiltered = applyGenericFilters(passageirosCur, filters);
       const passageirosPastFiltered = applyGenericFilters(passageirosPast || [], filters);
-  
-      console.log('PASSAGEIROS AAAA', { passageiros: { current: passageirosCurFiltered, past:  passageirosPastFiltered}})
 
       return { passageiros: { current: passageirosCurFiltered, past:  passageirosPastFiltered}};
     }
