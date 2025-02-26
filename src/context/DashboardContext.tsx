@@ -114,18 +114,25 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const tab = searchParams.get("tab");
     const baseFilters = getFiltersForRoute(pathname, tab);
-
-    // Se os filtros não MUDAREM, não faz nada <-- EVITAR REFETCH'S ALEATÓRIOS 
-    if (JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters)) {
-      console.log("🟡 Nenhuma mudança nos filtros, pulando fetchData.");
+  
+    if (
+      JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters) ||
+      data !== null
+    ) {
+      console.log("🟡 Nenhuma mudança nos filtros ou dados já carregados, pulando fetchData.");
+      if (JSON.stringify(prevFiltersRef.current) !== JSON.stringify(baseFilters)){
+        prevFiltersRef.current = baseFilters;
+        setFilters(baseFilters);
+      }
       return;
     }
-
-    console.log("🔵 Filtros mudaram, chamando fetchData...");
+  
+    console.log("🔵 Filtros mudaram ou dados não carregados, chamando fetchData...");
     prevFiltersRef.current = baseFilters;
     setFilters(baseFilters);
     fetchData(baseFilters);
-  }, [pathname, searchParams]); // Só roda quando a URL muda
+  }, [pathname, searchParams, data]);
+  
 
   return (
     <DashboardContext.Provider value={{ filters, data, isLoading, applyFilters, resetFilters }}>

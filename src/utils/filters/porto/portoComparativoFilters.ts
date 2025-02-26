@@ -16,12 +16,6 @@ export const portoComparativoFilters = {
         options: [], // Deixe vazio para preencher com base nos dados
         selected: []
       },
-      {
-        label: "Porto Atracação",
-        options: [], // Deixe vazio para preencher com base nos dados
-        selected: []
-        // selected: ['Recife']
-      },
       { 
         label: "Ação", // O Mês será preenchido dinamicamente
         options: [], // Deixe vazio para preencher com base nos dados
