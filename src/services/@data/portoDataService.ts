@@ -7,7 +7,6 @@ export class PortoDataService {
   private portoServiceCache: PortoData;
 
   private constructor() {
-    // Instancia única do PortoData para o ano atual
     this.portoServiceCache = new PortoData(this.currentYear);
   }
 
@@ -19,14 +18,23 @@ export class PortoDataService {
   }
 
   public setYear(year: string) {
-    this.currentYear = year;
-    // Atualiza a instância cache do PortoData quando o ano mudar
-    this.portoServiceCache = new PortoData(this.currentYear);
+    if (this.currentYear !== year) {
+      this.currentYear = year;
+      this.portoServiceCache.year = year;
+    }
   }
 
   private async fetchPortoData(filters: Record<string, any>) {
     try {
-      const [atracacao, carga, origemDictionary, destinoDictionary, mercadoriaDictionary, coords, portosOperations] = await Promise.all([
+      const [
+        atracacao,
+        carga,
+        origemDictionary,
+        destinoDictionary,
+        mercadoriaDictionary,
+        coords,
+        portosOperations
+      ] = await Promise.all([
         this.portoServiceCache.fetchAtracacaoPorAno(),
         this.portoServiceCache.fetchCargaPorAno(),
         this.portoServiceCache.fetchOrigemDictionary(),
@@ -39,7 +47,9 @@ export class PortoDataService {
       const atracacaoFiltered = applyGenericFilters(atracacao, filters);
       const atracacaoIds = new Set(atracacaoFiltered.filteredData.map((atracacao) => atracacao.IDAtracacao));
 
-      const cargaFiltered = carga.filter((item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga']);
+      const cargaFiltered = carga.filter(
+        (item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga']
+      );
 
       return {
         atracacao: atracacaoFiltered,
@@ -48,7 +58,7 @@ export class PortoDataService {
         dictionaries: {
           origem: origemDictionary,
           destino: destinoDictionary,
-          mercado: mercadoriaDictionary
+          mercado: mercadoriaDictionary,
         },
         coords,
         charts: { portos: portosOperations }
@@ -59,17 +69,16 @@ export class PortoDataService {
     }
   }
 
-
   private async fetchPortoPassageirosData(filters: Record<string, any>) {
     try {
       const pastYear = `${+this.currentYear - 1}`;
-      const [passageirosCur, passageirosPast] = await Promise.all([
+      const [passageirosCur, passageirosPast] = await Promise.allSettled([
         this.portoServiceCache.fetchPassageirosPorAno(),
-        new PortoData(pastYear).fetchPassageirosPorAno().catch(() => [])
+        new PortoData(pastYear).fetchPassageirosPorAno().catch(() => []),
       ]);
 
-      const passageirosCurFiltered = applyGenericFilters(passageirosCur, filters);
-      const passageirosPastFiltered = applyGenericFilters(passageirosPast || [], filters);
+      const passageirosCurFiltered = applyGenericFilters(passageirosCur.status === 'fulfilled' ? passageirosCur.value : [], filters);
+      const passageirosPastFiltered = applyGenericFilters(passageirosPast.status === 'fulfilled' ? passageirosPast.value : [], filters);
 
       return {
         passageiros: { current: passageirosCurFiltered, past: passageirosPastFiltered }
@@ -80,20 +89,17 @@ export class PortoDataService {
     }
   }
 
-
   public async fetchDataForTab(tab: string, filters: Record<string, any>) {
-    let data;
     try {
       if (tab === "passageiro") {
-        data = await this.fetchPortoPassageirosData(filters);
+        return await this.fetchPortoPassageirosData(filters);
       } else {
-        data = await this.fetchPortoData(filters);
+        return await this.fetchPortoData(filters);
       }
     } catch (error) {
       console.error("Erro ao buscar dados para a aba:", error);
       throw error;
     }
-    return data;
   }
 }
 

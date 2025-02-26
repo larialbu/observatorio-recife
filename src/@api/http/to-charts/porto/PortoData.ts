@@ -9,7 +9,7 @@ const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME;
 const API_PASSWORD = process.env.NEXT_PUBLIC_API_PASSWORD;
 
 export class PortoData {
-  private year: string;
+  public year: string;
 
   constructor(year: string) {
     this.year = year;
