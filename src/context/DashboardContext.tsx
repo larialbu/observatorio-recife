@@ -120,10 +120,6 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       data !== null
     ) {
       console.log("🟡 Nenhuma mudança nos filtros ou dados já carregados, pulando fetchData.");
-      if (JSON.stringify(prevFiltersRef.current) !== JSON.stringify(baseFilters)){
-        prevFiltersRef.current = baseFilters;
-        setFilters(baseFilters);
-      }
       return;
     }
   
