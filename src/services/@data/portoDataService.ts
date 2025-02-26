@@ -1,12 +1,15 @@
-
 import { PortoData } from "@/@api/http/to-charts/porto/PortoData";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
 
 export class PortoDataService {
   private static instance: PortoDataService;
   private currentYear: string = "2024";
+  private portoServiceCache: PortoData;
 
-  private constructor() {}
+  private constructor() {
+    // Instancia única do PortoData para o ano atual
+    this.portoServiceCache = new PortoData(this.currentYear);
+  }
 
   public static getInstance(): PortoDataService {
     if (!PortoDataService.instance) {
@@ -17,61 +20,79 @@ export class PortoDataService {
 
   public setYear(year: string) {
     this.currentYear = year;
+    // Atualiza a instância cache do PortoData quando o ano mudar
+    this.portoServiceCache = new PortoData(this.currentYear);
   }
 
   private async fetchPortoData(filters: Record<string, any>) {
-    const portoService = new PortoData(this.currentYear);
-
-    const [atracacao, carga, origemDictionary, destinoDictionary, mercadoriaDictionary, coords, portosOperations] = await Promise.all([
-        portoService.fetchAtracacaoPorAno(),
-        portoService.fetchCargaPorAno(),
-        portoService.fetchOrigemDictionary(),
-        portoService.fetchDestinoDictionary(),
-        portoService.fetchMercadoriaDictionary(),
-        portoService.fetchCoordinates(),
-        portoService.fetchPortosOperations()
+    try {
+      const [atracacao, carga, origemDictionary, destinoDictionary, mercadoriaDictionary, coords, portosOperations] = await Promise.all([
+        this.portoServiceCache.fetchAtracacaoPorAno(),
+        this.portoServiceCache.fetchCargaPorAno(),
+        this.portoServiceCache.fetchOrigemDictionary(),
+        this.portoServiceCache.fetchDestinoDictionary(),
+        this.portoServiceCache.fetchMercadoriaDictionary(),
+        this.portoServiceCache.fetchCoordinates(),
+        this.portoServiceCache.fetchPortosOperations(),
       ]);
-      
-      const atracacaoFiltered = applyGenericFilters(atracacao, filters)
 
+      const atracacaoFiltered = applyGenericFilters(atracacao, filters);
       const atracacaoIds = new Set(atracacaoFiltered.filteredData.map((atracacao) => atracacao.IDAtracacao));
 
-      const cargaFiltered = carga.filter((item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga']
-      );
+      const cargaFiltered = carga.filter((item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga']);
 
       return {
         atracacao: atracacaoFiltered,
         carga: cargaFiltered,
-        rawData: { atracacao: atracacao, carga: carga},
-        dictionaries:{ origem: origemDictionary, destino: destinoDictionary, mercado: mercadoriaDictionary},
-        coords: coords,
-        charts: { portos: portosOperations}
+        rawData: { atracacao, carga },
+        dictionaries: {
+          origem: origemDictionary,
+          destino: destinoDictionary,
+          mercado: mercadoriaDictionary
+        },
+        coords,
+        charts: { portos: portosOperations }
       };
+    } catch (error) {
+      console.error("Erro ao buscar dados de porto:", error);
+      throw error;
+    }
   }
 
-    private async fetchPortoPassageirosData(filters: Record<string, any>) {
-      const pastYear = `${+this.currentYear - 1}`
-      
-      const portoServiceCur = new PortoData(this.currentYear);
-      const portoServicePast = new PortoData(pastYear);
-      
-      const [passageirosCur, passageirosPast] = await Promise.all([portoServiceCur.fetchPassageirosPorAno(), portoServicePast.fetchPassageirosPorAno().catch(() => [])]);
-      
+
+  private async fetchPortoPassageirosData(filters: Record<string, any>) {
+    try {
+      const pastYear = `${+this.currentYear - 1}`;
+      const [passageirosCur, passageirosPast] = await Promise.all([
+        this.portoServiceCache.fetchPassageirosPorAno(),
+        new PortoData(pastYear).fetchPassageirosPorAno().catch(() => [])
+      ]);
+
       const passageirosCurFiltered = applyGenericFilters(passageirosCur, filters);
       const passageirosPastFiltered = applyGenericFilters(passageirosPast || [], filters);
 
-      return { passageiros: { current: passageirosCurFiltered, past:  passageirosPastFiltered}};
+      return {
+        passageiros: { current: passageirosCurFiltered, past: passageirosPastFiltered }
+      };
+    } catch (error) {
+      console.error("Erro ao buscar dados de passageiros:", error);
+      throw error;
     }
-  
+  }
+
 
   public async fetchDataForTab(tab: string, filters: Record<string, any>) {
     let data;
-    if (tab === "passageiro") {
-      data = await this.fetchPortoPassageirosData(filters);
-    } else {
-      data = await this.fetchPortoData(filters)
+    try {
+      if (tab === "passageiro") {
+        data = await this.fetchPortoPassageirosData(filters);
+      } else {
+        data = await this.fetchPortoData(filters);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar dados para a aba:", error);
+      throw error;
     }
-  
     return data;
   }
 }
