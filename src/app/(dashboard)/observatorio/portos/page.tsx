@@ -10,6 +10,7 @@ import Operacao from "./(embarque)/operacao";
 import AenaPage from "./(aena)/aena";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
+import { sameKeys } from "@/utils/filters/@features/sameKeys";
 
 const PortosPage = () => {
   const searchParams = useSearchParams();
@@ -60,7 +61,7 @@ const PortosPage = () => {
   switch (activeTab) {
     case "geral":
       return <Geral 
-        data={Object.keys(porto).length != 0 ? porto : defaultData}
+        data={sameKeys(porto, defaultData) ? porto : defaultData}
         // rawData={data?.geral?.rawData || []}
         // year={getYearSelected(filters)}
         months={getMonths(filters)}
@@ -69,14 +70,14 @@ const PortosPage = () => {
       // DEFAULTFILTERS E CONSEGUIR PASSAR SOMENTE O ANO.
     case "operacao":
       return <Operacao 
-       data={Object.keys(porto).length != 0 ? {...porto, rawData: [], charts: {}, coords: []} : defaultData}
+       data={sameKeys(porto, defaultData) ? {...porto, rawData: [], charts: {}, coords: []} : defaultData}
        months={getMonths(filters)}
        year={getYearSelected(filters)}
         // toCompare={filters.additionalFilters[4]?.selected}
      />;
     case "comparativo":
       return <Comparativo
-        data={Object.keys(porto).length != 0 ? {...porto, atracacao: [], carga: [], charts: {}, coords: []} : defaultData} 
+        data={sameKeys(porto, defaultData) ? {...porto, atracacao: [], carga: [], charts: {}, coords: []} : defaultData} 
         rawData={porto.rawData || {}}
         year={getYearSelected(filters)}
         months={getMonths(filters)}
@@ -86,7 +87,7 @@ const PortosPage = () => {
       return <AenaPage months={getMonths(filters)} />;
     default:
       return <Geral 
-      data={Object.keys(porto).length != 0 ? porto : defaultData}
+      data={sameKeys(porto, defaultData) ? porto : defaultData}
       // year={getYearSelected(filters)}
       months={getMonths(filters)}
       />;

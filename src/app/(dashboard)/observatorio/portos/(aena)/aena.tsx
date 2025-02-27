@@ -30,7 +30,7 @@ const AenaPage = ({ months}: {months: number}) => {
 
     if (data) {
 
-      const passageirosData = { passageiros: { current: data.passageiros.current.filteredData, past: data.passageiros.past.filteredData}}
+      const passageirosData = { passageiros: { current: data.passageiros?.current?.filteredData || [], past: data.passageiros?.past?.filteredData || []}}
 
       setPassageiros(passageirosData)
     }

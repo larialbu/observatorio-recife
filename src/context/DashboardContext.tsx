@@ -116,8 +116,8 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     const baseFilters = getFiltersForRoute(pathname, tab);
   
     if (
-      JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters) ||
-      data !== null
+      JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters) 
+      // || data !== null
     ) {
       console.log("🟡 Nenhuma mudança nos filtros ou dados já carregados, pulando fetchData.");
       return;

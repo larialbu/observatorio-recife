@@ -13,7 +13,7 @@ const VariacaoPassageirosPorto = ({
     <Card
       local={capital}
       title={`${title}`}
-      data={chartData?.variaçãoAcumuladaNoAno}
+      data={chartData}
       year={year}
       color={color}
       percent={true}

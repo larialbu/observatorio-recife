@@ -30,7 +30,7 @@ const PassageirosGeral = ({
   const chartData = {
     current: current,
     past: past,
-    variant: past > 0 ? ((current - past) / past) * 100 : 0,
+    variant: (past > 0 ? ((current - past) / past) * 100 : 0).toFixed(2) || 0,
   }
 
   return (
