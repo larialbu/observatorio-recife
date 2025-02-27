@@ -11,6 +11,7 @@ import React, {
 import { usePathname, useSearchParams } from "next/navigation";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
+import { sameKeys } from "@/utils/filters/@features/sameKeys";
 
 interface Filters {
   [key: string]: any;
@@ -40,6 +41,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const prevFiltersRef = useRef<Filters | null>(null); // armazenar os filtros anteriores
+  const prevDataRef = useRef<any | null>(null); // armazenar os filtros anteriores
 
   // Função para buscar os dados com base nos filtros
   const fetchData = async (filtersToUse: Filters) => {
@@ -114,9 +116,9 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const tab = searchParams.get("tab");
     const baseFilters = getFiltersForRoute(pathname, tab);
-  
+
     if (
-      JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters) 
+      JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters) || sameKeys(prevDataRef.current || [], data || []) && data !== null
       // || data !== null
     ) {
       console.log("🟡 Nenhuma mudança nos filtros ou dados já carregados, pulando fetchData.");
@@ -125,6 +127,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   
     console.log("🔵 Filtros mudaram ou dados não carregados, chamando fetchData...");
     prevFiltersRef.current = baseFilters;
+    prevDataRef.current = !sameKeys(prevDataRef.current || [], data || []) && data !== null ? prevFiltersRef.current : data;
     setFilters(baseFilters);
     fetchData(baseFilters);
   }, [pathname, searchParams, data]);
