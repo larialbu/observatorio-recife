@@ -15,7 +15,7 @@ import { sameKeys } from "@/utils/filters/@features/sameKeys";
 
 interface Filters {
   [key: string]: any;
-  additionalFilters?: { label: string; selected: string[] }[];
+  additionalFilters: { options: string[], label: string; selected: string[] }[];
 }
 
 interface Data {
@@ -36,7 +36,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [filters, setFilters] = useState<Filters>({});
+  const [filters, setFilters] = useState<Filters>({} as any);
   const [data, setData] = useState<Data | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -102,7 +102,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
   const resetFilters = () => {
     const tab = searchParams.get("tab");
-    let baseFilters = getFiltersForRoute(pathname, tab);
+    let baseFilters: any = getFiltersForRoute(pathname, tab);
 
     if (baseFilters.additionalFilters) {
       baseFilters = {
@@ -115,23 +115,21 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const tab = searchParams.get("tab");
-    const baseFilters = getFiltersForRoute(pathname, tab);
-
-    if (
-      JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters) || sameKeys(prevDataRef.current || [], data || []) && data !== null
-      // || data !== null
-    ) {
-      console.log("🟡 Nenhuma mudança nos filtros ou dados já carregados, pulando fetchData.");
+    const baseFilters: any = getFiltersForRoute(pathname, tab);
+    console.log('oi')
+  
+    // Se os filtros não mudaram, não faz nada
+    if (JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters)) {
       return;
     }
   
-    console.log("🔵 Filtros mudaram ou dados não carregados, chamando fetchData...");
+    console.log("🔵 Filtros mudaram, chamando fetchData...");
     prevFiltersRef.current = baseFilters;
     prevDataRef.current = !sameKeys(prevDataRef.current || [], data || []) && data !== null ? prevFiltersRef.current : data;
     setFilters(baseFilters);
+    setData(null);
     fetchData(baseFilters);
-  }, [pathname, searchParams, data]);
-  
+  }, [pathname, searchParams]);
 
   return (
     <DashboardContext.Provider value={{ filters, data, isLoading, applyFilters, resetFilters }}>

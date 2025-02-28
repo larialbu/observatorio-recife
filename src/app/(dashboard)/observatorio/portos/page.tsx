@@ -15,18 +15,33 @@ import { sameKeys } from "@/utils/filters/@features/sameKeys";
 const PortosPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
-  const [porto, setPorto] = useState({} as any);
+  const [porto, setPorto] = useState([] as any);
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
 
-  const defaultData = {
+  const defaultData: any = {
     atracacao: [],
     carga: [],
     coords: [],
-    dictionaries: { atracacao: [], carga: [], origem: [], destino: [], mercado: [] },
-    rawData: { atracacao: [], carga: [] },
-    charts: { portos: []}
-  }
+    dictionaries: { 
+      atracacao: [], 
+      carga: [], 
+      origem: [], 
+      destino: [], 
+      mercado: [] 
+    },
+    rawData: { 
+      atracacao: [], 
+      carga: [] 
+    },
+    charts: { 
+      portos: [],
+    },
+    passageiros: {
+      current: [],
+      past: []
+    }
+  };
 
   useEffect(() => {
       const tab = searchParams.get("tab");
@@ -39,18 +54,24 @@ const PortosPage = () => {
       }
     }, [searchParams, activeTab]);
 
-  useEffect(() => {
+    useEffect(() => {
       if (data) {
-        const portoData = {
+        setPorto({
           ...data,
           atracacao: data?.atracacao?.filteredData,
           carga: data?.carga,
-        }
+        });
 
-        setPorto(portoData)
+      } else {
+        setPorto(defaultData);
       }
+
     }, [data]);
   
+    if (Object.keys(porto).length === 0) {
+      setPorto(defaultData);
+    }
+
     if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
@@ -58,46 +79,31 @@ const PortosPage = () => {
       return <div className="text-center text-gray-600">Carregando dados...</div>;
     }
 
-  switch (activeTab) {
-    case "geral":
-      return <Geral 
-        data={sameKeys(porto, defaultData) ? porto : defaultData}
-        // rawData={data?.geral?.rawData || []}
-        // year={getYearSelected(filters)}
-        months={getMonths(filters)}
-      />;
-      //FAVOR, EDITAR ESTE TOCOMPARE PARA SER SETTADO COM BASE EM DATA PARA DEPOIS SÓ PRECISAR SETAR O FILTRO DA TAB COMO
-      // DEFAULTFILTERS E CONSEGUIR PASSAR SOMENTE O ANO.
-    case "operacao":
-      return <Operacao 
-       data={sameKeys(porto, defaultData) ? {...porto, rawData: [], charts: {}, coords: []} : defaultData}
-       months={getMonths(filters)}
-       year={getYearSelected(filters)}
-        // toCompare={filters.additionalFilters[4]?.selected}
-     />;
-    case "comparativo":
-      return <Comparativo
-        data={sameKeys(porto, defaultData) ? {...porto, atracacao: [], carga: [], charts: {}, coords: []} : defaultData} 
-        rawData={porto.rawData || {}}
-        year={getYearSelected(filters)}
-        months={getMonths(filters)}
-        toCompare={filters.additionalFilters[3]?.options }
-      />;
-    case "passageiro":
-      return <AenaPage months={getMonths(filters)} />;
-    default:
-      return <Geral 
-      data={sameKeys(porto, defaultData) ? porto : defaultData}
-      // year={getYearSelected(filters)}
-      months={getMonths(filters)}
-      />;
-  }
+    if (isLoading) {
+      return <LoadingScreen />;
+    }
+
+    switch (activeTab) {
+      case "geral":
+        return <Geral data={porto} months={getMonths(filters)} />;
+      case "operacao":
+        return <Operacao data={porto} months={getMonths(filters)} year={getYearSelected(filters)} />;
+      case "comparativo":
+        return <Comparativo data={porto} rawData={porto.rawData} year={getYearSelected(filters)} months={getMonths(filters)} toCompare={filters.additionalFilters?.[3]?.options || []} />;
+      case "passageiro":
+        return <AenaPage />;
+      default:
+        return <Geral data={porto} months={getMonths(filters)} />;
+    }
 };
 
   const handleNavigation = (tab: string) => {
+  if (isLoading) return; 
+  setTimeout(() => {
     setActiveTab(tab);
     router.replace(`?tab=${tab}`);
-  };
+  }, 10);
+};
 
   if (isLoading) return <LoadingScreen />;
 
