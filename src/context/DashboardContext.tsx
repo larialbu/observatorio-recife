@@ -11,7 +11,6 @@ import React, {
 import { usePathname, useSearchParams } from "next/navigation";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
-import { sameKeys } from "@/utils/filters/@features/sameKeys";
 
 interface Filters {
   [key: string]: any;
@@ -25,6 +24,7 @@ interface Data {
 interface DashboardContextProps {
   filters: Filters;
   data: Data | null;
+  setData: any;
   isLoading: boolean;
   applyFilters: (newFilters: Filters) => Promise<void>;
   resetFilters: () => void;
@@ -41,7 +41,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const prevFiltersRef = useRef<Filters | null>(null); // armazenar os filtros anteriores
-  const prevDataRef = useRef<any | null>(null); // armazenar os filtros anteriores
+  
 
   // Função para buscar os dados com base nos filtros
   const fetchData = async (filtersToUse: Filters) => {
@@ -49,7 +49,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(true);
 
     try {
-      const tab = searchParams.get("tab") || "geral";
+      const tab = searchParams.get("tab") || 'geral';
       const service = getServiceForRoute(pathname, tab);
 
       if (!service) {
@@ -101,7 +101,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const resetFilters = () => {
-    const tab = searchParams.get("tab");
+    const tab = searchParams.get("tab") || 'geral';
     let baseFilters: any = getFiltersForRoute(pathname, tab);
 
     if (baseFilters.additionalFilters) {
@@ -113,26 +113,25 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     applyFilters(baseFilters);
   };
 
+
   useEffect(() => {
     const tab = searchParams.get("tab");
     const baseFilters: any = getFiltersForRoute(pathname, tab);
-    console.log('oi')
-  
+    
     // Se os filtros não mudaram, não faz nada
     if (JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters)) {
       return;
     }
-  
+    setData(null);
     console.log("🔵 Filtros mudaram, chamando fetchData...");
     prevFiltersRef.current = baseFilters;
-    prevDataRef.current = !sameKeys(prevDataRef.current || [], data || []) && data !== null ? prevFiltersRef.current : data;
     setFilters(baseFilters);
-    setData(null);
     fetchData(baseFilters);
   }, [pathname, searchParams]);
 
+
   return (
-    <DashboardContext.Provider value={{ filters, data, isLoading, applyFilters, resetFilters }}>
+    <DashboardContext.Provider value={{ filters, data, isLoading, applyFilters, resetFilters, setData }}>
       {children}
     </DashboardContext.Provider>
   );

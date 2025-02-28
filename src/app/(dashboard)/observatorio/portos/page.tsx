@@ -14,7 +14,7 @@ import { sameKeys } from "@/utils/filters/@features/sameKeys";
 
 const PortosPage = () => {
   const searchParams = useSearchParams();
-  const { isLoading, data, filters } = useDashboard();
+  const { isLoading, data, filters, setData } = useDashboard();
   const [porto, setPorto] = useState([] as any);
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
@@ -45,6 +45,7 @@ const PortosPage = () => {
 
   useEffect(() => {
       const tab = searchParams.get("tab");
+      
       if (tab && tab !== activeTab) {
         setActiveTab(tab);
         
@@ -55,7 +56,7 @@ const PortosPage = () => {
     }, [searchParams, activeTab]);
 
     useEffect(() => {
-      if (data) {
+      if (data?.atracacao) {
         setPorto({
           ...data,
           atracacao: data?.atracacao?.filteredData,
@@ -98,11 +99,13 @@ const PortosPage = () => {
 };
 
   const handleNavigation = (tab: string) => {
-  if (isLoading) return; 
-  setTimeout(() => {
+    if (isLoading) return; 
+    const currentTab = searchParams.get("tab");
+    if (currentTab === "comparativo") {
+      setData(null);
+    }
     setActiveTab(tab);
     router.replace(`?tab=${tab}`);
-  }, 10);
 };
 
   if (isLoading) return <LoadingScreen />;
