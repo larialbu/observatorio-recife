@@ -4,7 +4,7 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/porto/operacao/OperacaoCargasAno"
+        "@/components/@build/observatorio/charts/porto/passageiro/PassageirosPortoAno"
       )
     ),
     col: 'full'
@@ -12,21 +12,15 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/porto/geral/PrincipaisProdutos"
+        "@/components/@build/observatorio/charts/porto/passageiro/PassageirosVariacaoPortoAno"
       )
     ),
+    col: 'full'
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/porto/operacao/PaisesImportados"
-      )
-    ),
-  },
-  {
-    Component: React.lazy(() =>
-      import(
-        "@/components/@build/observatorio/charts/porto/operacao/PaisesExportados"
+        "@/components/@build/observatorio/charts/porto/passageiro/PassageirosOperacaoPorto"
       )
     ),
   },

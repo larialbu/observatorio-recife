@@ -38,7 +38,7 @@ export const processPassageirosAnoPorto = (current: any[], past: any[]) => {
       
       return {
         ...item,
-        variation: variation.toFixed(2), // Variação formatada com 2 casas decimais
+        variation: +variation.toFixed(2), // Variação formatada com 2 casas decimais
         mes: new Date(0, parseInt(item.mes, 10) - 1).toLocaleString("pt-BR", {
           month: "short",
         }), // Formata o mês para "jan", "fev", etc.

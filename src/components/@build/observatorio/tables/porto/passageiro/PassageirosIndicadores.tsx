@@ -1,21 +1,20 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { rowsCountrysByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsCountrysByMunicipio";
 import { rowsCapitalsIndice } from "@/functions/process_data/observatorio/ipca/analitico/tables/rowsCapitalsIndice";
+import { processPassageirosAnoPorto } from "@/functions/process_data/observatorio/porto/passageiro/charts/passageirosAnoPorto";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
 
-const CapitalIndice = ({
+const PassageirosIndicadores = ({
   data = [],
   capital,
   year,
   color = "#000000",
-  monthRecent,
-  title = `${capital} (${
-    monthRecent ? `${monthRecent} - ` : ""
-  }${year}) - Índices`,
+  title = 'Indicadores de Passageiros'
 }: any) => {
-  const aggregatedData = rowsCapitalsIndice(data, year, capital, monthRecent);
-
-  console.log('AAGRRE', aggregatedData)
+ const yearCur = data.passageiros?.current[0]?.['Data'].split('-')[0] || 'Dado não encontrado'
+ const yearPast = data.passageiros?.past[0]?.['Data'].split('-')[0] || 'Dado não encontrado'
+  
+ const aggregatedData = processPassageirosAnoPorto(data.passageiros.current || [], data.passageiros.past || []);
 
   const sortedData = Object.values(aggregatedData).sort(
     (a: any, b: any) => parseInt(a.MÊS, 10) - parseInt(b.MÊS, 10)
@@ -27,7 +26,10 @@ const CapitalIndice = ({
     return <div>Nenhum dado econtrado</div>;
   }
 
-  const header = Object.keys(firstAggregated);
+//   const header = Object.keys(firstAggregated);
+const header = ["Mês", yearCur, yearPast, "Variação"];  
+console.log('HEEADER', header)
+
 
   const getRows = (values: any) => {
     const rows: string[][] = [];
@@ -56,15 +58,17 @@ const CapitalIndice = ({
       };
 
       rows.push([
-        obj["GRUPO"],
-        `${formatPercent(+obj["VARIAÇÃO_MENSAL"])}%`,
-        `${formatPercent(+obj["VARIAÇÃO_ACUMULADA"])}%`,
-        `${formatPercent(+obj["PESO_MENSAL"])}%`,
+        obj["mes"],
+        `${obj["current"]}`,
+        `${obj["past"]}`,
+        `${formatPercent(obj["variation"])}%`,
       ]);
     });
 
     return rows;
   };
+
+  getRows(aggregatedData)
 
   return (
     <div className="relative bg-white w-full">
@@ -81,4 +85,4 @@ const CapitalIndice = ({
   );
 };
 
-export default CapitalIndice;
+export default PassageirosIndicadores;
