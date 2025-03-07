@@ -8,21 +8,9 @@ import { SortableDiv } from "@/components/@global/features/SortableDiv";
 
 const Geral = ({ toCompare, data, year, months }: { toCompare?: string[]; data: any; year: string, months: number }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
-  const sortableContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (sortableContainerRef.current) {
-      Sortable.create(sortableContainerRef.current, {
-        animation: 150,
-        onEnd: (evt) => {
-          const newOrder = [...chartOrder];
-          const [movedItem] = newOrder.splice(evt.oldIndex!, 1);
-          newOrder.splice(evt.newIndex!, 0, movedItem);
-          setChartOrder(newOrder);
-        },
-      });
-    }
-  }, [chartOrder]);
+  // REF do container e REF da instância do Sortable
+  const sortableContainerRef = useRef<HTMLDivElement>(null);
 
   return (
     <div>
