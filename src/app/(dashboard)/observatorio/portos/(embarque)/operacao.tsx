@@ -25,7 +25,7 @@ const Operacao = ({
     <div>
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.slice(0, 1).map(({ Component }, index) => (
-          <React.Suspense fallback={<div>Loading...</div>} key={index}>
+          <React.Suspense fallback={<div>Carregando...</div>} key={index}>
             <Component data={data} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
           </React.Suspense>
         ))}

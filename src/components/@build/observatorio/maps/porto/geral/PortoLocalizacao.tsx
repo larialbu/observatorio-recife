@@ -83,7 +83,6 @@ export default function PortoLocalizacao({ data }: PortoLocalizacaoProps) {
   useEffect(() => {
 
     if (!mapRef.current || !data || !Array.isArray(data) || data.length < 2) {
-      console.error("Os dados estão ausentes ou na estrutura incorreta.");
       return;
     }
 
