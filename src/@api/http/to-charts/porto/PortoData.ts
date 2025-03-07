@@ -3,6 +3,7 @@
  */
 
 import { parquetRead } from "hyparquet";
+import { compressors } from "hyparquet-compressors";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME;
@@ -15,57 +16,48 @@ export class PortoData {
     this.year = year;
   }
 
-  /**
-   * Método genérico para buscar dados da API.
-   */
   private async fetchData<T>(endpoint: string): Promise<T> {
-
     try {
       const response = await fetch(`${BASE_URL}${endpoint}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Basic ${btoa(`${API_USERNAME}:${API_PASSWORD}`)}`, // Autenticação básica
+          Authorization: `Basic ${btoa(`${API_USERNAME}:${API_PASSWORD}`)}`,
         },
         credentials: "include",
       });
 
       if (!response.ok) {
         throw new Error(`Erro ao buscar dados da API: ${endpoint}`);
+
       }
 
-      // Log do cabeçalho Content-Type
       const contentType = response.headers.get("content-type");
-
       let data: any;
 
-       if (contentType?.includes("application/octet-stream")) {
+      if (contentType?.includes("application/octet-stream")) {
         const startTime = performance.now();
-
         const arrayBuffer = await response.arrayBuffer();
-        
+
         const records = await new Promise((resolve, reject) => {
           parquetRead({
             file: arrayBuffer,
-            rowFormat: 'object',
+            rowFormat: "object",
+            compressors,
             onComplete: (data) => resolve(data),
           });
         });
 
-        
         const endTime = performance.now();
         console.log(`Tempo de execução: ${(endTime - startTime).toFixed(2)} ms`);
-      
-
-       data = records;
+        data = records;
       } else {
-        // Caso contrário, trata como JSON normal
-        const text = await response.text(); // Lê a resposta como texto para depuração
-        data = JSON.parse(text); // Converte para objeto JSON
+        const text = await response.text();
+        data = JSON.parse(text);
       }
 
-
       return data;
+
     } catch (error) {
       console.error(`Erro em fetchData (${endpoint}):`, error);
       throw error;
@@ -84,7 +76,7 @@ export class PortoData {
    * Busca dados de carga para o ano especificado.
    */
   async fetchCargaPorAno(): Promise<any[]> {
-    const endpoint = `/porto/carga/${this.year}`;
+    const endpoint = `/porto/carga/${this.year}_test`;
     return this.fetchData<any[]>(endpoint);
   }
 
