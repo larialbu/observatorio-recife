@@ -74,7 +74,7 @@ function convertToGeoJSON(data: PortoData[], selectedMonths: number[]): GeoJSON 
 }
 
 type PortoLocalizacaoProps = {
-  data: [PortoData[], { label: string; options: number[]; selected: number[] }];
+  data: [PortoData[], number[]];
 };
 
 export default function PortoLocalizacao({ data }: PortoLocalizacaoProps) {
@@ -83,12 +83,11 @@ export default function PortoLocalizacao({ data }: PortoLocalizacaoProps) {
   useEffect(() => {
 
     if (!mapRef.current || !data || !Array.isArray(data) || data.length < 2) {
-      console.error("Os dados estão ausentes ou na estrutura incorreta.");
       return;
     }
 
     const portoData = data[0];
-    const selectedMonths = data[1].selected;
+    const selectedMonths = data[1];
 
     const map = L.map(mapRef.current).setView([-14.673, -51.260], 4);
 
@@ -130,7 +129,7 @@ export default function PortoLocalizacao({ data }: PortoLocalizacaoProps) {
     return () => {
       map.remove();
     };
-  }, [data[1]?.selected]);
+  }, [data[1]!]);
 
   return <div ref={mapRef} style={{ height: "500px", width: "100%" }} />;
 }

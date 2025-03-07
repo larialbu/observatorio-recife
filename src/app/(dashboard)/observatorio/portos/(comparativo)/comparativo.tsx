@@ -185,7 +185,7 @@ useEffect(() => {
                  
                   return (
                   // <div key={index}></div>
-                  <React.Suspense fallback={<div>Loading...</div>} key={index}>
+                  <React.Suspense fallback={<div>Carregando...</div>} key={index}>
                     <div
                       className={`${
                         toCompare === attTempFiltred[pageCompare]
@@ -210,7 +210,7 @@ useEffect(() => {
 
             {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.slice(0, 1).map(({ Component }, index) => (
-          <React.Suspense fallback={<div>Loading...</div>} key={index}>
+          <React.Suspense fallback={<div>Carregando...</div>} key={index}>
             <Component data={data} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
           </React.Suspense>
         ))}
@@ -263,7 +263,7 @@ useEffect(() => {
           return arrChart.map(({ Component, col }) => {
               return (
                 <div key={index} className={`chart-content-wrapper ${col === 'full' && 'col-span-full'}`}>
-                <React.Suspense fallback={<div>Loading...</div>}>
+                <React.Suspense fallback={<div>Carregando...</div>}>
                   <Component
                     porto={["Recife", ...tempFiltred][index]}
                     // rawData={rawData}

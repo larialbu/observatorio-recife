@@ -63,7 +63,7 @@ export class PortoDataService {
           destino: destinoDictionary,
           mercado: mercadoriaDictionary,
         },
-        coords: [coords, filters.additionalFilters.find((item: any) => item.label === "Mes")],
+        coords: [coords, filters.additionalFilters.find((item: any) => item.label === "Mes").selected],
         charts: { portos: portosOperations }
       };
     } catch (error) {
