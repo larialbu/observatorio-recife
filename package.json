@@ -1,6 +1,6 @@
 {
   "name": "observatorio-economico-recife",
-  "version": "3.2.78",
+  "version": "3.2.79",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -22,6 +22,7 @@
     "react-tooltip": "^5.28.0",
     "recharts": "^2.13.0-alpha.5",
     "sass": "^1.80.4",
+    "sharp": "^0.33.5",
     "sortablejs": "^1.15.6",
     "style-loader": "^4.0.0",
     "uvcanvas": "^0.2.2"
