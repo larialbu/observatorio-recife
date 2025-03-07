@@ -48,6 +48,8 @@ export class PortoDataService {
       const atracacaoFiltered = applyGenericFilters(atracacao, filters);
       const atracacaoIds = new Set(atracacaoFiltered.filteredData.map((atracacao) => atracacao.IDAtracacao));
 
+      const coordsFiltered = applyGenericFilters(coords, filters)
+
       const cargaFiltered = carga.filter(
         (item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga']
       );
@@ -61,7 +63,7 @@ export class PortoDataService {
           destino: destinoDictionary,
           mercado: mercadoriaDictionary,
         },
-        coords,
+        coords: [coords, filters.additionalFilters.find((item: any) => item.label === "Mes")],
         charts: { portos: portosOperations }
       };
     } catch (error) {
