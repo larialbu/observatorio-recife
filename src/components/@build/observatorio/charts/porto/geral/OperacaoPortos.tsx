@@ -7,56 +7,67 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processAtracacoesPorCarga } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoProdutos";
 import { getPortoProductNameByCode } from "@/utils/formatters/getPortoProductNameByCode";
 
-// function somarPortosTodosAnos(data: any[]) {
-//   const resultado = {};
+function somarPortosTodosAnos(data: any[]) {
+  const resultado: Record<string, number> = {};
 
-//   data.forEach((entry: any) => {
-//       const { portos } = entry;
+  // Percorre o array de dados
+  data.forEach((entry: any) => {
+    const { portos } = entry;
 
-//       for (const porto in portos) {
-//           if (!resultado[porto] ) {
-//               resultado[porto] = 0;
-//           }
-//           resultado[porto] += portos[porto]; // Soma as cargas dos anos diferentes
-//       }
-//   });
+    for (const porto in portos) {
+      const nomePorto = porto.trim(); // Remove espaços extras
 
-//   return Object.entries(resultado).map(([porto, carga]) => ({
-//       porto,
-//       carga
-//   }));
-// }
+      // Se o porto já existe, soma os valores, senão, cria uma nova entrada
+      if (!resultado[nomePorto]) {
+        resultado[nomePorto] = 0;
+      }
+      resultado[nomePorto] += portos[porto]; // Soma as cargas dos anos diferentes
+    }
+  });
+
+  // Retorna os portos consolidados no formato esperado
+  return Object.entries(resultado).map(([porto, carga]) => ({
+    porto,
+    carga
+  }));
+}
+
+function substituirMesPorNumero(data: any) {
+  const meses = {
+      'Jan': 1, 'Fev': 2, 'Mar': 3, 'Abr': 4, 'Mai': 5, 'Jun': 6,
+      'Jul': 7, 'Ago': 8, 'Set': 9, 'Out': 10, 'Nov': 11, 'Dez': 12,
+      'Total': 0
+  };
+
+  return data.map((entry: any) => ({
+      ...entry,
+      mes: meses[entry.mes] ?? entry.mes // Mantém o valor original caso não esteja no dicionário
+  }));
+}
 
 const OperacaoPortos = ({
   data, 
   months,
-  title = "Produtos Comercializados (Ton)",
+  title = "Operação dos Portos (Ton)",
   year,
 }: any) => {
 
-  // console.log('DATA GERAL', data, months)
+  const chartData = somarPortosTodosAnos(months.selected.length ? substituirMesPorNumero(data.charts.portos).filter((obj: any) => months.selected.includes(obj.mes)) : substituirMesPorNumero(data.charts.portos).filter((item: any) => item.mes !== 0)).sort((a, b) => b.carga - a.carga)
 
-  console.log('DATA portos operacao sem FILTRO', data.charts.portos )
-  // console.log('DATA portos operacao', data.charts.portos.filter((item: any) => item.mes !== 'Total'))
-
-  // console.log('DATA DO BGLH', somarPortosTodosAnos(data.charts.portos.filter((item: any) => item.mes !== 'Total')))
-
-  const chartData = data.charts.portos.sort((a: any, b: any) => b.VLPesoCargaBruta - a.VLPesoCargaBruta)
-
-  // console.log('CHARTDATA', chartData)
+  console.log('CHARDTAA', chartData.filter((data) => data.porto.includes('Aquaviário') ))
 
   return (
     <div className="chart-wrapper">
-      {/* <ChartGrabber>
+      <ChartGrabber>
         <ScrollableBarChart
           data={chartData}
           title={title}
-          xKey="Porto Atracação"
-          bars={[{ dataKey: "VLPesoCargaBruta", name: "Produto" }]}
+          xKey="porto"
+          bars={[{ dataKey: "carga", name: "Porto" }]}
           colors={ColorPalette.default}
           heightPerCategory={50}
         />
-      </ChartGrabber> */}
+      </ChartGrabber>
     </div>
   );
 };

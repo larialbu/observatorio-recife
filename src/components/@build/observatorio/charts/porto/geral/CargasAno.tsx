@@ -16,7 +16,7 @@ const CargasAno = ({
 //   const chartData = processPassageirosAno(data);
   const chartData = processAtracacoesPorMes(data.atracacao, data.carga)
 
-  const updatedData = updatedMonthChartData(chartData, months);
+  const updatedData = updatedMonthChartData(chartData, months?.options?.length);
 
   return (
     <div className="chart-wrapper">
