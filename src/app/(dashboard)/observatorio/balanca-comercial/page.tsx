@@ -80,7 +80,7 @@ const BalancaComercialPage = () => {
     router.replace(`?tab=${tab}`);
   };
 
-  // Se estiver carregando, exibimos Loading
+  // Se estiver carregando, exibimos Carregando
   if (isLoading) return <LoadingScreen />;
 
   return (

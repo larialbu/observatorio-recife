@@ -102,7 +102,7 @@ const Analitico = ({
         <div className="w-[85%] flex flex-wrap gap-4 justify-center mb-2">
           {tempFiltred.map((toCompare: string, index) => {
             return cards.map(({ Component }, indexChid) => (
-              <React.Suspense fallback={<div>Loading...</div>} key={indexChid}>
+              <React.Suspense fallback={<div>Carregando...</div>} key={indexChid}>
                 <div
                   className={`${
                     toCompare === tempFiltred[pageCompare]
@@ -162,7 +162,7 @@ const Analitico = ({
             }
 
             return (
-              <React.Suspense fallback={<div>Loading...</div>} key={index}>
+              <React.Suspense fallback={<div>Carregando...</div>} key={index}>
                 <div
                   style={{ backgroundColor: ColorPalette.default[index] }}
                   className="shadow-md rounded-lg w-100 flex flex-col items-center"

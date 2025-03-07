@@ -101,7 +101,7 @@ const Comparativo = ({
             <div className="w-[85%] flex flex-wrap gap-4 justify-center mb-2">
               {tempFiltred.map((toCompare: string) => {
                 return cards.map(({ Component }, index) => (
-                  <React.Suspense fallback={<div>Loading...</div>} key={index}>
+                  <React.Suspense fallback={<div>Carregando...</div>} key={index}>
                     <div
                       className={`${
                         toCompare === tempFiltred[pageCompare]
@@ -188,7 +188,7 @@ const Comparativo = ({
               key={index}
               className="bg-white shadow-md rounded-lg w-100 flex flex-col items-center"
             >
-              <React.Suspense fallback={<div>Loading...</div>}>
+              <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
                   airport={["Recife", ...tempFiltred][index]}
                   color={ColorPalette.default[index]}

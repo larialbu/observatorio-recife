@@ -33,7 +33,7 @@ const Dimensao = ({
         <div className="h-full">
           {tables.map(({ Component }, index) => (
             <div key={index} className="h-full">
-              <React.Suspense fallback={<div>Loading...</div>}>
+              <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
                   color={ColorPalette.default[1]}
                   data={rawData}

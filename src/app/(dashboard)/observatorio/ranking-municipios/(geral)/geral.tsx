@@ -27,7 +27,7 @@ const Geral = ({
               key={index}
               className="h-full"
             >
-              <React.Suspense fallback={<div>Loading...</div>}>
+              <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
                   airport={["Recife", ...tempFiltred][index]}
                   color={ColorPalette.default[index]}
