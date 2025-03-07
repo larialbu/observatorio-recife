@@ -142,7 +142,7 @@ export class PortoData {
   }
 
   async fetchPortosOperations(): Promise<any[]> {
-    const endpoint= `/porto/charts/coords/${this.year}`
+    const endpoint= `/porto/charts/operacao_portos/${this.year}`
     return this.fetchData<any[]>(endpoint);
   }
   
