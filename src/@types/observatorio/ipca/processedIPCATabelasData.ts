@@ -1,4 +1,4 @@
-export interface ProcessedIPCATabelasData {
+export interface ProcessedIpcaTabelasData {
     Grupo: string;
     Capital: string;
     Data: string;

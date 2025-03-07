@@ -1,100 +1,123 @@
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
-import React from "react";
 
-const Separator = () => {
-  return <div className="h-[18px] sm:h-[20px] mx-[3px] w-[1px] sm:mx-[7px] bg-white"></div>;
-};
+/** Componente simples para separar itens. */
+const Separator: React.FC = () => (
+  <div className="h-[18px] sm:h-[20px] mx-[3px] w-[1px] sm:mx-[7px] bg-white" />
+);
 
-export const NavBarHome = ({ simple }: { simple?: boolean }) => {
+interface NavBarHomeProps {
+  simple?: boolean;
+}
+
+export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
+  // Estados
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [currentRoute, setCurrentRoute] = useState("");
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para controle do menu em telas pequenas
-  const menuRef = useRef<HTMLDivElement>(null); // Referência para o menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const responsiveNavItem = `text-[13px] sm:text-[15px]`;
+  // Referência para fechar menu ao clicar fora
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+  // Classe base para itens de navegação
+  const baseNavItemClass = "text-[13px] sm:text-[15px]";
+
+  // Alterna Modo Escuro/Claro
+  function toggleDarkMode() {
+    setIsDarkMode((prev) => !prev);
     document.documentElement.classList.toggle("dark");
-  };
+  }
 
+  // Lista de itens do menu
   const navItems = [
     {
       text: "Panorama",
       href: "#",
-      onClick: null,
-      className: `${responsiveNavItem} px-[10px] py-[2px] bg-[#ec6625] rounded-full font-medium hover:bg-[#ce5a21] hover:scale-105`,
+      onClick: undefined,
+      className: `${baseNavItemClass} px-[10px] py-[2px] bg-[#ec6625] rounded-full font-medium hover:bg-[#ce5a21] hover:scale-105`,
     },
     {
       text: "Explorar",
       href: "/explorar",
-      onClick: null,
-      className: `${responsiveNavItem} hover:underline`,
+      onClick: undefined,
+      className: `${baseNavItemClass} hover:underline`,
     },
     {
       text: "Boletim Econômico",
       href: "/boletim-economico",
-      onClick: null,
-      className: `${responsiveNavItem} flex-shrink-0 hover:underline`,
+      onClick: undefined,
+      className: `${baseNavItemClass} flex-shrink-0 hover:underline`,
+    },
+    {
+      text: "Fontes",
+      href: "/fontes",
+      onClick: undefined,
+      className: `${baseNavItemClass} flex-shrink-0 hover:underline`,
     },
     {
       text: "Equipe",
       href: "/equipe",
-      onClick: null,
-      className: `${responsiveNavItem} flex-shrink-0 hover:underline`,
+      onClick: undefined,
+      className: `${baseNavItemClass} flex-shrink-0 hover:underline`,
     },
     {
       text: "Sobre",
       href: "/sobre",
-      onClick: null,
-      className: `${responsiveNavItem} flex-shrink-0 hover:underline`,
+      onClick: undefined,
+      className: `${baseNavItemClass} flex-shrink-0 hover:underline`,
     },
   ];
 
+  /** Fechar menu ao clicar fora */
   useEffect(() => {
     if (typeof window !== "undefined") {
       setCurrentRoute(window.location.pathname);
     }
 
-    const handleClickOutside = (event: MouseEvent) => {
+    function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsMenuOpen(false); // Fecha o menu ao clicar fora
+        setIsMenuOpen(false);
       }
-    };
+    }
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Itens a exibir (exclui o item se 'currentRoute' bate com 'href')
   const displayedNavItems = currentRoute
-    ? navItems.filter((item) => currentRoute !== item.href)
+    ? navItems.filter((item) => item.href !== currentRoute)
     : navItems;
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  // Toggle para menu mobile
+  function toggleMenu() {
+    setIsMenuOpen((prev) => !prev);
+  }
+
+  // Classes extras se "simple" for true
+  const containerClass = simple
+    ? "bg-[url('/images/backgrounds/home_carousel/carousel_1.png')] bg-cover bg-center items-center"
+    : "";
 
   return (
     <div
       className={`
-        ${simple
-          ? "bg-[url('/images/backgrounds/home_carousel/carousel_1.png')] bg-cover bg-center items-center"
-          : ""
-        } grid grid-cols-2 sm:grid-cols-[auto_auto] justify-between z-10 p-4 pr-2 sm:pr-4 pl-3 sm:pl-4 px-6 w-full`}
+        ${containerClass}
+        grid grid-cols-2 sm:grid-cols-[auto_auto] justify-between z-10 p-4 pr-2 sm:pr-4 pl-3 sm:pl-4 px-6 w-full
+      `}
     >
-      {/* Logo */}
-      <Link href="/" className="w-fit">
+      {/* LOGO */}
+      <Link href="/" className="w-fit hover:rotate-45 transition-transform">
         <img
           src="/images/logos/observatorio_logo.png"
           alt="logo observatorio"
-          className={`${
-            simple ? "h-10" : "text-left w-[45px] sm:w-20"
-          } object-cover`}
+          className={simple ? "h-10" : "text-left w-[45px] sm:w-20"}
         />
       </Link>
 
-      {/* Menu para telas grandes */}
+      {/* Menu Desktop */}
       <ul
         className={`hidden sm:flex h-fit justify-end items-center text-white ${
           simple ? "" : "pt-0 sm:pt-2"
@@ -114,7 +137,9 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
             </li>
           </React.Fragment>
         ))}
+
         <Separator />
+        {/* Dark Mode Button */}
         <li>
           <div
             onClick={toggleDarkMode}
@@ -130,10 +155,20 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-                <g id="Dribbble-Light-Preview" transform="translate(-180.000000, -4199.000000)" fill="currentColor">
+              <g
+                id="Page-1"
+                stroke="none"
+                strokeWidth="1"
+                fill="none"
+                fillRule="evenodd"
+              >
+                <g
+                  id="Dribbble-Light-Preview"
+                  transform="translate(-180.000000, -4199.000000)"
+                  fill="currentColor"
+                >
                   <g id="icons" transform="translate(56.000000, 160.000000)">
-                    <path d="M126,4049 C126,4044.589 129.589,4041 134,4041 L134,4057 C129.589,4057 126,4053.411 126,4049 M134,4039 C128.477,4039 124,4043.477 124,4049 C124,4054.523 128.477,4059 134,4059 C139.523,4059 144,4054.523 144,4049 C144,4043.477 139.523,4039 134,4039" id="contrast-[#907]"></path>
+                    <path d="M126,4049 C126,4044.589 129.589,4041 134,4041 L134,4057 C129.589,4057 126,4053.411 126,4049 M134,4039 C128.477,4039 124,4043.477 124,4049 C124,4054.523 128.477,4059 134,4059 C139.523,4059 144,4054.523 144,4049 C144,4043.477 139.523,4039 134,4039" />
                   </g>
                 </g>
               </g>
@@ -142,7 +177,7 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
         </li>
       </ul>
 
-      {/* Menu para telas pequenas */}
+      {/* Menu Mobile */}
       <div className="sm:hidden flex items-center justify-end">
         <button
           onClick={toggleMenu}
@@ -155,16 +190,12 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16m-7 6h7"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
           </svg>
         </button>
       </div>
 
+      {/* Dropdown Mobile */}
       {isMenuOpen && (
         <div
           ref={menuRef}
@@ -174,10 +205,13 @@ export const NavBarHome = ({ simple }: { simple?: boolean }) => {
             {displayedNavItems.map((item) => (
               <li key={item.href} className="hover:underline">
                 <Link href={item.href}>{item.text}</Link>
+                <hr className="opacity-30 mt-2 border-black" />
               </li>
             ))}
+
+            {/* Exemplo de item extra no menu mobile */}
             <li>
-              <div
+            <div
                 onClick={toggleDarkMode}
                 className="cursor-pointer flex items-center space-x-2"
               >

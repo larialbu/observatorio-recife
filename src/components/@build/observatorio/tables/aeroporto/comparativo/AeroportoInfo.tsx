@@ -44,7 +44,7 @@ const AirportInfo = ({
   };
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="relative bg-white w-full rounded-2xl">
       <TableGeneric maxHeight={500} rowsPerPage={100} color={color} headers={header} title={`Dados de ${airport} (${year})`} rows={getRows(sortedData)} />
     </div>
   );

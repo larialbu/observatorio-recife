@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
@@ -18,7 +18,7 @@ const PassageirosAno = ({
   const updatedData = updatedMonthChartData(chartData, months);
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="chart-wrapper">
       <ChartGrabber>
         <LineChart
           data={updatedData}

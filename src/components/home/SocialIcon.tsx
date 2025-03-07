@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ReactNode } from "react";
 
 export const SocialIcon = ({
@@ -13,8 +14,9 @@ export const SocialIcon = ({
   onClick?: () => void;
   className?: string; // Adicionando className
 }) => {
+  
   return (
-    <a
+    <Link
       href={link}
       target="_blank"
       rel="noopener noreferrer" // Segurança adicional
@@ -29,6 +31,6 @@ export const SocialIcon = ({
       }}
     >
       {icon}
-    </a>
+    </Link>
   );
 };

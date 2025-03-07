@@ -25,7 +25,7 @@ const HorizontalScrollableBarChart = ({
         <div className="overflow-x-auto">
           {/* Adding a larger width to the ResponsiveContainer */}
           <div style={{ width: data.length * widthMultiply + 'px' }}>
-            <ResponsiveContainer width="100%" height={heightToPass}>
+            <ResponsiveContainer width="100%" height={362}>
               <RechartsBarChart data={data} margin={{ top: 20, right: 20, left: 13, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 

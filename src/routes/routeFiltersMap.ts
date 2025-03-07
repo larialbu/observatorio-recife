@@ -7,17 +7,52 @@ import { defaultFilters } from "@/utils/filters/defaultFilters";
 import { anacFilters } from "@/utils/filters/aeroporto/anacFilters";
 import { aenaFilters } from "@/utils/filters/aeroporto/aenaFilters";
 import { balancaComercialFilters } from "../utils/filters/balanca-comercial/balancaComercialFilters";
+import { ipcaGeralFilters } from "@/utils/filters/ipca/ipcaGeralFilters";
+import { ipcaGruposFilters } from "@/utils/filters/ipca/ipcaGruposFilters";
+import { ipcaAnaliticoFilters } from "@/utils/filters/ipca/ipcaAnaliticoFilters";
+import { rankingGeralFilters } from "@/utils/filters/ranking/rankingGeralFilters";
+import { rankingDimensaoFilters } from "@/utils/filters/ranking/rankingDimensaoFilters";
+import { rankingPilarFilters } from "@/utils/filters/ranking/rankingPilarFilters";
+import { rankingIndicadorFilters } from "@/utils/filters/ranking/rankingIndicadorFilters";
+import { anacComparativoFilters } from "@/utils/filters/aeroporto/anacComparativoFilters";
+import { portoGeralFilters } from "@/utils/filters/porto/portoGeralFilters";
+import { balancaComercialAnaliticoFilters } from "@/utils/filters/balanca-comercial/balancaComercialAnaliticoFilters";
+import { portoComparativoFilters } from "@/utils/filters/porto/portoComparativoFilters";
+import { portoPassageiroFilters } from "@/utils/filters/porto/portoPassageiroFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 export const routeFiltersMap: Record<
   string, 
   Record<string, Record<string, any>> | Record<string, any>
 > = {
+    "/observatorio/ipca": {
+      geral: ipcaGeralFilters,
+      grupos: ipcaGruposFilters,
+      analitico: ipcaAnaliticoFilters,
+      // etc. Se quiser mesmo service, ok
+    },
+
+    "/observatorio/portos": {
+      geral: portoGeralFilters,
+      operacao: portoGeralFilters,
+      comparativo: portoComparativoFilters,
+      passageiros: portoPassageiroFilters,
+      // etc. Se quiser mesmo service, ok
+    },
+
+    "/observatorio/ranking": {
+      geral: rankingGeralFilters,
+      dimensao: rankingDimensaoFilters,
+      pilar: rankingPilarFilters,
+      indicador: rankingIndicadorFilters,
+      // etc. Se quiser mesmo service, ok
+    },
+
   "/observatorio/aeroportos": {
     // Se estivermos em /observatorio/aeroportos, podemos ter
     // "geral" apontando para anacFilters, ou "aena" apontando para aenaFilters.
     geral: anacFilters,
-    comparativo: anacFilters,
+    comparativo: anacComparativoFilters,
     embarque: anacFilters,
     aena: aenaFilters,
     // Se existirem outras tabs, adicione aqui.
@@ -28,7 +63,7 @@ export const routeFiltersMap: Record<
       ...balancaComercialFilters,
     },
     analitico: {
-      ...defaultFilters
+      ...balancaComercialAnaliticoFilters
     },
   },
 

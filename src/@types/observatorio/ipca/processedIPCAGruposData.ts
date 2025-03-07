@@ -1,4 +1,4 @@
-export interface ProcessedIPCAGruposData {
+export interface ProcessedIpcaGruposData {
     Grupo: string;
     Subgrupo: string;
     Item: string;

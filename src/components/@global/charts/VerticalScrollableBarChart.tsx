@@ -49,7 +49,7 @@ const VerticalScrollableBarChart = ({
             <RechartsBarChart
               data={data}
               layout="vertical" // Layout para barras verticais
-              margin={{ top: 0, right: 5, left: -35, bottom: 5 }}
+              margin={{ top: 0, right: 10, left: -15, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
@@ -63,7 +63,7 @@ const VerticalScrollableBarChart = ({
                 dataKey={xKey}
                 tick={{ fontSize: 12 }}
                 interval={0} // Exibe todos os rótulos
-                width={150} // Espaço suficiente para rótulos longos
+                width={100} // Espaço suficiente para rótulos longos
               />
               <Tooltip
               content={(e) => CustomTooltip({...e, customTooltipFormatter})}
@@ -87,7 +87,7 @@ const VerticalScrollableBarChart = ({
               
               {/* Desenhando as barras e aplicando as cores */}
               {bars.map((bar: any, index: any) => (
-                <Bar key={index} dataKey={bar.dataKey} name={bar.name} fill={colors[1]}>
+                <Bar key={index} dataKey={bar.dataKey} name={bar.name} fill={colors[0]}>
                   {data.map((entry: any, dataIndex: any) => {
                     const color =
                       entry[xKey] === "Recife"

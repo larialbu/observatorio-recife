@@ -19,7 +19,7 @@ const BarChart = ({
     return (
       <div className="relative w-full h-full">
         <h3 className="text-center mb-4 font-semibold">{title}</h3>
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={382}>
           <RechartsBarChart data={data} margin={{ top: 20, right: 20, left: 13, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis 

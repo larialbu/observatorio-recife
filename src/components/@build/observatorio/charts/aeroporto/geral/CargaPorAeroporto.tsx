@@ -7,15 +7,15 @@ import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 
 const CargaPorAeroporto = ({
-  data = [],
+  rawData = [],
   title = "Carga por Aeroporto",
   colors = ColorPalette.default,
 }: any) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
-  const chartData = processCargaPorAeroporto(data);
+  const chartData = processCargaPorAeroporto(rawData);
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="chart-wrapper">
       <ChartGrabber>
         <VerticalScrollableBarChart
           data={chartData}

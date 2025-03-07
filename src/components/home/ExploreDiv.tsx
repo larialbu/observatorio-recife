@@ -56,16 +56,10 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm }) => {
             {section.items.map((item) => {
               const iconClassName = isDarkMode ? "darkin" : "";
 
-              // Estilização condicional para IDs 7 e 8 quando totalResults for 8
-              const moveClass =
-                totalResults === 8 && (item.id === 7 || item.id === 8)
-                  ? "w-[90%] 2xl:ml-[450px] xl:ml-[300px] lg:w-[50%] lg:ml-[225px]"
-                  : "";
-
               return (
                 <div
                   key={item.label}
-                  className={`flex flex-col items-center ${moveClass} group transition-transform duration-300 ease-in-out select-none`}
+                  className={`flex flex-col items-center group transition-transform duration-300 ease-in-out select-none`}
                 >
                   <Link href={item.href || "#"} className="flex flex-col items-center select-none">
                     <div className="relative hover:rotate-[-5deg] border-2 border-[#0155AE] rounded-full dark:border-white transition-all duration-300 ease-in-out group-hover:scale-110 cursor-pointer select-none icon-content">

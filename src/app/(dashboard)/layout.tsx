@@ -1,4 +1,6 @@
 "use client";
+import { Suspense } from "react";
+import { LoadingScreen } from "@/components/home/LoadingScreen";
 
 import Navbar from "@/components/random_temp/Navbar";
 import { Sidebar } from "@/components/random_temp/Sidebar";
@@ -21,6 +23,12 @@ export default function DashboardLayout({
         return "bg-[url('/images/backgrounds/dashboard/aeroportos.png')]";
       case "/observatorio/ipca":
         return "bg-[url('/images/backgrounds/dashboard/ipca.png')]";
+      case "/observatorio/ranking-municipios":
+        return "bg-[url('/images/backgrounds/dashboard/ranking.png')]";
+      case "/observatorio/portos":
+        return "bg-[url('/images/backgrounds/dashboard/portos.png')]";
+        case "/observatorio/pib":
+        return "bg-[url('/images/backgrounds/dashboard/pib.png')]";
       case "/observatorio/panorama":
         return "bg-[url('/images/backgrounds/dashboard/ipca.png')]";
       default:
@@ -29,16 +37,18 @@ export default function DashboardLayout({
   };
 
   return (
-    <DashboardProvider>
-      <div className="h-screen flex">
-        <Sidebar />
-        <div
-          className={`flex-1 ${getBackgroundForRoute()} bg-cover overflow-scroll flex flex-col`}
-        >
-          <Navbar />
-          {children}
+    <Suspense fallback={< LoadingScreen />}>
+      <DashboardProvider>
+        <div className="h-screen flex overflow-hidden">
+          <Sidebar />
+          <div
+            className={`flex-1 ${getBackgroundForRoute()} bg-cover overflow-scroll flex flex-col pb-[1em]`}
+          >
+            <Navbar />
+            {children}
+          </div>
         </div>
-      </div>
-    </DashboardProvider>
+      </DashboardProvider>
+    </Suspense>
   );
 }

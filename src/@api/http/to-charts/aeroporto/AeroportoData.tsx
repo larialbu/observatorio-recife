@@ -1,4 +1,3 @@
-import { BruteData } from "@/@types/observatorio/aeroporto/bruteData";
 import { ProcessedAenaCargasData } from "@/@types/observatorio/aeroporto/processedAenaCargasData";
 import { ProcessedAenaPassageirosData } from "@/@types/observatorio/aeroporto/processedAenaPassageirosData";
 import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
@@ -9,7 +8,7 @@ const API_PASSWORD = process.env.NEXT_PUBLIC_API_PASSWORD;
 
 export class AeroportoData {
   private year: string;
-  private static cache: Record<string, any> = {}; // Cache estático para todas as instânciasx
+  private static cache: Record<string, any> = {}; // Cache estático para todas as instâncias
 
   constructor(year: string) {
     this.year = year;
@@ -36,7 +35,6 @@ export class AeroportoData {
       }
 
       const data = await response.json();
-      console.log("Resposta JSON recebida:", data);
 
       AeroportoData.cache[endpoint] = data;
 
@@ -66,3 +64,6 @@ export class AeroportoData {
     AeroportoData.cache = {};
   }
 }
+
+// Para executar imediatamente após a criação da instância
+const aeroportoData = new AeroportoData("2024"); // Substitua com o ano desejado

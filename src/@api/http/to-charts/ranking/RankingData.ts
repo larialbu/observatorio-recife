@@ -1,6 +1,3 @@
-import { ProcessedIPCAGeralData } from "@/@types/observatorio/ipca/processedIPCAGeralData";
-import { ProcessedIPCAGruposData } from "@/@types/observatorio/ipca/processedIPCAGruposData";
-import { ProcessedIPCATabelasData } from "@/@types/observatorio/ipca/processedIPCATabelasData";
 import { ProcessedRankingDimensaoData } from "@/@types/observatorio/ranking/processedRankingDimensaoData";
 import { ProcessedRankingGeralData } from "@/@types/observatorio/ranking/processedRankingGeralData";
 import { ProcessedRankingIndicadorData } from "@/@types/observatorio/ranking/processedRankingIndicadorData";
@@ -24,7 +21,6 @@ export class RankingData {
       return RankingData.cache[endpoint];
     }
 
-console.log('FETCEHD', BASE_URL, endpoint)
 
     try {
       const response = await fetch(`${BASE_URL}${endpoint}`, {
@@ -41,7 +37,6 @@ console.log('FETCEHD', BASE_URL, endpoint)
       }
 
       const data = await response.json();
-      console.log("Resposta JSON recebida:", data);
 
       RankingData.cache[endpoint] = data;
 

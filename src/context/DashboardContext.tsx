@@ -1,16 +1,32 @@
 "use client";
 
-import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useEffect,
+  useRef,
+} from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
-// ^ Nova função análoga a getFiltersForRoute, mas que retorna o "service" certo
+
+interface Filters {
+  [key: string]: any;
+  additionalFilters: { options: string[], label: string; selected: string[] }[];
+}
+
+interface Data {
+  [key: string]: any;
+}
 
 interface DashboardContextProps {
-  filters: Record<string, any>;
-  data: any;
+  filters: Filters;
+  data: Data | null;
+  setData: any;
   isLoading: boolean;
-  applyFilters: (newFilters: Record<string, any>) => Promise<void>;
+  applyFilters: (newFilters: Filters) => Promise<void>;
   resetFilters: () => void;
 }
 
@@ -18,49 +34,49 @@ const DashboardContext = createContext<DashboardContextProps | undefined>(undefi
 
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const [filters, setFilters] = useState<Record<string, any>>({});
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [filters, setFilters] = useState<Filters>({} as any);
+  const [data, setData] = useState<Data | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Pega o service correto (aeroportoDataService / balancaDataService / etc.)
-  const fetchData = async (filtersToUse: Record<string, any>) => {
+  const prevFiltersRef = useRef<Filters | null>(null); // armazenar os filtros anteriores
+  
+
+  // Função para buscar os dados com base nos filtros
+  const fetchData = async (filtersToUse: Filters) => {
+    console.log("🔄 Chamando fetchData..."); // QUE LINDO
     setIsLoading(true);
-    try {
-      // Descobrimos a tab (ou definimos "geral" por padrão)
-      const tab =
-      typeof window !== "undefined"
-        ? new URLSearchParams(window.location.search).get("tab")
-        : null;
 
-      // Aqui a mágica: pegamos o service certo
+    try {
+      const tab = searchParams.get("tab") || 'geral';
       const service = getServiceForRoute(pathname, tab);
+
       if (!service) {
-        console.warn("Nenhum serviço compatível com esta rota/tab. Definindo data = null.");
+        console.warn("Nenhum serviço encontrado para essa rota/tab.");
         setData(null);
         return;
       }
 
-      // Ajustar ano no service (se for implementado)
-      service.setYear(filtersToUse.year || "2024");
+      service.setYear(filtersToUse?.year || "2024");
+      const fetched: Data = await service.fetchDataForTab(tab, filtersToUse);
 
-      // Chama fetch
-      const fetched = await service.fetchDataForTab(tab, filtersToUse);
+      console.log("✅ Dados carregados:", fetched); // REMOVER ISSO AQUI DEPOIS
+
       setData(fetched);
 
-      // Se vier additionalFiltersOptions (geral, passageiros...), mesclar
-      const newAdditional =
-        fetched?.passageiros?.additionalFiltersOptions ||
-        fetched?.geral?.additionalFiltersOptions ||
-        [];
-
+      // Atualiza os filtros apenas se additionalFiltersOptions existirem
+      const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
       if (newAdditional.length) {
         setFilters((prev) => {
           const merged = newAdditional.map((newF: any) => {
-            const oldF = prev.additionalFilters?.find((o: any) => o.label === newF.label);
+            const oldF = prev.additionalFilters?.find(
+              (o: any) => o.label === newF.label
+            );
             if (!oldF) {
               return { ...newF, selected: newF.selected || [] };
             }
+            // substitui options, mas preserva oldF.selected
             return {
               ...newF,
               selected: oldF.selected || [],
@@ -77,57 +93,45 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Ao aplicar novos filtros
-  const applyFilters = async (newFilters: Record<string, any>) => {
-    setFilters(newFilters);
-    await fetchData(newFilters);
+  const applyFilters = async (newFilters: Filters) => {
+    if (JSON.stringify(filters) !== JSON.stringify(newFilters)) {
+      setFilters(newFilters);
+      await fetchData(newFilters);
+    }
   };
 
-  // Ao mudar rota ou tab => pega filtros default e chama fetch
-  useEffect(() => {
-  const tab =
-    typeof window !== "undefined"
-      ? new URLSearchParams(window.location.search).get("tab")
-      : null;
-
-  const baseFilters = getFiltersForRoute(pathname, tab);
-
-  setFilters(baseFilters);
-  fetchData(baseFilters);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [pathname]);
-
-  // Limpa filtros => zera "selected" e reapply
   const resetFilters = () => {
-    const tab =
-    typeof window !== "undefined"
-      ? new URLSearchParams(window.location.search).get("tab")
-      : null;
-    let baseFilters = getFiltersForRoute(pathname, tab);
+    const tab = searchParams.get("tab") || 'geral';
+    let baseFilters: any = getFiltersForRoute(pathname, tab);
 
     if (baseFilters.additionalFilters) {
       baseFilters = {
         ...baseFilters,
-        additionalFilters: baseFilters.additionalFilters.map((f: any) => ({
-          ...f,
-          selected: [],
-        })),
+        additionalFilters: baseFilters.additionalFilters.map((f: Object) => ({ ...f, selected: [] })),
       };
     }
     applyFilters(baseFilters);
   };
 
+
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    const baseFilters: any = getFiltersForRoute(pathname, tab);
+    
+    // Se os filtros não mudaram, não faz nada
+    if (JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters)) {
+      return;
+    }
+    setData(null);
+    console.log("🔵 Filtros mudaram, chamando fetchData...");
+    prevFiltersRef.current = baseFilters;
+    setFilters(baseFilters);
+    fetchData(baseFilters);
+  }, [pathname, searchParams]);
+
+
   return (
-    <DashboardContext.Provider
-      value={{
-        filters,
-        data,
-        isLoading,
-        applyFilters,
-        resetFilters,
-      }}
-    >
+    <DashboardContext.Provider value={{ filters, data, isLoading, applyFilters, resetFilters, setData }}>
       {children}
     </DashboardContext.Provider>
   );

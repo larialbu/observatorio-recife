@@ -1,12 +1,12 @@
-import { ProcessedIPCAGeralData } from "@/@types/observatorio/ipca/processedIPCAGeralData";
-import { ProcessedIPCAGruposData } from "@/@types/observatorio/ipca/processedIPCAGruposData";
-import { ProcessedIPCATabelasData } from "@/@types/observatorio/ipca/processedIPCATabelasData";
+import { ProcessedIpcaGeralData } from "@/@types/observatorio/ipca/processedIPCAGeralData";
+import { ProcessedIpcaGruposData } from "@/@types/observatorio/ipca/processedIPCAGruposData";
+import { ProcessedIpcaTabelasData } from "@/@types/observatorio/ipca/processedIPCATabelasData";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME;
 const API_PASSWORD = process.env.NEXT_PUBLIC_API_PASSWORD;
 
-export class IPCAData {
+export class IpcaData {
   private year: string;
   private static cache: Record<string, any> = {}; // Cache estático para todas as instânciasx
 
@@ -15,12 +15,10 @@ export class IPCAData {
   }
 
   private async fetchData<T>(endpoint: string): Promise<T> {
-    if (IPCAData.cache[endpoint]) {
+    if (IpcaData.cache[endpoint]) {
       console.log("Usando dados em cache para:", endpoint);
-      return IPCAData.cache[endpoint];
+      return IpcaData.cache[endpoint];
     }
-
-console.log('FETCEHD', BASE_URL, endpoint)
 
     try {
       const response = await fetch(`${BASE_URL}${endpoint}`, {
@@ -37,9 +35,8 @@ console.log('FETCEHD', BASE_URL, endpoint)
       }
 
       const data = await response.json();
-      console.log("Resposta JSON recebida:", data);
 
-      IPCAData.cache[endpoint] = data;
+      IpcaData.cache[endpoint] = data;
 
       return data;
     } catch (error) {
@@ -48,22 +45,22 @@ console.log('FETCEHD', BASE_URL, endpoint)
     }
   }
 
-  async fetchProcessedGeralData(): Promise<ProcessedIPCAGeralData[]> {
-    const endpoint = `/ipca/indice_geral/anos/${this.year}`;
-    return this.fetchData<ProcessedIPCAGeralData[]>(endpoint);
+  async fetchProcessedGeralData(): Promise<ProcessedIpcaGeralData[]> {
+    const endpoint = `/ipca/geral/anos/${this.year}`;
+    return this.fetchData<ProcessedIpcaGeralData[]>(endpoint);
   }
 
-  async fetchProcessedGruposData(): Promise<ProcessedIPCAGruposData[]> {
+  async fetchProcessedGruposData(): Promise<ProcessedIpcaGruposData[]> {
     const endpoint = `/ipca/grupos/anos/${this.year}`;
-    return this.fetchData<ProcessedIPCAGruposData[]>(endpoint);
+    return this.fetchData<ProcessedIpcaGruposData[]>(endpoint);
   }
 
-  async fetchProcessedTabelasData(): Promise<ProcessedIPCATabelasData[]> {
-    const endpoint = `/ipca/tabelas/anos/${this.year}`;
-    return this.fetchData<ProcessedIPCATabelasData[]>(endpoint);
+  async fetchProcessedTabelasData(): Promise<ProcessedIpcaTabelasData[]> {
+    const endpoint = `/ipca/analitico/anos/${this.year}`;
+    return this.fetchData<ProcessedIpcaTabelasData[]>(endpoint);
   }
 
   clearCache(): void {
-    IPCAData.cache = {};
+    IpcaData.cache = {};
   }
 }

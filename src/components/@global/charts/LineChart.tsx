@@ -17,6 +17,7 @@ const LineChart = ({
   data,
   title,
   xKey,
+  yAxis,
   lines,
   colors = [],
   tooltipEntry
@@ -29,7 +30,7 @@ const LineChart = ({
 
   return (
     <div className="relative bg-white w-full h-full">
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
+      <h3 className="text-center font-semibold">{title}</h3>
       <ResponsiveContainer width="100%" height={400}>
         <RechartsLineChart
           data={data}
@@ -40,16 +41,17 @@ const LineChart = ({
           <YAxis
             tick={{ fontSize: 11, fill: "#333" }}
             tickFormatter={yAxisFormatter}
+            {...yAxis}
           />
           <Tooltip
-              content={(e) => CustomTooltip({...e, customTooltipFormatter})}
-            />
-            <Legend 
-                  verticalAlign="top" 
-                  align="center"
-                  content={({ payload }) => <CustomLegend payload={payload} />}
-                  iconSize={20}
-                />
+            content={(e) => CustomTooltip({...e, customTooltipFormatter})}
+          />
+          <Legend 
+            verticalAlign="top" 
+            align="center"
+            content={({ payload }) => <CustomLegend payload={payload} />}
+            iconSize={20}
+          />
           {lines.map((line: any, index: any) => (
             <Line
               key={index}

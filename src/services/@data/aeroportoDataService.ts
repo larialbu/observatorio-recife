@@ -1,4 +1,5 @@
 import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
+import { getRawData } from "@/utils/filters/@data/getRawData";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
 
 export class AeroportoDataService {
@@ -31,8 +32,13 @@ export class AeroportoDataService {
       aeroportoService.fetchProcessedAenaCargasData(),
     ]);
 
-    const passageirosFiltered = applyGenericFilters(passageiros, filters);
-    const cargasFiltered = applyGenericFilters(cargas, filters);
+    const [rawDataPassageiros, rawDataCargas] = await Promise.all([
+      getRawData({applyGenericFilters, service: aeroportoService, nameFunc:'fetchProcessedAenaPassageirosData', currentYear: this.currentYear, years: filters.years, keyName: 'Aeroporto', filters, lengthIgnore: 1}),
+      getRawData({applyGenericFilters, service: aeroportoService, nameFunc:'fetchProcessedAenaCargasData', currentYear: this.currentYear, years: filters.years, keyName: 'Aeroporto', filters, lengthIgnore: 1})
+    ]);
+
+    const passageirosFiltered = {...applyGenericFilters(passageiros, filters), rawDataPassageiros};
+    const cargasFiltered = {...applyGenericFilters(cargas, filters), rawDataCargas};
 
     return {
       passageiros: passageirosFiltered,
@@ -43,8 +49,8 @@ export class AeroportoDataService {
   private async fetchAnacData(filters: Record<string, any>) {
     const aeroportoService = new AeroportoData(this.currentYear);
     const geral = await aeroportoService.fetchProcessedData();
-    const geralFiltered = applyGenericFilters(geral, filters);
-    console.log(geralFiltered);
+    const rawData = await getRawData({applyGenericFilters, service: aeroportoService, nameFunc:'fetchProcessedData', currentYear: this.currentYear, years: filters.years, keyName: 'AEROPORTO NOME', filters, lengthIgnore: 1})
+    const geralFiltered = {...applyGenericFilters(geral, filters), rawData};
 
     return { geral: geralFiltered };
   }

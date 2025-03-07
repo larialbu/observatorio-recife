@@ -7,14 +7,14 @@ import { preparePassageirosPorAeroportoData } from "@/functions/process_data/obs
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 
 const PassageirosPorAeroporto = ({
-  data,
+  rawData,
   title = "Passageiros por Aeroporto",
   year,
 }: any) => {
-  const chartData = preparePassageirosPorAeroportoData(data);
+  const chartData = preparePassageirosPorAeroportoData(rawData);
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="chart-wrapper">
       <ChartGrabber>
         <ScrollableBarChart
           data={chartData}

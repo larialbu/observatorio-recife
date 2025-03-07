@@ -5,26 +5,31 @@ export const anacFilters = {
       label: "NATUREZA", // Deve corresponder exatamente à chave nos dados
       options: ["Doméstica", "Internacional"], // Já definido manualmente
       selected: [],
+      static: true
     },
     {
       label: "MÊS", // O Mês será preenchido dinamicamente
       options: [], // Deixe vazio para preencher com base nos dados
-      selected: []
+      selected: [],
+      static: true
     },
     {
       label: "AEROPORTO REGIÃO", // Região será preenchida dinamicamente
       options: [], // Deixe vazio para preencher com base nos dados
       selected: [],
+      static: false
     },
     {
       label: "AEROPORTO UF",
       options: [],
-      selected: []
+      selected: [],
+      static: false
     },
     {
       label: "AEROPORTO NOME", // Nome dos aeroportos será preenchido dinamicamente
       options: [], // Deixe vazio para preencher com base nos dados
       selected: ['Recife'],
+      static: true
     },
   ],
 };

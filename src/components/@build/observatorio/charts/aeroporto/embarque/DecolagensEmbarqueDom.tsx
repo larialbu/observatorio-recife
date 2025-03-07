@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
@@ -11,8 +10,9 @@ const DecolagensEmbarqueDom = ({
   toCompare = ["Recife"],
   title = "Doméstico Decolagens",
   colors = ColorPalette.default,
-  type,
   monthRecent,
+  subText = 'UF Destino',
+  type,
 }: any) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
   const chartData = embarqueDesembarqueNatureTipo(
@@ -25,7 +25,7 @@ const DecolagensEmbarqueDom = ({
   );
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="chart-wrapper">
       <ChartGrabber>
         <VerticalScrollableBarChart
           data={chartData}
@@ -36,6 +36,17 @@ const DecolagensEmbarqueDom = ({
           height={400} // Altura do viewport visível para scroll
           barSize={30} // Altura individual de cada barra
         />
+        {/* Renderiza o subText dentro do ChartGrabber */}
+        <div className="absolute -rotate-90 top-[50%] -left-6">
+          {subText && (
+            <p
+              className="font-medium"
+              style={{ color: colors[6] }} // Aplica a cor dinamicamente
+            >
+              {subText}
+            </p>
+          )}
+        </div>
       </ChartGrabber>
     </div>
   );

@@ -1,26 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
+import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
+
+// AEROPORTO NOME
 
 const Comparativo = ({
   year,
-  toCompare,
   data,
+  toCompare = getUniqueValues<ProcessedData, "AEROPORTO NOME">(
+    data,
+    "AEROPORTO NOME"
+  ),
   months,
 }: {
   year: string;
   toCompare?: any;
   data: any[];
-  months: number
+  months: number;
 }) => {
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
   const [tablesRender, setTablesRender] = useState(tables);
   const [animationClass, setAnimationClass] = useState("card-enter");
+
+  const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
+  const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
+
+  // REF do container e REF da instância do Sortable
+  const sortableContainerRef = useRef<HTMLDivElement>(null);
+  const sortableContainerTableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const getNewTables = tempFiltred.map((val) => {
@@ -28,12 +43,11 @@ const Comparativo = ({
         Component: React.lazy(
           () =>
             import(
-              "@/components/@build/observatorio/tables/aeroporto/comparativo/AirportInfo"
+              "@/components/@build/observatorio/tables/aeroporto/comparativo/AeroportoInfo"
             )
         ),
       };
     });
-    console.log(toCompare)
     setTablesRender([...tables, ...getNewTables]);
   }, [tempFiltred]);
 
@@ -65,60 +79,70 @@ const Comparativo = ({
       />
 
       <div className="flex justify-between items-center gap-2">
-        <button
-          className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
-          onClick={() => handlePageChange("prev")}
-        >
-          <svg
-            className={`h-4 w-4 text-gray-500 transition-transform duration-200 rotate-90`}
-            viewBox="0 0 20 20"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M6 8l4 4 4-4" />
-          </svg>
-        </button>
+        {tempFiltred.length >= 1 ? (
+          <>
+            <button
+              className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
+              onClick={() => handlePageChange("prev")}
+            >
+              <svg
+                className={`h-4 w-4 text-gray-500 transition-transform duration-200 rotate-90`}
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M6 8l4 4 4-4" />
+              </svg>
+            </button>
 
-        <div className="w-[85%] flex flex-wrap gap-4 justify-center mb-2">
-          {tempFiltred.map((toCompare: string) => {
-            return cards.map(({ Component }, index) => (
-              <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-                <div
-                  className={`${
-                    toCompare === tempFiltred[pageCompare] ? animationClass : "hidden"
-                  } flex-1`}
-                >
-                  <Component
-                    toCompare={toCompare}
-                    data={data}
-                    year={year}
-                    color={ColorPalette.default[index]}
-                  />
-                </div>
-              </React.Suspense>
-            ));
-          })}
-        </div>
+            <div className="w-[85%] flex flex-wrap gap-4 justify-center mb-2">
+              {tempFiltred.map((toCompare: string) => {
+                return cards.map(({ Component }, index) => (
+                  <React.Suspense fallback={<div>Carregando...</div>} key={index}>
+                    <div
+                      className={`${
+                        toCompare === tempFiltred[pageCompare]
+                          ? animationClass
+                          : "hidden"
+                      } flex-1`}
+                    >
+                      <Component
+                        toCompare={toCompare}
+                        data={data}
+                        year={year}
+                        color={ColorPalette.default[index]}
+                      />
+                    </div>
+                  </React.Suspense>
+                ));
+              })}
+            </div>
 
-        <button
-          className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
-          onClick={() => handlePageChange("next")}
-        >
-          <svg
-            className={`h-4 w-4 text-gray-500 transition-transform duration-200 -rotate-90`}
-            viewBox="0 0 20 20"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M6 8l4 4 4-4" />
-          </svg>
-        </button>
+            <button
+              className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
+              onClick={() => handlePageChange("next")}
+            >
+              <svg
+                className={`h-4 w-4 text-gray-500 transition-transform duration-200 -rotate-90`}
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M6 8l4 4 4-4" />
+              </svg>
+            </button>
+          </>
+        ) : (
+          <p className="text-center w-full text-gray-700">
+            Selecione um aeroporto para as informações serem comparadas
+          </p>
+        )}
       </div>
 
       <div className="flex items-center justify-center mb-6 gap-2">
@@ -136,24 +160,33 @@ const Comparativo = ({
       </div>
 
       <div className="flex flex-col gap-6">
-        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
-          {charts.map(({ Component }, index) => (
+       
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+        {chartOrder.map((index) => {
+          const { Component } = charts[index];
+          return (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
+              className={`chart-content-wrapper`}
             >
               <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={data} toCompare={["Recife", ...tempFiltred]} months={months} />
+                <Component
+                  data={data}
+                  toCompare={["Recife", ...tempFiltred]}
+                  months={months}
+                />
               </React.Suspense>
             </div>
-          ))}
-        </div>
+          );
+        })}
+      </SortableDiv>
 
-        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
           {tablesRender.map(({ Component }, index) => (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg p-4 w-100 flex flex-col items-center"
+              className="bg-white shadow-md rounded-lg w-100 flex flex-col items-center"
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
@@ -165,7 +198,7 @@ const Comparativo = ({
               </React.Suspense>
             </div>
           ))}
-        </div>
+        </SortableDiv>
       </div>
     </div>
   );
