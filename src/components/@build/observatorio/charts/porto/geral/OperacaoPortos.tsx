@@ -7,41 +7,33 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processAtracacoesPorCarga } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoProdutos";
 import { getPortoProductNameByCode } from "@/utils/formatters/getPortoProductNameByCode";
 
-function somarPortosTodosAnos(data: any[]) {
+
+type PortoData = {
+  'Porto Atracação': string;
+  Latitude: string;
+  Longitude: string;
+  Mes: number;
+  IDAtracacao: number;
+  VLPesoCargaBruta: number; // Adicionei a propriedade Carga, assumindo que seja a quantidade a ser somada
+};
+
+function somarCargasPorPorto(data: PortoData[]): { porto: string, carga: number }[] {
   const resultado: Record<string, number> = {};
 
-  // Percorre o array de dados
-  data.forEach((entry: any) => {
-    const { portos } = entry;
+  data.forEach(entry => {
+    const nomePorto = entry['Porto Atracação'];
 
-    for (const porto in portos) {
-      const nomePorto = porto.trim(); // Remove espaços extras
-
-      // Se o porto já existe, soma os valores, senão, cria uma nova entrada
-      if (!resultado[nomePorto]) {
-        resultado[nomePorto] = 0;
-      }
-      resultado[nomePorto] += portos[porto]; // Soma as cargas dos anos diferentes
+    // Se o porto já foi registrado, soma a carga; senão, cria uma nova entrada
+    if (!resultado[nomePorto]) {
+      resultado[nomePorto] = 0;
     }
+    resultado[nomePorto] += entry.VLPesoCargaBruta; // Soma a carga
   });
 
-  // Retorna os portos consolidados no formato esperado
+  // Retorna os portos com a carga somada
   return Object.entries(resultado).map(([porto, carga]) => ({
     porto,
     carga
-  }));
-}
-
-function substituirMesPorNumero(data: any) {
-  const meses = {
-      'Jan': 1, 'Fev': 2, 'Mar': 3, 'Abr': 4, 'Mai': 5, 'Jun': 6,
-      'Jul': 7, 'Ago': 8, 'Set': 9, 'Out': 10, 'Nov': 11, 'Dez': 12,
-      'Total': 0
-  };
-
-  return data.map((entry: any) => ({
-      ...entry,
-      mes: meses[entry.mes] ?? entry.mes // Mantém o valor original caso não esteja no dicionário
   }));
 }
 
@@ -52,9 +44,9 @@ const OperacaoPortos = ({
   year,
 }: any) => {
 
-  const chartData = somarPortosTodosAnos(months.selected.length ? substituirMesPorNumero(data.charts.portos).filter((obj: any) => months.selected.includes(obj.mes)) : substituirMesPorNumero(data.charts.portos).filter((item: any) => item.mes !== 0)).sort((a, b) => b.carga - a.carga)
+  const dataCoords = data.coords?.[0] || []
 
-  console.log('CHARDTAA', chartData.filter((data) => data.porto.includes('Aquaviário') ))
+  const chartData = somarCargasPorPorto(months.selected.length ? dataCoords.filter((obj: any) => months.selected.includes(obj.Mes)) : dataCoords.filter((item: any) => item.Mes !== 0)).sort((a, b) => b.carga - a.carga)
 
   return (
     <div className="chart-wrapper">
