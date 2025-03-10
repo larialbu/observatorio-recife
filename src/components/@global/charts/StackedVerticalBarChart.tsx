@@ -87,12 +87,11 @@ const StackedBarChart = ({
               interval={0}
               width={150}
             />
-            {/* Tooltip corrigido */}
             <Tooltip
               content={(props) => (
                 <CustomTooltip
                   {...props}
-                  customTooltipFormatter={(value: any) => 
+                  customTooltipFormatter={(value: any) =>
                     tooltipFormatter(value, tooltipEntry)
                   }
                 />
@@ -136,7 +135,6 @@ const StackedBarChart = ({
                     fontSize={13}
                     fontWeight="semibold"
                   />
-                
                 )}
               </Bar>
             ))}
