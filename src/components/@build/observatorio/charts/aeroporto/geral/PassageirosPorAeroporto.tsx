@@ -20,6 +20,7 @@ const PassageirosPorAeroporto = ({
           data={chartData}
           title={title}
           xKey="aeroporto"
+          left={10}
           bars={[{ dataKey: "total", name: "Passageiros" }]}
           colors={ColorPalette.default}
           heightPerCategory={50}

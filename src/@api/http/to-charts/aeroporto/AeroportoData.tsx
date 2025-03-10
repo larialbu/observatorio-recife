@@ -89,5 +89,4 @@ export class AeroportoData {
   }
 }
 
-// Para executar imediatamente após a criação da instância
-const aeroportoData = new AeroportoData("2024"); // Substitua com o ano desejado
+

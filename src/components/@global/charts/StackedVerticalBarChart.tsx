@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   BarChart as RechartsBarChart,
   Bar,
@@ -12,7 +13,6 @@ import {
 
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
 import CustomLegend from "../features/CustomLegend";
-// import CustomLegend from "../features/CustomLegends";
 import CustomTooltip from "../features/CustomTooltip";
 
 const StackerBarChartVertical = ({
@@ -24,9 +24,31 @@ const StackerBarChartVertical = ({
   heightPerCategory = 50, // Altura de cada barra
   visibleHeight = 300, // Altura visível do gráfico
   tooltipEntry,
-  left=-35,
-  yFontSize=12
+  left = -35,
+  yFontSize = 12,
+  maxDescriptionLength = 50, // Definir limite de caracteres para o eixo Y
+  tooltipTitleFontSize,
+  widthY = 150,
 }: any) => {
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  // Verifica o tamanho da tela pra poder depois aumentar o gráfico no celular
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 640) { // sm breakpoint é 640px por padrão no Tailwind
+        setIsSmallScreen(true);
+      } else {
+        setIsSmallScreen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Calcula a altura total com base no número de categorias
   let totalHeight = data.length * heightPerCategory;
 
@@ -38,6 +60,13 @@ const StackerBarChartVertical = ({
     return tooltipFormatter(value, tooltipEntry || "");
   };
 
+  // Função para truncar a descrição para o eixo Y
+  const truncateForYAxis = (descricao: string) => {
+    return descricao.length > maxDescriptionLength
+      ? descricao.substring(0, maxDescriptionLength) + "..."
+      : descricao;
+  };
+
   return (
     <div className="relative bg-white w-full">
       <h3 className="text-center mb-[2em] font-semibold">{title}</h3>
@@ -45,7 +74,9 @@ const StackerBarChartVertical = ({
       {/* Wrapper para scroll vertical */}
       <div
         className="overflow-y-auto overflow-x-visible"
-        style={{ height: `${visibleHeight}px` }} // Define a altura visível do gráfico
+        style={{
+          height: `${isSmallScreen ? 600 : visibleHeight}px`, // Altera a altura para 500px em telas pequenas
+        }}
       >
         <div>
           <ResponsiveContainer width="100%" height={totalHeight}>
@@ -66,25 +97,27 @@ const StackerBarChartVertical = ({
                 dataKey={xKey}
                 tick={{ fontSize: yFontSize }}
                 interval={0}
-                width={150}
+                width={widthY}
+                // Truncar o texto apenas no eixo Y
+                tickFormatter={(value: string) => truncateForYAxis(value)}
               />
               <Tooltip
-              content={(e) => CustomTooltip({...e, customTooltipFormatter})}
-            />
-            <Legend 
-                  verticalAlign="top" 
-                  align="center"
-                  content={({ payload }) =>{ 
-                     
-                    return  (<div className="flex justify-center ml-10 mt-2">
+                content={(e) => CustomTooltip({ ...e, customTooltipFormatter, fontSize: tooltipTitleFontSize })}
+              />
+              <Legend
+                verticalAlign="top"
+                align="center"
+                content={({ payload }) => {
+                  return (
+                    <div className="flex justify-center ml-10 mt-2">
                       <div className="w-[90%]">
-                      <CustomLegend payload={payload} />
+                        <CustomLegend payload={payload} />
+                      </div>
                     </div>
-                    </div>)
-                   
-                     }}
-                  iconSize={20}
-                />
+                  );
+                }}
+                iconSize={20}
+              />
               {bars.map((bar: any, index: any) => (
                 <Bar key={index} dataKey={bar.dataKey} name={bar.name} stackId="stack" fill={colors[index]}>
                   {data.map((entry: any, dataIndex: any) => {
@@ -98,11 +131,6 @@ const StackerBarChartVertical = ({
               ))}
             </RechartsBarChart>
           </ResponsiveContainer>
-          {/* <CustomLegend 
-            dataSetter={bars}
-            colors={colors}
-            nameKey="name"
-          /> */}
         </div>
       </div>
     </div>

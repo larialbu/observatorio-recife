@@ -3,7 +3,7 @@ export const processCargasPorAeroportoAena = (data: any[]) => {
     const processedData = data.reduce((acc: any, item: any) => {
       const aeroporto = item["Aeroporto"] || "Indefinido"; // Pegando o nome do aeroporto
       const quantidade = parseFloat(
-        (item["Quantidade"] || "0").toString().replace(/\./g, "").replace(",", ".") // Converte a quantidade de carga para número
+        (item["Quantidade"] || "0").toString() // Converte a quantidade de carga para número
       );
   
       if (!acc[aeroporto]) {

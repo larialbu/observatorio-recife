@@ -26,7 +26,7 @@ export const processCargasTotalAena = (
           item["Ano"].toString() === year
         ) {
           const carga = parseFloat(
-            (item["Quantidade"] || "0").toString().replace(/\./g, "").replace(",", ".")
+            (item["Quantidade"] || "0").toString()
           );
           return total + carga;
         }
@@ -49,7 +49,7 @@ export const processCargasTotalAena = (
           item["Ano"].toString() === year
         ) {
           const carga = parseFloat(
-            (item["Quantidade"] || "0").toString().replace(/\./g, "").replace(",", ".")
+            (item["Quantidade"] || "0").toString()
           );
           return total + carga;
         }
@@ -72,7 +72,7 @@ export const processCargasTotalAena = (
           item["Ano"].toString() === year
         ) {
           const carga = parseFloat(
-            (item["Quantidade"] || "0").toString().replace(/\./g, "").replace(",", ".")
+            (item["Quantidade"] || "0").toString()
           );
           return total + carga;
         }

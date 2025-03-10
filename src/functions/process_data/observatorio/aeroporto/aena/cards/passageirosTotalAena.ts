@@ -26,7 +26,7 @@ export const processPassageirosTotalAena = (
           item["Ano"].toString() === year
         ) {
           const passageiros = parseFloat(
-            (item["Passageiros"] || "0").toString().replace(/\./g, "").replace(",", ".")
+            (item["Passageiros"] || "0").toString()
           );
           return total + passageiros;
         }
@@ -49,7 +49,7 @@ export const processPassageirosTotalAena = (
           item["Ano"].toString() === year
         ) {
           const passageiros = parseFloat(
-            (item["Passageiros"] || "0").toString().replace(/\./g, "").replace(",", ".")
+            (item["Passageiros"] || "0").toString()
           );
           return total + passageiros;
         }
@@ -72,7 +72,7 @@ export const processPassageirosTotalAena = (
           item["Ano"].toString() === year
         ) {
           const passageiros = parseFloat(
-            (item["Passageiros"] || "0").toString().replace(/\./g, "").replace(",", ".")
+            (item["Passageiros"] || "0").toString()
           );
           return total + passageiros;
         }

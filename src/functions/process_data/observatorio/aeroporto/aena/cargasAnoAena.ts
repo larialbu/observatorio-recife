@@ -10,7 +10,7 @@
     // Agora percorremos os dados para processar
     data.forEach((item) => {
       const quantidade = parseFloat(
-        (item["Quantidade"] || "0").toString().replace(/\./g, "").replace(",", ".")
+        (item["Quantidade"] || "0").toString()
       ); // Convertendo a quantidade para número, lidando com possíveis pontos e vírgulas
   
       const mes = item["Mês"]; // Pegando o mês

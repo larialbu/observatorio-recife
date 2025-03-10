@@ -6,9 +6,9 @@ export const processSaldo = (
   
     // Filtra os dados e calcula o saldo (Importação - Exportação)
     data.forEach((item) => {
-      if (item["Ano"] === year) {
+      if (item["Ano"].toString() === year) {
         const valor = parseFloat(
-          (item["Valor US$"] || "0").replace(/\./g, "").replace(",", ".")
+          (item["Valor US$"] || "0")
         );
         if (item["tipo"] === "Importação") {
           saldoImportExport += valor; // Soma para importação

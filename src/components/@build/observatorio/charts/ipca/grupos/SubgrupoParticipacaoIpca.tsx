@@ -24,6 +24,7 @@ const SubgrupoParticipacaoIpca = ({
           title={title}
           colors={colors.slice(2)}
           xKey={nameKey}
+          widthY={130}
           bars={[{ dataKey: "porcentagem", name: "Participação do Subgrupo no IPCA (%)", barWidth: 30 }]}
         />
       </ChartGrabber>

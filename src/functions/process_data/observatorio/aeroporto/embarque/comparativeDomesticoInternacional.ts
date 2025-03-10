@@ -18,7 +18,7 @@ export function comparativeDomesticoInternacional(
         : "DECOLAGENS";
 
       const valor = parseFloat(
-        (item[campo] || "0").toString().replace(/\./g, "").replace(",", ".")
+        (item[campo] || "0").toString()
       );
 
       if (!acc[natureza]) {

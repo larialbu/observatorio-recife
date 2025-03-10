@@ -2,7 +2,7 @@ export const rowsSh4ByMunicipio = (data: any[], municipio: string, year: string,
   // Filtra os dados pelo município, ano, mês (se fornecido) e país (se fornecido)
   const filteredData = data.filter(item => 
     item["Município"] === municipio && 
-    item["Ano"] === year &&
+    item["Ano"].toString() === year &&
     (!month || +item["Mês"] === month) &&  // Filtra pelo mês se ele for fornecido
     (!country || item["País"] === country)  // Filtra pelo país se o parâmetro 'country' for fornecido
   );

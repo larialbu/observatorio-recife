@@ -4,7 +4,7 @@ export const processPassageirosPorEscala = (data: any[]) => {
       const escala = item["Escala"] || "Indefinida";
       
       const passageiros = parseFloat(
-        (item["Passageiros"] || "0").toString().replace(/\./g, "").replace(",", ".")
+        (item["Passageiros"] || "0").toString()
       );
   
       if (!acc[escala]) {

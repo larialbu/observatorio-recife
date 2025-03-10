@@ -1,4 +1,6 @@
 import { ProcessedData } from "@/@types/observatorio/balanca-comercial/processedData";
+import { parquetRead } from "hyparquet";
+import { compressors } from "hyparquet-compressors";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME;
@@ -6,7 +8,7 @@ const API_PASSWORD = process.env.NEXT_PUBLIC_API_PASSWORD;
 
 export class BalancaComercialData {
   private year: string;
-  private static cache: Record<string, any> = {}; // Cache estático para todas as instânciasx
+  private static cache: Record<string, any> = {}; // Cache estático para todas as instâncias
 
   constructor(year: string) {
     this.year = year;
@@ -32,8 +34,32 @@ export class BalancaComercialData {
         throw new Error(`Erro ao buscar dados da API: ${endpoint}`);
       }
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type");
+      let data: any;
 
+      if (contentType?.includes("application/octet-stream")) {
+        const startTime = performance.now();
+        const arrayBuffer = await response.arrayBuffer();
+
+        const records = await new Promise((resolve, reject) => {
+          parquetRead({
+            file: arrayBuffer,
+            rowFormat: "object",
+            compressors,
+            onComplete: (data) => resolve(data),
+          });
+        });
+
+        const endTime = performance.now();
+        console.log(`Tempo de execução: ${(endTime - startTime).toFixed(2)} ms`);
+        data = records;
+      } else {
+        // Caso o conteúdo seja JSON
+        const text = await response.text();
+        data = JSON.parse(text);
+      }
+
+      // Armazena os dados em cache
       BalancaComercialData.cache[endpoint] = data;
 
       return data;
@@ -48,7 +74,9 @@ export class BalancaComercialData {
     return this.fetchData<ProcessedData[]>(endpoint);
   }
 
+  // Limpa o cache de dados
   clearCache(): void {
     BalancaComercialData.cache = {};
   }
 }
+

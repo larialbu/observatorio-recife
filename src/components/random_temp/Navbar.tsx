@@ -158,7 +158,7 @@ const Navbar = () => {
             <span className="font-medium text-lg text-gray-800">Filtros selecionados:</span>
             <ul className="flex flex-wrap gap-4 mt-2">
               <li>
-                Ano: <strong>{filters.year || 2024}</strong>
+                Ano: <strong>{filters.year || (filters.years && filters.years[filters.years.length - 1])}</strong>
               </li>
               {filters.additionalFilters?.map((f: any) => {
                 if (f.selected?.length > 0) {

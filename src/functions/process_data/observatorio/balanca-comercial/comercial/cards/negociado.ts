@@ -6,9 +6,9 @@ export const processNegociado = (
 
   // Filtra os dados para o ano especificado e calcula o total negociado
   data.forEach((item) => {
-    if (item["Ano"] === year) {
+    if (item["Ano"].toString() === year) {
       const valor = parseFloat(
-        (item["Valor US$"] || "0").replace(/\./g, "").replace(",", ".")
+        (item["Valor US$"] || "0")
       );
       totalNegociado += valor;
     }
