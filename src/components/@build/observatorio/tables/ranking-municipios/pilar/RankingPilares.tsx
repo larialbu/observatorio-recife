@@ -50,7 +50,7 @@ const RankingPilares = ({
   }
 
   return (
-    <div className="relative bg-white w-full h-full">
+    <div className="relative w-full h-full">
       <TableGeneric
         maxHeight={900}
         rowsPerPage={100}

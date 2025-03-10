@@ -65,7 +65,7 @@ const PortoOperacoesTable = ({
     };
 
   return (
-    <div className="relative bg-white w-full">
+    <div className="relative w-full rounded-lg">
       <TableGeneric
         searchIndexes={[0]}
         enablePagination={false}

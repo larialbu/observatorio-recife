@@ -186,7 +186,7 @@ const Comparativo = ({
           {tablesRender.map(({ Component }, index) => (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg w-100 flex flex-col items-center"
+              className="bg-white shadow-md rounded-lg flex flex-col items-center w-full"
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
