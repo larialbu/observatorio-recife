@@ -6,14 +6,21 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processAtracacoesPorCarga } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoProdutos";
 import { getPortoProductNameByCode } from "@/utils/formatters/getPortoProductNameByCode";
+import { processCargasPorPorto } from "@/functions/process_data/observatorio/porto/geral/charts/opecaoPorPorto";
 
 const OperacaoPortos = ({
-  data, 
-  title = "Produtos Comercializados (Ton)",
+  data,
+  months,
+  title = "Operação Portos (Ton)",
   year,
 }: any) => {
+  const dataCoords =  data?.coords?.[0] || []
 
-  const chartData = data.charts.portos.sort((a: any, b: any) => b.VLPesoCargaBruta - a.VLPesoCargaBruta)
+  const monthsToRead = months.selected.length ? months.selected : months.options
+
+  const dataToRead = dataCoords.filter((data: any) => monthsToRead.includes(data.Mes)) || []
+
+  const chartData = processCargasPorPorto(dataToRead)
 
   return (
     <div className="chart-wrapper">
@@ -21,8 +28,8 @@ const OperacaoPortos = ({
         <ScrollableBarChart
           data={chartData}
           title={title}
-          xKey="Porto Atracação"
-          bars={[{ dataKey: "VLPesoCargaBruta", name: "Produto" }]}
+          xKey="porto"
+          bars={[{ dataKey: "carga", name: "Porto (Ton)" }]}
           colors={ColorPalette.default}
           heightPerCategory={50}
         />

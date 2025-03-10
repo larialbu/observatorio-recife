@@ -5,6 +5,8 @@ import charts from "./@imports/charts";
 import maps from "./@imports/maps";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import tables from "./@imports/tables";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const Geral = ({
   data,
@@ -15,11 +17,12 @@ const Geral = ({
   // year: string;
   months: number;
 }) => {
-
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
-
+  const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
   // REF do container e REF da instância do Sortable
+
   const sortableContainerRef = useRef<HTMLDivElement>(null);
+  const sortableContainerTableRef = useRef<HTMLDivElement>(null);
 
   const { Component }: any = maps[0]
 
@@ -40,6 +43,26 @@ const Geral = ({
           );
         })}
       </SortableDiv>
+
+      <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
+          {tableOrder.map((index) => {
+          const { Component } = tables[index];
+         
+          return ( 
+            <div
+              key={index}
+              className="bg-white shadow-md rounded-lg w-100 flex flex-col items-center"
+            >
+              <React.Suspense fallback={<div>Carregando...</div>}>
+                <Component
+                  color={ColorPalette.default[index]}
+                  data={data}
+                />
+              </React.Suspense>
+            </div>
+          )})}
+        </SortableDiv>
+
       <div className="place-items-center z-0 mb-6">
         <div className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center">
           <Component data={data.coords || []} />
