@@ -8,7 +8,7 @@ export const processIpcaUltimos12Meses = (data: any[]) => {
       }
 
       const acumuladoUltimosMeses = parseFloat(
-        (item["variação acumulada em 12 meses"] || "0").replace(",", ".")
+        (item["IPCA - Variação acumulada em 12 meses"] || "0")
       ); // Converte o acumulado para número
   
       if (!acc[capital]) {
