@@ -1,35 +1,50 @@
 "use client";
-
 import StackedBarChart from "@/components/@global/charts/StackedVerticalBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processImportacaoExportacaoPorContinente } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/continentesImportacaoExportacao";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { calculateTotalPercentages, calculateTotals } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/percentualNegociado";
 
 const ImportacaoExportacaoContinente = ({
   data = [],
   colors = ColorPalette.default,
-  title="Importação vs Exportação por Continente"
+  title = "Importação vs Exportação por Continente",
 }: any) => {
-  const chartData = processImportacaoExportacaoPorContinente(data);
+  // Processa os dados iniciais
+  const processedData = processImportacaoExportacaoPorContinente(data);
+
+  // Calcula os totais gerais
+  const { totalImportacao, totalExportacao } = calculateTotals(processedData);
+  const totalNegociado = totalExportacao + totalImportacao;
+
+  // Calcula os percentuais totais por continente
+  const percentages = calculateTotalPercentages(
+    processedData,
+    totalNegociado,
+    "continente"
+  );
+
+  console.log("Dados formatados para o gráfico:", percentages);
 
   return (
-    <div className="relative bg-white w-full p-4">
+    <div className="chart-wrapper">
       <ChartGrabber>
         <StackedBarChart
-        data={chartData}
-        title={title}
-        colors={colors.slice(1)}
-        xKey="continente"
-        bars={[
-          { dataKey: "importacao", name: "Importação" },
-          { dataKey: "exportacao", name: "Exportação" },
-        ]}
-        tooltipEntry=" dólares"
-        heightPerCategory={80} // Define a altura de cada barra
-        visibleHeight={400} // Define a altura visível para scroll
-      />
+          data={processedData}
+          title={title}
+          colors={colors.slice(1)}
+          xKey="continente"
+          bars={[
+            { dataKey: "importacao", name: "Importação" },
+            { dataKey: "exportacao", name: "Exportação" },
+          ]}
+          tooltipEntry=" dólares"
+          heightPerCategory={80}
+          visibleHeight={400}
+          showPercentages={true}
+          percentages={percentages} // Passa os percentuais calculados
+        />
       </ChartGrabber>
-      
     </div>
   );
 };
