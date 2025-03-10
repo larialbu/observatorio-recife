@@ -23,10 +23,10 @@ export const processPassageirosTotalAena = (
         if (
           (!aeroportoName || item["Aeroporto"] === aeroportoName) &&
           parseInt(item["Mês"], 10) === month &&
-          item["Ano"] === year
+          item["Ano"].toString() === year
         ) {
           const passageiros = parseFloat(
-            (item["Passageiros"] || "0").replace(/\./g, "").replace(",", ".")
+            (item["Passageiros"] || "0").toString().replace(/\./g, "").replace(",", ".")
           );
           return total + passageiros;
         }
@@ -46,10 +46,10 @@ export const processPassageirosTotalAena = (
           (!aeroportoName || item["Aeroporto"] === aeroportoName) &&
           mesAtual >= startMonth &&
           mesAtual <= endMonth &&
-          item["Ano"] === year
+          item["Ano"].toString() === year
         ) {
           const passageiros = parseFloat(
-            (item["Passageiros"] || "0").replace(/\./g, "").replace(",", ".")
+            (item["Passageiros"] || "0").toString().replace(/\./g, "").replace(",", ".")
           );
           return total + passageiros;
         }
@@ -69,10 +69,10 @@ export const processPassageirosTotalAena = (
       totalPassageiros = data.reduce((total, item) => {
         if (
           (!aeroportoName || item["Aeroporto"] === aeroportoName) &&
-          item["Ano"] === year
+          item["Ano"].toString() === year
         ) {
           const passageiros = parseFloat(
-            (item["Passageiros"] || "0").replace(/\./g, "").replace(",", ".")
+            (item["Passageiros"] || "0").toString().replace(/\./g, "").replace(",", ".")
           );
           return total + passageiros;
         }

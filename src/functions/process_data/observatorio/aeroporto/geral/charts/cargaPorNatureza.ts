@@ -5,7 +5,7 @@ export const processCargasPorNatureza = (data: any[]) => {
     const natureza = item["NATUREZA"] || "Indefinida";
     
     const carga = parseFloat(
-      (item["CARGA"] || "0").replace(/\./g, "").replace(",", ".")
+      (item["CARGA"] || "0")
     );
 
     if (!acc[natureza]) {

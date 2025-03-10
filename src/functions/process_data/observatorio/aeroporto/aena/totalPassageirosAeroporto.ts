@@ -3,7 +3,7 @@ export const processPassageirosPorAeroportoAena = (data: any[]) => {
     const processedData = data.reduce((acc: any, item: any) => {
       const aeroporto = item["Aeroporto"] || "Indefinido"; // Pegando o nome do aeroporto
       const passageiros = parseInt(
-        (item["Passageiros"] || "0").replace(/\./g, "").replace(",", "") // Converte a quantidade de passageiros para número
+        (item["Passageiros"] || "0").toString().replace(/\./g, "").replace(",", "") // Converte a quantidade de passageiros para número
       );
   
       if (!acc[aeroporto]) {

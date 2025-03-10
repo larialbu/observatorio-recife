@@ -19,7 +19,7 @@ export const processPassageirosAnoComparativo = (
   // Processa os dados
   data.forEach((item) => {
     const passageiros = parseFloat(
-      (item["PASSAGEIRO"] || "0").replace(/\./g, "").replace(",", ".")
+      (item["PASSAGEIRO"] || "0").toString().replace(/\./g, "").replace(",", ".")
     ); // Transforma para número e remove formatação
 
     const mes = item["MÊS"];

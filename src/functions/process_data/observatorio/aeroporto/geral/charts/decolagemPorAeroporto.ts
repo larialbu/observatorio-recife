@@ -4,7 +4,7 @@ export const processDecolagensPorAeroporto = (data: any[]) => {
     const aeroporto = item["AEROPORTO NOME"] || "Indefinido";
     
     const decolagens = parseFloat(
-      (item["DECOLAGENS"] || "0").replace(/\./g, "").replace(",", ".")
+      (item["DECOLAGENS"] || "0")
     );
 
     if (!acc[aeroporto]) {

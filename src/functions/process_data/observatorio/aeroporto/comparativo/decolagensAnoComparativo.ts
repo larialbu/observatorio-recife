@@ -17,7 +17,7 @@ export const processDecolagensAnoComparativo = (
   // Processa os dados
   data.forEach((item) => {
     const decolagens = parseFloat(
-      (item["DECOLAGENS"] || "0").replace(/\./g, "").replace(",", ".")
+      (item["DECOLAGENS"] || "0").toString().replace(/\./g, "").replace(",", ".")
     ); // Converte decolagens para número e remove formatação
 
     const mes = item["MÊS"];

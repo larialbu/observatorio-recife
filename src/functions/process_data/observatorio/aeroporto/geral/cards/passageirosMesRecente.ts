@@ -14,6 +14,14 @@ export const processPassageirosMes = (
 
   let passageirosMes = 0;
 
+  const parsePassageiros = (passageiro: any): number => {
+    const parsed = parseInt(
+      (passageiro || "0"),
+      10
+    );
+    return isNaN(parsed) ? 0 : parsed;
+  };
+
   if (months && months.length === 1) {
     const month = months[0];
     // Filtra para um único mês
@@ -22,9 +30,7 @@ export const processPassageirosMes = (
         (!airportName || item["AEROPORTO NOME"] === airportName) &&
         parseInt(item["MÊS"], 10) === month
       ) {
-        const passageiros = parseFloat(
-          (item["PASSAGEIRO"] || "0").replace(/\./g, "").replace(",", ".")
-        );
+        const passageiros = parsePassageiros(item["PASSAGEIRO"]);
         return total + passageiros;
       }
       return total;
@@ -44,9 +50,7 @@ export const processPassageirosMes = (
         mesAtual >= startMonth &&
         mesAtual <= endMonth
       ) {
-        const passageiros = parseFloat(
-          (item["PASSAGEIRO"] || "0").replace(/\./g, "").replace(",", ".")
-        );
+        const passageiros = parsePassageiros(item["PASSAGEIRO"]);
         return total + passageiros;
       }
       return total;
@@ -64,9 +68,7 @@ export const processPassageirosMes = (
     // Filtra para o ano inteiro
     passageirosMes = data.reduce((total, item) => {
       if (!airportName || item["AEROPORTO NOME"] === airportName) {
-        const passageiros = parseFloat(
-          (item["PASSAGEIRO"] || "0").replace(/\./g, "").replace(",", ".")
-        );
+        const passageiros = parsePassageiros(item["PASSAGEIRO"]);
         return total + passageiros;
       }
       return total;

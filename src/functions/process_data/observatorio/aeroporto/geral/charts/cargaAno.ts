@@ -4,15 +4,14 @@ export const processCargaAno = (data: any[]) => {
 
   // Inicializa os dados processados com os meses
   const processedData = meses.map((mes) => ({
-    mes, // Número do mês mano
-    carga: 0, // Inicializando com carga zero
+    mes,
+    carga: 0,
   }));
 
-  // Agora percorremos os dados pra processar
   data.forEach((item) => {
     const carga = parseFloat(
-      (item["CARGA"] || "0").replace(/\./g, "").replace(",", ".")
-    ); // Aqui convertemos carga pra número, tirando pontuação
+      (item["CARGA"] || "0")
+    );
 
     const mes = item["MÊS"]; // Pegando o mês, óbvio
 

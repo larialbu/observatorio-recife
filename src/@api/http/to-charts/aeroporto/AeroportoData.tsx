@@ -1,6 +1,8 @@
 import { ProcessedAenaCargasData } from "@/@types/observatorio/aeroporto/processedAenaCargasData";
 import { ProcessedAenaPassageirosData } from "@/@types/observatorio/aeroporto/processedAenaPassageirosData";
 import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
+import { parquetRead } from "hyparquet";
+import { compressors } from "hyparquet-compressors";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME;
@@ -34,7 +36,29 @@ export class AeroportoData {
         throw new Error(`Erro ao buscar dados da API: ${endpoint}`);
       }
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type");
+      let data: any;
+
+      if (contentType?.includes("application/octet-stream")) {
+        const startTime = performance.now();
+        const arrayBuffer = await response.arrayBuffer();
+
+        const records = await new Promise((resolve, reject) => {
+          parquetRead({
+            file: arrayBuffer,
+            rowFormat: "object",
+            compressors,
+            onComplete: (data) => resolve(data),
+          });
+        });
+
+        const endTime = performance.now();
+        console.log(`Tempo de execução: ${(endTime - startTime).toFixed(2)} ms`);
+        data = records;
+      } else {
+        const text = await response.text();
+        data = JSON.parse(text);
+      }
 
       AeroportoData.cache[endpoint] = data;
 
