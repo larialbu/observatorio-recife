@@ -25,7 +25,7 @@ const ImportacaoExportacaoContinente = ({
   );
 
   console.log("Dados formatados para o gráfico:", percentages);
-
+  
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
@@ -35,14 +35,24 @@ const ImportacaoExportacaoContinente = ({
           colors={colors.slice(1)}
           xKey="continente"
           bars={[
-            { dataKey: "importacao", name: "Importação" },
-            { dataKey: "exportacao", name: "Exportação" },
+            { 
+              dataKey: "importacao", 
+              name: "Importação",
+            },
+            { 
+              dataKey: "exportacao", 
+              name: "Exportação",
+              showPercentage: true,
+            },
           ]}
           tooltipEntry=" dólares"
           heightPerCategory={80}
           visibleHeight={400}
-          showPercentages={true}
-          percentages={percentages} // Passa os percentuais calculados
+          percentages={{
+            keyField: "continente", // Chave usada nos dados
+            valueField: "totalPercentual", // Campo do percentual
+            data: percentages // Seu array de percentuais
+          }}
         />
       </ChartGrabber>
     </div>
