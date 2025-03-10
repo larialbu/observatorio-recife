@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   BarChart as RechartsBarChart,
   Bar,
@@ -9,126 +8,173 @@ import {
   Legend,
   Cell,
   ResponsiveContainer,
+  LabelList,
 } from "recharts";
-
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
 import CustomLegend from "../features/CustomLegend";
 import CustomTooltip from "../features/CustomTooltip";
-import { truncateTextFormatter } from "@/utils/formatters/@global/truncateTextFormatter";
+import { createPercentageMap } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/percentualNegociado";
 
-const StackerBarChartVertical = ({
+type DataEntry = {
+  [key: string]: any;
+};
+
+type BarConfig = {
+  dataKey: string;
+  name: string;
+  showPercentage?: boolean;
+  percentageField?: string; // Campo opcional para especificar o campo de percentual
+};
+
+type StackedBarChartProps = {
+  data: DataEntry[];
+  title?: string;
+  xKey: string;
+  bars: BarConfig[];
+  colors?: string[];
+  heightPerCategory?: number;
+  visibleHeight?: number;
+  tooltipEntry?: string;
+  left?: number;
+  yFontSize?: number;
+  percentages?: {
+    keyField: string;
+    valueField: string;
+    data: { [key: string]: any }[];
+  };
+  minBarWidth?: number;
+  minCellWidth?: number;
+};
+
+const StackedBarChart = ({
   data,
   title,
   xKey,
   bars,
   colors = [],
-  heightPerCategory = 50, // Altura de cada barra
-  visibleHeight = 300, // Altura visível do gráfico
-  tooltipEntry,
+  heightPerCategory = 50,
+  visibleHeight = 300,
+  tooltipEntry = "",
   left = -35,
   yFontSize = 12,
-  maxDescriptionLength = 50, // Definir limite de caracteres para o eixo Y
-  tooltipTitleFontSize,
-  widthY = 150,
-}: any) => {
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  percentages,
+  minBarWidth = 0,
+  minCellWidth = 0,
+}: StackedBarChartProps) => {
+  const totalHeight = data.length <= 5 ? 400 : data.length * heightPerCategory;
 
-  // Verifica o tamanho da tela pra poder depois aumentar o gráfico no celular
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 640) { // sm breakpoint é 640px por padrão no Tailwind
-        setIsSmallScreen(true);
-      } else {
-        setIsSmallScreen(false);
-      }
-    };
+  // Cria o mapa de porcentagens usando a função externa presente em percentualNegociado.ts
+  const percentageMap = percentages
+    ? createPercentageMap(percentages.data, percentages.keyField)
+    : {};
 
-    window.addEventListener("resize", handleResize);
-
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // Calcula a altura total com base no número de categorias
-  let totalHeight = data.length * heightPerCategory;
-
-  // Define uma altura mínima para o gráfico, caso haja poucas categorias
-  if (data.length <= 5) totalHeight = 400;
-
-  // Função customizada para o tooltip
-  const customTooltipFormatter = (value: any) => {
-    return tooltipFormatter(value, tooltipEntry || "");
-  };
+  // Calcula o valor máximo total das barras (soma de todas as chaves de dados)
+  const maxValue = data.reduce((max, entry) => {
+    const totalValue = bars.reduce(
+      (sum, bar) => sum + (typeof entry[bar.dataKey] === "number" ? entry[bar.dataKey] : 0),
+      0
+    );
+    return Math.max(max, totalValue);
+  }, 0);
 
   return (
     <div className="relative bg-white w-full">
-      <h3 className="text-center mb-[2em] font-semibold">{title}</h3>
+      {title && <h3 className="text-center mb-8 font-semibold">{title}</h3>}
+      <div className="overflow-y-auto overflow-x-visible" style={{ height: `${visibleHeight}px` }}>
+        <ResponsiveContainer width="100%" height={totalHeight}>
+          <RechartsBarChart
+            data={data}
+            layout="vertical"
+            margin={{ top: 0, right: 7, left, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              type="number"
+              tickFormatter={yAxisFormatter}
+              tick={{ fontSize: 12 }}
+            />
+            <YAxis
+              type="category"
+              dataKey={xKey}
+              tick={{ fontSize: yFontSize }}
+              interval={0}
+              width={150}
+            />
+            <Tooltip
+              content={(props) => (
+                <CustomTooltip
+                  {...props}
+                  customTooltipFormatter={(value: any) =>
+                    tooltipFormatter(value, tooltipEntry)
+                  }
+                />
+              )}
+            />
+            <Legend
+              verticalAlign="top"
+              align="center"
+              content={({ payload }) => (
+                <div className="flex justify-center ml-10 mt-2">
+                  <div className="w-11/12">
+                    <CustomLegend payload={payload} />
+                  </div>
+                </div>
+              )}
+              iconSize={20}
+            />
+            {bars.map((barConfig, index) => (
+              <Bar
+                key={index}
+                dataKey={barConfig.dataKey}
+                name={barConfig.name}
+                stackId="stack"
+                fill={colors[index]}
+              >
+                {data.map((_, dataIndex) => (
+                  <Cell
+                    key={`cell-${dataIndex}`}
+                    fill={colors[index % colors.length]}
+                  />
+                ))}
+                {barConfig.showPercentage && percentages && (
+                  <LabelList
+                    dataKey={(entry: DataEntry) => {
+                      const identifier = entry[xKey];
+                      const percentageItem = percentageMap[String(identifier)];
 
-      {/* Wrapper para scroll vertical */}
-      <div
-        className="overflow-y-auto overflow-x-visible"
-        style={{
-          height: `${isSmallScreen ? 600 : visibleHeight}px`, // Altera a altura para 500px em telas pequenas
-        }}
-      >
-        <div>
-          <ResponsiveContainer width="100%" height={totalHeight}>
-            <RechartsBarChart
-              data={data}
-              layout="vertical"
-              margin={{ top: 0, right: 7, left: left, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                type="number"
-                tickFormatter={yAxisFormatter}
-                tick={{ fontSize: 12 }}
-                orientation="top"
-              />
-              <YAxis
-                type="category"
-                dataKey={xKey}
-                tick={{ fontSize: yFontSize }}
-                interval={0}
-                width={widthY}
-                // Truncar o texto apenas no eixo Y
-                tickFormatter={(value: string) => truncateTextFormatter(value, maxDescriptionLength)}
-              />
-              <Tooltip
-                content={(e) => CustomTooltip({ ...e, customTooltipFormatter, fontSize: tooltipTitleFontSize })}
-              />
-              <Legend
-                verticalAlign="top"
-                align="center"
-                content={({ payload }) => {
-                  return (
-                    <div className="flex justify-center ml-10 mt-2">
-                      <div className="w-[90%]">
-                        <CustomLegend payload={payload} />
-                      </div>
-                    </div>
-                  );
-                }}
-                iconSize={20}
-              />
-              {bars.map((bar: any, index: any) => (
-                <Bar key={index} dataKey={bar.dataKey} name={bar.name} stackId="stack" fill={colors[index]}>
-                  {data.map((entry: any, dataIndex: any) => {
-                    const color =
-                      entry[xKey] === "Recife"
-                        ? colors[(index % colors.length) + 1]
-                        : colors[index % colors.length];
-                    return <Cell key={`cell-${dataIndex}`} fill={color} />;
-                  })}
-                </Bar>
-              ))}
-            </RechartsBarChart>
-          </ResponsiveContainer>
-        </div>
+                      if (!percentageItem) return "";
+
+                      const cellValue = entry[barConfig.dataKey];
+                      const visualCellWidth =
+                        typeof cellValue === "number" ? (cellValue / maxValue) * 100 : 0;
+
+                      // Verifica se o tamanho visual da célula é suficiente para exibir o valor
+                      if (typeof visualCellWidth === "number" && visualCellWidth >= minCellWidth) {
+                        // Usa o campo 'percentageField' para acessar o valor percentual dinamicamente
+                        const percentageValue = barConfig.percentageField
+                          ? percentageItem[barConfig.percentageField]
+                          : null;
+
+                        if (typeof percentageValue === "number") {
+                          return `${percentageValue.toFixed(2)}%`;
+                        }
+                      }
+
+                      return ""; // Caso a célula for muito pequena, retorna uma string vazia
+                    }}
+                    position="insideRight"
+                    fill="#fff"
+                    fontSize={13}
+                    fontWeight="semibold"
+                  />
+                )}
+              </Bar>
+            ))}
+          </RechartsBarChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
 };
 
-export default StackerBarChartVertical;
+export default StackedBarChart;
