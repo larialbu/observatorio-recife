@@ -53,6 +53,7 @@ const ImportacaoExportacaoContinente = ({
             valueField: "totalPercentual", // Campo do percentual
             data: percentages // Seu array de percentuais
           }}
+          minBarWidth={11}
         />
       </ChartGrabber>
     </div>

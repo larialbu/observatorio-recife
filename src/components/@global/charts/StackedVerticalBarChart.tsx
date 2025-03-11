@@ -40,6 +40,7 @@ type StackedBarChartProps = {
     valueField: string;
     data: { [key: string]: any }[];
   };
+  minBarWidth?: number; // Limite mínimo para exibir o valor (em pixels)
 };
 
 const StackedBarChart = ({
@@ -54,15 +55,26 @@ const StackedBarChart = ({
   left = -35,
   yFontSize = 12,
   percentages,
+  minBarWidth = 0, // Valor padrão para o limite mínimo da barra (em pixels)
 }: StackedBarChartProps) => {
   const totalHeight = data.length <= 5 ? 400 : data.length * heightPerCategory;
 
+  // Função para criar um mapa de porcentagens
   const percentageMap: Record<string, number> = percentages?.data.reduce((acc, item) => {
     if (item[percentages.keyField] && item[percentages.valueField]) {
       acc[String(item[percentages.keyField])] = item[percentages.valueField];
     }
     return acc;
   }, {}) || {};
+
+  // Calcula o valor máximo total das barras (soma de importacao e exportacao)
+  const maxValue = data.reduce((max, entry) => {
+    const totalValue =
+      typeof entry["importacao"] === "number" && typeof entry["exportacao"] === "number"
+        ? entry["importacao"] + entry["exportacao"]
+        : 0;
+    return Math.max(max, totalValue);
+  }, 0);
 
   return (
     <div className="relative bg-white w-full">
@@ -128,7 +140,27 @@ const StackedBarChart = ({
                     dataKey={(entry: DataEntry) => {
                       const identifier = entry[xKey];
                       const percentage = percentageMap[String(identifier)];
-                      return percentage ? `${percentage.toFixed(2)}%` : "";
+
+                      // Calcula o tamanho total da barra (soma de importacao e exportacao)
+                      const totalBarValue =
+                        typeof entry["importacao"] === "number" &&
+                        typeof entry["exportacao"] === "number"
+                          ? entry["importacao"] + entry["exportacao"]
+                          : 0;
+
+                      // Calcula o tamanho visual da barra (proporcional ao valor máximo)
+                      const visualBarWidth = (totalBarValue / maxValue) * 100; // Em %
+
+                      // Verifica se o tamanho visual da barra é suficiente para exibir o valor
+                      if (
+                        typeof visualBarWidth === "number" &&
+                        visualBarWidth >= minBarWidth &&
+                        typeof percentage === "number"
+                      ) {
+                        return `${percentage.toFixed(2)}%`;
+                      }
+
+                      return ""; // Não exibe o valor se a barra for muito pequena
                     }}
                     position="insideRight"
                     fill="#fff"
