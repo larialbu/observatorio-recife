@@ -90,7 +90,7 @@ const PortosPage = () => {
       case "operacao":
         return <Operacao data={porto} months={getMonths(filters)} year={getYearSelected(filters)} />;
       case "comparativo":
-        return <Comparativo data={porto} rawData={porto.rawData} year={getYearSelected(filters)} months={getMonths(filters)} toCompare={filters.additionalFilters?.[3]?.options || []} />;
+        return <Comparativo data={porto} rawData={porto.rawData} year={getYearSelected(filters)} months={getMonths(filters)}   />;
       case "passageiro":
         return <AenaPage />;
       default:

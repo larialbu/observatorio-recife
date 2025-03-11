@@ -14,7 +14,7 @@ const PortoOperacoesTable = ({
 }: any) => {
   const dataMonths = data?.charts?.months || { current: [], past: [] }
 
-  const yearCur = dataMonths.current[0] || 'Dado não encontrado'
+  const yearCur = dataMonths.current[0]  
   const yearPast = dataMonths.past[0] || 'Dado não encontrado'
     
   const aggregatedData = processCargasPorMes(dataMonths.current[1], dataMonths.past[1]);
