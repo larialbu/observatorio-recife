@@ -54,8 +54,8 @@ export class PortoDataService {
         (item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga']
       );
 
-      const portosSelected = filters?.additionalFilters?.find((item: any) => item.label === "Porto Atracação")?.selected || []
-
+      const portosSelected = filters?.additionalFilters.find((item: any) => item.label === "Porto Atracação")?.selected ?? [];
+      
       return {
         atracacao: atracacaoFiltered,
         carga: cargaFiltered,
@@ -68,8 +68,8 @@ export class PortoDataService {
         coords: [coords, filters.additionalFilters.find((item: any) => item.label === "Mes").selected],
         charts: {
           months: {
-            past: [pastYear, coordsPast.filter((coord) => portosSelected.includes(coord['Porto Atracação']))],
-            current: [this.currentYear, coords.filter((coord) => portosSelected.includes(coord['Porto Atracação']))] 
+            past: [pastYear, coordsPast.filter((coord) => portosSelected?.includes(coord['Porto Atracação']))],
+            current: [this.currentYear, coords.filter((coord) => portosSelected?.includes(coord['Porto Atracação']))] 
           }
         }
       };
