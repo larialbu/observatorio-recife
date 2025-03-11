@@ -86,7 +86,7 @@ const PortosPage = () => {
 
     switch (activeTab) {
       case "geral":
-        return <Geral data={porto} months={getMonths(filters)} />;
+        return <Geral data={porto} months={getMonths(filters, true)} />;
       case "operacao":
         return <Operacao data={porto} months={getMonths(filters)} year={getYearSelected(filters)} />;
       case "comparativo":
@@ -94,7 +94,7 @@ const PortosPage = () => {
       case "passageiro":
         return <AenaPage />;
       default:
-        return <Geral data={porto} months={getMonths(filters)} />;
+        return <Geral data={porto} months={getMonths(filters, true)} />;
     }
 };
 

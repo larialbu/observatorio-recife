@@ -1,7 +1,7 @@
 export const rowsCountrysByMunicipio = (data: any[], municipio: string, year: string, month?: number) => {
   const filteredData = data.filter(item => 
     item["Município"] === municipio && 
-    item["Ano"] === year &&
+    item["Ano"].toString() === year &&
     (!month || +item["Mês"] === month)   
   );
   

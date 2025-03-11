@@ -7,7 +7,7 @@ export const processIpcaBrasilNoAno = (data: any[]) => {
         return acc;
       }
       const acumuladoAno = parseFloat(
-        (item["variação acumulada no ano"] || "0").replace(",", ".")
+        (item["IPCA - Variação acumulado no ano"] || "0")
       ); // Converte o acumulado para número
   
       if (!acc[capital]) {

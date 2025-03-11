@@ -13,7 +13,7 @@ export const processPercentageByType = (
     // Reduz os dados para calcular o total do índice por nível especificado
     const processedData = data.reduce((acc: any, item: any) => {
       const groupKey = item[key] || "Indefinido";
-      const indice = parseFloat((item["Indice"] || "0").replace(",", ".")); // Converte o índice para número
+      const indice = parseFloat((item["Indice"] || "0")); // Converte o índice para número
   
       if (!acc[groupKey]) {
         acc[groupKey] = { key: groupKey, totalIndice: 0 };

@@ -1,3 +1,10 @@
+const parsePassageiros = (passageiros: any): number => {
+  const parsed = parseFloat(
+    (passageiros || "0")
+  );
+  return isNaN(parsed) ? 0 : parsed;
+};
+
 export const processPassageirosAno = (data: any[]) => {
   // Aqui é uma array com 12 objetos, sendo 1 para cada mês do ano né
   const meses = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
@@ -5,15 +12,12 @@ export const processPassageirosAno = (data: any[]) => {
   // Inicializa os dados processados com os meses
   const processedData = meses.map((mes) => ({
     mes,
-    passageiros: 0, 
+    passageiros: 0,
   }));
 
   // Agora percorremos os dados pra processar
   data.forEach((item) => {
-    const passageiros = parseFloat(
-      (item["PASSAGEIRO"] || "0").replace(/\./g, "").replace(",", ".")
-    ); // Transforma pra número e remove formatação
-
+    const passageiros = parsePassageiros(item["PASSAGEIRO"]); // Usa a função parsePassageiros para conversão
     const mes = item["MÊS"];
 
     // Pegando o índice do mês na array de meses, 10 é pra garantir que é de base decimal

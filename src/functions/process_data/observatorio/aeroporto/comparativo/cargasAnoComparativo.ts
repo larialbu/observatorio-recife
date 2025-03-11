@@ -17,7 +17,7 @@ export const processCargasAnoComparativo = (
   // Processa os dados
   data.forEach((item) => {
     const carga = parseFloat(
-      (item["CARGA"] || "0").replace(/\./g, "").replace(",", ".")
+      (item["CARGA"] || "0").toString()
     ); // Converte carga para número e remove formatação
 
     const mes = item["MÊS"];

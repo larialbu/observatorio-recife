@@ -10,7 +10,7 @@ const AirportInfo = ({
 }: any) => {
   // Filtra os dados com base no aeroporto e ano
   const aggregatedData = data
-    .filter((item: any) => item["AEROPORTO NOME"] === airport && item["ANO"] === `${year}`)
+    .filter((item: any) => item["AEROPORTO NOME"] === airport && item["ANO"].toString() === `${year}`)
     .reduce((acc: any, item: any) => {
       const mes = item["MÊS"];
       if (!acc[mes]) {
@@ -28,7 +28,7 @@ const AirportInfo = ({
   const firstAggregated = Object.keys(aggregatedData)[0];
   
   if (!firstAggregated) {
-    return <div>Nenhum dado econtrado</div>;
+    return <div>Nenhum dado encontrado</div>;
   }
 
   const header = Object.keys(aggregatedData[firstAggregated]);
@@ -44,7 +44,7 @@ const AirportInfo = ({
   };
 
   return (
-    <div className="relative bg-white w-full rounded-2xl">
+    <div className="relative w-full rounded-2xl">
       <TableGeneric maxHeight={500} rowsPerPage={100} color={color} headers={header} title={`Dados de ${airport} (${year})`} rows={getRows(sortedData)} />
     </div>
   );

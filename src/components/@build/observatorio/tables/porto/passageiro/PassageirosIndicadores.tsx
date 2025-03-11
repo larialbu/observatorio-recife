@@ -71,7 +71,7 @@ console.log('HEEADER', header)
   getRows(aggregatedData)
 
   return (
-    <div className="relative bg-white w-full">
+    <div className="relative w-full">
       <TableGeneric
         searchIndexes={[0]}
         enablePagination={false}

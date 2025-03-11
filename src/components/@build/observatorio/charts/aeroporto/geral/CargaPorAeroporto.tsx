@@ -22,6 +22,7 @@ const CargaPorAeroporto = ({
           title={title}
           colors={colors}
           xKey="aeroporto"
+          left={10}
           bars={[{ dataKey: "totalCarga", name: "Carga (kg)" }]}
           height={400} // Altura do viewport visível para scroll
           heightPerCategory={50}

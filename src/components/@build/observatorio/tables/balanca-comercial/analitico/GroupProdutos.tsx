@@ -89,7 +89,7 @@ const GroupProdutos = ({
   };
 
   return (
-    <div className="relative bg-white w-full">
+    <div className="relative w-full">
       <TableGeneric
         searchIndexes={[1, 2]}
         enablePagination={false}

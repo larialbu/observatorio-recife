@@ -23,10 +23,10 @@ export const processCargasTotalAena = (
         if (
           (!aeroportoName || item["Aeroporto"] === aeroportoName) &&
           parseInt(item["Mês"], 10) === month &&
-          item["Ano"] === year
+          item["Ano"].toString() === year
         ) {
           const carga = parseFloat(
-            (item["Quantidade"] || "0").replace(/\./g, "").replace(",", ".")
+            (item["Quantidade"] || "0").toString()
           );
           return total + carga;
         }
@@ -46,10 +46,10 @@ export const processCargasTotalAena = (
           (!aeroportoName || item["Aeroporto"] === aeroportoName) &&
           mesAtual >= startMonth &&
           mesAtual <= endMonth &&
-          item["Ano"] === year
+          item["Ano"].toString() === year
         ) {
           const carga = parseFloat(
-            (item["Quantidade"] || "0").replace(/\./g, "").replace(",", ".")
+            (item["Quantidade"] || "0").toString()
           );
           return total + carga;
         }
@@ -69,10 +69,10 @@ export const processCargasTotalAena = (
       totalCargas = data.reduce((total, item) => {
         if (
           (!aeroportoName || item["Aeroporto"] === aeroportoName) &&
-          item["Ano"] === year
+          item["Ano"].toString() === year
         ) {
           const carga = parseFloat(
-            (item["Quantidade"] || "0").replace(/\./g, "").replace(",", ".")
+            (item["Quantidade"] || "0").toString()
           );
           return total + carga;
         }

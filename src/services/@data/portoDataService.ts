@@ -1,5 +1,6 @@
 import { PortoData } from "@/@api/http/to-charts/porto/PortoData";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
+import { filter } from "framer-motion/client";
 
 export class PortoDataService {
   private static instance: PortoDataService;
@@ -26,6 +27,7 @@ export class PortoDataService {
   private async fetchPortoData(filters: Record<string, any>) {
     try {
       const portoData = new PortoData(this.currentYear); // Cria uma nova instância sempre
+      const pastYear = `${+this.currentYear - 1}`;
 
       const [
         atracacao,
@@ -34,7 +36,7 @@ export class PortoDataService {
         destinoDictionary,
         mercadoriaDictionary,
         coords,
-        portosOperations
+        coordsPast,
       ] = await Promise.all([
         portoData.fetchAtracacaoPorAno(),
         portoData.fetchCargaPorAno(),
@@ -42,17 +44,17 @@ export class PortoDataService {
         portoData.fetchDestinoDictionary(),
         portoData.fetchMercadoriaDictionary(),
         portoData.fetchCoordinates(),
-        portoData.fetchPortosOperations(),
+        new PortoData(pastYear).fetchCoordinates().catch(() => []),
       ]);
 
       const atracacaoFiltered = applyGenericFilters(atracacao, filters);
       const atracacaoIds = new Set(atracacaoFiltered.filteredData.map((atracacao) => atracacao.IDAtracacao));
 
-      const coordsFiltered = applyGenericFilters(coords, filters)
-
       const cargaFiltered = carga.filter(
         (item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga']
       );
+
+      const portosSelected = filters.additionalFilters.find((item: any) => item.label === "Porto Atracação").selected
 
       return {
         atracacao: atracacaoFiltered,
@@ -64,7 +66,12 @@ export class PortoDataService {
           mercado: mercadoriaDictionary,
         },
         coords: [coords, filters.additionalFilters.find((item: any) => item.label === "Mes").selected],
-        charts: { portos: portosOperations }
+        charts: {
+          months: {
+            past: [pastYear, coordsPast.filter((coord) => portosSelected.includes(coord['Porto Atracação']))],
+            current: [this.currentYear, coords.filter((coord) => portosSelected.includes(coord['Porto Atracação']))] 
+          }
+        }
       };
     } catch (error) {
       console.error("Erro ao buscar dados de porto:", error);

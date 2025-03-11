@@ -10,12 +10,12 @@ const MunicipalityInfo = ({
 }: any) => {
   // Filtra os dados com base no ano
   const aggregatedData = data
-    .filter((item: any) => item["ANO"] === `${year}`)
+    .filter((item: any) => item["Ano"].toString() === `${year}`)
     .map((item: any) => ({
-      ANO: item["ANO"],
+      Ano: item["Ano"],
       Município: item["Município"] || "Desconhecido",
       UF: item["UF"] || "-",
-      Nota: (parseFloat(item["Nota"].replace(',', '.')) || 0).toFixed(2),
+      Nota: (parseFloat(item["Nota"]) || 0).toFixed(2),
       Colocação: item["Colocação"] || "-",
     }));
 
@@ -23,7 +23,7 @@ const MunicipalityInfo = ({
   const sortedData = aggregatedData.sort((a: any, b: any) => a.Colocação - b.Colocação);
 
   // Cabeçalho para a tabela
-  const header = ["ANO", "Município", "UF", "Nota", "Colocação"];
+  const header = ["Ano", "Município", "UF", "Nota", "Colocação"];
 
   // Gera as linhas da tabela
   const getRows = (values: any) => {
@@ -31,7 +31,7 @@ const MunicipalityInfo = ({
 
     values.map((obj: any) => {
       rows.push([
-        obj.ANO,
+        obj.Ano,
         obj.Município,
         obj.UF,
         obj.Nota,
@@ -48,7 +48,7 @@ const MunicipalityInfo = ({
   }
 
   return (
-    <div className="relative bg-white w-full h-full">
+    <div className="relative w-full h-full">
       <TableGeneric
         maxHeight={900}
         rowsPerPage={100}

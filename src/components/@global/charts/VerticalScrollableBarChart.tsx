@@ -22,7 +22,9 @@ const VerticalScrollableBarChart = ({
   colors = [],
   heightPerCategory = 50, // Altura de cada barra
   visibleHeight = 400, // Altura visível do gráfico
-  tooltipEntry
+  tooltipEntry,
+  widthY = 100,
+  left = -5,
 }: any) => {
   // Calcula a altura total com base no número de categorias
   let totalHeight = data.length * heightPerCategory;
@@ -49,7 +51,7 @@ const VerticalScrollableBarChart = ({
             <RechartsBarChart
               data={data}
               layout="vertical" // Layout para barras verticais
-              margin={{ top: 0, right: 10, left: -15, bottom: 5 }}
+              margin={{ top: 0, right: 10, left: left, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
@@ -63,7 +65,7 @@ const VerticalScrollableBarChart = ({
                 dataKey={xKey}
                 tick={{ fontSize: 12 }}
                 interval={0} // Exibe todos os rótulos
-                width={100} // Espaço suficiente para rótulos longos
+                width={widthY} // Espaço suficiente para rótulos longos
               />
               <Tooltip
               content={(e) => CustomTooltip({...e, customTooltipFormatter})}
