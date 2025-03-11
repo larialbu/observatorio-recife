@@ -11,7 +11,7 @@ const PassageirosIndicadores = ({
   color = "#000000",
   title = 'Indicadores de Passageiros'
 }: any) => {
- const yearCur = data.passageiros?.current[0]?.['Data'].split('-')[0] || 'Dado não encontrado'
+ const yearCur = data.passageiros?.current[0]?.['Data'].split('-')[0]
  const yearPast = data.passageiros?.past[0]?.['Data'].split('-')[0] || 'Dado não encontrado'
   
  const aggregatedData = processPassageirosAnoPorto(data.passageiros.current || [], data.passageiros.past || []);

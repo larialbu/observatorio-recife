@@ -25,6 +25,8 @@ const Comparativo = ({
   data: any[];
   months: number;
 }) => {
+  console.log('TOCOMPARE -> ', toCompare)
+
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
   const [tablesRender, setTablesRender] = useState(tables);

@@ -24,6 +24,8 @@ const SelectPrincipal = ({
   initialValue?: any;
   search?: boolean;
 }) => {
+  console.log('OPTIONS RECEBIDAS: ', options)
+
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdown, setDropdown] = useState<boolean>(false);
 
@@ -113,14 +115,13 @@ const SelectPrincipal = ({
       
         >
           <div className="p-4 max-h-60 overflow-y-auto absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-30">
-            {optionsCopy.filter((option) =>
-              option
+            {optionsCopy.filter((option) => !!option && option
                 .toLocaleLowerCase()
-                .includes(search ? searchTerm.toLocaleLowerCase() : "")
+                .includes(search ? searchTerm.toLocaleLowerCase() : "") 
             ).length > 0 ? (
               optionsCopy
                 .filter((option) =>
-                  option
+                  !!option && option
                     .toLocaleLowerCase()
                     .includes(search ? searchTerm.toLocaleLowerCase() : "")
                 )

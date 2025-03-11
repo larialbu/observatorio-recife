@@ -54,7 +54,7 @@ export class PortoDataService {
         (item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga']
       );
 
-      const portosSelected = filters.additionalFilters.find((item: any) => item.label === "Porto Atracação").selected
+      const portosSelected = filters?.additionalFilters?.find((item: any) => item.label === "Porto Atracação")?.selected || []
 
       return {
         atracacao: atracacaoFiltered,

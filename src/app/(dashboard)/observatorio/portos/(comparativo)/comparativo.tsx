@@ -5,18 +5,20 @@ import charts from "./@imports/charts";
 import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
+import { processedAtracacaoData } from "@/@types/observatorio/porto/processedAtracacaoData";
 
 // AEROPORTO NOME
 
 const Comparativo = ({
   year,
   data,
-  // toCompare = getUniqueValues<processedAtracacaoData, "Porto Atracação">(
-  //   data.atracacao,
-  //   "Porto Atracação"
-  // ),
+  toCompare = getUniqueValues<processedAtracacaoData, "Porto Atracação">(
+    data.atracacao,
+    "Porto Atracação"
+  ),
   rawData,
-  toCompare,
+  // toCompare,
   months,
 }: {
   year: string;
@@ -25,6 +27,8 @@ const Comparativo = ({
   months: number;
   rawData: any
 }) => {
+  console.log('TO COMPARES: -> ', toCompare)
+
   const [pageCompare, setPageCompare] = useState(0);
   
   const [tempFiltred, setTempFiltred] = useState([]);
