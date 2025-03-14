@@ -1,4 +1,4 @@
-import JSZip from "jszip";
+import { unzipSync } from "fflate"; // Importando o método de descompactação
 import { saveToIndexedDB } from "./indexDB";
 
 const DB_NAME = "parquetDB";
@@ -28,28 +28,29 @@ function cleanFilePath(filePath: string) {
 
 // Função para carregar arquivos Parquet de um ZIP
 export async function loadParquetFilesFromZip(zipArrayBuffer: ArrayBuffer) {
-  const zip = new JSZip();
-  const zipContent = await zip.loadAsync(zipArrayBuffer);
+  try {
+    const zipContent = unzipSync(new Uint8Array(zipArrayBuffer)); // Descompactando o arquivo zip
 
-  for (const fileName in zipContent.files) {
-    const file = zipContent.files[fileName];
+    for (const fileName in zipContent) {
+      const fileBuffer = zipContent[fileName];
 
-    if (fileName.endsWith(".parquet")) {
-      try {
-        console.log(`Lendo o arquivo Parquet: ${fileName}`);
+      if (fileName.endsWith(".parquet")) {
+        try {
+          console.log(`Lendo o arquivo Parquet: ${fileName}`);
 
-        const arrayBuffer = await file.async("arraybuffer");
+          // Limpar o caminho do arquivo
+          const cleanedKey = cleanFilePath(fileName);
 
-        // Limpar o caminho do arquivo
-        const cleanedKey = cleanFilePath(fileName);
-
-        // Salvar no IndexedDB
-        await saveToIndexedDB(DB_NAME, STORE_NAME, cleanedKey, arrayBuffer);
-        console.log(`Arquivo salvo no IndexedDB: ${cleanedKey}`);
-      } catch (error) {
-        console.error(`Erro ao processar o arquivo ${fileName}:`, error);
+          // Salvar no IndexedDB
+          await saveToIndexedDB(DB_NAME, STORE_NAME, cleanedKey, fileBuffer);
+          console.log(`Arquivo salvo no IndexedDB: ${cleanedKey}`);
+        } catch (error) {
+          console.error(`Erro ao processar o arquivo ${fileName}:`, error);
+        }
       }
     }
+  } catch (error) {
+    console.error("Erro ao descompactar o arquivo ZIP:", error);
   }
 }
 
