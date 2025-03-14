@@ -24,8 +24,6 @@ const SelectPrincipal = ({
   initialValue?: any;
   search?: boolean;
 }) => {
-  console.log('OPTIONS RECEBIDAS: ', options)
-
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdown, setDropdown] = useState<boolean>(false);
 

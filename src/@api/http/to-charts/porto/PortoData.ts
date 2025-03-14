@@ -76,7 +76,7 @@ export class PortoData {
    * Busca dados de carga para o ano especificado.
    */
   async fetchCargaPorAno(): Promise<any[]> {
-    const endpoint = `/porto/carga/${this.year}_test`;
+    const endpoint = `/porto/carga/${this.year}`;
     return this.fetchData<any[]>(endpoint);
   }
 
