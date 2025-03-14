@@ -13,6 +13,7 @@ import {
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
 import CustomLegend from "../features/CustomLegend";
 import CustomTooltip from "../features/CustomTooltip";
+import { createPercentageMap } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/percentualNegociado";
 
 type DataEntry = {
   [key: string]: any;
@@ -22,11 +23,12 @@ type BarConfig = {
   dataKey: string;
   name: string;
   showPercentage?: boolean;
+  percentageField?: string; // Campo opcional para especificar o campo de percentual
 };
 
 type StackedBarChartProps = {
   data: DataEntry[];
-  title: string;
+  title?: string;
   xKey: string;
   bars: BarConfig[];
   colors?: string[];
@@ -40,7 +42,8 @@ type StackedBarChartProps = {
     valueField: string;
     data: { [key: string]: any }[];
   };
-  minBarWidth?: number; // Limite mínimo para exibir o valor (em pixels)
+  minBarWidth?: number;
+  minCellWidth?: number;
 };
 
 const StackedBarChart = ({
@@ -55,30 +58,28 @@ const StackedBarChart = ({
   left = -35,
   yFontSize = 12,
   percentages,
-  minBarWidth = 0, // Valor padrão para o limite mínimo da barra (em pixels)
+  minBarWidth = 0,
+  minCellWidth = 0,
 }: StackedBarChartProps) => {
   const totalHeight = data.length <= 5 ? 400 : data.length * heightPerCategory;
 
-  // Função para criar um mapa de porcentagens
-  const percentageMap: Record<string, number> = percentages?.data.reduce((acc, item) => {
-    if (item[percentages.keyField] && item[percentages.valueField]) {
-      acc[String(item[percentages.keyField])] = item[percentages.valueField];
-    }
-    return acc;
-  }, {}) || {};
+  // Cria o mapa de porcentagens usando a função externa presente em percentualNegociado.ts
+  const percentageMap = percentages
+    ? createPercentageMap(percentages.data, percentages.keyField)
+    : {};
 
-  // Calcula o valor máximo total das barras (soma de importacao e exportacao)
+  // Calcula o valor máximo total das barras (soma de todas as chaves de dados)
   const maxValue = data.reduce((max, entry) => {
-    const totalValue =
-      typeof entry["importacao"] === "number" && typeof entry["exportacao"] === "number"
-        ? entry["importacao"] + entry["exportacao"]
-        : 0;
+    const totalValue = bars.reduce(
+      (sum, bar) => sum + (typeof entry[bar.dataKey] === "number" ? entry[bar.dataKey] : 0),
+      0
+    );
     return Math.max(max, totalValue);
   }, 0);
 
   return (
     <div className="relative bg-white w-full">
-      <h3 className="text-center mb-8 font-semibold">{title}</h3>
+      {title && <h3 className="text-center mb-8 font-semibold">{title}</h3>}
       <div className="overflow-y-auto overflow-x-visible" style={{ height: `${visibleHeight}px` }}>
         <ResponsiveContainer width="100%" height={totalHeight}>
           <RechartsBarChart
@@ -129,7 +130,7 @@ const StackedBarChart = ({
                 stackId="stack"
                 fill={colors[index]}
               >
-                {data.map((dataIndex) => (
+                {data.map((_, dataIndex) => (
                   <Cell
                     key={`cell-${dataIndex}`}
                     fill={colors[index % colors.length]}
@@ -139,28 +140,27 @@ const StackedBarChart = ({
                   <LabelList
                     dataKey={(entry: DataEntry) => {
                       const identifier = entry[xKey];
-                      const percentage = percentageMap[String(identifier)];
+                      const percentageItem = percentageMap[String(identifier)];
 
-                      // Calcula o tamanho total da barra (soma de importacao e exportacao)
-                      const totalBarValue =
-                        typeof entry["importacao"] === "number" &&
-                        typeof entry["exportacao"] === "number"
-                          ? entry["importacao"] + entry["exportacao"]
-                          : 0;
+                      if (!percentageItem) return "";
 
-                      // Calcula o tamanho visual da barra (proporcional ao valor máximo)
-                      const visualBarWidth = (totalBarValue / maxValue) * 100; // Em %
+                      const cellValue = entry[barConfig.dataKey];
+                      const visualCellWidth =
+                        typeof cellValue === "number" ? (cellValue / maxValue) * 100 : 0;
 
-                      // Verifica se o tamanho visual da barra é suficiente para exibir o valor
-                      if (
-                        typeof visualBarWidth === "number" &&
-                        visualBarWidth >= minBarWidth &&
-                        typeof percentage === "number"
-                      ) {
-                        return `${percentage.toFixed(2)}%`;
+                      // Verifica se o tamanho visual da célula é suficiente para exibir o valor
+                      if (typeof visualCellWidth === "number" && visualCellWidth >= minCellWidth) {
+                        // Usa o campo 'percentageField' para acessar o valor percentual dinamicamente
+                        const percentageValue = barConfig.percentageField
+                          ? percentageItem[barConfig.percentageField]
+                          : null;
+
+                        if (typeof percentageValue === "number") {
+                          return `${percentageValue.toFixed(2)}%`;
+                        }
                       }
 
-                      return ""; // Não exibe o valor se a barra for muito pequena
+                      return ""; // Caso a célula for muito pequena, retorna uma string vazia
                     }}
                     position="insideRight"
                     fill="#fff"

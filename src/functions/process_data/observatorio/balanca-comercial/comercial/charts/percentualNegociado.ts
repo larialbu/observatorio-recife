@@ -70,3 +70,41 @@ export const calculateTotalPercentages = (
     };
   });
 };
+
+export const calculateIndividualPercentages = (
+  chartData: any[],
+  totalNegociado: number,
+  keyField: string
+): { [key: string]: any }[] => {
+  return chartData.map((item) => {
+    const percentualImportacao = calculatePercentages(item.importacao, totalNegociado);
+    const percentualExportacao = calculatePercentages(item.exportacao, totalNegociado);
+
+    return {
+      [keyField]: item[keyField],
+      percentualImportacao,
+      percentualExportacao,
+    };
+  });
+};
+
+type PercentageData = {
+  percentualImportacao: number;
+  percentualExportacao: number;
+  [key: string]: number | undefined;
+};
+
+export const createPercentageMap = (
+  percentages: { [key: string]: any }[],
+  keyField: string
+): Record<string, PercentageData> => {
+  return percentages.reduce((acc, item) => {
+    if (item[keyField]) {
+      acc[String(item[keyField])] = {
+        percentualImportacao: item.percentualImportacao || 0,
+        percentualExportacao: item.percentualExportacao || 0,
+      };
+    }
+    return acc;
+  }, {} as Record<string, PercentageData>);
+};

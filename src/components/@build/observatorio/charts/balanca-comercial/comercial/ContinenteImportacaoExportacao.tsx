@@ -3,7 +3,7 @@ import StackedBarChart from "@/components/@global/charts/StackedVerticalBarChart
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processImportacaoExportacaoPorContinente } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/continentesImportacaoExportacao";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { calculateTotalPercentages, calculateTotals } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/percentualNegociado";
+import { calculateTotals, calculateIndividualPercentages } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/percentualNegociado";
 
 const ImportacaoExportacaoContinente = ({
   data = [],
@@ -17,15 +17,15 @@ const ImportacaoExportacaoContinente = ({
   const { totalImportacao, totalExportacao } = calculateTotals(processedData);
   const totalNegociado = totalExportacao + totalImportacao;
 
-  // Calcula os percentuais totais por continente
-  const percentages = calculateTotalPercentages(
+  // Calcula os percentuais individuais por continente
+  const percentages = calculateIndividualPercentages(
     processedData,
     totalNegociado,
     "continente"
   );
 
   console.log("Dados formatados para o gráfico:", percentages);
-  
+
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
@@ -38,11 +38,14 @@ const ImportacaoExportacaoContinente = ({
             { 
               dataKey: "importacao", 
               name: "Importação",
+              showPercentage: true,
+              percentageField: "percentualImportacao",
             },
             { 
               dataKey: "exportacao", 
               name: "Exportação",
               showPercentage: true,
+              percentageField: "percentualExportacao",
             },
           ]}
           tooltipEntry=" dólares"
@@ -50,10 +53,10 @@ const ImportacaoExportacaoContinente = ({
           visibleHeight={400}
           percentages={{
             keyField: "continente", // Chave usada nos dados
-            valueField: "totalPercentual", // Campo do percentual
+            valueField: "percentualImportacao", // Campo do percentual de importação
             data: percentages // Seu array de percentuais
           }}
-          minBarWidth={11}
+          minCellWidth={6.5}
         />
       </ChartGrabber>
     </div>

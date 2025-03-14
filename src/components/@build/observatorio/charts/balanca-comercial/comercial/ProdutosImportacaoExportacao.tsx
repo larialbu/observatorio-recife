@@ -5,8 +5,8 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processComercializacaoPorProduto } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/produtosImportacaoExportacao";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import {
-  calculateTotalPercentages,
   calculateTotals,
+  calculateIndividualPercentages, // Nova função para percentuais separados
 } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/percentualNegociado";
 
 const ImportacaoExportacaoPorProduto = ({
@@ -21,8 +21,8 @@ const ImportacaoExportacaoPorProduto = ({
   const { totalImportacao, totalExportacao } = calculateTotals(processedData);
   const totalNegociado = totalExportacao + totalImportacao;
 
-  // Calcula os percentuais totais por produto
-  const percentages = calculateTotalPercentages(
+  // Calcula os percentuais individuais por produto
+  const percentages = calculateIndividualPercentages(
     processedData,
     totalNegociado,
     "descricao"
@@ -39,14 +39,17 @@ const ImportacaoExportacaoPorProduto = ({
           colors={colors.slice(1)}
           xKey="descricao" // Chave usada nos dados (nome do produto)
           bars={[
-            {
-              dataKey: "importacao",
+            { 
+              dataKey: "importacao", 
               name: "Importação",
+              showPercentage: true,
+              percentageField: "percentualImportacao",
             },
-            {
-              dataKey: "exportacao",
+            { 
+              dataKey: "exportacao", 
               name: "Exportação",
               showPercentage: true,
+              percentageField: "percentualExportacao",
             },
           ]}
           tooltipEntry=" dólares"
@@ -56,10 +59,10 @@ const ImportacaoExportacaoPorProduto = ({
           yFontSize={11} // Tamanho da fonte do eixo Y
           percentages={{
             keyField: "descricao", // Chave usada nos dados (nome do produto)
-            valueField: "totalPercentual", // Campo do percentual
-            data: percentages, // Seu array de percentuais
+            valueField: "percentualImportacao", // Campo do percentual de importação
+            data: percentages, // Array de percentuais separados
           }}
-          minBarWidth={11}
+          minCellWidth={7}
         />
       </ChartGrabber>
     </div>
