@@ -1,5 +1,7 @@
-import { unzipSync } from "fflate"; // Importando o método de descompactação
+// import untar from "js-untar";
+import { createExtractorFromData, UnrarError, createExtractorFromFile } from "node-unrar-js";
 import { saveToIndexedDB } from "./indexDB";
+import { arrayBuffer } from "stream/consumers";
 
 const DB_NAME = "parquetDB";
 const STORE_NAME = "parquetFiles";
@@ -15,49 +17,56 @@ function cleanFilePath(filePath: string) {
   // Verificar se o último segmento (nome do arquivo sem extensão) é numérico
   let fileName = parts[parts.length - 1].replace(/\.parquet$/, ""); // Remover ".parquet"
   if (/^\d+$/.test(fileName)) {
-    // Se for numérico, manter o nome do arquivo no caminho
+
     parts[parts.length - 1] = fileName;
   } else {
-    // Se não for numérico, remover o nome do arquivo
+
     parts.pop();
   }
 
   // Reconstruir o caminho com "/"
   return "/" + parts.join("/");
 }
+// 
+// AQUI É PARA CASO VAR USAR UM TAR E PRECISE DE UMA SEGUNDA ETAPA
+// 
+//
+// export async function loadParquetFilesFromTar(tarArrayBuffer: ArrayBuffer) {
+//   try {
+//     const tarContent = await untar(tarArrayBuffer); // Descompactando o arquivo .tar
 
-// Função para carregar arquivos Parquet de um ZIP
-export async function loadParquetFilesFromZip(zipArrayBuffer: ArrayBuffer) {
-  try {
-    const zipContent = unzipSync(new Uint8Array(zipArrayBuffer)); // Descompactando o arquivo zip
+//     for (const file of tarContent) {
+//       console.log(file)
+//       const fileName = file.name;
 
-    for (const fileName in zipContent) {
-      const fileBuffer = zipContent[fileName];
+//       // Verifica o tipo do arquivo no TAR
+//       if (!file.buffer) {  // "0" é para arquivos regulares
+//         try {
+//           console.log(`Lendo o arquivo Parquet: ${fileName}`);
+//           const fileBuffer = file.buffer;
 
-      // Verifica se o arquivo é um .parquet
-      if (fileName.endsWith(".parquet")) {
-        try {
-          console.log(`Lendo o arquivo Parquet: ${fileName}`);
+//           // Limpar o caminho do arquivo
+//           const cleanedKey = cleanFilePath(fileName);
 
-          // Limpar o caminho do arquivo
-          const cleanedKey = cleanFilePath(fileName);
+//           const arrayBuffer = fileBuffer.slice(fileBuffer.byteOffset, fileBuffer.byteOffset + fileBuffer.byteLength);
 
-          const arrayBuffer = fileBuffer.buffer.slice(fileBuffer.byteOffset, fileBuffer.byteOffset + fileBuffer.byteLength);
+//           // Salvar no IndexedDB
+//           await saveToIndexedDB(DB_NAME, STORE_NAME, cleanedKey, arrayBuffer);
+//           console.log(`Arquivo salvo no IndexedDB: ${cleanedKey}`);
+//         } catch (error) {
+//           console.error(`Erro ao processar o arquivo ${fileName}:`, error);
+//         }
+//       } else if (file.type === "5") {
+//         // Se for um diretório, apenas ignora
+//         console.log(`Ignorando diretório: ${fileName}`);
+//       }
+//     }
+//   } catch (error) {
+//     console.error("Erro ao descompactar o arquivo TAR:", error);
+//   }
+// }
 
-          // Salvar no IndexedDB
-          await saveToIndexedDB(DB_NAME, STORE_NAME, cleanedKey, arrayBuffer);
-          console.log(`Arquivo salvo no IndexedDB: ${cleanedKey}`);
-        } catch (error) {
-          console.error(`Erro ao processar o arquivo ${fileName}:`, error);
-        }
-      }
-    }
-  } catch (error) {
-    console.error("Erro ao descompactar o arquivo ZIP:", error);
-  }
-}
 
-// Função principal para carregar o bundle
 export async function loadParquetBundle() {
   const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!;
   const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME!;
@@ -75,8 +84,33 @@ export async function loadParquetBundle() {
       throw new Error(`Erro ao buscar o arquivo: ${response.statusText}`);
     }
 
-    const arrayBuffer = await response.arrayBuffer();
-    await loadParquetFilesFromZip(arrayBuffer);
+    const wasmResponse = await fetch('/unrar.wasm');
+    const wasmArrayBuffer = await wasmResponse.arrayBuffer();
+
+    const bundleArrayBuffer = await response.arrayBuffer();
+
+    const extractor = await createExtractorFromData({ wasmBinary: wasmArrayBuffer, data: bundleArrayBuffer });
+
+    const extracted = extractor.extract();
+
+    for (const file of extracted.files) {
+      const { fileHeader, extraction } = file;
+
+      if (fileHeader.flags.directory) {
+        continue;
+      }
+
+      if (!extraction) {
+        console.warn(`Arquivo sem conteúdo extraído: ${fileHeader.name}`);
+        continue;
+      }
+
+      const cleanedKey = cleanFilePath(fileHeader.name);
+
+      await saveToIndexedDB(DB_NAME, STORE_NAME, cleanedKey, extraction.buffer);
+      console.log(`Arquivo salvo no IndexedDB: ${cleanedKey}`);
+    }
+
   } catch (error) {
     console.error("Erro ao carregar e processar o bundle:", error);
   }
