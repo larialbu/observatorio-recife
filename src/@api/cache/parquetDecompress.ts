@@ -34,6 +34,7 @@ export async function loadParquetFilesFromZip(zipArrayBuffer: ArrayBuffer) {
     for (const fileName in zipContent) {
       const fileBuffer = zipContent[fileName];
 
+      // Verifica se o arquivo é um .parquet
       if (fileName.endsWith(".parquet")) {
         try {
           console.log(`Lendo o arquivo Parquet: ${fileName}`);
@@ -41,8 +42,10 @@ export async function loadParquetFilesFromZip(zipArrayBuffer: ArrayBuffer) {
           // Limpar o caminho do arquivo
           const cleanedKey = cleanFilePath(fileName);
 
+          const arrayBuffer = fileBuffer.buffer.slice(fileBuffer.byteOffset, fileBuffer.byteOffset + fileBuffer.byteLength);
+
           // Salvar no IndexedDB
-          await saveToIndexedDB(DB_NAME, STORE_NAME, cleanedKey, fileBuffer);
+          await saveToIndexedDB(DB_NAME, STORE_NAME, cleanedKey, arrayBuffer);
           console.log(`Arquivo salvo no IndexedDB: ${cleanedKey}`);
         } catch (error) {
           console.error(`Erro ao processar o arquivo ${fileName}:`, error);
