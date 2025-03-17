@@ -1,7 +1,7 @@
 // import untar from "js-untar";
 import { createExtractorFromData, UnrarError, createExtractorFromFile } from "node-unrar-js";
 import { saveToIndexedDB } from "./indexDB";
-import { arrayBuffer } from "stream/consumers";
+import { setProgress, setMessage } from "@/utils/loader/progressEmitter";
 
 const DB_NAME = "parquetDB";
 const STORE_NAME = "parquetFiles";
@@ -83,18 +83,38 @@ export async function loadParquetBundle() {
     // if (!response.ok) {
     //   throw new Error(`Erro ao buscar o arquivo: ${response.statusText}`);
     // }
+    setProgress(5);
+    setMessage("Inicializando carregamento...");
+
     const response = await fetch('./full_data.rar');
     const bundleArrayBuffer = await response.arrayBuffer();
+
+    setProgress(10);
+    setMessage("Baixando e preparando dados...");
 
     const wasmResponse = await fetch('/unrar.wasm');
     const wasmArrayBuffer = await wasmResponse.arrayBuffer();
 
+    setProgress(20);
+    setMessage("Montando os dados...");
 
-    const extractor = await createExtractorFromData({ wasmBinary: wasmArrayBuffer, data: bundleArrayBuffer });
+    const extractor = await createExtractorFromData({
+      wasmBinary: wasmArrayBuffer,
+      data: bundleArrayBuffer
+    });
 
-    const extracted = extractor.extract();
+    const extracted: any = extractor.extract();
 
+
+    const filesArray = [];
     for (const file of extracted.files) {
+      filesArray.push(file);
+    }
+
+    let processed = 0;
+    let total = filesArray.length;
+
+    for (const file of filesArray) {
       const { fileHeader, extraction } = file;
 
       if (fileHeader.flags.directory) {
@@ -102,17 +122,25 @@ export async function loadParquetBundle() {
       }
 
       if (!extraction) {
-        console.warn(`Arquivo sem conteúdo extraído: ${fileHeader.name}`);
+        console.warn(`Sem conteúdo extraído: ${fileHeader.name}`);
         continue;
       }
 
       const cleanedKey = cleanFilePath(fileHeader.name);
-
+      console.log(`Salvando: ${cleanedKey}`);
       await saveToIndexedDB(DB_NAME, STORE_NAME, cleanedKey, extraction.buffer);
-      console.log(`Arquivo salvo no IndexedDB: ${cleanedKey}`);
+
+      processed++;
+      const progress = 30 + (processed / total) * 65;
+      setProgress(progress);
+      setMessage(`Salvando ${cleanedKey} (${processed}/${total})`);
     }
 
+    console.log("Finalizando...");
+    setProgress(100);
+    setMessage("Finalizado. Todos os dados foram carregados com sucesso.");
   } catch (error) {
     console.error("Erro ao carregar e processar o bundle:", error);
+    setMessage("Erro no carregamento.");
   }
 }
