@@ -24,6 +24,8 @@ const IpcaAcumuladoPorCapital = ({
           title={title}
           colors={colors}
           xKey={nameKey}
+          widthY={100}
+          left={5}
           bars={[{ dataKey: "acumuladoAno", name: "Acumulado no Ano (%)", barWidth: 30 }]}
         />
       </ChartGrabber>

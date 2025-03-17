@@ -1,10 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
-import Sortable from "sortablejs";
 import charts from "./@imports/charts";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { useDashboard } from "@/context/DashboardContext";
-import { processPercentageByType } from "@/functions/process_data/observatorio/ipca/grupos/charts/participacaoGrupo";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 
 const Grupos = ({
@@ -19,9 +16,10 @@ const Grupos = ({
 
   useEffect(() => {
     if (data) {
-      const gruposData = data.grupos || {}
+      console.log(data)
+      const gruposData = data?.grupos || {}
 
-      setGruposData(gruposData.filteredData || [])
+      setGruposData(gruposData?.filteredData || [])
     }
   }, [data]);
 
