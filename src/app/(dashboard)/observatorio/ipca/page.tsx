@@ -14,8 +14,8 @@ import Grupos from "./(grupos)/grupos";
 const IpcaPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
-  const [anac, setAnac] = useState([]);
-  const [anacRawData, setAnacRawData] = useState([]);
+  const [ipca, setAnac] = useState([]);
+  const [ipcaRawData, setAnacRawData] = useState([]);
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
 
@@ -34,11 +34,11 @@ const IpcaPage = () => {
 
     if (data) {
       // Extraindo os dados de passageiros e cargas
-      const anacData = data.geral || {};
-      // const anacRawData = data.rawData || {};
+      const ipcaData = data.geral || {};
+      // const ipcaRawData = data.rawData || {};
 
-      setAnac(anacData.filteredData || []);
-      setAnacRawData(anacData.rawData)
+      setAnac(ipcaData.filteredData || []);
+      setAnacRawData(ipcaData.rawData)
 
     }
   }, [data]);
@@ -56,7 +56,7 @@ const IpcaPage = () => {
       case "geral":
         return (
           <Geral
-            data={anac || []}
+            data={ipca || []}
             rawData={data?.geral?.rawData || []}
             year={getYearSelected(filters)}
             months={getMonths(filters)}
@@ -79,7 +79,7 @@ const IpcaPage = () => {
       default:
         return (
           <Geral
-            data={anac || []}
+            data={ipca || []}
             rawData={data?.geral?.rawData || []}
             year={getYearSelected(filters)}
             months={getMonths(filters)}

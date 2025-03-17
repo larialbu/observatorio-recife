@@ -9,6 +9,7 @@ import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
 import { AboutUs } from "@/components/home/AboutSection";
 import NewsSection from "@/components/home/NewsSection";
 import { loadParquetBundle } from "@/@api/cache/parquetDecompress";
+import { LoadingScreen } from "@/components/home/LoadingScreen";
 
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -27,6 +28,7 @@ const Page = () => {
 
   return (
     <div className="min-h-screen dark:bg-[#0C1B2B]">
+      {loading && <LoadingScreen />}
       {/* Banner com input de busca */}
       <Banner onSearch={handleSearch} />
 
