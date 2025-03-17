@@ -1,5 +1,5 @@
 // import untar from "js-untar";
-import { createExtractorFromData } from "node-unrar-js";
+import { createExtractorFromData, UnrarError, createExtractorFromFile } from "node-unrar-js";
 import { saveToIndexedDB } from "./indexDB";
 import { arrayBuffer } from "stream/consumers";
 
@@ -68,26 +68,27 @@ function cleanFilePath(filePath: string) {
 
 
 export async function loadParquetBundle() {
-  const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!;
-  const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME!;
-  const API_PASSWORD = process.env.NEXT_PUBLIC_API_PASSWORD!;
+  // const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!;
+  // const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME!;
+  // const API_PASSWORD = process.env.NEXT_PUBLIC_API_PASSWORD!;
 
   try {
-    const response = await fetch(`${BASE_URL}/bundle/full`, {
-      method: "GET",
-      headers: {
-        Authorization: `Basic ${btoa(`${API_USERNAME}:${API_PASSWORD}`)}`,
-      },
-    });
+    // const response = await fetch(`${BASE_URL}/bundle/full`, {
+    //   method: "GET",
+    //   headers: {
+    //     Authorization: `Basic ${btoa(`${API_USERNAME}:${API_PASSWORD}`)}`,
+    //   },
+    // });
 
-    if (!response.ok) {
-      throw new Error(`Erro ao buscar o arquivo: ${response.statusText}`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`Erro ao buscar o arquivo: ${response.statusText}`);
+    // }
+    const response = await fetch('./full_data.rar');
+    const bundleArrayBuffer = await response.arrayBuffer();
 
     const wasmResponse = await fetch('/unrar.wasm');
     const wasmArrayBuffer = await wasmResponse.arrayBuffer();
 
-    const bundleArrayBuffer = await response.arrayBuffer();
 
     const extractor = await createExtractorFromData({ wasmBinary: wasmArrayBuffer, data: bundleArrayBuffer });
 
