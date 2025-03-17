@@ -1,5 +1,5 @@
 // import untar from "js-untar";
-import { createExtractorFromData, UnrarError, createExtractorFromFile } from "node-unrar-js";
+import { createExtractorFromData } from "node-unrar-js";
 import { saveToIndexedDB } from "./indexDB";
 import { arrayBuffer } from "stream/consumers";
 
