@@ -4,6 +4,20 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
+        "@/components/@build/observatorio/charts/pib/geral/PibAno"
+      )
+    )
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/pib/geral/PibAnoVariacao"
+      )
+    )
+  },
+  {
+    Component: React.lazy(() =>
+      import(
         "@/components/@build/observatorio/charts/pib/geral/PibRegiao"
       )
     )

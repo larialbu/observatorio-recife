@@ -4,28 +4,21 @@ const cards = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/cards/balanca-comercial/comercial/NegociadoCard"
+        "@/components/@build/observatorio/cards/pib/geral/PibAtual"
       )
     ),
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/cards/balanca-comercial/comercial/SaldoCard"
+        "@/components/@build/observatorio/cards/pib/geral/PibVariacao"
       )
     ),
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/cards/balanca-comercial/comercial/ExportacaoCard"
-      )
-    ),
-  },
-  {
-    Component: React.lazy(() =>
-      import(
-        "@/components/@build/observatorio/cards/balanca-comercial/comercial/ImportacaoCard"
+        "@/components/@build/observatorio/cards/pib/geral/PibPosicao"
       )
     ),
   },
