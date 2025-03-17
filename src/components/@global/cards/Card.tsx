@@ -1,3 +1,4 @@
+import { tooltipFormatter } from "@/utils/formatters/@global/graphFormatter";
 import { formatNormalnumber } from "@/utils/formatters/@global/numberFormatter";
 
 const Card = ({
@@ -30,7 +31,7 @@ const Card = ({
 
       {/* Main Data */}
       <h1 className="text-4xl font-bold text-gray-900 mb-2 w-fit">
-        {percent ? `${data}%` : formatNormalnumber(+data)}
+        {percent ? `${tooltipFormatter(+data)}%` : tooltipFormatter(+data)}
       </h1>
 
       {/* Title */}
