@@ -8,7 +8,7 @@ import { checkSaves } from "@/@api/cache/indexDB";
 
 export const LoadingScreen = () => {
   const [progress, setProgress] = useState(0);
-  const [loadingMessage, setLoadingMessage] = useState("Iniciando...");
+  const [loadingMessage, setLoadingMessage] = useState("Estamos preparando tudo para você...");
   const [loadingComplete, setLoadingComplete] = useState(false);
   const [loadingTime, setLoadingTime] = useState<string | null>(null);
   const [isFirstLoad, setIsFirstLoad] = useState(first);

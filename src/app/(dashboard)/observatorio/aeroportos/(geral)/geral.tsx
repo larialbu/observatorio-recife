@@ -19,8 +19,6 @@ const Geral = ({
   months: number;
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
-
-  // REF do container e REF da instância do Sortable
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
   return (

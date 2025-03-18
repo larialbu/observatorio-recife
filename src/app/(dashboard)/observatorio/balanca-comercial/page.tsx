@@ -20,6 +20,7 @@ import { getMonths } from "@/utils/filters/@global/getMonths";
 const BalancaComercialPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [balanca, setBalanca] = useState([]);
 
   // Pegamos do contexto: isLoading e data (já filtrados).
   const { isLoading, data, filters } = useDashboard();
@@ -39,6 +40,18 @@ const BalancaComercialPage = () => {
       }
     }, [searchParams, activeTab]);
 
+  useEffect(() => {
+    console.log(data)
+    if (data) {
+      // Extraindo os dados de passageiros e cargas
+      const balancaData = data?.geral || {};
+      // const balancaRawData = data.rawData || {};
+
+      setBalanca(balancaData?.filteredData || {});
+
+    }
+  }, [data]);
+
   // Conteúdo principal, dependendo da aba
   const renderContent = () => {
     // Se data ainda não estiver disponível,
@@ -49,14 +62,13 @@ const BalancaComercialPage = () => {
 
     // Obs.: assumindo que "data.geral" é onde estão os registros filtrados
     // ou outra estrutura. Ajuste se for "data.filteredData", etc.
-    const geralData = data.geral?.filteredData || [];
 
     switch (activeTab) {
       case "analitico":
         return (
           <Analitico
             // Exemplo: se "data.geral?.filteredData" serve pro analítico também
-            data={geralData}
+            data={balanca!}
             year={getYearSelected(filters)}
           />
         );
@@ -65,7 +77,7 @@ const BalancaComercialPage = () => {
       default:
         return (
           <Geral
-            data={geralData}
+            data={balanca!}
             year={getYearSelected(filters)}
             months={getMonths(filters)}
           />

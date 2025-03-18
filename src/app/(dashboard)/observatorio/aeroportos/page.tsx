@@ -4,12 +4,13 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
+import { getMonths } from "@/utils/filters/@global/getMonths";
+
 import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
 import AenaPage from "./(aena)/aena";
-import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
-import { getMonths } from "@/utils/filters/@global/getMonths";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
@@ -44,7 +45,7 @@ const AeroportosPage = () => {
 
   const renderContent = () => {
     if (!data) {
-      return <div className="text-center text-gray-600">Carregando dados...</div>;
+      return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
     switch (activeTab) {

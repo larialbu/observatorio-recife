@@ -77,7 +77,7 @@ const PortosPage = () => {
 
   const renderContent = () => {
     if (!data) {
-      return <div className="text-center text-gray-600">Carregando dados...</div>;
+      return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
     if (isLoading) {
