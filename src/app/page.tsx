@@ -33,7 +33,7 @@ const Page = () => {
         console.log("Dados já salvos.");
       }
 
-      // setLoading(false);
+      setLoading(false);
     };
 
     checkDataAndLoad();
