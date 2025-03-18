@@ -16,7 +16,7 @@ export const LoadingScreen = () => {
   useEffect(() => {
     const check = async () =>{
       const exists = await checkSaves("parquetDB", "parquetFiles", "dataSaved");
-      if(exists) setIsFirstLoad(false);
+      if(!exists) setIsFirstLoad(true);
 
       const startTime = performance.now();
 
@@ -55,7 +55,7 @@ export const LoadingScreen = () => {
         </div>
       )}
 
-      <div className="flex flex-col items-center z-20 backdrop-blur-md rounded-xl py-20 px-2 w-full sm:w-[25em] shadow-md">
+      <div className={ `flex flex-col items-center z-20 backdrop-blur-md ${ isFirstLoad ? 'rounded-xl py-20 px-2 w-full sm:w-[25em] shadow-md' : '' }` }>
         <img
           src="/images/logos/observatorio_logo.png"
           alt="logo observatorio"

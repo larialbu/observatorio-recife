@@ -28,7 +28,11 @@ export function setProgress(p: number) {
   startProgressAnimation();
 }
 
-export let first = true;
+export let first = false;
+export function enableFirst(){
+  first = true;
+  return first;
+}
 export function disableFirst(){
   first = false;
   return first;
