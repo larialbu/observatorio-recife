@@ -21,7 +21,7 @@ const PibRegiao = ({
           title={title}
           xKey="group"
           bars={[{ dataKey: "pib", name: "PIB Região" }]}
-          colors={ColorPalette.default}
+          colors={[ColorPalette.default[1]]}
           heightPerCategory={50}
         />
       </ChartGrabber>
