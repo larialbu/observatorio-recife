@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useRef, useEffect, useState } from "react";
 import Sortable from "sortablejs";
 import charts from "./@imports/charts";

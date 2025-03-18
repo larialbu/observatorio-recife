@@ -4,49 +4,58 @@ import { useState, useEffect } from "react";
 import { subscribeToProgress, subscribeToMessage } from "@/utils/loader/progressEmitter";
 import { Novatrix } from "uvcanvas";
 import { first } from "@/utils/loader/progressEmitter"
+import { checkSaves } from "@/@api/cache/indexDB";
 
 export const LoadingScreen = () => {
   const [progress, setProgress] = useState(0);
-  const [loadingMessage, setLoadingMessage] = useState("Iniciando...");
+  const [loadingMessage, setLoadingMessage] = useState("Estamos preparando tudo para você...");
   const [loadingComplete, setLoadingComplete] = useState(false);
   const [loadingTime, setLoadingTime] = useState<string | null>(null);
   const [isFirstLoad, setIsFirstLoad] = useState(first);
 
   useEffect(() => {
-    const startTime = performance.now();
+    const check = async () =>{
+      const exists = await checkSaves("parquetDB", "parquetFiles", "dataSaved");
+      if(!exists) setIsFirstLoad(true);
 
-    const unsubProgress = subscribeToProgress((p) => {
-      setProgress(p);
-      if (p >= 100) {
-        const endTime = performance.now();
-        setLoadingComplete(true);
-        setLoadingTime(((endTime - startTime) / 1000).toFixed(2));
-      }
-    });
+      const startTime = performance.now();
 
-    const unsubMessage = subscribeToMessage((msg) => {
-      setLoadingMessage(msg);
-    });
+      const unsubProgress = subscribeToProgress((p) => {
+        setProgress(p);
+        if (p >= 100) {
+          const endTime = performance.now();
+          setLoadingComplete(true);
+          setLoadingTime(((endTime - startTime) / 1000).toFixed(2));
+        }
+      });
+
+      const unsubMessage = subscribeToMessage((msg) => {
+        setLoadingMessage(msg);
+      });
 
 
-    return () => {
-      unsubProgress();
-      unsubMessage();
-    };
+      return () => {
+        unsubProgress();
+        unsubMessage();
+      };
+    }
+    
+    check();
+
   }, []);
 
   return (
-    <div className="fixed z-[999] flex flex-col items-center justify-center right-0 top-0 h-screen w-full bg-white">
+    <div className="fixed z-[999] flex flex-col items-center justify-center right-0 top-0 px-5 h-screen w-full bg-white">
 
       {isFirstLoad && (
-        <div className="absolute inset-0 top-0 left-0 brightness-[180%] grayscale-[0] z-10 w-full h-full">
-          <div className=" w-full h-full">
-            <Novatrix />
-          </div>
+        <div className="absolute inset-0 top-0 left-0 brightness-[250%] opacity-30 grayscale-[0] z-10 w-full h-full">
+        <div className="hue-rotate-[220deg] w-full h-full">
+          <Novatrix />
         </div>
+      </div>
       )}
-
-      <div className="flex flex-col items-center z-20">
+      {/* ${ isFirstLoad ? 'backdrop-blur-md rounded-xl py-20 px-2 w-full sm:w-[25em] shadow-md' : '' } */}
+      <div className={ `flex flex-col items-center z-20` }>
         <img
           src="/images/logos/observatorio_logo.png"
           alt="logo observatorio"

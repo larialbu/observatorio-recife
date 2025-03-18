@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+"use client";
+
+import React, { useState } from "react";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";

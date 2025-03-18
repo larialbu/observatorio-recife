@@ -1,7 +1,7 @@
 // import untar from "js-untar";
 import { createExtractorFromData, UnrarError, createExtractorFromFile } from "node-unrar-js";
 import { saveToIndexedDB } from "./indexDB";
-import { setProgress, setMessage, disableFirst } from "@/utils/loader/progressEmitter";
+import { setProgress, setMessage, enableFirst, disableFirst } from "@/utils/loader/progressEmitter";
 
 const DB_NAME = "parquetDB";
 const STORE_NAME = "parquetFiles";
@@ -83,6 +83,7 @@ export async function loadParquetBundle() {
     // if (!response.ok) {
     //   throw new Error(`Erro ao buscar o arquivo: ${response.statusText}`);
     // }
+    enableFirst();
     setProgress(5);
     setMessage("Estamos preparando tudo para você...");
 

@@ -23,10 +23,10 @@ const Page = () => {
 
   useEffect(() => {
     const checkDataAndLoad = async () => {
-      setLoading(true);
       const exists = await checkSaves("parquetDB", "parquetFiles", "dataSaved");
 
       if (!exists) {
+        setLoading(true);
         console.log("Dados não encontrados. Carregando e salvando...");
         await loadParquetBundle();
       } else {

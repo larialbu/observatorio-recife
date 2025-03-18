@@ -1,19 +1,17 @@
-import React, { useRef, useEffect, useState } from "react";
-import Sortable from "sortablejs";
+"use client";
+
+import React, { useRef, useState } from "react";
 import charts from "./@imports/charts";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 
 const Geral = ({
   data,
   rawData,
-  year,
   months,
 }: {
   data: any;
   rawData: any
-  year: string;
   months: number;
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
