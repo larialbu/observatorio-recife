@@ -10,6 +10,7 @@ import Analitico from "./(analitico)/analitico";
 
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
+import Comparativo from "./(comparativo)/comparativo";
 
 const PibPage = () => {
   const searchParams = useSearchParams();
@@ -59,6 +60,14 @@ const PibPage = () => {
     }
 
     switch (activeTab) {
+      case "geral":
+        return (
+          <Geral
+            data={pibData}
+            year={getYearSelected(filters)}
+            months={getMonths(filters)}
+          />
+        );
       case "analitico":
         return (
           <Analitico
@@ -66,8 +75,12 @@ const PibPage = () => {
             year={getYearSelected(filters)}
           />
         );
-
-      case "geral":
+      case "comparativo":
+        return <Comparativo
+          data={pibData} 
+          year={getYearSelected(filters)}
+          // months={getMonths(filters)}
+        />;
       default:
         return (
           <Geral
@@ -103,7 +116,16 @@ const PibPage = () => {
         >
           Geral
         </button>
-
+        <button
+          onClick={() => handleNavigation("comparativo")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "comparativo"
+              ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          Comparativo
+        </button>
         <button
           onClick={() => handleNavigation("analitico")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${

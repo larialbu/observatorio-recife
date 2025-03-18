@@ -36,7 +36,8 @@ const SelectPrincipal = ({
   }, []);
 
   // Remover 'Recife' das opções se a flag `noRecife` for verdadeira
-  const recifeIndex = options.indexOf("Recife");
+  const recifeOption = options.filter((option: string) => option.toLowerCase().includes('recife'))
+  const recifeIndex = options.indexOf(recifeOption[0]);
   if (noRecife && recifeIndex !== -1) {
     optionsCopy.splice(recifeIndex, 1);
   }

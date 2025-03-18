@@ -21,7 +21,7 @@ const PibEstado = ({
           title={title}
           xKey="group"
           bars={[{ dataKey: "pib", name: "PIB Estado" }]}
-          colors={ColorPalette.default}
+          colors={[ColorPalette.default[2]]}
           heightPerCategory={50}
         />
       </ChartGrabber>

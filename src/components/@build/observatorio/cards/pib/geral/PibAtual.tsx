@@ -2,7 +2,7 @@ import Card from "@/components/@global/cards/Card";
 
 const PibAtual = ({
   data,
-  title = `Variação Mensal`,
+  title = `PIB`,
   year,
   color,
   capital,
