@@ -47,6 +47,7 @@ export const routeServicesMap: Record<
   "/observatorio/pib": {
     // Se tiver tabs diferentes ("geral", "analitico", etc.), aponte para balancaDataService
     geral: pibDataService,
+    comparativo: pibDataService,
   },
 
   // Balança Comercial

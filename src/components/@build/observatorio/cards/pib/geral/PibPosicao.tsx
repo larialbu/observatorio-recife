@@ -2,7 +2,7 @@ import Card from "@/components/@global/cards/Card";
 
 const PibPosicao = ({
   data,
-  title = `PIB posição nacional`,
+  title = `Posição nacional`,
   year,
   color,
   capital,
@@ -12,7 +12,11 @@ const PibPosicao = ({
     return acc + item['Produto Interno Bruto,  a preços correntes (R$ 1.000)'] 
 }, 0)
 
-  const chartData = data.rawDataCurrent.filter((item: any) => item['Produto Interno Bruto,  a preços correntes (R$ 1.000)'] >= total).length
+  const itens = data.rawDataCurrent.filter((item: any) => item['Produto Interno Bruto,  a preços correntes (R$ 1.000)'] >= total)
+
+  const itensFiltered = itens.filter((item: any) => !data.current.find((data: any) => data["Município - UF"] === item["Município - UF"]))
+
+  const chartData = data.current.length === 1 ? itensFiltered.length : itens.length
 
   return (
     <Card

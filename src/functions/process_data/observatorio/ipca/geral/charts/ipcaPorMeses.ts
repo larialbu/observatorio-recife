@@ -1,5 +1,4 @@
 export const processVariacaoMensal = (data: any[]): { mes: string; [key: string]: number | string }[] => {
-  console.log(data)
   // Filtra os dados para excluir itens com Capital 'Brasil'
   const filteredData = data.filter(
     (item) => item["Capital"] !== "Brasil"

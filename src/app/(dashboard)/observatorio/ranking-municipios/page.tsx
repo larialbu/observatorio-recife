@@ -14,7 +14,7 @@ import Indicador from "./(indicador)/indicador";
 const RankingPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
-  const [anac, setAnac] = useState([]);
+  const [ranking, setRanking] = useState([]);
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
 
@@ -30,68 +30,59 @@ const RankingPage = () => {
   }, [searchParams, activeTab]);
 
   useEffect(() => {
-    console.log("Dados recebidos:", data);
+    const intervalId = setInterval(() => {
 
-    if (data) {
-      // Extraindo os dados de passageiros e cargas
-      const anacData = data.geral || {};
-
-      setAnac(anacData.filteredData || []);
-
-    }
-  }, [data]);
+      if (data) {
+        const rankingData = data.geral || {};
+        setRanking(rankingData.filteredData || []);
+  
+      }
+    }, 50);
+  
+      return () => clearInterval(intervalId);
+    }, [data]);
 
   if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
     if (!data) {
       return (
-        <div className="text-center text-gray-600">Carregando dados...</div>
+        <div className="text-center text-gray-600">Construindo gráficos...</div>
       );
     }
 
 
     switch (activeTab) {
       case "geral":
-        return (
-          <Geral
-            data={anac || []}
+        return <Geral
+            data={ranking || []}
             year={getYearSelected(filters)}
             rawData={data?.geral?.rawData || []}
           />
-        );
       case "dimensao":
-        return (
-          <Dimensao
-            data={anac || []}
+        return <Dimensao
+            data={ranking || []}
             year={getYearSelected(filters)}
             rawData={data?.dimensao?.rawData || []}
           />
-        );
       case "pilar":
-        return (
-          <Pilar
-            data={anac || []}
+        return <Pilar
+            data={ranking || []}
             year={getYearSelected(filters)}
             rawData={data?.pilar?.rawData || []}
           />
-        );
         case "indicador":
-          return (
-            <Indicador
-              data={anac || []}
+          return <Indicador
+              data={ranking || []}
               year={getYearSelected(filters)}
               rawData={data?.indicador?.rawData || []}
             />
-          );
       default:
-        return (
-          <Geral
-            data={anac || []}
+        return <Geral
+            data={ranking || []}
             year={getYearSelected(filters)}
             rawData={data?.geral.rawData}
           />
-        );
     }
   };
 

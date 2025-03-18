@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Menu from "./Menu";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 const Bar = ({
@@ -15,10 +15,29 @@ const Bar = ({
   isMobile: boolean;
   setMenuOpen: (val: boolean) => void;
 }) => {
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isMobile &&
+        menuOpen &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen, setMenuOpen, isMobile]);
+
   return (
     <div
+      ref={sidebarRef}
       className={`
-        ${menuOpen ? "fixed min-w-[200px] z-50 shadow-2xl overflow-y-scroll" : ""} 
+        ${menuOpen ? "fixed min-w-[200px] z-50 shadow-2xl overflow-y-scroll" : ""}
         ${isMobile && !menuOpen ? "hidden" : `w-[${menuOpen ? "14%" : "6%"}]`}
         p-3 bg-white h-full transition-all duration-300
       `}
@@ -75,25 +94,19 @@ export const Sidebar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const isMobile = useIsMobile();
 
-  // Estados para o drag do botão flutuante
+  // Estados para o botão flutuante arrastável
   const [dragging, setDragging] = useState(false);
-  const [offset, setOffset] = useState({ x: 0, y: 0 }); // diferença entre clique e posição
-  const [pos, setPos] = useState({ x: 16, y: 56 }); // posição inicial
-  const [showTooltip, setShowTooltip] = useState(true); // exibe o balão de fala
-  const [tooltipVisible, setTooltipVisible] = useState(true); // controla visibilidade com transição
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [pos, setPos] = useState({ x: 16, y: 56 });
+  const [showTooltip, setShowTooltip] = useState(true);
+  const [tooltipVisible, setTooltipVisible] = useState(true);
 
-  // Handlers para o botão arrastável
   const onPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
     if (!isMobile) return;
 
     setDragging(true);
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    setOffset({
-      x: e.clientX - pos.x,
-      y: e.clientY - pos.y,
-    });
-
-    // Esconde o tooltip quando o usuário começa a interagir
+    setOffset({ x: e.clientX - pos.x, y: e.clientY - pos.y });
     setShowTooltip(false);
   };
 
@@ -112,16 +125,14 @@ export const Sidebar = () => {
     (e.target as HTMLElement).releasePointerCapture(e.pointerId);
   };
 
-  // Esconde o tooltip após 5 segundos com transição
   useEffect(() => {
     const timer = setTimeout(() => setShowTooltip(false), 5000);
-    return () => clearTimeout(timer); // Limpa o timer caso o componente seja desmontado
+    return () => clearTimeout(timer);
   }, []);
 
-  // Garante que o tooltip seja desmontado após a animação
   useEffect(() => {
     if (!showTooltip) {
-      const timeout = setTimeout(() => setTooltipVisible(false), 500); // Aguarda o tempo da transição
+      const timeout = setTimeout(() => setTooltipVisible(false), 500);
       return () => clearTimeout(timeout);
     }
     setTooltipVisible(true);
@@ -129,7 +140,6 @@ export const Sidebar = () => {
 
   return (
     <>
-      {/* Botão flutuante no celular (arrastável) */}
       {!menuOpen && isMobile && (
         <>
           <button
@@ -158,12 +168,12 @@ export const Sidebar = () => {
             </svg>
           </button>
 
-          {/* Balão de fala com animação */}
           {tooltipVisible && (
             <div
-              className={`absolute bg-blue-500 text-white  text-sm rounded-lg p-2 shadow-md z-50
-              transition-all duration-500 ease-in-out
-              transform ${showTooltip ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"}`}
+              className={`absolute bg-blue-500 text-white text-sm rounded-lg p-2 shadow-md z-50
+              transition-all duration-500 ease-in-out transform ${
+                showTooltip ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+              }`}
               style={{
                 left: pos.x + 50,
                 top: pos.y - 10,

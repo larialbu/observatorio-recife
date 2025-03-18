@@ -33,7 +33,7 @@ export class IpcaDataService {
     const rawData = await getRawData({applyGenericFilters, service: ipcaService, nameFunc: 'fetchProcessedGeralData', currentYear: this.currentYear, years: filters.years, keyName: 'Capital', filters, lengthIgnore: 1})
     const geralFiltered = {...applyGenericFilters(geral, filters), rawData};
 
-    return { geral: geralFiltered };
+    return { geral: geralFiltered, id: "ipca" };
   }
 
   private async fetchIpcaGruposData(filters: Record<string, any>) {

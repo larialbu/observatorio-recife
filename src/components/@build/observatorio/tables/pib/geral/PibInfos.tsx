@@ -1,11 +1,6 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
-import { rowsCountrysByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsCountrysByMunicipio";
-import { rowsCapitalsIndice } from "@/functions/process_data/observatorio/ipca/analitico/tables/rowsCapitalsIndice";
 import { processPIBvariacao } from "@/functions/process_data/observatorio/pib/geral/pibAnoVariacao";
-import { processCargasPorMes } from "@/functions/process_data/observatorio/porto/geral/tables/monthOperationPorto";
-import { processPassageirosAnoPorto } from "@/functions/process_data/observatorio/porto/passageiro/charts/passageirosAnoPorto";
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
-import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
 
 const PibInfos = ({
   data = [],

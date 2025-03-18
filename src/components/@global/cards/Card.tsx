@@ -1,5 +1,4 @@
 import { tooltipFormatter } from "@/utils/formatters/@global/graphFormatter";
-import { formatNormalnumber } from "@/utils/formatters/@global/numberFormatter";
 
 const Card = ({
   title = "",

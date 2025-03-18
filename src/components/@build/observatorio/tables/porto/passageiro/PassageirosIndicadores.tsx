@@ -1,8 +1,5 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
-import { rowsCountrysByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsCountrysByMunicipio";
-import { rowsCapitalsIndice } from "@/functions/process_data/observatorio/ipca/analitico/tables/rowsCapitalsIndice";
 import { processPassageirosAnoPorto } from "@/functions/process_data/observatorio/porto/passageiro/charts/passageirosAnoPorto";
-import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
 
 const PassageirosIndicadores = ({
   data = [],
