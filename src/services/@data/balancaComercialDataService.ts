@@ -36,6 +36,7 @@ export class BalancaDataService {
     // Retornamos no formato que quisermos
     return {
       geral: filtered,
+      id: "balanca",
       // Se quiser "filteredData" + "additionalFiltersOptions", ajustamos a estrutura
       // Exemplo:
       // geral: filtered.filteredData,

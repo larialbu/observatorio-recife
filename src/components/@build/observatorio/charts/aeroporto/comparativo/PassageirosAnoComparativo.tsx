@@ -4,7 +4,6 @@ import React from "react";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processPassageirosAno } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosAno";
 import { processPassageirosAnoComparativo } from "@/functions/process_data/observatorio/aeroporto/comparativo/passageirosAnoComparativo";
 import { getDateKeys } from "@/utils/formatters/getDataKeys";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
@@ -17,6 +16,8 @@ const PassageirosAnoComparativo = ({
   months
 }: any) => {
   const chartData = processPassageirosAnoComparativo(data, toCompare);
+
+  console.log('AEROPOTO CHARTDATA', chartData)
 
   const updatedData = updatedMonthChartData(chartData, months);
 

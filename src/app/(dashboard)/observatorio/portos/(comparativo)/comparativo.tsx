@@ -27,7 +27,6 @@ const Comparativo = ({
   months: number;
   rawData: any
 }) => {
-  console.log('TO COMPARES: -> ', toCompare)
 
   const [pageCompare, setPageCompare] = useState(0);
   
@@ -37,13 +36,10 @@ const Comparativo = ({
   // const [chartsRender, setChartsRender] = useState
   const [animationClass, setAnimationClass] = useState("card-enter");
 
-  const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
 
   const [portosDataFiltred, setPortosDataFiltred] = useState([])
 
-  // REF do container e REF da instância do Sortable
-  const sortableContainerRef = useRef<HTMLDivElement>(null);
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
 
 const attTempFiltred = ['Recife', ...tempFiltred]
