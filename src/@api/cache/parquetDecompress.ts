@@ -1,7 +1,7 @@
 // import untar from "js-untar";
 import { createExtractorFromData, UnrarError, createExtractorFromFile } from "node-unrar-js";
 import { saveToIndexedDB } from "./indexDB";
-import { setProgress, setMessage } from "@/utils/loader/progressEmitter";
+import { setProgress, setMessage, disableFirst } from "@/utils/loader/progressEmitter";
 
 const DB_NAME = "parquetDB";
 const STORE_NAME = "parquetFiles";
@@ -84,7 +84,7 @@ export async function loadParquetBundle() {
     //   throw new Error(`Erro ao buscar o arquivo: ${response.statusText}`);
     // }
     setProgress(5);
-    setMessage("Inicializando carregamento...");
+    setMessage("Estamos preparando tudo para você...");
 
     const response = await fetch('./full_data.rar');
     const bundleArrayBuffer = await response.arrayBuffer();
@@ -95,7 +95,7 @@ export async function loadParquetBundle() {
     const wasmResponse = await fetch('/unrar.wasm');
     const wasmArrayBuffer = await wasmResponse.arrayBuffer();
 
-    setProgress(20);
+    setProgress(60);
     setMessage("Montando os dados...");
 
     const extractor = await createExtractorFromData({
@@ -131,14 +131,24 @@ export async function loadParquetBundle() {
       await saveToIndexedDB(DB_NAME, STORE_NAME, cleanedKey, extraction.buffer);
 
       processed++;
-      const progress = 30 + (processed / total) * 65;
+      const progress = 70 + (processed / total) * 65;
       setProgress(progress);
       setMessage(`Salvando ${cleanedKey} (${processed}/${total})`);
     }
 
+    const metadataKey = "dataSaved";
+    const metadataValue = { 
+      status: "completed", 
+      timestamp: new Date().toISOString(), 
+      processedFiles: total 
+    };
+    await saveToIndexedDB(DB_NAME, STORE_NAME, metadataKey, metadataValue);
+
     console.log("Finalizando...");
     setProgress(100);
     setMessage("Finalizado. Todos os dados foram carregados com sucesso.");
+    disableFirst();
+    
   } catch (error) {
     console.error("Erro ao carregar e processar o bundle:", error);
     setMessage("Erro no carregamento.");

@@ -28,6 +28,12 @@ export function setProgress(p: number) {
   startProgressAnimation();
 }
 
+export let first = true;
+export function disableFirst(){
+  first = false;
+  return first;
+}
+
 export function setMessage(msg: string) {
   messageListeners.forEach((cb) => cb(msg));
 }
