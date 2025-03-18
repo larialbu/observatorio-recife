@@ -48,14 +48,14 @@ export const LoadingScreen = () => {
     <div className="fixed z-[999] flex flex-col items-center justify-center right-0 top-0 px-5 h-screen w-full bg-white">
 
       {isFirstLoad && (
-        <div className="absolute inset-0 top-0 left-0 brightness-[185%] grayscale-[0] z-10 w-full h-full">
-          <div className=" hue-rotate-[220deg] w-full h-full">
-            <Novatrix />
-          </div>
+        <div className="absolute inset-0 top-0 left-0 brightness-[250%] opacity-30 grayscale-[0] z-10 w-full h-full">
+        <div className="hue-rotate-[220deg] w-full h-full">
+          <Novatrix />
         </div>
+      </div>
       )}
-
-      <div className={ `flex flex-col items-center z-20 backdrop-blur-md ${ isFirstLoad ? 'rounded-xl py-20 px-2 w-full sm:w-[25em] shadow-md' : '' }` }>
+      {/* ${ isFirstLoad ? 'backdrop-blur-md rounded-xl py-20 px-2 w-full sm:w-[25em] shadow-md' : '' } */}
+      <div className={ `flex flex-col items-center z-20` }>
         <img
           src="/images/logos/observatorio_logo.png"
           alt="logo observatorio"
