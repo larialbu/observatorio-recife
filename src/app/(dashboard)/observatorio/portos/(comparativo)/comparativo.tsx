@@ -7,6 +7,7 @@ import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { processedAtracacaoData } from "@/@types/observatorio/porto/processedAtracacaoData";
+import ErrorBoundary from "@/utils/loader/errorBoundary";
 
 // AEROPORTO NOME
 
@@ -201,7 +202,12 @@ useEffect(() => {
                         color={ColorPalette.default[index]}
                       /> */}
                       {/* data={{ ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], rawData: {} }} */}
-                      <Component data={{ ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], rawData: {} }} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
+                      <ErrorBoundary>
+                        <Component data={{ 
+                          ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], 
+                          carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], rawData: {} }} 
+                          cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
+                      </ErrorBoundary>
                     </div>
                   </React.Suspense>
                 )});
