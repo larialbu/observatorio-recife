@@ -30,15 +30,17 @@ const RankingPage = () => {
   }, [searchParams, activeTab]);
 
   useEffect(() => {
+    const intervalId = setInterval(() => {
 
-    if (data) {
-      // Extraindo os dados de passageiros e cargas
-      const rankingData = data.geral || {};
-
-      setRanking(rankingData.filteredData || []);
-
-    }
-  }, [data]);
+      if (data) {
+        const rankingData = data.geral || {};
+        setRanking(rankingData.filteredData || []);
+  
+      }
+    }, 50);
+  
+      return () => clearInterval(intervalId);
+    }, [data]);
 
   if (isLoading) return <LoadingScreen />;
 

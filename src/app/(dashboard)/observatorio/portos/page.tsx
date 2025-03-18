@@ -77,7 +77,7 @@ const PortosPage = () => {
 
   const renderContent = () => {
     if (!data) {
-      return <div className="text-center text-gray-600">Construindo gráficos...</div>;
+      return <div className="text-center text-gray-600">Gerando gráficos...</div>;
     }
 
     if (isLoading) {
@@ -101,7 +101,7 @@ const PortosPage = () => {
   const handleNavigation = (tab: string) => {
     if (isLoading) return; 
     const currentTab = searchParams.get("tab");
-    if (currentTab === "comparativo") {
+    if (currentTab === "comparativo" || currentTab === "passageiro") {
       setData(null);
     }
     setActiveTab(tab);
@@ -155,7 +155,7 @@ const PortosPage = () => {
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Movimentaçaõ de Passageiros (Recife)
+          Movimentação de Passageiros (Recife)
         </button>
       </div>
       {renderContent()}

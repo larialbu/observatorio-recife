@@ -7,6 +7,7 @@ import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import tables from "./@imports/tables";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import ErrorBoundary from "@/utils/loader/errorBoundary";
 
 const Geral = ({
   data,
@@ -37,7 +38,9 @@ const Geral = ({
               className={`chart-content-wrapper`}
             >
               <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={data} months={months} />
+                <ErrorBoundary>
+                  <Component data={data} months={months} />
+                </ErrorBoundary>
               </React.Suspense>
             </div>
           );
@@ -54,10 +57,12 @@ const Geral = ({
               className="bg-white shadow-md rounded-lg flex flex-col items-center w-full"
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
-                <Component
-                  color={ColorPalette.default[index]}
-                  data={data}
-                />
+                <ErrorBoundary>
+                  <Component
+                    color={ColorPalette.default[index]}
+                    data={data}
+                  />
+                </ErrorBoundary>
               </React.Suspense>
             </div>
           )})}

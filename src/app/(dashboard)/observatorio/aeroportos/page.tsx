@@ -31,14 +31,17 @@ const AeroportosPage = () => {
     }, [searchParams, activeTab]);
 
   useEffect(() => {
+      const intervalId = setInterval(() => {
+        
+        if (data) {
+          const anacData = data?.geral || {};
+          setAnac(anacData?.filteredData || []);
+          
+          clearInterval(intervalId);
+        }
+      }, 50);
   
-      if (data) {
-        // Extraindo os dados de passageiros e cargas
-        const anacData = data.geral || {};
-  
-        setAnac(anacData.filteredData || []);
-  
-      }
+      return () => clearInterval(intervalId);
     }, [data]);
   
     if (isLoading) return <LoadingScreen />;

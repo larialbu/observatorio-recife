@@ -40,35 +40,34 @@ const BalancaComercialPage = () => {
       }
     }, [searchParams, activeTab]);
 
-  useEffect(() => {
-    console.log(data)
-    if (data) {
-      // Extraindo os dados de passageiros e cargas
-      const balancaData = data?.geral || {};
-      // const balancaRawData = data.rawData || {};
+    useEffect(() => {
+        const intervalId = setInterval(() => {
 
-      setBalanca(balancaData?.filteredData || {});
+          if (data?.id === "balanca") {
+            const balancaData = data?.geral || {};
+            setBalanca(balancaData?.filteredData || {});
 
-    }
-  }, [data]);
+            clearInterval(intervalId);
+          }
+        }, 50);
+    
+        return () => clearInterval(intervalId);
+      }, [data]);
 
   // Conteúdo principal, dependendo da aba
   const renderContent = () => {
     // Se data ainda não estiver disponível,
     // podemos mostrar um pequeno aviso ou algo similar.
     if (!data) {
-      return <div className="text-center text-gray-600">Carregando dados...</div>;
+      return <div className="text-center text-gray-600">Gerando gráficos...</div>;
     }
-
-    // Obs.: assumindo que "data.geral" é onde estão os registros filtrados
-    // ou outra estrutura. Ajuste se for "data.filteredData", etc.
 
     switch (activeTab) {
       case "analitico":
         return (
           <Analitico
             // Exemplo: se "data.geral?.filteredData" serve pro analítico também
-            data={balanca!}
+            data={balanca}
             year={getYearSelected(filters)}
           />
         );
@@ -77,7 +76,7 @@ const BalancaComercialPage = () => {
       default:
         return (
           <Geral
-            data={balanca!}
+            data={balanca}
             year={getYearSelected(filters)}
             months={getMonths(filters)}
           />

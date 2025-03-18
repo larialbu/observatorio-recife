@@ -6,6 +6,7 @@ import cards from "./@imports/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import ErrorBoundary from "@/utils/loader/errorBoundary";
 
 const Geral = ({
   data,
@@ -40,7 +41,9 @@ const Geral = ({
               className={`chart-content-wrapper`}
             >
               <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={data} rawData={rawData} months={months} />
+                <ErrorBoundary>
+                  <Component data={data} rawData={rawData} months={months} />
+                </ErrorBoundary>
               </React.Suspense>
             </div>
           );

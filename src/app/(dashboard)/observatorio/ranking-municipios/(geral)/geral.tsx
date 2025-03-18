@@ -5,6 +5,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import ErrorBoundary from "@/utils/loader/errorBoundary";
 
 
 const Geral = ({
@@ -29,12 +30,14 @@ const Geral = ({
               className="h-full"
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
-                <Component
-                  airport={["Recife", ...tempFiltred][index]}
-                  color={ColorPalette.default[index]}
-                  data={rawData}
-                  year={year}
-                />
+                <ErrorBoundary>
+                  <Component
+                    airport={["Recife", ...tempFiltred][index]}
+                    color={ColorPalette.default[index]}
+                    data={rawData}
+                    year={year}
+                  />
+                </ErrorBoundary>
               </React.Suspense>
             </div>
           ))}

@@ -31,16 +31,17 @@ const IpcaPage = () => {
   }, [searchParams, activeTab]);
 
   useEffect(() => {
-    console.log(data)
-    if (data) {
-      // Extraindo os dados de passageiros e cargas
-      const ipcaData = data?.geral || {};
-      // const ipcaRawData = data.rawData || {};
+    const intervalId = setInterval(() => {
 
-      setIpca(ipcaData?.filteredData || {});
-      setIpcaRawData(ipcaData?.rawData)
+      if (data?.id === "ipca") {
+        const ipcaData = data.geral;
+        setIpca(ipcaData.filteredData || []);
+        setIpcaRawData(ipcaData.rawData || []);
+        clearInterval(intervalId);
+      }
+    }, 50);
 
-    }
+    return () => clearInterval(intervalId);
   }, [data]);
 
   const renderContent = () => {
