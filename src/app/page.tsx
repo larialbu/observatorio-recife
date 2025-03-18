@@ -1,7 +1,7 @@
 "use client";
 import "./styles/home/style.scss";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Banner } from "@/components/home/Banner";
 import { ExploreSection } from "@/components/home/ExploreSection";
 import { Footer } from "@/components/home/Footer";
@@ -10,6 +10,7 @@ import { AboutUs } from "@/components/home/AboutSection";
 import NewsSection from "@/components/home/NewsSection";
 import { loadParquetBundle } from "@/@api/cache/parquetDecompress";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
+import { checkSaves } from "@/@api/cache/indexDB";
 
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,11 +21,23 @@ const Page = () => {
     setSearchTerm(term.toLowerCase());
   };
 
-  const handleClick = async () => {
-    setLoading(true);
-    await loadParquetBundle();
-    setLoading(false);
-  };
+  useEffect(() => {
+    const checkDataAndLoad = async () => {
+      setLoading(true);
+      const exists = await checkSaves("parquetDB", "parquetFiles", "dataSaved");
+
+      if (!exists) {
+        console.log("Dados não encontrados. Carregando e salvando...");
+        await loadParquetBundle();
+      } else {
+        console.log("Dados já salvos.");
+      }
+
+      setLoading(false);
+    };
+
+    checkDataAndLoad();
+  }, []);
 
   return (
     <div className="min-h-screen dark:bg-[#0C1B2B]">
@@ -34,9 +47,6 @@ const Page = () => {
 
       {/* Seção de Explorar com filtro baseado no termo de busca */}
       <ExploreSection searchTerm={searchTerm} />
-      <button onClick={handleClick} disabled={loading} className="mt-10">
-        {loading ? "Descompactando..." : "Descompactar bundle"}
-      </button>
       
       {/* Seção de notícias */}
       <NewsSection />

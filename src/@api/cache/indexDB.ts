@@ -58,3 +58,14 @@ export function openDatabase(dbName: string, storeName: string) {
       request.onerror = (e) => reject((e.target as IDBRequest).error);
     });
   }
+
+  export async function checkSaves(dbName: string, storeName: string, key: string): Promise<boolean> {
+    try {
+      const result = await getFromIndexedDB(dbName, storeName, key);
+      return result !== undefined && result !== null;
+    } catch (error) {
+      console.error("Erro ao verificar a existência do item no IndexedDB:", error);
+      return false; 
+    }
+  }
+  
