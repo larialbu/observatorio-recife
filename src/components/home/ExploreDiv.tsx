@@ -53,13 +53,20 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm }) => {
             } justify-items-center text-center gap-y-24 mt-24 observatorio-icon-wrapper`}
             key={section.items[0].label}
           >
-            {section.items.map((item) => {
+            {section.items.map((item, index) => {
               const iconClassName = isDarkMode ? "darkin" : "";
+              const isLastItem = index === section.items.length - 1; // Verifica se é o último item
 
               return (
                 <div
                   key={item.label}
-                  className={`flex flex-col items-center group transition-transform duration-300 ease-in-out select-none`}
+                  className={`flex flex-col items-center group transition-transform duration-300 ease-in-out select-none ${
+                    isLastItem && totalResults === 1
+                      ? "col-span-full flex justify-center" // Centraliza em telas pequenas quando é o único item
+                      : isLastItem && totalResults > 1
+                      ? "lg:col-span-3 flex justify-center" // Centraliza quando é o último item mas tem mais de 1
+                      : "" // Normal, sem alteração
+                  }`} // Aplica flex e centraliza o último item
                 >
                   <Link href={item.href || "#"} className="flex flex-col items-center select-none">
                     <div className="relative hover:rotate-[-5deg] border-2 border-[#0155AE] rounded-full dark:border-white transition-all duration-300 ease-in-out group-hover:scale-110 cursor-pointer select-none icon-content">
