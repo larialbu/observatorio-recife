@@ -6,7 +6,6 @@ import { Banner } from "@/components/home/Banner";
 import { ExploreSection } from "@/components/home/ExploreSection";
 import { Footer } from "@/components/home/Footer";
 import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
-import { AboutUs } from "@/components/home/AboutSection";
 import NewsSection from "@/components/home/NewsSection";
 import { loadParquetBundle } from "@/@api/cache/parquetDecompress";
 import { LoadingScreen } from "@/components/home/LoadingScreen";

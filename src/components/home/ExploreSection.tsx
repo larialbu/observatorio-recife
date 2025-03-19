@@ -2,7 +2,6 @@ import React from "react";
 import { ExploreDiv } from "./ExploreDiv";
 import Link from "next/link";
 import { iconsExplore } from "./ExploreIconsObservatorio";
-import { linearGradient } from "framer-motion/client";
 
 interface ExploreSectionProps {
   searchTerm: string; // Recebe o termo de busca como prop
