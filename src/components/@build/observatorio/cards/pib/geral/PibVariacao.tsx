@@ -18,16 +18,18 @@ const PibVariacao = ({
 
   const chartData = ((current - past) / past) * 100
 
-  return (
-    <Card 
-      local={capital}
-      title={`${title}`}
-      data={chartData}
-      year={year}
-      color={color}
-      percent={true}
-    />
-  );
+  return data.current.length > 1 ? (
+    <p>dado inválido (vou arrmuar isso)</p>
+   ) : (
+     <Card
+       local={capital}
+       title={`${title}`}
+       data={chartData} // vou colocar pra aparecer aki um dado invalido
+       year={year}
+       color={color}
+       position={true}
+     />
+   );
 };
 
 export default PibVariacao;

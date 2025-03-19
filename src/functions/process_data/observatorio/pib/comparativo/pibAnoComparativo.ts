@@ -4,7 +4,7 @@ const parsePIB = (pib: any): number => {
     return isNaN(parsed) ? 0 : parsed;
   };
   
-  export const processPIBPorAnoComparativo = (data: any[], toCompare: string[]) => {
+  export const processPIBPorAnoComparativo = (data: any[], toCompare: string[], capita: boolean = false) => {
     // Inicializa um objeto para armazenar o PIB por município e ano
     const processedData: { [key: string]: { [key: number]: number } } = {};
   
@@ -13,7 +13,7 @@ const parsePIB = (pib: any): number => {
       const municipio = item["Município - UF"];
       // Verifica se o município está na lista de municípios a serem comparados
       if (toCompare.includes(municipio)) {
-        const pib = parsePIB(item["Produto Interno Bruto,  a preços correntes (R$ 1.000)"]);
+        const pib = parsePIB(item[capita ? "Produto Interno Bruto per capita,  a preços correntes (R$ 1,00)" : "Produto Interno Bruto,  a preços correntes (R$ 1.000)"]);
         const ano = item["Ano"];
   
         // Se o município ainda não estiver no processedData, inicializa o objeto para o município

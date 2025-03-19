@@ -5,16 +5,16 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { getDateKeys } from "@/utils/formatters/getDataKeys";
-import { processPIBPorAnoComparativo } from "@/functions/process_data/observatorio/pib/comparativo/pibAnoComparativo";
+import { processPIBvariacaoComparativo } from "@/functions/process_data/observatorio/pib/comparativo/pibAnoVariacaoComparativo";
 
-const PibAnoComparativo = ({
+const PibAnoVariacaoComparativoCapita = ({
   data = [],
   colors = ColorPalette.default,
-  title = "PIB ao Longo do Ano",
+  title = "PIB Variação ao Longo do Ano",
   toCompare,
 }: any) => {
 
-  const chartData = processPIBPorAnoComparativo(data.geral, toCompare)
+  const chartData = processPIBvariacaoComparativo(data.geral, toCompare, true)
 
   return (
     <div className="chart-wrapper">
@@ -31,4 +31,4 @@ const PibAnoComparativo = ({
   );
 };
 
-export default PibAnoComparativo;
+export default PibAnoVariacaoComparativoCapita;

@@ -18,7 +18,7 @@ import { ProcessedDataPib } from "@/@types/observatorio/pib/ProcessedDataPib";
       }
   }
 
-  export function processPibGroup(array: ProcessedDataPib[], type: 'regiao' | 'estado' | 'municipio'): ResultadoRegiao[] {
+  export function processPibGroup(array: ProcessedDataPib[], type: 'regiao' | 'estado' | 'municipio', capita: boolean = false): ResultadoRegiao[] {
   
    const itemName = getItemName(type)
     
@@ -30,12 +30,12 @@ import { ProcessedDataPib } from "@/@types/observatorio/pib/ProcessedDataPib";
   
       if (regiaoExistente) {
         // Se a região já existir no resultado, soma o PIB
-        regiaoExistente.pib += item["Produto Interno Bruto,  a preços correntes (R$ 1.000)"];
+        regiaoExistente.pib += item[capita ? "Produto Interno Bruto per capita,  a preços correntes (R$ 1,00)" : "Produto Interno Bruto,  a preços correntes (R$ 1.000)"];
       } else {
         // Se a região não existir, cria um novo objeto para a região
         resultado.push({
           group: item[itemName],
-          pib: item["Produto Interno Bruto,  a preços correntes (R$ 1.000)"]
+          pib: item[capita ? "Produto Interno Bruto per capita,  a preços correntes (R$ 1,00)" : "Produto Interno Bruto,  a preços correntes (R$ 1.000)"]
         });
       }
     });

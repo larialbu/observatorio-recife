@@ -23,7 +23,7 @@ const PibAnoVariacaoComparativo = ({
           data={chartData}
           title={title}
           colors={colors}
-          xKey="mes"
+          xKey="ano"
           lines={[...getDateKeys(toCompare)]}
         />
       </ChartGrabber>

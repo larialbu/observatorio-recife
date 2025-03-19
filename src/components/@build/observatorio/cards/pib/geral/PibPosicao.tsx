@@ -14,17 +14,18 @@ const PibPosicao = ({
 
   const itens = data.rawDataCurrent.filter((item: any) => item['Produto Interno Bruto,  a preços correntes (R$ 1.000)'] >= total)
 
-  const itensFiltered = itens.filter((item: any) => !data.current.find((data: any) => data["Município - UF"] === item["Município - UF"]))
+  const chartData = itens.length
 
-  const chartData = data.current.length === 1 ? itensFiltered.length : itens.length
-
-  return (
+  return data.current.length > 1 ? (
+   <p>dado inválido (vou arrmuar isso)</p>
+  ) : (
     <Card
       local={capital}
       title={`${title}`}
-      data={chartData}
+      data={chartData} // vou colocar pra aparecer aki um dado invalido
       year={year}
       color={color}
+      position={true}
     />
   );
 };
