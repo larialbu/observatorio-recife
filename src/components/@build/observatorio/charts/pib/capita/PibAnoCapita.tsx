@@ -4,17 +4,16 @@ import React from "react";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { getDateKeys } from "@/utils/formatters/getDataKeys";
-import { processPIBPorAnoComparativo } from "@/functions/process_data/observatorio/pib/comparativo/pibAnoComparativo";
+import { processPIBPorAno } from "@/functions/process_data/observatorio/pib/geral/pibAno";
 
-const PibAnoComparativo = ({
+const PibAnoCapita = ({
   data = [],
   colors = ColorPalette.default,
   title = "PIB ao Longo do Ano",
-  toCompare,
+  months
 }: any) => {
 
-  const chartData = processPIBPorAnoComparativo(data.geral, toCompare)
+const chartData = processPIBPorAno(data.geral.flat() , true)
 
   return (
     <div className="chart-wrapper">
@@ -24,11 +23,13 @@ const PibAnoComparativo = ({
           title={title}
           colors={colors}
           xKey="ano"
-          lines={[...getDateKeys(toCompare)]}
+          lines={[
+            { dataKey: "valor", name: "PIB", strokeWidth: 2 },
+          ]}
         />
       </ChartGrabber>
     </div>
   );
 };
 
-export default PibAnoComparativo;
+export default PibAnoCapita;

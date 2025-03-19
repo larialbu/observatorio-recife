@@ -7,6 +7,7 @@ const Card = ({
   color,
   local,
   percent = false,
+  position = false
 }: {
   title: string;
   local?: string;
@@ -14,6 +15,7 @@ const Card = ({
   year: string;
   color: string;
   percent?: boolean;
+  position?: boolean;
 }) => {
   return (
     // w-fit - w-full
@@ -30,7 +32,7 @@ const Card = ({
 
       {/* Main Data */}
       <h1 className="text-4xl font-bold text-gray-900 mb-2 w-fit">
-        {percent ? `${tooltipFormatter(+data)}%` : tooltipFormatter(+data)}
+        {percent ? `${tooltipFormatter(+data)}%` : ( position ? `${tooltipFormatter(+data)}°` : tooltipFormatter(+data))}
       </h1>
 
       {/* Title */}

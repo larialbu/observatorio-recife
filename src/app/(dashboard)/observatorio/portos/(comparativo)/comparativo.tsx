@@ -8,6 +8,7 @@ import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { processedAtracacaoData } from "@/@types/observatorio/porto/processedAtracacaoData";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
+import { getFiltredData } from "@/functions/process_data/observatorio/porto/comparativo/charts/filterdPortoData";
 
 // AEROPORTO NOME
 
@@ -19,7 +20,6 @@ const Comparativo = ({
     "Porto Atracação"
   ),
   rawData,
-  // toCompare,
   months,
 }: {
   year: string;
@@ -32,9 +32,8 @@ const Comparativo = ({
   const [pageCompare, setPageCompare] = useState(0);
   
   const [tempFiltred, setTempFiltred] = useState([]);
-  // const [tablesRender, setTablesRender] = useState(tables);
   const [tablesRender, setTablesRender] = useState([charts]);
-  // const [chartsRender, setChartsRender] = useState
+
   const [animationClass, setAnimationClass] = useState("card-enter");
 
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
@@ -44,48 +43,6 @@ const Comparativo = ({
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
 
 const attTempFiltred = ['Recife', ...tempFiltred]
-
-const getFiltredData = (rawData: any, portos: any) => {
-
-  if (!rawData || !rawData['atracacao'] || !rawData['carga']) {
-    return []
-  }
-
-  // Filtra atracações pelos portos selecionados
-  const filtredAtracacao = rawData['atracacao'].filter((item: any) =>
-    portos.includes(item['Porto Atracação']),
-  )
-
-  const atracacaoIds = new Set(filtredAtracacao.map((atracacao: any) => atracacao.IDAtracacao));
-
-  const filtredCarga = rawData['carga'].filter((item: any) => atracacaoIds.has(item.IDAtracacao));
-
-  // Organiza os dados por porto
-  const dadosPorPorto = portos.map((porto: any) => {
-    const atracacoes = filtredAtracacao.filter(
-      (atracacao: any) => atracacao['Porto Atracação'] === porto,
-    )
-
-    // Filtra cargas associadas às atracações desse porto
-
-    // a mudanca tem q ser aki nos não poemos fazer essa correlçaão pois os alguns tem ids diferentes atracacao.IDAtracacao === carga.IDAtracacao,, por isso precisamos que a correlação tem q ser com o o codigo CDTUP caso o ocdigo do porto está na origem ou destino da carga, a carga possui a este porto, 
-
-
-    const cargas = filtredCarga.filter((carga: any) =>
-      atracacoes.some(
-        (atracacao: any) => atracacao.IDAtracacao === carga.IDAtracacao,
-      ),
-    )
-
-    return {
-      porto,
-      atracacao: atracacoes,
-      cargas,
-    }
-  })
-
-  return dadosPorPorto
-}
 
 useEffect(() => {
   const portosDataFIltred = getFiltredData(rawData, attTempFiltred)
@@ -185,7 +142,6 @@ useEffect(() => {
                 return cards.slice(0, 1).map(({ Component }) => {
                  
                   return (
-                  // <div key={index}></div>
                   <React.Suspense fallback={<div>Carregando...</div>} key={index}>
                     <div
                       className={`${
@@ -193,15 +149,7 @@ useEffect(() => {
                           ? animationClass
                           : "hidden"
                       } flex-1`}
-                      // } flex-1`}
                     >
-                      {/* <Component
-                        toCompare={toCompare}
-                        data={data}
-                        year={year}
-                        color={ColorPalette.default[index]}
-                      /> */}
-                      {/* data={{ ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], rawData: {} }} */}
                       <ErrorBoundary>
                         <Component data={{ 
                           ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], 
@@ -213,14 +161,6 @@ useEffect(() => {
                 )});
               })}
             </div>
-
-            {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
-        {cards.slice(0, 1).map(({ Component }, index) => (
-          <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-            <Component data={data} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
-          </React.Suspense>
-        ))}
-      </div> */}
 
             <button
               className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
@@ -263,7 +203,6 @@ useEffect(() => {
       <div className="flex flex-col gap-6">
        
       <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
-          {/* {tablesRender.map(({ Component }, index) => { */}
           {tablesRender.map((arrChart, index) => {
           
           return arrChart.map(({ Component, col }) => {
@@ -272,11 +211,8 @@ useEffect(() => {
                 <React.Suspense fallback={<div>Carregando...</div>}>
                   <Component
                     porto={["Recife", ...tempFiltred][index]}
-                    // rawData={rawData}
                     color={ColorPalette.default[index]}
                     data={{ ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], rawData: {} }}
-                    // data={{ ...data, atracacao: atracacaoFiltred, carga: cargaFiltred, rawData: {} }}
-                    // data={data}
                     year={year}
                   />
                 </React.Suspense>

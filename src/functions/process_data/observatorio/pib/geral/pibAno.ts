@@ -4,13 +4,13 @@ const parsePIB = (pib: any): number => {
     return isNaN(parsed) ? 0 : parsed;
   };
   
-  export const processPIBPorAno = (data: any[]) => {
+  export const processPIBPorAno = (data: any[], capita: boolean = false) => {
     // Inicializa um objeto para armazenar o PIB por ano
     const processedData: { [key: number]: number } = {};
   
     // Percorre os dados e soma o PIB para cada ano
     data.forEach((item) => {
-      const pib = parsePIB(item["Produto Interno Bruto,  a preços correntes (R$ 1.000)"]);
+      const pib = parsePIB(item[capita ? "Produto Interno Bruto per capita,  a preços correntes (R$ 1,00)" : "Produto Interno Bruto,  a preços correntes (R$ 1.000)"]);
       const ano = item["Ano"];
   
       if (processedData[ano]) {
