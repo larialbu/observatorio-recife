@@ -28,7 +28,6 @@ const SelectPrincipal = ({
   const [dropdown, setDropdown] = useState<boolean>(false);
 
   const optionsCopy = [...options];
-  console.log(optionsCopy)
 
   useEffect(() => {
     if (initialValue) {

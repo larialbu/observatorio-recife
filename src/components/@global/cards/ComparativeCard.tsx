@@ -1,3 +1,4 @@
+import { tooltipFormatter } from "@/utils/formatters/@global/graphFormatter";
 import { formatNormalnumber } from "@/utils/formatters/@global/numberFormatter";
 
 const ComparativeCard = ({
@@ -7,6 +8,7 @@ const ComparativeCard = ({
   comparative,
   year,
   color,
+  position = false
 }: {
   title: string;
   data: number | string;
@@ -14,6 +16,7 @@ const ComparativeCard = ({
   comparative: string
   year: string;
   color: string;
+  position?: boolean
 }) => {
   // Variáveis para armazenar o total de passageiros e o número de registros
 
@@ -51,7 +54,7 @@ const percentage = percentComparative(+data, +data2)
         <span style={{ borderColor: `${color}` }} className={`border bg-white rounded-full font-semibold text-[12px] px-2 ${percentage.color} py-1`}>{percentage.text} Recife</span>
       </div>
      <div className="flex flex-col justify-between flex-1 ">
-        <h1 className="text-2xl text-whit font-semibold my-4">{formatNormalnumber(+data2)}<span className="opacity-85 text-sm"> / {formatNormalnumber(+data)}</span></h1>
+        <h1 className="text-2xl text-whit font-semibold my-4">{tooltipFormatter(+data2)}<span className="opacity-85 text-sm"> / {tooltipFormatter(+data)}</span></h1>
       <div>
         <h2 className="text-sm font-semibold text-whit">{title}</h2>
         <span className="opacity-85 text-whit text-sm">{comparative}</span>

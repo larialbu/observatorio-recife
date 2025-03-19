@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "@/components/explorar/Card";
 import { Popup } from "@/components/explorar/Popup";
 
@@ -89,6 +89,15 @@ export const CardsContainer: React.FC = () => {
             route: "/observatorio/capag",
             name: "CAPAG",
         },
+        {
+            banner: "/images/banners/tributos_banner.png",
+            title: "Tributos",
+            logo: "/images/logos/partners/prefeitura_recife_logo.png",
+            description: "Entenda o papel dos impostos e como tributos impulsionam Recife. Dados para analisar sua influência na economia local.  ",
+            detailedDescription: "Os tributos, como impostos, taxas e contribuições, são a principal fonte de recursos para serviços essenciais em Recife, como saúde, educação e infraestrutura. Eles refletem o papel da sociedade no desenvolvimento econômico e social, garantindo investimentos que melhoram a qualidade de vida.",
+            route: "/observatorio/tributos",
+            name: "Tributos",
+        },
     ];
 
     const filteredCards = cardsData.filter((card) =>
@@ -123,6 +132,23 @@ export const CardsContainer: React.FC = () => {
         setSelectedCardIndex(index);
         setSuggestions(getSuggestions(index));
     };
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (selectedCardIndex !== null) {
+                if (event.key === "ArrowLeft") {
+                    handleNavigate("prev");
+                } else if (event.key === "ArrowRight") {
+                    handleNavigate("next");
+                } else if (event.key === "Escape") {
+                    closePopup();
+                }
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+        return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [selectedCardIndex]);
 
     return (
         <div className="max-w-[calc(3*400px+10*5px)] mx-auto">

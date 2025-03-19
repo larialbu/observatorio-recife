@@ -11,6 +11,7 @@ import Analitico from "./(analitico)/analitico";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
 import Comparativo from "./(comparativo)/comparativo";
+import Capita from "./(capita)/capita";
 
 const PibPage = () => {
   const searchParams = useSearchParams();
@@ -68,11 +69,12 @@ const PibPage = () => {
             months={getMonths(filters)}
           />
         );
-      case "analitico":
+      case "capita":
         return (
-          <Analitico
+          <Capita
             data={pibData}
             year={getYearSelected(filters)}
+            months={getMonths(filters)}
           />
         );
       case "comparativo":
@@ -117,6 +119,16 @@ const PibPage = () => {
           Geral
         </button>
         <button
+          onClick={() => handleNavigation("capita")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "capita"
+              ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          PIB Per Capita
+        </button>
+        <button
           onClick={() => handleNavigation("comparativo")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "comparativo"
@@ -125,16 +137,6 @@ const PibPage = () => {
           }`}
         >
           Comparativo
-        </button>
-        <button
-          onClick={() => handleNavigation("analitico")}
-          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "analitico"
-              ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
-              : "bg-gray-300 text-gray-500"
-          }`}
-        >
-          Analítico
         </button>
       </div>
 

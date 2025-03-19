@@ -27,13 +27,6 @@ const Comparativo = ({
   data: any;
   // months: number;
 }) => {
-  console.log('DAATA ->', data)
-  console.log('UNIQUE VALUES', getUniqueValues<any, "Município - UF">(
-    data.rawDataCurrent,
-    "Município - UF"
-  ))
-  console.log('TOCOMPARE -> ', toCompare)
-
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
   const [tablesRender, setTablesRender] = useState(tables);
@@ -75,8 +68,6 @@ const Comparativo = ({
       setAnimationClass("card-enter"); // Aplica a animação de entrada após a mudança
     }, 500); // Tempo suficiente para a animação de saída
   };
-
-  console.log('TEMp filtred ->>', tempFiltred)
 
   return (
     <div>
@@ -120,13 +111,12 @@ const Comparativo = ({
                           : "hidden"
                       } flex-1`}
                     >
-                      Card
-                      {/* <Component
+                      <Component
                         toCompare={toCompare}
                         data={data}
                         year={year}
                         color={ColorPalette.default[index]}
-                      /> */}
+                      />
                     </div>
                   </React.Suspense>
                 ));
