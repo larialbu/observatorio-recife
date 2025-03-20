@@ -2,54 +2,112 @@ import fs from 'fs';
 import path from 'path';
 import fetch from 'node-fetch';
 import { fileURLToPath } from 'url';
+import 'dotenv/config';
 
 // Resolve diretório atual
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const fileUrl = process.env.NEXT_PUBLIC_API_BUNDLE_URL;
-const fileName = process.env.NEXT_PUBLIC_API_BUNDLE_NAME;
+const REPO_URL = process.env.NEXT_PUBLIC_API_REPO_URL;
+const MANIFEST_URL = REPO_URL + 'manifest.json';
+const PUBLIC_DIR = path.join(__dirname, 'public');
 
-if (!fileUrl || !fileName) {
-    console.warn('Variáveis de ambiente NEXT_PUBLIC_API_BUNDLE_URL ou NEXT_PUBLIC_API_BUNDLE_NAME não definidas.');
+export async function fetchFileToPublic(filename, remoteUrl) {
+  const filePath = path.join(PUBLIC_DIR, filename);
+
+  if (fs.existsSync(filePath)) {
+    console.log(`✔️ Arquivo já existe: ${filename}`);
+    return;
+  } else {
+    const res = await fetch(remoteUrl);
+    if (!res.ok) throw new Error(`Erro ao baixar ${filename}`);
+    const buffer = await res.arrayBuffer();
+    fs.writeFileSync(filePath, Buffer.from(buffer));
+    console.log(`✅ Baixado: ${filename}`);
+  }
 }
 
-async function fetchAndSaveFile(fileUrl, fileName) {
-    try {
-        const filePath = path.join(__dirname, 'public', fileName);
+export async function fetchBundles() {
+  const res = await fetch(MANIFEST_URL);
+  const manifest = await res.json();
 
-        if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath);
-            console.log('Arquivo antigo removido do diretório public/');
+  await fetchFileToPublic('manifest.json', MANIFEST_URL);
+
+  for (const bundle of Object.values(manifest)) {
+    const filename = bundle.filename;
+    const bundleUrl = REPO_URL + filename;
+    await fetchFileToPublic(filename, bundleUrl);
+  }
+  
+  return manifest;
+}
+
+export async function checkAndUpdateManifest() {
+  try {
+
+    const res = await fetch(MANIFEST_URL);
+    const newManifest = await res.json();
+
+    const currentManifestPath = path.join(PUBLIC_DIR, 'manifest.json');
+    
+    if (fs.existsSync(currentManifestPath)) {
+
+      const currentManifest = JSON.parse(fs.readFileSync(currentManifestPath, 'utf8'));
+      let needsUpdate = false;
+
+      for (const [bundleKey, bundleInfo] of Object.entries(newManifest)) {
+        const currentVersion = currentManifest[bundleKey]?.version;
+        const remoteVersion = bundleInfo.version;
+
+        if (!currentVersion || remoteVersion > currentVersion) {
+          console.log(`🔺 Atualizando ${bundleKey} de versão ${currentVersion || 'inexistente'} → ${remoteVersion}`);
+          const filename = bundleInfo.filename;
+
+          const bundlePath = path.join(PUBLIC_DIR, filename);
+          if (fs.existsSync(bundlePath)) {
+            fs.unlinkSync(bundlePath);
+            console.log(`🗑️ Apagado: ${filename}`);
+          }
+          
+          needsUpdate = true;
+        } else {
+          console.log(`✔️ ${bundleKey} já está atualizado (v${remoteVersion})`);
         }
+      }
+      
+      if (needsUpdate) {
 
-        const response = await fetch(fileUrl);
-
-        if (!response.ok) {
-            throw new Error(`Erro ao baixar o arquivo: ${response.statusText}`);
-        }
-
-        const fileStream = fs.createWriteStream(filePath);
-        response.body.pipe(fileStream);
-
-        fileStream.on('finish', () => {
-            console.log('Arquivo baixado com sucesso para o diretório public/');
-        });
-
-    } catch (error) {
-        console.error('Erro durante o download do arquivo:', error);
+        fs.unlinkSync(currentManifestPath);
+        console.log('🗑️ Apagado: manifest.json');
+        
+        await fetchBundles();
+        
+        return { needsRestart: true };
+      }
+    } else {
+      console.log('🔺 Manifest local não encontrado. Baixando...');
+      
+      await fetchBundles();
+      
+      return { needsRestart: false };
     }
+    
+    return { needsRestart: false };
+  } catch (error) {
+    console.error('❌ Erro ao verificar e baixar bundles:', error);
+    return { needsRestart: false, error: error.message };
+  }
 }
+
+async function initialBuild() {
+  console.log('🚀 Build inicial: Verificando bundles...');
+  await fetchBundles();
+}
+
+initialBuild().catch(console.error);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    webpack(config, { isServer }) {
-        if (isServer && fileUrl && fileName) {
-            fetchAndSaveFile(fileUrl, fileName);
-        }
-
-        return config;
-    },
 };
 
 export default nextConfig;

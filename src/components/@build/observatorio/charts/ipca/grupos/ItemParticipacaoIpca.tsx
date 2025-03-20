@@ -23,7 +23,8 @@ const ItemParticipacaoIpca = ({
           title={title}
           colors={colors.slice(1)}
           xKey={nameKey}
-          widthY={130}
+          widthY={100}
+          left={15}
           bars={[{ dataKey: "porcentagem", name: "Participação do Item no IPCA (%)", barWidth: 30 }]}
         />
       </ChartGrabber>

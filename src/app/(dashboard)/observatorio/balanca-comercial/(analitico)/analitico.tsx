@@ -24,6 +24,7 @@ const Analitico = ({
 
   useEffect(() => {
     const getNewTables = tempFiltred.map((val) => {
+      // VOU ARRUMAR ESSE FIQUE TRANQUILO
       return {
         Component: React.lazy(
           () =>

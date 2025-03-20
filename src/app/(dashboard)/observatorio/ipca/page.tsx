@@ -23,25 +23,22 @@ const IpcaPage = () => {
     const tab = searchParams.get("tab");
     if (tab && tab !== activeTab) {
       setActiveTab(tab);
-      
-    }else if (!tab){
+    } else if (!tab) {
       setActiveTab('geral');
-      router.replace(`?tab=${'geral'}`);
+      router.replace(`?tab=geral`);
     }
-  }, [searchParams, activeTab]);
+  }, [searchParams, activeTab, router]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
 
       if (data?.id === "ipca") {
-        const ipcaData = data.geral;
+        
+        const ipcaData = data?.geral;
         setIpca(ipcaData.filteredData || []);
         setIpcaRawData(ipcaData.rawData || []);
-        clearInterval(intervalId);
-      }
-    }, 50);
 
-    return () => clearInterval(intervalId);
+      }
+
   }, [data]);
 
   const renderContent = () => {
@@ -55,7 +52,7 @@ const IpcaPage = () => {
       case "geral":
         return <Geral
             data={ipca || {}}
-            rawData={data?.geral?.rawData || {}}
+            rawData={ipcaRawData || {}}
             months={getMonths(filters)}
           />
       case "grupos":
@@ -77,8 +74,7 @@ const IpcaPage = () => {
     }
   };
 
-  const handleNavigation = (tab: string) => {
-    setActiveTab(tab);
+  const handleNavigation = async (tab: string) => {
     router.replace(`?tab=${tab}`);
   };
 

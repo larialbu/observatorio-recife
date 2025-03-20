@@ -1,5 +1,4 @@
 export const variacaoMensalAnualIpca = (data: any[], capital: string) => {
-  console.log(data)
   // Filtra os dados pela capital fornecida
   const dadosFiltrados = data.filter((dado) => dado.Capital === capital);
 

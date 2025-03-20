@@ -8,7 +8,7 @@ export interface TeamMember {
 
 export const TeamGrid: React.FC<{ members: TeamMember[] }> = ({ members }) => {
   return (
-    <div className="flex flex-wrap items-center justify-center lg:justify-between max-w-6xl mx-auto gap-y-8">
+    <div className="flex flex-wrap items-center justify-center lg:justify-between max-w-6xl mx-auto gap-y-8 gap-x-4">
       {members.map((member, index) => (
         <div
           key={index}

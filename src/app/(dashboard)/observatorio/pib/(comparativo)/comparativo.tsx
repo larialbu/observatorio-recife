@@ -41,14 +41,7 @@ const Comparativo = ({
 
   useEffect(() => {
     const getNewTables = tempFiltred.map((val) => {
-      return {
-        Component: React.lazy(
-          () =>
-            import(
-              "@/components/@build/observatorio/tables/pib/comparativo/PibInfosComparativo"
-            )
-        ),
-      };
+      return tables[0];
     });
     setTablesRender([...tables, ...getNewTables]);
   }, [tempFiltred]);

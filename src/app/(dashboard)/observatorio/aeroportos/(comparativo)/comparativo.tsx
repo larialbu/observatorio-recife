@@ -25,8 +25,6 @@ const Comparativo = ({
   data: any[];
   months: number;
 }) => {
-  console.log('TOCOMPARE -> ', toCompare)
-
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
   const [tablesRender, setTablesRender] = useState(tables);
@@ -41,14 +39,7 @@ const Comparativo = ({
 
   useEffect(() => {
     const getNewTables = tempFiltred.map((val) => {
-      return {
-        Component: React.lazy(
-          () =>
-            import(
-              "@/components/@build/observatorio/tables/aeroporto/comparativo/AeroportoInfo"
-            )
-        ),
-      };
+      return tables[0]
     });
     setTablesRender([...tables, ...getNewTables]);
   }, [tempFiltred]);

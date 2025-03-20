@@ -22,36 +22,27 @@ const BalancaComercialPage = () => {
   const router = useRouter();
   const [balanca, setBalanca] = useState([]);
 
-  // Pegamos do contexto: isLoading e data (já filtrados).
   const { isLoading, data, filters } = useDashboard();
 
-  // Tab ativa. Pode ser "geral" ou "analitico".
   const [activeTab, setActiveTab] = useState("geral");
 
-  // Sempre que "tab" mudar na URL, atualizamos localmente
   useEffect(() => {
       const tab = searchParams.get("tab");
       if (tab && tab !== activeTab) {
         setActiveTab(tab);
-        
-      }else if (!tab){
+      } else if (!tab) {
         setActiveTab('geral');
-        router.replace(`?tab=${'geral'}`);
+        router.replace(`?tab=geral`);
       }
-    }, [searchParams, activeTab]);
+    }, [searchParams, activeTab, router]);
 
     useEffect(() => {
-        const intervalId = setInterval(() => {
-
           if (data?.id === "balanca") {
             const balancaData = data?.geral || {};
             setBalanca(balancaData?.filteredData || {});
 
-            clearInterval(intervalId);
           }
-        }, 50);
-    
-        return () => clearInterval(intervalId);
+
       }, [data]);
 
   // Conteúdo principal, dependendo da aba
@@ -84,10 +75,7 @@ const BalancaComercialPage = () => {
     }
   };
 
-  // Botão para navegar entre "geral" e "analitico"
-  const handleNavigation = (tab: string) => {
-    setActiveTab(tab);
-    // Atualiza a URL sem recarregar a página
+  const handleNavigation = async (tab: string) => {
     router.replace(`?tab=${tab}`);
   };
 
