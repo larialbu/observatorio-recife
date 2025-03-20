@@ -56,21 +56,7 @@ function startPeriodicChecks() {
 }
 
 async function restartServer() {
-  try {
 
-    if (server) {
-      server.close(() => {
-        console.log('✅ Servidor fechado. Iniciando novo servidor...');
-        
-        startServer();
-      });
-    } else {
-      startServer();
-    }
-  } catch (error) {
-    console.error('❌ Erro ao reiniciar o servidor:', error);
-    process.exit(1);
-  }
+    process.exit(0)
+
 }
-
-startServer().catch(console.error);
