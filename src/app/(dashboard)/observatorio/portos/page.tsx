@@ -44,16 +44,14 @@ const PortosPage = () => {
   };
 
   useEffect(() => {
-      const tab = searchParams.get("tab");
-      
-      if (tab && tab !== activeTab) {
-        setActiveTab(tab);
-        
-      }else if (!tab){
-        setActiveTab('geral');
-        router.replace(`?tab=${'geral'}`);
-      }
-    }, [searchParams, activeTab]);
+    const tab = searchParams.get("tab");
+    if (tab && tab !== activeTab) {
+      setActiveTab(tab);
+    } else if (!tab) {
+      setActiveTab('geral');
+      router.replace(`?tab=geral`);
+    }
+  }, [searchParams, activeTab, router]);
 
     useEffect(() => {
       if (data?.atracacao) {
@@ -98,15 +96,9 @@ const PortosPage = () => {
     }
 };
 
-  const handleNavigation = (tab: string) => {
-    if (isLoading) return; 
-    const currentTab = searchParams.get("tab");
-    if (currentTab === "comparativo" || currentTab === "passageiro") {
-      setData(null);
-    }
-    setActiveTab(tab);
+  const handleNavigation = async (tab: string) => {
     router.replace(`?tab=${tab}`);
-};
+  };
 
   if (isLoading) return <LoadingScreen />;
 

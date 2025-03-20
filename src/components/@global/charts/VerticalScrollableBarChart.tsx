@@ -13,6 +13,17 @@ import {
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
 import CustomTooltip from "../features/CustomTooltip";
 import CustomLegend from "../features/CustomLegend";
+import { useEffect, useRef, useState } from "react";
+
+const splitDataInBlocks = (data: any[], blockSize: number = 100) => {
+  const blocks: any[][] = [];
+  
+  for (let i = 0; i < data.length; i += blockSize) {
+    blocks.push(data.slice(i, i + blockSize));
+  }
+  
+  return blocks;
+};
 
 const VerticalScrollableBarChart = ({
   data,
@@ -20,37 +31,72 @@ const VerticalScrollableBarChart = ({
   xKey,
   bars,
   colors = [],
-  heightPerCategory = 50, // Altura de cada barra
-  visibleHeight = 400, // Altura visível do gráfico
-  tooltipEntry,
+  heightPerCategory = 50,  
+  visibleHeight = 400, 
   widthY = 100,
   left = -5,
 }: any) => {
-  // Calcula a altura total com base no número de categorias
-  let totalHeight = data.length * heightPerCategory;
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [scrollPosition, setScrollPosition] = useState("start");
+  const [dataRead, setDataRead] = useState<any[]>([]);
+  const [blocksCount, setBlocksCount] = useState(1);
 
-  // Define uma altura mínima para o gráfico caso haja poucas categorias
-  if (data.length <= 5) totalHeight = 300;
+  useEffect(() => {
+    const blocks = splitDataInBlocks(data);
+    setDataRead(blocks[0] || []);
+    setBlocksCount(1);
+  }, [data]);  
 
-  // Função para o formato do tooltip
-  const customTooltipFormatter = (value: any) => {
-    return tooltipFormatter(value, tooltipEntry || "");
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!scrollRef.current) return;
+      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+
+      if (scrollTop === 0) {
+        setScrollPosition("start");
+      } else if (scrollTop + clientHeight >= scrollHeight) {
+        setScrollPosition("end");
+
+        setBlocksCount((prev) => {
+          if (prev < splitDataInBlocks(data).length) {
+            setDataRead(data.slice(0, (prev + 1) * 100));
+            return prev + 1;
+          }
+          return prev;
+        });
+      } else {
+        setScrollPosition("middle");
+      }
+    };
+
+    const scrollElement = scrollRef.current;
+    if (scrollElement) {
+      scrollElement.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (scrollElement) {
+        scrollElement.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [dataRead]); 
+
+  const totalHeight = Math.max(dataRead.length * heightPerCategory, 300);
 
   return (
     <div className="relative bg-white w-full">
       <h3 className="text-center mb-4 font-semibold">{title}</h3>
 
-      {/* Wrapper para scroll vertical */}
       <div
-        className="overflow-y-auto overflow-x-visible" // Ajuste de scroll
-        style={{ height: `${visibleHeight}px` }} // Define a altura visível
+        ref={scrollRef}
+        className="overflow-y-auto overflow-x-visible"
+        style={{ height: `${visibleHeight}px` }}
       >
         <div>
           <ResponsiveContainer width="100%" height={totalHeight}>
             <RechartsBarChart
-              data={data}
-              layout="vertical" // Layout para barras verticais
+              data={dataRead}
+              layout="vertical"
               margin={{ top: 0, right: 10, left: left, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
@@ -64,39 +110,32 @@ const VerticalScrollableBarChart = ({
                 type="category"
                 dataKey={xKey}
                 tick={{ fontSize: 12 }}
-                interval={0} // Exibe todos os rótulos
-                width={widthY} // Espaço suficiente para rótulos longos
+                interval={0}
+                width={widthY}
               />
-              <Tooltip
-              content={(e) => CustomTooltip({...e, customTooltipFormatter})}
-            />
-              
-              {/* Ajustando a legenda com cores dinâmicas */}
+              <Tooltip content={(e) => CustomTooltip({ ...e, customTooltipFormatter: tooltipFormatter })} />
+
               <Legend 
-                  verticalAlign="top" 
-                  align="center"
-                  content={({ payload }) =>{ 
-                     
-                    return  (<div className="flex justify-center ml-10 mt-2">
-                      <div className="w-[90%]">
-                      <CustomLegend payload={payload} />
-                    </div>
-                    </div>)
-                   
-                     }}
-                  iconSize={20}
-                />
-              
-              {/* Desenhando as barras e aplicando as cores */}
-              {bars.map((bar: any, index: any) => (
+                verticalAlign="top" 
+                align="center"
+                content={({ payload }) => (
+                  <div className="flex justify-center ml-10 mt-2 w-[90%]">
+                    <CustomLegend payload={payload} />
+                  </div>
+                )}
+                iconSize={20}
+              />
+
+              {bars.map((bar: any, index: number) => (
                 <Bar key={index} dataKey={bar.dataKey} name={bar.name} fill={colors[0]}>
-                  {data.map((entry: any, dataIndex: any) => {
-                    const color =
-                      entry[xKey]?.includes("Recife")
-                        ? colors[(index % colors.length) + 1]
-                        : colors[index % colors.length]; // Cor condicional
-                    return <Cell key={`cell-${dataIndex}`} fill={color}/>;
-                  })}
+                  {dataRead.map((entry: any, dataIndex: number) => (
+                    <Cell
+                      key={`cell-${dataIndex}`}
+                      fill={entry[xKey]?.includes("Recife") 
+                        ? colors[(index % colors.length) + 1] 
+                        : colors[index % colors.length]}
+                    />
+                  ))}
                 </Bar>
               ))}
             </RechartsBarChart>

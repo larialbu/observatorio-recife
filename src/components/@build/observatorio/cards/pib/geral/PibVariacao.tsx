@@ -27,7 +27,7 @@ const PibVariacao = ({
        data={chartData} // vou colocar pra aparecer aki um dado invalido
        year={year}
        color={color}
-       position={true}
+       percent={true}
      />
    );
 };

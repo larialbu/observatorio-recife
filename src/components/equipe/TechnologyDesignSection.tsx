@@ -33,7 +33,7 @@ export function TechnologyDesignSection({
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 max-w-6xl mx-auto relative z-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 max-w-6xl mx-auto relative z-10">
         {lastSectionMembers.map((member, index) => (
           <div
             key={index}

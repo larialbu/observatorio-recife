@@ -1,11 +1,11 @@
-import React, { useRef, useEffect, useState } from "react";
-import Sortable from "sortablejs";
+import React, { useRef, useState } from "react";
 import charts from "./@imports/charts";
 import cards from "./@imports/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import tables from "./@imports/tables";
+import ErrorBoundary from "@/utils/loader/errorBoundary";
 
 const Geral = ({ toCompare, data, year, months }: { toCompare?: string[]; data: any; year: string, months: number }) => {
   
@@ -21,12 +21,14 @@ const Geral = ({ toCompare, data, year, months }: { toCompare?: string[]; data: 
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-            <Component
-              // local={toCompare ? toCompare : []}
-              data={data}
-              year={year}
-              color={ColorPalette.default[index]}
-            />
+            <ErrorBoundary>
+              <Component
+                // local={toCompare ? toCompare : []}
+                data={data}
+                year={year}
+                color={ColorPalette.default[index]}
+              />
+            </ErrorBoundary>
           </React.Suspense>
         ))}
       </div>
@@ -40,7 +42,9 @@ const Geral = ({ toCompare, data, year, months }: { toCompare?: string[]; data: 
               className={`chart-content-wrapper`}
             >
               <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={data} months={months} />
+                <ErrorBoundary>
+                  <Component data={data} months={months} />
+                </ErrorBoundary>
               </React.Suspense>
             </div>
           );
@@ -57,10 +61,12 @@ const Geral = ({ toCompare, data, year, months }: { toCompare?: string[]; data: 
               className="bg-white shadow-md rounded-lg flex flex-col items-center w-full"
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
-                <Component
-                  color={ColorPalette.default[index]}
-                  data={data}
-                />
+                <ErrorBoundary>
+                  <Component
+                    color={ColorPalette.default[index]}
+                    data={data}
+                  />
+                </ErrorBoundary>
               </React.Suspense>
             </div>
           )})}

@@ -26,7 +26,7 @@ const SubitemParticipacaoIpca = ({
           colors={colors.slice(2)}
           xKey={nameKey}
           widthY={100}
-          left={13}
+          left={15}
           bars={[{ dataKey: "porcentagem", name: "Participação do Subitem no IPCA (%)", barWidth: 30 }]}
         />
       </ChartGrabber>

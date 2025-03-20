@@ -118,16 +118,15 @@ export default function SourcesPage() {
             <Zenitho />
           </div>
         </div>
-
-
         {/* Título e Descrição */}
         <div className="relative z-10 max-w-4xl text-center px-4 __title">
-          <div className="inline-flex items-center">
+          <div className="flex flex-col lg:flex-row items-center lg:inline-flex gap-2 lg:gap-0">
             <div className="w-[64px] mr-[1em] icon-wrapper">
               <svg
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="#ffffff"
+                className="mb-2"
               >
                 <path d="M21.007 8.222A3.738 3.738 0 0 0 15.045 5.2a3.737 3.737 0 0 0 1.156 6.583 2.988 2.988 0 0 1-2.668 1.67h-2.99a4.456 4.456 0 0 0-2.989 1.165V7.4a3.737 3.737 0 1 0-1.494 0v9.117a3.776 3.776 0 1 0 1.816.099 2.99 2.99 0 0 1 2.668-1.667h2.99a4.484 4.484 0 0 0 4.223-3.039 3.736 3.736 0 0 0 3.25-3.687zM4.565 3.738a2.242 2.242 0 1 1 4.484 0 2.242 2.242 0 0 1-4.484 0zm4.484 16.441a2.242 2.242 0 1 1-4.484 0 2.242 2.242 0 0 1 4.484 0zm8.221-9.715a2.242 2.242 0 1 1 0-4.485 2.242 2.242 0 0 1 0 4.485z" />
               </svg>
@@ -141,10 +140,14 @@ export default function SourcesPage() {
             e pesquisas econômicas.
           </p>
         </div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="absolute bottom-0">
+          <path fill="#ffffff" className="dark:fill-[#0C1B2B]" fill-opacity="1" d="M0,192L48,202.7C96,213,192,235,288,245.3C384,256,480,256,576,240C672,224,768,192,864,197.3C960,203,1056,245,1152,229.3C1248,213,1344,139,1392,101.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
       </section>
-
+      
       {/* Grid de Colaboradores */}
       <main className="relative w-full min-h-screen flex flex-col items-center justify-start bg-white dark:bg-[#0C1B2B] py-16 px-4">
+        
         <div className="max-w-6xl mx-auto text-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">
             Explore nossas fontes de dados

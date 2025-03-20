@@ -26,7 +26,7 @@ export const HighlightSection: React.FC<HighlightMemberProps> = ({
       {/* Imagem */}
       <div
         className="
-          group w-full lg:w-1/2
+          group w-full md:w-[60%] lg:w-1/2
           bg-white dark:bg-gray-800
           rounded-3xl shadow-2xl
           overflow-hidden transform transition
