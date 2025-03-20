@@ -141,7 +141,8 @@ export async function loadParquetBundle() {
     const metadataValue = { 
       status: "completed", 
       timestamp: new Date().toISOString(), 
-      processedFiles: total 
+      processedFiles: total,
+      version: 2
     };
     await saveToIndexedDB(DB_NAME, STORE_NAME, metadataKey, metadataValue);
 
