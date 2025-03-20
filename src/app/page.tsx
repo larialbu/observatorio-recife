@@ -7,7 +7,7 @@ import { ExploreSection } from "@/components/home/ExploreSection";
 import { Footer } from "@/components/home/Footer";
 import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
 import NewsSection from "@/components/home/NewsSection";
-import { loadAndSyncBundles } from "@/@api/cache/parquetDecompress";
+import { loadParquetBundle } from "@/@api/cache/parquetDecompress";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { checkSaves } from "@/@api/cache/indexDB";
 
@@ -27,7 +27,7 @@ const Page = () => {
       if (!exists) {
         setLoading(true);
         console.log("Dados não encontrados. Carregando e salvando...");
-        await loadAndSyncBundles();
+        await loadParquetBundle();
       } else {
         console.log("Dados já salvos.");
       }
