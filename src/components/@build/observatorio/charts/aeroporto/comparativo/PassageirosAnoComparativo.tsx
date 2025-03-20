@@ -17,8 +17,6 @@ const PassageirosAnoComparativo = ({
 }: any) => {
   const chartData = processPassageirosAnoComparativo(data, toCompare);
 
-  console.log('AEROPOTO CHARTDATA', chartData)
-
   const updatedData = updatedMonthChartData(chartData, months);
 
   return (

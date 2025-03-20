@@ -48,41 +48,7 @@ useEffect(() => {
   const portosDataFIltred = getFiltredData(rawData, attTempFiltred)
 
     const getNewTables = tempFiltred.map((val) => {
-      return [{
-        Component: React.lazy(
-          () =>
-            import(
-              // "@/components/@build/observatorio/tables/aeroporto/comparativo/AeroportoInfo"
-              "@/components/@build/observatorio/charts/porto/comparativo/OperacaoCargasAno"
-            )
-        ),
-        col: 'full'
-      }, 
-       {
-          Component: React.lazy(
-            () =>
-              import(
-                "@/components/@build/observatorio/charts/porto/comparativo/PaisesExportados"
-              )
-          ),
-        },
-        {
-          Component: React.lazy(
-            () =>
-              import(
-                "@/components/@build/observatorio/charts/porto/comparativo/PaisesImportados"
-              )
-          ),
-        },
-        {
-          Component: React.lazy(
-            () =>
-              import(
-                "@/components/@build/observatorio/charts/porto/comparativo/PrincipaisProdutos"
-              )
-          ),
-        },
-    ];
+      return [...charts];
     });
 
     setPortosDataFiltred(portosDataFIltred)
