@@ -32,12 +32,12 @@ export class PibDataService {
 
     const fetchData = await pibData.fetchProcessedData();
 
-    const { current, past } = fetchData.reduce((acc, pib) => {
-        const year = `${pib['Ano']}`;
-        if (year === this.currentYear) acc.current.push(pib);
-        else if (year === pastYear) acc.past.push(pib);
-        acc.all.push(pib);
-        return acc;
+    const { current, past, all } = fetchData.reduce((acc: { current: any[]; past: any[]; all: any[] }, pib) => {
+      const year = `${pib['Ano']}`;
+      if (year === this.currentYear) acc.current.push(pib);
+      else if (year === pastYear) acc.past.push(pib);
+      acc.all.push(pib);
+      return acc;
     }, { current: [], past: [], all: [] });
 
     const filteredCurrentYearData = applyGenericFilters(current, filters);
