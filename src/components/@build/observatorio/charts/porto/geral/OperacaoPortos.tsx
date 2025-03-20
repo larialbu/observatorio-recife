@@ -32,6 +32,7 @@ const OperacaoPortos = ({
           bars={[{ dataKey: "carga", name: "Porto (Ton)" }]}
           colors={ColorPalette.default}
           heightPerCategory={50}
+          widthY={150}
         />
       </ChartGrabber>
     </div>

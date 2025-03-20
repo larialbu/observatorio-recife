@@ -33,7 +33,6 @@ const VerticalScrollableBarChart = ({
   colors = [],
   heightPerCategory = 50,  
   visibleHeight = 400, 
-  tooltipEntry,
   widthY = 100,
   left = -5,
 }: any) => {
