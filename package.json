@@ -5,12 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "cross-env NODE_ENV=production node server.js",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "css-loader": "^7.1.2",
-    "dotenv": "^16.4.7",
     "framer-motion": "^11.18.0",
     "html2canvas": "^1.4.1",
     "hyparquet": "^1.8.1",
@@ -36,7 +35,6 @@
     "@types/react-dom": "^18",
     "@types/sortablejs": "^1.15.8",
     "autoprefixer": "^10.4.20",
-    "cross-env": "^7.0.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8.5.2",
