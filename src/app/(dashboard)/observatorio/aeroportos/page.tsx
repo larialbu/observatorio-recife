@@ -29,14 +29,18 @@ const AeroportosPage = () => {
       }
     }, [searchParams, activeTab, router]);
 
-  useEffect(() => {  
-
+  useEffect(() => {
+      const intervalId = setInterval(() => {
+        
         if (data) {
           const anacData = data?.geral || {};
           setAnac(anacData?.filteredData || []);
           
+          clearInterval(intervalId);
         }
-        
+      }, 50);
+  
+      return () => clearInterval(intervalId);
     }, [data]);
   
     if (isLoading) return <LoadingScreen />;

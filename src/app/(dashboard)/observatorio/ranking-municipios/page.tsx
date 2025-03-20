@@ -29,12 +29,16 @@ const RankingPage = () => {
   }, [searchParams, activeTab, router]);
 
   useEffect(() => {
+    const intervalId = setInterval(() => {
+
       if (data) {
         const rankingData = data.geral || {};
         setRanking(rankingData.filteredData || []);
   
       }
+    }, 50);
   
+      return () => clearInterval(intervalId);
     }, [data]);
 
   if (isLoading) return <LoadingScreen />;

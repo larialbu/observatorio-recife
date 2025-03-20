@@ -58,7 +58,7 @@ export const menuItems = [
               stroke="gray"  strokeWidth="4"  strokeLinecap="round"  strokeLinejoin="round" fill="none !important"/>
             </svg>
           ),
-          href: "/observatorio/pib",
+          href: "/observatorio/pib?tab=geral",
           visible: ["admin", "teacher"],
         },
         {
