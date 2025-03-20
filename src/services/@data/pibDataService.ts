@@ -30,24 +30,29 @@ export class PibDataService {
     const pibData = new PibData(this.currentYear);
     const pastYear = `${+this.currentYear - 1}`;
 
-    const yearsToRead = [this.currentYear, pastYear]
+    const fetchData = await pibData.fetchProcessedData();
 
-    const fetchAll = await Promise.all(filters.years.map((year: string) => pibData.fetchProcessedDataByYear(year).catch(() => [])))
-    
-    const pibCurrent = fetchAll.filter(pib => yearsToRead[0] === `${pib[0]['Ano']}`)
-    const pibPast = fetchAll.filter(pib => yearsToRead[1] === `${pib[0]['Ano']}`) || []
-   
-    const filtered = applyGenericFilters(fetchAll.flat(), filters)
-    const currentYearData = applyGenericFilters(pibCurrent[0], filters)
-    const pastYearData = applyGenericFilters(pibPast[0], filters)
+    const { current, past } = fetchData.reduce((acc, pib) => {
+        const year = `${pib['Ano']}`;
+        if (year === this.currentYear) acc.current.push(pib);
+        else if (year === pastYear) acc.past.push(pib);
+        acc.all.push(pib);
+        return acc;
+    }, { current: [], past: [], all: [] });
+
+    const filteredCurrentYearData = applyGenericFilters(current, filters);
+    const filteredPastYearData = applyGenericFilters(past, filters);
+    const filtered = applyGenericFilters(fetchData, filters);
 
     return {
-      geral: filtered,
-      current: currentYearData,
-      past: pastYearData,
-      rawDataCurrent: pibCurrent[0]
+        geral: filtered,
+        current: filteredCurrentYearData,
+        past: filteredPastYearData,
+        rawDataCurrent: current,
+        rawDataPast: past
     };
   }
+
 
   public async fetchDataForTab(tab: string, filters: Record<string, any>): Promise<any> {
     const cacheKey = this.getCacheKey(tab, filters);
