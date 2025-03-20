@@ -15,12 +15,12 @@ export class PibData {
 
 
   async fetchProcessedData(): Promise<ProcessedDataPib[]> {
-    const endpoint = `/pib/geral/anos/${this.year}`;
+    const endpoint = `/pib/geral/anos`;
     return fetchData<ProcessedDataPib[]>(endpoint, PibData.cache);
   }
 
   async fetchProcessedDataByYear(year: string): Promise<ProcessedDataPib[]> {
-    const endpoint = `/pib/geral/anos/${year}`;
+    const endpoint = `/pib/geral/anos`;
     return fetchData<ProcessedDataPib[]>(endpoint, PibData.cache);
   }
 

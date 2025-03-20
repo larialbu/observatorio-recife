@@ -62,10 +62,14 @@ export function openDatabase(dbName: string, storeName: string) {
   export async function checkSaves(dbName: string, storeName: string, key: string): Promise<boolean> {
     try {
       const result = await getFromIndexedDB(dbName, storeName, key);
+      if (result && (result.version === undefined || result.version < 2)) {
+        console.log("Atualizando ou inserindo bundle...");
+        return false;
+      }
+  
       return result !== undefined && result !== null;
     } catch (error) {
       console.error("Erro ao verificar a existência do item no IndexedDB:", error);
       return false; 
     }
   }
-  
