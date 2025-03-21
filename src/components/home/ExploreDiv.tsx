@@ -67,7 +67,7 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgre
               return (
                 <div
                   key={item.label}
-                  className={`flex flex-col items-center group transition-transform duration-300 ease-in-out select-none ${
+                  className={`relative flex flex-col pt-2 min-w-[10em] items-center group transition-transform duration-300 ease-in-out bg-white select-none ${
                     isLastItem && totalResults === 1
                       ? "col-span-full flex justify-center"
                       : isLastItem && totalResults > 1
@@ -75,17 +75,17 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgre
                       : ""
                   }`}
                 >
+                    <div
+                      className="absolute z-[9999] max-h-[7.5em] mix-blend-color -inset-0 bg-blue-800 opacity-100 transition-all pointer-events-none duration-300"
+                      style={{ clipPath: `inset(${100 - progresso}% 0 0 0)` }}
+                    />
                   <Link
                     href={item.href || "#"}
                     className={`flex flex-col items-center select-none ${isLinkDisabled ? "pointer-events-none opacity-50" : ""}`}
-                  >
-                    <div className="relative">
-                      <div className={`absolute -inset-0 rounded-full ${isLinkDisabled ? "bg-gray-300": ""} dark:bg-gray-600 mix-blend-multiply`} />
-                      <div
-                        className="absolute -inset-0 rounded-full bg-blue-600 opacity-50 transition-all duration-300"
-                        style={{ clipPath: `inset(${100 - progresso}% 0 0 0)` }}
-                      />
-                      <div className="relative hover:rotate-[-5deg] border-2 border-[#0155AE] rounded-full dark:border-white transition-all duration-300 ease-in-out group-hover:scale-110 cursor-pointer select-none icon-content">
+                  > 
+                  
+                    <div className="relative grayscale hover:rotate-[-5deg]">
+                      <div className="relative border-2 border-[#0155AE] rounded-full dark:border-white transition-all duration-300 ease-in-out group-hover:scale-110 cursor-pointer select-none icon-content">
                         <div className="relative z-10 icon-wrapper">
                           {React.cloneElement(item.icon, {
                             className: `${item.icon.props.className} ${iconClassName} transition-transform duration-300 ease-in-out group-hover:scale-110`,
