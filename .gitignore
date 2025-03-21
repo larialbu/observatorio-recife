@@ -2,4 +2,5 @@
 /.next
 
 .env
-/public/full_data.rar
+/public/*.rar
+/public/manifest.json
