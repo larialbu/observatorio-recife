@@ -1,5 +1,5 @@
 import { createExtractorFromData } from "node-unrar-js";
-import { saveToIndexedDB, getFromIndexedDB } from "./indexDB";
+import { saveToIndexedDB } from "./indexDB";
 import { saveVersion, getVersion } from "./versionUtils";
 import { setProgress, setMessage, enableFirst, disableFirst } from "@/utils/loader/progressEmitter";
 
@@ -19,51 +19,64 @@ function cleanFilePath(filePath: string) {
   return "/" + parts.join("/");
 }
 
-async function processBundle(bundleKey: string, filename: string, version: number) {
-  const response = await fetch(`/${filename}`);
-  const bundleArrayBuffer = await response.arrayBuffer();
-
-  const wasmResponse = await fetch('/unrar.wasm');
-  const wasmArrayBuffer = await wasmResponse.arrayBuffer();
-
-  const extractor = await createExtractorFromData({ wasmBinary: wasmArrayBuffer, data: bundleArrayBuffer });
-  const extracted = extractor.extract();
-
-  const filesArray = [];
-    for (const file of extracted.files) {
-      filesArray.push(file);
+async function processBundle(
+  bundleKey: string,
+  filename: string,
+  version: number,
+  onProgress?: (progress: number) => void,
+  setLoadingStatus?: (status: any) => void
+) {
+  const updateCategoryStatus = (stage: string, percent: number) => {
+    const msg = `${bundleKey} -> ${stage} ${percent.toFixed(0)}%`;
+    setMessage(msg);
+    if (onProgress) onProgress(percent);
+    
+    if (setLoadingStatus) {
+      setLoadingStatus((prev: any) => ({
+        ...prev,
+        [bundleKey]: { stage, percent: Math.round(percent) },
+      }));
     }
+  };
 
-  let processed = 0;
-    let total = filesArray.length;
+  try {
+    const bundleUrl = `/${filename}`;
+    const bundleArrayBuffer = await fetchWithProgress(bundleUrl, (percent) => {
+      updateCategoryStatus("download", percent);
+    });
 
+    const wasmResponse = await fetch('/unrar.wasm');
+    const wasmArrayBuffer = await wasmResponse.arrayBuffer();
+    const extractor = await createExtractorFromData({ wasmBinary: wasmArrayBuffer, data: bundleArrayBuffer });
+    const extracted = extractor.extract();
+
+    const filesArray = Array.from(extracted.files);
+    const totalFiles = filesArray.length;
+
+    updateCategoryStatus("extração", 100);
+
+    let savedCount = 0;
     for (const file of filesArray) {
       const { fileHeader, extraction } = file;
-
-      if (fileHeader.flags.directory) {
-        continue;
-      }
-
-      if (!extraction) {
-        console.warn(`Sem conteúdo extraído: ${fileHeader.name}`);
-        continue;
-      }
-
       const cleanedKey = cleanFilePath(fileHeader.name);
-      console.log(`Salvando: ${cleanedKey}`);
-      await saveToIndexedDB(DB_NAME, STORE_NAME, cleanedKey, extraction.buffer);
-
-      processed++;
-      const progress = 70 + (processed / total) * 65;
-      setProgress(progress);
-      setMessage(`Salvando ${cleanedKey} (${processed}/${total})`);
+      await saveToIndexedDB(DB_NAME, STORE_NAME, cleanedKey, extraction?.buffer);
+      savedCount++;
+      updateCategoryStatus("salvando", 30 + (savedCount / totalFiles) * 70);
     }
 
-  await saveVersion(bundleKey, version);
-  console.log(`🔄 ${bundleKey} atualizado para versão ${version}`);
+    await saveVersion(bundleKey, version);
+    updateCategoryStatus("completo", 100);
+
+  } catch (error) {
+    console.error(`Erro ao processar ${bundleKey}:`, error);
+    throw error;
+  }
 }
 
-export async function loadAndSyncBundles() {
+export async function loadAndSyncBundles(
+  onBundleProgress?: (bundleKey: string, progress: number) => void,
+  onlyKeys?: string[]
+) {
   enableFirst();
   setProgress(5);
   setMessage("Verificando dados...");
@@ -71,21 +84,71 @@ export async function loadAndSyncBundles() {
   const response = await fetch(MANIFEST_URL, { cache: "no-store" });
   const manifest = await response.json();
 
+  const bundlesToUpdate = [];
   for (const [bundleKey, bundleInfo] of Object.entries(manifest) as any) {
-    const filename = bundleInfo.filename;
-    const version = bundleInfo.version;
+    if (onlyKeys && !onlyKeys.includes(bundleKey)) continue;
 
     const currentVersion = await getVersion(bundleKey);
-
-    if (currentVersion === null || version > currentVersion) {
-      console.log(`🆕 Atualizando ${bundleKey} da versão ${currentVersion} → ${version}`);
-      await processBundle(bundleKey, filename, version);
-    } else {
-      console.log(`✔️ ${bundleKey} já está atualizado (v${version})`);
+    if (currentVersion === null || bundleInfo.version > currentVersion) {
+      bundlesToUpdate.push({ bundleKey, ...bundleInfo });
     }
+  }
+
+  const totalBundles = bundlesToUpdate.length;
+  let completedBundles = 0;
+
+  for (const bundle of bundlesToUpdate) {
+    await processBundle(
+      bundle.bundleKey,
+      bundle.filename,
+      bundle.version,
+      (progress) => {
+        const scaledProgress = (completedBundles * 100 + progress) / totalBundles;
+        setProgress(scaledProgress);
+        if (onBundleProgress) onBundleProgress(bundle.bundleKey, progress);
+      }
+    );
+    completedBundles++;
   }
 
   setProgress(100);
   setMessage("Todos os bundles verificados e atualizados.");
   disableFirst();
+}
+
+
+async function fetchWithProgress(url: string, onProgress: (percent: number) => void): Promise<ArrayBuffer> {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Erro ao baixar ${url}: ${response.statusText}`);
+
+  const contentLengthHeader = response.headers.get("Content-Length");
+  const total = contentLengthHeader ? parseInt(contentLengthHeader, 10) : 0;
+  const reader = response.body?.getReader();
+  if (!reader || total === 0) {
+    const arrayBuffer = await response.arrayBuffer();
+    onProgress(100);
+    return arrayBuffer;
+  }
+
+  let receivedLength = 0;
+  const chunks: Uint8Array[] = [];
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    if (value) {
+      chunks.push(value);
+      receivedLength += value.length;
+      const percent = total ? (receivedLength / total) * 100 : 100;
+      onProgress(percent);
+    }
+  }
+
+  const chunksAll = new Uint8Array(receivedLength);
+  let position = 0;
+  for (const chunk of chunks) {
+    chunksAll.set(chunk, position);
+    position += chunk.length;
+  }
+  return chunksAll.buffer;
 }

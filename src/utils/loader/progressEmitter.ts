@@ -1,8 +1,11 @@
-type ProgressListener = (p: number) => void;
-type MessageListener = (m: string) => void;
+// utils/loader/emitter.ts
+export type ProgressListener = (p: number) => void;
+export type MessageListener = (m: string) => void;
 
 let listeners: ProgressListener[] = [];
 let messageListeners: MessageListener[] = [];
+let bundleProgress: { [key: string]: number } = {};
+let totalBundles = 0;
 
 let internalProgress = 0;
 let targetProgress = 0;
@@ -29,11 +32,11 @@ export function setProgress(p: number) {
 }
 
 export let first = false;
-export function enableFirst(){
+export function enableFirst() {
   first = true;
   return first;
 }
-export function disableFirst(){
+export function disableFirst() {
   first = false;
   return first;
 }

@@ -53,7 +53,8 @@ export const iconsExplore = [
                     "fluxo de passageiros",
                     "aeronaves",
                     "frete aéreo"
-                ]
+                ],
+                bundleKey: "aeroporto"
             },
             {   
                 id: 2,
@@ -102,7 +103,8 @@ export const iconsExplore = [
                     "navegação",
                     "frete marítimo",
                     "operações portuárias"
-                  ]
+                  ],
+                bundleKey: "porto"
             },
             {   
                 id: 3,
@@ -146,7 +148,8 @@ export const iconsExplore = [
                     "análise econômica",
                     "estatísticas de preços",
                     "ajustes inflacionários"
-                  ]
+                  ],
+                bundleKey: "ipca"
             },
             {   
                 id: 4,
@@ -197,7 +200,8 @@ export const iconsExplore = [
                     "transações comerciais",
                     "mercado externo",
                     "relações comerciais"
-                  ]
+                  ],
+                bundleKey: "balanco-comercial"
             },
             {   
                 id: 5,
@@ -273,7 +277,8 @@ export const iconsExplore = [
                     "inovação nos municípios",
                     "governança local",
                     "políticas públicas municipais"
-                  ]
+                  ],
+                bundleKey: "ranking"
                   
             },
             {   
@@ -331,7 +336,8 @@ export const iconsExplore = [
                     "grandes empresas",
                     "PMEs de Recife",
                     "mercado de trabalho"
-                  ]
+                  ],
+                bundleKey: "empresas"
             },
             {   
                 id: 7,
@@ -377,7 +383,8 @@ export const iconsExplore = [
                     "setores com mais empregos",
                     "nível de atividade",
                     "estatísticas de trabalho"
-                  ]
+                  ],
+                bundleKey: "empregos"
                   
             },
             {   
@@ -424,7 +431,8 @@ export const iconsExplore = [
                     "economia local",
                     "valores agregados",
                     "análise econômica"
-                  ]
+                  ],
+                bundleKey: "pib"
                   
             },
             {
@@ -699,7 +707,8 @@ export const iconsExplore = [
                 tags: [
                     "CAPAG",
                     "capacidade de pagamentos"
-                ]
+                ],
+                bundleKey: "capag"
             },
             {
                 id: 10,
@@ -760,7 +769,8 @@ export const iconsExplore = [
                     "tributação sobre propriedade",
                     "tributação sobre consumo",
                     "tributação sobre renda"
-                ]
+                ],
+                bundleKey: "tributos"
             }
         ]
     }
