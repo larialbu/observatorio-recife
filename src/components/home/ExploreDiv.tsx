@@ -57,12 +57,11 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgre
               const iconClassName = isDarkMode ? "darkin" : "";
               const isLastItem = index === section.items.length - 1;
 
-              // Definindo o progresso, caso o bundleKey exista em bundleProgress
+              // Definindo o progresso, caso o bundleKey exista em bundleProgress, senão setando 0
               const progresso = bundleProgress && bundleProgress[item.bundleKey] !== undefined 
                 ? bundleProgress[item.bundleKey] 
-                : progress || 100; // Se não houver progresso, usa o valor global progress ou 0
+                : 0; // Se não houver progresso, usa 0
 
-                console.log(progresso)
               // Verificando se o progresso é menor que 100%
               const isLinkDisabled = progresso < 100;
 
