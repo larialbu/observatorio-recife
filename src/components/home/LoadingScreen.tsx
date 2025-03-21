@@ -1,23 +1,23 @@
-// components/home/LoadingScreen.tsx
 "use client";
 
 import { useState, useEffect } from "react";
 import { subscribeToProgress, subscribeToMessage, first } from "@/utils/loader/progressEmitter";
-import { checkSaves } from "@/@api/cache/indexDB";
 import { Novatrix } from "uvcanvas";
+import { getAllVersions } from "@/@api/cache/versionUtils";
 
 export const LoadingScreen = () => {
   const [progress, setProgress] = useState(0);
   const [loadingMessage, setLoadingMessage] = useState("Estamos preparando tudo para você...");
   const [loadingComplete, setLoadingComplete] = useState(false);
   const [loadingTime, setLoadingTime] = useState<string | null>(null);
-  const [isFirstLoad, setIsFirstLoad] = useState(first);
+  const [isFirstLoad, setIsFirstLoad] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
 
   useEffect(() => {
     const check = async () => {
-      const exists = await checkSaves("parquetDB", "parquetFiles", "dataSaved");
-      if (!exists) setIsFirstLoad(true);
+      const exists = await getAllVersions();
+
+      if (!exists[0]) setIsFirstLoad(true);
 
       const startTime = performance.now();
 

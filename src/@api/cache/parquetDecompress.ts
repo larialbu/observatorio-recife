@@ -1,4 +1,3 @@
-// @/api/cache/parquetDecompress.ts
 import { createExtractorFromData } from "node-unrar-js";
 import { saveToIndexedDB } from "./indexDB";
 import { saveVersion, getVersion } from "./versionUtils";
@@ -46,9 +45,6 @@ async function processBundle(
       updateCategoryStatus("download", percent);
     });
 
-    console.log('oi!')
-    console.log(bundleArrayBuffer)
-
     const wasmResponse = await fetch('/unrar.wasm');
     const wasmArrayBuffer = await wasmResponse.arrayBuffer();
     const extractor = await createExtractorFromData({ wasmBinary: wasmArrayBuffer, data: bundleArrayBuffer });
@@ -71,20 +67,16 @@ async function processBundle(
     await saveVersion(bundleKey, version);
     updateCategoryStatus("completo", 100);
 
-    const metadataKey = "dataSaved";
-    const metadataValue = { 
-      status: "completed", 
-      timestamp: new Date().toISOString(), 
-      version: 2
-    };
-    await saveToIndexedDB(DB_NAME, STORE_NAME, metadataKey, metadataValue);
   } catch (error) {
     console.error(`Erro ao processar ${bundleKey}:`, error);
     throw error;
   }
 }
 
-export async function loadAndSyncBundles(onBundleProgress?: (bundleKey: string, progress: number) => void) {
+export async function loadAndSyncBundles(
+  onBundleProgress?: (bundleKey: string, progress: number) => void,
+  onlyKeys?: string[]
+) {
   enableFirst();
   setProgress(5);
   setMessage("Verificando dados...");
@@ -94,6 +86,8 @@ export async function loadAndSyncBundles(onBundleProgress?: (bundleKey: string, 
 
   const bundlesToUpdate = [];
   for (const [bundleKey, bundleInfo] of Object.entries(manifest) as any) {
+    if (onlyKeys && !onlyKeys.includes(bundleKey)) continue;
+
     const currentVersion = await getVersion(bundleKey);
     if (currentVersion === null || bundleInfo.version > currentVersion) {
       bundlesToUpdate.push({ bundleKey, ...bundleInfo });
@@ -121,6 +115,7 @@ export async function loadAndSyncBundles(onBundleProgress?: (bundleKey: string, 
   setMessage("Todos os bundles verificados e atualizados.");
   disableFirst();
 }
+
 
 async function fetchWithProgress(url: string, onProgress: (percent: number) => void): Promise<ArrayBuffer> {
   const response = await fetch(url);
