@@ -74,7 +74,7 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgre
                 return (
                   <div
                     key={item.label}
-                    className="relative flex flex-col pt-2 min-w-[10em] items-center group transition-transform duration-300 ease-in-out bg-white select-none"
+                    className="relative flex flex-col pt-2 min-w-[10em] items-center group transition-transform duration-300 ease-in-out bg-white dark:bg-inherit select-none"
                   >
                     <Link
                       href={item.href || "#"}
@@ -84,7 +84,7 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgre
                     >
                       <div className="relative">
                         <div
-                          className={`${isLinkDisabled ? "" : "hidden"} absolute -inset-0 rounded-full bg-blue-600 opacity-50 transition-all duration-300`}
+                          className={`${isLinkDisabled ? "" : "hidden dark:flex"} absolute -inset-0 rounded-full bg-blue-600 opacity-50 transition-all duration-300`}
                           style={{ clipPath: `inset(${100 - progresso}% 0 0 0)` }}
                         />
                         <div
@@ -99,7 +99,7 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgre
                               transform: "translate(-50%, -50%)",
                               width: "1px",
                               height: "1px",
-                              zIndex: "10"
+                              zIndex: "15"
                             }}
                           />
                           <div className="relative z-10 icon-wrapper">
