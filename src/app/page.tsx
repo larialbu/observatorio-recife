@@ -1,3 +1,4 @@
+// Página principal (exemplo de uso)
 "use client";
 import "./styles/home/style.scss";
 
@@ -14,8 +15,9 @@ import { checkSaves } from "@/@api/cache/indexDB";
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
+  const [bundleProgress, setBundleProgress] = useState<{ [key: string]: number }>({});
+  const [progress, setProgress] = useState(0) as any;
 
-  // Função para atualizar o termo de busca
   const handleSearch = (term: string) => {
     setSearchTerm(term.toLowerCase());
   };
@@ -25,35 +27,33 @@ const Page = () => {
       const exists = await checkSaves("parquetDB", "parquetFiles", "dataSaved");
 
       if (!exists) {
+        setProgress(0);
         setLoading(true);
-        console.log("Dados não encontrados. Carregando e salvando...");
-        await loadAndSyncBundles();
-      } else {
-        console.log("Dados já salvos.");
-      }
+        await loadAndSyncBundles((bundleKey, progress) => {
+          setBundleProgress(prev => ({
+            ...prev,
+            [bundleKey]: progress,
+          }));
+        });
 
+      } else{
+        setProgress(100);
+      }
       setLoading(false);
     };
 
     checkDataAndLoad();
   }, []);
 
+  console.log(bundleProgress)
+
   return (
     <div className="min-h-screen dark:bg-[#0C1B2B]">
       {loading && <LoadingScreen />}
-      {/* Banner com input de busca */}
       <Banner onSearch={handleSearch} />
-
-      {/* Seção de Explorar com filtro baseado no termo de busca */}
-      <ExploreSection searchTerm={searchTerm} />
-      
-      {/* Seção de notícias */}
+      <ExploreSection searchTerm={searchTerm} bundleProgress={bundleProgress} progress={progress} />
       <NewsSection />
-
-      {/* Ícones sociais */}
       <SocialIconsContainer />
-
-      {/* Rodapé */}
       <Footer />
     </div>
   );
