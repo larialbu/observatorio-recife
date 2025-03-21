@@ -15,7 +15,8 @@ const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [bundleProgress, setBundleProgress] = useState<{ [key: string]: number }>({});
-  const [progress, setProgress] = useState(0) as any;
+  const [progress, setProgress] = useState(0);
+  const [checkBundles, setCheckBundles] = useState({});
 
   const handleSearch = (term: string) => {
     setSearchTerm(term.toLowerCase());
@@ -23,30 +24,58 @@ const Page = () => {
 
   useEffect(() => {
     const checkDataAndLoad = async () => {
-      const exists = await checkSaves("parquetDB", "parquetFiles", "dataSaved");
+      setLoading(true);
 
-      if (!exists) {
-        console.log('colocando em 0')
-        setProgress(0);
-        setLoading(true);
-        await loadAndSyncBundles((bundleKey, progress) => {
-          setBundleProgress(prev => ({
-            ...prev,
-            [bundleKey]: progress,
-          }));
-        });
+      const response = await fetch("/manifest.json", { cache: "no-store" });
+      const manifest = await response.json();
+      const manifestEntries = Object.entries(manifest).map(([bundleKey, info]: any) => ({
+        bundleKey,
+        version: info.version,
+      }));
 
-      } else{
-        console.log('colocando em 100')
+      const outdatedBundles = await checkSaves(manifestEntries);
+      setCheckBundles(outdatedBundles);
+
+      if (!outdatedBundles || outdatedBundles.length === 0) {
+
+        const updatedBundleProgress: { [key: string]: number } = {};
+        for (const entry of manifestEntries) {
+          updatedBundleProgress[entry.bundleKey] = 100;
+        }
+        setBundleProgress(updatedBundleProgress);
         setProgress(100);
+        setLoading(false);
+        return;
       }
+
+      const updatedBundleProgress: { [key: string]: number } = {};
+      for (const entry of manifestEntries) {
+        if (!outdatedBundles.includes(entry.bundleKey)) {
+          updatedBundleProgress[entry.bundleKey] = 100;
+        }
+      }
+      setBundleProgress(updatedBundleProgress);
+      setProgress(0);
+
+      await loadAndSyncBundles((bundleKey, percent) => {
+        setBundleProgress(prev => ({
+          ...prev,
+          [bundleKey]: percent,
+        }));
+
+        const allKeys = Object.keys(manifest);
+        const individualProgresses = allKeys.map(key =>
+          key === bundleKey ? percent : (bundleProgress[key] || 0)
+        );
+        const avgProgress = individualProgresses.reduce((a, b) => a + b, 0) / allKeys.length;
+        setProgress(avgProgress);
+      });
+
       setLoading(false);
     };
 
     checkDataAndLoad();
   }, []);
-
-  console.log(bundleProgress)
 
   return (
     <div className="min-h-screen dark:bg-[#0C1B2B]">

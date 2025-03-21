@@ -70,17 +70,29 @@
       });
     }
 
-    export async function checkSaves(dbName: string, storeName: string, key: string): Promise<boolean> {
-      try {
-        const result = await getFromIndexedDB(dbName, storeName, key);
-        if (result && (result.version === undefined || result.version < 2)) {
-          console.log("Atualizando ou inserindo bundle...");
-          return false;
-        }
+    ///////////////////////
+    ////////////
+    //////
+
+    interface ManifestEntry {
+      bundleKey: string;
+      version: number;
+    }
+
+    export async function checkSaves(manifest: ManifestEntry[]): Promise<string[] | false> {
+      const updatedBundles: string[] = [];
     
-        return result !== undefined && result !== null;
-      } catch (error) {
-        console.error("Erro ao verificar a existência do item no IndexedDB:", error);
-        return false; 
+      for (const { bundleKey, version } of manifest) {
+        try {
+          const currentVersion = await getVersion(bundleKey);
+          if (currentVersion === null || currentVersion < version) {
+            updatedBundles.push(bundleKey);
+          }
+        } catch (error) {
+          console.error(`Erro ao verificar a versão do bundle '${bundleKey}':`, error);
+          updatedBundles.push(bundleKey); // assume que precisa atualizar se houve erro
+        }
       }
+    
+      return updatedBundles.length > 0 ? updatedBundles : false;
     }

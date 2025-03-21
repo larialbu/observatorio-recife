@@ -10,7 +10,6 @@ interface ExploreDivProps {
 }
 
 export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgress, progress }) => {
-  console.log(progress)
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -58,15 +57,13 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgre
               const iconClassName = isDarkMode ? "darkin" : "";
               const isLastItem = index === section.items.length - 1;
 
-              // Definindo o progresso, caso o bundleKey exista em bundleProgress, senão setando 0
-              const progresso = bundleProgress && bundleProgress[item.bundleKey] !== undefined 
-                ? bundleProgress[item.bundleKey] 
-                : progress; // Se não houver progresso, usa 0
+              let progresso = 0;
+              if (item.bundleKey && bundleProgress && Object.prototype.hasOwnProperty.call(bundleProgress, item.bundleKey)) {
+                progresso = bundleProgress[item.bundleKey];
+              }
 
-              // Verificando se o progresso é menor que 100%
               const isLinkDisabled = progresso < 100;
-              console.log(progresso)
-
+              
               return (
                 <div
                   key={item.label}
@@ -83,9 +80,9 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgre
                     className={`flex flex-col items-center select-none ${isLinkDisabled ? "pointer-events-none opacity-50" : ""}`}
                   >
                     <div className="relative">
-                      <div className="absolute -inset-0 rounded-full bg-gray-300 dark:bg-gray-600 mix-blend-multiply" />
+                      <div className={`absolute -inset-0 rounded-full ${isLinkDisabled ? "bg-gray-300": ""} dark:bg-gray-600 mix-blend-multiply`} />
                       <div
-                        className="absolute -inset-0 rounded-full bg-blue-600 transition-all duration-300"
+                        className="absolute -inset-0 rounded-full bg-blue-600 opacity-50 transition-all duration-300"
                         style={{ clipPath: `inset(${100 - progresso}% 0 0 0)` }}
                       />
                       <div className="relative hover:rotate-[-5deg] border-2 border-[#0155AE] rounded-full dark:border-white transition-all duration-300 ease-in-out group-hover:scale-110 cursor-pointer select-none icon-content">
