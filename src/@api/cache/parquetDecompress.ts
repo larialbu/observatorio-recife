@@ -70,6 +70,14 @@ async function processBundle(
 
     await saveVersion(bundleKey, version);
     updateCategoryStatus("completo", 100);
+
+    const metadataKey = "dataSaved";
+    const metadataValue = { 
+      status: "completed", 
+      timestamp: new Date().toISOString(), 
+      version: 2
+    };
+    await saveToIndexedDB(DB_NAME, STORE_NAME, metadataKey, metadataValue);
   } catch (error) {
     console.error(`Erro ao processar ${bundleKey}:`, error);
     throw error;

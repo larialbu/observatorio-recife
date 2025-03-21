@@ -10,6 +10,7 @@ interface ExploreDivProps {
 }
 
 export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgress, progress }) => {
+  console.log(progress)
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -60,10 +61,11 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgre
               // Definindo o progresso, caso o bundleKey exista em bundleProgress, senão setando 0
               const progresso = bundleProgress && bundleProgress[item.bundleKey] !== undefined 
                 ? bundleProgress[item.bundleKey] 
-                : 0; // Se não houver progresso, usa 0
+                : progress; // Se não houver progresso, usa 0
 
               // Verificando se o progresso é menor que 100%
               const isLinkDisabled = progresso < 100;
+              console.log(progresso)
 
               return (
                 <div
@@ -81,7 +83,7 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgre
                     className={`flex flex-col items-center select-none ${isLinkDisabled ? "pointer-events-none opacity-50" : ""}`}
                   >
                     <div className="relative">
-                      <div className="absolute -inset-0 rounded-full bg-gray-300 dark:bg-gray-600" />
+                      <div className="absolute -inset-0 rounded-full bg-gray-300 dark:bg-gray-600 mix-blend-multiply" />
                       <div
                         className="absolute -inset-0 rounded-full bg-blue-600 transition-all duration-300"
                         style={{ clipPath: `inset(${100 - progresso}% 0 0 0)` }}
