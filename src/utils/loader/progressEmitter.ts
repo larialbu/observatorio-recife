@@ -1,5 +1,5 @@
-type ProgressListener = (p: number) => void;
-type MessageListener = (m: string) => void;
+export type ProgressListener = (p: number) => void;
+export type MessageListener = (m: string) => void;
 
 let listeners: ProgressListener[] = [];
 let messageListeners: MessageListener[] = [];
@@ -29,11 +29,11 @@ export function setProgress(p: number) {
 }
 
 export let first = false;
-export function enableFirst(){
+export function enableFirst() {
   first = true;
   return first;
 }
-export function disableFirst(){
+export function disableFirst() {
   first = false;
   return first;
 }

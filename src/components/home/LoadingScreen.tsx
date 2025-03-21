@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { subscribeToProgress, subscribeToMessage } from "@/utils/loader/progressEmitter";
-import { Novatrix } from "uvcanvas";
-import { first } from "@/utils/loader/progressEmitter"
+import { subscribeToProgress, subscribeToMessage, first } from "@/utils/loader/progressEmitter";
 import { checkSaves } from "@/@api/cache/indexDB";
+import { Novatrix } from "uvcanvas";
 
 export const LoadingScreen = () => {
   const [progress, setProgress] = useState(0);
@@ -14,9 +13,9 @@ export const LoadingScreen = () => {
   const [isFirstLoad, setIsFirstLoad] = useState(first);
 
   useEffect(() => {
-    const check = async () =>{
+    const check = async () => {
       const exists = await checkSaves("parquetDB", "parquetFiles", "dataSaved");
-      if(!exists) setIsFirstLoad(true);
+      if (!exists) setIsFirstLoad(true);
 
       const startTime = performance.now();
 
@@ -33,29 +32,25 @@ export const LoadingScreen = () => {
         setLoadingMessage(msg);
       });
 
-
       return () => {
         unsubProgress();
         unsubMessage();
       };
-    }
-    
-    check();
+    };
 
+    check();
   }, []);
 
   return (
     <div className="fixed z-[999] flex flex-col items-center justify-center right-0 top-0 px-5 h-screen w-full bg-white">
-
       {isFirstLoad && (
         <div className="absolute inset-0 top-0 left-0 brightness-[250%] opacity-30 grayscale-[0] z-10 w-full h-full">
-        <div className="hue-rotate-[220deg] w-full h-full">
-          <Novatrix />
+          <div className="hue-rotate-[220deg] w-full h-full">
+            <Novatrix />
+          </div>
         </div>
-      </div>
       )}
-      {/* ${ isFirstLoad ? 'backdrop-blur-md rounded-xl py-20 px-2 w-full sm:w-[25em] shadow-md' : '' } */}
-      <div className={ `flex flex-col items-center z-20` }>
+      <div className="flex flex-col items-center z-20">
         <img
           src="/images/logos/observatorio_logo.png"
           alt="logo observatorio"
