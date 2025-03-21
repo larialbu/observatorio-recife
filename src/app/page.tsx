@@ -1,4 +1,3 @@
-// Página principal (exemplo de uso)
 "use client";
 import "./styles/home/style.scss";
 
@@ -27,6 +26,7 @@ const Page = () => {
       const exists = await checkSaves("parquetDB", "parquetFiles", "dataSaved");
 
       if (!exists) {
+        console.log('colocando em 0')
         setProgress(0);
         setLoading(true);
         await loadAndSyncBundles((bundleKey, progress) => {
@@ -37,6 +37,7 @@ const Page = () => {
         });
 
       } else{
+        console.log('colocando em 100')
         setProgress(100);
       }
       setLoading(false);

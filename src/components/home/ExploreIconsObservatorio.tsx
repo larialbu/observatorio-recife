@@ -337,7 +337,7 @@ export const iconsExplore = [
                     "PMEs de Recife",
                     "mercado de trabalho"
                   ],
-                bundleKey: "aeroporto"
+                bundleKey: "empresas"
             },
             {   
                 id: 7,
@@ -384,7 +384,7 @@ export const iconsExplore = [
                     "nível de atividade",
                     "estatísticas de trabalho"
                   ],
-                bundleKey: "aeroporto"
+                bundleKey: "empregos"
                   
             },
             {   
@@ -708,7 +708,7 @@ export const iconsExplore = [
                     "CAPAG",
                     "capacidade de pagamentos"
                 ],
-                bundleKey: "aeroporto"
+                bundleKey: "capag"
             },
             {
                 id: 10,
@@ -770,7 +770,7 @@ export const iconsExplore = [
                     "tributação sobre consumo",
                     "tributação sobre renda"
                 ],
-                bundleKey: "aeroporto"
+                bundleKey: "tributos"
             }
         ]
     }
