@@ -196,7 +196,7 @@ const Navbar = () => {
                   <div className="flex flex-col">
                     <label className="text-xs font-medium text-gray-600 mb-1">ANO</label>
                     <select
-                      value={tempFilters.year || "2024"}
+                      value={tempFilters.year || filters.years && filters.years[filters.years.length - 1]}
                       onChange={(e) => {
                         setTempFilters((prev) => ({ ...prev, year: e.target.value }));
                       }}
