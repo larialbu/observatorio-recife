@@ -91,7 +91,7 @@ export const LoadingScreen = () => {
           className="animate-spin w-20 h-20 object-cover"
         />
         <p className="text-center text-gray-600 mt-2">
-          {loadingMessage} {progress}%
+          {loadingMessage}<br/>Total: {progress}%
         </p>
         <div className="relative w-48 h-2 bg-gray-200 rounded overflow-hidden mt-4">
           <div
