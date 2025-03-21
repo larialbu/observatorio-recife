@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import html2canvas from "html2canvas";
 import OptionsMenu from "./OptionsMenu";
+import { useDashboard } from "@/context/DashboardContext";
 
 const ChartGrabber = ({
   children,
@@ -9,6 +10,12 @@ const ChartGrabber = ({
   children: React.ReactNode;
   left?: boolean;
 }) => {
+
+  const { filters } = useDashboard()
+
+  const additionalFilters = filters.additionalFilters
+  const yearFilter = filters?.year || filters.years[filters.years.length - 1]
+
   const [showTempContainer, setShowTempContainer] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [chartTitle, setChartTitle] = useState("grafico");
@@ -45,15 +52,17 @@ const ChartGrabber = ({
         element.parentNode?.removeChild(element);
       });
 
-      html2canvas(tempChartRef.current, { backgroundColor: "white" }).then(
-        (canvas) => {
-          const link = document.createElement("a");
-          link.download = `${chartTitle.replace(/\s+/g, "_").toLowerCase()}.png`;
-          link.href = canvas.toDataURL();
-          link.click();
-          setShowTempContainer(false);
-        }
-      );
+      html2canvas(tempChartRef.current, {
+        backgroundColor: "white",
+        scale: 2, // Melhora a resolução da imagem
+        useCORS: true, // Garante que imagens externas sejam renderizadas corretamente
+      }).then((canvas) => {
+        const link = document.createElement("a");
+        link.download = `${chartTitle.replace(/\s+/g, "_").toLowerCase()}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+        setShowTempContainer(false);
+      });
     }
   };
 
@@ -134,13 +143,29 @@ const ChartGrabber = ({
           }}
           ref={tempChartRef}
         >
-          <div className="!flex !items-center !justify-center"></div>
           {removeButtonContainer(children)}
-          <div className="p-4">
-            <ul>
-              <li>Filtros:</li>
-              <li>AEROPORTO NOME: Recife, Salvador e Rio de Janeiro</li>
-            </ul>
+          <div className="border shadow-md rounded-md p-4 text-sm text-gray-700">
+          <ul>
+            <li><strong>Filtros:</strong></li>
+            
+            <li className="mt-2"><strong>Ano:</strong> {yearFilter}</li>
+              {additionalFilters
+                .filter((filter) => filter.selected.length > 0) // Filtra apenas os que têm itens selecionados
+                .map((filter, index) => {
+                  const filterSelected = filter.selected;
+                  const filterLength = filterSelected.length;
+
+                  return (
+                    <li key={index} className="mt-2">
+                      <strong>{filter.label}:</strong>{" "}
+                      {filterLength > 5
+                        ? `${filterSelected.slice(0, 5).join(", ")}... e outros (${filterLength - 5})`
+                        : filterSelected.join(", ")}
+                    </li>
+                  );
+                })}
+          </ul>
+
           </div>
           {/* Adiciona o subText ao container temporário */}
           {chartSubText && (
