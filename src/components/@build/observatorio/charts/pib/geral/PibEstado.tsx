@@ -7,6 +7,7 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processPibGroup } from "@/functions/process_data/observatorio/pib/geral/pibGroup";
 
 const PibEstado = ({
+  id,
   data,
   title = "PIB por Estado",
 }: any) => {
@@ -15,7 +16,7 @@ const PibEstado = ({
 
   return (
     <div className="chart-wrapper">
-      <ChartGrabber>
+      <ChartGrabber id={id}>
         <ScrollableBarChart
           data={chartData}
           title={title}

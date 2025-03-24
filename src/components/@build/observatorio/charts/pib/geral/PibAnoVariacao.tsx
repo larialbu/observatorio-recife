@@ -7,6 +7,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processPIBvariacao } from "@/functions/process_data/observatorio/pib/geral/pibAnoVariacao";
 
 const PibAnoVariacao = ({
+    id,
     data = [],
     colors = ColorPalette.default,
     title = "PIB Variação ao Longo do Ano",
@@ -17,7 +18,7 @@ const PibAnoVariacao = ({
   
     return (
       <div className="chart-wrapper">
-        <ChartGrabber>
+        <ChartGrabber id={id}>
           <LineChart
             data={chartData}
             title={title}

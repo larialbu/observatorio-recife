@@ -7,6 +7,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processPIBPorAno } from "@/functions/process_data/observatorio/pib/geral/pibAno";
 
 const PibAno = ({
+  id,
   data = [],
   colors = ColorPalette.default,
   title = "PIB ao Longo do Ano",
@@ -17,7 +18,7 @@ const chartData = processPIBPorAno(data.geral.flat())
 
   return (
     <div className="chart-wrapper">
-      <ChartGrabber>
+      <ChartGrabber id={id}>
         <LineChart
           data={chartData}
           title={title}
