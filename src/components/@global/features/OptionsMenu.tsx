@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 interface OptionsMenuProps {
   onDownload: () => void;
   onFullScreen: () => void;
-  onHidden: () => void;
   isFullScreen: boolean;
   left?: boolean;
 }
@@ -11,7 +10,6 @@ interface OptionsMenuProps {
 const OptionsMenu: React.FC<OptionsMenuProps> = ({
   onDownload,
   onFullScreen,
-  onHidden,
   isFullScreen,
   left,
 }) => {
@@ -84,18 +82,6 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
             className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
           >
             Tela cheia
-          </button>
-          <button
-            onClick={() => {
-              console.log('aaaBBB')
-              onHidden()
-
-              // onFullScreen();
-              // setMenuOpen(false);
-            }}
-            className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
-          >
-            Esconder gráfico
           </button>
         </div>
       )}

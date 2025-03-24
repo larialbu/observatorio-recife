@@ -22,8 +22,6 @@ interface Data {
 }
 
 interface DashboardContextProps {
-  chartsContext: any[]; 
-  setChartsContext: (value: any[]) => void;
   filters: Filters;
   data: Data | null;
   setData: any;
@@ -38,7 +36,6 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [chartsContext, setChartsContext] = useState<any>([])
   const [filters, setFilters] = useState<Filters>({} as any);
   const [data, setData] = useState<Data | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -136,7 +133,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
 
   return (
-    <DashboardContext.Provider value={{ chartsContext, setChartsContext, filters, data, isLoading, applyFilters, resetFilters, setData }}>
+    <DashboardContext.Provider value={{ filters, data, isLoading, applyFilters, resetFilters, setData }}>
       {children}
     </DashboardContext.Provider>
   );

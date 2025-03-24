@@ -5,21 +5,17 @@ import { useDashboard } from "@/context/DashboardContext";
 
 const ChartGrabber = ({
   children,
-  id = 'algumacoisa-geral-1',
   left,
 }: {
   children: React.ReactNode;
-  id: string
   left?: boolean;
 }) => {
-  console.log('ID', id)
 
-  const { filters, chartsContext, setChartsContext } = useDashboard()
+  const { filters } = useDashboard()
 
   const additionalFilters = filters.additionalFilters
   const yearFilter = filters?.year || filters.years[filters.years.length - 1]
 
-  const [showContent, setShowContent] = useState(true)
   const [showTempContainer, setShowTempContainer] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [chartTitle, setChartTitle] = useState("grafico");
@@ -109,26 +105,6 @@ const ChartGrabber = ({
     return React.cloneElement(element, { ...elementProps }, children);
   };
 
-  const handleHiddenChart = () => {
-    const chart = Object.assign({}, chartsContext.find((chart) => chart.id === id) )   
-    const chartContextRomeved = chartsContext.filter((charts) => charts.id !== chart.id)
-
-    if (showContent) {
-      console.log('VAI SER APAGADO', showContent)      
-      chart.order = 0 
-      setChartsContext([...chartContextRomeved, chart])
-      setShowContent(false)
-    } else {
-      console.log('VAI SER MOSTRADO', showContent)
-      console.log('ORDER Q VAI Ser',+chart.id.split('-')[2])      
-      chart.order = +chart.id.split('-')[2]
-      console.log('ARRAY', [...chartContextRomeved, chart])
-      setChartsContext([...chartContextRomeved, chart])
-      setShowContent(true)
-    }
-    
-  }
-
   return (
     <div className="w-full">
       <div
@@ -137,26 +113,19 @@ const ChartGrabber = ({
           isFullScreen ? "flex items-center justify-center pr-4 pl-4" : ""
         }`}
       >
-       {showContent ? 
-       <>
         <div className={`absolute w-[100%] h-full`}>
-            <OptionsMenu
-              left={left}
-              onDownload={handleDownload}
-              onFullScreen={
-                isFullScreen ? handleExitFullScreen : handleFullScreen
-              }
-              onHidden={handleHiddenChart}
-              isFullScreen={isFullScreen}
-            />
-          </div>
-          <div className={`${isFullScreen ? "w-[80%]" : ""} z-10`}>
-            {children}
-          </div>
-       </> : <div><button onClick={() => {
-        handleHiddenChart()
-        }}>aaa</button></div> }
-        
+          <OptionsMenu
+            left={left}
+            onDownload={handleDownload}
+            onFullScreen={
+              isFullScreen ? handleExitFullScreen : handleFullScreen
+            }
+            isFullScreen={isFullScreen}
+          />
+        </div>
+        <div className={`${isFullScreen ? "w-[80%]" : ""} z-10`}>
+          {children}
+        </div>
       </div>
 
       {showTempContainer && (
