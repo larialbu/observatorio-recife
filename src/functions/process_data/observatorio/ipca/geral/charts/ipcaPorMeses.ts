@@ -28,10 +28,10 @@ export const processVariacaoMensal = (data: any[]): { mes: string; [key: string]
   // Processa os dados
   filteredData.forEach((item) => {
     const variacaoMensal = parseFloat(
-      (item["variação mensal"] || "0").replace(",", ".")
+      (item["IPCA - Variação acumulado no ano"] || "0")
     ); // Transforma para número e remove formatação
 
-    const mes = item["MÊS"];
+    const mes = item["MÊS"].toString();
     const categoriaNome = item["Capital"]; // Assumindo que "Capital" é a categoria
 
     // Verifica se a categoria está dentro das categorias selecionadas

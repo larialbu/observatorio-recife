@@ -58,10 +58,12 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      service.setYear(filtersToUse?.year || "2024");
+      service.setYear(filtersToUse?.year || filtersToUse.years[filtersToUse.years.length - 1]);
       const fetched: Data = await service.fetchDataForTab(tab, filtersToUse);
 
-      console.log("✅ Dados carregados:", fetched); // REMOVER ISSO AQUI DEPOIS
+      if (process.env.NODE_ENV === 'development') {
+        console.log("✅ Dados carregados:", fetched);
+      } // REMOVER ISSO AQUI DEPOIS
 
       setData(fetched);
 

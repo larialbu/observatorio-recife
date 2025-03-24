@@ -4,7 +4,7 @@ export const processPassageirosPorNatureza = (data: any[]) => {
     const natureza = item["NATUREZA"] || "Indefinida";
     
     const passageiros = parseFloat(
-      (item["PASSAGEIRO"] || "0").replace(/\./g, "").replace(",", ".")
+      (item["PASSAGEIRO"] || "0")
     );
 
     if (!acc[natureza]) {

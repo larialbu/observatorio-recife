@@ -17,7 +17,7 @@ export const processBrasilVariacaoMensal = (data: any[]) => {
     filteredData.forEach((item) => {
       // Converte a variação mensal para número
       const variaçãoMensal = parseFloat(
-        (item["variação mensal"] || "0").replace(",", ".")
+        (item["IPCA - Variação acumulado no ano"] || "0")
       );
   
       const mes = item["MÊS"]; // Pega o mês

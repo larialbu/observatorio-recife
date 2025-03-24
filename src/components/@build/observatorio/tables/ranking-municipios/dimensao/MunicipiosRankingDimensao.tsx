@@ -6,11 +6,11 @@ import TableGeneric from "@/components/@global/tables/TableGeneric";
 const MunicipalityInfo = ({ data = [], year, color = "#000000" }: any) => {
   // Filtra os dados com base no ano
   const aggregatedData = data
-    .filter((item: any) => item["ANO"] === `${year}`)
+    .filter((item: any) => item["Ano"]?.toString() === `${year}`)
     .map((item: any) => ({
       Município: item["Município"] || "Desconhecido",
       UF: item["UF"] || "-",
-      Nota: (parseFloat(item["Nota"].replace(",", ".")) || 0).toFixed(2),
+      Nota: (parseFloat(item["Nota"]) || 0).toFixed(2),
       Colocação: item["Colocação"] || "-",
       Dimensão: item["Dimensão"] || "-",
     }));
@@ -46,7 +46,7 @@ const MunicipalityInfo = ({ data = [], year, color = "#000000" }: any) => {
   }
 
   return (
-    <div className="relative bg-white w-full h-full">
+    <div className="relative w-full h-full">
       <TableGeneric
         maxHeight={900}
         rowsPerPage={100}

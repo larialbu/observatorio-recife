@@ -27,8 +27,10 @@ const ImportacaoExportacaoContinente = ({
         tooltipEntry=" dólares"
         heightPerCategory={60}  // Define a altura de cada categoria (barra)
         visibleHeight={400}
-        left={15}
+        widthY={150}
+        left={-8}
         yFontSize={11}
+        tooltipTitleFontSize={13}
       />
       </ChartGrabber>
       

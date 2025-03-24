@@ -6,9 +6,9 @@ export const processImportacao = (
   
     // Filtra os dados e soma os valores de Importação
     data.forEach((item) => {
-      if (item["Ano"] === year && item["tipo"] === "Importação") {
+      if (item["Ano"].toString() === year && item["tipo"] === "Importação") {
         const valor = parseFloat(
-          (item["Valor US$"] || "0").replace(/\./g, "").replace(",", ".")
+          (item["Valor US$"] || "0")
         );
         totalImportacao += valor;
       }

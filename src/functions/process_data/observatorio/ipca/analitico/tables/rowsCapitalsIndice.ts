@@ -6,16 +6,16 @@ export const rowsCapitalsIndice = (
 ) => {
   const filteredData = data.filter(
     (item) =>
-      item["ANO"] === year &&
+      item["ANO"].toString() === year &&
       (!month || +item["MÊS"] === month) &&
       item["Capital"] === capital
   );
 
   const aggregatedData = filteredData.reduce((acc: any, item: any) => {
     const grupo = item["Grupo"];
-    const mensal = parseFloat(item["Mensal"].replace(",", ".")) || 0;
-    const acumulado = parseFloat(item["Acumulado"].replace(",", ".")) || 0;
-    const peso = parseFloat(item["Peso"].replace(",", ".")) || 0;
+    const mensal = parseFloat(item["Mensal"]) || 0;
+    const acumulado = parseFloat(item["Acumulado"]) || 0;
+    const peso = parseFloat(item["Peso"]) || 0;
 
     if (!acc[grupo]) {
       acc[grupo] = {

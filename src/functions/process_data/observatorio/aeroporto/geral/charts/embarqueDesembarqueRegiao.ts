@@ -17,6 +17,13 @@ const abbreviateRegion = (region: string, windowWidth: number): string => {
   return region;
 };
 
+const parsePassageiros = (passageiros: any): number => {
+  const parsed = parseFloat(
+    (passageiros || "0")
+  );
+  return isNaN(parsed) ? 0 : parsed;
+};
+
 export const processEmbarqueDesembarque = (
   data: any[],
   nameKey: string,
@@ -25,9 +32,7 @@ export const processEmbarqueDesembarque = (
   const processedData = data.reduce((acc: any, item: any) => {
     let key = (item[nameKey] || "").trim().toUpperCase();
     const tipo = item["TIPO"];
-    const passageiros = parseFloat(
-      (item["PASSAGEIRO"] || "0").replace(/\./g, "").replace(",", ".")
-    );
+    const passageiros = parsePassageiros(item["PASSAGEIRO"]);
 
     key = abbreviateRegion(key, windowWidth);
 
@@ -46,4 +51,3 @@ export const processEmbarqueDesembarque = (
 
   return Object.values(processedData);
 };
-

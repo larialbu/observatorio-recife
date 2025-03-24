@@ -158,7 +158,7 @@ const Navbar = () => {
             <span className="font-medium text-lg text-gray-800">Filtros selecionados:</span>
             <ul className="flex flex-wrap gap-4 mt-2">
               <li>
-                Ano: <strong>{filters.year || 2024}</strong>
+                Ano: <strong>{filters.year || (filters.years && filters.years[filters.years.length - 1])}</strong>
               </li>
               {filters.additionalFilters?.map((f: any) => {
                 if (f.selected?.length > 0) {
@@ -196,7 +196,7 @@ const Navbar = () => {
                   <div className="flex flex-col">
                     <label className="text-xs font-medium text-gray-600 mb-1">ANO</label>
                     <select
-                      value={tempFilters.year || "2024"}
+                      value={tempFilters.year || filters.years && filters.years[filters.years.length - 1]}
                       onChange={(e) => {
                         setTempFilters((prev) => ({ ...prev, year: e.target.value }));
                       }}

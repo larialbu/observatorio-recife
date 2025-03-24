@@ -4,12 +4,13 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
+import { getMonths } from "@/utils/filters/@global/getMonths";
+
 import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
 import AenaPage from "./(aena)/aena";
-import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
-import { getMonths } from "@/utils/filters/@global/getMonths";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
@@ -22,29 +23,31 @@ const AeroportosPage = () => {
       const tab = searchParams.get("tab");
       if (tab && tab !== activeTab) {
         setActiveTab(tab);
-        
-      }else if (!tab){
+      } else if (!tab) {
         setActiveTab('geral');
-        router.replace(`?tab=${'geral'}`);
+        router.replace(`?tab=geral`);
       }
-    }, [searchParams, activeTab]);
+    }, [searchParams, activeTab, router]);
 
   useEffect(() => {
+      const intervalId = setInterval(() => {
+        
+        if (data) {
+          const anacData = data?.geral || {};
+          setAnac(anacData?.filteredData || []);
+          
+          clearInterval(intervalId);
+        }
+      }, 50);
   
-      if (data) {
-        // Extraindo os dados de passageiros e cargas
-        const anacData = data.geral || {};
-  
-        setAnac(anacData.filteredData || []);
-  
-      }
+      return () => clearInterval(intervalId);
     }, [data]);
   
     if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
     if (!data) {
-      return <div className="text-center text-gray-600">Carregando dados...</div>;
+      return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
     switch (activeTab) {
@@ -80,8 +83,7 @@ const AeroportosPage = () => {
     }
   };
 
-  const handleNavigation = (tab: string) => {
-    setActiveTab(tab);
+  const handleNavigation = async (tab: string) => {
     router.replace(`?tab=${tab}`);
   };
 

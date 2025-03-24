@@ -6,7 +6,7 @@ export const processImportacaoExportacaoPorContinente = (
   data.forEach((item) => {
     const continente = item["Continente"] || "Desconhecido"; // Evita continentes vazios
     const valor = parseFloat(
-      (item["Valor US$"] || "0").replace(/\./g, "").replace(",", ".")
+      (item["Valor US$"] || "0")
     );
     const tipo = item["tipo"];
 

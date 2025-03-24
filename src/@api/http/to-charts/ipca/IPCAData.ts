@@ -1,65 +1,35 @@
 import { ProcessedIpcaGeralData } from "@/@types/observatorio/ipca/processedIPCAGeralData";
 import { ProcessedIpcaGruposData } from "@/@types/observatorio/ipca/processedIPCAGruposData";
 import { ProcessedIpcaTabelasData } from "@/@types/observatorio/ipca/processedIPCATabelasData";
+import { fetchData } from "@/@api/config/dataFetcher";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME;
-const API_PASSWORD = process.env.NEXT_PUBLIC_API_PASSWORD;
 
 export class IpcaData {
   private year: string;
-  private static cache: Record<string, any> = {}; // Cache estático para todas as instânciasx
+  private static cache: Record<string, any> = {}; // Cache estático para todas as instâncias
 
   constructor(year: string) {
     this.year = year;
   }
 
-  private async fetchData<T>(endpoint: string): Promise<T> {
-    if (IpcaData.cache[endpoint]) {
-      console.log("Usando dados em cache para:", endpoint);
-      return IpcaData.cache[endpoint];
-    }
-
-    try {
-      const response = await fetch(`${BASE_URL}${endpoint}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Basic ${btoa(`${API_USERNAME}:${API_PASSWORD}`)}`, // Autenticação básica
-        },
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        throw new Error(`Erro ao buscar dados da API: ${endpoint}`);
-      }
-
-      const data = await response.json();
-
-      IpcaData.cache[endpoint] = data;
-
-      return data;
-    } catch (error) {
-      console.error(`Erro em fetchData (${endpoint}):`, error);
-      throw error;
-    }
-  }
+  // Métodos para buscar dados processados de IPCA
 
   async fetchProcessedGeralData(): Promise<ProcessedIpcaGeralData[]> {
     const endpoint = `/ipca/geral/anos/${this.year}`;
-    return this.fetchData<ProcessedIpcaGeralData[]>(endpoint);
+    return fetchData<ProcessedIpcaGeralData[]>(endpoint, IpcaData.cache);
   }
 
   async fetchProcessedGruposData(): Promise<ProcessedIpcaGruposData[]> {
     const endpoint = `/ipca/grupos/anos/${this.year}`;
-    return this.fetchData<ProcessedIpcaGruposData[]>(endpoint);
+    return fetchData<ProcessedIpcaGruposData[]>(endpoint, IpcaData.cache);
   }
 
   async fetchProcessedTabelasData(): Promise<ProcessedIpcaTabelasData[]> {
     const endpoint = `/ipca/analitico/anos/${this.year}`;
-    return this.fetchData<ProcessedIpcaTabelasData[]>(endpoint);
+    return fetchData<ProcessedIpcaTabelasData[]>(endpoint, IpcaData.cache);
   }
 
+  // Método para limpar o cache
   clearCache(): void {
     IpcaData.cache = {};
   }

@@ -36,7 +36,8 @@ const SelectPrincipal = ({
   }, []);
 
   // Remover 'Recife' das opções se a flag `noRecife` for verdadeira
-  const recifeIndex = options.indexOf("Recife");
+  const recifeOption = options?.filter((option: string) => option?.toLowerCase().includes('recife'))
+  const recifeIndex = options.indexOf(recifeOption[0]);
   if (noRecife && recifeIndex !== -1) {
     optionsCopy.splice(recifeIndex, 1);
   }
@@ -113,14 +114,13 @@ const SelectPrincipal = ({
       
         >
           <div className="p-4 max-h-60 overflow-y-auto absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-30">
-            {optionsCopy.filter((option) =>
-              option
+            {optionsCopy.filter((option) => !!option && option
                 .toLocaleLowerCase()
-                .includes(search ? searchTerm.toLocaleLowerCase() : "")
+                .includes(search ? searchTerm.toLocaleLowerCase() : "") 
             ).length > 0 ? (
               optionsCopy
                 .filter((option) =>
-                  option
+                  !!option && option
                     .toLocaleLowerCase()
                     .includes(search ? searchTerm.toLocaleLowerCase() : "")
                 )

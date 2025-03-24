@@ -21,6 +21,7 @@ const DecolagensPorAeroporto = ({
           data={chartData}
           title={title}
           xKey="aeroporto"
+          left={10}
           bars={[{ dataKey: "totalDecolagens", name: "Decolagens" }]}
           colors={colors}
           heightPerCategory={50} // Define a altura de cada barra

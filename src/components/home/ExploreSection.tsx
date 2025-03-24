@@ -2,13 +2,14 @@ import React from "react";
 import { ExploreDiv } from "./ExploreDiv";
 import Link from "next/link";
 import { iconsExplore } from "./ExploreIconsObservatorio";
-import { linearGradient } from "framer-motion/client";
 
 interface ExploreSectionProps {
   searchTerm: string; // Recebe o termo de busca como prop
+  bundleProgress: any;
+  progress: any;
 }
 
-export const ExploreSection: React.FC<ExploreSectionProps> = ({ searchTerm }) => {
+export const ExploreSection: React.FC<ExploreSectionProps> = ({ searchTerm, bundleProgress, progress }) => {
   // Calcula o número total de resultados encontrados
   const totalResults = iconsExplore.reduce(
     (count, section) =>
@@ -35,7 +36,7 @@ export const ExploreSection: React.FC<ExploreSectionProps> = ({ searchTerm }) =>
       </div>
 
       {/* Component de exploração com filtro */}
-      <ExploreDiv searchTerm={searchTerm} />
+      <ExploreDiv searchTerm={searchTerm} bundleProgress={bundleProgress} progress={progress} />
 
       {/* Botão para explorar mais */}
       <div className="mt-40 z-50 mb-40">

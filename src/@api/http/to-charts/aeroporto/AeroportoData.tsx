@@ -2,68 +2,32 @@ import { ProcessedAenaCargasData } from "@/@types/observatorio/aeroporto/process
 import { ProcessedAenaPassageirosData } from "@/@types/observatorio/aeroporto/processedAenaPassageirosData";
 import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME;
-const API_PASSWORD = process.env.NEXT_PUBLIC_API_PASSWORD;
+import { fetchData } from "@/@api/config/dataFetcher";
+
+const DB_NAME = "parquetDB";
+const STORE_NAME = "parquetFiles";
 
 export class AeroportoData {
   private year: string;
-  private static cache: Record<string, any> = {}; // Cache estático para todas as instâncias
+  private static cache: Record<string, any> = {};
 
   constructor(year: string) {
     this.year = year;
   }
 
-  private async fetchData<T>(endpoint: string): Promise<T> {
-    if (AeroportoData.cache[endpoint]) {
-      console.log("Usando dados em cache para:", endpoint);
-      return AeroportoData.cache[endpoint];
-    }
-
-    try {
-      const response = await fetch(`${BASE_URL}${endpoint}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Basic ${btoa(`${API_USERNAME}:${API_PASSWORD}`)}`, // Autenticação básica
-        },
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        throw new Error(`Erro ao buscar dados da API: ${endpoint}`);
-      }
-
-      const data = await response.json();
-
-      AeroportoData.cache[endpoint] = data;
-
-      return data;
-    } catch (error) {
-      console.error(`Erro em fetchData (${endpoint}):`, error);
-      throw error;
-    }
-  }
-
   async fetchProcessedData(): Promise<ProcessedData[]> {
-    const endpoint = `/aeroporto/anac/anos/${this.year}`;
-    return this.fetchData<ProcessedData[]>(endpoint);
+    return fetchData<ProcessedData[]>(`/aeroporto/anac/anos/${this.year}`, AeroportoData.cache);
   }
 
   async fetchProcessedAenaPassageirosData(): Promise<ProcessedAenaPassageirosData[]> {
-    const endpoint = `/aeroporto/aena/passageiro/anos/${this.year}`;
-    return this.fetchData<ProcessedAenaPassageirosData[]>(endpoint);
+    return fetchData<ProcessedAenaPassageirosData[]>(`/aeroporto/aena/passageiro/anos/${this.year}`, AeroportoData.cache);
   }
 
   async fetchProcessedAenaCargasData(): Promise<ProcessedAenaCargasData[]> {
-    const endpoint = `/aeroporto/aena/carga/anos/${this.year}`;
-    return this.fetchData<ProcessedAenaCargasData[]>(endpoint);
+    return fetchData<ProcessedAenaCargasData[]>(`/aeroporto/aena/carga/anos/${this.year}`, AeroportoData.cache);
   }
 
   clearCache(): void {
     AeroportoData.cache = {};
   }
 }
-
-// Para executar imediatamente após a criação da instância
-const aeroportoData = new AeroportoData("2024"); // Substitua com o ano desejado

@@ -24,6 +24,8 @@ const PrincipaisProdutos = ({
           bars={[{ dataKey: "totalVLPesoCargaBruta", name: "Produto" }]}
           colors={ColorPalette.default}
           heightPerCategory={50}
+          widthY={130}
+          left={-15}
         />
       </ChartGrabber>
     </div>

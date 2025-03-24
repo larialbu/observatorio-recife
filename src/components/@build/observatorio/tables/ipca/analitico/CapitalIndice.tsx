@@ -15,7 +15,6 @@ const CapitalIndice = ({
 }: any) => {
   const aggregatedData = rowsCapitalsIndice(data, year, capital, monthRecent);
 
-  console.log('AAGRRE', aggregatedData)
 
   const sortedData = Object.values(aggregatedData).sort(
     (a: any, b: any) => parseInt(a.MÊS, 10) - parseInt(b.MÊS, 10)
@@ -67,7 +66,7 @@ const CapitalIndice = ({
   };
 
   return (
-    <div className="relative bg-white w-full">
+    <div className="relative w-full">
       <TableGeneric
         searchIndexes={[0]}
         enablePagination={false}

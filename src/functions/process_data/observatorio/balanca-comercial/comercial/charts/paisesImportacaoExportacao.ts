@@ -4,7 +4,7 @@ export const processImportacaoExportacaoPorPais = (data: any[]): any[] => {
   data.forEach((item) => {
     const pais = item["País"];
     const valor = parseFloat(
-      (item["Valor US$"] || "0").replace(/\./g, "").replace(",", ".")
+      (item["Valor US$"] || "0")
     );
     const tipo = item["tipo"];
 

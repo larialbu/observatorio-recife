@@ -1,32 +1,24 @@
-export const processComercializacaoPorProduto = (
-  data: any[],
-  maxDescriptionLength: number = 65
-): any[] => {
+export const processComercializacaoPorProduto = (data: any[]): any[] => {
   const processedData = new Map<string, { descricao: string; importacao: number; exportacao: number }>();
 
   for (let i = 0; i < data.length; i++) {
     const item = data[i];
     const descricao = item["Descrição SH4"];
     const valor = parseFloat(
-      (item["Valor US$"] || "0").replace(/\./g, "").replace(",", ".")
+      (item["Valor US$"] || "0")
     );
     const tipo = item["tipo"];
 
-    // Limita o tamanho da descrição apenas quando necessário
-    const truncatedDescricao = descricao.length > maxDescriptionLength
-      ? descricao.substring(0, maxDescriptionLength) + "..."
-      : descricao;
-
-    // Usa o texto truncado como chave no Map (evita duplicados automaticamente)
-    if (!processedData.has(truncatedDescricao)) {
-      processedData.set(truncatedDescricao, {
-        descricao: truncatedDescricao,
+    // Usa a descrição completa sem truncamento
+    if (!processedData.has(descricao)) {
+      processedData.set(descricao, {
+        descricao: descricao,
         importacao: 0,
         exportacao: 0,
       });
     }
 
-    const current = processedData.get(truncatedDescricao)!;
+    const current = processedData.get(descricao)!;
     if (tipo === "Importação") {
       current.importacao += valor;
     } else if (tipo === "Exportação") {

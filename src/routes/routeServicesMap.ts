@@ -1,6 +1,7 @@
 import { aeroportoDataService } from "@/services/@data/aeroportoDataService";
 import { balancaDataService } from "@/services/@data/balancaComercialDataService";
 import { ipcaDataService } from "@/services/@data/ipcaDataService";
+import { pibDataService } from "@/services/@data/pibDataService";
 import { portoDataService } from "@/services/@data/portoDataService";
 import { rankingDataService } from "@/services/@data/rankingDataService";
 
@@ -40,6 +41,14 @@ export const routeServicesMap: Record<
     embarque: aeroportoDataService,
     aena: aeroportoDataService,
     // etc. Se quiser mesmo service, ok
+  },
+
+  // Pib
+  "/observatorio/pib": {
+    // Se tiver tabs diferentes ("geral", "analitico", etc.), aponte para balancaDataService
+    geral: pibDataService,
+    comparativo: pibDataService,
+    capita: pibDataService,
   },
 
   // Balança Comercial

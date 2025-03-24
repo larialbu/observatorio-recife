@@ -6,6 +6,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processAtracacoesPorCarga } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoProdutos";
 import { getPortoProductNameByCode } from "@/utils/formatters/getPortoProductNameByCode";
+import { processCargasPorPorto } from "@/functions/process_data/observatorio/porto/geral/charts/opecaoPorPorto";
 
 
 type PortoData = {
@@ -38,15 +39,18 @@ function somarCargasPorPorto(data: PortoData[]): { porto: string, carga: number 
 }
 
 const OperacaoPortos = ({
-  data, 
+  data,
   months,
-  title = "Operação dos Portos (Ton)",
+  title = "Operação Portos (Ton)",
   year,
 }: any) => {
+  const dataCoords =  data?.coords?.[0] || []
 
-  const dataCoords = data.coords?.[0] || []
+  const monthsToRead = months?.selected.length ? months.selected : months.options
 
-  const chartData = somarCargasPorPorto(months.selected.length ? dataCoords.filter((obj: any) => months.selected.includes(obj.Mes)) : dataCoords.filter((item: any) => item.Mes !== 0)).sort((a, b) => b.carga - a.carga)
+  const dataToRead = dataCoords.filter((data: any) => monthsToRead.includes(parseInt(data.Mes))) || []
+
+  const chartData = processCargasPorPorto(dataToRead)
 
   return (
     <div className="chart-wrapper">
@@ -55,9 +59,10 @@ const OperacaoPortos = ({
           data={chartData}
           title={title}
           xKey="porto"
-          bars={[{ dataKey: "carga", name: "Porto" }]}
+          bars={[{ dataKey: "carga", name: "Porto (Ton)" }]}
           colors={ColorPalette.default}
           heightPerCategory={50}
+          widthY={150}
         />
       </ChartGrabber>
     </div>

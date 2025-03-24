@@ -9,12 +9,13 @@ import { processPercentageByType } from "@/functions/process_data/observatorio/i
 
 const SubitemParticipacaoIpca = ({
   data = [],
-  nameKey = "subitem",
+  nameKey = "item",
   colors = ColorPalette.default,
   title = "IPCA Subitem",
 }: any) => {
   
   const chartData = processPercentageByType(data, 'item');
+  console.log(chartData)
 
   return (
     <div className="chart-wrapper">
@@ -24,6 +25,8 @@ const SubitemParticipacaoIpca = ({
           title={title}
           colors={colors.slice(2)}
           xKey={nameKey}
+          widthY={100}
+          left={15}
           bars={[{ dataKey: "porcentagem", name: "Participação do Subitem no IPCA (%)", barWidth: 30 }]}
         />
       </ChartGrabber>

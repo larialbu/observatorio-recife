@@ -4,7 +4,7 @@ export const processPassageirosPorAeroporto = (data: any[]) => {
     const aeroporto = item["AEROPORTO NOME"] || "Indefinido";
 
     const passageiros = parseFloat(
-      (item["PASSAGEIRO"] || "0").replace(/\./g, "").replace(",", ".")
+      (item["PASSAGEIRO"] || "0")
     );
 
     if (!acc[aeroporto]) {

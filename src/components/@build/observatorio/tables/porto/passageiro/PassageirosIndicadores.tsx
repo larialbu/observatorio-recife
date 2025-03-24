@@ -1,8 +1,5 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
-import { rowsCountrysByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsCountrysByMunicipio";
-import { rowsCapitalsIndice } from "@/functions/process_data/observatorio/ipca/analitico/tables/rowsCapitalsIndice";
 import { processPassageirosAnoPorto } from "@/functions/process_data/observatorio/porto/passageiro/charts/passageirosAnoPorto";
-import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
 
 const PassageirosIndicadores = ({
   data = [],
@@ -11,7 +8,7 @@ const PassageirosIndicadores = ({
   color = "#000000",
   title = 'Indicadores de Passageiros'
 }: any) => {
- const yearCur = data.passageiros?.current[0]?.['Data'].split('-')[0] || 'Dado não encontrado'
+ const yearCur = data.passageiros?.current[0]?.['Data'].split('-')[0]
  const yearPast = data.passageiros?.past[0]?.['Data'].split('-')[0] || 'Dado não encontrado'
   
  const aggregatedData = processPassageirosAnoPorto(data.passageiros.current || [], data.passageiros.past || []);
@@ -71,7 +68,7 @@ console.log('HEEADER', header)
   getRows(aggregatedData)
 
   return (
-    <div className="relative bg-white w-full">
+    <div className="relative w-full">
       <TableGeneric
         searchIndexes={[0]}
         enablePagination={false}

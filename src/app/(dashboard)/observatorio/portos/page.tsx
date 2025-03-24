@@ -44,16 +44,14 @@ const PortosPage = () => {
   };
 
   useEffect(() => {
-      const tab = searchParams.get("tab");
-      
-      if (tab && tab !== activeTab) {
-        setActiveTab(tab);
-        
-      }else if (!tab){
-        setActiveTab('geral');
-        router.replace(`?tab=${'geral'}`);
-      }
-    }, [searchParams, activeTab]);
+    const tab = searchParams.get("tab");
+    if (tab && tab !== activeTab) {
+      setActiveTab(tab);
+    } else if (!tab) {
+      setActiveTab('geral');
+      router.replace(`?tab=geral`);
+    }
+  }, [searchParams, activeTab, router]);
 
     useEffect(() => {
       if (data?.atracacao) {
@@ -77,7 +75,7 @@ const PortosPage = () => {
 
   const renderContent = () => {
     if (!data) {
-      return <div className="text-center text-gray-600">Carregando dados...</div>;
+      return <div className="text-center text-gray-600">Gerando gráficos...</div>;
     }
 
     if (isLoading) {
@@ -90,7 +88,7 @@ const PortosPage = () => {
       case "operacao":
         return <Operacao data={porto} months={getMonths(filters)} year={getYearSelected(filters)} />;
       case "comparativo":
-        return <Comparativo data={porto} rawData={porto.rawData} year={getYearSelected(filters)} months={getMonths(filters)} toCompare={filters.additionalFilters?.[3]?.options || []} />;
+        return <Comparativo data={porto} rawData={porto.rawData} year={getYearSelected(filters)} months={getMonths(filters)}   />;
       case "passageiro":
         return <AenaPage />;
       default:
@@ -98,15 +96,9 @@ const PortosPage = () => {
     }
 };
 
-  const handleNavigation = (tab: string) => {
-    if (isLoading) return; 
-    const currentTab = searchParams.get("tab");
-    if (currentTab === "comparativo") {
-      setData(null);
-    }
-    setActiveTab(tab);
+  const handleNavigation = async (tab: string) => {
     router.replace(`?tab=${tab}`);
-};
+  };
 
   if (isLoading) return <LoadingScreen />;
 
@@ -155,7 +147,7 @@ const PortosPage = () => {
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Movimentaçaõ de Passageiros (Recife)
+          Movimentação de Passageiros (Recife)
         </button>
       </div>
       {renderContent()}

@@ -27,14 +27,18 @@ export class RankingDataService {
   private async fetchRankingGeralData(filters: Record<string, any>) {
     const years = filters.years; // Lista de anos a serem buscados
     const geralDataByYear: Record<string, any[]> = {};
-
-    // Busca os dados para todos os anos especificados
-    for (const year of years) {
+  
+    // Cria um array de promessas para buscar os dados para todos os anos especificados
+    const rankingPromises = years.map((year: any) => {
       const rankingService = new RankingData(year);
-      const data = await rankingService.fetchProcessedGeralData();
-      geralDataByYear[year] = data; // Organiza os dados por ano
-    }
-
+      return rankingService.fetchProcessedGeralData().then((data) => {
+        geralDataByYear[year] = data; // Organiza os dados por ano
+      });
+    });
+  
+    // Espera todas as promessas se resolverem
+    await Promise.all(rankingPromises);
+  
     // Aplica os filtros aos dados de cada ano sem interferir no ano selecionado
     const filteredData: Record<string, any> = {};
     Object.keys(geralDataByYear).forEach((year) => {
@@ -44,26 +48,23 @@ export class RankingDataService {
         year,
       });
     });
-    
-
+  
     // Define os dados brutos com base no ano selecionado
     const rawData = geralDataByYear[this.currentYear] || [];
     const additionalFiltersOptions = applyGenericFilters(
       rawData,
       filters
     ).additionalFiltersOptions;
-
+  
     const geral = {
       filteredData,
       rawData,
       additionalFiltersOptions,
     };
-
-    
-
+  
     return { geral }; // Retorna os dados no formato especificado
   }
-
+  
   private async fetchRankingDimensaoData(filters: Record<string, any>) {
     const years = filters.years; // Lista de anos a serem buscados
     const dimensaoDataByYear: Record<string, any[]> = {};

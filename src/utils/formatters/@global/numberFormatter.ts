@@ -13,7 +13,7 @@ export const formatNumber = (
 };
 
 export const parseNumber = (value: string): number => {
-  return parseFloat(value.replace(/\./g, "").replace(",", "."));
+  return parseFloat(value);
 };
 
 export const formatNormalnumber = (val: number) => {

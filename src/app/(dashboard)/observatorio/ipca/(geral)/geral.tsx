@@ -1,19 +1,16 @@
-import React, { useRef, useEffect, useState } from "react";
-import Sortable from "sortablejs";
+import React, { useRef, useState } from "react";
 import charts from "./@imports/charts";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import ErrorBoundary from "@/utils/loader/errorBoundary";
 
 const Geral = ({
   data,
   rawData,
-  year,
   months,
 }: {
   data: any;
   rawData: any
-  year: string;
   months: number;
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
@@ -22,15 +19,14 @@ const Geral = ({
   return (
     <div className="pb-4">
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
-        {chartOrder.map((index) => {
+      {chartOrder.map((index) => {
           const { Component } = charts[index];
           return (
-            <div
-              key={index}
-              className={`chart-content-wrapper`}
-            >
+            <div key={index} className={`chart-content-wrapper`}>
               <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={data} rawData={rawData} months={months} />
+                <ErrorBoundary>
+                  <Component data={data} rawData={rawData} months={months} />
+                </ErrorBoundary>
               </React.Suspense>
             </div>
           );

@@ -1,90 +1,113 @@
 "use client";
+
 import { useState, useEffect } from "react";
+import { subscribeToProgress, subscribeToMessage, first } from "@/utils/loader/progressEmitter";
+import { Novatrix } from "uvcanvas";
+import { getAllVersions } from "@/@api/cache/versionUtils";
 
 export const LoadingScreen = () => {
-  const [progress, setProgress] = useState(0); // Estado para o progresso (0 a 100%)
-  const [loadingComplete, setLoadingComplete] = useState(false); // Indica se o carregamento terminou
-  const [loadingMessage, setLoadingMessage] = useState("Iniciando carregamento...");
-  const [loadingTime, setLoadingTime] = useState<string | null>(null); // Variável para armazenar o tempo de carregamento
+  const [progress, setProgress] = useState(0);
+  const [loadingMessage, setLoadingMessage] = useState("Estamos preparando tudo para você...");
+  const [loadingComplete, setLoadingComplete] = useState(false);
+  const [loadingTime, setLoadingTime] = useState<string | null>(null);
+  const [isFirstLoad, setIsFirstLoad] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
 
   useEffect(() => {
-    const startTime = performance.now(); // Começa a medir o tempo
+    const check = async () => {
+      const exists = await getAllVersions();
 
-    // Função para atualizar o progresso com base no carregamento real
-    const updateProgress = () => {
-      const resourcesLoaded = performance.getEntriesByType("resource").length; // Número de recursos carregados
-      const totalResources = document.getElementsByTagName("img").length + // Imagens
-        document.getElementsByTagName("script").length + // Scripts
-        document.getElementsByTagName("link").length; // Folhas de estilo
+      if (!exists[0]) setIsFirstLoad(true);
 
-      if (totalResources === 0) return;
+      const startTime = performance.now();
 
-      const newProgress = Math.min(
-        Math.floor((resourcesLoaded / totalResources) * 100),
-        99
-      ); // Limita o progresso a 99%
-      setProgress(newProgress);
+      const unsubProgress = subscribeToProgress((p) => {
+        setProgress(p);
+        if (p >= 100) {
+          const endTime = performance.now();
+          setLoadingComplete(true);
+          setLoadingTime(((endTime - startTime) / 1000).toFixed(2));
+        }
+      });
 
-      if (newProgress >= 99) {
-        setLoadingMessage("Finalizando carregamento...");
-      }
+      const unsubMessage = subscribeToMessage((msg) => {
+        setLoadingMessage(msg);
+      });
+
+      return () => {
+        unsubProgress();
+        unsubMessage();
+      };
     };
 
-    // Evento DOMContentLoaded: Disparado quando o HTML é completamente carregado
-    const handleDOMContentLoaded = () => {
-      setLoadingMessage("Carregando scripts e estilos...");
-      updateProgress();
-    };
+    check();
+  }, []);
 
-    // Evento load: Disparado quando todos os recursos (imagens, scripts, etc.) são carregados
-    const handleLoad = () => {
-      const endTime = performance.now(); // Fim da medição de tempo
-      const timeTaken = ((endTime - startTime) / 1000).toFixed(2); // Tempo de carregamento em segundos
-      setLoadingTime(timeTaken); // Armazena o tempo de carregamento
-      setProgress(100); // Define progresso como 100%
-      setLoadingComplete(true);
-    };
-
-    // Adiciona os listeners para os eventos
-    document.addEventListener("DOMContentLoaded", handleDOMContentLoaded);
-    window.addEventListener("load", handleLoad);
-
-    // Atualiza o progresso inicialmente
-    updateProgress();
-
-    // Limpa os listeners ao desmontar o componente
-    return () => {
-      document.removeEventListener("DOMContentLoaded", handleDOMContentLoaded);
-      window.removeEventListener("load", handleLoad);
-    };
-  }, []); // O useEffect vai rodar apenas uma vez, ao montar o componente
+  if (isMinimized) {
+    return (
+      <div className="fixed z-[999] bottom-4 right-4 w-16 h-16 bg-white rounded-lg shadow-lg flex flex-col items-center justify-center p-2">
+        <img
+          src="/images/logos/observatorio_logo.png"
+          alt="logo observatorio"
+          className="animate-spin w-8 h-8 object-cover"
+        />
+        <div className="w-full h-1 bg-gray-200 rounded overflow-hidden mt-1">
+          <div
+            className="h-full bg-blue-600 transition-all duration-200"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <button
+          onClick={() => setIsMinimized(false)}
+          className="absolute top-0 right-0 p-1 text-xs text-gray-600 hover:text-gray-800"
+        >
+          ×
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div className="fixed z-50 flex flex-col items-center justify-center right-0 top-0 h-screen w-full bg-white">
-      {/* Logo girando */}
-      <img
-        src="/images/logos/observatorio_logo.png"
-        alt="logo observatorio"
-        className="animate-spin w-20 h-20 object-cover"
-      />
-      <p className="text-center text-gray-600 mt-2">
-        {loadingMessage} {progress}%
-      </p>
-      {/* Barra de carregamento com base no progresso */}
-      <div className="relative w-48 h-2 bg-gray-200 rounded overflow-hidden mt-4">
-        <div
-          className="absolute left-0 top-0 h-full bg-blue-600 transition-all duration-200"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
-      {loadingComplete && (
-        <>
-          <p className="text-green-600 mt-4">Carregamento concluído!</p>
-          <p className="text-gray-600 mt-2">
-            Tempo de carregamento: {loadingTime} segundos
-          </p>
-        </>
+    <div className="fixed z-[999] flex flex-col items-center justify-center right-0 top-0 px-5 h-screen w-full bg-white">
+      {isFirstLoad && (
+        <div className="absolute inset-0 top-0 left-0 brightness-[250%] opacity-30 grayscale-[0] z-10 w-full h-full">
+          <div className="hue-rotate-[220deg] w-full h-full">
+            <Novatrix />
+          </div>
+        </div>
       )}
+      <div className="flex flex-col items-center z-20">
+        <button
+          onClick={() => setIsMinimized(true)}
+          className="absolute top-4 right-4 p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors duration-200"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <img
+          src="/images/logos/observatorio_logo.png"
+          alt="logo observatorio"
+          className="animate-spin w-20 h-20 object-cover"
+        />
+        <p className="text-center text-gray-600 mt-2">
+          {loadingMessage}<br/>Total: {progress}%
+        </p>
+        <div className="relative w-48 h-2 bg-gray-200 rounded overflow-hidden mt-4">
+          <div
+            className="absolute left-0 top-0 h-full bg-blue-600 transition-all duration-200"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        {loadingComplete && (
+          <>
+            <p className="text-green-600 mt-4">Carregamento concluído!</p>
+            <p className="text-gray-600 mt-2">
+              Tempo de carregamento: {loadingTime} segundos
+            </p>
+          </>
+        )}
+      </div>
     </div>
   );
 };

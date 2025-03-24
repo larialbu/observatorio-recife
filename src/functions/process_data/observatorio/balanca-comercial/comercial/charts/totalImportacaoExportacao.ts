@@ -8,7 +8,7 @@ export const processTotalImportacaoExportacao = (
   
     data.forEach((item) => {
       const valor = parseFloat(
-        (item["Valor US$"] || "0").replace(/\./g, "").replace(",", ".")
+        (item["Valor US$"] || "0")
       );
   
       const tipo = item["tipo"];

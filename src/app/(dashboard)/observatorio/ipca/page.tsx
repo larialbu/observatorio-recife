@@ -14,82 +14,67 @@ import Grupos from "./(grupos)/grupos";
 const IpcaPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
-  const [anac, setAnac] = useState([]);
-  const [anacRawData, setAnacRawData] = useState([]);
+  const [ipca, setIpca] = useState([]);
+  const [ipcaRawData, setIpcaRawData] = useState([]);
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
 
   useEffect(() => {
-      const tab = searchParams.get("tab");
-      if (tab && tab !== activeTab) {
-        setActiveTab(tab);
-        
-      }else if (!tab){
-        setActiveTab('geral');
-        router.replace(`?tab=${'geral'}`);
-      }
-    }, [searchParams, activeTab]);
+    const tab = searchParams.get("tab");
+    if (tab && tab !== activeTab) {
+      setActiveTab(tab);
+    } else if (!tab) {
+      setActiveTab('geral');
+      router.replace(`?tab=geral`);
+    }
+  }, [searchParams, activeTab, router]);
 
   useEffect(() => {
 
-    if (data) {
-      // Extraindo os dados de passageiros e cargas
-      const anacData = data.geral || {};
-      // const anacRawData = data.rawData || {};
+      if (data?.id === "ipca") {
+        
+        const ipcaData = data?.geral;
+        setIpca(ipcaData.filteredData || []);
+        setIpcaRawData(ipcaData.rawData || []);
 
-      setAnac(anacData.filteredData || []);
-      setAnacRawData(anacData.rawData)
+      }
 
-    }
   }, [data]);
-
-  if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
     if (!data) {
       return (
-        <div className="text-center text-gray-600">Carregando dados...</div>
+        <div className="text-center text-gray-600">Construindo gráficos...</div>
       );
     }
 
     switch (activeTab) {
       case "geral":
-        return (
-          <Geral
-            data={anac || []}
-            rawData={data?.geral?.rawData || []}
-            year={getYearSelected(filters)}
+        return <Geral
+            data={ipca || {}}
+            rawData={ipcaRawData || {}}
             months={getMonths(filters)}
           />
-        );
       case "grupos":
-        return (
-          <Grupos
+        return <Grupos
             year={getYearSelected(filters)}
           />
-        );
 
       case "analitico":
-        return (
-          <Analitico
+        return <Analitico
             year={getYearSelected(filters)}
             // months={11}
           />
-        );
       default:
-        return (
-          <Geral
-            data={anac || []}
+        return <Geral
+            data={ipca || []}
             rawData={data?.geral?.rawData || []}
-            year={getYearSelected(filters)}
             months={getMonths(filters)}
           />
-        );
     }
   };
 
-  const handleNavigation = (tab: string) => {
-    setActiveTab(tab);
+  const handleNavigation = async (tab: string) => {
     router.replace(`?tab=${tab}`);
   };
 

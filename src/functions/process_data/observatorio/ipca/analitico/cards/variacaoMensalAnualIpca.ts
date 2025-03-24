@@ -3,7 +3,7 @@ export const variacaoMensalAnualIpca = (data: any[], capital: string) => {
   const dadosFiltrados = data.filter((dado) => dado.Capital === capital);
 
   const mensalTotal = dadosFiltrados.reduce((acc, obj) => {
-    const objMensal = parseFloat(obj["variação mensal"].replace(",", "."));
+    const objMensal = parseFloat(obj["IPCA - Variação mensal"]);
 
     return acc + objMensal;
   }, 0);
@@ -29,6 +29,6 @@ export const variacaoMensalAnualIpca = (data: any[], capital: string) => {
     mês: maiorMes.Mês,
     // variaçãoMensal: maiorMes["variação mensal"],
     variaçãoMensal: mensalTotal.toFixed(2),
-    variaçãoAcumuladaNoAno: maiorMes["variação acumulada no ano"],
+    variaçãoAcumuladaNoAno: maiorMes["IPCA - Variação acumulado no ano"],
   };
 };

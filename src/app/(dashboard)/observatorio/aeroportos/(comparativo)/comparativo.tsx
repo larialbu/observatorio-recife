@@ -39,14 +39,7 @@ const Comparativo = ({
 
   useEffect(() => {
     const getNewTables = tempFiltred.map((val) => {
-      return {
-        Component: React.lazy(
-          () =>
-            import(
-              "@/components/@build/observatorio/tables/aeroporto/comparativo/AeroportoInfo"
-            )
-        ),
-      };
+      return tables[0]
     });
     setTablesRender([...tables, ...getNewTables]);
   }, [tempFiltred]);
@@ -186,7 +179,7 @@ const Comparativo = ({
           {tablesRender.map(({ Component }, index) => (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg w-100 flex flex-col items-center"
+              className="bg-white shadow-md rounded-lg flex flex-col items-center w-full"
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component

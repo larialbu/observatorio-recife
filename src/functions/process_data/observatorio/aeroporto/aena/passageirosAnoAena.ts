@@ -11,7 +11,7 @@ export const processPassageirosAnoAena = (data: any[]) => {
   // Agora percorremos os dados para processar
   data?.forEach((item) => {
     const passageiros = parseFloat(
-      (item["Passageiros"] || "0").replace(/\./g, "").replace(",", ".")
+      (item["Passageiros"] || "0").toString()
     ); // Transforma pra número e remove formatação
 
     const mes = item["Mês"];

@@ -2,3 +2,5 @@
 /.next
 
 .env
+/public/*.rar
+/public/manifest.json
