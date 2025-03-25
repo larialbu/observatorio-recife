@@ -11,7 +11,7 @@ const ChartGrabber = ({
   children: React.ReactNode;
   left?: boolean;
 }) => {
-  const { filters, addHiddenChart } = useDashboard();
+  const { filters, hiddenCharts, addHiddenChart } = useDashboard();
   const pathname = usePathname();
   const category = pathname.split('/')[2] || 'default';
   const chartId = useId();
@@ -26,6 +26,7 @@ const ChartGrabber = ({
   const [chartSubText, setChartSubText] = useState<string | null>(null); // Novo estado para subText
   const chartRef = useRef<HTMLDivElement>(null);
   const tempChartRef = useRef<HTMLDivElement>(null);
+  const chartIsHidden = hiddenCharts.find((chart) => chart.title === chartTitle)
 
   useEffect(() => {
     // Extrai o título e o subText do componente filho, se disponível
@@ -48,6 +49,15 @@ const ChartGrabber = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (chartIsHidden && chartWrapperRef.current) {
+      chartWrapperRef.current.style.display = 'none';
+    } else if (!chartIsHidden && chartWrapperRef.current) {
+      chartWrapperRef.current.style.display = 'flex';
+    }
+
+  }, [chartWrapperRef.current, hiddenCharts])
+
   const handleDownload = () => {
     setShowTempContainer(true);
     setTimeout(() => {
@@ -59,6 +69,8 @@ const ChartGrabber = ({
     if (chartWrapperRef.current) {
       const clonedElement = chartWrapperRef.current.cloneNode(true) as HTMLElement;
       
+      chartWrapperRef.current.style.display = 'none';
+
       const menus = clonedElement.getElementsByClassName('options-menu');
       while (menus.length > 0) {
         menus[0].parentNode?.removeChild(menus[0]);
@@ -75,25 +87,8 @@ const ChartGrabber = ({
       tempDiv.appendChild(clonedElement);
       document.body.appendChild(tempDiv);
   
-      const canvas = await html2canvas(tempDiv.firstChild as HTMLElement, {
-        scale: 0.3,
-        useCORS: true,
-      });
-      const thumbnailUrl = canvas.toDataURL("image/png");
-      document.body.removeChild(tempDiv);
-  
-      chartWrapperRef.current.style.display = 'none';
+ 
       
-      addHiddenChart({
-        id: chartId,
-        category,
-        title: chartTitle,
-        subText: chartSubText || undefined,
-        component: children,
-        wrapperElement: chartWrapperRef.current,
-        originalDisplay: chartWrapperRef.current.style.display,
-        thumbnailUrl
-      });
     }
   };
 
