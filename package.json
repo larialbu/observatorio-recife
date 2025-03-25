@@ -21,6 +21,7 @@
     "node-unrar-js": "^2.0.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-helmet-async": "^2.0.5",
     "react-rewards": "^2.1.0",
     "react-tooltip": "^5.28.0",
     "recharts": "^2.13.0-alpha.5",
