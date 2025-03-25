@@ -19,6 +19,15 @@ function cleanFilePath(filePath: string) {
   return "/" + parts.join("/");
 }
 
+let wasmCache: ArrayBuffer | null = null;
+async function getWasmBinary(): Promise<ArrayBuffer> {
+  if (!wasmCache) {
+    const wasmResponse = await fetch('/unrar.wasm');
+    wasmCache = await wasmResponse.arrayBuffer();
+  }
+  return wasmCache;
+}
+
 async function processBundle(
   bundleKey: string,
   filename: string,
@@ -45,8 +54,7 @@ async function processBundle(
       updateCategoryStatus("download", percent);
     });
 
-    const wasmResponse = await fetch('/unrar.wasm');
-    const wasmArrayBuffer = await wasmResponse.arrayBuffer();
+    const wasmArrayBuffer = await getWasmBinary();
     const extractor = await createExtractorFromData({ wasmBinary: wasmArrayBuffer, data: bundleArrayBuffer });
     const extracted = extractor.extract();
 
