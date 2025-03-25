@@ -10,13 +10,14 @@ import NewsSection from "@/components/home/NewsSection";
 import { loadAndSyncBundles } from "@/@api/cache/parquetDecompress";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { checkSaves } from "@/@api/cache/indexDB";
+import { useLoading } from "@/app/layout";
 
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(false);
   const [bundleProgress, setBundleProgress] = useState<{ [key: string]: number }>({});
   const [progress, setProgress] = useState(0);
   const [checkBundles, setCheckBundles] = useState({});
+  const { setLoading } = useLoading();
 
   const handleSearch = (term: string) => {
     setSearchTerm(term.toLowerCase());
@@ -79,7 +80,6 @@ const Page = () => {
 
   return (
     <div className="min-h-screen dark:bg-[#0C1B2B]">
-      {loading && <LoadingScreen />}
       <Banner onSearch={handleSearch} />
       <ExploreSection searchTerm={searchTerm} bundleProgress={bundleProgress} progress={progress} />
       <NewsSection />
