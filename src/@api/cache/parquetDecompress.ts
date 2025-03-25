@@ -121,15 +121,15 @@ async function fetchWithProgress(url: string, onProgress: (percent: number) => v
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Erro ao baixar ${url}: ${response.statusText}`);
 
-  const contentLengthHeader = response.headers.get("Content-Length");
-  const total = contentLengthHeader ? parseInt(contentLengthHeader, 10) : 0;
   const reader = response.body?.getReader();
-  if (!reader || total === 0) {
-    const arrayBuffer = await response.arrayBuffer();
-    onProgress(100);
-    return arrayBuffer;
+  if (!reader) {
+    return response.arrayBuffer();
+    
   }
 
+  const contentLengthHeader = response.headers.get("Content-Length");
+  const total = contentLengthHeader ? parseInt(contentLengthHeader, 10) : 0;
+  
   let receivedLength = 0;
   const chunks: Uint8Array[] = [];
 
