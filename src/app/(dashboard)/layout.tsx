@@ -6,6 +6,7 @@ import Navbar from "@/components/random_temp/Navbar";
 import { Sidebar } from "@/components/random_temp/Sidebar";
 import { DashboardProvider } from "@/context/DashboardContext";
 import { usePathname } from "next/navigation";
+import HiddenChartsPanel from "@/components/@global/features/HiddenChartsPanel";
 
 export default function DashboardLayout({
   children,
@@ -45,6 +46,7 @@ export default function DashboardLayout({
             className={`flex-1 ${getBackgroundForRoute()} bg-cover overflow-scroll flex flex-col pb-[1em]`}
           >
             <Navbar />
+            <HiddenChartsPanel />
             {children}
           </div>
         </div>

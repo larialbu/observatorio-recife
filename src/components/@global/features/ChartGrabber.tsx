@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useId } from "react";
 import html2canvas from "html2canvas";
 import OptionsMenu from "./OptionsMenu";
 import { useDashboard } from "@/context/DashboardContext";
+import { usePathname } from "next/navigation";
 
 const ChartGrabber = ({
   children,
@@ -10,8 +11,11 @@ const ChartGrabber = ({
   children: React.ReactNode;
   left?: boolean;
 }) => {
-
-  const { filters } = useDashboard()
+  const { filters, hiddenCharts, addHiddenChart } = useDashboard();
+  const pathname = usePathname();
+  const category = pathname.split('/')[2] || 'default';
+  const chartId = useId();
+  const chartWrapperRef = useRef<HTMLElement | null>(null);
 
   const additionalFilters = filters.additionalFilters
   const yearFilter = filters?.year || filters.years[filters.years.length - 1]
@@ -22,6 +26,7 @@ const ChartGrabber = ({
   const [chartSubText, setChartSubText] = useState<string | null>(null); // Novo estado para subText
   const chartRef = useRef<HTMLDivElement>(null);
   const tempChartRef = useRef<HTMLDivElement>(null);
+  const chartIsHidden = hiddenCharts.find((chart) => chart.title === chartTitle)
 
   useEffect(() => {
     // Extrai o título e o subText do componente filho, se disponível
@@ -37,11 +42,54 @@ const ChartGrabber = ({
     });
   }, [children]);
 
+  useEffect(() => {
+    if (chartRef.current) {
+      // Navega até o avô (2 níveis acima)
+      chartWrapperRef.current = chartRef.current.closest('.chart-content-wrapper');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (chartIsHidden && chartWrapperRef.current) {
+      chartWrapperRef.current.style.display = 'none';
+    } else if (!chartIsHidden && chartWrapperRef.current) {
+      chartWrapperRef.current.style.display = 'flex';
+    }
+
+  }, [chartWrapperRef.current, hiddenCharts])
+
   const handleDownload = () => {
     setShowTempContainer(true);
     setTimeout(() => {
       captureChartImage();
     }, 2000);
+  };
+
+  const handleHide = async () => {
+    if (chartWrapperRef.current) {
+      const clonedElement = chartWrapperRef.current.cloneNode(true) as HTMLElement;
+      
+      chartWrapperRef.current.style.display = 'none';
+
+      const menus = clonedElement.getElementsByClassName('options-menu');
+      while (menus.length > 0) {
+        menus[0].parentNode?.removeChild(menus[0]);
+      }
+  
+      const buttons = clonedElement.getElementsByClassName('options-button');
+      while (buttons.length > 0) {
+        buttons[0].parentNode?.removeChild(buttons[0]);
+      }
+  
+      const tempDiv = document.createElement('div');
+      tempDiv.style.position = 'absolute';
+      tempDiv.style.left = '-9999px';
+      tempDiv.appendChild(clonedElement);
+      document.body.appendChild(tempDiv);
+  
+ 
+      
+    }
   };
 
   const captureChartImage = () => {
@@ -54,8 +102,8 @@ const ChartGrabber = ({
 
       html2canvas(tempChartRef.current, {
         backgroundColor: "white",
-        scale: 2, // Melhora a resolução da imagem
-        useCORS: true, // Garante que imagens externas sejam renderizadas corretamente
+        scale: 2,
+        useCORS: true,
       }).then((canvas) => {
         const link = document.createElement("a");
         link.download = `${chartTitle.replace(/\s+/g, "_").toLowerCase()}.png`;
@@ -121,6 +169,7 @@ const ChartGrabber = ({
               isFullScreen ? handleExitFullScreen : handleFullScreen
             }
             isFullScreen={isFullScreen}
+            onHide={handleHide}
           />
         </div>
         <div className={`${isFullScreen ? "w-[80%]" : ""} z-10`}>

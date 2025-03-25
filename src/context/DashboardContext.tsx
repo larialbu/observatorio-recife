@@ -21,6 +21,16 @@ interface Data {
   [key: string]: any;
 }
 
+interface HiddenChart {
+  id: string;
+  category: string;
+  title: string;
+  subText?: string;
+  component: React.ReactNode;
+  wrapperElement: HTMLElement | null;
+  originalDisplay: string;
+  thumbnailUrl: string;
+}
 interface DashboardContextProps {
   filters: Filters;
   data: Data | null;
@@ -28,9 +38,13 @@ interface DashboardContextProps {
   isLoading: boolean;
   applyFilters: (newFilters: Filters) => Promise<void>;
   resetFilters: () => void;
+  hiddenCharts: HiddenChart[];
+  addHiddenChart: (chart: HiddenChart) => void;
+  removeHiddenChart: (id: string) => void;
 }
 
 const DashboardContext = createContext<DashboardContextProps | undefined>(undefined);
+
 
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
@@ -39,9 +53,9 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const [filters, setFilters] = useState<Filters>({} as any);
   const [data, setData] = useState<Data | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hiddenCharts, setHiddenCharts] = useState<HiddenChart[]>([]);
 
   const prevFiltersRef = useRef<Filters | null>(null); // armazenar os filtros anteriores
-  
 
   // Função para buscar os dados com base nos filtros
   const fetchData = async (filtersToUse: Filters) => {
@@ -115,6 +129,16 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     applyFilters(baseFilters);
   };
 
+  // PARA GERENCIAR OS GRÁFICOS ESCONDIDOS
+
+  const addHiddenChart = (chart: HiddenChart) => {
+    setHiddenCharts(prev => [...prev, chart]);
+  };
+
+  const removeHiddenChart = (id: string) => {
+    setHiddenCharts(prev => prev.filter(c => c.id !== id));
+  };
+
 
   useEffect(() => {
     const tab = searchParams.get("tab");
@@ -133,7 +157,17 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
 
   return (
-    <DashboardContext.Provider value={{ filters, data, isLoading, applyFilters, resetFilters, setData }}>
+    <DashboardContext.Provider value={{ 
+      filters, 
+      data, 
+      isLoading, 
+      applyFilters, 
+      resetFilters, 
+      setData,
+      hiddenCharts,
+      addHiddenChart,
+      removeHiddenChart
+    }}>
       {children}
     </DashboardContext.Provider>
   );
