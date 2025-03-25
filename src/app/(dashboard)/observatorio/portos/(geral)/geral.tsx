@@ -16,7 +16,7 @@ const Geral = ({
 }: {
   data: any;
   // year: string;
-  months: number;
+  months: any;
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));

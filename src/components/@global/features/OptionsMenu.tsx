@@ -5,6 +5,7 @@ interface OptionsMenuProps {
   onFullScreen: () => void;
   isFullScreen: boolean;
   left?: boolean;
+  onHide: () => void;
 }
 
 const OptionsMenu: React.FC<OptionsMenuProps> = ({
@@ -12,6 +13,7 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
   onFullScreen,
   isFullScreen,
   left,
+  onHide,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -36,9 +38,7 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
   }, []);
 
   return (
-    <div
-      className={`absolute z-20 ${isFullScreen ? `${left ? "top-3 right-2 transform scale-[1.5]" : "top-5 right-4 transform scale-[2]"}` : `${left ? "-top-6 left-2" : "top-[-.7em] right-[-.7em]"}`} options-menu`}
-    >
+    <div className={`absolute z-20 ${isFullScreen ? `${left ? "top-3 right-2 transform scale-[1.5]" : "top-5 right-4 transform scale-[2]"}` : `${left ? "-top-6 left-2" : "top-[-.7em] right-[-.7em]"}`} options-menu`}>
       <button
         ref={buttonRef}  // Associando a ref ao botão
         className="text-gray-600 hover:text-gray-800 border-gray-600 options-button"
@@ -82,6 +82,15 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
             className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
           >
             Tela cheia
+          </button>
+          <button
+            onClick={() => {
+              onHide();
+              setMenuOpen(false);
+            }}
+            className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
+          >
+            Esconder gráfico
           </button>
         </div>
       )}
