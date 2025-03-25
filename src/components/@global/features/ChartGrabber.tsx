@@ -87,7 +87,26 @@ const ChartGrabber = ({
       tempDiv.appendChild(clonedElement);
       document.body.appendChild(tempDiv);
   
- 
+      setTimeout( async() => {
+      const canvas = await html2canvas(tempDiv.firstChild as HTMLElement, {
+        scale: 0.3,
+        useCORS: true,
+      });
+      const thumbnailUrl = canvas.toDataURL("image/png");
+      document.body.removeChild(tempDiv);
+  
+      addHiddenChart({
+        id: chartId,
+        category,
+        title: chartTitle,
+        subText: chartSubText || undefined,
+        component: children,
+        wrapperElement: chartWrapperRef.current,
+        originalDisplay: chartWrapperRef.current?.style.display || '',
+        thumbnailUrl
+      });
+      }, 100)
+
       
     }
   };
