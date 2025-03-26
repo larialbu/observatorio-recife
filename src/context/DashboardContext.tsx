@@ -117,17 +117,40 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const resetFilters = () => {
-    const tab = searchParams.get("tab") || 'geral';
+    const tab = searchParams.get("tab") || "geral"; // Pega o valor do parâmetro 'tab' ou define como 'geral'
     let baseFilters: any = getFiltersForRoute(pathname, tab);
-
+  
+    // Verifica se algum filtro adicional tem 'allowMultiple' como false e o 'label' não está na lista
+    const hasAllowMultipleFalse = filters.additionalFilters?.some((f: any) =>
+      f.allowMultiple === false && !["Mes", "Mês", "MES", "MÊS"].includes(f.label)
+    );
+  
+    console.log("Has Allow Multiple False:", hasAllowMultipleFalse);
+  
+    // Se existirem filtros adicionais
     if (baseFilters.additionalFilters) {
-      baseFilters = {
-        ...baseFilters,
-        additionalFilters: baseFilters.additionalFilters.map((f: Object) => ({ ...f, selected: [] })),
-      };
+      // Se não tiver filtros com allowMultiple = false
+      if (hasAllowMultipleFalse) {
+        baseFilters = {
+          ...baseFilters,
+          additionalFilters: baseFilters.additionalFilters, // Preserva os filtros
+        };
+      } else {
+        // Se tiver filtros com allowMultiple = false, limpa as seleções
+        baseFilters = {
+          ...baseFilters,
+          additionalFilters: baseFilters.additionalFilters.map((f: any) => ({
+            ...f,
+            selected: [], // Limpa as seleções
+          })),
+        };
+      }
     }
+  
+    // Aplica os filtros modificados
     applyFilters(baseFilters);
   };
+  
 
   // PARA GERENCIAR OS GRÁFICOS ESCONDIDOS
 
