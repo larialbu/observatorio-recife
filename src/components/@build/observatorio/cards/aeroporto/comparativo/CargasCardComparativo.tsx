@@ -5,13 +5,14 @@ const CargasCardComparativo = ({
   data,
   title = `Cargas/Kg`,
   local,
+  compare,
   toCompare,
-  comparative = `${toCompare} x Recife`,
+  comparative = `${toCompare} x ${compare}`,
   year,
   color,
 }: any) => {
 
-  const chartData = processCargasMes(data, year, "Recife");
+  const chartData = processCargasMes(data, year, compare);
 
   const chartData2 = processCargasMes(data, year, toCompare);
   return (
@@ -21,6 +22,7 @@ const CargasCardComparativo = ({
       year={year}
       color={color}
       data2={chartData2.carga}
+      compare={[toCompare, compare]}
       comparative={comparative}
     />
   );

@@ -62,7 +62,7 @@ export class RankingDataService {
       additionalFiltersOptions,
     };
   
-    return { geral }; // Retorna os dados no formato especificado
+    return { geral, id: 'ranking' }; // Retorna os dados no formato especificado
   }
   
   private async fetchRankingDimensaoData(filters: Record<string, any>) {
@@ -120,7 +120,7 @@ export class RankingDataService {
     
   
     // Retornando os dados no formato especificado
-    return { dimensao };
+    return { dimensao, id: 'ranking-dimensao' };
   }
   
 
@@ -183,7 +183,7 @@ export class RankingDataService {
     
 
     // Retornando os dados no formato especificado
-    return { indicador };
+    return { indicador, id: 'ranking-indicador' };
   }
 
   private async fetchRankingPilarData(filters: Record<string, any>) {
@@ -239,7 +239,7 @@ export class RankingDataService {
     
 
     // Retornando os dados no formato especificado
-    return { pilar };
+    return { pilar, id: 'ranking-pilar' };
   }
 
 

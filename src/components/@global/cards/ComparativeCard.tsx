@@ -8,7 +8,8 @@ const ComparativeCard = ({
   comparative,
   year,
   color,
-  position = false
+  position = false,
+  compare = ['Recife', 'Recife']
 }: {
   title: string;
   data: number | string;
@@ -17,8 +18,11 @@ const ComparativeCard = ({
   year: string;
   color: string;
   position?: boolean
+  compare: string[]
 }) => {
   // Variáveis para armazenar o total de passageiros e o número de registros
+
+  const [toCompare, comp] = compare
 
   const percentComparative = (data1: number, data2: number): {
     text: string
@@ -51,10 +55,10 @@ const percentage = percentComparative(+data, +data2)
         <span className="text-xs font-light text-gray-600">
             {year}
         </span>
-        <span style={{ borderColor: `${color}` }} className={`border bg-white rounded-full font-semibold text-[12px] px-2 ${percentage.color} py-1`}>{percentage.text} Recife</span>
+       {toCompare !== comp && <span style={{ borderColor: `${color}` }} className={`border bg-white rounded-full font-semibold text-[12px] px-2 ${percentage.color} py-1`}>{percentage.text} {comp}</span>}
       </div>
      <div className="flex flex-col justify-between flex-1 ">
-        <h1 className="text-2xl text-whit font-semibold my-4">{tooltipFormatter(+data2)}<span className="opacity-85 text-sm"> / {tooltipFormatter(+data)}</span></h1>
+        <h1 className="text-2xl text-whit font-semibold my-4">{tooltipFormatter(+data2)}<span className="opacity-85 text-sm">{ toCompare !== comp && `/ ${tooltipFormatter(+data)}` }</span></h1>
       <div>
         <h2 className="text-sm font-semibold text-whit">{title}</h2>
         <span className="opacity-85 text-whit text-sm">{comparative}</span>
