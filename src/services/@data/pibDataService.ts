@@ -49,7 +49,8 @@ export class PibDataService {
         current: filteredCurrentYearData,
         past: filteredPastYearData,
         rawDataCurrent: current,
-        rawDataPast: past
+        rawDataPast: past,
+        id: "pib"
     };
   }
 

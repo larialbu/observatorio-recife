@@ -6,7 +6,6 @@ import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 
 import Geral from "./(geral)/geral";
-import Analitico from "./(analitico)/analitico";
 
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";

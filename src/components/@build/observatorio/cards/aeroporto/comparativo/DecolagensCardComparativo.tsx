@@ -4,14 +4,15 @@ import { processDecolagensMes } from "@/functions/process_data/observatorio/aero
 const DecolagensCardComparativo = ({
   data,
   title = `Decolagens`,
+  compare,
   toCompare,
-  comparative = `${toCompare} x Recife`,
+  comparative = `${toCompare} x ${compare}`,
   year,
   color,
   
 }: any) => {
 
-  const chartData = processDecolagensMes(data, year, "Recife");
+  const chartData = processDecolagensMes(data, year, compare);
 
   const chartData2 = processDecolagensMes(data, year, toCompare);
   return (
@@ -21,6 +22,7 @@ const DecolagensCardComparativo = ({
       year={year}
       color={color}
       data2={chartData2.decolagens}
+      compare={[toCompare, compare]}
       comparative={comparative}
     />
   );

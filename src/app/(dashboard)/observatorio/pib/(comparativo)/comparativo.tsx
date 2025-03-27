@@ -9,6 +9,7 @@ import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import { ProcessedDataPib } from "@/@types/observatorio/pib/ProcessedDataPib";
+import SelectCompare from "@/components/@global/features/SelectCompare";
 
 // AEROPORTO NOME
 
@@ -29,6 +30,7 @@ const Comparativo = ({
 }) => {
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
+  const [selectCompare, setSelectCompare] = useState('')
   const [tablesRender, setTablesRender] = useState(tables);
   const [animationClass, setAnimationClass] = useState("card-enter");
 
@@ -41,9 +43,11 @@ const Comparativo = ({
 
   useEffect(() => {
     const getNewTables = tempFiltred.map((val) => {
-      return tables[0];
+      return tables[0]
     });
-    setTablesRender([...tables, ...getNewTables]);
+
+    // setTablesRender([...tables, ...getNewTables]);
+    setTablesRender([...getNewTables]);
   }, [tempFiltred]);
 
   const handlePageChange = (direction: "prev" | "next") => {
@@ -66,12 +70,24 @@ const Comparativo = ({
     <div>
       <SelectPrincipal
         options={toCompare}
+        initialValue={['Recife - PE']}
+        noRecife={false}
         filters={tempFiltred}
         setFilters={setTempFiltred}
-        label="Compare Municípios"
-        placeholder="Digite para buscar um município"
-        notFoundMessage="Nenhum município encontrado"
+        label="Compare Aeroportos"
+        placeholder="Digite para buscar um aeroporto"
+        notFoundMessage="Nenhum aeroporto encontrado"
       />
+
+      <div className="mb-2">
+        <SelectCompare
+          options={toCompare}
+          initialValue={'Recife - PE'}
+          filters={selectCompare}
+          setFilters={setSelectCompare}
+          label="Cards comparando com:"
+        />
+      </div>
 
       <div className="flex justify-between items-center gap-2">
         {tempFiltred.length >= 1 ? (
@@ -105,6 +121,7 @@ const Comparativo = ({
                       } flex-1`}
                     >
                       <Component
+                        compare={selectCompare}
                         toCompare={toCompare}
                         data={data}
                         year={year}
@@ -167,15 +184,13 @@ const Comparativo = ({
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component
                   data={data}
-                  toCompare={["Recife - PE", ...tempFiltred]}
-                  // months={months}
+                  toCompare={[...tempFiltred]}
                 />
               </React.Suspense>
             </div>
           );
         })}
       </SortableDiv>
-
 
         <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
           {tablesRender.map(({ Component }, index) => (
@@ -185,7 +200,7 @@ const Comparativo = ({
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
-                  municipio={["Recife - PE", ...tempFiltred][index]}
+                  municipio={[...tempFiltred][index]}
                   color={ColorPalette.default[index]}
                   data={data}
                   year={year}

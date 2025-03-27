@@ -41,7 +41,7 @@ export class IpcaDataService {
     const grupos = await ipcaService.fetchProcessedGruposData();
     const gruposFiltered = applyGenericFilters(grupos, filters);
 
-    return { grupos: gruposFiltered };
+    return { grupos: gruposFiltered, id: "ipca-grupos" };
   }
 
   private async fetchIpcaTabelasData(filters: Record<string, any>) {
@@ -55,7 +55,7 @@ export class IpcaDataService {
     const tabelasFiltered = applyGenericFilters(tabelas, filters);
     const geralFiltered = applyGenericFilters(geral, filters);
 
-    return { tabelas: tabelasFiltered, geral: geralFiltered };
+    return { tabelas: tabelasFiltered, geral: geralFiltered, id: "ipca-tabelas" };
   }
 
   public async fetchDataForTab(tab: string, filters: Record<string, any>) {
