@@ -8,7 +8,7 @@ import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { processedAtracacaoData } from "@/@types/observatorio/porto/processedAtracacaoData";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
-import { getFiltredData } from "@/functions/process_data/observatorio/porto/comparativo/charts/filterdPortoData";
+import { getFiltredData, rearrangeArray } from "@/functions/process_data/observatorio/porto/comparativo/charts/filterdPortoData";
 
 // AEROPORTO NOME
 
@@ -168,22 +168,42 @@ useEffect(() => {
 
       <div className="flex flex-col gap-6">
        
-      <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
-          {tablesRender.map((arrChart, index) => {
+      <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper 2xl:!grid-cols-2">
+        {tablesRender.map((arrChart, index) => {
           
-          return arrChart.map(({ Component, col }) => {
+        return arrChart.slice(0, 1).map(({ Component, col }) => {
+            return (
+              <div key={index} className={`chart-content-wrapper ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`}>
+              {/* <div key={index} className={`chart-content-wrapper`}> */}
+              <React.Suspense fallback={<div>Carregando...</div>}>
+                <Component
+                  porto={["Recife", ...tempFiltred][index]}
+                  color={ColorPalette.default[index]}
+                  data={{ ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], rawData: {} }}
+                  year={year}
+                />
+              </React.Suspense>
+            </div>
+          )})})}
+      </SortableDiv> 
+
+      <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper 2xl:!grid-cols-4">
+          {(tablesRender.length > 1 ? rearrangeArray(tablesRender).slice(2) : tablesRender[0].slice(1)).map(({ Component, col }, index) => {
+              // isso é para escolher qual porto ele vai pegar no tempfitred
+              const virtuaIndex = tablesRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
+            
               return (
-                <div key={index} className={`chart-content-wrapper ${col === 'full' && 'col-span-full'}`}>
+                <div key={index} className={`chart-content-wrapper`}>
                 <React.Suspense fallback={<div>Carregando...</div>}>
                   <Component
-                    porto={["Recife", ...tempFiltred][index]}
-                    color={ColorPalette.default[index]}
-                    data={{ ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], rawData: {} }}
+                    porto={["Recife", ...tempFiltred][virtuaIndex]}
+                    color={ColorPalette.default[virtuaIndex]}
+                    data={{ ...data, atracacao: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][virtuaIndex])?.['atracacao'] || [], carga: portosDataFiltred.find((obj: any) => obj.porto == ["Recife", ...tempFiltred][virtuaIndex])?.['cargas'] || [], rawData: {} }}
                     year={year}
                   />
                 </React.Suspense>
               </div>
-            )})})}
+            )})}
         </SortableDiv>
       </div>
     </div>

@@ -9,6 +9,7 @@ import { getPortoProductNameByCode } from "@/utils/formatters/getPortoProductNam
 
 const PrincipaisProdutos = ({
   data,
+  color = ColorPalette.default,
   porto,
   title = "Produtos Comercializados (Ton)" + ` - ${porto}`,
   year,
@@ -24,7 +25,7 @@ const PrincipaisProdutos = ({
           title={title}
           xKey="CDMercadoria"
           bars={[{ dataKey: "totalVLPesoCargaBruta", name: "Produto" }]}
-          colors={ColorPalette.default}
+          colors={[color]}
           heightPerCategory={50}
         />
       </ChartGrabber>

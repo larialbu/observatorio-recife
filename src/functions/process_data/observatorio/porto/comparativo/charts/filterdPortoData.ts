@@ -39,3 +39,19 @@ export const getFiltredData = (rawData: any, portos: any) => {
   
     return dadosPorPorto
   }
+
+export function rearrangeArray<T>(arr: T[][]): T[] {
+    const result: T[] = [];
+    const maxLength = Math.max(...arr.map(subArr => subArr.length));
+
+    for (let i = 0; i < maxLength; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            if (arr[j][i] !== undefined) {
+                result.push(arr[j][i]);
+            }
+        }
+    }
+
+    return result;
+}
+

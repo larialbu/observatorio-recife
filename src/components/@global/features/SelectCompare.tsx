@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import FocusHidden from "./FocusHidden";
-import { filter } from "framer-motion/client";
+import { ChevronIcon } from "@/components/random_temp/ChevronIcon";
 
 const SelectCompare = ({
   options,
@@ -49,8 +49,7 @@ const SelectCompare = ({
         <span>
             {filters}
         </span>
-        {/* <ChevronIcon up={dropdown} /> */}
-        a
+        <ChevronIcon up={dropdown} />
         </button>
 
         {dropdown && (
