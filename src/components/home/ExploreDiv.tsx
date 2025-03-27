@@ -40,12 +40,12 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgre
           section.items.length > 0 && (
             <div
               key={section.items[0].label}
-              className={`grid w-full ${
+              className={`grid w-full justify-center ${
                 totalResults === 1
                   ? "grid-cols-1 justify-center"
                   : totalResults === 4
                   ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 sm:gap-x-8 lg:px-16 sm:px-8"
-                  : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:px-64 sm:px-32"
+                  : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:px-32 sm:px-32"
               } justify-items-center text-center gap-y-24 mt-24 observatorio-icon-wrapper`}
             >
               {section.items.map((item) => {
@@ -84,11 +84,11 @@ export const ExploreDiv: React.FC<ExploreDivProps> = ({ searchTerm, bundleProgre
                     >
                       <div className="relative">
                         <div
-                          className={`${isLinkDisabled ? "" : "hidden dark:flex"} absolute -inset-0 rounded-full bg-blue-600 opacity-50 transition-all duration-300`}
+                          className={`${isLinkDisabled ? "" : "hidden"} absolute -inset-0 rounded-full bg-blue-600 opacity-50 transition-all duration-300`}
                           style={{ clipPath: `inset(${100 - progresso}% 0 0 0)` }}
                         />
                         <div
-                          className={`relative ${isLinkDisabled ? "grayscale" : ""} hover:rotate-[-5deg] border-2 border-[#0155AE] rounded-full dark:border-white transition-all duration-300 ease-in-out group-hover:scale-110 cursor-pointer select-none icon-content`}
+                          className={`relative ${isLinkDisabled ? "grayscale dark:grayscale-0 dark:opacity-70" : ""} hover:rotate-[-5deg] border-2 border-[#0155AE] rounded-full dark:border-white transition-all duration-300 ease-in-out group-hover:scale-110 cursor-pointer select-none icon-content`}
                         >
                           <span
                             id={rewardId}
