@@ -42,7 +42,8 @@ export class AeroportoDataService {
 
     return {
       passageiros: passageirosFiltered,
-      cargas: cargasFiltered,
+      cargas: cargasFiltered, 
+      id: 'aena' 
     };
   }
 
@@ -52,7 +53,7 @@ export class AeroportoDataService {
     const rawData = await getRawData({applyGenericFilters, service: aeroportoService, nameFunc:'fetchProcessedData', currentYear: this.currentYear, years: filters.years, keyName: 'AEROPORTO NOME', filters, lengthIgnore: 1})
     const geralFiltered = {...applyGenericFilters(geral, filters), rawData};
 
-    return { geral: geralFiltered };
+    return { geral: geralFiltered, id: 'anac' };
   }
 
   public async fetchDataForTab(tab: string, filters: Record<string, any>) {

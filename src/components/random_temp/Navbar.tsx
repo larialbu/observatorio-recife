@@ -18,61 +18,49 @@ const ChevronIcon = ({ up = false }: { up?: boolean }) => (
 const Navbar = () => {
   const { filters, applyFilters, resetFilters } = useDashboard();
 
-  // Estado local: "tempFilters" é o rascunho do que o usuário edita antes de aplicar
   const [tempFilters, setTempFilters] = useState(filters);
-
-  // Exibe ou oculta o modal de filtros
   const [filtersVisible, setFiltersVisible] = useState(false);
-
-  // Controla se a Navbar está visível ou não
   const [navVisible, setNavVisible] = useState(true);
-
-  // Dropdowns abertos para cada label
   const [dropdowns, setDropdowns] = useState<Record<string, boolean>>({});
-
-  // Campos de busca por label
   const [searchTerms, setSearchTerms] = useState<Record<string, string>>({});
-
-  // Mensagem inicial (true => exibe)
   const [showInitialMessage, setShowInitialMessage] = useState(true);
 
-  // Sempre que o 'filters' global mudar, copiamos para "tempFilters"
   useEffect(() => {
     setTempFilters(filters);
+
+    const hasAllowMultipleFalse = filters.additionalFilters?.some((f: any) => f.allowMultiple === false);
+    
+    setShowInitialMessage(!hasAllowMultipleFalse);
   }, [filters]);
 
-  /** Some com a mensagem inicial ao menor sinal de interação */
   const hideInitialMessage = () => {
     if (showInitialMessage) {
       setShowInitialMessage(false);
     }
   };
 
-  /** Toggle do painel principal de filtros */
   const toggleFiltersVisible = () => {
     setFiltersVisible((prev) => !prev);
   };
 
-  /** Toggle do dropdown específico */
   const toggleDropdown = (label: string) => {
     setDropdowns((prev) => ({ ...prev, [label]: !prev[label] }));
   };
 
-  /** Marca/desmarca individualmente */
   const handleCheckboxChange = (label: string, option: string) => {
     setTempFilters((prev: any) => {
       const updated = prev.additionalFilters.map((f: any) => {
         if (f.label === label) {
-          const isAllowMultiple = f.allowMultiple !== false; // Se não existir, assume true
+          const isAllowMultiple = f.allowMultiple !== false;
           const isSelected = f.selected.includes(option);
 
           return {
             ...f,
             selected: isAllowMultiple
               ? isSelected
-                ? f.selected.filter((x: string) => x !== option) // Remove se já está selecionado
-                : [...f.selected, option] // Adiciona se não está selecionado
-              : [option], // Substitui por apenas o novo selecionado
+                ? f.selected.filter((x: string) => x !== option)
+                : [...f.selected, option]
+              : [option],
           };
         }
         return f;
@@ -81,7 +69,6 @@ const Navbar = () => {
     });
   };
 
-  /** Selecionar/deselecionar tudo */
   const handleSelectAll = (label: string) => {
     setTempFilters((prev: any) => {
       const updated = prev.additionalFilters.map((f: any) => {
@@ -96,19 +83,16 @@ const Navbar = () => {
     });
   };
 
-  /** Busca local */
   const handleSearchChange = (label: string, value: string) => {
     setSearchTerms((prev) => ({ ...prev, [label]: value }));
   };
 
-  /** Ao clicar em "Aplicar" (ou "Confirmar"), chamamos applyFilters do contexto */
   const onApplyFilters = () => {
     hideInitialMessage();
     applyFilters(tempFilters);
     setFiltersVisible(false);
   };
 
-  /** Ao clicar em "Limpar Filtros" */
   const onResetFilters = () => {
     hideInitialMessage();
     resetFilters();

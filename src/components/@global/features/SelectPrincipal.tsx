@@ -21,7 +21,7 @@ const SelectPrincipal = ({
   noRecife?: boolean;
   notFoundMessage?: string;
   unique?: boolean;
-  initialValue?: any;
+  initialValue?: any[];
   search?: boolean;
 }) => {
   const [searchTerm, setSearchTerm] = useState("");

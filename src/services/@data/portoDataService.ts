@@ -71,7 +71,8 @@ export class PortoDataService {
             past: [pastYear, coordsPast.filter((coord) => portosSelected?.includes(coord['Porto Atracação']))],
             current: [this.currentYear, coords.filter((coord) => portosSelected?.includes(coord['Porto Atracação']))] 
           }
-        }
+        }, 
+        id: "porto"
       };
     } catch (error) {
       console.error("Erro ao buscar dados de porto:", error);
@@ -90,7 +91,7 @@ export class PortoDataService {
     const passageirosPastFiltered = applyGenericFilters(passageirosPast.status === 'fulfilled' ? passageirosPast.value : [], filters);
 
     return {
-      passageiros: { current: passageirosCurFiltered, past: passageirosPastFiltered },
+      passageiros: { current: passageirosCurFiltered, past: passageirosPastFiltered }, id: "porto-passageiros"
     };
   }
 

@@ -5,12 +5,13 @@ import { processPassageirosMes } from "@/functions/process_data/observatorio/aer
 const PibVariacaoComparativo = ({
   data,
   title = `Variação ao ano anterior`,
+  compare,
   toCompare,
-  comparative = `${toCompare} x Recife - PE`,
+  comparative = `${toCompare} x ${compare}`,
   year,
   color,
 }: any) => {
-    const base = 'Recife - PE'
+    const base = compare
 
     const objectsToReadCurrent = data.current.filter((municipio: ProcessedDataPib) => municipio["Município - UF"] === toCompare || base)
     const objectsToReadPast = data.past.filter((municipio: ProcessedDataPib) => municipio["Município - UF"] === toCompare || base)
@@ -33,6 +34,7 @@ const PibVariacaoComparativo = ({
       color={color}
       data2={chartData2}
       comparative={comparative}
+      compare={[toCompare, compare]}
     />
   );
 };
