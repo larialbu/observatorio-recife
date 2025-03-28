@@ -5,7 +5,7 @@ const MovimentacaoOutros = ({
   data,
   date,
   title = `Outras movimentações de cargas`,
-  local,
+  local = '',
   year,
   color,
 }: any) => {
@@ -13,7 +13,7 @@ const MovimentacaoOutros = ({
 
   return (
     <Card
-      local={''}
+      local={local}
       title={`${title}`}
       data={chartData}
       year={year}

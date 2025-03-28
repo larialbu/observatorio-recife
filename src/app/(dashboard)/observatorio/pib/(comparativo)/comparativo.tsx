@@ -76,9 +76,9 @@ const Comparativo = ({
         noRecife={false}
         filters={tempFiltred}
         setFilters={setTempFiltred}
-        label="Compare Aeroportos"
-        placeholder="Digite para buscar um aeroporto"
-        notFoundMessage="Nenhum aeroporto encontrado"
+        label="Compare Municípios"
+        placeholder="Digite para buscar um município"
+        notFoundMessage="Nenhum município encontrado"
       />
 
       <div className="mb-2">
