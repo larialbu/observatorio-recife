@@ -131,25 +131,31 @@ async function fetchWithProgress(url: string, onProgress: (percent: number) => v
 
   const contentLengthHeader = response.headers.get("Content-Length");
   const total = contentLengthHeader ? parseInt(contentLengthHeader, 10) : 0;
-  const reader = response.body?.getReader();
-  if (!reader || total === 0) {
+
+  // Caso 1: Conteúdo vazio ou sem corpo
+  if (total === 0 || !response.body) {
     const arrayBuffer = await response.arrayBuffer();
     onProgress(100);
     return arrayBuffer;
   }
 
+  // Caso 2: Ler via stream com progresso
+  const reader = response.body.getReader();
   let receivedLength = 0;
   const chunks: Uint8Array[] = [];
 
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
-    if (value) {
-      chunks.push(value);
-      receivedLength += value.length;
-      const percent = total ? (receivedLength / total) * 100 : 100;
-      onProgress(percent);
-    }
+    
+    chunks.push(value);
+    receivedLength += value.length;
+    
+    const percent = total > 0 
+      ? Math.min((receivedLength / total) * 100, 100)
+      : 100; // Fallback se não houver Content-Length
+    
+    onProgress(percent);
   }
 
   const chunksAll = new Uint8Array(receivedLength);
@@ -158,5 +164,6 @@ async function fetchWithProgress(url: string, onProgress: (percent: number) => v
     chunksAll.set(chunk, position);
     position += chunk.length;
   }
+  
   return chunksAll.buffer;
 }
