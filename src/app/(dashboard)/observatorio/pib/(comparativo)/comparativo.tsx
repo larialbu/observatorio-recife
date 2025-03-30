@@ -50,16 +50,18 @@ const Comparativo = ({
     setTablesRender([...getNewTables]);
   }, [tempFiltred]);
 
+  const tempFiltredCard = tempFiltred.filter((municipio) => municipio !== selectCompare)
+
   const handlePageChange = (direction: "prev" | "next") => {
     setAnimationClass("card-exit"); // Aplica a animação de saída
     setTimeout(() => {
       setPageCompare((prevPage) =>
         direction === "next"
-          ? prevPage === tempFiltred.length - 1
+          ? prevPage === tempFiltredCard.length - 1
             ? 0
             : prevPage + 1
           : prevPage === 0
-          ? tempFiltred.length - 1
+          ? tempFiltredCard.length - 1
           : prevPage - 1
       );
       setAnimationClass("card-enter"); // Aplica a animação de entrada após a mudança
@@ -74,9 +76,9 @@ const Comparativo = ({
         noRecife={false}
         filters={tempFiltred}
         setFilters={setTempFiltred}
-        label="Compare Aeroportos"
-        placeholder="Digite para buscar um aeroporto"
-        notFoundMessage="Nenhum aeroporto encontrado"
+        label="Compare Municípios"
+        placeholder="Digite para buscar um município"
+        notFoundMessage="Nenhum município encontrado"
       />
 
       <div className="mb-2">
@@ -90,7 +92,7 @@ const Comparativo = ({
       </div>
 
       <div className="flex justify-between items-center gap-2">
-        {tempFiltred.length >= 1 ? (
+        {tempFiltredCard.length >= 1 ? (
           <>
             <button
               className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
@@ -110,12 +112,12 @@ const Comparativo = ({
             </button>
 
             <div className="w-[85%] flex flex-wrap gap-4 justify-center mb-2">
-              {tempFiltred.map((toCompare: string) => {
+              {tempFiltredCard.map((toCompare: string) => {
                 return cards.map(({ Component }, index) => (
                   <React.Suspense fallback={<div>Carregando...</div>} key={index}>
                     <div
                       className={`${
-                        toCompare === tempFiltred[pageCompare]
+                        toCompare === tempFiltredCard[pageCompare]
                           ? animationClass
                           : "hidden"
                       } flex-1`}
@@ -158,7 +160,7 @@ const Comparativo = ({
       </div>
 
       <div className="flex items-center justify-center mb-6 gap-2">
-        {tempFiltred.map((_, i) => {
+        {tempFiltredCard.map((_, i) => {
           return (
             <button
               key={i}

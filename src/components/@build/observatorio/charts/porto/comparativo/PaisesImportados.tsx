@@ -9,6 +9,7 @@ import { processCargasLongoCurso } from "@/functions/process_data/observatorio/p
 
 const PaisesImportados = ({
   data,
+  color = ColorPalette.default,
   porto,
   title = "Países Importados"  + ` - ${porto}`,
   year,
@@ -24,7 +25,7 @@ const PaisesImportados = ({
           title={title}
           xKey="pais"
           bars={[{ dataKey: "totalVLPesoCargaBruta", name: "Carga (Ton)" }]}
-          colors={ColorPalette.default}
+          colors={[color]}
           heightPerCategory={50}
         />
       </ChartGrabber>

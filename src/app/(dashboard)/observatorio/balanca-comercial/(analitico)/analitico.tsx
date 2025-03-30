@@ -65,6 +65,13 @@ const Analitico = ({
 
       <div className="flex justify-between items-center gap-2 h-full">
         <div className="flex flex-col gap-6">
+       
+         <div className="flex items-center justify-between gap-2">
+            <div className="flex-1 h-[1px] bg-black"></div>
+            <p className="">Negociações</p>
+            <div className="flex-1 h-[1px] bg-black"></div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
               {tablesRender.map(({ Component }, index) => {
               if (!selectCountries[index]) {
@@ -93,6 +100,12 @@ const Analitico = ({
             })}
           </div>
           
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex-1 h-[1px] bg-black"></div>
+            <p className="">Grupos de Produtos</p>
+            <div className="flex-1 h-[1px] bg-black"></div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
               {tablesRender.map(({ Secundary }, index) => {
               if (!selectCountries[index]) {

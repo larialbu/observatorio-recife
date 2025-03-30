@@ -3,17 +3,7 @@
 import { useState, useEffect } from "react";
 import FocusHidden from "../@global/features/FocusHidden";
 import { useDashboard } from "@/context/DashboardContext";
-
-const ChevronIcon = ({ up = false }: { up?: boolean }) => (
-  <svg
-    className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
-      up ? "rotate-180" : ""
-    }`}
-    viewBox="0 0 20 20"
-  >
-    <path d="M6 8l4 4 4-4" />
-  </svg>
-);
+import { ChevronIcon } from "./ChevronIcon";
 
 const Navbar = () => {
   const { filters, applyFilters, resetFilters } = useDashboard();

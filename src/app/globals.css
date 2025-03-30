@@ -160,6 +160,21 @@
   width: 100%;
 }
 
+/* LIMPAR COISAS DO EXCALIDRAW */
+.default-sidebar-trigger, .dropdown-menu-group, .HelpDialog__header {
+  display: none !important;
+}
+
+.Island .dropdown-menu-container > :nth-child(4),
+.Island .dropdown-menu-container > :nth-child(5),
+.Island .dropdown-menu-container > :nth-child(2) {
+  display: none !important;
+}
+
+
+
+/*  */
+
 @keyframes progressIndeterminate {
   0%   { transform: translateX(-100%) }
   100% { transform: translateX(100%)  }

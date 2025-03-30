@@ -9,12 +9,12 @@ import { processCargasLongoCurso } from "@/functions/process_data/observatorio/p
 
 const PaisesExportados = ({
   data,
+  color = ColorPalette.default,
   porto,
   title = "Países Exportados"  + ` - ${porto}`,
   year,
 }: any) => {
 
-  
   const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao, data.carga, 'exportacao'), data.dictionaries.destino, 'Destino')
 
   return (
@@ -25,7 +25,7 @@ const PaisesExportados = ({
           title={title}
           xKey="pais"
           bars={[{ dataKey: "totalVLPesoCargaBruta", name: "Carga (Ton)" }]}
-          colors={ColorPalette.default}
+          colors={[color]}
           heightPerCategory={50}
         />
       </ChartGrabber>

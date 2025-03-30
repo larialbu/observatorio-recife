@@ -6,6 +6,8 @@ interface OptionsMenuProps {
   isFullScreen: boolean;
   left?: boolean;
   onHide: () => void;
+  // Nova prop para adicionar ao Excalidraw
+  onAddToExcalidraw?: () => void;
 }
 
 const OptionsMenu: React.FC<OptionsMenuProps> = ({
@@ -14,13 +16,13 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
   isFullScreen,
   left,
   onHide,
+  onAddToExcalidraw,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   const handleClickOutside = (e: MouseEvent) => {
-
     if (
       buttonRef.current && !buttonRef.current.contains(e.target as Node) &&
       menuRef.current && !menuRef.current.contains(e.target as Node)
@@ -31,16 +33,17 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
 
   useEffect(() => {
     window.addEventListener('click', handleClickOutside);
-
     return () => {
       window.removeEventListener('click', handleClickOutside);
     };
   }, []);
 
   return (
-    <div className={`absolute z-20 ${isFullScreen ? `${left ? "top-3 right-2 transform scale-[1.5]" : "top-5 right-4 transform scale-[2]"}` : `${left ? "-top-6 left-2" : "top-[-.7em] right-[-.7em]"}`} options-menu`}>
+    <div className={`absolute z-20 ${isFullScreen 
+      ? (left ? "top-3 right-2 transform scale-[1.5]" : "top-5 right-4 transform scale-[2]")
+      : (left ? "-top-6 left-2" : "top-[-.7em] right-[-.7em]")}`}>
       <button
-        ref={buttonRef}  // Associando a ref ao botão
+        ref={buttonRef}
         className="text-gray-600 hover:text-gray-800 border-gray-600 options-button"
         onClick={() => {
           if (isFullScreen) {
@@ -62,7 +65,7 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
       </button>
       {menuOpen && !isFullScreen && (
         <div
-          ref={menuRef}  // Associando a ref ao menu
+          ref={menuRef}
           className={`absolute ${left ? "left-0" : "right-0"} w-48 bg-white rounded-md shadow-lg z-10 border-2`}
         >
           <button
@@ -92,6 +95,17 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
           >
             Esconder gráfico
           </button>
+          {onAddToExcalidraw && (
+            <button
+              onClick={() => {
+                onAddToExcalidraw();
+                setMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
+            >
+              Adicionar ao Quadro
+            </button>
+          )}
         </div>
       )}
     </div>

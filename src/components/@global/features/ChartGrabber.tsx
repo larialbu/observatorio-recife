@@ -3,6 +3,7 @@ import html2canvas from "html2canvas";
 import OptionsMenu from "./OptionsMenu";
 import { useDashboard } from "@/context/DashboardContext";
 import { usePathname } from "next/navigation";
+import { useExcalidraw } from "@/components/@global/excalidraw/context";
 
 const ChartGrabber = ({
   children,
@@ -12,6 +13,8 @@ const ChartGrabber = ({
   left?: boolean;
 }) => {
   const { filters, hiddenCharts, addHiddenChart } = useDashboard();
+  const { addChartToExcalidraw } = useExcalidraw();
+
   const pathname = usePathname();
   const category = pathname.split('/')[2] || 'default';
   const chartId = useId();
@@ -23,20 +26,19 @@ const ChartGrabber = ({
   const [showTempContainer, setShowTempContainer] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [chartTitle, setChartTitle] = useState("grafico");
-  const [chartSubText, setChartSubText] = useState<string | null>(null); // Novo estado para subText
+  const [chartSubText, setChartSubText] = useState<string | null>(null);
   const chartRef = useRef<HTMLDivElement>(null);
   const tempChartRef = useRef<HTMLDivElement>(null);
   const chartIsHidden = hiddenCharts.find((chart) => chart.title === chartTitle)
 
   useEffect(() => {
-    // Extrai o título e o subText do componente filho, se disponível
     React.Children.forEach(children, (child) => {
       if (React.isValidElement(child)) {
         if (child.props.title) {
           setChartTitle(child.props.title);
         }
         if (child.props.subText) {
-          setChartSubText(child.props.subText); // Captura o subText
+          setChartSubText(child.props.subText);
         }
       }
     });
@@ -44,7 +46,6 @@ const ChartGrabber = ({
 
   useEffect(() => {
     if (chartRef.current) {
-      // Navega até o avô (2 níveis acima)
       chartWrapperRef.current = chartRef.current.closest('.chart-content-wrapper');
     }
   }, []);
@@ -56,7 +57,22 @@ const ChartGrabber = ({
       chartWrapperRef.current.style.display = 'flex';
     }
 
-  }, [chartWrapperRef.current, hiddenCharts])
+  }, [chartWrapperRef.current, hiddenCharts]);
+
+  useEffect(() => {
+    if (chartRef.current) {
+      // Navega até o avô (container com a classe 'chart-content-wrapper')
+      chartWrapperRef.current = chartRef.current.closest('.chart-content-wrapper');
+    }
+  }, []);
+
+  const handleAddToExcalidraw = async () => {
+    if (chartWrapperRef.current) {
+      await addChartToExcalidraw(chartWrapperRef.current);
+    } else {
+      console.error("Container do gráfico não encontrado.");
+    }
+  };
 
   const handleDownload = () => {
     setShowTempContainer(true);
@@ -181,14 +197,13 @@ const ChartGrabber = ({
         }`}
       >
         <div className={`absolute w-[100%] h-full`}>
-          <OptionsMenu
+        <OptionsMenu
             left={left}
             onDownload={handleDownload}
-            onFullScreen={
-              isFullScreen ? handleExitFullScreen : handleFullScreen
-            }
+            onFullScreen={isFullScreen ? handleExitFullScreen : handleFullScreen}
             isFullScreen={isFullScreen}
             onHide={handleHide}
+            onAddToExcalidraw={handleAddToExcalidraw}
           />
         </div>
         <div className={`${isFullScreen ? "w-[80%]" : ""} z-10`}>
@@ -218,7 +233,7 @@ const ChartGrabber = ({
             
             <li className="mt-2"><strong>Ano:</strong> {yearFilter}</li>
               {additionalFilters
-                .filter((filter) => filter.selected.length > 0) // Filtra apenas os que têm itens selecionados
+                .filter((filter) => filter.selected.length > 0)
                 .map((filter, index) => {
                   const filterSelected = filter.selected;
                   const filterLength = filterSelected.length;
