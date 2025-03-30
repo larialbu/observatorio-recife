@@ -6,6 +6,7 @@ interface ExcalidrawFile {
     dataURL: string;
     created: number;
   }
+
   interface ExcalidrawImageElement {
     type: "image";
     id: string;
@@ -36,6 +37,7 @@ interface ExcalidrawFile {
     locked: boolean;
     link: null;
   }
+  
 interface ExcalidrawInitialDataState {
   elements: ExcalidrawImageElement[];
   files: { [fileId: string]: ExcalidrawFile };
