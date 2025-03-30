@@ -160,6 +160,12 @@
   width: 100%;
 }
 
+.layer-ui__wrapper__footer{
+  background: none !important;
+  height: auto !important;
+  box-shadow: none !important;
+}
+
 /* LIMPAR COISAS DO EXCALIDRAW */
 .default-sidebar-trigger, .dropdown-menu-group, .HelpDialog__header {
   display: none !important;
