@@ -22,12 +22,10 @@ export const captureChartSVG = (chartWrapper: HTMLElement) => {
   clonedSvg.setAttribute("width", chartWidth.toString());
 
   const paths = clonedSvg.querySelectorAll("path.recharts-rectangle");
-  console.log("Total de paths encontrados:", paths.length);
 
   if (paths.length > 15) {
     const first15 = Array.from(paths).slice(0, 15);
     Array.from(paths).slice(15).forEach((el, idx) => {
-      console.log("Removendo path extra, índice", idx + 15);
       (el as Element).remove();
     });
 
@@ -48,14 +46,21 @@ export const captureChartSVG = (chartWrapper: HTMLElement) => {
         }
       }
     });
-    console.log("Calculated minY:", minY, "maxY:", maxY);
+
     const unionHeight = maxY - minY;
-    const offset = 300; // pixelzinhos extras
-    const newHeight = unionHeight + offset;
-    console.log("Nova altura (unionHeight + offset):", newHeight);
+    const offset = 40; //pixelzinhos extras
+    const marginTop = 30;
+    const newHeight = unionHeight + offset + marginTop;
+
+    const gWrapper = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    while (clonedSvg.firstChild) {
+      gWrapper.appendChild(clonedSvg.firstChild);
+    }
+    gWrapper.setAttribute("transform", `translate(0, ${marginTop})`);
+    clonedSvg.appendChild(gWrapper);
 
     clonedSvg.setAttribute("height", newHeight.toString());
-    clonedSvg.setAttribute("viewBox", `0 ${minY} ${chartWidth} ${newHeight}`);
+    clonedSvg.setAttribute("viewBox", `0 ${minY - marginTop} ${chartWidth} ${newHeight}`);
 
     const serializer = new XMLSerializer();
     const svgString = serializer.serializeToString(clonedSvg);
@@ -108,6 +113,7 @@ export const captureElementAsPNG = async (elem: HTMLElement) => {
       boxShadow: "none",
       border: "none",
     },
+
     onclone: (clonedDoc: Document) => {
       clonedDoc.querySelectorAll("*").forEach((node) => {
         const el = node as HTMLElement;
@@ -119,6 +125,7 @@ export const captureElementAsPNG = async (elem: HTMLElement) => {
         el.style.boxShadow = "none";
         el.style.border = "none";
       });
+      
     },
   });
   return { dataURL, width, height };
@@ -131,6 +138,7 @@ export const createCompositeChartImage = async (chartWrapper: HTMLElement): Prom
   if (!chartData) return null;
 
   const titleElem = chartWrapper.querySelector("h3") as HTMLElement | null;
+  
   const legendElem = chartWrapper.querySelector(".recharts-legend-wrapper") as HTMLElement | null;
   let titleData = titleElem ? await captureElementAsPNG(titleElem) : null;
   let legendData = legendElem ? await captureElementAsPNG(legendElem) : null;

@@ -30,7 +30,10 @@ const FloatingExcalidrawButton: React.FC = () => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div
         className="bg-white rounded-lg shadow-xl relative"
-        style={{ width: "80%", height: "80%" }}
+        style={{ 
+          width: isMobile ? "90%" : "95%",
+          height: isMobile ? "90%" : "95%"
+        }}
       >
         <Excalidraw langCode="pt-BR" initialData={initialData as any || undefined}/>
         <button
