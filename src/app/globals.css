@@ -161,9 +161,9 @@
 }
 
 .layer-ui__wrapper__footer{
-  background: none;
-  height: auto;
-  box-shadow: none;
+  background: none !important;
+  height: auto !important;
+  box-shadow: none !important;
 }
 
 /* LIMPAR COISAS DO EXCALIDRAW */
