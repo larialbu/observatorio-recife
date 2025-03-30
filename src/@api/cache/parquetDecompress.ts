@@ -138,6 +138,7 @@ async function fetchWithProgress(url: string, onProgress: (percent: number) => v
     return arrayBuffer;
   }
 
+
   const reader = response.body.getReader();
   let receivedLength = 0;
   const chunks: Uint8Array[] = [];
@@ -151,8 +152,7 @@ async function fetchWithProgress(url: string, onProgress: (percent: number) => v
     
     const percent = total > 0 
       ? Math.min((receivedLength / total) * 100, 100)
-      : 100;
-    
+      : 100;    
     onProgress(percent);
   }
 
