@@ -98,7 +98,7 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
 
   // Classes extras se "simple" for true
   const containerClass = simple
-    ? "bg-[url('/images/backgrounds/home_carousel/goodJesusStreet.png')] bg-cover bg-center items-center"
+    ? "bg-[url('/images/backgrounds/home_carousel/carousel_1.png')] bg-cover bg-center items-center"
     : "";
 
   return (
