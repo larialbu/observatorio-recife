@@ -46,7 +46,7 @@ export const Banner: React.FC<BannerProps> = ({ onSearch }) => {
       <div className="absolute bottom-0 w-full h-[50px] bg-gradient-to-b from-transparent to-[#0C1B2B] transition-opacity duration-[300ms] ease-out opacity-0 dark:opacity-100 dark:duration-[590ms]" />
 
       {/* Seção principal */}
-      <section className="bg-[url('/images/backgrounds/home_carousel/goodJesusStreet.png')] w-full bg-center bg-cover">
+      <section className="bg-[url('/images/backgrounds/home_background.avif')] w-full bg-center bg-cover">
         {/* Cabeçalho */}
         <Header />
 

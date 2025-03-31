@@ -6,7 +6,7 @@ export const Footer = () => {
         <footer className="flex text-white">
             <div className="w-full h-full relative __background">
             <div className="flex items-center absolute logo-container">
-                <img src="/images/logos/prefeitura_recife_logo_white.png"/>
+                <img src="/images/logos/prefeitura_recife_logo_white.avif"/>
             </div>
             <div className="w-full h-full absolute __blue-filter"></div>
             <div className="h-full absolute right-10 flex __lines">

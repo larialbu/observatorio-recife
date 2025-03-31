@@ -111,7 +111,7 @@ export default function SourcesPage() {
       <NavBarHome simple />
 
       {/* Hero Section */}
-      <section className="relative w-full min-h-[70vh] flex flex-col items-center justify-center text-white">
+      <section className="relative w-full min-h-[72vh] flex flex-col items-center justify-center text-white">
         {/* Background e Ondas */}
         <div className="absolute inset-0">
           <div className="hue-rotate-[170deg]">
@@ -140,7 +140,7 @@ export default function SourcesPage() {
             e pesquisas econômicas.
           </p>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="absolute bottom-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="absolute -bottom-1">
           <path fill="#ffffff" className="dark:fill-[#0C1B2B]" fill-opacity="1" d="M0,192L48,202.7C96,213,192,235,288,245.3C384,256,480,256,576,240C672,224,768,192,864,197.3C960,203,1056,245,1152,229.3C1248,213,1344,139,1392,101.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
         </svg>
       </section>

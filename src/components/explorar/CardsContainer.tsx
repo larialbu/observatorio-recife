@@ -9,7 +9,7 @@ export const CardsContainer: React.FC = () => {
 
     const cardsData = [
         {
-            banner: "/images/banners/aeroporto_banner.png",
+            banner: "/images/banners/aeroporto_banner.avif",
             title: "Movimentação dos aeroportos",
             logo: "/images/logos/partners/anac_logo.png",
             description: "Explore a decolagem das tendências no tráfego aéreo!",
@@ -18,7 +18,7 @@ export const CardsContainer: React.FC = () => {
             name: "Aeroportos",
         },
         {
-            banner: "/images/banners/porto_recife_banner.png",
+            banner: "/images/banners/porto_recife_banner.avif",
             title: "Movimentação dos Portos",
             logo: "/images/logos/partners/porto_recife_logo.png",
             description: "Cheque as movimentações dos portos!",
@@ -27,7 +27,7 @@ export const CardsContainer: React.FC = () => {
             name: "Portos",
         },
         {
-            banner: "/images/banners/ipca_banner.png",
+            banner: "/images/banners/ipca_banner.avif",
             title: "IPCA - Índice Nacional de Preços ao Consumidor Amplo",
             logo: "/images/logos/partners/ibge_logo.png",
             description: "Fique por dentro da variação dos valores!",
@@ -36,7 +36,7 @@ export const CardsContainer: React.FC = () => {
             name: "IPCA",
         },
         {
-            banner: "/images/banners/balanca_comercial_banner.png",
+            banner: "/images/banners/balanca_comercial_banner.avif",
             title: "Balança Comercial",
             logo: "/images/logos/partners/comex_stat_logo.png",
             description: "Explore os bastidores da balança comercial: o que entra e sai do Brasil!",
@@ -45,7 +45,7 @@ export const CardsContainer: React.FC = () => {
             name: "Balança Comercial",
         },
         {
-            banner: "/images/banners/ranking_banner.png",
+            banner: "/images/banners/ranking_banner.avif",
             title: "Ranking de Competitividade dos Municípios",
             logo: "/images/logos/partners/clp_logo.png",
             description: "Descubra quais municípios estão no topo da competitividade!",
@@ -54,7 +54,7 @@ export const CardsContainer: React.FC = () => {
             name: "Ranking",
         },
         {
-            banner: "/images/banners/empresas_banner.png",
+            banner: "/images/banners/empresas_banner.avif",
             title: "Empresas da cidade do Recife",
             logo: "/images/logos/partners/prefeitura_recife_logo.png",
             description: "Revele o potencial das empresas recifenses com análises sólidas!",
@@ -63,7 +63,7 @@ export const CardsContainer: React.FC = () => {
             name: "Empresas",
         },
         {
-            banner: "/images/banners/empregos_banner.png",
+            banner: "/images/banners/empregos_banner.avif",
             title: "Variação e atividade dos empregos",
             logo: "/images/logos/partners/novo_caged_logo.png",
             description: "Explore a dinâmica das variações e atividades no mercado de trabalho!",
@@ -72,7 +72,7 @@ export const CardsContainer: React.FC = () => {
             name: "Empregos",
         },
         {
-            banner: "/images/banners/pib_banner.png",
+            banner: "/images/banners/pib_banner.avif",
             title: "PIB - Produto Interno Bruto",
             logo: "/images/logos/partners/ibge_logo.png",
             description: "Desvende o PIB: o termômetro da economia!",
@@ -81,7 +81,7 @@ export const CardsContainer: React.FC = () => {
             name: "PIB",
         },
         {
-            banner: "/images/banners/capacidade-de-pagamento-banner.png",
+            banner: "/images/banners/capacidade_de_pagamento_banner.avif",
             title: "CAPAG - Capacidade de Pagamentos",
             logo: "/images/logos/partners/tesouro-nacional-logo.png",
             description: "Verifique a saúde financeira e a confiabilidade de pagamentos do município!",
@@ -90,7 +90,7 @@ export const CardsContainer: React.FC = () => {
             name: "CAPAG",
         },
         {
-            banner: "/images/banners/tributos_banner.png",
+            banner: "/images/banners/tributos_banner.avif",
             title: "Tributos",
             logo: "/images/logos/partners/prefeitura_recife_logo.png",
             description: "Descubra como tributos e impostos impulsionam Recife!",

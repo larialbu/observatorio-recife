@@ -22,19 +22,19 @@ export default function DashboardLayout({
   const getBackgroundForRoute = () => {
     switch (pathname) {
       case "/observatorio/balanca-comercial":
-        return "bg-[url('/images/backgrounds/dashboard/bal_comercial.png')]";
+        return "bg-[url('/images/backgrounds/dashboard/bal_comercial.avif')]";
       case "/observatorio/aeroportos":
-        return "bg-[url('/images/backgrounds/dashboard/aeroportos.png')]";
+        return "bg-[url('/images/backgrounds/dashboard/aeroportos.avif')]";
       case "/observatorio/ipca":
-        return "bg-[url('/images/backgrounds/dashboard/ipca.png')]";
+        return "bg-[url('/images/backgrounds/dashboard/ipca.avif')]";
       case "/observatorio/ranking-municipios":
-        return "bg-[url('/images/backgrounds/dashboard/ranking.png')]";
+        return "bg-[url('/images/backgrounds/dashboard/ranking.avif')]";
       case "/observatorio/portos":
-        return "bg-[url('/images/backgrounds/dashboard/portos.png')]";
+        return "bg-[url('/images/backgrounds/dashboard/portos.avif')]";
         case "/observatorio/pib":
-        return "bg-[url('/images/backgrounds/dashboard/pib.png')]";
+        return "bg-[url('/images/backgrounds/dashboard/pib.avif')]";
       case "/observatorio/panorama":
-        return "bg-[url('/images/backgrounds/dashboard/ipca.png')]";
+        return "bg-[url('/images/backgrounds/dashboard/ipca.avif')]";
       default:
         return "bg-[#F7F8FA]";
     }
