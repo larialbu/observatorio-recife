@@ -18,7 +18,7 @@ const newsData: NewsItem[] = [
     title: "Recife é a capital do Nordeste mais favorável à abertura de novos negócios",
     description:
       "Recife lidera no Nordeste na facilidade para abrir negócios, com quase 800 atividades isentas de licenças, impulsionando economia e investimentos.",
-    image: "/images/news/news1.png",
+    image: "/images/news/news1.avif",
     date: "--",
     link: "https://desenvolvimentoeconomico.recife.pe.gov.br/negocios-20",
   },
@@ -27,7 +27,7 @@ const newsData: NewsItem[] = [
     title: "FIEPE reforça Programa de Internacionalização para pequenos negócios em 2025",
     description:
       "O programa de Internacionalização da FIEPE, em parceria com o SEBRAE, será reforçado em 2025 para capacitar pequenas empresas de Pernambuco a competir no mercado internacional.",
-    image: "/images/news/news3.png",
+    image: "/images/news/news3.avif",
     date: "11 de Janeiro de 2025",
     link: "https://www.cbnrecife.com/artigo/fiepe-reforca-programa-de-internacionalizacao-para-pequenos-negocios-em-2025",
   },
@@ -36,7 +36,7 @@ const newsData: NewsItem[] = [
     title: "Recife dispara como a capital com mais estudantes em Tecnologia do Brasil",
     description:
       "Recife lidera no Brasil em estudantes de TI por habitante, impulsionado pelo programa Embarque Digital, parceria entre o Porto Digital e a Prefeitura, promovendo qualificação e inovação tecnológica.",
-    image: "/images/news/news2.jpg",
+    image: "/images/news/news2.avif",
     date: "8 de Janeiro de 2025",
     link: "https://jornaldigital.recife.br/2025/01/08/recife-dispara-como-a-capital-com-mais-estudantes-de-ti-do-brasil/",
   },
@@ -45,7 +45,7 @@ const newsData: NewsItem[] = [
     title: "Porto Digital estima ser o 2º maior serviço no Recife em 2025",
     description:
       "O Porto Digital, maior parque tecnológico urbano da América Latina, projeta ultrapassar o setor de construção civil até 2025, consolidando-se como o 2º maior em receita no Recife, com faturamento que já triplicou desde 2018.",
-    image: "/images/news/news4.jpg",
+    image: "/images/news/news4.avif",
     date: "18 de Maio de 2024",
     link: "https://www.poder360.com.br/poder-tech/porto-digital-estima-ser-o-2o-maior-servico-no-recife-em-2025/",
   },
@@ -54,7 +54,7 @@ const newsData: NewsItem[] = [
     title: "Pesquisa põe Recife em lista das 156 cidades mais promissoras do mundo",
     description:
       "Recife está entre as cidades mais promissoras do mundo, segundo pesquisa da Global Cities Report, da consultoria internacional Kearney, referente ao ano de 2023 e anunciada este mês.",
-    image: "/images/news/news5.jpg",
+    image: "/images/news/news5.avif",
     date: "19 de Janeiro de 2024",
     link: "https://jornaldigital.recife.br/2024/01/19/pesquisa-poe-recife-em-lista-das-156-cidades-mais-promissoras-do-mundo/",
   },
