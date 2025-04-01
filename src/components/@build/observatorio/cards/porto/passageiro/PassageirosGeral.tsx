@@ -15,16 +15,9 @@ const PassageirosGeral = ({
   color,
 }: any) => {
 
-
-
-
-
   const current = processPassageirosTotalizados(data.passageiros.current || [])
   const past = processPassageirosTotalizados(data.passageiros.past || [])
  
-
-    
-
 //   item.past > 0 ? ((item.current - item.past) / item.past) * 100 : 0
 //   const chartData = prepareCargasPorAcaoData(data.atracacao, data.carga, true)
   const chartData = {

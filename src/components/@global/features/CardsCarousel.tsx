@@ -22,21 +22,21 @@ export const CardsCarousel = ({ absoluteDivRef, dataPassed, children, pageCompar
         return () => observer.disconnect(); // Limpa o observer ao desmontar
       }, [absoluteDivRef, height, dataPassed]); 
 
-     const handlePageChange = (direction: "prev" | "next") => {
-       setAnimationClass("card-exit"); // Aplica a animação de saída
-       setTimeout(() => {
-         setPageCompare((prevPage: any) =>
-           direction === "next"
-             ? prevPage === dataPassed.length - 1
-               ? 0
-               : prevPage + 1
-             : prevPage === 0
-             ? dataPassed.length - 1
-             : prevPage - 1
-         );
-         setAnimationClass("card-enter"); // Aplica a animação de entrada após a mudança
-       }, 100); // Tempo suficiente para a animação de saída
-     };
+      const handlePageChange = (direction: "prev" | "next") => {
+        setAnimationClass("card-exit"); // Aplica a animação de saída
+        setTimeout(() => {
+          setPageCompare((prevPage: any) =>
+            direction === "next"
+              ? prevPage === dataPassed.length - 1
+                ? 0
+                : prevPage + 1
+              : prevPage === 0
+              ? dataPassed.length - 1
+              : prevPage - 1
+          );
+          setAnimationClass("card-enter"); // Aplica a animação de entrada após a mudança
+        }, 500); // Tempo suficiente para a animação de saída
+      };
    
    return (<>
           <div className="flex justify-between items-center gap-2">
