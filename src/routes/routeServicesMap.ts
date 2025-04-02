@@ -4,6 +4,7 @@ import { empregosDataService } from "@/services/@data/empregosDataService";
 import { ipcaDataService } from "@/services/@data/ipcaDataService";
 import { pibDataService } from "@/services/@data/pibDataService";
 import { portoDataService } from "@/services/@data/portoDataService";
+import { raisDataService } from "@/services/@data/raisDataService";
 import { rankingDataService } from "@/services/@data/rankingDataService";
 
 export const routeServicesMap: Record<
@@ -61,7 +62,10 @@ export const routeServicesMap: Record<
 
   "/observatorio/empregos": {
     geral: empregosDataService,
-    rais: empregosDataService,
+  },
+
+  "/observatorio/rais": {
+    geral: raisDataService,
   },
 
   // E assim por diante ...

@@ -22,8 +22,8 @@ import { portoPassageiroFilters } from "@/utils/filters/porto/portoPassageiroFil
 import { pibGeralFilters } from "@/utils/filters/pib/pibGeralFilters";
 import { pibComparativoFilters } from "@/utils/filters/pib/pibComparativoFilters";
 import { pibCapitaFilters } from "@/utils/filters/pib/pibCapitaFilters";
-import { empregosRaisFilters } from "@/utils/filters/empregos/empregosRaisFilters";
 import { empregosCagedFilters } from "@/utils/filters/empregos/empregosCagedFilters";
+import { raisGeralFilters } from "@/utils/filters/rais/raisGeralFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 export const routeFiltersMap: Record<
@@ -80,7 +80,10 @@ export const routeFiltersMap: Record<
 
   "/observatorio/empregos": {
     geral: empregosCagedFilters,
-    rais: empregosRaisFilters,
+  },
+
+  "/observatorio/rais": {
+    geral: raisGeralFilters,
   },
 
   // E assim por diante pra outras rotas...

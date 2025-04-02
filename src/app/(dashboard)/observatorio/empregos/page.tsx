@@ -10,7 +10,6 @@ import { getMonths } from "@/utils/filters/@global/getMonths";
 import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
-import RaisPage from "./(rais)/rais";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
@@ -68,8 +67,6 @@ const AeroportosPage = () => {
           data={anac || []}
           toCompare={filters.additionalFilters[4]?.selected}
         />;
-      case "rais":
-        return <RaisPage />;
       default:
         return <Geral 
         data={anac || []}
@@ -123,7 +120,9 @@ const AeroportosPage = () => {
           Embarque/Desembarque
         </button> */}
         <button
-          onClick={() => handleNavigation("rais")}
+          onClick={() => {
+            router.push('rais?tab=geral')
+          }}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "rais"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"

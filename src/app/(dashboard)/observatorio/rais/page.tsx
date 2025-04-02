@@ -6,26 +6,50 @@ import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
-import Demografia from "./demografia";
 import { geralAccFunction } from "@/functions/process_data/observatorio/empregos/rais/demografia/geralFuncition";
+import Demografia from "./(demografia)/demografia";
 
 const AeroportosPage = () => {
   const { isLoading, data, filters } = useDashboard();
-  const [rais, setRais] = useState([]);
-  const [activeTab, setActiveTab] = useState("demografia");
+  const [rais, setRais] = useState({});
+  const [activeTab, setActiveTab] = useState("geral");
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+      const tab = searchParams.get("tab");
+      if (tab && tab !== activeTab) {
+        setActiveTab(tab);
+      } else if (!tab) {
+        setActiveTab('geral');
+        router.replace(`?tab=geral`);
+      }
+    }, [searchParams, activeTab, router]);
 
   useEffect(() => {
       const intervalId = setInterval(() => {
         
-        if (data) {
+        if (data?.rais) {
           const raisData = data?.rais || {};
-          console.log('RiasData', raisData)
-          console.log('setRaid', raisData?.filteredData || [])
-          setRais(raisData?.filteredData || []);
-          console.log('GFEE', geralAccFunction(raisData?.filteredData, ["Faixa Etária", "Tipo Defic"])) 
+          console.log('RiasData', raisData.ativ.filteredData, raisData.noAtiv.filteredData)
+          // setRais(raisData?.filteredData || []);
+          console.log('Slaaaa', {
+            ativ: raisData.ativ.filteredData,
+            noAtiv: raisData.noAtiv.filteredData
+          })
+          setRais({
+            ativ: raisData.ativ.filteredData,
+            noAtiv: raisData.noAtiv.filteredData
+          });
 
           clearInterval(intervalId);
-        }
+        } else {
+            setRais({
+                ativ: [],
+                noAtiv: []
+              });
+          }
       }, 50);
   
       return () => clearInterval(intervalId);
@@ -39,11 +63,11 @@ const AeroportosPage = () => {
     }
 
     switch (activeTab) {
-      case "demografia":
-        return <Demografia 
+      case "geral":
+        return <Demografia
         data={rais} 
         year={getYearSelected(filters)} 
-        />
+        />  
       case "comparativo":
         return <Demografia 
         data={rais} 
@@ -74,12 +98,16 @@ const AeroportosPage = () => {
   if (isLoading) return <LoadingScreen />;
 
   return (
-    <div className="p- min-h-screen mt-">
+    <div className="p-6 min-h-screen mt-48">
+       <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
+        RAIS
+      </h1>
+      
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
         <button
-          onClick={() => handleNavigation("demografia")}
+          onClick={() => handleNavigation("geral")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "demografia"
+            activeTab === "geral"
               ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}

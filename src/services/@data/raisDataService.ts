@@ -1,4 +1,4 @@
-import { EmpregosData } from "@/@api/http/to-charts/empregos/EmpregosData";
+import { RaisData } from "@/@api/http/to-charts/rais/RaisData";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
 
 export class EmpregosDataService {
@@ -25,18 +25,28 @@ export class EmpregosDataService {
     return `${tab}-${this.currentYear}-${JSON.stringify(filters.additionalFilters)}`;
   }
 
-  private async fetchGeralCaged(filters: Record<string, any>) {
-    const empregosData = new EmpregosData(this.currentYear);
+  private async fetchGeral(filters: Record<string, any>) {
+    const raisData = new RaisData(this.currentYear);
     // const pastYear = `${+this.currentYear - 1}`;
 
-    const fetchData = await empregosData.fetchProcessedDataCaged();
+    const filterAtiv = (val: '1' | '0') => {
+      return {...filters, additionalFilters: [...filters.additionalFilters, {
+      label: "Vínculo Ativo 31/12",  
+      options: [], 
+      selected: [val],
+    }] }}
+    
+    const fetchData = await raisData.fetchProcessedDataRais() 
 
-    const filteredData = fetchData;
-    // const filteredData = applyGenericFilters(fetchData, filters);
+    const filteredDataAtiv = applyGenericFilters(fetchData, filterAtiv('1'));
+    const filteredDataNoAtiv = applyGenericFilters(fetchData, filterAtiv('0'));
 
     return {
-        caged: filteredData,
-        id: "empregos-caged"
+        rais: {
+          ativ: filteredDataAtiv,
+          noAtiv: filteredDataNoAtiv
+        },
+        id: "empregos-rais"
     };
   }
 
@@ -50,9 +60,9 @@ export class EmpregosDataService {
 
     let data;
     if (tab === "rais") {
-      data = await this.fetchGeralCaged(filters);
+      data = await this.fetchGeral(filters);
     } else {
-      data = await this.fetchGeralCaged(filters);
+      data = await this.fetchGeral(filters);
     }
 
     this.dataCache[cacheKey] = data;
@@ -64,4 +74,4 @@ export class EmpregosDataService {
   }
 }
 
-export const empregosDataService = EmpregosDataService.getInstance();
+export const raisDataService = EmpregosDataService.getInstance();

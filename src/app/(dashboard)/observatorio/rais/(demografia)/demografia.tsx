@@ -19,20 +19,17 @@ const Demografia = ({
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // a função para calcuar os valores dos gráficos tem que estar aqui (acho legal), ou talvez na pagina de page (acho feio)
-    console.log('DEMOGRAFIA (RAIS)', data, year)
-    // console.log('Treste', geralAccFunction(data, ["Faixa Etária", "Tipo Defic"]))
-    //   console.log('YEAR months', year, months)
-    
-  }, [])
+  // setor produtivo (ANALISAR ESSE DADOD) - genero (Sexo Trabalhador) - faixa etearia - grau de instrução (Escolaridade após 2005) - necessidade especial (Tipo Defic) - raça (Raça Cor)
+  console.log('ATIV ->', geralAccFunction(data.ativ, ["Sexo Trabalhador", "Escolaridade após 2005", "Raça Cor", "Faixa Etária", "Tipo Defic"])) 
+  console.log('NOATIV ->>', geralAccFunction(data.noAtiv, ["Sexo Trabalhador", "Escolaridade após 2005", "Raça Cor", "Faixa Etária", "Tipo Defic"])) 
+
 
   return (
     <div>
       <div className="flex flex-wrap gap-4 justify-center mb-8">
-        {cards.map(({ Component }, index) => (
+        {cards.slice(0, 1).map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-            {/* <Component data={data} year={year} color={ColorPalette.default[index]} /> */}
+            <Component data={data} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
           </React.Suspense>
         ))}
       </div>
@@ -44,7 +41,7 @@ const Demografia = ({
             <div
               key={index}
               className={`chart-content-wrapper`}
-            >
+            >a
               {/* <React.Suspense fallback={<GraphSkeleton />}>
                 <ErrorBoundary>
                   <Component data={data} rawData={rawData} months={months} />

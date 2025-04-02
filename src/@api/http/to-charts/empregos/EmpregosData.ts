@@ -13,7 +13,6 @@ export class EmpregosData {
     this.year = year;
   }
 
-
   async fetchProcessedDataCaged(): Promise<ProcessedDataPib[]> {
     const endpoint = `/empregos/caged/anos/${this.year}`;
     return fetchData<ProcessedDataPib[]>(endpoint, EmpregosData.cache);
@@ -21,16 +20,6 @@ export class EmpregosData {
 
   async fetchProcessedDataDesemprego(): Promise<ProcessedDataPib[]> {
     const endpoint = `/empregos/caged/anos/${this.year}`;
-    return fetchData<ProcessedDataPib[]>(endpoint, EmpregosData.cache);
-  }
-
-  async fetchProcessedDataRais(): Promise<ProcessedDataPib[]> {
-    const endpoint = `/empregos/rais/recife/anos/${this.year}`;
-    return fetchData<ProcessedDataPib[]>(endpoint, EmpregosData.cache);
-  }
-
-  async fetchProcessedDataByYear(year: string): Promise<ProcessedDataPib[]> {
-    const endpoint = `/pib/geral/anos`;
     return fetchData<ProcessedDataPib[]>(endpoint, EmpregosData.cache);
   }
 
