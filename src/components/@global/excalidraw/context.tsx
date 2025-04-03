@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { loadExcalidrawBuffer } from "./handleSaves";
 
 interface ExcalidrawFile {
     mimeType: string;
@@ -41,7 +42,7 @@ interface ExcalidrawFile {
 interface ExcalidrawInitialDataState {
   elements: ExcalidrawImageElement[];
   files: { [fileId: string]: ExcalidrawFile };
-  appState?: any;
+  appState?: any; 
 }
 
 interface ExcalidrawContextProps {
@@ -113,6 +114,27 @@ export const ExcalidrawProvider = ({ children }: { children: ReactNode }) => {
       };
     });
   };
+
+  useEffect(() => {
+    const loadFromDB = async () => {
+      const saved = await loadExcalidrawBuffer();
+      if (saved) {
+        setInitialData((prev: any) => {
+          const merged = {
+            elements: [...(prev?.elements ?? []), ...saved.elements],
+            files: { ...(prev?.files ?? {}), ...saved.files },
+            appState: saved.appState || prev?.appState || { viewBackgroundColor: "#fff" }
+          };
+          console.log("[Quadro] Dados carregados");
+          return merged;
+        });
+      } else {
+        console.log("[Quadro] Nenhum dado salvo.");
+      }
+    };
+
+    loadFromDB();
+  }, []);
 
   return (
     <ExcalidrawContext.Provider value={{ initialData, setInitialData, addChartToExcalidraw }}>

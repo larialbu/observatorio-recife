@@ -1,8 +1,10 @@
 import { aeroportoDataService } from "@/services/@data/aeroportoDataService";
 import { balancaDataService } from "@/services/@data/balancaComercialDataService";
+import { empregosDataService } from "@/services/@data/empregosDataService";
 import { ipcaDataService } from "@/services/@data/ipcaDataService";
 import { pibDataService } from "@/services/@data/pibDataService";
 import { portoDataService } from "@/services/@data/portoDataService";
+import { raisDataService } from "@/services/@data/raisDataService";
 import { rankingDataService } from "@/services/@data/rankingDataService";
 
 export const routeServicesMap: Record<
@@ -56,6 +58,15 @@ export const routeServicesMap: Record<
     // Se tiver tabs diferentes ("geral", "analitico", etc.), aponte para balancaDataService
     geral: balancaDataService,
     analitico: balancaDataService,
+  },
+
+  "/observatorio/empregos": {
+    geral: empregosDataService,
+  },
+
+  "/observatorio/rais": {
+    geral: raisDataService,
+    desligamento: raisDataService,
   },
 
   // E assim por diante ...

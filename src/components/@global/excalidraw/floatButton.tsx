@@ -1,10 +1,17 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
 import { useExcalidraw } from "@/components/@global/excalidraw/context";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { serializeAsJSON, restore } from "@excalidraw/excalidraw";
+import { saveExcalidrawBuffer, loadExcalidrawBuffer } from "./handleSaves";
+import type {
+  ExcalidrawImperativeAPI,
+  AppState,
+  BinaryFiles,
+} from "@excalidraw/excalidraw/types";
 
 const Excalidraw = dynamic(
   async () => {
@@ -23,8 +30,9 @@ const Excalidraw = dynamic(
 
 const FloatingExcalidrawButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const excalidrawAPIRef = useRef<ExcalidrawImperativeAPI | null>(null);
+  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { initialData } = useExcalidraw();
@@ -40,10 +48,52 @@ const FloatingExcalidrawButton: React.FC = () => {
     }
   }, []);
 
-  // Modal
-  const modal = isOpen && createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div
+  const handleDebouncedSave = useCallback(
+    (elements: readonly any[], appState: AppState, files: BinaryFiles) => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+
+      saveTimeoutRef.current = setTimeout(async () => {
+        try {
+          const restored = restore({ elements, appState, files }, null, null);
+          const jsonString = serializeAsJSON(restored.elements, restored.appState, restored.files, "local");
+          const uint8 = new TextEncoder().encode(jsonString);
+          const buffer = uint8.buffer as ArrayBuffer;
+          await saveExcalidrawBuffer(buffer);
+        } catch (err) {
+          console.error("Erro ao salvar com debounce:", err);
+        }
+      }, 1000);
+    },
+    []
+  );
+
+  const loadSceneOnOpen = useCallback(async () => {
+    if (isOpen && excalidrawAPIRef.current) {
+      const saved = await loadExcalidrawBuffer();
+      if (saved) {
+        excalidrawAPIRef.current.updateScene({
+          elements: saved.elements,
+          appState: saved.appState,
+          files: saved.files,
+        } as any);
+        console.log("[Excalidraw] Cena restaurada ao abrir");
+      } else {
+        console.log("[Excalidraw] Nenhum dado salvo para restaurar");
+      }
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    loadSceneOnOpen();
+  }, [isOpen, loadSceneOnOpen]);
+  
+
+  const modal = isOpen &&
+    createPortal(
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div
         ref={containerRef}
         className={`bg-white rounded-lg shadow-xl relative ${
           isFullscreen ? "fixed inset-0 m-0" : ""
@@ -53,13 +103,13 @@ const FloatingExcalidrawButton: React.FC = () => {
           height: isFullscreen ? "100%" : isMobile ? "90%" : "95%",
         }}
       >
-
-        <Excalidraw
-          langCode="pt-BR"
-          initialData={initialData as any || undefined}
-        />
-
-        <div className={`z-10 absolute flex-row-reverse flex gap-2 ${isMobile ? `z-10 scale-90 ${isFullscreen ? "top-16 right-8" : "-top-7 right-2"}` : "top-4 right-4"}`}>
+          <Excalidraw
+            langCode="pt-BR"
+            initialData={initialData as any || undefined}
+            excalidrawAPI={(api) => (excalidrawAPIRef.current = api)}
+            onChange={handleDebouncedSave}
+          />
+          <div className={`z-10 absolute flex-row-reverse flex gap-2 ${isMobile ? `z-10 scale-90 ${isFullscreen ? "top-16 right-8" : "-top-7 right-2"}` : "top-4 right-4"}`}>
           <button
             onClick={() => setIsOpen(false)}
             className={`w-10 p-2 h-fit bg-red-500 text-white rounded-full hover:bg-red-600 transition duration-300 ${isMobile ? "" : ""} `}
