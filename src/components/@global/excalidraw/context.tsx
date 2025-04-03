@@ -1,72 +1,91 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import { loadExcalidrawBuffer } from "./handleSaves";
 
-interface ExcalidrawFile {
-    mimeType: string;
-    id: string;
-    dataURL: string;
-    created: number;
-  }
+export interface ExcalidrawFile {
+  mimeType: string;
+  id: string;
+  dataURL: string;
+  created: number;
+}
 
-  interface ExcalidrawImageElement {
-    type: "image";
-    id: string;
-    status: "saved";
-    fileId: string;
-    version: number;
-    versionNonce: number;
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    scale: [number, number];
-    angle: number;
-    isDeleted: boolean;
-    fillStyle: string;
-    strokeWidth: number;
-    strokeStyle: string;
-    roughness: number;
-    opacity: number;
-    groupIds: string[];
-    strokeColor: string;
-    backgroundColor: string;
-    seed: number;
-    roundness: number | null;
-    frameId: null;
-    boundElements: null;
-    updated: number;
-    locked: boolean;
-    link: null;
-  }
-  
-interface ExcalidrawInitialDataState {
+export interface ExcalidrawImageElement {
+  type: "image";
+  id: string;
+  status: "saved";
+  fileId: string;
+  version: number;
+  versionNonce: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  scale: [number, number];
+  angle: number;
+  isDeleted: boolean;
+  fillStyle: string;
+  strokeWidth: number;
+  strokeStyle: string;
+  roughness: number;
+  opacity: number;
+  groupIds: string[];
+  strokeColor: string;
+  backgroundColor: string;
+  seed: number;
+  roundness: number | null;
+  frameId: null;
+  boundElements: null;
+  updated: number;
+  locked: boolean;
+  link: null;
+}
+
+export interface ExcalidrawInitialDataState {
   elements: ExcalidrawImageElement[];
   files: { [fileId: string]: ExcalidrawFile };
-  appState?: any; 
+  appState: {
+    viewBackgroundColor: string;
+    collaborators: Map<any, any>;
+    [key: string]: any;
+  };
 }
 
 interface ExcalidrawContextProps {
-  initialData: ExcalidrawInitialDataState | null;
-  setInitialData: React.Dispatch<React.SetStateAction<ExcalidrawInitialDataState | null>>;
+  initialData: ExcalidrawInitialDataState;
+  setInitialData: React.Dispatch<
+    React.SetStateAction<ExcalidrawInitialDataState>
+  >;
   addChartToExcalidraw: (chartWrapper: HTMLElement) => Promise<void>;
 }
 
-const ExcalidrawContext = createContext<ExcalidrawContextProps | undefined>(undefined);
+const defaultInitialData: ExcalidrawInitialDataState = {
+  elements: [],
+  files: {},
+  appState: { viewBackgroundColor: "#fff", collaborators: new Map() },
+};
+
+const ExcalidrawContext = createContext<ExcalidrawContextProps | undefined>(
+  undefined
+);
 
 export const ExcalidrawProvider = ({ children }: { children: ReactNode }) => {
-  const [initialData, setInitialData] = useState<ExcalidrawInitialDataState | null>(null);
+  const [initialData, setInitialData] =
+    useState<ExcalidrawInitialDataState>(defaultInitialData);
 
   const addChartToExcalidraw = async (chartWrapper: HTMLElement) => {
-
-    const { createCompositeChartImage, loadImageFromDataURL } = await import("./utils");
+    const { createCompositeChartImage, loadImageFromDataURL } =
+      await import("./utils");
     const dataURL = await createCompositeChartImage(chartWrapper);
     if (!dataURL) return;
-    
     const finalImg = await loadImageFromDataURL(dataURL);
     const totalWidth = finalImg.width;
     const totalHeight = finalImg.height;
     const fileId = "chart-" + Date.now();
-
     const imageElement = {
       type: "image",
       id: "image-element-" + Date.now(),
@@ -98,46 +117,42 @@ export const ExcalidrawProvider = ({ children }: { children: ReactNode }) => {
       link: null,
     };
 
-    setInitialData((prev: any) => {
-      const newFile = {
-        mimeType: "image/png",
-        id: fileId,
-        dataURL,
-        created: Date.now(),
-      };
-      let newElements = prev ? [...prev.elements, imageElement] : [imageElement];
-      let newFiles = prev ? { ...prev.files, [fileId]: newFile } : { [fileId]: newFile };
-      return {
-        elements: newElements,
-        files: newFiles,
-        appState: { viewBackgroundColor: "#fff" },
-      };
-    });
+    setInitialData((prev: any) => ({
+      elements: [...prev.elements, imageElement],
+      files: {
+        ...prev.files,
+        [fileId]: { mimeType: "image/png", id: fileId, dataURL, created: Date.now() },
+      },
+      appState: { ...prev.appState },
+    }));
   };
 
   useEffect(() => {
     const loadFromDB = async () => {
       const saved = await loadExcalidrawBuffer();
       if (saved) {
-        setInitialData((prev: any) => {
-          const merged = {
-            elements: [...(prev?.elements ?? []), ...saved.elements],
-            files: { ...(prev?.files ?? {}), ...saved.files },
-            appState: saved.appState || prev?.appState || { viewBackgroundColor: "#fff" }
-          };
-          console.log("[Quadro] Dados carregados");
-          return merged;
-        });
+        setInitialData((prev) => ({
+          elements: [...(prev.elements || []), ...saved.elements],
+          files: { ...(prev.files || {}), ...saved.files },
+          appState: {
+            ...saved.appState,
+            collaborators: saved.appState && saved.appState.collaborators instanceof Map
+              ? saved.appState.collaborators
+              : new Map(),
+          },
+        }));
+        console.log("[Quadro] Dados carregados");
       } else {
         console.log("[Quadro] Nenhum dado salvo.");
       }
     };
-
     loadFromDB();
   }, []);
 
   return (
-    <ExcalidrawContext.Provider value={{ initialData, setInitialData, addChartToExcalidraw }}>
+    <ExcalidrawContext.Provider
+      value={{ initialData, setInitialData, addChartToExcalidraw }}
+    >
       {children}
     </ExcalidrawContext.Provider>
   );
@@ -146,7 +161,9 @@ export const ExcalidrawProvider = ({ children }: { children: ReactNode }) => {
 export const useExcalidraw = () => {
   const context = useContext(ExcalidrawContext);
   if (!context) {
-    throw new Error("useExcalidraw deve ser usado dentro de um ExcalidrawProvider");
+    throw new Error(
+      "useExcalidraw deve ser usado dentro de um ExcalidrawProvider"
+    );
   }
   return context;
 };
