@@ -4,16 +4,15 @@ import React from "react";
 import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { processAtracacoesPorCarga } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoProdutos";
-import { getPortoProductNameByCode } from "@/utils/formatters/getPortoProductNameByCode";
+import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
-const PrincipaisProdutos = ({
+const DesligamentosFaixaEtaria = ({
   data,
-  title = "Produtos Comercializados (Ton)",
+  title = "Distribuição formal de empregos por faixa etária",
   year,
 }: any) => {
   
-  const chartData = getPortoProductNameByCode(processAtracacoesPorCarga(data.atracacao, data.carga), data.dictionaries.mercado)
+  const chartData = getObjToArr<number>(data['Faixa Etária'] || {}).sort((a, b) => b.value - a.value)
 
   return (
     <div className="chart-wrapper">
@@ -21,8 +20,8 @@ const PrincipaisProdutos = ({
         <ScrollableBarChart
           data={chartData}
           title={title}
-          xKey="CDMercadoria"
-          bars={[{ dataKey: "totalVLPesoCargaBruta", name: "Produto" }]}
+          xKey="label"
+          bars={[{ dataKey: "value", name: "Faixa Etária" }]}
           colors={ColorPalette.default}
           heightPerCategory={50}
           widthY={130}
@@ -33,4 +32,4 @@ const PrincipaisProdutos = ({
   );
 };
 
-export default PrincipaisProdutos;
+export default DesligamentosFaixaEtaria;

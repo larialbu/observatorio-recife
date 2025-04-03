@@ -1,23 +1,21 @@
 import Card from "@/components/@global/cards/Card";
-import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorAcao";
-import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 
 const RemuneracaoMaior = ({
   data,
   date,
-  title = `Movimentacão de cargas`,
+  title = `Maior remuneração`,
   local = '',
   year,
   color,
 }: any) => {
-
-//   const chartData = data.find((data: any) => data.acao === 'Total')?.totalPeso || 0
+ 
+  const chartData = data.remuneracaoMax
 
   return (
     <Card
       local={local}
       title={`${title}`}
-      data={0}
+      data={chartData}
       year={year}
       color={color}
     />

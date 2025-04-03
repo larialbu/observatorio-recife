@@ -1,0 +1,41 @@
+"use client";
+
+import React, { useState } from "react";
+import PieChart from "@/components/@global/charts/PieChart";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
+import { getObjToArr } from "@/utils/formatters/getObjToArr";
+
+const EmpregosGenero = ({
+  data,
+  title = "Distribuição formal de empregos por raça",
+  year,
+}: any) => {
+  const [showPercentage, setShowPercentage] = useState(true);
+  const chartData = getObjToArr<number>(data['Raça Cor'] || {})
+
+  return (
+    <div className="chart-wrapper">
+      <ChartGrabber>
+        <PieChart
+          data={chartData}
+          title={title}
+          underTitle={
+            <ShowPercentages
+              showPercentage={showPercentage}
+              setShowPercentage={setShowPercentage}
+            />
+          }
+          dataKey="value"
+          nameKey="label"
+          colors={ColorPalette.default}
+          showPercentages={showPercentage}
+          tooltipEntry=""
+        />
+      </ChartGrabber>
+    </div>
+  );
+};
+
+export default EmpregosGenero;

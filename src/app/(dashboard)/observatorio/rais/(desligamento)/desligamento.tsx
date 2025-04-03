@@ -10,7 +10,7 @@ import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 
-const Demografia = ({
+const Desligamento = ({
   data,
   year,
 }: {
@@ -22,7 +22,9 @@ const Demografia = ({
   const [chartData, setChartData] = useState({})
 
   useEffect(() => {
-    setChartData(geralAccFunction(data.ativ || [], ["Sexo Trabalhador", "Escolaridade após 2005", "Raça Cor", "Faixa Etária", "Tipo Defic"]))
+    console.log('GERAL FUNC AAA ->', geralAccFunction(data.noAtiv || [], ["Sexo Trabalhador", "Faixa Etária", "Motivo Desligamento", "Mês Desligamento"]))
+
+    setChartData(geralAccFunction(data.noAtiv || [], ["Sexo Trabalhador", "Faixa Etária", "Motivo Desligamento", "Mês Desligamento"]))
   }, [data])
 
   return (
@@ -30,7 +32,7 @@ const Demografia = ({
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.slice(0, 1).map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-            <Component data={data} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
+            {/* <Component data={data} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} /> */}
           </React.Suspense>
         ))}
       </div>
@@ -56,4 +58,4 @@ const Demografia = ({
   );
 };
 
-export default Demografia;
+export default Desligamento;

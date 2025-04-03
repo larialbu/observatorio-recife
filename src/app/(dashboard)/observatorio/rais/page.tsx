@@ -8,8 +8,9 @@ import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
 import { geralAccFunction } from "@/functions/process_data/observatorio/empregos/rais/demografia/geralFuncition";
 import Demografia from "./(demografia)/demografia";
+import Desligamento from "./(desligamento)/desligamento";
 
-const AeroportosPage = () => {
+const RaisPage = () => {
   const { isLoading, data, filters } = useDashboard();
   const [rais, setRais] = useState({});
   const [activeTab, setActiveTab] = useState("geral");
@@ -32,12 +33,7 @@ const AeroportosPage = () => {
         
         if (data?.rais) {
           const raisData = data?.rais || {};
-          console.log('RiasData', raisData.ativ.filteredData, raisData.noAtiv.filteredData)
-          // setRais(raisData?.filteredData || []);
-          console.log('Slaaaa', {
-            ativ: raisData.ativ.filteredData,
-            noAtiv: raisData.noAtiv.filteredData
-          })
+
           setRais({
             ativ: raisData.ativ.filteredData,
             noAtiv: raisData.noAtiv.filteredData
@@ -68,8 +64,8 @@ const AeroportosPage = () => {
         data={rais} 
         year={getYearSelected(filters)} 
         />  
-      case "comparativo":
-        return <Demografia 
+      case "desligamento":
+        return <Desligamento 
         data={rais} 
         year={getYearSelected(filters)} 
         />
@@ -92,7 +88,7 @@ const AeroportosPage = () => {
   };
 
   const handleNavigation = async (tab: string) => {
-    setActiveTab(tab)
+    router.replace(`?tab=${tab}`);
   };
 
   if (isLoading) return <LoadingScreen />;
@@ -115,14 +111,14 @@ const AeroportosPage = () => {
           Demográfia
         </button>
         <button
-          onClick={() => handleNavigation("comparativo")}
+          onClick={() => handleNavigation("desligamento")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "comparativo"
+            activeTab === "desligamento"
               ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Comparativo
+          Desligamento
         </button>
         <button
           onClick={() => handleNavigation("embarque")}
@@ -150,4 +146,4 @@ const AeroportosPage = () => {
   );
 };
 
-export default AeroportosPage;
+export default RaisPage;

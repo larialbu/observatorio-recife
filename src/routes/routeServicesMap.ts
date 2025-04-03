@@ -66,6 +66,7 @@ export const routeServicesMap: Record<
 
   "/observatorio/rais": {
     geral: raisDataService,
+    desligamento: raisDataService,
   },
 
   // E assim por diante ...
