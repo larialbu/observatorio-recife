@@ -6,15 +6,13 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
-const DesligamentosFaixaEtaria = ({
+const DiversidadeDeficiencia = ({
   data,
-  title = "Distribuição desligamentos de empregos por faixa etária",
+  title = "Distribuição formal de empregos por grau de instrução",
   year,
 }: any) => {
   
-  const { "89": _, ...defics } = data['Motivo Desligamento'] || {}
-
-  const chartData = getObjToArr<number>(defics || {}).sort((a, b) => b.value - a.value).map((item) => ({ ...item, label: item.label.split(' - ')[1] }))
+  const chartData = getObjToArr<number>(data['Tipo Defic'] || {}).sort((a, b) => b.value - a.value)
 
   return (
     <div className="chart-wrapper">
@@ -23,10 +21,10 @@ const DesligamentosFaixaEtaria = ({
           data={chartData}
           title={title}
           xKey="label"
-          bars={[{ dataKey: "value", name: "Motivo" }]}
+          bars={[{ dataKey: "value", name: "Deficiência" }]}
           colors={ColorPalette.default}
           heightPerCategory={50}
-          widthY={200}
+          widthY={130}
           left={-15}
         />
       </ChartGrabber>
@@ -34,4 +32,4 @@ const DesligamentosFaixaEtaria = ({
   );
 };
 
-export default DesligamentosFaixaEtaria;
+export default DiversidadeDeficiencia;

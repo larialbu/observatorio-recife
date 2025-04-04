@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import charts from "./@imports/demografia/charts";
-import cards from "./@imports/demografia/cards";
+import charts from "./@imports/charts";
+import cards from "./@imports/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import { geralAccFunction } from "@/functions/process_data/observatorio/empregos/rais/demografia/geralFuncition";

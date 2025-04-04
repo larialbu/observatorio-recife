@@ -8,7 +8,7 @@ import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
 const DesligamentosFaixaEtaria = ({
   data,
-  title = "Distribuição formal de empregos por faixa etária",
+  title = "Distribuição formal de desligamentos por faixa etária",
   year,
 }: any) => {
   

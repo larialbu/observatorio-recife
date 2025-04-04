@@ -14,6 +14,7 @@ import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/gra
 import CustomTooltip from "../features/CustomTooltip";
 import CustomLegend from "../features/CustomLegend";
 import { useEffect, useRef, useState } from "react";
+import { truncateTextFormatter } from "@/utils/formatters/@global/truncateTextFormatter";
 
 const splitDataInBlocks = (data: any[], blockSize: number = 100) => {
   const blocks: any[][] = [];
@@ -35,6 +36,8 @@ const VerticalScrollableBarChart = ({
   visibleHeight = 400, 
   widthY = 100,
   left = -5,
+  yFontSize = 12,
+  maxDescriptionLength = 50, // Definir limite de caracteres para o eixo Y
 }: any) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState("start");
@@ -109,9 +112,11 @@ const VerticalScrollableBarChart = ({
               <YAxis
                 type="category"
                 dataKey={xKey}
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: yFontSize }}
                 interval={0}
                 width={widthY}
+                // Truncar o texto apenas no eixo Y
+                tickFormatter={(value: string) => truncateTextFormatter(value, maxDescriptionLength)}
               />
               <Tooltip content={(e) => CustomTooltip({ ...e, customTooltipFormatter: tooltipFormatter })} />
 

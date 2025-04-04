@@ -14,6 +14,7 @@ import {
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
 import CustomLegend from "../features/CustomLegend";
 import CustomTooltip from "../features/CustomTooltip";
+import { truncateTextFormatter } from "@/utils/formatters/@global/truncateTextFormatter";
 
 const StackerBarChartVertical = ({
   data,
@@ -60,13 +61,6 @@ const StackerBarChartVertical = ({
     return tooltipFormatter(value, tooltipEntry || "");
   };
 
-  // Função para truncar a descrição para o eixo Y
-  const truncateForYAxis = (descricao: string) => {
-    return descricao.length > maxDescriptionLength
-      ? descricao.substring(0, maxDescriptionLength) + "..."
-      : descricao;
-  };
-
   return (
     <div className="relative bg-white w-full">
       <h3 className="text-center mb-[2em] font-semibold">{title}</h3>
@@ -99,7 +93,7 @@ const StackerBarChartVertical = ({
                 interval={0}
                 width={widthY}
                 // Truncar o texto apenas no eixo Y
-                tickFormatter={(value: string) => truncateForYAxis(value)}
+                tickFormatter={(value: string) => truncateTextFormatter(value, maxDescriptionLength)}
               />
               <Tooltip
                 content={(e) => CustomTooltip({ ...e, customTooltipFormatter, fontSize: tooltipTitleFontSize })}

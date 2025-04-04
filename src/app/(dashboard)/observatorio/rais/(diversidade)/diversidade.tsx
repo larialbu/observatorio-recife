@@ -10,7 +10,7 @@ import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 
-const Desligamento = ({
+const Diversidade = ({
   data,
   year,
 }: {
@@ -22,21 +22,19 @@ const Desligamento = ({
   const [chartData, setChartData] = useState({})
 
   useEffect(() => {
-    setChartData(geralAccFunction(data.noAtiv || [], ["Sexo Trabalhador", "Faixa Etária", "Motivo Desligamento", "Mês Desligamento"]))
+    const dataFiltred = data.ativ.filter((item: any) => item['Tipo Defic'] !== 'NAO DEFIC')
+    console.log('ATVGERAL', dataFiltred)
+    console.log('DIVIDADDI', geralAccFunction(dataFiltred|| [], ["Sexo Trabalhador", "Escolaridade após 2005", "Seção", "Tipo Defic"]))
+
+    setChartData(geralAccFunction(dataFiltred || [], ["Sexo Trabalhador", "Escolaridade após 2005", "Seção", "Tipo Defic"]))
   }, [data])
 
   return (
     <div>
       <div className="flex flex-wrap gap-4 justify-center mb-8">
-        {cards.map(({ Component }, index) => (
+        {cards.slice(0, 1).map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-            <ErrorBoundary>
-              <Component
-                data={data}
-                year={year}
-                color={ColorPalette.default[index]}
-              />
-            </ErrorBoundary>
+            <Component data={data} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
           </React.Suspense>
         ))}
       </div>
@@ -62,4 +60,4 @@ const Desligamento = ({
   );
 };
 
-export default Desligamento;
+export default Diversidade;

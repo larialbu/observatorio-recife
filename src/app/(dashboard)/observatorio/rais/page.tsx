@@ -9,6 +9,7 @@ import { getMonths } from "@/utils/filters/@global/getMonths";
 import { geralAccFunction } from "@/functions/process_data/observatorio/empregos/rais/demografia/geralFuncition";
 import Demografia from "./(demografia)/demografia";
 import Desligamento from "./(desligamento)/desligamento";
+import Diversidade from "./(diversidade)/diversidade";
 
 const RaisPage = () => {
   const { isLoading, data, filters } = useDashboard();
@@ -69,8 +70,8 @@ const RaisPage = () => {
         data={rais} 
         year={getYearSelected(filters)} 
         />
-      case "embarque":
-        return <Demografia 
+      case "diversidade":
+        return <Diversidade 
         data={rais} 
         year={getYearSelected(filters)} 
         />
@@ -121,14 +122,14 @@ const RaisPage = () => {
           Desligamento
         </button>
         <button
-          onClick={() => handleNavigation("embarque")}
+          onClick={() => handleNavigation("diversidade")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "embarque"
+            activeTab === "diversidade"
               ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Embarque/Desembarque
+          Diversidade
         </button>
         <button
           onClick={() => handleNavigation("rais")}

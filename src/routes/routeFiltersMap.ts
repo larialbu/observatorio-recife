@@ -85,6 +85,7 @@ export const routeFiltersMap: Record<
   "/observatorio/rais": {
     geral: raisGeralFilters,
     desligamento: raisGeralFilters,
+    diversidade: raisGeralFilters,
   },
 
   // E assim por diante pra outras rotas...
