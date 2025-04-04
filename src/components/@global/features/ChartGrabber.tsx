@@ -3,7 +3,7 @@ import html2canvas from "html2canvas";
 import OptionsMenu from "./OptionsMenu";
 import { useDashboard } from "@/context/DashboardContext";
 import { usePathname } from "next/navigation";
-import { useExcalidraw } from "@/components/@global/excalidraw/context";
+import { useExcalidraw } from "@/components/@global/excalidraw/context/useContext";
 
 const ChartGrabber = ({
   children,

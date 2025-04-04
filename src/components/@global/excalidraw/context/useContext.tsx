@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { loadExcalidrawBuffer } from "./handleSaves";
+import { loadExcalidrawBuffer } from "../handleSaves";
 
 export interface ExcalidrawFile {
   mimeType: string;
@@ -79,7 +79,7 @@ export const ExcalidrawProvider = ({ children }: { children: ReactNode }) => {
 
   const addChartToExcalidraw = async (chartWrapper: HTMLElement) => {
     const { createCompositeChartImage, loadImageFromDataURL } =
-      await import("./utils");
+      await import("../utils");
     const dataURL = await createCompositeChartImage(chartWrapper);
     if (!dataURL) return;
     const finalImg = await loadImageFromDataURL(dataURL);

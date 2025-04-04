@@ -1,6 +1,6 @@
 import React from "react";
-import { useDrawingStore } from "./drawingStoreContext";
-import type { IDrawing } from "./drawing-store";
+import { useDrawingStore } from "./context/drawingStoreContext";
+import type { IDrawing } from "./drawingStore";
 
 interface SavedDrawingsPanelProps {
   onLoadDrawing: (drawing: IDrawing) => void;

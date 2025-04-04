@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { DrawingStore } from "./drawing-store";
-import type { IDrawing } from "./drawing-store";
+import { DrawingStore } from "../drawingStore";
+import type { IDrawing } from "../drawingStore";
 
 interface DrawingStoreContextProps {
   currentDrawing: IDrawing | null;
