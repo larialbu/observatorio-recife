@@ -7,7 +7,8 @@ import { Sidebar } from "@/components/random_temp/Sidebar";
 import { DashboardProvider } from "@/context/DashboardContext";
 import { usePathname } from "next/navigation";
 import HiddenChartsPanel from "@/components/@global/features/HiddenChartsPanel";
-import { ExcalidrawProvider } from "@/components/@global/excalidraw/context";
+import { ExcalidrawProvider } from "@/components/@global/excalidraw/context/useContext";
+import { DrawingStoreProvider } from "@/components/@global/excalidraw/context/drawingStoreContext";
 import FloatingExcalidrawButton from "@/components/@global/excalidraw/floatButton";
 import "@excalidraw/excalidraw/index.css";
 
@@ -50,10 +51,12 @@ export default function DashboardLayout({
           >
             <Navbar />
             <HiddenChartsPanel />
-            <ExcalidrawProvider>
-              {children}
-              <FloatingExcalidrawButton />
-            </ExcalidrawProvider>
+            <DrawingStoreProvider>
+              <ExcalidrawProvider>
+                {children}
+                <FloatingExcalidrawButton />
+              </ExcalidrawProvider>
+            </DrawingStoreProvider>
           </div>
         </div>
       </DashboardProvider>
