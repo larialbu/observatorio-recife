@@ -1,4 +1,8 @@
-export const raisGrupoDicts = {
+type RaisGrupoDicts = {
+  [key: string]: string;
+};
+
+export const raisGrupoDicts: RaisGrupoDicts = {
     "011": "Produção de lavouras temporárias",
     "012": "Horticultura e floricultura",
     "013": "Produção de lavouras permanentes",

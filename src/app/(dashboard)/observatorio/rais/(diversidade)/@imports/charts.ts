@@ -22,7 +22,13 @@ const charts = [
       )
     ),
   },
-
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/rais/diversidade/DiversidadeDistribuicao"
+      )
+    ),
+  },
 ];
 
 export default charts;

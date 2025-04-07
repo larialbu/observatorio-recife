@@ -1,4 +1,8 @@
-export const raisDivisaoSecaoDicts = {
+type RaisDicts = {
+  [key: string]: string;
+};
+
+export const raisDivisaoSecaoDicts: RaisDicts = {
     "01": "AGRICULTURA, PECUÁRIA, PRODUÇÃO FLORESTAL, PESCA E AQÜICULTURA",
     "02": "AGRICULTURA, PECUÁRIA, PRODUÇÃO FLORESTAL, PESCA E AQÜICULTURA",
     "03": "AGRICULTURA, PECUÁRIA, PRODUÇÃO FLORESTAL, PESCA E AQÜICULTURA",

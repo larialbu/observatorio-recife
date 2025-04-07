@@ -10,7 +10,7 @@ import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 
-const Desligamento = ({
+const Grupo = ({
   data,
   year,
 }: {
@@ -22,22 +22,16 @@ const Desligamento = ({
   const [chartData, setChartData] = useState({})
 
   useEffect(() => {
-    setChartData({ ...geralAccFunction(data.noAtiv || [], ["Sexo Trabalhador", "Faixa Etária", "Motivo Desligamento", "Mês Desligamento"]), 
-          ...cnaeAccFunction(data.noAtiv|| [], 'CNAE Código')})
+    setChartData({ ...geralAccFunction(data.ativ || [], ["CBO Ocupação 2002", "Sexo Trabalhador", "Escolaridade após 2005", "Raça Cor", "Faixa Etária", "Tipo Defic"]), 
+      ...cnaeAccFunction(data.ativ || [], 'CNAE Código')})
   }, [data])
 
   return (
     <div>
       <div className="flex flex-wrap gap-4 justify-center mb-8">
-        {cards.map(({ Component }, index) => (
+        {cards.slice(0, 1).map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-            <ErrorBoundary>
-              <Component
-                data={data}
-                year={year}
-                color={ColorPalette.default[index]}
-              />
-            </ErrorBoundary>
+            <Component data={data} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
           </React.Suspense>
         ))}
       </div>
@@ -63,4 +57,4 @@ const Desligamento = ({
   );
 };
 
-export default Desligamento;
+export default Grupo;

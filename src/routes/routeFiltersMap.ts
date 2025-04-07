@@ -86,6 +86,7 @@ export const routeFiltersMap: Record<
     geral: raisGeralFilters,
     desligamento: raisGeralFilters,
     diversidade: raisGeralFilters,
+    grupo: raisGeralFilters,
   },
 
   // E assim por diante pra outras rotas...

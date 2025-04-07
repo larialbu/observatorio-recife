@@ -1,4 +1,8 @@
-export const raisClassesDicts = {
+type RaisDicts = {
+  [key: string]: string;
+};
+
+export const raisClassesDicts: RaisDicts = {
     "01113": "Cultivo de cereais",
     "01121": "Cultivo de algodão herbáceo e de outras fibras de lavoura temporária",
     "01130": "Cultivo de cana-de-açúcar",
