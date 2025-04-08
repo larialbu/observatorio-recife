@@ -19,6 +19,10 @@ const config: Config = {
           "0%":   { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(100%)"  },
         },
+        fadeIn: {
+          '0%': { opacity: "0", transform: 'scale(0.95)' },
+          '100%': { opacity: "1", transform: 'scale(1)' },
+        },
       },
 
       colors: {
@@ -44,6 +48,9 @@ const config: Config = {
       },
       transitionDuration: {
         default: "300ms", // Define a duração padrão para as transições
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-out forwards',
       },
     },
     screens: {

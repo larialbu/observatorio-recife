@@ -4,13 +4,15 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
 import { useExcalidraw } from "./context/useContext";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { saveExcalidrawBuffer, loadExcalidrawBuffer } from "./handleSaves";
 import { useDrawingStore } from "./context/drawingStoreContext";
 import SavedDrawingsPanel from "./SavedDrawingsPanel";
+import IntroExcalidraw from "./intro";
+import { Zenitho } from "uvcanvas";
+
 import Excalidraw, {
   ExcalidrawImperativeAPI,
   AppState,
@@ -42,6 +44,9 @@ const FloatingExcalidrawButton: React.FC = () => {
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [showIntro, setShowIntro] = useState(false);
+  const [shouldGlow, setShouldGlow] = useState(false);
+
 
   const { initialData, setInitialData } = useExcalidraw();
   const isMobile = useIsMobile();
@@ -63,6 +68,15 @@ const FloatingExcalidrawButton: React.FC = () => {
       excalidrawAPIRef.current.updateScene(fixInitialData(initialData) as any);
     }
   }, [initialData]);
+
+  useEffect(() => {
+    const seen = localStorage.getItem("seen-intro-excalidraw");
+    if (!seen) {
+      setShowIntro(true);
+      setShouldGlow(true);
+      localStorage.setItem("seen-intro-excalidraw", "true");
+    }
+  }, []);
 
   const toggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
@@ -290,8 +304,21 @@ const FloatingExcalidrawButton: React.FC = () => {
 
   return (
     <>
-      <button onClick={() => setIsOpen((prev) => !prev)} className="fixed bottom-4 right-4 z-50 p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600">
-        {isOpen ? "Fechar Quadro" : "Abrir Quadro"}
+      {showIntro && <IntroExcalidraw onClose={() => setShowIntro(false)} />}
+      <button onClick={() => {
+        setIsOpen((prev) => !prev);
+        setShouldGlow(false);
+      }} 
+      className={`fixed overflow-hidden bottom-5 right-4 z-50 w-32 h-[3em] text-white rounded-full shadow-lg transition 
+        ${shouldGlow ? "animate-glow shadow-yellow-500/60" : "bg-blue-500 hover:bg-blue-600"}`}>
+        <div className="z-20 absolute flex w-full h-full justify-center items-center bottom-0">
+          {isOpen ? "Fechar Quadro" : "Abrir Quadro"}
+        </div>
+        {shouldGlow && (
+          <div className="z-10 absolute top-0 left-0 w-full h-full brightness-75 pointer-events-none">
+            <Zenitho />
+          </div>
+        )}
       </button>
       {modal}
     </>
