@@ -27,8 +27,8 @@ const GruposDistribuicaoSecao = ({
           bars={[{ dataKey: "value", name: "Quantidade" }]}
           colors={ColorPalette.default}
           heightPerCategory={50}
-          widthY={130}
-          left={-15}
+          widthY={150}
+          left={10}
         />
       </ChartGrabber>
     </div>

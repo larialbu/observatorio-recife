@@ -27,7 +27,7 @@ const GruposDistribuicaoGrupos = ({
           colors={ColorPalette.default}
           heightPerCategory={50}
           widthY={130}
-          left={-15}
+          left={20}
         />
       </ChartGrabber>
     </div>

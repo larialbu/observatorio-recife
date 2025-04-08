@@ -8,7 +8,7 @@ import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
 const DesligamentosFaixaEtaria = ({
   data,
-  title = "Distribuição desligamentos de empregos por faixa etária",
+  title = "Distribuição desligamentos de empregos por motivo da recisão",
   year,
 }: any) => {
   
@@ -27,7 +27,7 @@ const DesligamentosFaixaEtaria = ({
           colors={ColorPalette.default}
           heightPerCategory={50}
           widthY={200}
-          left={-15}
+          left={0}
         />
       </ChartGrabber>
     </div>
