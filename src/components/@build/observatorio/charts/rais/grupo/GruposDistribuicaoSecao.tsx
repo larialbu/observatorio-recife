@@ -11,7 +11,7 @@ import { uniqueLabel } from "@/functions/process_data/observatorio/empregos/rais
 
 const GruposDistribuicaoSecao = ({
   data,
-  title = "(Secao) Distribuição formal de empregos por grau de instrução",
+  title = "Estoque formal de empregos por Descrição Seção",
   year,
 }: any) => {
   
@@ -24,7 +24,7 @@ const GruposDistribuicaoSecao = ({
           data={chartData}
           title={title}
           xKey="label"
-          bars={[{ dataKey: "value", name: "Escolaridade" }]}
+          bars={[{ dataKey: "value", name: "Quantidade" }]}
           colors={ColorPalette.default}
           heightPerCategory={50}
           widthY={130}

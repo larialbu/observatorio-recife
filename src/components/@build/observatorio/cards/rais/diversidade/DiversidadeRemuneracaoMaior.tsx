@@ -3,7 +3,7 @@ import Card from "@/components/@global/cards/Card";
 const DiversidadeRemuneracaoMaior = ({
   data,
   date,
-  title = `Maior remuneração`,
+  title = `Maior remuneração (necessidades especiais)`,
   local = '',
   year,
   color,

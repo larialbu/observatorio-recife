@@ -3,7 +3,7 @@ import Card from "@/components/@global/cards/Card";
 const DiversidadeTotalEmpregos = ({
   data,
   date,
-  title = `Empregos formais no ano`,
+  title = `Empregos formais no ano (necessidades especiais)`,
   local = '',
   year,
   color,

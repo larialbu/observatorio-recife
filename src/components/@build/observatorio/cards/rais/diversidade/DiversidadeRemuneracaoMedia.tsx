@@ -3,7 +3,7 @@ import Card from "@/components/@global/cards/Card";
 const DiversidadeRemuneracaoMedia = ({
   data,
   date,
-  title = `Remuneração média nominal em dezembro`,
+  title = `Remuneração média nominal em dezembro (necessidades especiais)`,
   local = '',
   year,
   color,

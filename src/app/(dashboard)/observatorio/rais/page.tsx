@@ -11,6 +11,7 @@ import Demografia from "./(demografia)/demografia";
 import Desligamento from "./(desligamento)/desligamento";
 import Diversidade from "./(diversidade)/diversidade";
 import Grupo from "./(grupo)/grupo";
+import Estoque from "./(estoque)/estoque";
 
 const RaisPage = () => {
   const { isLoading, data, filters } = useDashboard();
@@ -81,7 +82,12 @@ const RaisPage = () => {
         data={rais} 
         year={getYearSelected(filters)} 
         />
-        default:
+      case "estoque":
+        return <Estoque 
+        data={rais} 
+        year={getYearSelected(filters)} 
+        />
+      default:
         return <Demografia 
         data={rais} 
         year={getYearSelected(filters)} 
@@ -141,6 +147,16 @@ const RaisPage = () => {
           }`}
         >
           Grupos
+        </button>
+        <button
+          onClick={() => handleNavigation("estoque")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "estoque"
+              ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          Estoque por empresas
         </button>
       </div>
       {renderContent()}

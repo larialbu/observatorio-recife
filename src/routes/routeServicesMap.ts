@@ -69,6 +69,7 @@ export const routeServicesMap: Record<
     desligamento: raisDataService,
     diversidade: raisDataService,
     grupo: raisDataService,
+    estoque: raisDataService,
   },
 
   // E assim por diante ...

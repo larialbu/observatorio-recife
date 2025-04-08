@@ -8,7 +8,7 @@ import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
 const DiversidadeDeficiencia = ({
   data,
-  title = "Distribuição formal de empregos por grau de instrução",
+  title = "Distribuição formal de empregos por necessidade especial (necessidades especiais)",
   year,
 }: any) => {
   
@@ -21,7 +21,7 @@ const DiversidadeDeficiencia = ({
           data={chartData}
           title={title}
           xKey="label"
-          bars={[{ dataKey: "value", name: "Deficiência" }]}
+          bars={[{ dataKey: "value", name: "Quantidade" }]}
           colors={ColorPalette.default}
           heightPerCategory={50}
           widthY={130}

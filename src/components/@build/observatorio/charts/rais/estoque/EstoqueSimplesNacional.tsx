@@ -7,13 +7,13 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
-const DiversidadeGenero = ({
+const EstoqueSimplesNacional = ({
   data,
-  title = "Distribuição formal de desligamentos por Gênero (necessidades especiais)",
+  title = "Distribuição formal de empregos por Gênero",
   year,
 }: any) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = getObjToArr<number>(data['Sexo Trabalhador'] || {})
+  const chartData = getObjToArr<number>(data['Ind Simples'] || {})
 
   return (
     <div className="chart-wrapper">
@@ -38,4 +38,4 @@ const DiversidadeGenero = ({
   );
 };
 
-export default DiversidadeGenero;
+export default EstoqueSimplesNacional;
