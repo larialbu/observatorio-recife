@@ -3,7 +3,7 @@ import React from "react";
 
 export const Footer = () => {
     return (
-        <footer className="flex text-white">
+        <footer className="hub_footer flex text-white">
             <div className="w-full h-full relative __background">
             <div className="flex items-center absolute logo-container">
                 <img src="/images/logos/prefeitura_recife_logo_white.avif"/>

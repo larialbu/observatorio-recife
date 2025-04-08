@@ -91,7 +91,7 @@ header{
     }
 }
 
-footer{
+.hub_footer{
     background: $bluePrimary;
     // background: linear-gradient(to bottom right, $bluePrimary, $greenPrimary);
     height: 110px;
@@ -267,7 +267,7 @@ footer{
         }
     }
 
-    footer{
+    .hub_footer{
         height: 160px;
         transition: .5s;
 
@@ -308,7 +308,7 @@ footer{
 }
 
 @media (min-width: 420px) and (max-width: 671px) {
-    footer{
+    .hub_footer{
         
         .__background{
 
