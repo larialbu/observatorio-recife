@@ -16,7 +16,7 @@ import Excalidraw, {
   AppState,
   BinaryFiles,
   getExcalidrawUtils,
-} from "./excalidraw.client";
+} from "./client/excalidraw.client";
 
 const fixAppState = (appState: any): any => ({
   ...appState,
@@ -163,7 +163,7 @@ const FloatingExcalidrawButton: React.FC = () => {
   
 
   const handleNewDrawing = async () => {
-    const newDrawing = await createNewDrawing("Untitled");
+    const newDrawing = await createNewDrawing("Sem título");
     if (excalidrawAPIRef.current) {
       excalidrawAPIRef.current.updateScene({
         elements: [],
@@ -195,34 +195,67 @@ const FloatingExcalidrawButton: React.FC = () => {
   };
 
   const modal = isOpen && createPortal(
-    <div className="fixed inset-0 z-50 flex flex-col bg-black/50">
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
       <div
         ref={containerRef}
-        className={`bg-white rounded-lg shadow-xl relative m-auto ${
-          isFullscreen ? "w-full h-full" : "w-11/12 h-5/6"
-        }`}
+        className={`bg-white rounded-lg shadow-2xl relative overflow-hidden ${
+          isFullscreen ? "w-full h-full" : "w-[95%] h-[95%]"
+        } flex flex-col`}
       >
-        <div className="flex justify-between items-center p-2 border-b">
-          <h2 className="text-lg font-bold">
-            {viewMode === "editor" ? "Excalidraw Editor" : "Painel de Telas Salvas"}
+
+        <div className="flex justify-between items-center p-3 border-b bg-gray-50 shadow-sm">
+          <h2 className="text-lg font-bold text-gray-800">
+            {viewMode === "editor" ? "Editor de Quadros" : "Minhas Telas"}
           </h2>
-          <div className="flex gap-2">
-            {viewMode === "editor" ? (
-              <button onClick={() => setViewMode("saved")} className="bg-indigo-500 text-white px-2 py-1 rounded hover:bg-indigo-600">Salvos</button>
-            ) : (
-              <button onClick={() => setViewMode("editor")} className="bg-indigo-500 text-white px-2 py-1 rounded hover:bg-indigo-600">Editor</button>
-            )}
-            <button onClick={toggleFullscreen} className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
-              {isFullscreen ? "Sair Full" : "Full"}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() =>
+                setViewMode(viewMode === "editor" ? "saved" : "editor")
+              }
+              className="w-9 aspect-square px-1 flex items-center gap-1 bg-green-500 border border-green-600 text-blue-600 rounded hover:bg-green-700 transition"
+            >
+              {viewMode === "editor" ? 
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none">
+                  <path d="M19 10V6C19 5.44772 18.5523 5 18 5H10.0351C9.73195 5 9.44513 4.86245 9.25533 4.62602L8.25023 3.37398C8.06042 3.13755 7.77361 3 7.47042 3H3C2.44772 3 2 3.44772 2 4L2 15C2 15.5523 2.44772 16 3 16H5" stroke="white" strokeWidth="1.5"/>
+                  <path d="M5 20V9C5 8.44772 5.44772 8 6 8H10.4704C10.7736 8 11.0604 8.13755 11.2502 8.37398L12.2553 9.62602C12.4451 9.86245 12.7319 10 13.0351 10H21C21.5523 10 22 10.4477 22 11V20C22 20.5523 21.5523 21 21 21H6C5.44772 21 5 20.5523 5 20Z" stroke="white" strokeWidth="1.5"/>
+                </svg> 
+                : 
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M11.7071 4.29289C12.0976 4.68342 12.0976 5.31658 11.7071 5.70711L6.41421 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H6.41421L11.7071 18.2929C12.0976 18.6834 12.0976 19.3166 11.7071 19.7071C11.3166 20.0976 10.6834 20.0976 10.2929 19.7071L3.29289 12.7071C3.10536 12.5196 3 12.2652 3 12C3 11.7348 3.10536 11.4804 3.29289 11.2929L10.2929 4.29289C10.6834 3.90237 11.3166 3.90237 11.7071 4.29289Z" fill="white"/>
+                </svg>
+              }
             </button>
-            <button onClick={() => setIsOpen(false)} className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">X</button>
+            <button
+              onClick={toggleFullscreen}
+              className="w-9 aspect-square px-1 bg-blue-500 border border-blue-600 text-blue-600 rounded hover:bg-blue-700 transition"
+            >
+              {isFullscreen ? 
+              // Maximizar
+                <svg width="100%" height="100%" viewBox="0 0 32 32" id="i-fullscreen-exit" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+                  <path d="M4 12 L12 12 12 4 M20 4 L20 12 28 12 M4 20 L12 20 12 28 M28 20 L20 20 20 28"/>
+                </svg> 
+              // Minimizar
+              : <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.00002 3.99998H4.00004L4 9M20 8.99999V4L15 3.99997M15 20H20L20 15M4 15L4 20L9.00002 20" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>  
+                }
+            </button>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 transition"
+            >
+              X
+            </button>
           </div>
         </div>
-        <div className="h-full overflow-auto">
+
+        <div className="flex-1 overflow-auto bg-gray-50 p-4">
           {viewMode === "editor" ? (
             <Excalidraw
               langCode="pt-BR"
-              initialData={initialData ? fixInitialData(initialData) : undefined}
+              initialData={
+                initialData ? fixInitialData(initialData) : undefined
+              }
               excalidrawAPI={(api) => (excalidrawAPIRef.current = api)}
               onChange={handleOnChange}
             />
@@ -233,16 +266,27 @@ const FloatingExcalidrawButton: React.FC = () => {
             />
           )}
         </div>
+
         {viewMode === "editor" && (
-          <div className="z-10 absolute bottom-4 right-4 flex gap-2">
-            <button onClick={handleNewDrawing} className="w-10 p-2 bg-green-500 text-white rounded-full hover:bg-green-600">N</button>
-            <button onClick={handleSaveDrawing} className="w-10 p-2 bg-yellow-500 text-white rounded-full hover:bg-yellow-600">S</button>
+          <div className="bg-white border-t flex justify-end items-center px-6 py-3 space-x-3 shadow-inner">
+            <button
+              onClick={handleNewDrawing}
+              className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
+            >
+              Novo
+            </button>
+            <button
+              onClick={handleSaveDrawing}
+              className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 transition"
+            >
+              Salvar
+            </button>
           </div>
         )}
       </div>
     </div>,
     document.body
-  );
+  );  
 
   return (
     <>
