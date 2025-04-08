@@ -4,6 +4,7 @@ export interface IDrawing {
     data: any;
     createdAt: number;
     updatedAt: number;
+    thumbnail?: any;
   }
   
   class DrawingStore {

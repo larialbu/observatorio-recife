@@ -82,7 +82,7 @@ const FloatingExcalidrawButton: React.FC = () => {
 
       saveTimeoutRef.current = setTimeout(async () => {
         try {
-          const { restore, serializeAsJSON } = await getExcalidrawUtils(); // 👈 Aqui
+          const { restore, serializeAsJSON } = await getExcalidrawUtils();
           const restored = restore({ elements, appState, files }, null, null);
           const jsonString = serializeAsJSON(
             restored.elements,
@@ -126,28 +126,41 @@ const FloatingExcalidrawButton: React.FC = () => {
     [handleDebouncedSave]
   );
 
-  useEffect(() => {
-    loadSceneOnOpen();
-  }, [isOpen, loadSceneOnOpen]);
-
   const handleSaveDrawing = async () => {
     console.log("handleSaveDrawing: Iniciando o salvamento.");
     if (!excalidrawAPIRef.current) return;
-
+  
     let drawingToSave = currentDrawing;
     if (!drawingToSave) {
-      drawingToSave = await createNewDrawing("Untitled");
+      drawingToSave = await createNewDrawing("Sem título");
     }
-
-    await saveDrawing(drawingToSave, sceneDataRef.current);
+  
+    const canvas = document.querySelector(".excalidraw") as HTMLElement;
+    let thumbnail: string | null = null;
+    if (canvas) {
+      try {
+        const { captureElementAsPNG } = await import("./utils");
+        const result = await captureElementAsPNG(canvas);
+        thumbnail = result.dataURL;
+      } catch (error) {
+        console.warn("Erro ao gerar thumbnail:", error);
+      }
+    }
+  
+    await saveDrawing(drawingToSave, {
+      ...sceneDataRef.current,
+      thumbnail,
+    });
+  
     setInitialData({
       elements: sceneDataRef.current.elements,
       appState: fixAppState(sceneDataRef.current.appState),
       files: sceneDataRef.current.files,
     });
-
+  
     alert("Desenho salvo!");
   };
+  
 
   const handleNewDrawing = async () => {
     const newDrawing = await createNewDrawing("Untitled");
