@@ -22,9 +22,6 @@ const Grupo = ({
   const [chartData, setChartData] = useState({})
 
   useEffect(() => {
-    // console.log('DATav', data.ativ.filter((item) => item["CBO Ocupação 2002"] === 'Ouvidor'))
-    // console.log('vinculo', geralAccFunction([...data.ativ, ...data.noAtiv] || [], ["Tipo Vínculo", "Escolaridade após 2005"]))
-
     setChartData({ ...geralAccFunction(data.ativ || [], ["CBO Ocupação 2002", "Sexo Trabalhador", "Escolaridade após 2005", "Raça Cor", "Faixa Etária", "Tipo Defic"]), 
       ...cnaeAccFunction(data.ativ || [], 'CNAE Código')})
   }, [data])

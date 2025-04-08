@@ -24,11 +24,31 @@ export function cnaeAccFunction(dataArray: any, cnaeParam: string) {
 
         // Inicializar os objetos se não existirem
         if (!acc.divisao) acc.divisao = {};
+        if (!acc.setor) acc.setor = {};
         if (!acc.grupo) acc.grupo = {};
         if (!acc.classe) acc.classe = {};
 
         // Contabilizar as divisões
         acc.divisao[divisao] = (acc.divisao[divisao] || 0) + 1;
+
+        // 1 - 3 agricultura 
+        // 5 - 39 industria
+        // 41 - 43 construção 
+        // 45 - 47 comércio 
+        // 49 - 99 serviço
+
+        if (divisao >= 1 && divisao <= 3) {
+          acc.setor['agricultura'] = (acc.setor['agricultura'] || 0) + 1
+        } else if (divisao >= 5 && divisao <= 39) {
+          acc.setor['industria'] = (acc.setor['industria'] || 0) + 1
+        } else if (divisao >= 41 && divisao <= 43) {
+          acc.setor['construção'] = (acc.setor['construção'] || 0) + 1
+        } else if (divisao >= 45 && divisao <= 47) {
+          acc.setor['comércio'] = (acc.setor['comércio'] || 0) + 1
+        } else if (divisao >= 49 && divisao <= 99) {
+          acc.setor['serviço'] = (acc.setor['serviço'] || 0) + 1
+        }
+        // acc.setor[]
 
         // Contabilizar os grupos
         acc.grupo[grupo] = (acc.grupo[grupo] || 0) + 1;
