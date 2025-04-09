@@ -2,67 +2,32 @@
 
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-
-interface NewsItem {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  date: string;
-  link: string;
-}
-
-const newsData: NewsItem[] = [
-  {
-    id: 1,
-    title: "Recife é a capital do Nordeste mais favorável à abertura de novos negócios",
-    description:
-      "Recife lidera no Nordeste na facilidade para abrir negócios, com quase 800 atividades isentas de licenças, impulsionando economia e investimentos.",
-    image: "/images/news/news1.avif",
-    date: "--",
-    link: "https://desenvolvimentoeconomico.recife.pe.gov.br/negocios-20",
-  },
-  {
-    id: 2,
-    title: "FIEPE reforça Programa de Internacionalização para pequenos negócios em 2025",
-    description:
-      "O programa de Internacionalização da FIEPE, em parceria com o SEBRAE, será reforçado em 2025 para capacitar pequenas empresas de Pernambuco a competir no mercado internacional.",
-    image: "/images/news/news3.avif",
-    date: "11 de Janeiro de 2025",
-    link: "https://www.cbnrecife.com/artigo/fiepe-reforca-programa-de-internacionalizacao-para-pequenos-negocios-em-2025",
-  },
-  {
-    id: 3,
-    title: "Recife dispara como a capital com mais estudantes em Tecnologia do Brasil",
-    description:
-      "Recife lidera no Brasil em estudantes de TI por habitante, impulsionado pelo programa Embarque Digital, parceria entre o Porto Digital e a Prefeitura, promovendo qualificação e inovação tecnológica.",
-    image: "/images/news/news2.avif",
-    date: "8 de Janeiro de 2025",
-    link: "https://jornaldigital.recife.br/2025/01/08/recife-dispara-como-a-capital-com-mais-estudantes-de-ti-do-brasil/",
-  },
-  {
-    id: 4,
-    title: "Porto Digital estima ser o 2º maior serviço no Recife em 2025",
-    description:
-      "O Porto Digital, maior parque tecnológico urbano da América Latina, projeta ultrapassar o setor de construção civil até 2025, consolidando-se como o 2º maior em receita no Recife, com faturamento que já triplicou desde 2018.",
-    image: "/images/news/news4.avif",
-    date: "18 de Maio de 2024",
-    link: "https://www.poder360.com.br/poder-tech/porto-digital-estima-ser-o-2o-maior-servico-no-recife-em-2025/",
-  },
-  {
-    id: 5,
-    title: "Pesquisa põe Recife em lista das 156 cidades mais promissoras do mundo",
-    description:
-      "Recife está entre as cidades mais promissoras do mundo, segundo pesquisa da Global Cities Report, da consultoria internacional Kearney, referente ao ano de 2023 e anunciada este mês.",
-    image: "/images/news/news5.avif",
-    date: "19 de Janeiro de 2024",
-    link: "https://jornaldigital.recife.br/2024/01/19/pesquisa-poe-recife-em-lista-das-156-cidades-mais-promissoras-do-mundo/",
-  },
-];
+import { NewsData, NewsItem } from "@/@api/http/news/NewsData"; 
 
 function NewsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slidesToShow, setSlidesToShow] = useState(3);
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchNews = async () => {
+    const newsDataService = new NewsData();
+    try {
+      const data = await newsDataService.fetchNews();
+      const sortedNews = data.sort((a, b) => b.id - a.id);
+      setNews(sortedNews);
+    } catch (err) {
+      setError("Erro ao buscar notícias");
+      console.error("Erro ao buscar notícias", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNews();
+  }, []);
 
   useEffect(() => {
     const updateSlidesToShow = () => {
@@ -77,15 +42,25 @@ function NewsSection() {
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex - 1 < 0 ? newsData.length - slidesToShow : prevIndex - 1
+      prevIndex - 1 < 0 ? news.length - slidesToShow : prevIndex - 1
     );
   };
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex + 1 > newsData.length - slidesToShow ? 0 : prevIndex + 1
+      prevIndex + 1 > news.length - slidesToShow ? 0 : prevIndex + 1
     );
   };
+
+  if (loading) {
+    return <div className="bg-gradient-to-b from-blue-50 to-blue-100 dark:from-[#27384b] dark:to-[#0C1B2B] text-center py-8">
+      <p className="text-2xl font-semibold text-gray-800 dark:text-white">Carregando notícias...</p>
+    </div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="relative bg-gradient-to-b from-blue-50 to-blue-100 dark:from-[#27384b] dark:to-[#0C1B2B] py-12 px-6">
@@ -95,7 +70,6 @@ function NewsSection() {
         </h2>
 
         <div className="relative flex items-center">
-          {/* Botão Anterior */}
           <button
             onClick={handlePrev}
             className="absolute left-0 ml-[-23px] z-10 p-4 text-white bg-[#0155AE] dark:bg-[#EC6625] rounded-full shadow-md hover:bg-[#144880] dark:hover:bg-[#c45016] transition-transform transform hover:scale-110"
@@ -111,7 +85,6 @@ function NewsSection() {
             </svg>
           </button>
 
-          {/* Slides */}
           <div className="overflow-hidden w-full">
             <div
               className="flex transition-transform duration-500 ease-in-out"
@@ -119,40 +92,45 @@ function NewsSection() {
                 transform: `translateX(-${(100 / slidesToShow) * currentIndex}%)`,
               }}
             >
-              {newsData.map((news) => (
+              {news.map((newsItem) => (
                 <div
-                  key={news.id}
+                  key={newsItem.id}
                   className="flex-shrink-0 w-[calc(100%/3)] px-4"
                   style={{ width: `${100 / slidesToShow}%` }}
                 >
                   <div
-                    onClick={() => window.open(news.link, "_blank")}
+                    onClick={() => window.open(newsItem.link, "_blank")}
                     className="flex flex-col h-full bg-white hover:bg-gray-200 dark:bg-[#142b42] dark:hover:bg-[#21466b] rounded-lg overflow-hidden"
                     style={{ cursor: "pointer" }}
                   >
                     <img
-                      src={news.image}
-                      alt={news.title}
+                      src={newsItem.image}
+                      alt={newsItem.title}
                       className="w-full h-48 object-cover object-top"
                     />
                     <div className="p-6 flex flex-col flex-grow">
                       <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
-                        {news.title}
+                        {newsItem.title}
                       </h3>
                       <p className="text-gray-600 dark:text-gray-300 text-sm mb-[3em] line-clamp-3">
-                        {news.description}
+                        {newsItem.description}
                       </p>
                       <div className="absolute bottom-[3em] text-gray-500 dark:text-gray-400 text-xs mb-4 w-[max-content]">
-                        {news.date}
+                        {newsItem.date}
                       </div>
                       <Link
-                        href={news.link}
+                        href={newsItem.link}
                         className="text-[#0155AE] dark:text-[#EC6625] font-semibold hover:underline mt-auto flex items-center gap-[4px]"
                         target="_blank"
                       >
                         Ler mais
-                        <svg className="fill-[#0155AE] dark:fill-[#EC6625]" height="13px" width="13px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 330">
-                          <path id="XMLID_222_" d="M250.606,154.389l-150-149.996c-5.857-5.858-15.355-5.858-21.213,0.001  c-5.857,5.858-5.857,15.355,0.001,21.213l139.393,139.39L79.393,304.394c-5.857,5.858-5.857,15.355,0.001,21.213  C82.322,328.536,86.161,330,90,330s7.678-1.464,10.607-4.394l149.999-150.004c2.814-2.813,4.394-6.628,4.394-10.606  C255,161.018,253.42,157.202,250.606,154.389z"/>
+                        <svg
+                          className="fill-[#0155AE] dark:fill-[#EC6625]"
+                          height="13px"
+                          width="13px"
+                          viewBox="0 0 330 330"
+                        >
+                          <path d="M250.606,154.389l-150-149.996c-5.857-5.858-15.355-5.858-21.213,0.001c-5.857,5.858-5.857,15.355,0.001,21.213l139.393,139.39L79.393,304.394c-5.857,5.858-5.857,15.355,0.001,21.213C82.322,328.536,86.161,330,90,330s7.678-1.464,10.607-4.394l150-150.004c2.814-2.813,4.394-6.628,4.394-10.606C255,161.018,253.42,157.202,250.606,154.389z" />
                         </svg>
                       </Link>
                     </div>
@@ -162,7 +140,6 @@ function NewsSection() {
             </div>
           </div>
 
-          {/* Botão Próximo */}
           <button
             onClick={handleNext}
             className="absolute right-0 mr-[-23px] z-10 p-4 text-white bg-[#0155AE] dark:bg-[#EC6625] rounded-full shadow-md hover:bg-[#144880] dark:hover:bg-[#c45016] transition-transform transform hover:scale-110"
@@ -183,5 +160,4 @@ function NewsSection() {
   );
 }
 
-// Aqui o export default
 export default NewsSection;
