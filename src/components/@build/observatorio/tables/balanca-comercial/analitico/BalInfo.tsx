@@ -1,6 +1,7 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { rowsCountrysByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsCountrysByMunicipio";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
+import { percentFormatter } from "@/utils/formatters/@global/percentFormatter";
 
 const BalInfo = ({
   data = [],
@@ -37,29 +38,9 @@ const BalInfo = ({
     const rows: string[][] = [];
 
     values.map((obj: any) => {
-      const formatPercent = (val: number) => {
-        let percent;
-
-        if (Math.round(val * 100) / 100 != 0) {
-          percent = Math.round(val * 100) / 100;
-        } else if (
-          Math.round(val * 100) / 100 == 0 &&
-          Math.round(val * 1000) / 1000 != 0
-        ) {
-          percent = Math.round(val * 1000) / 1000;
-        } else if (
-          Math.round(val * 1000) / 1000 == 0 &&
-          Math.round(val * 10000) / 10000 != 0
-        ) {
-          percent = Math.round(val * 10000) / 10000;
-        }
-
-        return percent;
-      };
-
       rows.push([
         obj["PAÍS"],
-        `${formatPercent(+obj["PARTICIPAÇÃO"])}%`,
+        `${percentFormatter(+obj["PARTICIPAÇÃO"])}%`,
         <div className="flex gap-1 justify-center">
           <span>$</span> {formatNumber(obj.NEGOCIADO)}
         </div>,
