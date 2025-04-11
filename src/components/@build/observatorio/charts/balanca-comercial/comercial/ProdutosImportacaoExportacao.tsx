@@ -21,8 +21,18 @@ const ImportacaoExportacaoContinente = ({
         title={title}
         xKey="descricao"
         bars={[
-          { dataKey: "importacao", name: "Importação" },
-          { dataKey: "exportacao", name: "Exportação" },
+          { 
+            dataKey: "importacao", 
+            name: "Importação",
+            showPercentage: true,
+            percentageField: "percentualImportacao",
+          },
+          { 
+            dataKey: "exportacao", 
+            name: "Exportação",
+            showPercentage: true,
+            percentageField: "percentualExportacao",
+          },
         ]}
         tooltipEntry=" dólares"
         heightPerCategory={60}  // Define a altura de cada categoria (barra)
