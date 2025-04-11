@@ -13,7 +13,10 @@ interface PaginatedTableProps {
   enablePagination?: boolean;
   searchIndexes?: number[]; // Agora um array de índices das colunas a serem filtradas
   simple?: boolean
-  ordenationIndexes?: number[]
+  ordenations?: {index: number
+    name: string
+    ordenation: number}[]
+  onOrdenationChange?: any
 }
 
 const TableGeneric: React.FC<PaginatedTableProps> = ({
@@ -29,7 +32,8 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
   enablePagination = true,
   simple = false,
   searchIndexes = [], // Índices das colunas a serem filtradas
-  ordenationIndexes = []
+  ordenations = [],
+  onOrdenationChange
 }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -82,7 +86,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
   };
 
   return (
-    <div className="h-full">
+    <div className=" bg-black">
       <div className={`overflow-hidden flex flex-col rounded-lg h-full`} style={{ backgroundColor: `${color}` }}>
         <div className="mb-4 flex-1">
         {!simple &&
@@ -126,7 +130,21 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
                     <th
                       key={header}
                       className="text-sm p-2 px-5 border-b border-gray-200 font-semibold text-gray-700 text-center"
-                      onClick={() => console.log('ClivounoHErader' + header + index)}
+                      onClick={() => {
+                        const current = ordenations.find((item) => item.index === index);
+                        if (!current) return;
+                        
+                        const newOrdenation = {
+                          ...current,
+                          ordenation: current.ordenation === 0 ? 1 : current.ordenation === 1 ? -1 : 0
+                        };
+                    
+                        if (onOrdenationChange) {
+                          onOrdenationChange((prev: (typeof newOrdenation)[]) => { return [...prev
+                            .filter((item) => item.name != newOrdenation.name)
+                            .map(item => ({ ...item, ordenation: 0})), newOrdenation]});
+                        }
+                      }}
                     >
                       {header}
                     </th>

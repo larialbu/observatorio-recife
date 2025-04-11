@@ -2,6 +2,7 @@ import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { rowsCountrysByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsCountrysByMunicipio";
 import { rowsCapitalsIndice } from "@/functions/process_data/observatorio/ipca/analitico/tables/rowsCapitalsIndice";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
+import { percentFormatter } from "@/utils/formatters/@global/percentFormatter";
 
 const CapitalIndice = ({
   data = [],
@@ -32,33 +33,11 @@ const CapitalIndice = ({
     const rows: string[][] = [];
 
     values.map((obj: any) => {
-      const formatPercent = (val: number) => {
-        let percent;
-
-        if (Math.round(val * 100) / 100 != 0) {
-          percent = Math.round(val * 100) / 100;
-        } else if (
-          Math.round(val * 100) / 100 == 0 &&
-          Math.round(val * 1000) / 1000 != 0
-        ) {
-          percent = Math.round(val * 1000) / 1000;
-        } else if (
-          Math.round(val * 1000) / 1000 == 0 &&
-          Math.round(val * 10000) / 10000 != 0
-        ) {
-          percent = Math.round(val * 10000) / 10000;
-        } else if (val === 0) {
-          percent = 0;
-        }
-
-        return percent;
-      };
-
       rows.push([
         obj["GRUPO"],
-        `${formatPercent(+obj["VARIAÇÃO_MENSAL"])}%`,
-        `${formatPercent(+obj["VARIAÇÃO_ACUMULADA"])}%`,
-        `${formatPercent(+obj["PESO_MENSAL"])}%`,
+        `${percentFormatter(+obj["VARIAÇÃO_MENSAL"])}%`,
+        `${percentFormatter(+obj["VARIAÇÃO_ACUMULADA"])}%`,
+        `${percentFormatter(+obj["PESO_MENSAL"])}%`,
       ]);
     });
 

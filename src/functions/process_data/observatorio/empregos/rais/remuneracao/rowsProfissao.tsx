@@ -26,8 +26,6 @@ export const rowsProfissao = (data: any) => {
 
     const aggregatedArray = Object.values(aggregatedData);
 
-    console.log('agrre AAR', aggregatedArray)
-
     return aggregatedArray.map((item: any) => ({
         nome: item.nome,
         quantidade: item.quantidade,
