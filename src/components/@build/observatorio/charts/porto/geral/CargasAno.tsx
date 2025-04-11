@@ -17,8 +17,6 @@ const CargasAno = ({
 
   const updatedData = updatedMonthChartData(chartData, months?.options.length);
 
-  console.log('UPDADAa', updatedData)
-
   return (
     <div className="chart-wrapper">
       <ChartGrabber>

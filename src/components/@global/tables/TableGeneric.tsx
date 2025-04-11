@@ -32,8 +32,6 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
   ordenationIndexes = []
 }) => {
 
-  console.log('ROOWS', rows)
-
   const [currentPage, setCurrentPage] = useState(1);
   const [clicked, setClicked] = useState(-1);
   const [itemsPerPage, setItemsPerPage] = useState(rowsPerPage || rows.length);
