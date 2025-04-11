@@ -145,7 +145,14 @@ export default function PortoLocalizacao({ data }: PortoLocalizacaoProps) {
     return () => {
       map.remove();
     };
-  }, [data[1]!]);
+  }, [data?.[0], data?.[1]]);
 
-  return <div ref={mapRef} style={{ height: "500px", width: "100%" }} />;
+  return (
+    <div className="w-full h-full">
+      <div className="flex w-full justify-center mb-2 text-lg">
+        <strong>Carga dos portos por Localização</strong>
+      </div>
+      <div ref={mapRef} style={{ height: "500px", width: "100%" }} />
+    </div>
+  );
 }
