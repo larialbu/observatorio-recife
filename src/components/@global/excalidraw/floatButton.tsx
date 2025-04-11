@@ -7,7 +7,7 @@ import React, {
 import { createPortal } from "react-dom";
 import { useExcalidraw } from "./context/useContext";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { saveExcalidrawBuffer, loadExcalidrawBuffer } from "./handleSaves";
+import { saveExcalidrawBuffer, loadExcalidrawBuffer, saveExcalidrawDraft, loadExcalidrawDraft } from "./handleSaves";
 import { useDrawingStore } from "./context/drawingStoreContext";
 import SavedDrawingsPanel from "./SavedDrawingsPanel";
 import IntroExcalidraw from "./intro";
@@ -90,25 +90,16 @@ const FloatingExcalidrawButton: React.FC = () => {
 
   const handleDebouncedSave = useCallback(
     async (elements: readonly any[], appState: AppState, files: BinaryFiles) => {
-      if (saveTimeoutRef.current) {
-        clearTimeout(saveTimeoutRef.current);
-      }
-
+      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+  
       saveTimeoutRef.current = setTimeout(async () => {
         try {
-          const { restore, serializeAsJSON } = await getExcalidrawUtils();
-          const restored = restore({ elements, appState, files }, null, null);
-          const jsonString = serializeAsJSON(
-            restored.elements,
-            restored.appState,
-            restored.files,
-            "local"
-          );
+          const { serializeAsJSON } = await getExcalidrawUtils();
+          const jsonString = serializeAsJSON(elements, appState, files, "local");
           const uint8 = new TextEncoder().encode(jsonString);
-          const buffer = uint8.buffer as ArrayBuffer;
-          await saveExcalidrawBuffer(buffer);
+          await saveExcalidrawDraft(uint8.buffer as any);
         } catch (err) {
-          console.error("Erro ao salvar com debounce:", err);
+          console.error("Erro ao salvar rascunho:", err);
         }
       }, 1000);
     },
@@ -117,19 +108,28 @@ const FloatingExcalidrawButton: React.FC = () => {
 
   const loadSceneOnOpen = useCallback(async () => {
     if (isOpen && excalidrawAPIRef.current) {
-      const saved = await loadExcalidrawBuffer();
-      if (saved) {
+      const savedDraft = await loadExcalidrawDraft();
+      const baseData = initialData ? fixInitialData(initialData) : { elements: [], appState: {}, files: {} };
+  
+      if (savedDraft) {
+        const mergedData = {
+          elements: [...baseData.elements, ...savedDraft.elements],
+          appState: { ...baseData.appState, ...savedDraft.appState },
+          files: { ...baseData.files, ...savedDraft.files },
+        };
+  
         excalidrawAPIRef.current.updateScene({
-          elements: saved.elements,
-          appState: fixAppState(saved.appState),
-          files: saved.files,
+          elements: mergedData.elements,
+          appState: fixAppState(mergedData.appState),
+          files: mergedData.files,
         } as any);
-        console.log("[Excalidraw] Cena restaurada ao abrir");
+        console.log("[Excalidraw] Dados combinados (initialData + rascunho)");
       } else {
-        console.log("[Excalidraw] Nenhum dado salvo para restaurar");
+        excalidrawAPIRef.current.updateScene(baseData as any);
+        console.log("[Excalidraw] InitialData carregado");
       }
     }
-  }, [isOpen]);
+  }, [isOpen, initialData]);
 
   const handleOnChange = useCallback(
     (elements: readonly any[], appState: AppState, files: BinaryFiles) => {
@@ -165,12 +165,8 @@ const FloatingExcalidrawButton: React.FC = () => {
       ...sceneDataRef.current,
       thumbnail,
     });
-  
-    setInitialData({
-      elements: sceneDataRef.current.elements,
-      appState: fixAppState(sceneDataRef.current.appState),
-      files: sceneDataRef.current.files,
-    });
+
+    localStorage.removeItem("excalidrawDraft");
   
     alert("Desenho salvo!");
   };
@@ -185,6 +181,7 @@ const FloatingExcalidrawButton: React.FC = () => {
       });
     }
     hasUserModified.current = false;
+    localStorage.removeItem("excalidrawDraft");
     alert("Novo desenho criado!");
   };
 
@@ -207,6 +204,46 @@ const FloatingExcalidrawButton: React.FC = () => {
       alert("Este desenho não possui dados salvos.");
     }
   };
+
+  useEffect(() => {
+    const mergeInitialDataWithDraft = async () => {
+      if (!isOpen) return;
+  
+      const draft = await loadExcalidrawDraft();
+  
+      const merged = {
+        elements: [...(initialData?.elements || []), ...(draft?.elements || [])],
+        appState: {
+          ...initialData?.appState,
+          ...(draft?.appState || {}),
+        },
+        files: {
+          ...(initialData?.files || {}),
+          ...(draft?.files || {}),
+        },
+      };
+  
+      console.log("[Excalidraw] initialData mesclado com rascunho:", merged);
+  
+      setInitialData({
+        elements: merged.elements,
+        appState: {
+          ...merged.appState,
+          collaborators: new Map(),
+        },
+        files: merged.files,
+      });
+    };
+  
+    mergeInitialDataWithDraft();
+
+    setInitialData({
+      elements: [],
+      appState: { viewBackgroundColor: "#fff", collaborators: new Map() },
+      files: {},
+    });
+  }, [isOpen]);
+  
 
   const modal = isOpen && createPortal(
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">

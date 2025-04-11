@@ -70,7 +70,8 @@ export const routeServicesMap: Record<
     diversidade: raisDataService,
     grupo: raisDataService,
     estoque: raisDataService,
+    remuneracao: raisDataService,
   },
-
+   
   // E assim por diante ...
 };

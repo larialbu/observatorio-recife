@@ -29,6 +29,13 @@ const charts = [
       )
     ),
   },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/rais/desligamento/DesligamentosSetor"
+      )
+    ),
+  },
 ];
 
 export default charts;

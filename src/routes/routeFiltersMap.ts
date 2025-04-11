@@ -88,6 +88,7 @@ export const routeFiltersMap: Record<
     diversidade: raisGeralFilters,
     grupo: raisGeralFilters,
     estoque: raisGeralFilters,
+    remuneracao: raisGeralFilters,
   },
 
   // E assim por diante pra outras rotas...

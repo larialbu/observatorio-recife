@@ -1,4 +1,4 @@
-const CustomTooltip = ({ active, payload, label, customTooltipFormatter, fontSize }: any) => {
+const CustomTooltip = ({ active, payload, label, customTooltipFormatter, fontSize, treeMap }: any) => {
   if (active && payload && payload.length) {
     return (
       <div
@@ -19,7 +19,7 @@ const CustomTooltip = ({ active, payload, label, customTooltipFormatter, fontSiz
               className="flex flex-col justify-between mb-2 mt-2 text-sm"
             >
               <span className="text-gray-500 font-medium">
-                {entry.name}:
+                {treeMap ? entry.payload.label : entry.name}:
               </span>
               <span
                 style={{ color: entry.color }}

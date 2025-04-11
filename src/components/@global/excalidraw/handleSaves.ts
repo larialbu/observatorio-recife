@@ -35,3 +35,38 @@ export const loadExcalidrawBuffer = async (): Promise<{
     return null;
   }
 };
+
+export const saveExcalidrawDraft = async (buffer: ArrayBuffer): Promise<void> => {
+  try {
+    const bytes = new Uint8Array(buffer);
+    let binary = "";
+    for (let i = 0; i < bytes.byteLength; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    const base64String = btoa(binary);
+    localStorage.setItem("excalidrawDraft", base64String);
+  } catch (error) {
+    console.error("Erro ao salvar rascunho:", error);
+  }
+};
+
+export const loadExcalidrawDraft = async (): Promise<{
+  elements: any;
+  appState: any;
+  files: any;
+} | null> => {
+  try {
+    const base64String = localStorage.getItem("excalidrawDraft");
+    if (!base64String) return null;
+    const binary = atob(base64String);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    const jsonString = new TextDecoder().decode(bytes);
+    return JSON.parse(jsonString);
+  } catch (error) {
+    console.error("Erro ao carregar rascunho:", error);
+    return null;
+  }
+};

@@ -6,11 +6,14 @@ interface PaginatedTableProps {
   rowsPerPage?: number;
   title: string;
   color: string;
+  clickedColor?: string;
   onClick?: any;
   maxHeight?: number;
   withClick?: boolean;
   enablePagination?: boolean;
   searchIndexes?: number[]; // Agora um array de índices das colunas a serem filtradas
+  simple?: boolean
+  ordenationIndexes?: number[]
 }
 
 const TableGeneric: React.FC<PaginatedTableProps> = ({
@@ -19,12 +22,18 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
   rowsPerPage,
   title,
   color,
+  clickedColor = color,
   onClick,
   maxHeight = 450,
   withClick,
   enablePagination = true,
+  simple = false,
   searchIndexes = [], // Índices das colunas a serem filtradas
+  ordenationIndexes = []
 }) => {
+
+  console.log('ROOWS', rows)
+
   const [currentPage, setCurrentPage] = useState(1);
   const [clicked, setClicked] = useState(-1);
   const [itemsPerPage, setItemsPerPage] = useState(rowsPerPage || rows.length);
@@ -78,9 +87,10 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
     <div className="h-full">
       <div className={`overflow-hidden flex flex-col rounded-lg h-full`} style={{ backgroundColor: `${color}` }}>
         <div className="mb-4 flex-1">
+        {!simple &&
           <h3 className={`flex-1 bg-[${color}] w-full rounded-t-lg text-lg font-semibold px-8 py-6 text-white`}>
             {title}
-          </h3>
+          </h3>}
           {/* Campos de Pesquisa para as colunas com filtros ativos */}
           {searchIndexes.length > 0 && (
             <div className="mb-4 px-8 grid grid-cols-2 gap-4">
@@ -112,25 +122,27 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
 
           <div style={{ height: `${maxHeight}px`, overflowY: 'auto', backgroundColor: '#FFFFFF'}}>
             <table className="w-full border-collapse">
-              <thead className="bg-gray-200">
+            <thead className="bg-gray-200 sticky top-0 z-10">
                 <tr>
-                  {headers.map((header) => (
+                  {headers.map((header, index) => (
                     <th
                       key={header}
                       className="text-sm p-2 px-5 border-b border-gray-200 font-semibold text-gray-700 text-center"
+                      onClick={() => console.log('ClivounoHErader' + header + index)}
                     >
                       {header}
                     </th>
                   ))}
                 </tr>
               </thead>
+
               <tbody className="bg-white">
                 {currentRows.map((row, rowIndex) => (
                   <tr
                     onClick={() => setClicked(withClick && clicked !== rowIndex ? rowIndex : -1)}
                     key={rowIndex}
-                    className={`${rowIndex === clicked ? `bg-[${color}] text-white` : 'bg-white hover:bg-gray-100'} text-center`}
-                    style={{ backgroundColor: rowIndex === clicked ? color : '#FFFFFF'}}
+                    className={`${rowIndex === clicked ? `bg-[${clickedColor}] text-white` : 'bg-white hover:bg-gray-100'} text-center`}
+                    style={{ backgroundColor: rowIndex === clicked ? clickedColor : '#FFFFFF'}}
                   >
                     {row.map((cell, cellIndex) => (
                       <td
