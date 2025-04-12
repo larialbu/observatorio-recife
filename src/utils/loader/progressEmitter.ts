@@ -1,4 +1,3 @@
-// utils/loader/emitter.ts
 export type ProgressListener = (p: number) => void;
 export type MessageListener = (m: string) => void;
 

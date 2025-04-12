@@ -21,8 +21,18 @@ const ImportacaoExportacaoContinente = ({
         colors={colors.slice(1)}
         xKey="continente"
         bars={[
-          { dataKey: "importacao", name: "Importação" },
-          { dataKey: "exportacao", name: "Exportação" },
+          { 
+            dataKey: "importacao", 
+            name: "Importação",
+            showPercentage: true,
+            percentageField: "percentualImportacao",
+          },
+          { 
+            dataKey: "exportacao", 
+            name: "Exportação",
+            showPercentage: true,
+            percentageField: "percentualExportacao",
+          },
         ]}
         tooltipEntry=" dólares"
         heightPerCategory={80} // Define a altura de cada barra

@@ -1,6 +1,7 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { rowsSh4ByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsSH4Municipio";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
+import { percentFormatter } from "@/utils/formatters/@global/percentFormatter";
 
 const GroupProdutos = ({
   data = [],
@@ -35,41 +36,10 @@ const GroupProdutos = ({
 
   const getRows = (values: any) => {
     const rows: string[][] = [];
-
-    const formatPercent = (val: number) => {
-      let percent;
-
-      if (Math.round(val * 100) / 100 != 0) {
-        percent = Math.round(val * 100) / 100;
-      } else if (
-        Math.round(val * 100) / 100 == 0 &&
-        Math.round(val * 1000) / 1000 != 0
-      ) {
-        percent = Math.round(val * 1000) / 1000;
-      } else if (
-        Math.round(val * 1000) / 1000 == 0 &&
-        Math.round(val * 10000) / 10000 != 0
-      ) {
-        percent = Math.round(val * 10000) / 10000;
-      } else if (
-        Math.round(val * 10000) / 10000 == 0 &&
-        Math.round(val * 100000) / 100000 != 0
-      ) {
-        percent = Math.round(val * 100000) / 100000;
-      } else if (
-        Math.round(val * 100000) / 100000 == 0 &&
-        Math.round(val * 100000) / 100000 != 0
-      ) {
-        percent = Math.round(val * 1000000) / 1000000;
-      }
-
-      return percent;
-    };
-
     values.map((obj: any) => {
       rows.push([
         <div className="text-center flex items-center justify-center">
-          {formatPercent(obj["PARTICIPAÇÃO"])}%
+          {percentFormatter(obj["PARTICIPAÇÃO"])}%
         </div>,
         obj["CÓDIGO SH4"],
         obj["DESCRIÇÃO SH4"],

@@ -69,16 +69,14 @@ const Remuneracao = ({
             return (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg flex flex-col items-center w-full"
+              className="bg-white shadow-md rounded-lg flex flex-col items-center w-full min-h-[800px]"
             >
-              <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
                   profissao={[...tempFiltred]}
                   color={ColorPalette.default[index]}
                   data={data}
                   year={year}
                 />
-              </React.Suspense>
             </div>
           )})}
         </SortableDiv>

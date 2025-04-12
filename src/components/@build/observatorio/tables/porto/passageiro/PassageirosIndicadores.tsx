@@ -1,5 +1,6 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { processPassageirosAnoPorto } from "@/functions/process_data/observatorio/porto/passageiro/charts/passageirosAnoPorto";
+import { percentFormatter } from "@/utils/formatters/@global/percentFormatter";
 
 const PassageirosIndicadores = ({
   data = [],
@@ -32,33 +33,11 @@ console.log('HEEADER', header)
     const rows: string[][] = [];
 
     values.map((obj: any) => {
-      const formatPercent = (val: number) => {
-        let percent;
-
-        if (Math.round(val * 100) / 100 != 0) {
-          percent = Math.round(val * 100) / 100;
-        } else if (
-          Math.round(val * 100) / 100 == 0 &&
-          Math.round(val * 1000) / 1000 != 0
-        ) {
-          percent = Math.round(val * 1000) / 1000;
-        } else if (
-          Math.round(val * 1000) / 1000 == 0 &&
-          Math.round(val * 10000) / 10000 != 0
-        ) {
-          percent = Math.round(val * 10000) / 10000;
-        } else if (val === 0) {
-          percent = 0;
-        }
-
-        return percent;
-      };
-
       rows.push([
         obj["mes"],
         `${obj["current"]}`,
         `${obj["past"]}`,
-        `${formatPercent(obj["variation"])}%`,
+        `${percentFormatter(obj["variation"])}%`,
       ]);
     });
 

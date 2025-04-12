@@ -1,6 +1,5 @@
 import { PortoData } from "@/@api/http/to-charts/porto/PortoData";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
-import { filter } from "framer-motion/client";
 
 export class PortoDataService {
   private static instance: PortoDataService;
