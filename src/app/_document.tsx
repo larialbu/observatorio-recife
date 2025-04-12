@@ -1,14 +1,12 @@
-"use client";
-import { SEO_CONFIG } from "@/utils/config/seo_config";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Html, Head, Main, NextScript } from 'next/document';
+import { SEO_CONFIG } from '@/utils/config/seo_config';
 
-export const SeoMeta = () => {
+export default function Document() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Dataset",
     "name": "Observatório Econômico do Recife",
     "description": SEO_CONFIG.description,
-    // "url": SEO_CONFIG.siteUrl,
     "license": "https://creativecommons.org/licenses/by/4.0/",
     "isAccessibleForFree": true,
     "keywords": SEO_CONFIG.keywords.split(', '),
@@ -35,17 +33,12 @@ export const SeoMeta = () => {
     ],
     "distribution": {
       "@type": "DataDownload",
-      "encodingFormat": "CSV",
-      // "contentUrl": `${SEO_CONFIG.siteUrl}/dados/exportar`
+      "encodingFormat": "CSV"
     },
     "publisher": {
       "@type": "GovernmentOrganization",
       "name": "Prefeitura do Recife",
-      "url": "https://www.recife.pe.gov.br",
-      // "logo": {
-      //   "@type": "ImageObject",
-      //   "url": `${SEO_CONFIG.siteUrl}/logo-prefeitura-recife.png`
-      // }
+      "url": "https://www.recife.pe.gov.br"
     },
     "maintainer": {
       "@type": "Organization",
@@ -55,28 +48,30 @@ export const SeoMeta = () => {
   };
 
   return (
-    <HelmetProvider>
-      <Helmet>
+    <Html lang="pt-br">
+      <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{SEO_CONFIG.title}</title>
         <meta name="description" content={SEO_CONFIG.description} />
         <meta name="keywords" content={SEO_CONFIG.keywords} />
-        
         <meta property="og:type" content="website" />
-        {/* <meta property="og:url" content={SEO_CONFIG.siteUrl} /> */}
         <meta property="og:title" content={SEO_CONFIG.title} />
         <meta property="og:description" content={SEO_CONFIG.description} />
         <meta property="og:image" content={`${SEO_CONFIG.siteUrl}${SEO_CONFIG.ogImage}`} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-
-        <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
-        </script>
-
         <link rel="canonical" href={SEO_CONFIG.siteUrl} />
-      </Helmet>
-    </HelmetProvider>
+        <meta name="theme-color" content="#ffffff" />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      </Head>
+      <body>
+        <Main />
+        <NextScript />
+      </body>
+    </Html>
   );
-};
+}

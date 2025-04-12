@@ -7,10 +7,10 @@ import { ExploreSection } from "@/components/home/ExploreSection";
 import { Footer } from "@/components/home/Footer";
 import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
 import NewsSection from "@/components/home/NewsSection";
-import { loadAndSyncBundles } from "@/@api/cache/parquetDecompress";
+import { loadAndSyncBundles } from "@/@api/cache/bundleDecompress";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { checkSaves } from "@/@api/cache/indexDB";
-import { useLoading } from "@/app/layout";
+import { useLoading } from "@/context/LoadingContext";
 
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
