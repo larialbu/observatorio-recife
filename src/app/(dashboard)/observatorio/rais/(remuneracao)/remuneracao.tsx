@@ -9,6 +9,8 @@ import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { ProcessedData } from "@/@types/observatorio/@fetch/aeroporto/processedData";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import SelectCompare from "@/components/@global/features/SelectCompare";
+import { raisCboDicts } from "@/utils/dicts/rais/raisCboDicts";
+import { raisCodCboDicts } from "@/utils/dicts/rais/raisCodCboDicts";
 
 // AEROPORTO NOME
 
@@ -25,15 +27,15 @@ const Remuneracao = ({
   data: any;
 }) => {
   const [tempFiltred, setTempFiltred] = useState([]);
+  const [tempFiltredCBO, setTempFiltredCBO] = useState([]);
 
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
 
   // REF do container e REF da instância do Sortable
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
 
-// "CBO Ocupação 2002"
-  console.log('TOCOM a-b-c', toCompare)
 
+  const cboOption = toCompare.map((opt: string) => `${raisCboDicts[opt]}`)
 
   return (
     <div>
@@ -50,11 +52,11 @@ const Remuneracao = ({
         />
 
         <SelectPrincipal
-          options={toCompare}
+          options={cboOption}
           // initialValue={['Recife']}
           noRecife={false}
-          filters={tempFiltred}
-          setFilters={setTempFiltred}
+          filters={tempFiltredCBO}
+          setFilters={setTempFiltredCBO}
           label="Buscar por CBO"
           placeholder="Digite para buscar um CBO"
           notFoundMessage="Nenhum CBO encontrado"
@@ -72,7 +74,7 @@ const Remuneracao = ({
               className="bg-white shadow-md rounded-lg flex flex-col items-center w-full min-h-[800px]"
             >
                 <Component
-                  profissao={[...tempFiltred]}
+                  profissao={[...tempFiltred, ...tempFiltredCBO.map((cbo) => raisCodCboDicts[cbo])]}
                   color={ColorPalette.default[index]}
                   data={data}
                   year={year}

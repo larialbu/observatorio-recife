@@ -1,5 +1,8 @@
 export const tooltipFormatter = (value: any, suffix: string = "", prefix: string = "") => {
-    return `${prefix}${value.toLocaleString("pt-BR")}${suffix}`;
+  if (value === undefined || value === null) {
+    return `${prefix}0${suffix}`; 
+  }
+  return `${prefix}${value.toLocaleString("pt-BR")}${suffix}`;
   };
   
   export const yAxisFormatter = (value: any) => {

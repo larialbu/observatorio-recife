@@ -6,6 +6,19 @@ import Menu from "./Menu";
 import { useState, useEffect, useRef } from "react";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
+export const ArrowIcon = () => {
+  return (            <svg
+    width="35px"
+    height="35px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M17 12L8 12" stroke="#6b7280" />
+    <path d="M11 8L7 12L11 16" stroke="#6b7280" />
+  </svg>)
+}
+
 const Bar = ({
   menuOpen,
   isMobile,
@@ -52,16 +65,7 @@ const Bar = ({
           className="flex p-1 my-4 items-center justify-center hover:bg-lamaSkyLight"
         >
           {menuOpen ? (
-            <svg
-              width="35px"
-              height="35px"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M17 12L8 12" stroke="#6b7280" />
-              <path d="M11 8L7 12L11 16" stroke="#6b7280" />
-            </svg>
+            <ArrowIcon />
           ) : (
             <svg
               xmlns="http://www.w3.org/2000/svg"
