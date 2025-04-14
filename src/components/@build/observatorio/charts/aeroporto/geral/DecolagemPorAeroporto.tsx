@@ -5,14 +5,20 @@ import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScro
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processDecolagensPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/geral/charts/decolagemPorAeroporto";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
 const DecolagensPorAeroporto = ({
-  rawData = [],
+  rawData,
   title = "Decolagens por Aeroporto",
   colors = ColorPalette.default,
-}: any) => {
-  // O filtro por ano já deve ser feito fora do componente
-  const chartData = processDecolagensPorAeroporto(rawData);
+}: ChartBuild<AnacGeralData>) => {
+
+  const chartData = processDecolagensPorAeroporto(rawData ?? {
+    filteredData: [],
+    additionalFiltersOptions: [],
+    rawDataPassageiros: [],
+  });
 
   return (
     <div className="chart-wrapper">

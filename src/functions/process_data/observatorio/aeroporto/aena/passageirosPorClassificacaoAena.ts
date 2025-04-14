@@ -1,11 +1,14 @@
-export const processPassageirosPorClassificacao = (data: any[]) => {
+import { AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
+import { AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+
+export const processPassageirosPorClassificacao = (
+  data: AenaPassageirosData
+  ) => {
     // Reduz os dados por classificação de viagem
-    return data.reduce((acc: any, item: any) => {
+    return data.reduce((acc: { [classificacao: string]: {classificacao: string, total: number}}, item: AenaPassageirosHeaders) => {
       const classificacao = item["Classificacao da Viagem"] || "Indefinida";
       
-      const passageiros = parseFloat(
-        (item["Passageiros"] || "0").toString()
-      );
+      const passageiros = item["Passageiros"] || 0
   
       if (!acc[classificacao]) {
         acc[classificacao] = { classificacao, total: 0 };
@@ -17,7 +20,7 @@ export const processPassageirosPorClassificacao = (data: any[]) => {
     }, {});
   };
   
-  export const preparePassageirosPorClassificacaoData = (data: any[]) => {
+  export const preparePassageirosPorClassificacaoData = (data: AenaPassageirosData) => {
     const processed = processPassageirosPorClassificacao(data);
     
     // Retorna um array no formato desejado

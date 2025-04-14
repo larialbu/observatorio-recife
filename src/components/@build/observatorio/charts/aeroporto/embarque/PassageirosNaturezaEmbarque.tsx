@@ -5,17 +5,19 @@ import PieChart from "@/components/@global/charts/PieChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
-import { comparativeDomesticoInternacional } from "@/functions/process_data/observatorio/aeroporto/embarque/comparativeDomesticoInternacional";
+import { processEmbarqueDomesticoInternacional } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDomesticoInternacional";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { ChartBuild } from "@/@types/observatorio/shared";
 
-const DecolagensComparativo = ({
+const PassageirosComparativo = ({
   data,
-  title = "Decolagens por Natureza do Voo",
+  title = "Passageiros por Natureza do Voo",
   toCompare = ["Recife"],
   monthRecent,
   type
-}: any) => {
+}: ChartBuild<AnacGeralData>) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = comparativeDomesticoInternacional(data, 'decolagens', toCompare, type, monthRecent)
+  const chartData = processEmbarqueDomesticoInternacional(data, 'passageiros', toCompare, type, monthRecent)
 
   return (
     <div className="chart-wrapper">
@@ -40,4 +42,4 @@ const DecolagensComparativo = ({
   );
 };
 
-export default DecolagensComparativo;
+export default PassageirosComparativo;

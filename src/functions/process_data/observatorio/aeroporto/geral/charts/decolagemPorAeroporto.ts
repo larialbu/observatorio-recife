@@ -1,11 +1,13 @@
-export const processDecolagensPorAeroporto = (data: any[]) => {
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
-  const processedData = data.reduce((acc: any, item: any) => {
+export const processDecolagensPorAeroporto = (data: AnacGeralData) => {
+
+  const processedData: Record<string, { aeroporto: string; totalDecolagens: number }> = data
+  .reduce((acc: { [aeroporto: string]: {aeroporto: string, totalDecolagens: number} }, item: AnacGeralHeaders) => {
     const aeroporto = item["AEROPORTO NOME"] || "Indefinido";
     
-    const decolagens = parseFloat(
-      (item["DECOLAGENS"] || "0")
-    );
+    const decolagens = item["DECOLAGENS"] || 0;
 
     if (!acc[aeroporto]) {
       acc[aeroporto] = { aeroporto, totalDecolagens: 0 };
@@ -14,10 +16,11 @@ export const processDecolagensPorAeroporto = (data: any[]) => {
     acc[aeroporto].totalDecolagens += decolagens;
 
     return acc;
-  }, {});
+  },
+  {} as Record<string, { aeroporto: string; totalDecolagens: number }>
+  );
 
-  // Ordena pelos aeroportos com mais decolagens
   return Object.values(processedData).sort(
-    (a: any, b: any) => b.totalDecolagens - a.totalDecolagens
+    (a, b) => b.totalDecolagens - a.totalDecolagens
   );
 };

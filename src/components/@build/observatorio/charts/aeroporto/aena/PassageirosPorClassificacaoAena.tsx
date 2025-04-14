@@ -6,12 +6,13 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { preparePassageirosPorClassificacaoData } from "@/functions/process_data/observatorio/aeroporto/aena/passageirosPorClassificacaoAena";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
 
 const PassageirosPorClassificacaoAena = ({
   data,
   title = "Passageiros por classificação da viagem",
-  year,
-}: any) => {
+}: ChartBuild<AenaPassageirosData>) => {
   const [showPercentage, setShowPercentage] = useState(true);
   
   const chartData = preparePassageirosPorClassificacaoData(data);

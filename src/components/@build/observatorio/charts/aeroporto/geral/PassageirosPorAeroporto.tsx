@@ -3,15 +3,21 @@
 import React from "react";
 import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { preparePassageirosPorAeroportoData } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosPorAeroporto";
+import { processPassageirosPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosPorAeroporto";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
 const PassageirosPorAeroporto = ({
   rawData,
   title = "Passageiros por Aeroporto",
-  year,
-}: any) => {
-  const chartData = preparePassageirosPorAeroportoData(rawData);
+}: ChartBuild<AnacGeralData>) => {
+  
+  const chartData = processPassageirosPorAeroporto(rawData ?? {
+    filteredData: [],
+    additionalFiltersOptions: [],
+    rawDataPassageiros: [],
+  });
 
   return (
     <div className="chart-wrapper">

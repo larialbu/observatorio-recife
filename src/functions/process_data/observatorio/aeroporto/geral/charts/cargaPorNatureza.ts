@@ -1,12 +1,12 @@
-export const processCargasPorNatureza = (data: any[]) => {
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
-  return data.reduce((acc: any, item: any) => {
+export const processCargasPorNatureza = (data: AnacGeralData) => {
+  return data.reduce((acc: { [natureza: string]: {natureza: string, total: number} }, item: AnacGeralHeaders) => {
 
     const natureza = item["NATUREZA"] || "Indefinida";
     
-    const carga = parseFloat(
-      (item["CARGA"] || "0")
-    );
+    const carga = item["CARGA"] || 0;
 
     if (!acc[natureza]) {
       acc[natureza] = { natureza, total: 0 };
@@ -18,7 +18,7 @@ export const processCargasPorNatureza = (data: any[]) => {
   }, {});
 };
 
-export const prepareCargasPorNaturezaData = (data: any[]) => {
-  const processed = processCargasPorNatureza(data); // Processa os dados diretamente
-  return Object.values(processed); // Transforma o objeto em array para uso no gráfico
+export const prepareCargasPorNaturezaData = (data: AnacGeralData) => {
+  const processed = processCargasPorNatureza(data);
+  return Object.values(processed);
 };

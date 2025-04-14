@@ -5,14 +5,16 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import BarChart from "@/components/@global/charts/BarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processEmbarqueDesembarque } from "@/functions/process_data/observatorio/aeroporto/geral/charts/embarqueDesembarqueRegiao";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
 const EmbarqueDesembarqueRegiao = ({
-  data = [],
+  data,
   nameKey = "AEROPORTO REGIÃO",
   colors = ColorPalette.default,
   title = "Embarque e Desembarque por Região",
   
-}: any) => {
+}: ChartBuild<AnacGeralData>) => {
   const [windowWidth, setWindowWidth] = useState(768);
 
   useEffect(() => {

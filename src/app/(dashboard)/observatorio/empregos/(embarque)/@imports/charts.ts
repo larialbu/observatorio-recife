@@ -5,7 +5,7 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/aeroporto/embarque/PassageirosEmbarqueDom"
+          "@/components/@build/observatorio/charts/aeroporto/embarque/PassageirosDomesticoNatureza"
         )
     ),
   },
@@ -21,7 +21,7 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/aeroporto/embarque/DecolagensEmbarqueDom"
+          "@/components/@build/observatorio/charts/aeroporto/embarque/DecolagensDomesticoEmbarque"
         )
     ),
   },
@@ -29,7 +29,7 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/aeroporto/embarque/CargasIntEmbarque"
+          "@/components/@build/observatorio/charts/aeroporto/embarque/CargasInternacionalEmbarque"
         )
     ),
   },
@@ -45,7 +45,7 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/aeroporto/embarque/DecolagensIntEmbarque"
+          "@/components/@build/observatorio/charts/aeroporto/embarque/DecolagensInternacionalEmbarque"
         )
     ),
   },
@@ -53,7 +53,7 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/aeroporto/embarque/PassageirosComparativo"
+          "@/components/@build/observatorio/charts/aeroporto/embarque/PassageirosNaturezaEmbarque"
         )
     ),
   },
@@ -61,7 +61,7 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/aeroporto/embarque/CargasComparativo"
+          "@/components/@build/observatorio/charts/aeroporto/embarque/CargasNaturezaEmbarque"
         )
     ),
   },
@@ -69,7 +69,7 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/aeroporto/embarque/DecolagensComparativo"
+          "@/components/@build/observatorio/charts/aeroporto/embarque/DecolagensNaturezaEmbarque"
         )
     ),
   },

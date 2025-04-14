@@ -7,15 +7,17 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { getDateKeys } from "@/utils/formatters/getDataKeys";
 import { processCargasAnoComparativo } from "@/functions/process_data/observatorio/aeroporto/comparativo/cargasAnoComparativo";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
 const CargasAnoComparativo = ({
-  data = [],
+  data,
   colors = ColorPalette.default,
   title = "Cargas ao Longo do Ano",
   toCompare,
   months
-}: any) => {
-  const chartData = processCargasAnoComparativo(data, toCompare);
+}: ChartBuild<AnacGeralData>) => {
+  const chartData = processCargasAnoComparativo(data, toCompare ?? []);
 
   const updatedData = updatedMonthChartData(chartData, months);
 
@@ -27,7 +29,7 @@ const CargasAnoComparativo = ({
           title={title}
           colors={colors}
           xKey="mes"
-          lines={[...getDateKeys(toCompare)]}
+          lines={[...getDateKeys(toCompare ?? [])]}
         />
       </ChartGrabber>
     </div>

@@ -1,5 +1,8 @@
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+
 export const processPassageirosMes = (
-  data: any[],
+  data: AnacGeralData,
   year: string,
   airportName?: string,
   months?: [number] | [number, number]
@@ -14,23 +17,12 @@ export const processPassageirosMes = (
 
   let passageirosMes = 0;
 
-  const parsePassageiros = (passageiro: any): number => {
-    const parsed = parseInt(
-      (passageiro || "0"),
-      10
-    );
-    return isNaN(parsed) ? 0 : parsed;
-  };
-
   if (months && months.length === 1) {
     const month = months[0];
-    // Filtra para um único mês
-    passageirosMes = data.reduce((total, item) => {
-      if (
-        (!airportName || item["AEROPORTO NOME"] === airportName) &&
-        parseInt(item["MÊS"], 10) === month
-      ) {
-        const passageiros = parsePassageiros(item["PASSAGEIRO"]);
+
+    passageirosMes = data.reduce((total: number, item: AnacGeralHeaders) => {
+      if ( (!airportName || item["AEROPORTO NOME"] === airportName) && item["MÊS"] === month ) {
+        const passageiros = item["PASSAGEIRO"] || 0;
         return total + passageiros;
       }
       return total;
@@ -42,15 +34,15 @@ export const processPassageirosMes = (
     };
   } else if (months && months.length === 2) {
     const [startMonth, endMonth] = months;
-    // Filtra para um intervalo de meses
-    passageirosMes = data.reduce((total, item) => {
-      const mesAtual = parseInt(item["MÊS"], 10);
+
+    passageirosMes = data.reduce((total: number, item: AnacGeralHeaders) => {
+      const mesAtual = item["MÊS"];
       if (
         (!airportName || item["AEROPORTO NOME"] === airportName) &&
         mesAtual >= startMonth &&
         mesAtual <= endMonth
       ) {
-        const passageiros = parsePassageiros(item["PASSAGEIRO"]);
+        const passageiros = item["PASSAGEIRO"] || 0;
         return total + passageiros;
       }
       return total;
@@ -65,10 +57,9 @@ export const processPassageirosMes = (
       passageiros: passageirosMes,
     };
   } else {
-    // Filtra para o ano inteiro
-    passageirosMes = data.reduce((total, item) => {
+    passageirosMes = data.reduce((total: number, item: AnacGeralHeaders) => {
       if (!airportName || item["AEROPORTO NOME"] === airportName) {
-        const passageiros = parsePassageiros(item["PASSAGEIRO"]);
+        const passageiros = item["PASSAGEIRO"] || 0;
         return total + passageiros;
       }
       return total;

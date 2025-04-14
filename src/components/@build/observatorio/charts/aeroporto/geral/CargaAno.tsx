@@ -6,19 +6,20 @@ import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processCargaAno } from "@/functions/process_data/observatorio/aeroporto/geral/charts/cargaAno";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
 const CargaAno = ({
-  data = [],
+  data,
   nameKey = "mes",
   colors = ColorPalette.default,
   title = "Carga Total ao Longo do Ano",
   months,
-}: any) => {
+}: ChartBuild<AnacGeralData>) => {
   
-  // Dados já filtrados são processados diretamente no gráfico
   const chartData = processCargaAno(data);
 
-  const updatedData = updatedMonthChartData(chartData, months);
+  const updatedData = updatedMonthChartData(chartData, months ?? 1);
 
   return (
     <div className="chart-wrapper">

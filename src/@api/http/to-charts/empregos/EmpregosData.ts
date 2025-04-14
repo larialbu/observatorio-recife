@@ -1,4 +1,4 @@
-import { ProcessedDataPib } from "@/@types/observatorio/pib/ProcessedDataPib";
+import { ProcessedDataPib } from "@/@types/observatorio/@data/pib/ProcessedDataPib";
 
 import { fetchData } from "@/@api/config/dataFetcher";
 

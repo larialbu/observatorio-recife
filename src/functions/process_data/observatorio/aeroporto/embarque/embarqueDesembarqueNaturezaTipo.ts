@@ -1,5 +1,8 @@
-export function embarqueDesembarqueNatureTipo(
-  data: any[],
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+
+export function processEmbarqueDesembarqueNaturezaTipo(
+  data: AnacGeralData,
   aeroportosNomes: string[] = [], // Definir o valor padrão como array vazio
   natureza: "Doméstica" | "Internacional",
   tipoDado: "passageiros" | "cargas" | "decolagens",
@@ -23,24 +26,24 @@ export function embarqueDesembarqueNatureTipo(
   const chavePaisDestinoOrigem = operacao === "Embarque" ? "País Destino" : "País Origem";
 
   // Filtrar dados com base na natureza, nos nomes dos aeroportos e opcionalmente pelo mês
-  data.forEach((entry) => {
-    const entryMes = parseInt(entry.MÊS, 10);
+  data.forEach((item: AnacGeralHeaders) => {
+    const itemMes = item.MÊS;
 
     // Verificar se o item deve ser incluído com base nos filtros
     if (
-      entry.TIPO === tipoOperacao &&
-      entry.NATUREZA === natureza &&
-      (aeroportosNomes.length === 0 || aeroportosNomes.includes(entry["AEROPORTO NOME"])) && // Verificação se o array está vazio
-      (mes === undefined || entryMes === mes) // Filtrar pelo mês se fornecido
+      item.TIPO === tipoOperacao &&
+      item.NATUREZA === natureza &&
+      (aeroportosNomes.length === 0 || aeroportosNomes.includes(item["AEROPORTO NOME"])) && // Verificação se o array está vazio
+      (mes === undefined || itemMes === mes) // Filtrar pelo mês se fornecido
     ) {
       const key =
-        natureza === "Doméstica" ? entry[chaveDestinoOrigem] : entry[chavePaisDestinoOrigem];
+        natureza === "Doméstica" ? item[chaveDestinoOrigem] : item[chavePaisDestinoOrigem];
 
       // Incrementar o total para a chave apropriada
       if (operationMap[key]) {
-        operationMap[key] += parseInt(entry[dataField], 10);
+        operationMap[key] += item[dataField];
       } else {
-        operationMap[key] = parseInt(entry[dataField], 10);
+        operationMap[key] = item[dataField];
       }
     }
   });

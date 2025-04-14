@@ -1,4 +1,4 @@
-import { ProcessedDataPib } from "@/@types/observatorio/pib/ProcessedDataPib";
+import { ProcessedDataPib } from "@/@types/observatorio/@fetch/pib/ProcessedDataPib";
 import ComparativeCard from "@/components/@global/cards/ComparativeCard";
 import { processPassageirosMes } from "@/functions/process_data/observatorio/aeroporto/geral/cards/passageirosMesRecente";
 

@@ -6,25 +6,19 @@ import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
-import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import SelectCompare from "@/components/@global/features/SelectCompare";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
 // AEROPORTO NOME
 
-const Comparativo = ({
-  year,
+const Comparativo: React.FC<ChartBuild> = ({
   data,
-  toCompare = getUniqueValues<ProcessedData, "AEROPORTO NOME">(
-    data,
-    "AEROPORTO NOME"
-  ),
+  toCompare = getUniqueValues<AnacGeralHeaders, "AEROPORTO NOME">(data as AnacGeralHeaders[], "AEROPORTO NOME"),
   months,
-}: {
-  year: string;
-  toCompare?: any;
-  data: any[];
-  months: number;
+  year
 }) => {
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
@@ -124,8 +118,8 @@ const Comparativo = ({
                         compare={selectCompare}
                         toCompare={toCompare}
                         data={data}
-                        year={year}
                         color={ColorPalette.default[index]}
+                        year={year}
                       />
                     </div>
                   </React.Suspense>
@@ -183,7 +177,7 @@ const Comparativo = ({
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component
-                  data={data}
+                  data={data as AnacGeralData}
                   toCompare={[...tempFiltred]}
                   months={months}
                 />

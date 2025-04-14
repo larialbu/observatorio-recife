@@ -3,8 +3,6 @@ export type MessageListener = (m: string) => void;
 
 let listeners: ProgressListener[] = [];
 let messageListeners: MessageListener[] = [];
-let bundleProgress: { [key: string]: number } = {};
-let totalBundles = 0;
 
 let internalProgress = 0;
 let targetProgress = 0;

@@ -1,4 +1,4 @@
-import { ProcessedData } from "@/@types/observatorio/balanca-comercial/processedData";
+import { ProcessedData } from "@/@types/observatorio/@fetch/balanca-comercial/processedData";
 
 export const balancaComercialDataFilter = (data: ProcessedData[], filters: any) => {
     if (!filters) return data;

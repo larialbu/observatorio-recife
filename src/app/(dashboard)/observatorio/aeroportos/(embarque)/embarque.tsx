@@ -2,21 +2,17 @@ import React, { useRef, useState } from "react";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import charts from "./@imports/charts";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
-const Embarque = ({
+const Embarque: React.FC<ChartBuild> = ({
   toCompare,
   monthRecent,
   data,
-}: {
-  toCompare: string[];
-  monthRecent?: number;
-  data: any;
 }) => {
   const [type, setType] = useState(['Embarque']);
-
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
 
-  // REF do container e REF da instância do Sortable
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -57,10 +53,10 @@ const Embarque = ({
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component
-                  toCompare={toCompare}
-                  data={data}
-                  monthRecent={monthRecent}
-                  type={type[0]}
+                  toCompare={toCompare ?? []}
+                  data={data as AnacGeralData}
+                  months={monthRecent ?? 1}
+                  type={type[0] as "Embarque" | "Desembarque"}
                 />
               </React.Suspense>
             </div>

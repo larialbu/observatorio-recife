@@ -8,11 +8,13 @@ import cardsCargas from "./@imports/carga/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import { AenaCargasHeaders, AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { AenaCargasData, AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
 
 const AenaPage = ({ months}: {months: number}) => {
   const { data, isLoading } = useDashboard();
-  const [filteredPassageiros, setFilteredPassageiros] = useState([]);
-  const [filteredCargas, setFilteredCargas] = useState([]);
+  const [filteredPassageiros, setFilteredPassageiros] = useState<AenaPassageirosHeaders[]>([]);
+const [filteredCargas, setFilteredCargas] = useState<AenaCargasHeaders[]>([]);
 
   const [chartOrder, setChartOrder] = useState([...chartsCargas, ...chartsPassageiros].map((_, index) => index));
 
@@ -69,7 +71,7 @@ const AenaPage = ({ months}: {months: number}) => {
           ];
 
           const { Component, type } = charts[index]; // 'type' pode indicar se é carga ou passageiro
-          const filteredData = type === 'carga' ? filteredCargas : filteredPassageiros;
+          const filteredData = type === 'carga' ? filteredCargas as unknown : filteredPassageiros as unknown;
           const rawData = type === 'carga' ? data?.cargas?.rawDataCargas || [] : data?.passageiros?.rawDataPassageiros || [];
 
           return (
@@ -78,7 +80,7 @@ const AenaPage = ({ months}: {months: number}) => {
               className={`chart-content-wrapper`}
             >
               <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={filteredData} rawData={rawData} months={months} />
+                <Component data={filteredData as AenaPassageirosData & AenaCargasData} rawData={rawData} months={months} />
               </React.Suspense>
             </div>
           );

@@ -1,23 +1,26 @@
-export const processPassageirosAnoAena = (data: any[]) => {
+import { AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
+import { AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+
+export const processPassageirosAnoAena = (
+    data: AenaPassageirosData
+  ) => {
   // Inicializa os dados processados com os meses
-  const meses = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
+  const months = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
 
   // Cria um array para armazenar o total de passageiros por mês
-  const processedData = meses.map((mes) => ({
+  const processedData = months.map((mes) => ({
     mes,
     passageiros: 0, 
   }));
 
   // Agora percorremos os dados para processar
-  data?.forEach((item) => {
-    const passageiros = parseFloat(
-      (item["Passageiros"] || "0").toString()
-    ); // Transforma pra número e remove formatação
+  data?.forEach((item: AenaPassageirosHeaders) => {
+    const passageiros = item["Passageiros"] || 0
 
     const mes = item["Mês"];
 
     // Pegando o índice do mês na array de meses, 10 é pra garantir que é de base decimal
-    const mesIndex = parseInt(mes, 10) - 1;
+    const mesIndex = mes - 1;
     if (processedData[mesIndex]) {
       processedData[mesIndex].passageiros += passageiros; // Soma os passageiros no mês correspondente
     }

@@ -1,5 +1,8 @@
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+
 export const processDecolagensMes = (
-    data: any[],
+    data: AnacGeralData,
     year: string,
     aeroportoNome?: string,
     months?: [number] | [number, number]
@@ -16,13 +19,12 @@ export const processDecolagensMes = (
   
     if (months && months.length === 1) {
       const month = months[0];
-      // Filtra para um único mês
-      decolagensMes = data.reduce((total, item) => {
+      decolagensMes = data.reduce((total: number, item: AnacGeralHeaders) => {
         if (
           (!aeroportoNome || item["AEROPORTO NOME"] === aeroportoNome) &&
-          parseInt(item["MÊS"], 10) === month
+          item["MÊS"] === month
         ) {
-          const decolagens = parseInt(item["DECOLAGENS"] || "0", 10);
+          const decolagens = item["DECOLAGENS"] || 0;
           return total + decolagens;
         }
         return total;
@@ -34,15 +36,14 @@ export const processDecolagensMes = (
       };
     } else if (months && months.length === 2) {
       const [startMonth, endMonth] = months;
-      // Filtra para um intervalo de meses
-      decolagensMes = data.reduce((total, item) => {
-        const mesAtual = parseInt(item["MÊS"], 10);
+      decolagensMes = data.reduce((total: number, item: AnacGeralHeaders) => {
+        const mesAtual = item["MÊS"];
         if (
           (!aeroportoNome || item["AEROPORTO NOME"] === aeroportoNome) &&
           mesAtual >= startMonth &&
           mesAtual <= endMonth
         ) {
-          const decolagens = parseInt(item["DECOLAGENS"] || "0", 10);
+          const decolagens = item["DECOLAGENS"] || 0;
           return total + decolagens;
         }
         return total;
@@ -57,10 +58,9 @@ export const processDecolagensMes = (
         decolagens: decolagensMes,
       };
     } else {
-      // Filtra para o ano inteiro
-      decolagensMes = data.reduce((total, item) => {
+      decolagensMes = data.reduce((total: number, item: AnacGeralHeaders) => {
         if (!aeroportoNome || item["AEROPORTO NOME"] === aeroportoNome) {
-          const decolagens = parseInt(item["DECOLAGENS"] || "0", 10);
+          const decolagens = item["DECOLAGENS"] || 0;
           return total + decolagens;
         }
         return total;

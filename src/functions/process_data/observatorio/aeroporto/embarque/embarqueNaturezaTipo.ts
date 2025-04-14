@@ -1,5 +1,8 @@
-export function embarqueNaturezaTipo(
-  data: any[],
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+
+export function processEmbarqueNaturezaTipo(
+  data: AnacGeralData,
   aeroportosNomes: string[],
   natureza: "Doméstica" | "Internacional",
   tipoDado: "passageiros" | "cargas" | "decolagens",
@@ -17,23 +20,23 @@ export function embarqueNaturezaTipo(
       : "DECOLAGENS";
 
   // Filtrar dados com base na natureza, nos nomes dos aeroportos e opcionalmente pelo mês
-  data.forEach((entry) => {
-    const entryMes = parseInt(entry.MÊS, 10);
+  data.forEach((item: AnacGeralHeaders) => {
+    const itemMes = item.MÊS;
 
     if (
-      entry.TIPO === "Embarque" &&
-      entry.NATUREZA === natureza &&
-      aeroportosNomes.includes(entry["AEROPORTO NOME"]) &&
-      (mes === undefined || entryMes === mes) // Filtrar pelo mês se fornecido
+      item.TIPO === "Embarque" &&
+      item.NATUREZA === natureza &&
+      aeroportosNomes.includes(item["AEROPORTO NOME"]) &&
+      (mes === undefined || itemMes === mes) // Filtrar pelo mês se fornecido
     ) {
       const key =
-        natureza === "Doméstica" ? entry["UF Destino"] : entry["País Destino"];
+        natureza === "Doméstica" ? item["UF Destino"] : item["País Destino"];
 
       // Incrementar o total para a chave apropriada
       if (embarkationMap[key]) {
-        embarkationMap[key] += parseInt(entry[dataField], 10);
+        embarkationMap[key] += item[dataField];
       } else {
-        embarkationMap[key] = parseInt(entry[dataField], 10);
+        embarkationMap[key] = item[dataField];
       }
     }
   });

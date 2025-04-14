@@ -1,7 +1,7 @@
-import { ProcessedRankingDimensaoData } from "@/@types/observatorio/ranking/processedRankingDimensaoData";
-import { ProcessedRankingGeralData } from "@/@types/observatorio/ranking/processedRankingGeralData";
-import { ProcessedRankingIndicadorData } from "@/@types/observatorio/ranking/processedRankingIndicadorData";
-import { ProcessedRankingPilaresData } from "@/@types/observatorio/ranking/processedRankingPilaresData";
+import { ProcessedRankingDimensaoData } from "@/@types/observatorio/@fetch/ranking/processedRankingDimensaoData";
+import { ProcessedRankingGeralData } from "@/@types/observatorio/@fetch/ranking/processedRankingGeralData";
+import { ProcessedRankingIndicadorData } from "@/@types/observatorio/@fetch/ranking/processedRankingIndicadorData";
+import { ProcessedRankingPilaresData } from "@/@types/observatorio/@fetch/ranking/processedRankingPilaresData";
 import { fetchData } from "@/@api/config/dataFetcher";
 
 

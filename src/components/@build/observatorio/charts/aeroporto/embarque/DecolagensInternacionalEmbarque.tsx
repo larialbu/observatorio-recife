@@ -4,24 +4,26 @@ import React from "react";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import HorizontalScrollableBarChart from "@/components/@global/charts/HorizontalScrollableBarChart";
-import { embarqueDesembarqueNatureTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDesembarqueNaturezaTipo";
+import { processEmbarqueDesembarqueNaturezaTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDesembarqueNaturezaTipo";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
 const DecolagensIntEmbarque = ({
-  data = [],
+  data,
   toCompare = ["Recife"],
   title = "Internacional Decolagens",
   colors = ColorPalette.default,
   monthRecent,
   subText = 'País Destino',
   type
-}: any) => {
-  // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
-  const chartData = embarqueDesembarqueNatureTipo(
+}: ChartBuild<AnacGeralData>) => {
+
+  const chartData = processEmbarqueDesembarqueNaturezaTipo(
     data,
     toCompare,
     'Internacional',
     "decolagens",
-    type,
+    type ?? "Embarque",
     monthRecent
   );
 

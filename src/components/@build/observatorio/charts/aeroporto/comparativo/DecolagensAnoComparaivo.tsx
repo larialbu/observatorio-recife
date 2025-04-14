@@ -7,17 +7,19 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { getDateKeys } from "@/utils/formatters/getDataKeys";
 import { processDecolagensAnoComparativo } from "@/functions/process_data/observatorio/aeroporto/comparativo/decolagensAnoComparativo";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
 const DecolagensAnoComparativo = ({
-  data = [],
+  data,
   colors = ColorPalette.default,
   title = "Decolagens ao Longo do Ano",
   toCompare,
   months
-}: any) => {
-  const chartData = processDecolagensAnoComparativo(data, toCompare);
+}: ChartBuild<AnacGeralData>) => {
+  const chartData = processDecolagensAnoComparativo(data, toCompare ?? []);
 
-  const updatedData = updatedMonthChartData(chartData, months);
+  const updatedData = updatedMonthChartData(chartData, months ?? 1);
   
   return (
     <div className="chart-wrapper">
@@ -27,7 +29,7 @@ const DecolagensAnoComparativo = ({
           title={title}
           colors={colors}
           xKey="mes"
-          lines={[...getDateKeys(toCompare)]}
+          lines={[...getDateKeys(toCompare ?? [])]}
         />
       </ChartGrabber>
     </div>

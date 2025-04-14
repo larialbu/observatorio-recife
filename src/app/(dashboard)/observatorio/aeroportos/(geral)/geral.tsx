@@ -7,17 +7,13 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { ChartBuild } from "@/@types/observatorio/shared";
 
-const Geral = ({
+const Geral: React.FC<ChartBuild> = ({
   data,
   rawData,
-  year,
   months,
-}: {
-  data: any;
-  rawData: any;
-  year: string;
-  months: number;
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const sortableContainerRef = useRef<HTMLDivElement>(null);
@@ -27,7 +23,7 @@ const Geral = ({
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-            <Component data={data} year={year} color={ColorPalette.default[index]} />
+            <Component data={data} color={ColorPalette.default[index]} />
           </React.Suspense>
         ))}
       </div>
@@ -42,7 +38,7 @@ const Geral = ({
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <ErrorBoundary>
-                  <Component data={data} rawData={rawData} months={months} />
+                  <Component data={data as AnacGeralData} rawData={rawData as AnacGeralData} months={months} />
                 </ErrorBoundary>
               </React.Suspense>
             </div>

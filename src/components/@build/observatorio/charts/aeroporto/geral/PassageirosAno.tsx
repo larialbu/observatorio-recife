@@ -6,16 +6,18 @@ import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processPassageirosAno } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosAno";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
 const PassageirosAno = ({
-  data = [],
+  data,
   colors = ColorPalette.default,
   title = "Passageiros ao Longo do Ano",
   months
-}: any) => {
+}: ChartBuild<AnacGeralData>) => {
   const chartData = processPassageirosAno(data);
 
-  const updatedData = updatedMonthChartData(chartData, months);
+  const updatedData = updatedMonthChartData(chartData, months ?? 1);
 
   return (
     <div className="chart-wrapper">

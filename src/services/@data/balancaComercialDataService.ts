@@ -1,4 +1,5 @@
 import { BalancaComercialData } from "@/@api/http/to-charts/bal_comercial/BalancaComercialData";
+import { Filters } from "@/@types/observatorio/shared";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
 
 export class BalancaDataService {
@@ -21,12 +22,12 @@ export class BalancaDataService {
     this.currentYear = year;
   }
 
-  private getCacheKey(tab: string, filters: Record<string, any>): string {
+  private getCacheKey(tab: string, filters: Filters): string {
     return `${tab}-${this.currentYear}-${JSON.stringify(filters.additionalFilters)}`;
   }
 
 
-  private async fetchGeralData(filters: Record<string, any>) {
+  private async fetchGeralData(filters: Filters) {
     const balancaService = new BalancaComercialData(this.currentYear);
 
     const raw = await balancaService.fetchProcessedData();
@@ -48,7 +49,7 @@ export class BalancaDataService {
    * "Fetch Data" para tabs, se quiser: "geral", "analitico", etc.
    * Ajuste a lógica conforme as abas/rotas do projeto.
    */
-  public async fetchDataForTab(tab: string, filters: Record<string, any>): Promise<any> {
+  public async fetchDataForTab(tab: string, filters: Filters): Promise<any> {
     // Montamos a key para o cache
     const cacheKey = this.getCacheKey(tab, filters);
 

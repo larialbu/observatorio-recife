@@ -3,7 +3,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
-import { ProcessedIpcaTabelasData } from "@/@types/observatorio/ipca/processedIPCATabelasData";
+import { ProcessedIpcaTabelasData } from "@/@types/observatorio/@fetch/ipca/processedIPCATabelasData";
 import { useDashboard } from "@/context/DashboardContext";
 import cards from "./@imports/cards";
 

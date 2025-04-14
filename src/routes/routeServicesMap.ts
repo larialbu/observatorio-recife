@@ -1,3 +1,5 @@
+import { Service } from "@/@types/observatorio/shared";
+
 import { aeroportoDataService } from "@/services/@data/aeroportoDataService";
 import { balancaDataService } from "@/services/@data/balancaComercialDataService";
 import { empregosDataService } from "@/services/@data/empregosDataService";
@@ -8,10 +10,9 @@ import { raisDataService } from "@/services/@data/raisDataService";
 import { rankingDataService } from "@/services/@data/rankingDataService";
 
 export const routeServicesMap: Record<
-  string,  // rota, ex. "/observatorio/aeroportos"
-  Record<string, any> // tab => service
+  string,
+  Record<string, Service<any>>
 > = {
-  // Aeroportos
   "/observatorio/ipca": {
     geral: ipcaDataService,
     grupos: ipcaDataService,

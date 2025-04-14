@@ -1,8 +1,5 @@
-import { ProcessedAenaCargasData } from "@/@types/observatorio/aeroporto/processedAenaCargasData";
-import { ProcessedAenaPassageirosData } from "@/@types/observatorio/aeroporto/processedAenaPassageirosData";
-import { ProcessedData } from "@/@types/observatorio/aeroporto/processedData";
-
 import { fetchData } from "@/@api/config/dataFetcher";
+import { AenaCargasData, AenaPassageirosData, AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
 const DB_NAME = "parquetDB";
 const STORE_NAME = "parquetFiles";
@@ -15,16 +12,16 @@ export class AeroportoData {
     this.year = year;
   }
 
-  async fetchProcessedData(): Promise<ProcessedData[]> {
-    return fetchData<ProcessedData[]>(`/aeroporto/anac/anos/${this.year}`, AeroportoData.cache);
+  async fetchProcessedData(): Promise<AnacGeralData[]> {
+    return fetchData<AnacGeralData[]>(`/aeroporto/anac/anos/${this.year}`, AeroportoData.cache);
   }
 
-  async fetchProcessedAenaPassageirosData(): Promise<ProcessedAenaPassageirosData[]> {
-    return fetchData<ProcessedAenaPassageirosData[]>(`/aeroporto/aena/passageiro/anos/${this.year}`, AeroportoData.cache);
+  async fetchProcessedAenaPassageirosData(): Promise<AenaPassageirosData[]> {
+    return fetchData<AenaPassageirosData[]>(`/aeroporto/aena/passageiro/anos/${this.year}`, AeroportoData.cache);
   }
 
-  async fetchProcessedAenaCargasData(): Promise<ProcessedAenaCargasData[]> {
-    return fetchData<ProcessedAenaCargasData[]>(`/aeroporto/aena/carga/anos/${this.year}`, AeroportoData.cache);
+  async fetchProcessedAenaCargasData(): Promise<AenaCargasData[]> {
+    return fetchData<AenaCargasData[]>(`/aeroporto/aena/carga/anos/${this.year}`, AeroportoData.cache);
   }
 
   clearCache(): void {

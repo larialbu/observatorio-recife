@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import FocusHidden from "../@global/features/FocusHidden";
 import { useDashboard } from "@/context/DashboardContext";
 import { ChevronIcon } from "./ChevronIcon";
+import { AdditionalFilter, Filters } from "@/@types/observatorio/shared";
 
 const Navbar = () => {
   const { filters, applyFilters, resetFilters } = useDashboard();
@@ -18,7 +19,7 @@ const Navbar = () => {
   useEffect(() => {
     setTempFilters(filters);
 
-    const hasAllowMultipleFalse = filters.additionalFilters?.some((f: any) => f.allowMultiple === false);
+    const hasAllowMultipleFalse = filters.additionalFilters?.some((f: AdditionalFilter) => f.allowMultiple === false);
     
     setShowInitialMessage(!hasAllowMultipleFalse);
   }, [filters]);
@@ -38,8 +39,8 @@ const Navbar = () => {
   };
 
   const handleCheckboxChange = (label: string, option: string) => {
-    setTempFilters((prev: any) => {
-      const updated = prev.additionalFilters.map((f: any) => {
+    setTempFilters((prev: Filters) => {
+      const updated = prev.additionalFilters.map((f: AdditionalFilter) => {
         if (f.label === label) {
           const isAllowMultiple = f.allowMultiple !== false;
           const isSelected = f.selected.includes(option);
@@ -60,8 +61,8 @@ const Navbar = () => {
   };
 
   const handleSelectAll = (label: string) => {
-    setTempFilters((prev: any) => {
-      const updated = prev.additionalFilters.map((f: any) => {
+    setTempFilters((prev: Filters) => {
+      const updated = prev.additionalFilters.map((f: AdditionalFilter) => {
         if (f.label !== label) return f;
         const allSelected = f.selected.length === f.options.length;
         return {
@@ -134,7 +135,7 @@ const Navbar = () => {
               <li>
                 Ano: <strong>{filters.year || (filters.years && filters.years[filters.years.length - 1])}</strong>
               </li>
-              {filters.additionalFilters?.map((f: any) => {
+              {filters.additionalFilters?.map((f: AdditionalFilter) => {
                 if (f.selected?.length > 0) {
                   const visible = f.selected.slice(0, 5).join(", ");
                   const remaining = f.selected.length - 5;
@@ -185,7 +186,7 @@ const Navbar = () => {
                   </div>
 
                   {/* Additional filters */}
-                  {tempFilters.additionalFilters?.map((f: any) => (
+                  {tempFilters.additionalFilters?.map((f: AdditionalFilter) => (
                     <div key={f.label} className="relative flex flex-col">
                       <label className="text-xs font-medium text-gray-600 mb-1">{f.label}</label>
                       <button

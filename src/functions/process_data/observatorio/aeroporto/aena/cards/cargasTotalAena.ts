@@ -1,5 +1,8 @@
+import { AenaCargasData } from "@/@types/observatorio/@data/aeroportoData";
+import { AenaCargasHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+
 export const processCargasTotalAena = (
-    data: any[],
+    data: AenaCargasData,
     year: string,
     months?: [number] | [number, number],
     aeroportoName?: string
@@ -19,10 +22,10 @@ export const processCargasTotalAena = (
     if (months && months.length === 1) {
       const month = months[0];
       // Filtra para um único mês
-      totalCargas = data.reduce((total, item) => {
+      totalCargas = data.reduce((total: number, item: AenaCargasHeaders) => {
         if (
           (!aeroportoName || item["Aeroporto"] === aeroportoName) &&
-          parseInt(item["Mês"], 10) === month &&
+          item["Mês"] === month &&
           item["Ano"].toString() === year
         ) {
           const carga = parseFloat(
@@ -40,12 +43,12 @@ export const processCargasTotalAena = (
     } else if (months && months.length === 2) {
       const [startMonth, endMonth] = months;
       // Filtra para um intervalo de meses
-      totalCargas = data.reduce((total, item) => {
-        const mesAtual = parseInt(item["Mês"], 10);
+      totalCargas = data.reduce((total: number, item: AenaCargasHeaders) => {
+        const actualMonth = item["Mês"];
         if (
           (!aeroportoName || item["Aeroporto"] === aeroportoName) &&
-          mesAtual >= startMonth &&
-          mesAtual <= endMonth &&
+          actualMonth >= startMonth &&
+          actualMonth <= endMonth &&
           item["Ano"].toString() === year
         ) {
           const carga = parseFloat(
@@ -66,7 +69,7 @@ export const processCargasTotalAena = (
       };
     } else {
       // Filtra para o ano inteiro
-      totalCargas = data.reduce((total, item) => {
+      totalCargas = data.reduce((total: number, item: AenaCargasHeaders) => {
         if (
           (!aeroportoName || item["Aeroporto"] === aeroportoName) &&
           item["Ano"].toString() === year

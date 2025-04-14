@@ -1,6 +1,6 @@
-import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
-// Abrevia regiões com base na largura da tela
 const abbreviateRegion = (region: string, windowWidth: number): string => {
   const abbreviations: { [key: string]: string } = {
     NORTE: "N",
@@ -17,37 +17,38 @@ const abbreviateRegion = (region: string, windowWidth: number): string => {
   return region;
 };
 
-const parsePassageiros = (passageiros: any): number => {
-  const parsed = parseFloat(
-    (passageiros || "0")
-  );
-  return isNaN(parsed) ? 0 : parsed;
-};
-
 export const processEmbarqueDesembarque = (
-  data: any[],
+  data: AnacGeralData,
   nameKey: string,
   windowWidth: number
 ) => {
-  const processedData = data.reduce((acc: any, item: any) => {
-    let key = (item[nameKey] || "").trim().toUpperCase();
+  const processedData = data.reduce((
+    acc: Record<string, { [k: string]: string | number }>,
+    item: AnacGeralHeaders
+  ) => {
+    let key = (item[nameKey as keyof AnacGeralHeaders] || "").toString().trim().toUpperCase();
     const tipo = item["TIPO"];
-    const passageiros = parsePassageiros(item["PASSAGEIRO"]);
-
+    const passageiros = item["PASSAGEIRO"] || 0;
+  
     key = abbreviateRegion(key, windowWidth);
-
+  
     if (!acc[key]) {
-      acc[key] = { [nameKey]: key, embarque: 0, desembarque: 0 };
+      acc[key] = {
+        [nameKey]: key,
+        embarque: 0,
+        desembarque: 0
+      };
     }
-
+  
     if (tipo === "Embarque") {
-      acc[key].embarque += passageiros;
+      acc[key].embarque = (acc[key].embarque as number) + passageiros;
     } else if (tipo === "Desembarque") {
-      acc[key].desembarque += passageiros;
+      acc[key].desembarque = (acc[key].desembarque as number) + passageiros;
     }
-
+  
     return acc;
   }, {});
+  
 
   return Object.values(processedData);
 };

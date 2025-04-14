@@ -6,7 +6,7 @@ import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
-import { processedAtracacaoData } from "@/@types/observatorio/porto/processedAtracacaoData";
+import { processedAtracacaoData } from "@/@types/observatorio/@fetch/porto/processedAtracacaoData";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 import { getFiltredData, rearrangeArray } from "@/functions/process_data/observatorio/porto/comparativo/charts/filterdPortoData";
 import { CardsCarousel } from "@/components/@global/features/CardsCarousel";

@@ -3,22 +3,24 @@
 import React from "react";
 import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/geral/charts/cargaPorAeroporto";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { processCargasPorAeroportoAena } from "@/functions/process_data/observatorio/aeroporto/aena/totalCargasAeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AenaCargasData } from "@/@types/observatorio/@data/aeroportoData";
 
-const CargaPorAeroporto = ({
+const TotalCargasAena = ({
   rawData,
-  title = "Carga por Aeroporto",
+  title = "Cargas por Aeroporto",
   colors = ColorPalette.default,
-}: ChartBuild<AnacGeralData>) => {
+}: ChartBuild<AenaCargasData>) => {
 
-  const chartData = processCargaPorAeroporto(rawData ?? {
-    filteredData: [],
-    additionalFiltersOptions: [],
-    rawDataPassageiros: [],
-  });
+  const chartData = processCargasPorAeroportoAena(rawData 
+    ?? {
+      filteredData: [],
+      additionalFiltersOptions: [],
+      rawDataCargas: [],
+    }
+  );
 
   return (
     <div className="chart-wrapper">
@@ -28,14 +30,13 @@ const CargaPorAeroporto = ({
           title={title}
           colors={colors}
           xKey="aeroporto"
-          left={10}
-          bars={[{ dataKey: "totalCarga", name: "Carga (kg)" }]}
+          bars={[{ dataKey: "totalCarga", name: "Cargas (ton)" }]}
           height={400} // Altura do viewport visível para scroll
-          heightPerCategory={50}
+          heightPerCategory={100}
         />
       </ChartGrabber>
     </div>
   );
 };
 
-export default CargaPorAeroporto;
+export default TotalCargasAena;

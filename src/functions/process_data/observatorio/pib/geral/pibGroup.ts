@@ -1,4 +1,4 @@
-import { ProcessedDataPib } from "@/@types/observatorio/pib/ProcessedDataPib";
+import { ProcessedDataPib } from "@/@types/observatorio/@fetch/pib/ProcessedDataPib";
 
   interface ResultadoRegiao {
     group: string;

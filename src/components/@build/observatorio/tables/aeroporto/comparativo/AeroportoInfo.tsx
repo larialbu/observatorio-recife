@@ -2,7 +2,7 @@ import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { monthFormatter } from "@/utils/formatters/@global/dateArrFormatter";
 import { formatNormalnumber } from "@/utils/formatters/@global/numberFormatter";
 
-const AirportInfo = ({
+const AeroportoInfo = ({
   data = [],
   airport = 'Recife',
   year,
@@ -50,4 +50,4 @@ const AirportInfo = ({
   );
 };
 
-export default AirportInfo;
+export default AeroportoInfo;

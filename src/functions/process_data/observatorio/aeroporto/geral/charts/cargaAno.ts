@@ -1,4 +1,9 @@
-export const processCargaAno = (data: any[]) => {
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+
+export const processCargaAno = (
+    data: AnacGeralData
+  ) => {
   // Aqui é uma array com 12 objetos, sendo 1 para cada mês do ano né
   const meses = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
 
@@ -8,15 +13,13 @@ export const processCargaAno = (data: any[]) => {
     carga: 0,
   }));
 
-  data.forEach((item) => {
-    const carga = parseFloat(
-      (item["CARGA"] || "0")
-    );
+  data.forEach((item: AnacGeralHeaders) => {
+    const carga = item["CARGA"] || 0
 
     const mes = item["MÊS"]; // Pegando o mês, óbvio
 
     // Pegando o índice do mês na array de meses, 10 é pra garantir que é decimal
-    const mesIndex = parseInt(mes, 10) - 1;
+    const mesIndex = mes - 1;
     if (processedData[mesIndex]) {
       processedData[mesIndex].carga += carga; // Soma a carga no mês correspondente
     }

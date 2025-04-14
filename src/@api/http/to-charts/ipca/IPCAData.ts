@@ -1,6 +1,6 @@
-import { ProcessedIpcaGeralData } from "@/@types/observatorio/ipca/processedIPCAGeralData";
-import { ProcessedIpcaGruposData } from "@/@types/observatorio/ipca/processedIPCAGruposData";
-import { ProcessedIpcaTabelasData } from "@/@types/observatorio/ipca/processedIPCATabelasData";
+import { ProcessedIpcaGeralData } from "@/@types/observatorio/@fetch/ipca/processedIPCAGeralData";
+import { ProcessedIpcaGruposData } from "@/@types/observatorio/@fetch/ipca/processedIPCAGruposData";
+import { ProcessedIpcaTabelasData } from "@/@types/observatorio/@fetch/ipca/processedIPCATabelasData";
 import { fetchData } from "@/@api/config/dataFetcher";
 
 

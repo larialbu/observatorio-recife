@@ -1,11 +1,13 @@
 import { AeroportoData } from "@/@api/http/to-charts/aeroporto/AeroportoData";
+import { AenaAeroportoData, AeroportoDataResult, AnacAeroportoData } from "@/@types/observatorio/@data/aeroportoData";
+import { Filters, Service } from "@/@types/observatorio/shared";
 import { getRawData } from "@/utils/filters/@data/getRawData";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
 
-export class AeroportoDataService {
+export class AeroportoDataService implements Service<AeroportoDataResult> {
   private static instance: AeroportoDataService;
   private currentYear: string = "2024";
-  private dataCache: Record<string, any> = {};
+  private dataCache: Record<string, AeroportoDataResult> = {};
 
   private constructor() {}
 
@@ -20,12 +22,12 @@ export class AeroportoDataService {
     this.currentYear = year;
   }
 
-  private getCacheKey(tab: string, filters: Record<string, any>): string {
+  private getCacheKey(tab: string, filters: Filters): string {
     return `${tab}-${this.currentYear}-${JSON.stringify(filters.additionalFilters)}`;
   }
   
 
-  private async fetchAenaData(filters: Record<string, any>) {
+  private async fetchAenaData(filters: Filters) {
     const aeroportoService = new AeroportoData(this.currentYear);
     const [passageiros, cargas] = await Promise.all([
       aeroportoService.fetchProcessedAenaPassageirosData(),
@@ -44,19 +46,22 @@ export class AeroportoDataService {
       passageiros: passageirosFiltered,
       cargas: cargasFiltered, 
       id: 'aena' 
-    };
+    } as AenaAeroportoData;
   }
 
-  private async fetchAnacData(filters: Record<string, any>) {
+  private async fetchAnacData(filters: Filters) {
     const aeroportoService = new AeroportoData(this.currentYear);
     const geral = await aeroportoService.fetchProcessedData();
     const rawData = await getRawData({applyGenericFilters, service: aeroportoService, nameFunc:'fetchProcessedData', currentYear: this.currentYear, years: filters.years, keyName: 'AEROPORTO NOME', filters, lengthIgnore: 1})
     const geralFiltered = {...applyGenericFilters(geral, filters), rawData};
 
-    return { geral: geralFiltered, id: 'anac' };
+    return { 
+      geral: geralFiltered, 
+      id: 'anac' 
+    } as AnacAeroportoData;
   }
 
-  public async fetchDataForTab(tab: string, filters: Record<string, any>) {
+  public async fetchDataForTab(tab: string, filters: Filters) {
     // Agora usamos getCacheKey que recebe (tab, filters)
     const cacheKey = this.getCacheKey(tab, filters);
   

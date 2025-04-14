@@ -1,4 +1,4 @@
-import { ProcessedData } from "@/@types/observatorio/balanca-comercial/processedData";
+import { ProcessedData } from "@/@types/observatorio/@fetch/balanca-comercial/processedData";
 import { fetchData } from "@/@api/config/dataFetcher";
 
 

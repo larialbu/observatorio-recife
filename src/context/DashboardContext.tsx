@@ -12,53 +12,19 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
 
-interface AdditionalFilter {
-  label: string;
-  options: string[];
-  selected: string[];
-  allowMultiple?: boolean;
-}
+import { HiddenChart, DashboardContextProps  } from "@/@types/observatorio/context";
+import { Filters, AdditionalFilter, DataWithFilters } from "@/@types/observatorio/shared";
 
-interface Filters {
-  [key: string]: unknown;
-  additionalFilters: AdditionalFilter;
-}
+const DashboardContext = createContext<DashboardContextProps<unknown> | undefined>(undefined);
 
-interface Data {
-  [key: string]: any;
-}
-
-interface HiddenChart {
-  id: string;
-  category: string;
-  title: string;
-  subText?: string;
-  component: React.ReactNode;
-  wrapperElement: HTMLElement | null;
-  originalDisplay: string;
-  thumbnailUrl: string;
-}
-interface DashboardContextProps {
-  filters: Filters;
-  data: Data | null;
-  setData: any;
-  isLoading: boolean;
-  applyFilters: (newFilters: Filters) => Promise<void>;
-  resetFilters: () => void;
-  hiddenCharts: HiddenChart[];
-  addHiddenChart: (chart: HiddenChart) => void;
-  removeHiddenChart: (id: string) => void;
-}
-
-const DashboardContext = createContext<DashboardContextProps | undefined>(undefined);
 
 
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [filters, setFilters] = useState<Filters>({} as any);
-  const [data, setData] = useState<Data | null>(null);
+  const [filters, setFilters] = useState<Filters>({} as Filters);
+  const [data, setData] = useState<DataWithFilters<unknown> | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hiddenCharts, setHiddenCharts] = useState<HiddenChart[]>([]);
 
@@ -79,8 +45,13 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      service.setYear(filtersToUse?.year || filtersToUse.years[filtersToUse.years.length - 1]);
-      const fetched: Data = await service.fetchDataForTab(tab, filtersToUse);
+      const year = filtersToUse?.year ?? filtersToUse?.years?.[filtersToUse.years.length - 1];
+
+      if (year) {
+        service.setYear(year);
+      }
+
+      const fetched: DataWithFilters<unknown> = await service.fetchDataForTab(tab, filtersToUse);
 
       if (process.env.NODE_ENV === 'development') {
         console.log("✅ Dados carregados:", fetched);
@@ -92,9 +63,9 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
       if (newAdditional.length) {
         setFilters((prev) => {
-          const merged = newAdditional.map((newF: any) => {
+          const merged = newAdditional.map((newF: AdditionalFilter) => {
             const oldF = prev.additionalFilters?.find(
-              (o: any) => o.label === newF.label
+              (o: AdditionalFilter) => o.label === newF.label
             );
             if (!oldF) {
               return { ...newF, selected: newF.selected || [] };
@@ -125,9 +96,9 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
   const resetFilters = () => {
     const tab = searchParams.get("tab") || "geral"; // Pega o valor do parâmetro 'tab' ou define como 'geral'
-    let baseFilters: any = getFiltersForRoute(pathname, tab);
+    let baseFilters = getFiltersForRoute(pathname, tab) as Filters;
   
-    const hasAllowMultipleFalse = filters.additionalFilters?.some((f: any) =>
+    const hasAllowMultipleFalse = filters.additionalFilters?.some((f: AdditionalFilter) =>
       f.allowMultiple === false && !["Mes", "Mês", "MES", "MÊS"].includes(f.label)
     );
   
@@ -143,7 +114,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         // Se tiver filtros com allowMultiple = false, limpa as seleções
         baseFilters = {
           ...baseFilters,
-          additionalFilters: baseFilters.additionalFilters.map((f: any) => ({
+          additionalFilters: baseFilters.additionalFilters.map((f: AdditionalFilter) => ({
             ...f,
             selected: [], // Limpa as seleções
           })),
@@ -169,7 +140,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const tab = searchParams.get("tab");
-    const baseFilters: any = getFiltersForRoute(pathname, tab);
+    const baseFilters = getFiltersForRoute(pathname, tab) as Filters;
     
     // Se os filtros não mudaram, não faz nada
     if (JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters)) {

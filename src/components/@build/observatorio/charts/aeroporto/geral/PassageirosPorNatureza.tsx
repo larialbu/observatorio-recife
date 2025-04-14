@@ -5,15 +5,21 @@ import PieChart from "@/components/@global/charts/PieChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
-import { preparePassageirosPorNaturezaData } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosPorNatureza";
+import { processPassageirosPorNatureza } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosPorNatureza";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
 const PassageirosPorNatureza = ({
-  data,
+  rawData,
   title = "Cargas por Natureza do Voo",
-  year,
-}: any) => {
+  
+}: ChartBuild<AnacGeralData>) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = preparePassageirosPorNaturezaData(data);
+  const chartData = processPassageirosPorNatureza(rawData ?? {
+    filteredData: [],
+    additionalFiltersOptions: [],
+    rawDataPassageiros: [],
+  });
 
 
   return (
