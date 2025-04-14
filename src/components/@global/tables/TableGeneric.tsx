@@ -86,7 +86,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
   };
 
   return (
-    <div className=" bg-black">
+    <div className="bg-transparent">
       <div className={`overflow-hidden flex flex-col rounded-lg h-full`} style={{ backgroundColor: `${color}` }}>
         <div className="mb-4 flex-1">
         {!simple &&

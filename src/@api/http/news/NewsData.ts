@@ -11,9 +11,11 @@ export interface NewsItem {
 
 export class NewsData {
   private static cache: Record<string, any> = {}; 
-
+  
   async fetchNews(): Promise<NewsItem[]> {
-    const endpoint = `/news/newsData`;
+    this.clearCache();
+    const timestamp = new Date().getTime();
+    const endpoint = `/news/newsData?timestamp=${timestamp}`;
     return fetchData<NewsItem[]>(endpoint, NewsData.cache);
   }
 
