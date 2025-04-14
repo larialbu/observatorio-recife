@@ -89,6 +89,12 @@ const collaborators: Sources[] = [
     imageUrl: "/images/sources/tesouro-nacional-logo.png",
     href: "http://www.tesourotransparente.gov.br/ckan/dataset/capag-municipios",
   },
+  {
+    name: "Banco Central do Brasil - BCB",
+    description: "Autarquia federal que controla a política monetária, cambial e creditícia do país.",
+    imageUrl: "/images/sources/banco-central-brasil-logo.png",
+    href: "https://www.bcb.gov.br/",
+  },
 ];
 
 export default function SourcesPage() {

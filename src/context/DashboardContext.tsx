@@ -12,9 +12,16 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
 
+interface AdditionalFilter {
+  label: string;
+  options: string[];
+  selected: string[];
+  allowMultiple?: boolean;
+}
+
 interface Filters {
-  [key: string]: any;
-  additionalFilters: { options: string[], label: string; selected: string[] }[];
+  [key: string]: unknown;
+  additionalFilters: AdditionalFilter;
 }
 
 interface Data {

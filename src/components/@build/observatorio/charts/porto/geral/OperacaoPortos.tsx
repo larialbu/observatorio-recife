@@ -4,7 +4,7 @@ import React from "react";
 import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { processCargasPorPorto } from "@/functions/process_data/observatorio/porto/geral/charts/opecaoPorPorto";
+import { processCargasPorPorto } from "@/functions/process_data/observatorio/porto/geral/charts/operacaoPorPorto";
  
 const OperacaoPortos = ({
   data,
