@@ -1,3 +1,4 @@
+import { ArrowIcon } from "@/components/random_temp/Sidebar";
 import React, { useState } from "react";
 
 interface PaginatedTableProps {
@@ -86,8 +87,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
   };
 
   return (
-    <div className=" bg-black">
-      <div className={`overflow-hidden flex flex-col rounded-lg h-full`} style={{ backgroundColor: `${color}` }}>
+      <div className={`overflow-hidden flex flex-col rounded-lg h-full flex-1`} style={{ backgroundColor: `${color}` }}>
         <div className="mb-4 flex-1">
         {!simple &&
           <h3 className={`flex-1 bg-[${color}] w-full rounded-t-lg text-lg font-semibold px-8 py-6 text-white`}>
@@ -126,29 +126,35 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
             <table className="w-full border-collapse">
             <thead className="bg-gray-200 sticky top-0 z-10">
                 <tr>
-                  {headers.map((header, index) => (
-                    <th
-                      key={header}
-                      className="text-sm p-2 px-5 border-b border-gray-200 font-semibold text-gray-700 text-center"
-                      onClick={() => {
-                        const current = ordenations.find((item) => item.index === index);
-                        if (!current) return;
-                        
-                        const newOrdenation = {
-                          ...current,
-                          ordenation: current.ordenation === 0 ? 1 : current.ordenation === 1 ? -1 : 0
-                        };
+                  {headers.map((header, index) => {
+                    const current = ordenations.find((item) => item.index === index);
                     
-                        if (onOrdenationChange) {
-                          onOrdenationChange((prev: (typeof newOrdenation)[]) => { return [...prev
-                            .filter((item) => item.name != newOrdenation.name)
-                            .map(item => ({ ...item, ordenation: 0})), newOrdenation]});
-                        }
-                      }}
-                    >
-                      {header}
-                    </th>
-                  ))}
+                    return (
+                      <th
+                        key={header}
+                        className="relative text-sm p-2 px-5 border-b border-gray-200 font-semibold text-gray-700 text-center"
+                        onClick={() => {
+                          if (!current) return;
+                          
+                          const newOrdenation = {
+                            ...current,
+                            ordenation: current.ordenation === 0 ? 1 : current.ordenation === 1 ? -1 : 0
+                          };
+                      
+                          if (onOrdenationChange) {
+                            onOrdenationChange((prev: (typeof newOrdenation)[]) => { return [...prev
+                              .filter((item) => item.name != newOrdenation.name)
+                              .map(item => ({ ...item, ordenation: 0})), newOrdenation]});
+                          }
+                        }}
+                      >
+                        {header} {current?.ordenation ? (
+                                    <div className={`absolute top-0 right-0 ${current.ordenation > 0 ? 'rotate-90' : 'rotate-[-90deg]'}`}>
+                                      <ArrowIcon />
+                                    </div>
+                                  ) : ''}
+                      </th>
+                  )})}
                 </tr>
               </thead>
 
@@ -206,7 +212,6 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
           )}
         </div>
       </div>
-    </div>
   );
 };
 

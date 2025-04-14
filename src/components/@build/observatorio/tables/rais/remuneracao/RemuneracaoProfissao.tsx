@@ -16,8 +16,7 @@ const RemuneracaoProfissao = ({
 // -1, 0, 1
 // asc, null, desc
 // passar isso no componenten e o componente vai ficar alterando o objeto e quando mudar vai alterar aki tb
-const [ordenation, setOrdenation] = useState([{ index: 1, name: 'quantidade', ordenation: 0 }, { index: 3, name: 'remunecaoMed', ordenation: 0 }, { index: 4, name: 'remuneracaoMaior', ordenation: 0 }]);
-console.log('ORdenationaaaaaa->->', ordenation)
+const [ordenation, setOrdenation] = useState([{ index: 2, name: 'quantidade', ordenation: 0 }, { index: 3, name: 'salarioMinMed', ordenation: 0 }, { index: 4, name: 'remunecaoMed', ordenation: 0 }, { index: 5, name: 'remuneracaoMaior', ordenation: 0 }]);
 
 const dataFiltred = profissao.length ? data.ativ.filter((item: any) => profissao.includes(item["CBO Ocupação 2002"])) : data.ativ
 
@@ -32,8 +31,8 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
   if (!firstAggregated) {
     return <div>Nenhum dado econtrado</div>;
   }
- 
-  const header = ['Título', 'Quantidade', 'Média de salário mínimo', 'Remuneração média dezembro nomial', 'Maior Remuneração']
+
+  const header = ['Título', 'Código CBO', 'Quantidade', 'Média de salário mínimo', 'Remuneração média dezembro nomial', 'Maior Remuneração', 'Celetistas ativos', 'Estatutários ativos']
 
   const getRows = (values: any) => {
     const rows: string[][] = [];
@@ -43,6 +42,7 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
         <div className="w-full flex justify-center">
             <div className="w-[250px]">{obj["nome"]}</div>
         </div>,
+        obj["codCbo"],
         obj["quantidade"],
         <div className="w-full flex justify-center">
             <div className="w-[100px]">{formatNumber(obj["salarioMinMed"])}</div>
@@ -57,18 +57,29 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
             <span>$</span> {formatNumber(obj["remuneracaoMaior"])}
           </div>
         </div>,
+        obj["celetistas"],
+        obj["estatutarios"]
       ]);
     });
-
     return rows;
   };
 
   return (
-    <div className="w-full bg-red-400 p-2 flex flex-1">
-      <div className="bg-slate-500 h-full flex-1 p-3">
-         a
-      </div>
-
+    <div className="w-full flex flex-col flex-1">
+        <TableGeneric
+          ordenations={ordenation}
+          onOrdenationChange={setOrdenation}
+          enablePagination={false}
+          withClick
+          color={'#ffffff'}
+          // clickedColor={'#e5e7eb'}
+          clickedColor={color}
+          headers={header}
+          title={''}
+          maxHeight={800}
+          simple
+          rows={getRows(dataSorted)}
+        />
     </div>
   );
 };
@@ -76,15 +87,3 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
 export default RemuneracaoProfissao;
 
 
-{/* <TableGeneric
-          ordenations={ordenation}
-          onOrdenationChange={setOrdenation}
-          enablePagination={false}
-          withClick
-          color={'#ffffff'}
-          clickedColor={color}
-          headers={header}
-          title={''}
-          simple
-          rows={getRows(dataSorted)}
-        /> */}

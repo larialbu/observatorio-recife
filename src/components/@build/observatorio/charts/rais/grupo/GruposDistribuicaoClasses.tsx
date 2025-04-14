@@ -5,8 +5,6 @@ import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBa
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
-import { raisGrupoDicts } from "@/utils/dicts/rais/raisGrupoDicts";
-import { raisClassesDicts } from "@/utils/dicts/rais/raisClassesDicts";
 import { uniqueLabel } from "@/functions/process_data/observatorio/empregos/rais/demografia/geralFuncition";
 
 const GruposDistribuicaoClasses = ({
