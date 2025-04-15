@@ -70,14 +70,14 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
     }
   };
 
-  const changePage = (page: number) => {
-    setCurrentPage(page);
-  };
+  // const changePage = (page: number) => {
+  //   setCurrentPage(page);
+  // };
 
-  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1); // Resetar para a primeira página
-  };
+  // const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setItemsPerPage(Number(event.target.value));
+  //   setCurrentPage(1); // Resetar para a primeira página
+  // };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newSearchTexts = [...searchTexts];
@@ -87,9 +87,8 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
   };
 
   return (
-    <div className="bg-transparent">
+    <div className="bg-none">
       <div className={`overflow-hidden flex flex-col rounded-lg h-full`} style={{ backgroundColor: `${color}` }}>
-      <div className={`overflow-hidden flex flex-col rounded-lg h-full flex-1`} style={{ backgroundColor: `${color}` }}>
         <div className="mb-4 flex-1">
         {!simple &&
           <h3 className={`flex-1 bg-[${color}] w-full rounded-t-lg text-lg font-semibold px-8 py-6 text-white`}>
@@ -128,21 +127,20 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
             <table className="w-full border-collapse">
             <thead className="bg-gray-200 sticky top-0 z-10">
                 <tr>
-                  {headers.map((header, index) => {
+                {headers.map((header, index) => {
                     const current = ordenations.find((item) => item.index === index);
-                    
                     return (
                       <th
                         key={header}
                         className="relative text-sm p-2 px-5 border-b border-gray-200 font-semibold text-gray-700 text-center"
                         onClick={() => {
                           if (!current) return;
-                          
+
                           const newOrdenation = {
                             ...current,
                             ordenation: current.ordenation === 0 ? 1 : current.ordenation === 1 ? -1 : 0
                           };
-                      
+
                           if (onOrdenationChange) {
                             onOrdenationChange((prev: (typeof newOrdenation)[]) => { return [...prev
                               .filter((item) => item.name != newOrdenation.name)
@@ -151,10 +149,10 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
                         }}
                       >
                         {header} {current?.ordenation ? (
-                                    <div className={`absolute top-0 right-0 ${current.ordenation > 0 ? 'rotate-90' : 'rotate-[-90deg]'}`}>
-                                      <ArrowIcon />
-                                    </div>
-                                  ) : ''}
+                          <div className={`absolute top-0 right-0 ${current.ordenation > 0 ? 'rotate-90' : 'rotate-[-90deg]'}`}>
+                            <ArrowIcon />
+                          </div>
+                        ) : ''}
                       </th>
                   )})}
                 </tr>
@@ -214,6 +212,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
           )}
         </div>
       </div>
+    </div>
   );
 };
 

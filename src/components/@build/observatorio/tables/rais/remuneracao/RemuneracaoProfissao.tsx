@@ -7,11 +7,8 @@ import { useState } from "react";
 const RemuneracaoProfissao = ({
   data = [],
   profissao,
-  year,
   color = "#000000",
-  selectCountry,
-  monthRecent,
-  title = '',
+
 }: any) => {
 // -1, 0, 1
 // asc, null, desc
