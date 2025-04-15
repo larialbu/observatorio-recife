@@ -88,7 +88,7 @@ const AeroportosPage = () => {
   return (
     <div className="p-6 min-h-screen mt-48">
       <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
-        Movimentação de Aeroportos
+        Variação e Atividade dos Empregos
       </h1>
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
         {/* Botões de navegação */}

@@ -19,7 +19,7 @@ const PibInfos = ({
       return <div>Nenhum dado econtrado</div>;
     }
 
-  const header = Object.keys(firstAggregated);
+  const header = ["Ano", "Atual", "Passado", "Variação"];  
 
   const getRows = (values: any) => {
       const rows: string[][] = [];

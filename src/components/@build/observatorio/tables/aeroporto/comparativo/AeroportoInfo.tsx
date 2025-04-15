@@ -31,7 +31,7 @@ const AeroportoInfo = ({
     return <div>Nenhum dado encontrado</div>;
   }
 
-  const header = Object.keys(aggregatedData[firstAggregated]);
+  const header = ["Mês", "Passageiro", "Carga", "Decolagens"]; 
 
   const getRows = (values: any) => {
     const rows: string[][] = [];

@@ -32,7 +32,7 @@ const GroupProdutos = ({
     return <div>Nenhum dado econtrado</div>;
   }
 
-  const header: any = Object.keys(firstAggregated);
+  const header = ["Participação", "Código SH4", "Descrição SH4", "Negociado", "Importação", "Exportação"]; 
 
   const getRows = (values: any) => {
     const rows: string[][] = [];
