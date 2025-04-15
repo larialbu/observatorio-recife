@@ -20,7 +20,7 @@ const CustomizedContent = ({ root, depth, x, y, width, height, index, payload, c
                 width={adjustedWidth}
                 height={adjustedHeight}
                 style={{
-                    fill: depth < 2 ? colors[Math.floor((index / root.children.length) * 6)] : '#ffffff00',
+                    fill: depth < 2 ? colors[Math.floor((index / (root?.children?.length || 1)) * 6)] : '#ffffff00',
                     strokeOpacity: 0,
                 }}
             />

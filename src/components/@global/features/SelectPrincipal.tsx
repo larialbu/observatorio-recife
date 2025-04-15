@@ -82,8 +82,24 @@ const SelectPrincipal = ({
         {label}
       </label>
 
-      <svg
-          className="absolute left-2 top-[56%] -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none"
+ 
+
+      <div className="relative">
+        <input
+          type="text"
+          id="municipio"
+          className="p-2 pl-8 border rounded-lg w-full"
+          placeholder={placeholder}
+          value={searchTerm}
+          onClick={(e) => {
+            e.stopPropagation(); // Previne o fechamento do dropdown ao clicar no input
+            setDropdown(true); // Exibe o dropdown
+          }}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        <svg
+          className="absolute left-2 top-[50%] -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none"
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -92,20 +108,9 @@ const SelectPrincipal = ({
             d="M12.9 14.32a8 8 0 111.414-1.414l3.356 3.356a1 1 0 01-1.414 1.414l-3.356-3.356zM8 14a6 6 0 100-12 6 6 0 000 12z"
             clipRule="evenodd"
           />
-      </svg>
+        </svg>
+      </div>
 
-      <input
-        type="text"
-        id="municipio"
-        className="p-2 pl-8 border rounded-lg w-full"
-        placeholder={placeholder}
-        value={searchTerm}
-        onClick={(e) => {
-          e.stopPropagation(); // Previne o fechamento do dropdown ao clicar no input
-          setDropdown(true); // Exibe o dropdown
-        }}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
 
       {dropdown && (
         <FocusHidden

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
@@ -10,12 +10,15 @@ import { getMonths } from "@/utils/filters/@global/getMonths";
 import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
+import Link from "next/link";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
   const [anac, setAnac] = useState([]);
   const [activeTab, setActiveTab] = useState("geral");
+  
+  const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
@@ -40,7 +43,7 @@ const AeroportosPage = () => {
       }, 50);
   
       return () => clearInterval(intervalId);
-    }, [data]);
+    }, [data, pathname]);
   
     if (isLoading) return <LoadingScreen />;
 
@@ -119,18 +122,16 @@ const AeroportosPage = () => {
         >
           Embarque/Desembarque
         </button> */}
-        <button
-          onClick={() => {
-            router.push('rais?tab=geral')
-          }}
-          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+        <Link
+          href={'rais?tab=geral'}
+          className={`px-6 py-3 rounded-lg flex items-center justify-center flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "rais"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
         >
           <i>RAIS</i>
-        </button>
+        </Link>
       </div>
       {renderContent()}
     </div>

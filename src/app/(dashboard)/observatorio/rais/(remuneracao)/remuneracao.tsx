@@ -6,7 +6,6 @@ import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
-import { ProcessedData } from "@/@types/observatorio/@fetch/aeroporto/processedData";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import SelectCompare from "@/components/@global/features/SelectCompare";
 import { raisCboDicts } from "@/utils/dicts/rais/raisCboDicts";
@@ -39,7 +38,7 @@ const Remuneracao = ({
 
   return (
     <div>
-      <div className="grid grid-cols-[60fr_40fr] gap-5">
+      <div className="sm:grid sm:grid-cols-[60fr_40fr] gap-5">
         <SelectPrincipal
           options={toCompare}
           // initialValue={['Recife']}

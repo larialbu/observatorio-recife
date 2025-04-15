@@ -69,7 +69,6 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
           enablePagination={false}
           withClick
           color={'#ffffff'}
-          // clickedColor={'#e5e7eb'}
           clickedColor={color}
           headers={header}
           title={''}

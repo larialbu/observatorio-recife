@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
@@ -13,12 +13,14 @@ import Diversidade from "./(diversidade)/diversidade";
 import Grupo from "./(grupo)/grupo";
 import Estoque from "./(estoque)/estoque";
 import Remuneracao from "./(remuneracao)/remuneracao";
+import Link from "next/link";
 
 const RaisPage = () => {
   const { isLoading, data, filters } = useDashboard();
-  const [rais, setRais] = useState({});
+  const [rais, setRais] = useState<any>({});
   const [activeTab, setActiveTab] = useState("geral");
 
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -33,7 +35,7 @@ const RaisPage = () => {
     }, [searchParams, activeTab, router]);
 
   useEffect(() => {
-      const intervalId = setInterval(() => {
+    const intervalId = setInterval(() => {
         
         if (data?.rais) {
           const raisData = data?.rais || {};
@@ -53,12 +55,12 @@ const RaisPage = () => {
       }, 50);
   
       return () => clearInterval(intervalId);
-    }, [data]);
+    }, [data, pathname]);
   
     if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
-    if (!data) {
+    if (!data || !rais.ativ || !rais.noAtiv) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
@@ -114,6 +116,16 @@ const RaisPage = () => {
       </h1>
       
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
+      <Link
+          href={'empregos?tab=geral'}
+          className={`px-6 py-3 rounded-lg flex items-center justify-center flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "caged"
+              ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
+        >
+          Caged
+        </Link>
         <button
           onClick={() => handleNavigation("geral")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
