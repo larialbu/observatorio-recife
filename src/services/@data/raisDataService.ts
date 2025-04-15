@@ -38,8 +38,11 @@ export class EmpregosDataService {
     
     const fetchData = await raisData.fetchProcessedDataRais() 
 
-    const filteredDataAtiv = applyGenericFilters(fetchData, filterAtiv('1'));
-    const filteredDataNoAtiv = applyGenericFilters(fetchData, filterAtiv('0'));
+    // const filteredDataAtiv = applyGenericFilters(fetchData, filterAtiv('1'));
+    // const filteredDataNoAtiv = applyGenericFilters(fetchData, filterAtiv('0'));    
+    const filteredDataAtiv = applyGenericFilters(fetchData, filters);
+    // const filteredDataNoAtiv = applyGenericFilters(fetchData, filters, ['Sexo Trabalhador']);
+    const filteredDataNoAtiv = filteredDataAtiv
 
     return {
         rais: {

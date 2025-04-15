@@ -31,11 +31,15 @@ export class EmpregosDataService {
 
     const fetchData = await empregosData.fetchProcessedDataCaged();
 
-    const filteredData = fetchData;
-    // const filteredData = applyGenericFilters(fetchData, filters);
+
+    // tanto faz, o ideial é filtrar somente por municipio
+    const filteredMunicipioData = applyGenericFilters(fetchData,  filters, ['Região', 'UF']);
+    // tudo menos filtrar por municipio
+    const filteredCagedData = applyGenericFilters(fetchData, filters, ['Municipio']);
 
     return {
-        caged: filteredData,
+        municipios: filteredMunicipioData,
+        caged: filteredCagedData,
         id: "empregos-caged"
     };
   }

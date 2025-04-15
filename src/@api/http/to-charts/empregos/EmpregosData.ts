@@ -1,4 +1,3 @@
-import { ProcessedDataPib } from "@/@types/observatorio/@data/pib/ProcessedDataPib";
 
 import { fetchData } from "@/@api/config/dataFetcher";
 
@@ -13,14 +12,14 @@ export class EmpregosData {
     this.year = year;
   }
 
-  async fetchProcessedDataCaged(): Promise<ProcessedDataPib[]> {
+  async fetchProcessedDataCaged(): Promise<any[]> {
     const endpoint = `/empregos/caged/anos/${this.year}`;
-    return fetchData<ProcessedDataPib[]>(endpoint, EmpregosData.cache);
+    return fetchData<any[]>(endpoint, EmpregosData.cache);
   }
 
-  async fetchProcessedDataDesemprego(): Promise<ProcessedDataPib[]> {
+  async fetchProcessedDataCagedDesemprego(): Promise<any[]> {
     const endpoint = `/empregos/caged/anos/${this.year}`;
-    return fetchData<ProcessedDataPib[]>(endpoint, EmpregosData.cache);
+    return fetchData<any[]>(endpoint, EmpregosData.cache);
   }
 
   // Limpa o cache de dados
