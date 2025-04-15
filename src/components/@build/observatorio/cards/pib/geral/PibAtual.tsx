@@ -8,9 +8,10 @@ const PibAtual = ({
   capital,
 }: any) => {
 
-  const chartData = data.current.flat().reduce((acc: number, item: any) => { 
-    return acc + item['Produto Interno Bruto,  a preços correntes (R$ 1.000)'] 
-}, 0)
+  const chartData = Array.isArray(data?.current) ? 
+    data.current.flat().reduce((acc: number, item: any) => { 
+      return acc + item['Produto Interno Bruto,  a preços correntes (R$ 1.000)']; 
+    }, 0) : 0;
 
   return (
     <Card

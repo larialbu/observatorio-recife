@@ -32,10 +32,12 @@ export default function DashboardLayout({
         return "bg-[url('/images/backgrounds/dashboard/ranking.avif')]";
       case "/observatorio/portos":
         return "bg-[url('/images/backgrounds/dashboard/portos.avif')]";
-        case "/observatorio/pib":
+      case "/observatorio/pib":
         return "bg-[url('/images/backgrounds/dashboard/pib.avif')]";
-      case "/observatorio/panorama":
-        return "bg-[url('/images/backgrounds/dashboard/ipca.avif')]";
+      case "/observatorio/empregos":
+        return "bg-[url('/images/backgrounds/dashboard/empregos.avif')]";
+        case "/observatorio/rais":
+        return "bg-[url('/images/backgrounds/dashboard/empregos.avif')]";
       default:
         return "bg-[#F7F8FA]";
     }
