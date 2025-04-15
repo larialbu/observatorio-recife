@@ -153,15 +153,24 @@ export const CardsContainer: React.FC = () => {
     return (
         <div className="max-w-[calc(3*400px+10*5px)] mx-auto">
             <div className="flex justify-center my-10">
-                <label className="flex flex-col w-[70%] dark:text-white">
+                <label className="relative flex flex-col w-[70%] dark:text-white">
                     Pesquise aqui:
                     <input
                         type="text"
                         placeholder="Pesquise por título ou descrição..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="mt-[5px] p-2 border border-gray-300 rounded w-full dark:bg-[#0C1B2B] focus:outline-none dark:hover:border-[#C5DFFF] dark:focus:border-white focus:ring-1 focus:ring-[#C5DFFF]"
+                        className="mt-[5px] p-2 pl-10 border border-gray-300 rounded w-full dark:bg-[#0C1B2B] focus:outline-none dark:hover:border-[#C5DFFF] dark:focus:border-white focus:ring-1 focus:ring-[#C5DFFF]"
                     />
+                    <svg
+                    className="absolute top-[58%] left-3 w-5 h-5 text-gray-400 pointer-events-none"
+                    fill="currentColor"
+                    viewBox="0 0 20 20">
+                        <path
+                        fillRule="evenodd"
+                        d="M12.9 14.32a8 8 0 111.414-1.414l3.356 3.356a1 1 0 01-1.414 1.414l-3.356-3.356zM8 14a6 6 0 100-12 6 6 0 000 12z"
+                        clipRule="evenodd"/>
+                    </svg>
                 </label>
             </div>
 

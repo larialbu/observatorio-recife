@@ -6,7 +6,6 @@ import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
-import { ProcessedData } from "@/@types/observatorio/@fetch/aeroporto/processedData";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import { ProcessedDataPib } from "@/@types/observatorio/@fetch/pib/ProcessedDataPib";
 import SelectCompare from "@/components/@global/features/SelectCompare";

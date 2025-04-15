@@ -32,7 +32,7 @@ const BalInfo = ({
     return <div>Nenhum dado econtrado</div>;
   }
 
-  const header = Object.keys(firstAggregated);
+  const header = ["País", "Participação", "Negociado", "Importação", "Exportação"]; 
 
   const getRows = (values: any) => {
     const rows: string[][] = [];
