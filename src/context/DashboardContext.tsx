@@ -61,6 +61,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
       // Atualiza os filtros apenas se additionalFiltersOptions existirem
       const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
+
       if (newAdditional.length) {
         setFilters((prev) => {
           const merged = newAdditional.map((newF: AdditionalFilter) => {

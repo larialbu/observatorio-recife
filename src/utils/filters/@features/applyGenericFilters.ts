@@ -22,10 +22,8 @@ export const applyGenericFilters = (data: any[], filters: Record<string, any>, s
 
   // 3) Montamos 'additionalFiltersOptions' a partir de 'data',
   //    ou seja, pega TODOS os aeroportos (outra label) do ano, sem restringir pela seleção
-  console.log('Antes', filters.additionalFilters)
   const additionalFiltersOptions =
     filters.additionalFilters?.map((f: any) => {
-      console.log('OPTSONT', f.options)
       // Pegamos todos os valores (ex.: todos aeroportos) no data
       const uniqueValues = Array.from(
         new Set(data.map((item) => item[f.label]))
@@ -36,7 +34,6 @@ export const applyGenericFilters = (data: any[], filters: Record<string, any>, s
 
       return { ...f, options: uniqueValues };
     }) || [];
-    console.log('Depois', filters.additionalFilters, additionalFiltersOptions)
 
   // Retornamos o "filteredData" pra exibir no gráfico ou tabela,
   // mas as 'options' vêm de 'data'.

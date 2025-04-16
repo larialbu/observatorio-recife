@@ -60,7 +60,9 @@ const StackerBarChartVertical = ({
 
   return (
     <div className="relative bg-white w-full">
-      {title && <h3 className="text-center mb-[2em] font-semibold">{title}</h3>}
+      {title &&       <div className="flex flex-col items-center justify-center">
+        <h3 className="text-center mb-[2em] font-semibold w-[90%]">{title}</h3>
+      </div>}
 
       <div
         className="overflow-y-auto overflow-x-visible"

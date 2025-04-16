@@ -6,6 +6,11 @@ export const raisGeralFilters = {
         options: [], // Deixe vazio para preencher com base nos dados
         selected: [],
       },
+      {
+        label: "CNAE Código", // O Mês será preenchido dinamicamente
+        options: [], // Deixe vazio para preencher com base nos dados
+        selected: [],
+      },
     ],
   };
   

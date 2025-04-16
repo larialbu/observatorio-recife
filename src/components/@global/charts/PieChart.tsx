@@ -86,10 +86,13 @@ const PieChart = ({
 
   return (
     <div className="relative bg-white w-full h-full">
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
-      <div className="mb-2">
-      {underTitle}
+      <div className="flex flex-col items-center justify-center">
+        <h3 className="text-center mb-4 font-semibold w-[90%]">{title}</h3>
+        <div className="mb-2">
+        {underTitle}
+        </div>
       </div>
+
       <ResponsiveContainer width="100%" height={350}>
         <RechartsPieChart>
           <Pie

@@ -20,7 +20,9 @@ const HorizontalScrollableBarChart = ({
 
     return (
       <div className="relative w-full h-full">
-        <h3 className="text-center mb-4 font-semibold">{title}</h3>
+      <div className="flex flex-col items-center justify-center">
+        <h3 className="text-center mb-4 font-semibold w-[90%]">{title}</h3>
+      </div>
         {/* Wrapper div with horizontal scroll */}
         <div className="overflow-x-auto">
           {/* Adding a larger width to the ResponsiveContainer */}

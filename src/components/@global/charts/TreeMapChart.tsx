@@ -55,7 +55,9 @@ const TreeMapChart = ({
 
     return (
         <div className="relative w-full h-full">
-            <h3 className="text-center mb-4 font-semibold">{title}</h3>
+            <div className="flex flex-col items-center justify-center">
+                <h3 className="text-center mb-4 font-semibold w-[90%]">{title}</h3>
+            </div>
             <div className={`flex flex-wrap gap-2 justify-center space-x-4 border -mt-2 mb-4 rounded-md p-2`}>
                 {data?.map((entry: any, index: number) => {
                     // Calcular a porcentagem para cada item
