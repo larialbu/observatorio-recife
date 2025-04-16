@@ -1,11 +1,16 @@
-export const processImportacaoExportacaoPorPais = (data: any[]): any[] => {
-  const processedData: any = {};
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+
+export const processImportacaoExportacaoPorPais = (data: BalancaHeaders[]) => {
+  const processedData: Record<string, 
+  {
+    pais: string,
+    importacao: number,
+    exportacao: number
+  }> = {};
 
   data.forEach((item) => {
     const pais = item["País"];
-    const valor = parseFloat(
-      (item["Valor US$"] || "0")
-    );
+    const valor = item["Valor US$"] || 0;
     const tipo = item["tipo"];
 
     if (!processedData[pais]) {
@@ -21,10 +26,10 @@ export const processImportacaoExportacaoPorPais = (data: any[]): any[] => {
     }
   });
 
-  // Ordena os dados por 'importacao' de maior para menor
+
   const sortedData = Object.values(processedData)
-        .filter((item: any) => item.pais !== "")  // Filtra os itens com país vazio
-        .sort((a: any, b: any) => (b.importacao + b.exportacao) - (a.importacao + a.exportacao));  // Ordenação decrescente pelo total (importacao + exportacao)
+        .filter((item) => item.pais !== "")
+        .sort((a, b) => (b.importacao + b.exportacao) - (a.importacao + a.exportacao));
 
 
   return sortedData;

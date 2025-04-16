@@ -1,8 +1,7 @@
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 export function processEmbarqueDesembarqueNaturezaTipo(
-  data: AnacGeralData,
+  data: AnacGeralHeaders[],
   aeroportosNomes: string[] = [], // Definir o valor padrão como array vazio
   natureza: "Doméstica" | "Internacional",
   tipoDado: "passageiros" | "cargas" | "decolagens",

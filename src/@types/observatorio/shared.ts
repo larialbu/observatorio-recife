@@ -10,13 +10,13 @@ export interface AdditionalFilter {
     label: string;
     selected: string[];
     allowMultiple?: boolean;
+    fixed?: string[];
 }
 
 export interface DataWithFilters<T> {
     filteredData: T[];
     additionalFiltersOptions: AdditionalFilter[];
     rawData?: T[];
-    [key: string]: any;
 }
 
 export interface Service<T> {
@@ -25,7 +25,7 @@ export interface Service<T> {
 }
 
 export interface ChartBuild<T = unknown> {
-  data: T;
+  data: T | (T | T);
   rawData?: T;
   colors?: string[];
   title?: string;
@@ -36,4 +36,11 @@ export interface ChartBuild<T = unknown> {
   type?: "Embarque" | "Desembarque";
   nameKey?: string;
   year?: string;
+}
+
+export interface CardBuild<T = unknown> {
+  data: T;
+  title?: string;
+  year: string;
+  color: string;
 }

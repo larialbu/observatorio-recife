@@ -1,4 +1,6 @@
-export const rowsSh4ByMunicipio = (data: any[], municipio: string, year: string, month?: number, country?: string) => {
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+
+export const processRowsSh4ByMunicipio = (data: BalancaHeaders[], municipio: string, year: string, month?: number, country?: string) => {
   // Filtra os dados pelo município, ano, mês (se fornecido) e país (se fornecido)
   const filteredData = data.filter(item => 
     item["Município"] === municipio && 
@@ -8,7 +10,7 @@ export const rowsSh4ByMunicipio = (data: any[], municipio: string, year: string,
   );
   
   // Agrega os dados por código SH4, separando os valores de Importação e Exportação
-  const aggregatedData = filteredData.reduce((acc: any, item: any) => {
+  const aggregatedData = filteredData.reduce((acc: { [codigoSH4: string]: {CODIGO_SH4: number, DESCRICAO_SH4: string, NEGOCIADO: number, IMPORTACAO: number, EXPORTACAO: number} }, item) => {
     const codigoSH4 = item["Codigo SH4"];
     const descricaoSH4 = item["Descrição SH4"];
     const tipo = item["tipo"];  // Importação ou Exportação
@@ -42,10 +44,10 @@ export const rowsSh4ByMunicipio = (data: any[], municipio: string, year: string,
   const aggregatedArray = Object.values(aggregatedData);
   
   // Calcula o total negociado para o país (ou município, caso não seja fornecido um país)
-  const totalNegociadoPais = aggregatedArray.reduce((total: number, item: any) => total + item.NEGOCIADO, 0);
+  const totalNegociadoPais = aggregatedArray.reduce((total: number, item) => total + item.NEGOCIADO, 0);
   
   // Calcula a participação de cada código SH4 no total negociado do país (ou município)
-  return aggregatedArray.map((item: any) => {
+  return aggregatedArray.map((item) => {
     const participacao = totalNegociadoPais > 0 ? (item.NEGOCIADO / totalNegociadoPais) * 100 : 0;
 
     return {

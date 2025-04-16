@@ -6,20 +6,15 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processPassageirosPorAeroportoAena } from "@/functions/process_data/observatorio/aeroporto/aena/totalPassageirosAeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import { AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
+import { AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const TotalPassageirosAena = ({
-  rawData,
+  rawData = [],
   title = "Passageiros por Aeroporto",
   colors = ColorPalette.default,
-}: ChartBuild<AenaPassageirosData>) => {
+}: ChartBuild<AenaPassageirosHeaders[]>) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
-  const chartData = processPassageirosPorAeroportoAena(rawData 
-    ?? {
-      filteredData: [],
-      additionalFiltersOptions: [],
-      rawDataPassageiros: [],
-    });
+  const chartData = processPassageirosPorAeroportoAena(rawData);
 
   return (
     <div className="chart-wrapper">

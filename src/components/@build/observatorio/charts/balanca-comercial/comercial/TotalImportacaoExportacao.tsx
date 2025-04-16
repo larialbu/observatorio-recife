@@ -6,12 +6,14 @@ import PieChart from "@/components/@global/charts/PieChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processTotalImportacaoExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/totalImportacaoExportacao";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 
 const TotalImportacaoExportacao = ({
   data = [],
   colors = ColorPalette.default,
   title = "Total Importação e Exportação",
-}: any) => {
+}: ChartBuild<BalancaHeaders[]>) => {
   const [showPercentage, setShowPercentage] = useState(true);
 
   const chartData = processTotalImportacaoExportacao(data);

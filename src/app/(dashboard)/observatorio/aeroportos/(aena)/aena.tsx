@@ -22,15 +22,9 @@ const [filteredCargas, setFilteredCargas] = useState<AenaCargasHeaders[]>([]);
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-
-    if (data) {
-      // Extraindo os dados de passageiros e cargas
-      const passageirosData = data.passageiros || {};
-      const cargasData = data.cargas || {};
-
-      setFilteredPassageiros(passageirosData.filteredData || []);
-      setFilteredCargas(cargasData.filteredData || []);
-
+    if (data?.id === "aena") {
+      setFilteredPassageiros(data.passageiros?.filteredData || []);
+      setFilteredCargas(data.cargas?.filteredData || []);
     }
   }, [data]);
 
@@ -71,19 +65,18 @@ const [filteredCargas, setFilteredCargas] = useState<AenaCargasHeaders[]>([]);
           ];
 
           const { Component, type } = charts[index]; // 'type' pode indicar se é carga ou passageiro
-          const filteredData = type === 'carga' ? filteredCargas as unknown : filteredPassageiros as unknown;
-          const rawData = type === 'carga' ? data?.cargas?.rawDataCargas || [] : data?.passageiros?.rawDataPassageiros || [];
-
-          return (
-            <div
-              key={`chart-${index}`}
-              className={`chart-content-wrapper`}
-            >
-              <React.Suspense fallback={<GraphSkeleton />}>
-                <Component data={filteredData as AenaPassageirosData & AenaCargasData} rawData={rawData} months={months} />
-              </React.Suspense>
-            </div>
-          );
+          if (data?.id === "aena") {
+            const filteredData = type === 'carga' ? filteredCargas: filteredPassageiros;
+            const rawData = type === 'carga' ? data?.cargas?.rawDataCargas|| [] : data?.passageiros?.rawDataPassageiros || [];
+          
+            return (
+              <div key={`chart-${index}`} className="chart-content-wrapper">
+                <React.Suspense fallback={<GraphSkeleton />}>
+                <Component data={filteredData as AenaCargasHeaders[] & AenaPassageirosHeaders[]} rawData={rawData as AenaCargasHeaders[] & AenaPassageirosHeaders[]} months={months} />
+                </React.Suspense>
+              </div>
+            );
+          }
         })}
       </SortableDiv>
     </div>

@@ -1,12 +1,12 @@
-export const processComercializacaoPorProduto = (data: any[]): any[] => {
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+
+export const processComercializacaoPorProduto = (data: BalancaHeaders[]) => {
   const processedData = new Map<string, { descricao: string; importacao: number; exportacao: number }>();
 
   for (let i = 0; i < data.length; i++) {
     const item = data[i];
     const descricao = item["Descrição SH4"];
-    const valor = parseFloat(
-      (item["Valor US$"] || "0")
-    );
+    const valor = item["Valor US$"] || 0;
     const tipo = item["tipo"];
 
     // Usa a descrição completa sem truncamento

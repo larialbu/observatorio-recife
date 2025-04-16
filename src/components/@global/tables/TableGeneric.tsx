@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 interface PaginatedTableProps {
   headers: string[];
-  rows: string[][]; 
+  rows: React.ReactNode[][];
   rowsPerPage?: number;
   title: string;
   color: string;

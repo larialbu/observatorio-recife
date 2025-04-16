@@ -4,12 +4,14 @@ import StackedBarChart from "@/components/@global/charts/StackedVerticalBarChart
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processComercializacaoPorProduto } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/produtosImportacaoExportacao";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 
 const ImportacaoExportacaoContinente = ({
   data = [],
   colors = ColorPalette.default,
   title="Produtos Comercializados"
-}: any) => {
+}: ChartBuild<BalancaHeaders[]>) => {
   const chartData = processComercializacaoPorProduto(data);
 
   return (

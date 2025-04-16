@@ -6,7 +6,7 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import HorizontalScrollableBarChart from "@/components/@global/charts/HorizontalScrollableBarChart";
 import { processEmbarqueDesembarqueNaturezaTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDesembarqueNaturezaTipo";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const CargasIntEmbarque = ({
   data,
@@ -16,7 +16,7 @@ const CargasIntEmbarque = ({
   monthRecent,
   subText = 'País Destino',
   type
-}: ChartBuild<AnacGeralData>) => {
+}: ChartBuild<AnacGeralHeaders[]>) => {
 
   const chartData = processEmbarqueDesembarqueNaturezaTipo(
     data,

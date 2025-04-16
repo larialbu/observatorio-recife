@@ -7,7 +7,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processCargaAno } from "@/functions/process_data/observatorio/aeroporto/geral/charts/cargaAno";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const CargaAno = ({
   data,
@@ -15,7 +15,7 @@ const CargaAno = ({
   colors = ColorPalette.default,
   title = "Carga Total ao Longo do Ano",
   months,
-}: ChartBuild<AnacGeralData>) => {
+}: ChartBuild<AnacGeralHeaders[]>) => {
   
   const chartData = processCargaAno(data);
 

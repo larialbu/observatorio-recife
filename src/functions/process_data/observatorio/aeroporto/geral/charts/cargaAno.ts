@@ -1,8 +1,7 @@
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 export const processCargaAno = (
-    data: AnacGeralData
+    data: AnacGeralHeaders[]
   ) => {
   // Aqui é uma array com 12 objetos, sendo 1 para cada mês do ano né
   const meses = Array.from({ length: 12 }, (_, i) => (i + 1).toString());

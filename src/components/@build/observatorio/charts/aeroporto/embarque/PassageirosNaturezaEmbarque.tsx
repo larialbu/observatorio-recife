@@ -6,8 +6,8 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { processEmbarqueDomesticoInternacional } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDomesticoInternacional";
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const PassageirosComparativo = ({
   data,
@@ -15,7 +15,7 @@ const PassageirosComparativo = ({
   toCompare = ["Recife"],
   monthRecent,
   type
-}: ChartBuild<AnacGeralData>) => {
+}: ChartBuild<AnacGeralHeaders[]>) => {
   const [showPercentage, setShowPercentage] = useState(true);
   const chartData = processEmbarqueDomesticoInternacional(data, 'passageiros', toCompare, type, monthRecent)
 

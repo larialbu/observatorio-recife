@@ -1,4 +1,8 @@
-import { Filters, DataWithFilters } from "./shared";
+import { BalancaGeralData } from "./@data/balancaComercialData";
+import { AeroportoDataResult } from "./@data/aeroportoData";
+import { Filters } from "./shared";
+
+export type DashboardData = AeroportoDataResult | BalancaGeralData;
 
 export interface HiddenChart {
   id: string;
@@ -13,8 +17,8 @@ export interface HiddenChart {
 
 export interface DashboardContextProps<T> {
   filters: Filters;
-  data: DataWithFilters<T> | null;
-  setData: React.Dispatch<React.SetStateAction<DataWithFilters<T> | null>>;
+  data: DashboardData | null;
+  setData: React.Dispatch<React.SetStateAction<DashboardData | null>>;
   isLoading: boolean;
   applyFilters: (newFilters: Filters) => Promise<void>;
   resetFilters: () => void;

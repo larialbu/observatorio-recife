@@ -1,3 +1,4 @@
+import type { BalancaGeralData } from "@/@types/observatorio/@data/balancaComercialData";
 import { BalancaComercialData } from "@/@api/http/to-charts/bal_comercial/BalancaComercialData";
 import { Filters } from "@/@types/observatorio/shared";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
@@ -7,7 +8,7 @@ export class BalancaDataService {
 
   private currentYear: string = "2024";
 
-  private dataCache: Record<string, any> = {};
+  private dataCache: Record<string, BalancaGeralData> = {};
 
   private constructor() {}
 
@@ -26,60 +27,32 @@ export class BalancaDataService {
     return `${tab}-${this.currentYear}-${JSON.stringify(filters.additionalFilters)}`;
   }
 
-
-  private async fetchGeralData(filters: Filters) {
+  private async fetchGeralData(filters: Filters): Promise<BalancaGeralData> {
     const balancaService = new BalancaComercialData(this.currentYear);
 
     const raw = await balancaService.fetchProcessedData();
 
     const filtered = applyGenericFilters(raw, filters);
 
-    // Retornamos no formato que quisermos
+
     return {
       geral: filtered,
       id: "balanca",
-      // Se quiser "filteredData" + "additionalFiltersOptions", ajustamos a estrutura
-      // Exemplo:
-      // geral: filtered.filteredData,
-      // additionalFiltersOptions: filtered.additionalFiltersOptions,
     };
   }
 
-  /**
-   * "Fetch Data" para tabs, se quiser: "geral", "analitico", etc.
-   * Ajuste a lógica conforme as abas/rotas do projeto.
-   */
-  public async fetchDataForTab(tab: string, filters: Filters): Promise<any> {
-    // Montamos a key para o cache
+  public async fetchDataForTab(tab: string, filters: Filters): Promise<BalancaGeralData> {
     const cacheKey = this.getCacheKey(tab, filters);
 
-    // Se existir no cache, retornamos
     if (this.dataCache[cacheKey]) {
       return this.dataCache[cacheKey];
     }
 
-    // Por exemplo, se "tab" for "geral" ou "analitico", podemos
-    // fazer a mesma chamada, ou diferentes, depende do seu backend.
-    // Aqui supomos que "fetchGeralData" serve para ambos,
-    // mas você poderia ter "fetchAnaliticoData", etc.
-    let data;
-    if (tab === "analitico") {
-      // Se quiser, chamar outro endpoint
-      data = await this.fetchGeralData(filters);
-    } else {
-      // Por padrão, chama "geral"
-      data = await this.fetchGeralData(filters);
-    }
-
-    // Guarda em cache antes de retornar
+    const data = await this.fetchGeralData(filters);
     this.dataCache[cacheKey] = data;
     return data;
   }
 
-  /**
-   * Se quiser limpar o cache em algum momento,
-   * podemos expor este método.
-   */
   public clearCache() {
     this.dataCache = {};
   }

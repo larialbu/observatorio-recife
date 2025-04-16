@@ -1,8 +1,7 @@
-import { AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
 import { AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 export const processPassageirosAnoAena = (
-    data: AenaPassageirosData
+    data: AenaPassageirosHeaders[]
   ) => {
   // Inicializa os dados processados com os meses
   const months = Array.from({ length: 12 }, (_, i) => (i + 1).toString());

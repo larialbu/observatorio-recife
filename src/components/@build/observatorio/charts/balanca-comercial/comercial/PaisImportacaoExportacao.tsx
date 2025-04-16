@@ -4,11 +4,13 @@ import StackerBarChartVertical from "@/components/@global/charts/StackedVertical
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processImportacaoExportacaoPorPais } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/paisesImportacaoExportacao";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 
 const ImportacaoExportacaoPorPais = ({
   data = [],
   colors = ColorPalette.default,
-}: any) => {
+}: ChartBuild<BalancaHeaders[]>) => {
   const chartData = processImportacaoExportacaoPorPais(data);
 
   return (

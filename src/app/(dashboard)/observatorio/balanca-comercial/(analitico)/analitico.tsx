@@ -4,16 +4,17 @@ import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { ProcessedData } from "@/@types/observatorio/@fetch/balanca-comercial/processedData";
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 
 const Analitico = ({
   year,
   data,
-  toCompare = getUniqueValues<ProcessedData, "Município">(data, "Município"),
+  toCompare = getUniqueValues<BalancaHeaders, "Município">(data, "Município"),
   monthRecent,
 }: {
   year: string;
-  toCompare?: any;
-  data: any[];
+  toCompare?: string[];
+  data: BalancaHeaders[];
   monthRecent?: number;
 }) => {
   const [tempFiltred, setTempFiltred] = useState([]);

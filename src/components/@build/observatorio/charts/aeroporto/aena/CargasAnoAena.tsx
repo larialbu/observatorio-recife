@@ -6,14 +6,14 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
 import { processCargaAnoAena } from "@/functions/process_data/observatorio/aeroporto/aena/cargasAnoAena";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import { AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
+import { AenaCargasHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const CargasAnoAena = ({
-    data,
+    data = [],
     colors = ColorPalette.default,
     title = "Cargas ao Longo do Ano",
     months
-  }: ChartBuild<AenaPassageirosData>) => {
+  }: ChartBuild<AenaCargasHeaders[]>) => {
  
     const chartData = processCargaAnoAena(data);
   

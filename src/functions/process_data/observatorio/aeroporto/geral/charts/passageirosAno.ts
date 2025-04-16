@@ -1,7 +1,6 @@
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
-export const processPassageirosAno = (data: AnacGeralData) => {
+export const processPassageirosAno = (data: AnacGeralHeaders[]) => {
   const months = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
 
   const processedData = months.map((mes) => ({
