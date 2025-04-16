@@ -8,7 +8,7 @@ import { getDateKeys } from "@/utils/formatters/getDataKeys";
 import { processDecolagensAnoComparativo } from "@/functions/process_data/observatorio/aeroporto/comparativo/decolagensAnoComparativo";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const DecolagensAnoComparativo = ({
   data,
@@ -16,7 +16,7 @@ const DecolagensAnoComparativo = ({
   title = "Decolagens ao Longo do Ano",
   toCompare,
   months
-}: ChartBuild<AnacGeralData>) => {
+}: ChartBuild<AnacGeralHeaders[]>) => {
   const chartData = processDecolagensAnoComparativo(data, toCompare ?? []);
 
   const updatedData = updatedMonthChartData(chartData, months ?? 1);

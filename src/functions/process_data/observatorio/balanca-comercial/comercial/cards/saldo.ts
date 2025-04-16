@@ -1,5 +1,7 @@
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+
 export const processSaldo = (
-    data: any[],
+    data: BalancaHeaders[],
     year: string
   ): { saldo: number } => {
     let saldoImportExport = 0;
@@ -7,9 +9,8 @@ export const processSaldo = (
     // Filtra os dados e calcula o saldo (Importação - Exportação)
     data.forEach((item) => {
       if (item["Ano"].toString() === year) {
-        const valor = parseFloat(
-          (item["Valor US$"] || "0")
-        );
+        const valor = item["Valor US$"] || 0;
+        
         if (item["tipo"] === "Importação") {
           saldoImportExport += valor; // Soma para importação
         } else if (item["tipo"] === "Exportação") {

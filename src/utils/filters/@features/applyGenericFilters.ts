@@ -1,18 +1,25 @@
-export const applyGenericFilters = (data: any[], filters: Record<string, any>, skipLabel: string[] = [], noData:boolean = false) => {
+import { AdditionalFilter, DataWithFilters, Filters } from "@/@types/observatorio/shared";
+
+export function applyGenericFilters<T extends Record<string, any>>(
+  data: T[],
+  filters: Filters,
+  skipLabel: string[] = [],
+): DataWithFilters<T> {
 
 
   // 2) "filteredData": Filtra por ano + additionalFilters selecionados.
   //    Isso afeta só a exibição final, não as 'options'.
   const filteredData = data.filter((item) => {
+    console.log(data)
   
     // Aqui, se 'filters.additionalFilters' tiver “Recife” selecionado em “AEROPORTO NOME”,
     // filtramos. Assim, o dataset final mostra só Recife, mas as options mostram todos.
     if (filters.additionalFilters) {
-      for (const f of filters.additionalFilters) {
+      for (const f of filters.additionalFilters as AdditionalFilter[]) {
         if (!f.selected || f.selected.length === 0 || skipLabel.includes(f.label)) continue;
         const val = item[f.label];
-        if (f.fixed?.includes(val)) return true;
-        if (!f.selected.includes(val)) {
+        if (f.fixed?.includes(val as string)) return true;
+        if (!f.selected.includes(val as string)) {
           return false;
         }
       }
@@ -22,15 +29,17 @@ export const applyGenericFilters = (data: any[], filters: Record<string, any>, s
 
   // 3) Montamos 'additionalFiltersOptions' a partir de 'data',
   //    ou seja, pega TODOS os aeroportos (outra label) do ano, sem restringir pela seleção
-  const additionalFiltersOptions =
-    filters.additionalFilters?.map((f: any) => {
-      // Pegamos todos os valores (ex.: todos aeroportos) no data
+  const additionalFiltersOptions: AdditionalFilter[] =
+    filters.additionalFilters?.map((f) => {
       const uniqueValues = Array.from(
-        new Set(data.map((item) => item[f.label]))
+        new Set(
+          data
+            .map((item) => (item)[f.label])
+            .filter((v: string | number) => v !== null && v !== undefined)
+        )
       )
-        .filter((v) => v != null)
-        // **Exclui as opções fixas**
-        .filter((op: string) => !(f.fixed && f.fixed.includes(op)));
+        .map((v) => String(v))
+        .filter((op) => !(f.fixed?.includes(op))) ?? [];
 
       return { ...f, options: uniqueValues };
     }) || [];

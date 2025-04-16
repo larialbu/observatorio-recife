@@ -1,18 +1,13 @@
-import { AdditionalFilter, DataWithFilters } from "../shared";
+import { DataWithFilters } from "../shared";
 import { AnacGeralHeaders, AenaCargasHeaders, AenaPassageirosHeaders } from "../@fetch/aeroporto";
 
-export interface AnacEntry {
-    additionalFiltersOptions: AdditionalFilter[];
-    filteredData: AnacGeralHeaders[];
-    rawData: AnacGeralHeaders[];
-}
   
 export interface AnacAeroportoData {
   id: "anac";
-  geral: AnacEntry;
+  geral: AnacGeralData;
 }
 
-export interface AnacGeralData extends DataWithFilters<AnacGeralHeaders>{}
+export type AnacGeralData = DataWithFilters<AnacGeralHeaders>;
 
 export interface AenaAeroportoData {
   id: "aena";

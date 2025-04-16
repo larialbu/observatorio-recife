@@ -1,8 +1,7 @@
-import { AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
 import { AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 export const processPassageirosPorAeroportoAena = (
-    data: AenaPassageirosData
+    data: AenaPassageirosHeaders[]
   ) => {
   // Reduz os dados para calcular o total de passageiros por aeroporto
   const processedData = data.reduce((acc: { [aeroporto: string]: { aeroporto: string, totalPassageiros: number } }, item: AenaPassageirosHeaders) => {

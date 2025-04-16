@@ -7,12 +7,12 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { preparePassageirosPorEscalaData } from "@/functions/process_data/observatorio/aeroporto/aena/passageirosPorEscalaAena";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import { AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
+import { AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const PassageirosPorEscalaAena = ({
-  data,
+  data = [],
   title = "Passageiros por conexão",
-}: ChartBuild<AenaPassageirosData>) => {
+}: ChartBuild<AenaPassageirosHeaders[]>) => {
   const [showPercentage, setShowPercentage] = useState(true);
   
   const chartData = preparePassageirosPorEscalaData(data);

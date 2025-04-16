@@ -1,11 +1,13 @@
-export const rowsCountrysByMunicipio = (data: any[], municipio: string, year: string, month?: number) => {
-  const filteredData = data.filter(item => 
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+
+export const processRowsPaisesByMunicipio = (data: BalancaHeaders[], municipio: string, year: string, month?: number) => {
+  const filteredData = data.filter((item) => 
     item["Município"] === municipio && 
     item["Ano"].toString() === year &&
     (!month || +item["Mês"] === month)   
   );
   
-  const aggregatedData = filteredData.reduce((acc: any, item: any) => {
+  const aggregatedData = filteredData.reduce((acc: { [pais: string]: {PAÍS: string, IMPORTACAO: number, EXPORTACAO: number, NEGOCIADO: number} }, item) => {
     const pais = item["País"];
     const valor = Number(item["Valor US$"]) || 0;
     const tipo = item["tipo"];  
@@ -32,9 +34,9 @@ export const rowsCountrysByMunicipio = (data: any[], municipio: string, year: st
   
   const aggregatedArray = Object.values(aggregatedData);
   
-  const totalNegociado: any = aggregatedArray.reduce((total, item: any) => total + item.NEGOCIADO, 0);
+  const totalNegociado: number = aggregatedArray.reduce((total, item) => total + item.NEGOCIADO, 0);
   
-  return aggregatedArray.map((item: any) => ({
+  return aggregatedArray.map((item) => ({
     PAÍS: item.PAÍS,
     PARTICIPAÇÃO: (item.NEGOCIADO / totalNegociado) * 100,  
     NEGOCIADO: item.NEGOCIADO,

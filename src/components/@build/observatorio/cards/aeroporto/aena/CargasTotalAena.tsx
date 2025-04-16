@@ -2,7 +2,7 @@ import Card from "@/components/@global/cards/Card";
 import { processCargasTotalAena } from "@/functions/process_data/observatorio/aeroporto/aena/cards/cargasTotalAena";
 
 const CargasTotalAena = ({
-  data,
+  data = [],
   title = `Cargas (TON)`,
   year,
   color,

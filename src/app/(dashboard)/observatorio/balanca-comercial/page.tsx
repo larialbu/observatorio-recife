@@ -10,6 +10,8 @@ import Analitico from "./(analitico)/analitico";
 
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
+import { BalancaGeralData } from "@/@types/observatorio/@data/balancaComercialData";
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 
 /**
  * Page de Balança Comercial
@@ -20,7 +22,7 @@ import { getMonths } from "@/utils/filters/@global/getMonths";
 const BalancaComercialPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [balanca, setBalanca] = useState([]);
+  const [balanca, setBalanca] = useState<BalancaHeaders[]>([]);
 
   const { isLoading, data, filters } = useDashboard();
 

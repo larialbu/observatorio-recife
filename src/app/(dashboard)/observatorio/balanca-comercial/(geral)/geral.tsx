@@ -5,8 +5,9 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 
-const Geral = ({ toCompare, data, year, months }: { toCompare?: string[]; data: any; year: string, months: number }) => {
+const Geral = ({ data, year, months }: { data: BalancaHeaders[]; year: string, months: number }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
 
   // REF do container e REF da instância do Sortable

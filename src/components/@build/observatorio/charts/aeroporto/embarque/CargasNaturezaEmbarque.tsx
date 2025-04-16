@@ -7,7 +7,7 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { processEmbarqueDomesticoInternacional } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDomesticoInternacional";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const CargasComparativo = ({
   data,
@@ -15,7 +15,7 @@ const CargasComparativo = ({
   toCompare = ["Recife"],
   monthRecent,
   type
-}: ChartBuild<AnacGeralData>) => {
+}: ChartBuild<AnacGeralHeaders[]>) => {
   const [showPercentage, setShowPercentage] = useState(true);
   const chartData = processEmbarqueDomesticoInternacional(data, 'cargas', toCompare, type, monthRecent)
 

@@ -9,17 +9,18 @@ import { processCargasAnoComparativo } from "@/functions/process_data/observator
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const CargasAnoComparativo = ({
-  data,
+  data = [],
   colors = ColorPalette.default,
   title = "Cargas ao Longo do Ano",
   toCompare,
   months
-}: ChartBuild<AnacGeralData>) => {
+}: ChartBuild<AnacGeralHeaders[]>) => {
   const chartData = processCargasAnoComparativo(data, toCompare ?? []);
 
-  const updatedData = updatedMonthChartData(chartData, months);
+  const updatedData = updatedMonthChartData(chartData, months ?? 1);
 
   return (
     <div className="chart-wrapper">

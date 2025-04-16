@@ -1,13 +1,19 @@
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+
 export const processImportacaoExportacaoPorContinente = (
-  data: any[]
-): any[] => {
-  const processedData: any = {};
+  data: BalancaHeaders[]
+) => {
+  const processedData: Record<string,
+  {
+    continente: string;
+    importacao: number;
+    exportacao: number;
+  }
+  > = {};
 
   data.forEach((item) => {
-    const continente = item["Continente"] || "Desconhecido"; // Evita continentes vazios
-    const valor = parseFloat(
-      (item["Valor US$"] || "0")
-    );
+    const continente = item["Continente"] || "Desconhecido";
+    const valor = item["Valor US$"] || 0;
     const tipo = item["tipo"];
 
     if (!processedData[continente]) {
@@ -25,11 +31,10 @@ export const processImportacaoExportacaoPorContinente = (
     }
   });
 
-  // Ordena os dados por total de importação + exportação
   const sortedData = Object.values(processedData)
-    .filter((item: any) => item.continente) // Evita continentes indefinidos ou vazios
+    .filter((item) => item.continente)
     .sort(
-      (a: any, b: any) =>
+      (a, b) =>
         b.importacao + b.exportacao - (a.importacao + a.exportacao)
     );
 

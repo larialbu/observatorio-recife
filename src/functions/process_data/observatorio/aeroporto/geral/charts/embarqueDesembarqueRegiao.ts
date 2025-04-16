@@ -1,4 +1,3 @@
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const abbreviateRegion = (region: string, windowWidth: number): string => {
@@ -18,7 +17,7 @@ const abbreviateRegion = (region: string, windowWidth: number): string => {
 };
 
 export const processEmbarqueDesembarque = (
-  data: AnacGeralData,
+  data: AnacGeralHeaders[],
   nameKey: string,
   windowWidth: number
 ) => {

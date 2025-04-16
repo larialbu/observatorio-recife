@@ -4,27 +4,28 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processValoresImportacaoExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/valoresImportacaoExportacao";
-import { getDateKeys } from "@/utils/formatters/getDataKeys";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 
 const CargasAnoComparativo = ({
   data = [],
   colors = ColorPalette.default,
   title = "Valores Importação e Exportação",
   months
-}: any) => {
+}: ChartBuild<BalancaHeaders[]>) => {
 
   const chartData = processValoresImportacaoExportacao(data);
 
-  const updatedData = updatedMonthChartData(chartData, months);
+  const updatedData = updatedMonthChartData(chartData, months ?? 1);
 
   return (
     <div className="chart-wrapper">
   <ChartGrabber>
     <LineChart
       data={updatedData}
-      title="Importação e Exportação"
-      colors={["#1f77b4", "#ff7f0e"]} // Exemplo de cores
+      title={title}
+      colors={[colors[0], colors[1]]}
       xKey="mes"
       lines={[
         { dataKey: "importacao", name: "Importação" },

@@ -7,19 +7,15 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { processPassageirosPorNatureza } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosPorNatureza";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const PassageirosPorNatureza = ({
-  rawData,
+  rawData = [],
   title = "Cargas por Natureza do Voo",
   
-}: ChartBuild<AnacGeralData>) => {
+}: ChartBuild<AnacGeralHeaders[]>) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = processPassageirosPorNatureza(rawData ?? {
-    filteredData: [],
-    additionalFiltersOptions: [],
-    rawDataPassageiros: [],
-  });
+  const chartData = processPassageirosPorNatureza(rawData);
 
 
   return (

@@ -1,5 +1,7 @@
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+
 export const processTotalImportacaoExportacao = (
-    data: any[]
+    data: BalancaHeaders[]
   ): { tipo: string; total: number }[] => {
     const processedData = {
       importacao: 0,
@@ -7,9 +9,7 @@ export const processTotalImportacaoExportacao = (
     };
   
     data.forEach((item) => {
-      const valor = parseFloat(
-        (item["Valor US$"] || "0")
-      );
+      const valor = item["Valor US$"] || 0;
   
       const tipo = item["tipo"];
   

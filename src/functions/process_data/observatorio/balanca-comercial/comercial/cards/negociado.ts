@@ -1,5 +1,7 @@
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+
 export const processNegociado = (
-  data: any[],
+  data: BalancaHeaders[],
   year: string
 ): { totalNegociado: number } => {
   let totalNegociado = 0;
@@ -7,9 +9,7 @@ export const processNegociado = (
   // Filtra os dados para o ano especificado e calcula o total negociado
   data.forEach((item) => {
     if (item["Ano"].toString() === year) {
-      const valor = parseFloat(
-        (item["Valor US$"] || "0")
-      );
+      const valor = item["Valor US$"] || 0;
       totalNegociado += valor;
     }
   });

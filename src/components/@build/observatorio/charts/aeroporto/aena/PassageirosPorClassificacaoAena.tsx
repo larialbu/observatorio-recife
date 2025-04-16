@@ -8,11 +8,12 @@ import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { preparePassageirosPorClassificacaoData } from "@/functions/process_data/observatorio/aeroporto/aena/passageirosPorClassificacaoAena";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import { AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
+import { AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const PassageirosPorClassificacaoAena = ({
-  data,
+  data = [],
   title = "Passageiros por classificação da viagem",
-}: ChartBuild<AenaPassageirosData>) => {
+}: ChartBuild<AenaPassageirosHeaders[]>) => {
   const [showPercentage, setShowPercentage] = useState(true);
   
   const chartData = preparePassageirosPorClassificacaoData(data);

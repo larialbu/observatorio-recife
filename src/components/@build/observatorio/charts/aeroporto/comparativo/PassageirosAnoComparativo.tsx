@@ -8,7 +8,7 @@ import { processPassageirosAnoComparativo } from "@/functions/process_data/obser
 import { getDateKeys } from "@/utils/formatters/getDataKeys";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const PassageirosAnoComparativo = ({
   data,
@@ -16,7 +16,7 @@ const PassageirosAnoComparativo = ({
   title = "Passageiros ao Longo do Ano",
   toCompare,
   months
-}: ChartBuild<AnacGeralData>) => {
+}: ChartBuild<AnacGeralHeaders[]>) => {
   const chartData = processPassageirosAnoComparativo(data, toCompare ?? []);
 
   const updatedData = updatedMonthChartData(chartData, months ?? 1);

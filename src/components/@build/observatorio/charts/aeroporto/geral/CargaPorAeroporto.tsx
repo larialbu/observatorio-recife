@@ -6,19 +6,15 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processCargaPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/geral/charts/cargaPorAeroporto";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const CargaPorAeroporto = ({
-  rawData,
+  rawData = [],
   title = "Carga por Aeroporto",
   colors = ColorPalette.default,
-}: ChartBuild<AnacGeralData>) => {
+}: ChartBuild<AnacGeralHeaders[]>) => {
 
-  const chartData = processCargaPorAeroporto(rawData ?? {
-    filteredData: [],
-    additionalFiltersOptions: [],
-    rawDataPassageiros: [],
-  });
+  const chartData = processCargaPorAeroporto(rawData);
 
   return (
     <div className="chart-wrapper">

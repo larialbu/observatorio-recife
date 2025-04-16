@@ -6,22 +6,16 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
 import { processPassageirosAnoAena } from "@/functions/process_data/observatorio/aeroporto/aena/passageirosAnoAena";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import { AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
+import { AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const PassageirosAnoAena = ({
-  rawData,
+  rawData = [],
   colors = ColorPalette.default,
   title = "Passageiros ao Longo do Ano",
   months
-  }: ChartBuild<AenaPassageirosData>) => {
+  }: ChartBuild<AenaPassageirosHeaders[]>) => {
  
-    const chartData = processPassageirosAnoAena(
-      rawData ?? {
-        filteredData: [],
-        additionalFiltersOptions: [],
-        rawDataPassageiros: [],
-      }
-    );
+    const chartData = processPassageirosAnoAena(rawData);
 
     const updatedData = updatedMonthChartData(chartData, months ?? 1);
 

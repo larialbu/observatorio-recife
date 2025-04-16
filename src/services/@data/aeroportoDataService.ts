@@ -55,6 +55,8 @@ export class AeroportoDataService implements Service<AeroportoDataResult> {
     const rawData = await getRawData({applyGenericFilters, service: aeroportoService, nameFunc:'fetchProcessedData', currentYear: this.currentYear, years: filters.years, keyName: 'AEROPORTO NOME', filters, lengthIgnore: 1})
     const geralFiltered = {...applyGenericFilters(geral, filters), rawData};
 
+    console.log(geral)
+
     return { 
       geral: geralFiltered, 
       id: 'anac' 

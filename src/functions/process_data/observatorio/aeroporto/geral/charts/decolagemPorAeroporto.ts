@@ -1,7 +1,6 @@
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
-export const processDecolagensPorAeroporto = (data: AnacGeralData) => {
+export const processDecolagensPorAeroporto = (data: AnacGeralHeaders[]) => {
 
   const processedData: Record<string, { aeroporto: string; totalDecolagens: number }> = data
   .reduce((acc: { [aeroporto: string]: {aeroporto: string, totalDecolagens: number} }, item: AnacGeralHeaders) => {

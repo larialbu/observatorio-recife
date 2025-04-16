@@ -1,3 +1,5 @@
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+import { CardBuild } from "@/@types/observatorio/shared";
 import Card from "@/components/@global/cards/Card";
 import { processExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/cards/exportacao";
 
@@ -6,7 +8,7 @@ const ExportacaoCard = ({
   title = "Exportação (US$)",
   year,
   color,
-}: any) => {
+}: CardBuild<BalancaHeaders[]>) => {
   const { exportacao } = processExportacao(data, year);
 
   return (

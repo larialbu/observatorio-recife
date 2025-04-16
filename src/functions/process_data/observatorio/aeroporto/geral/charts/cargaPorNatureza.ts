@@ -1,7 +1,6 @@
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
-export const processCargasPorNatureza = (data: AnacGeralData) => {
+export const processCargasPorNatureza = (data: AnacGeralHeaders[]) => {
   return data.reduce((acc: { [natureza: string]: {natureza: string, total: number} }, item: AnacGeralHeaders) => {
 
     const natureza = item["NATUREZA"] || "Indefinida";
@@ -18,7 +17,7 @@ export const processCargasPorNatureza = (data: AnacGeralData) => {
   }, {});
 };
 
-export const prepareCargasPorNaturezaData = (data: AnacGeralData) => {
+export const prepareCargasPorNaturezaData = (data: AnacGeralHeaders[]) => {
   const processed = processCargasPorNatureza(data);
   return Object.values(processed);
 };

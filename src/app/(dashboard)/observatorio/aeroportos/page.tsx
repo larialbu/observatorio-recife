@@ -11,11 +11,12 @@ import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
 import AenaPage from "./(aena)/aena";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
-  const [anac, setAnac] = useState([]);
+  const [anac, setAnac] = useState<AnacGeralHeaders[]>([]);
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
 
@@ -33,8 +34,9 @@ const AeroportosPage = () => {
       const intervalId = setInterval(() => {
         
         if (data) {
-          const anacData = data?.geral || {};
-          setAnac(anacData?.filteredData || []);
+          if (data?.id === "anac") {
+            setAnac(data.geral?.filteredData || []);
+          }
           
           clearInterval(intervalId);
         }
@@ -54,7 +56,7 @@ const AeroportosPage = () => {
       case "geral":
         return <Geral 
           data={anac || []}
-          rawData={data?.geral?.rawData || []}
+          rawData={data?.id === "anac" ? data.geral?.rawData || [] : []}
           year={getYearSelected(filters)}
           months={getMonths(filters)}
         />;
@@ -76,7 +78,7 @@ const AeroportosPage = () => {
       default:
         return <Geral 
         data={anac || []}
-        rawData={data?.geral?.rawData || []}
+        rawData={data?.id === "anac" ? data.geral?.rawData || [] : []}
         year={getYearSelected(filters)}
         months={getMonths(filters)}
         />;

@@ -12,7 +12,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
 
-import { HiddenChart, DashboardContextProps  } from "@/@types/observatorio/context";
+import { HiddenChart, DashboardContextProps, DashboardData  } from "@/@types/observatorio/context";
 import { Filters, AdditionalFilter, DataWithFilters } from "@/@types/observatorio/shared";
 
 const DashboardContext = createContext<DashboardContextProps<unknown> | undefined>(undefined);
@@ -24,7 +24,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const searchParams = useSearchParams();
 
   const [filters, setFilters] = useState<Filters>({} as Filters);
-  const [data, setData] = useState<DataWithFilters<unknown> | null>(null);
+  const [data, setData] = useState<DashboardData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hiddenCharts, setHiddenCharts] = useState<HiddenChart[]>([]);
 
@@ -51,7 +51,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         service.setYear(year);
       }
 
-      const fetched: DataWithFilters<unknown> = await service.fetchDataForTab(tab, filtersToUse);
+      const fetched: DashboardData = await service.fetchDataForTab(tab, filtersToUse);
 
       if (process.env.NODE_ENV === 'development') {
         console.log("✅ Dados carregados:", fetched);

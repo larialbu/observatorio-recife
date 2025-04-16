@@ -1,8 +1,7 @@
-import { AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
 import { AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 export const processPassageirosPorEscala = (
-    data: AenaPassageirosData
+    data: AenaPassageirosHeaders[]
   ) => {
     // reduz os dados por tipo de escala
     return data.reduce((acc: { [escala: string]: { escala: string; total: number } }, item: AenaPassageirosHeaders) => {
@@ -20,7 +19,7 @@ export const processPassageirosPorEscala = (
     }, {});
   };
   
-  export const preparePassageirosPorEscalaData = (data: AenaPassageirosData) => {
+  export const preparePassageirosPorEscalaData = (data: AenaPassageirosHeaders[]) => {
     const processed = processPassageirosPorEscala(data);
     
     // Retorna um array no formato desejado

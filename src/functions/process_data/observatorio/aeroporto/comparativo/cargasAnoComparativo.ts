@@ -1,8 +1,7 @@
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 export const processCargasAnoComparativo = (
-  data: AnacGeralData,
+  data: AnacGeralHeaders[],
   aeroportos: string[]
 ): { mes: string; [key: string]: number | string }[] => {
 

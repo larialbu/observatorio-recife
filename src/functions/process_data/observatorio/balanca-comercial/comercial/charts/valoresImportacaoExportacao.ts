@@ -1,8 +1,10 @@
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+
 export const processValoresImportacaoExportacao = (
-  data: any[]
+  data: BalancaHeaders[]
 ): { mes: string; importacao: number; exportacao: number }[] => {
 
-  const mesMap: any = {
+  const mesMap: { [key: string]: number} = {
     Janeiro: 1,
     Fevereiro: 2,
     Março: 3,
@@ -26,7 +28,7 @@ export const processValoresImportacaoExportacao = (
 
   // Processa os dados
   data.forEach((item) => {
-    const valor = parseFloat((item["Valor US$"] || "0"));
+    const valor = item["Valor US$"] || 0;
     const mes = item["Mês"];
     const tipo = item["tipo"];
 
