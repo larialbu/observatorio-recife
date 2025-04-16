@@ -10,6 +10,7 @@ export interface AdditionalFilter {
     label: string;
     selected: string[];
     allowMultiple?: boolean;
+    fixed?: string[]
 }
 
 export interface DataWithFilters<T> {

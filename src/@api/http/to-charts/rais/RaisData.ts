@@ -13,9 +13,9 @@ export class RaisData {
     this.year = year;
   }
 
-  async fetchProcessedDataRais(): Promise<ProcessedDataPib[]> {
+  async fetchProcessedDataRais(): Promise<any[]> {
     const endpoint = `/empregos/rais/recife/anos/${this.year}`;
-    return fetchData<ProcessedDataPib[]>(endpoint, RaisData.cache);
+    return fetchData<any[]>(endpoint, RaisData.cache);
   }
 
   // Limpa o cache de dados
