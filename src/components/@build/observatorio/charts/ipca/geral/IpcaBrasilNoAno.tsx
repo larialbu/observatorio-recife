@@ -5,13 +5,15 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processIpcaBrasilNoAno } from "@/functions/process_data/observatorio/ipca/geral/charts/ipcaBrasilNoAno";
+import { IpcaGeralHeaders } from "@/@types/observatorio/@fetch/ipca";
+import { ChartBuild } from "@/@types/observatorio/shared";
 
 const IpcaAcumuladoPorCapital = ({
   data = [],
   nameKey = "capital",
   colors = ColorPalette.default,
   title = "IPCA Acumulado ao Ano no Brasil",
-}: any) => {
+}: ChartBuild<IpcaGeralHeaders[]>) => {
   
   // Processamento inicial dos dados
   const chartData = processIpcaBrasilNoAno(data);

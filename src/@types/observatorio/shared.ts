@@ -43,4 +43,5 @@ export interface CardBuild<T = unknown> {
   title?: string;
   year: string;
   color: string;
+  capital?: string;
 }

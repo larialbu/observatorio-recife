@@ -7,7 +7,6 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { preparePassageirosPorClassificacaoData } from "@/functions/process_data/observatorio/aeroporto/aena/passageirosPorClassificacaoAena";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import { AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
 import { AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const PassageirosPorClassificacaoAena = ({

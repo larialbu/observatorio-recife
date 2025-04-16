@@ -3,26 +3,23 @@ import charts from "./@imports/charts";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { useDashboard } from "@/context/DashboardContext";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import { IpcaGrupoHeaders } from "@/@types/observatorio/@fetch/ipca";
+import { IpcaGrupoData } from "@/@types/observatorio/@data/ipcaData";
 
-const Grupos = ({
-  year,
-}: {
-  year: string;
-}) => {
-  const { data, isLoading } = useDashboard();
+const Grupos = () => {
+  const { data } = useDashboard();
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
-  const [gruposData, setGruposData] = useState([])
+  const [gruposData, setGruposData] = useState<IpcaGrupoHeaders[]>([])
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (data) {
-      console.log(data)
-      const gruposData = data?.grupos || {}
-
-      setGruposData(gruposData?.filteredData || [])
+    if (data?.id === "ipca-grupos") {
+      const grupos = (data as { grupos?: IpcaGrupoData }).grupos;
+      if (grupos?.filteredData) {
+        setGruposData(grupos.filteredData || []);
+      }
     }
   }, [data]);
-
   return (
     <div>
        <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">

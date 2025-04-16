@@ -5,15 +5,16 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processIpcaUltimos12Meses } from "@/functions/process_data/observatorio/ipca/geral/charts/ipcaUltimos12Meses";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { IpcaGeralHeaders } from "@/@types/observatorio/@fetch/ipca";
 
 const IpcaAcumuladoPorCapital = ({
   rawData = [],
   nameKey = "capital",
   colors = ColorPalette.default,
   title = "IPCA Acumulado nos últimos 12 meses por Capital",
-}: any) => {
+}: ChartBuild<IpcaGeralHeaders[]>) => {
   
-  // Processamento inicial dos dados
   const chartData = processIpcaUltimos12Meses(rawData);
 
   return (

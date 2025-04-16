@@ -1,8 +1,10 @@
 import { BalancaGeralData } from "./@data/balancaComercialData";
 import { AeroportoDataResult } from "./@data/aeroportoData";
+import { IpcaDataResult } from "./@data/ipcaData";
+
 import { Filters } from "./shared";
 
-export type DashboardData = AeroportoDataResult | BalancaGeralData;
+export type DashboardData = AeroportoDataResult | BalancaGeralData | IpcaDataResult;
 
 export interface HiddenChart {
   id: string;

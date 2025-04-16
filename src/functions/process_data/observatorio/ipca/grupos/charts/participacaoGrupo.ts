@@ -1,8 +1,10 @@
+import { IpcaGrupoHeaders } from "@/@types/observatorio/@fetch/ipca";
+
 export const processPercentageByType = (
-    data: any[],
+    data: IpcaGrupoHeaders[],
     type: "grupo" | "subgrupo" | "item" | "subitem"
   ) => {
-    // Determina a chave de agrupamento com base no tipo fornecido
+
     const key = {
       grupo: "Grupo",
       subgrupo: "Subgrupo",
@@ -10,13 +12,15 @@ export const processPercentageByType = (
       subitem: "SubItem",
     }[type];
   
-    // Reduz os dados para calcular o total do índice por nível especificado
-    const processedData = data.reduce((acc: any, item: any) => {
+    const processedData = data.reduce((acc: { [groupKey: string]: {key: {[key: string]: string}, totalIndice: number} }, item: any) => {
       const groupKey = item[key] || "Indefinido";
-      const indice = parseFloat((item["Indice"] || "0")); // Converte o índice para número
+      const indice = parseFloat((item["Indice"] || "0"));
   
       if (!acc[groupKey]) {
-        acc[groupKey] = { key: groupKey, totalIndice: 0 };
+        acc[groupKey] = { 
+          key: groupKey, 
+          totalIndice: 0 
+        };
       }
   
       acc[groupKey].totalIndice += indice;
@@ -24,20 +28,18 @@ export const processPercentageByType = (
       return acc;
     }, {});
   
-    // Calcula o índice total geral
     const totalGeralIndice = Object.values(processedData).reduce(
-      (total: number, group: any) => total + group.totalIndice,
+      (total: number, group) => total + group.totalIndice,
       0
     );
   
-    // Calcula a porcentagem de cada agrupamento em relação ao total geral
     return Object.values(processedData)
-      .map((group: any) => ({
+      .map((group) => ({
         [type]: group.key,
-        porcentagem: (group.totalIndice / totalGeralIndice) * 100, // Porcentagem como número
+        porcentagem: (group.totalIndice / totalGeralIndice) * 100,
       }))
       .sort(
-        (a: any, b: any) => b.porcentagem - a.porcentagem // Ordena pela maior porcentagem
+        (a, b) => b.porcentagem - a.porcentagem
       );
   };
   

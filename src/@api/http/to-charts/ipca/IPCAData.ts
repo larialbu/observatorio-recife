@@ -1,12 +1,11 @@
-import { ProcessedIpcaGeralData } from "@/@types/observatorio/@fetch/ipca/processedIPCAGeralData";
-import { ProcessedIpcaGruposData } from "@/@types/observatorio/@fetch/ipca/processedIPCAGruposData";
-import { ProcessedIpcaTabelasData } from "@/@types/observatorio/@fetch/ipca/processedIPCATabelasData";
 import { fetchData } from "@/@api/config/dataFetcher";
+import { IpcaDataResult } from "@/@types/observatorio/@data/ipcaData";
+import { IpcaGeralHeaders, IpcaGrupoHeaders, IpcaTabelaHeaders } from "@/@types/observatorio/@fetch/ipca";
 
 
 export class IpcaData {
   private year: string;
-  private static cache: Record<string, any> = {}; // Cache estático para todas as instâncias
+  private static cache: Record<string, IpcaDataResult[]> = {}; // Cache estático para todas as instâncias
 
   constructor(year: string) {
     this.year = year;
@@ -14,19 +13,19 @@ export class IpcaData {
 
   // Métodos para buscar dados processados de IPCA
 
-  async fetchProcessedGeralData(): Promise<ProcessedIpcaGeralData[]> {
+  async fetchProcessedGeralData(): Promise<IpcaGeralHeaders[]> {
     const endpoint = `/ipca/geral/anos/${this.year}`;
-    return fetchData<ProcessedIpcaGeralData[]>(endpoint, IpcaData.cache);
+    return fetchData<IpcaGeralHeaders[]>(endpoint, IpcaData.cache);
   }
 
-  async fetchProcessedGruposData(): Promise<ProcessedIpcaGruposData[]> {
+  async fetchProcessedGruposData(): Promise<IpcaGrupoHeaders[]> {
     const endpoint = `/ipca/grupos/anos/${this.year}`;
-    return fetchData<ProcessedIpcaGruposData[]>(endpoint, IpcaData.cache);
+    return fetchData<IpcaGrupoHeaders[]>(endpoint, IpcaData.cache);
   }
 
-  async fetchProcessedTabelasData(): Promise<ProcessedIpcaTabelasData[]> {
+  async fetchProcessedTabelasData(): Promise<IpcaTabelaHeaders[]> {
     const endpoint = `/ipca/analitico/anos/${this.year}`;
-    return fetchData<ProcessedIpcaTabelasData[]>(endpoint, IpcaData.cache);
+    return fetchData<IpcaTabelaHeaders[]>(endpoint, IpcaData.cache);
   }
 
   // Método para limpar o cache

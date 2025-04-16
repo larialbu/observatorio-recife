@@ -6,16 +6,17 @@ import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScro
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processIpcaNoAno } from "@/functions/process_data/observatorio/ipca/geral/charts/ipcaNoAno";
 import { processPercentageByType } from "@/functions/process_data/observatorio/ipca/grupos/charts/participacaoGrupo";
+import { IpcaGrupoHeaders } from "@/@types/observatorio/@fetch/ipca";
+import { ChartBuild } from "@/@types/observatorio/shared";
 
 const SubitemParticipacaoIpca = ({
   data = [],
   nameKey = "item",
   colors = ColorPalette.default,
   title = "IPCA Subitem",
-}: any) => {
+}: ChartBuild<IpcaGrupoHeaders[]>) => {
   
   const chartData = processPercentageByType(data, 'item');
-  console.log(chartData)
 
   return (
     <div className="chart-wrapper">

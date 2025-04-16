@@ -6,6 +6,8 @@ import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processBrasilVariacaoMensal } from "@/functions/process_data/observatorio/ipca/geral/charts/ipcaBrasilPorMeses";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
+import { IpcaGeralHeaders } from "@/@types/observatorio/@fetch/ipca";
+import { ChartBuild } from "@/@types/observatorio/shared";
 
 const IpcaPorMeses = ({
   data = [],
@@ -13,13 +15,13 @@ const IpcaPorMeses = ({
   colors = ColorPalette.default,
   title = "Variação Mensal do IPCA no Brasil",
   months,
-}: any) => {
+}: ChartBuild<IpcaGeralHeaders[]>) => {
   
   // Processamento inicial dos dados
   const chartData = processBrasilVariacaoMensal(data);
 
   // Atualização dos dados com base nos meses fornecidos
-  const updatedData = updatedMonthChartData(chartData, months);
+  const updatedData = updatedMonthChartData(chartData, months ?? 1);
 
   return (
     <div className="chart-wrapper">

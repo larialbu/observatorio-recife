@@ -3,42 +3,46 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
-import { ProcessedIpcaTabelasData } from "@/@types/observatorio/@fetch/ipca/processedIPCATabelasData";
 import { useDashboard } from "@/context/DashboardContext";
 import cards from "./@imports/cards";
+import { IpcaGeralData } from "@/@types/observatorio/@data/ipcaData";
+import { IpcaGeralHeaders, IpcaTabelaHeaders } from "@/@types/observatorio/@fetch/ipca";
 
 const Analitico = ({
   year,
   monthRecent,
 }: {
   year: string;
-  toCompare?: any;
   monthRecent?: number;
 }) => {
-  const { data, isLoading } = useDashboard();
+  const { data } = useDashboard();
   const [tempFiltred, setTempFiltred] = useState([]);
   const [tablesRender, setTablesRender] = useState(tables);
-  const [anaiticoData, setAnaliticoData] = useState([]);
-  const [geralData, setGeralData] = useState([]);
+  const [analiticoData, setAnaliticoData] = useState<IpcaTabelaHeaders[]>([]);
+  const [geralData, setGeralData] = useState<IpcaGeralHeaders[]>([]);
   const [pageCompare, setPageCompare] = useState(0);
   const [animationClass, setAnimationClass] = useState("card-enter");
 
   useEffect(() => {
     if (data) {
-      const analiticoData = data.tabelas || {};
-      const geralData = data.geral || {};
+      const analitico = (data as { tabelas: { filteredData: IpcaTabelaHeaders[] } }).tabelas;
+      const geral = (data as { geral?: IpcaGeralData }).geral;
 
-      setAnaliticoData(analiticoData.filteredData || []);
-      setGeralData(geralData.filteredData || []);
+      if (analitico?.filteredData) {
+        setAnaliticoData(analitico.filteredData);
+      }
+
+      if (geral?.filteredData) {
+        setGeralData(geral.filteredData);
+      }
+
     }
   }, [data]);
 
-  const toCompare = getUniqueValues<ProcessedIpcaTabelasData, "Capital">(
-    anaiticoData,
+  const toCompare = getUniqueValues<IpcaTabelaHeaders, "Capital">(
+    analiticoData,
     "Capital"
   );
-
-  const [selectCountries, setSelectCountries] = useState<string[]>([]);
 
   useEffect(() => {
     const getNewTables = tempFiltred.map((val) => {
@@ -157,9 +161,6 @@ const Analitico = ({
       <div className="flex flex-col gap-6">
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
           {tablesRender.map(({ Component }, index) => {
-            if (!selectCountries[index]) {
-              selectCountries[index] = "";
-            }
 
             return (
               <React.Suspense fallback={<div>Carregando...</div>} key={index}>
@@ -170,7 +171,7 @@ const Analitico = ({
                   <Component
                     capital={[...tempFiltred][index]}
                     color={ColorPalette.default[index]}
-                    data={anaiticoData}
+                    data={analiticoData}
                     year={year}
                     monthRecent={monthRecent}
                   />

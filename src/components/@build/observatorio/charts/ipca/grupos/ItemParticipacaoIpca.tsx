@@ -5,13 +5,15 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processPercentageByType } from "@/functions/process_data/observatorio/ipca/grupos/charts/participacaoGrupo";
+import { IpcaGrupoHeaders } from "@/@types/observatorio/@fetch/ipca";
+import { ChartBuild } from "@/@types/observatorio/shared";
 
 const ItemParticipacaoIpca = ({
   data = [],
   nameKey = "item",
   colors = ColorPalette.default,
   title = "IPCA Item",
-}: any) => {
+}: ChartBuild<IpcaGrupoHeaders[]>) => {
   
   const chartData = processPercentageByType(data, 'item');
 

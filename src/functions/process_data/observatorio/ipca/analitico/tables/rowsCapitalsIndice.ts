@@ -1,5 +1,7 @@
+import { IpcaGrupoHeaders } from "@/@types/observatorio/@fetch/ipca";
+
 export const rowsCapitalsIndice = (
-  data: any[],
+  data: IpcaGrupoHeaders[],
   year: string,
   capital: string,
   month?: number
@@ -11,7 +13,7 @@ export const rowsCapitalsIndice = (
       item["Capital"] === capital
   );
 
-  const aggregatedData = filteredData.reduce((acc: any, item: any) => {
+  const aggregatedData = filteredData.reduce((acc: { [grupo: string]: {GRUPO: string, VARIAÇÃO_MENSAL: number, VARIAÇÃO_ACUMULADA: number, PESO_TOTAL: number} }, item: any) => {
     const grupo = item["Grupo"];
     const mensal = parseFloat(item["Mensal"]) || 0;
     const acumulado = parseFloat(item["Acumulado"]) || 0;
@@ -33,12 +35,12 @@ export const rowsCapitalsIndice = (
     return acc;
   }, {});
 
-  const totalPesoGeral: any = Object.values(aggregatedData).reduce(
-    (total, item: any) => total + item.PESO_TOTAL,
+  const totalPesoGeral = Object.values(aggregatedData).reduce(
+    (total, item) => total + item.PESO_TOTAL,
     0
   );
 
-  return Object.values(aggregatedData).map((item: any) => ({
+  return Object.values(aggregatedData).map((item) => ({
     GRUPO: item.GRUPO,
     VARIAÇÃO_MENSAL: item.PESO_TOTAL ? item.VARIAÇÃO_MENSAL.toFixed(2) : 0,
     VARIAÇÃO_ACUMULADA: item.PESO_TOTAL

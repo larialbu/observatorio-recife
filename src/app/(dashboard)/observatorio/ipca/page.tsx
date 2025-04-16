@@ -10,12 +10,13 @@ import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
 import Analitico from "./(analitico)/analitico";
 import Grupos from "./(grupos)/grupos";
+import { IpcaGeralHeaders } from "@/@types/observatorio/@fetch/ipca";
 
 const IpcaPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
-  const [ipca, setIpca] = useState([]);
-  const [ipcaRawData, setIpcaRawData] = useState([]);
+  const [ipca, setIpca] = useState<IpcaGeralHeaders[]>([]);
+  const [ipcaRawData, setIpcaRawData] = useState<IpcaGeralHeaders[]>([]);
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
 
@@ -30,14 +31,11 @@ const IpcaPage = () => {
   }, [searchParams, activeTab, router]);
 
   useEffect(() => {
-
-      if (data?.id === "ipca") {
-        
-        const ipcaData = data?.geral;
-        setIpca(ipcaData.filteredData || []);
-        setIpcaRawData(ipcaData.rawData || []);
-
-      }
+    if (data?.id === "ipca") {
+      const ipcaData = data?.geral;
+      setIpca(ipcaData?.filteredData || []);
+      setIpcaRawData(ipcaData?.rawData || []);
+    }
 
   }, [data]);
 
@@ -56,21 +54,18 @@ const IpcaPage = () => {
             months={getMonths(filters)}
           />
       case "grupos":
-        return <Grupos
-            year={getYearSelected(filters)}
-          />
+        return <Grupos />
 
       case "analitico":
         return <Analitico
             year={getYearSelected(filters)}
-            // months={11}
           />
       default:
         return <Geral
-            data={ipca || []}
-            rawData={data?.geral?.rawData || []}
-            months={getMonths(filters)}
-          />
+          data={ipca}
+          rawData={ipcaRawData || {}}
+          months={getMonths(filters)}
+        />
     }
   };
 

@@ -1,17 +1,20 @@
-export const processIpcaBrasilUltimos12Meses = (data: any[]) => {
-    // Reduz os dados para calcular o acumulado por capital
-    const processedData = data.reduce((acc: any, item: any) => {
+import { IpcaGeralHeaders } from "@/@types/observatorio/@fetch/ipca";
+
+export const processIpcaBrasilUltimos12Meses = (data: IpcaGeralHeaders[]) => {
+
+    const processedData = data.reduce((acc: { [capital: string]: {capital: string, acumuladoUltimosMeses: number} }, item) => {
       const capital = item["Capital"] || "Indefinido";
 
       if (capital !== "Brasil") {
         return acc;
       }
-      const acumuladoUltimosMeses = parseFloat(
-        (item["IPCA - Variação acumulada em 12 meses"] || "0")
-      ); // Converte o acumulado para número
+      const acumuladoUltimosMeses = item["IPCA - Variação acumulada em 12 meses"] || 0;
   
       if (!acc[capital]) {
-        acc[capital] = { capital, acumuladoUltimosMeses: 0 };
+        acc[capital] = { 
+          capital, 
+          acumuladoUltimosMeses: 0 
+        };
       }
       
       if(acc[capital].capital === "Brasil") acc[capital].acumuladoUltimosMeses += acumuladoUltimosMeses;
@@ -19,9 +22,8 @@ export const processIpcaBrasilUltimos12Meses = (data: any[]) => {
       return acc;
     }, {});
   
-    // Converte o objeto em uma lista e ordena pelo acumulado no ano (descendente)
     return Object.values(processedData).sort(
-      (a: any, b: any) => b.acumuladoUltimosMeses - a.acumuladoUltimosMeses
+      (a, b) => b.acumuladoUltimosMeses - a.acumuladoUltimosMeses
     );
   };
   
