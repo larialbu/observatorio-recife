@@ -29,27 +29,17 @@ export class EmpregosDataService {
     const raisData = new RaisData(this.currentYear);
     // const pastYear = `${+this.currentYear - 1}`;
 
-    const filterAtiv = (val: '1' | '0') => {
-      return {...filters, additionalFilters: [...filters.additionalFilters, {
-      label: "Vínculo Ativo 31/12",  
-      options: [], 
-      selected: [val],
-    }] }}
-    
     const fetchData = await raisData.fetchProcessedDataRais() 
 
-    // const filteredDataAtiv = applyGenericFilters(fetchData, filterAtiv('1'));
-    // const filteredDataNoAtiv = applyGenericFilters(fetchData, filterAtiv('0'));    
-    const filteredDataAtiv = applyGenericFilters(fetchData, filters);
-    // const filteredDataNoAtiv = applyGenericFilters(fetchData, filters, ['Sexo Trabalhador']);
-    const filteredDataNoAtiv = filteredDataAtiv
+    const filteredDataAtiv = applyGenericFilters(fetchData.filter((data) => data['Vínculo Ativo 31/12'] == '1'), filters);
+    const filteredDataNoAtiv = applyGenericFilters(fetchData.filter((data) => data['Vínculo Ativo 31/12'] == '0'), filters);    
 
     return {
-        rais: {
-          ativ: filteredDataAtiv,
-          noAtiv: filteredDataNoAtiv
-        },
-        id: "empregos-rais"
+      rais: {
+        ativ: filteredDataAtiv,
+        noAtiv: filteredDataNoAtiv
+      },
+      id: "empregos-rais",
     };
   }
 

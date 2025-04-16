@@ -60,7 +60,43 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       setData(fetched);
 
       // Atualiza os filtros apenas se additionalFiltersOptions existirem
-      const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
+      // antigo feio bosta
+      // const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
+      
+      const newAdditional: AdditionalFilter[] = Object.values(Object.keys(fetched).filter((key) => key != 'id').map((key) => {
+        if (fetched?.[key]?.additionalFiltersOptions) {
+         return fetched[key].additionalFiltersOptions
+        } else {
+         return Object.keys(fetched[key]).map((keyInter) => fetched[key][keyInter].additionalFiltersOptions)
+        }
+       }).flat(Infinity).reduce((acc, curr) => {
+        const { label, ...rest } = curr;
+    
+        if (!acc[label]) {
+          acc[label] = { label };
+        }
+    
+        for (const key in rest) {
+          const value = rest[key];
+    
+          if (Array.isArray(value)) {
+            if (!Array.isArray(acc[label][key])) {
+              acc[label][key] = [];
+            }
+    
+            acc[label][key].push(...value);
+            acc[label][key] = [...new Set(acc[label][key])]; // remover duplicatas
+          } else {
+            // Se não for array, só atribui se ainda não tiver sido atribuído
+            if (!(key in acc[label])) {
+              acc[label][key] = value;
+            }
+          }
+        }
+    
+        return acc;
+      }, {}))
+
       if (newAdditional.length) {
         setFilters((prev) => {
           const merged = newAdditional.map((newF: AdditionalFilter) => {

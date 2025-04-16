@@ -153,7 +153,7 @@
 }
 
 .chart-content-wrapper{
-  @apply bg-white shadow-xl rounded-lg p-6 w-full flex flex-col items-center transition-all transform hover:shadow-2xl
+  @apply bg-white h-full shadow-xl rounded-lg p-6 w-full flex flex-col items-center transition-all transform hover:shadow-2xl
 }
 
 .chart-wrapper{

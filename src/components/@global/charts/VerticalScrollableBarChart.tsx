@@ -88,7 +88,9 @@ const VerticalScrollableBarChart = ({
 
   return (
     <div className="relative bg-white w-full">
-      <h3 className="text-center mb-4 font-semibold">{title}</h3>
+      <div className="flex flex-col items-center justify-center">
+        <h3 className="text-center mb-4 font-semibold w-[90%]">{title}</h3>
+      </div>
 
       <div
         ref={scrollRef}
