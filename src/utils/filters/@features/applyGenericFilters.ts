@@ -10,7 +10,6 @@ export function applyGenericFilters<T extends Record<string, any>>(
   // 2) "filteredData": Filtra por ano + additionalFilters selecionados.
   //    Isso afeta só a exibição final, não as 'options'.
   const filteredData = data.filter((item) => {
-    console.log(data)
   
     // Aqui, se 'filters.additionalFilters' tiver “Recife” selecionado em “AEROPORTO NOME”,
     // filtramos. Assim, o dataset final mostra só Recife, mas as options mostram todos.
@@ -39,7 +38,7 @@ export function applyGenericFilters<T extends Record<string, any>>(
         )
       )
         .map((v) => String(v))
-        .filter((op) => !(f.fixed?.includes(op))) ?? [];
+        .filter((op) => !(f.fixed && f.fixed.includes(op)));;
 
       return { ...f, options: uniqueValues };
     }) || [];
