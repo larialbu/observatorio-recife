@@ -62,14 +62,14 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       // Atualiza os filtros apenas se additionalFiltersOptions existirem
       // antigo feio bosta
       // const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
-      
+
       const newAdditional: AdditionalFilter[] = Object.values(Object.keys(fetched).filter((key) => key != 'id').map((key) => {
         if (fetched?.[key]?.additionalFiltersOptions) {
          return fetched[key].additionalFiltersOptions
         } else {
          return Object.keys(fetched[key]).map((keyInter) => fetched[key][keyInter].additionalFiltersOptions)
         }
-       }).flat(Infinity).reduce((acc, curr) => {
+       }).flat(Infinity).filter((val) => val != undefined).reduce((acc, curr) => {
         const { label, ...rest } = curr;
     
         if (!acc[label]) {
