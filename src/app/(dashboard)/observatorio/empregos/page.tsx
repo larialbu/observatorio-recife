@@ -12,10 +12,10 @@ import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
 import Link from "next/link";
 
-const AeroportosPage = () => {
+const EmpregosPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
-  const [anac, setAnac] = useState([]);
+  const [caged, setCaged] = useState({});
   const [activeTab, setActiveTab] = useState("geral");
   
   const pathname = usePathname();
@@ -32,14 +32,21 @@ const AeroportosPage = () => {
     }, [searchParams, activeTab, router]);
 
   useEffect(() => {
-      const intervalId = setInterval(() => {
+    const intervalId = setInterval(() => {
         
-        if (data) {
-          const anacData = data?.geral || {};
-          setAnac(anacData?.filteredData || []);
-          
+        if (data?.caged) {
+          setCaged({
+            caged: data.caged.filteredData,
+            municipios: data.municipios.filteredData
+          });
+
           clearInterval(intervalId);
-        }
+        } else {
+            setCaged({
+                caged: [],
+                municipios: []
+              });
+          }
       }, 50);
   
       return () => clearInterval(intervalId);
@@ -47,32 +54,34 @@ const AeroportosPage = () => {
   
     if (isLoading) return <LoadingScreen />;
 
+
   const renderContent = () => {
-    if (!data) {
+    if (!data || !caged.caged || !caged.municipios) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
     switch (activeTab) {
       case "geral":
         return <Geral 
-          data={anac || []}
+          data={caged}
           year={getYearSelected(filters)}
           months={getMonths(filters)}
         />;
       case "comparativo":
-        return <Comparativo
-          data={anac || []} 
+        return <Geral
+          data={caged} 
           year={getYearSelected(filters)}
           months={getMonths(filters)}
         />;
-      case "embarque":
-        return <Embarque 
-          data={anac || []}
-          toCompare={filters.additionalFilters[4]?.selected}
+      case "desemprego":
+        return <Geral 
+        data={caged}
+        year={getYearSelected(filters)}
+        months={getMonths(filters)}
         />;
       default:
         return <Geral 
-        data={anac || []}
+        data={caged}
         year={getYearSelected(filters)}
         months={getMonths(filters)}
         />;
@@ -111,17 +120,17 @@ const AeroportosPage = () => {
           }`}
         >
           Comparativo
-        </button>
+        </button> */}
         <button
-          onClick={() => handleNavigation("embarque")}
+          onClick={() => handleNavigation("desemprego")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "embarque"
+            activeTab === "desemprego"
               ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Embarque/Desembarque
-        </button> */}
+          Desemprego
+        </button>  
         <Link
           href={'rais?tab=geral'}
           className={`px-6 py-3 rounded-lg flex items-center justify-center flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
@@ -138,4 +147,4 @@ const AeroportosPage = () => {
   );
 };
 
-export default AeroportosPage;
+export default EmpregosPage;

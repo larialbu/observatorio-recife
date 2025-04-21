@@ -5,8 +5,6 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
-import { getMonths } from "@/utils/filters/@global/getMonths";
-import { geralAccFunction } from "@/functions/process_data/observatorio/empregos/rais/demografia/geralFuncition";
 import Demografia from "./(demografia)/demografia";
 import Desligamento from "./(desligamento)/desligamento";
 import Diversidade from "./(diversidade)/diversidade";

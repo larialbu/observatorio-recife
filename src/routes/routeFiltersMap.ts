@@ -80,6 +80,8 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
 
   "/observatorio/empregos": {
     geral: empregosCagedFilters,
+    comparativo: empregosCagedFilters,
+    desemprego: empregosCagedFilters,
   },
 
   "/observatorio/rais": {

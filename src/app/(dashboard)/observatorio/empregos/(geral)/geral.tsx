@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import charts from "./@imports/charts";
 import cards from "./@imports/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
@@ -19,8 +19,17 @@ const Geral = ({
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const sortableContainerRef = useRef<HTMLDivElement>(null);
+  const [chartData, setChartData] = useState({})
 
-  console.log('GERALK (caged)', data)
+  useEffect(() => {
+    // não precisa: Ano Capital Código Região UF (precisa só nos outros no de "municipios" não)
+
+    // setChartData({ ...geralAccFunction(data.ativ || [], ["Sexo Trabalhador", "Escolaridade após 2005", "Raça Cor", "Faixa Etária", "Tipo Defic"]), 
+    //   ...cnaeAccFunction(data.ativ|| [], 'CNAE Código')})
+      setChartData(data)
+  }, [data])
+
+  console.log('GERALK (caged)', chartData)
 
   return (
     <div>
@@ -40,11 +49,11 @@ const Geral = ({
               key={index}
               className={`chart-content-wrapper`}
             >
-              {/* <React.Suspense fallback={<GraphSkeleton />}>
+              <React.Suspense fallback={<GraphSkeleton />}>
                 <ErrorBoundary>
-                  <Component data={data} rawData={rawData} months={months} />
+                  <Component data={data} months={months} />
                 </ErrorBoundary>
-              </React.Suspense> */}
+              </React.Suspense>
             </div>
           );
         })}

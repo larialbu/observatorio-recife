@@ -61,41 +61,41 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
       // Atualiza os filtros apenas se additionalFiltersOptions existirem
       // antigo feio bosta
-      const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
+      // const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
       
-      // const newAdditional: AdditionalFilter[] = Object.values(Object.keys(fetched).filter((key) => key != 'id').map((key) => {
-      //   if (fetched?.[key]?.additionalFiltersOptions) {
-      //    return fetched[key].additionalFiltersOptions
-      //   } else {
-      //    return Object.keys(fetched[key]).map((keyInter) => fetched[key][keyInter].additionalFiltersOptions)
-      //   }
-      //  }).flat(Infinity).reduce((acc, curr) => {
-      //   const { label, ...rest } = curr;
+      const newAdditional: AdditionalFilter[] = Object.values(Object.keys(fetched).filter((key) => key != 'id').map((key) => {
+        if (fetched?.[key]?.additionalFiltersOptions) {
+         return fetched[key].additionalFiltersOptions
+        } else {
+         return Object.keys(fetched[key]).map((keyInter) => fetched[key][keyInter].additionalFiltersOptions)
+        }
+       }).flat(Infinity).filter((val) => val != undefined).reduce((acc, curr) => {
+        const { label, ...rest } = curr;
     
-      //   if (!acc[label]) {
-      //     acc[label] = { label };
-      //   }
+        if (!acc[label]) {
+          acc[label] = { label };
+        }
     
-      //   for (const key in rest) {
-      //     const value = rest[key];
+        for (const key in rest) {
+          const value = rest[key];
     
-      //     if (Array.isArray(value)) {
-      //       if (!Array.isArray(acc[label][key])) {
-      //         acc[label][key] = [];
-      //       }
+          if (Array.isArray(value)) {
+            if (!Array.isArray(acc[label][key])) {
+              acc[label][key] = [];
+            }
     
-      //       acc[label][key].push(...value);
-      //       acc[label][key] = [...new Set(acc[label][key])]; // remover duplicatas
-      //     } else {
-      //       // Se não for array, só atribui se ainda não tiver sido atribuído
-      //       if (!(key in acc[label])) {
-      //         acc[label][key] = value;
-      //       }
-      //     }
-      //   }
+            acc[label][key].push(...value);
+            acc[label][key] = [...new Set(acc[label][key])]; // remover duplicatas
+          } else {
+            // Se não for array, só atribui se ainda não tiver sido atribuído
+            if (!(key in acc[label])) {
+              acc[label][key] = value;
+            }
+          }
+        }
     
-      //   return acc;
-      // }, {}))
+        return acc;
+      }, {}))
 
       if (newAdditional.length) {
         setFilters((prev) => {

@@ -63,6 +63,8 @@ export const routeServicesMap: Record<
 
   "/observatorio/empregos": {
     geral: empregosDataService,
+    comparativo: empregosDataService,
+    desemprego: empregosDataService,
   },
 
   "/observatorio/rais": {
