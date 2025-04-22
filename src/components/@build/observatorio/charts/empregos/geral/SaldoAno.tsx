@@ -4,14 +4,17 @@ import React from "react";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { processCargaAno } from "@/functions/process_data/observatorio/aeroporto/geral/charts/cargaAno";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 import { monthShortName } from "@/utils/formatters/@global/monthShortName";
 
-const RelatorioAno = ({
+const SaldoAno = ({
   data,
   nameKey = "Mês",
   colors = ColorPalette.default,
-  title = "Demissões/Admissões ao Longo do Ano",
+  title = "Saldo ao Longo do Ano",
   months,
 }: any) => {
   
@@ -27,11 +30,11 @@ const RelatorioAno = ({
           title={title}
           colors={colors}
           xKey={nameKey}
-          lines={[{ dataKey: "Admissões", name: "Admissões", strokeWidth: 2 }, { dataKey: "Demissões", name: "Demissões", strokeWidth: 2 }]}
+          lines={[{ dataKey: "Saldos", name: "Saldo", strokeWidth: 2 }]}
         />
       </ChartGrabber>
     </div>
   );
 };
 
-export default RelatorioAno;
+export default SaldoAno;

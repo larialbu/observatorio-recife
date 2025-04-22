@@ -22,21 +22,15 @@ const Geral = ({
   const [chartData, setChartData] = useState({})
 
   useEffect(() => {
-    // não precisa: Ano Capital Código Região UF (precisa só nos outros no de "municipios" não)
-
-    // setChartData({ ...geralAccFunction(data.ativ || [], ["Sexo Trabalhador", "Escolaridade após 2005", "Raça Cor", "Faixa Etária", "Tipo Defic"]), 
-    //   ...cnaeAccFunction(data.ativ|| [], 'CNAE Código')})
       setChartData(data)
   }, [data])
-
-  console.log('GERALK (caged)', chartData)
 
   return (
     <div>
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-            {/* <Component data={data} year={year} color={ColorPalette.default[index]} /> */}
+            <Component data={chartData} year={year} color={ColorPalette.default[index]} />
           </React.Suspense>
         ))}
       </div>
