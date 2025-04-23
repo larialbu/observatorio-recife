@@ -31,7 +31,6 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
   maxHeight = 450,
   withClick,
   enablePagination = true,
-  simple = false,
   searchIndexes = [], // Índices das colunas a serem filtradas
   ordenations = [],
   onOrdenationChange
@@ -90,7 +89,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
     <div className="bg-none">
       <div className={`overflow-hidden flex flex-col rounded-lg h-full`} style={{ backgroundColor: `${color}` }}>
         <div className="mb-4 flex-1">
-        {!simple &&
+        {title &&
           <h3 className={`flex-1 bg-[${color}] w-full rounded-t-lg text-lg font-semibold px-8 py-6 text-white`}>
             {title}
           </h3>}

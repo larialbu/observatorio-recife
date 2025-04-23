@@ -3,13 +3,13 @@ import Card from "@/components/@global/cards/Card";
 const SaldoMedio = ({
   data,
   date,
-  title = `Saldo`,
+  title = `Saldo Médio`,
   local = '',
   year,
   color,
 }: any) => {
  
-  const chartData = data['municipios'].reduce((acc: number, obj: any) => acc += obj['Saldos'] , 0) / data['municipios'].length
+  const chartData = (data['municipios']?.reduce((acc: number, obj: any) => acc += obj['Saldos'] , 0) / data?.['municipios']?.length || 0) || 0
 
   return (
     <Card

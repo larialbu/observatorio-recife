@@ -5,7 +5,7 @@ const tables = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/tables/aeroporto/comparativo/AeroportoInfo"
+          "@/components/@build/observatorio/tables/empregos/comparativo/MovimentacaoEmpregos"
         )
     ),
   },

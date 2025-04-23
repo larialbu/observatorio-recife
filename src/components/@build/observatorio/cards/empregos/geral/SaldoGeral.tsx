@@ -9,7 +9,7 @@ const SaldoGeral = ({
   color,
 }: any) => {
  
-  const chartData = data['municipios'].reduce((acc: number, obj: any) => acc += obj['Saldos'] , 0)
+  const chartData = data['municipios']?.reduce((acc: number, obj: any) => acc += obj['Saldos'] , 0) || 0
 
   return (
     <Card

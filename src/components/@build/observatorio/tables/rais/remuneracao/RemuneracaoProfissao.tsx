@@ -1,6 +1,5 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
-import { rowsCountrysByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsCountrysByMunicipio";
-import { rowsProfissao } from "@/functions/process_data/observatorio/empregos/rais/remuneracao/rowsProfissao";
+import { rowsProfissao } from "@/functions/process_data/observatorio/rais/remuneracao/rowsProfissao";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
 import { useState } from "react";
 
@@ -73,7 +72,6 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
           headers={header}
           title={''}
           maxHeight={800}
-          simple
           rows={getRows(dataSorted)}
         />
     </div>
