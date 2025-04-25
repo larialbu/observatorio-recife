@@ -16,9 +16,6 @@ export class PibData {
 
   async fetchProcessedData(): Promise<ProcessedDataPib[]> {
     const endpoint = `/pib/geral/anos`;
-    // console.log('/empregos/caged/anos/', await fetchData<ProcessedDataPib[]>('/empregos/caged/anos/2024', {}))
-    // console.log('/empregos/desemprego/anos/', await fetchData<ProcessedDataPib[]>('/empregos/desemprego/anos/2024', {}))
-    // console.log('/empregos/rais/recife/anos/', await fetchData<ProcessedDataPib[]>('/empregos/rais/recife/anos/2024', {}))
     return fetchData<ProcessedDataPib[]>(endpoint, PibData.cache);
   }
 

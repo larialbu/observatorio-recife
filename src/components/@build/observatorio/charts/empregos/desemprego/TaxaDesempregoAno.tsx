@@ -15,7 +15,8 @@ const TaxaDesempregoAno = ({
   months,
 }: any) => {
   
-  const chartData = data['municipios'].sort((a: any, b: any) => {+a["Trimestre"].split('º')[0] - +b["Trimestre"].split('º')[0]}).map((data: any) => ({ ...data, "Trimestre": data['Trimestre'].split(' ')[0]}));
+  const chartData = data['municipios'].sort((a: any, b: any) => {+a["Trimestre"].split('º')[0] - +b["Trimestre"].split('º')[0]})
+                      .map((data: any) =>  ({ ...data, "Trimestre": data['Trimestre'].split(' ').slice(0, 2).join(' ')}));
 
   return (
     <div className="chart-wrapper">

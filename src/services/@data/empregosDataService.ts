@@ -48,21 +48,30 @@ export class EmpregosDataService {
 
   private async fetchGeralCagedDesemprego(filters: Record<string, any>) {
     const empregosData = new EmpregosData(this.currentYear);
-    // const pastYear = `${+this.currentYear - 1}`;
+    const pastYear = `${+this.currentYear - 1}`;
 
-    const fetchData = await empregosData.fetchProcessedDataCagedDesemprego();
+    // const fetchData = await empregosData.fetchProcessedDataCagedDesemprego();
+
+    const [
+      empregosCur,
+      empregosPast,
+    ] = await Promise.all([
+      empregosData.fetchProcessedDataCagedDesemprego(),
+      new EmpregosData(pastYear).fetchProcessedDataCagedDesemprego().catch(() => []),
+    ]);
 
     // console.log('Desempregos Fetch: ', await empregosData.fetchProcessedDataCagedDesemprego())
     
-
     // tanto faz, o ideial é filtrar somente por municipio
-    const filteredMunicipioData = applyGenericFilters(fetchData,  filters, ['Região', 'Trimestre']);
+    const filteredMunicipioData = applyGenericFilters(empregosCur, filters, ['Região', 'Trimestre']);
+    const filteredMunicipioPastData = applyGenericFilters(empregosPast, filters, ['Região', 'Trimestre']);
     // tudo menos filtrar por municipio
-    const filteredDesempregoData = applyGenericFilters(fetchData, filters, ['Capital']);
+    const filteredDesempregoData = applyGenericFilters(empregosCur, filters, ['Capital']);
     
     return {
         municipios: filteredMunicipioData,
         desemprego: filteredDesempregoData,
+        municipiosPast: filteredMunicipioPastData,
         id: "dempregos-caged"
     };
   }

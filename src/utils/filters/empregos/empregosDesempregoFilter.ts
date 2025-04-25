@@ -10,6 +10,7 @@ export const empregosDesempregoFilters = {
         label: "Capital",  
         options: [],  
         selected: ['Recife-PE'],
+        allowMultiple: false
       },
       {
         label: "Região",  
