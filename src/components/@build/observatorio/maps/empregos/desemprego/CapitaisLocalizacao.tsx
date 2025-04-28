@@ -3,6 +3,8 @@ import React, { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { processDesempregoTaxaCapital } from "@/functions/process_data/observatorio/empregos/desemprego/desempregoTaxaCapital";
+import { capitaisCoordsDicts } from "@/utils/dicts/empregos/desemprego/capitaisCoordsDicts";
 
 type PortoData = {
   Longitude: string;
@@ -19,8 +21,8 @@ type GeoJSONFeature = {
     coordinates: [number, number];
   };
   properties: {
-    name: string;
-    vlPesoCargaBruta: number;
+    label: string;
+    value: number;
   };
 };
 
@@ -29,90 +31,69 @@ type GeoJSON = {
   features: GeoJSONFeature[];
 };
 
-function convertToGeoJSON(data: PortoData[], selectedMonths: number[]): GeoJSON {
+// function convertToGeoJSON(data: any[], selectedMonths: number[]): GeoJSON {
+function convertToGeoJSON(data: any[]): any {
   if (!Array.isArray(data)) {
     console.error("A data deve ser um array.");
     return { type: "FeatureCollection", features: [] };
   }
 
-  console.log('DAATa', data)
+  const quarter = data.reduce((acc: number, obj: any) => {
+    const data = +obj['Trimestre'].split('º')[0]
+    acc = acc <= data ? data : acc
 
-  const filteredData = selectedMonths.length > 0
-    ? data.filter((item) => selectedMonths.includes(item.Mes))
-    : data;
+    return acc
+  }, 0)
 
-  const aggregatedData: { [key: string]: PortoData } = {};
+    const dataFiltred = data.filter((obj: any) => +obj['Trimestre'].split('º')[0] == quarter)
 
-  filteredData.forEach((item) => {
-    const key = item["Porto Atracação"];
+    const capitalsData = processDesempregoTaxaCapital(dataFiltred)
+    const chartData = capitalsData.map((obj) =>  {
+        const coords = capitaisCoordsDicts[obj.label];
+        if (!coords) {
+          console.warn(`Coordenadas não encontradas para: ${obj.label}`);
+          return null;
+        }
 
-    if (!aggregatedData[key]) {
-      aggregatedData[key] = { ...item };
-    } else {
-
-      aggregatedData[key].VLPesoCargaBruta += item.VLPesoCargaBruta;
-    }
-  });
-
-  console.log('aGGREData', aggregatedData)
-  console.log('FiltredData', filteredData)
-
-  const aggregatedDataArray = Object.values(aggregatedData);
-
-  console.log('aGGREDataArray', aggregatedDataArray)
-
-  console.log('REturned', {
-    type: "FeatureCollection",
-    features: aggregatedDataArray.map((item) => ({
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [
-          parseFloat(item.Longitude.replace(",", ".")),
-          parseFloat(item.Latitude.replace(",", ".")),
-        ],
-      },
-      properties: {
-        name: item["Porto Atracação"],
-        vlPesoCargaBruta: item.VLPesoCargaBruta,
-      },
-    })),
-  })
+       return ({ ...obj, ...capitaisCoordsDicts[obj['label']] })}).filter((obj) => obj!== null )
 
   return {
     type: "FeatureCollection",
-    features: aggregatedDataArray.map((item) => ({
+    features: chartData.map((item) => ({
       type: "Feature",
       geometry: {
         type: "Point",
         coordinates: [
-          parseFloat(item.Longitude.replace(",", ".")),
-          parseFloat(item.Latitude.replace(",", ".")),
+          item.longitude,
+          item.latitude,
         ],
       },
       properties: {
-        name: item["Porto Atracação"],
-        vlPesoCargaBruta: item.VLPesoCargaBruta,
+        label: item.label,
+        value: item.value,
       },
     })),
   };
 }
 
-type PortoLocalizacaoProps = {
-  data: [PortoData[], number[]];
+type CapitaisLocalizacaoProps = {
+  data: any;
 };
 
-export default function PortoLocalizacao({ data }: PortoLocalizacaoProps) {
+export default function CapitaisLocalizacao({ data }: CapitaisLocalizacaoProps) {
+  console.log('DATa', data)
+
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
 
-    if (!mapRef.current || !data || !Array.isArray(data) || data.length < 2) {
+    if (!mapRef.current || !data['desemprego']) {
+    // if (!mapRef.current || !data || !Array.isArray(data) || data.length < 2) {
       return;
     }
 
-    const portoData = data[0];
-    const selectedMonths = data[1];
+    // const portoData = data[0];
+    // const selectedMonths = data[1];
 
     const map = L.map(mapRef.current).setView([-14.673, -51.260], 4); // Coordenadas iniciais e zoom
 
@@ -138,14 +119,14 @@ export default function PortoLocalizacao({ data }: PortoLocalizacaoProps) {
         Observatório Econômico do Recife`,
     }).addTo(map);
 
-    const geoJsonData = convertToGeoJSON(portoData, selectedMonths);
-
-    console.log('GEoSJon ->',geoJsonData)
+    const geoJsonData = convertToGeoJSON(data['desemprego']);
+    console.log('GeoJSONData', geoJsonData)
+    // const geoJsonData = convertToGeoJSON(portoData, selectedMonths);
 
     L.geoJSON(geoJsonData, {
       pointToLayer: (feature, latlng) => {
-        const fillColor = feature.properties.name === "Recife" ? "red" : ColorPalette.default[1];
-        const { name, vlPesoCargaBruta } = feature.properties;
+        const fillColor = feature.properties.label === "Recife-PE" ? "red" : ColorPalette.default[1];
+        const { label, value } = feature.properties;
 
         const circleMarker = L.circleMarker(latlng, {
           radius: 8,
@@ -158,10 +139,10 @@ export default function PortoLocalizacao({ data }: PortoLocalizacaoProps) {
 
         circleMarker.bindPopup(`
           <div>
-            <h3 style="margin: 0; color: #0077cc; font-size: 17px;">⚓ ${name}</h3>
+            <h3 style="margin: 0; color: #0077cc; font-size: 17px;">⚓ ${label}</h3>
             <hr style="border: 0; height: 1px; background: #ddd; margin: 8px 0;">
             <p style="margin: 0; font-size: 14px;"><strong>Carga:</strong></p>
-            <p style="margin: 0; font-size: 13px; font-weight: bold; color: #333;">${vlPesoCargaBruta} (ton)</p>
+            <p style="margin: 0; font-size: 13px; font-weight: bold; color: #333;">${value} (ton)</p>
           </div>
         `);
 
@@ -172,12 +153,16 @@ export default function PortoLocalizacao({ data }: PortoLocalizacaoProps) {
     return () => {
       map.remove();
     };
-  }, [data?.[0], data?.[1]]);
+
+//   }, [data?.[0], data?.[1]]);
+}, []);
+
+// const dataDesemprego = data['desemprego']
 
   return (
     <div className="w-full h-full">
       <div className="flex w-full justify-center mb-2 text-lg">
-        <strong>Carga dos portos por Localização</strong>
+        <strong>Taxa das capitais por Localização</strong>
       </div>
       <div ref={mapRef} style={{ height: "500px", width: "100%" }} />
     </div>
