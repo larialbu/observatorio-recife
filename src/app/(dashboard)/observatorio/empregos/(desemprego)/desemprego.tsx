@@ -7,6 +7,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
+import maps from "./@imports/maps";
 
 const Desemprego = ({
   data,
@@ -24,6 +25,8 @@ const Desemprego = ({
   useEffect(() => {
       setChartData(data)
   }, [data])
+
+  const { Component }: any = maps[0]
 
   return (
     <div>
@@ -52,6 +55,12 @@ const Desemprego = ({
           );
         })}
       </SortableDiv>
+
+      <div className="place-items-center z-0 mb-6">
+        <div className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center">
+          <Component data={data} />
+        </div>
+      </div>
     </div>
   );
 };

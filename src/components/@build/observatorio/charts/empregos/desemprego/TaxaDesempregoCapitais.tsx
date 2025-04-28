@@ -7,6 +7,7 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import { processGroupsValues } from "@/functions/process_data/observatorio/empregos/caged/cagedGroupsValues";
 import { processDesempregoTaxaCapital } from "@/functions/process_data/observatorio/empregos/desemprego/desempregoTaxaCapital";
+import { capitaisCoordsDicts } from "@/utils/dicts/empregos/desemprego/capitaisCoordsDicts";
 
 const TaxaDesempregoCapitais = ({
   data,
@@ -28,6 +29,8 @@ const TaxaDesempregoCapitais = ({
   const chartData = processDesempregoTaxaCapital(dataFiltred)
   
   const titleAdd = title + `- (${dataFiltred[0]['Trimestre']})`
+
+  console.log('CAHRtData', chartData.map((obj) =>  ({ ...obj, ...capitaisCoordsDicts[obj['label']] })))
 
   return (
     <div className="chart-wrapper">
