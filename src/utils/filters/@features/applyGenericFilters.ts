@@ -4,6 +4,7 @@ export function applyGenericFilters<T extends Record<string, any>>(
   data: T[],
   filters: Filters,
   skipLabel: string[] = [],
+  skipOptions: string[] = [],
 ): DataWithFilters<T> {
 
 
@@ -43,7 +44,7 @@ export function applyGenericFilters<T extends Record<string, any>>(
         .map((v) => String(v))
         .filter((op) => !(f.fixed && f.fixed.includes(op)));;
 
-      return { ...f, options: uniqueValues };
+      return { ...f, options: skipOptions.includes(f.label) ? [] : uniqueValues };
     }) || [];
 
   // Retornamos o "filteredData" pra exibir no gráfico ou tabela,

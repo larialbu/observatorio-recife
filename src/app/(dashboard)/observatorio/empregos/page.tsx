@@ -53,14 +53,22 @@ const EmpregosPage = () => {
         if (data?.desemprego) {
           setDesemprego({
             desemprego: data.desemprego.filteredData,
-            municipios: data.municipios.filteredData
+            municipios: data.municipios.filteredData,
+            trimestre: {
+              municipiosTrimestre: data.trimestre.municipiosTrimestre.filteredData,
+              municipiosTrimestrePast: data.trimestre.municipiosTrimestrePast.filteredData,
+            },
           });
 
           clearInterval(intervalId);
         } else {
           setDesemprego({
               desemprego: [],
-              municipios: []
+              municipios: [],
+              trimestre: {
+                municipiosTrimestre: [],
+                municipiosTrimestrePast: [],
+              },
             });
         }
 
@@ -73,7 +81,7 @@ const EmpregosPage = () => {
 
 
   const renderContent = () => {
-    if (!data || !caged.caged || !caged.municipios || !desemprego.desemprego || !desemprego.municipios) {
+    if (!data || !caged.caged || !caged.municipios || !desemprego.desemprego || !desemprego.municipios ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 

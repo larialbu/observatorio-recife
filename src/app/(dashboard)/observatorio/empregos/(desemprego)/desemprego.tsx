@@ -21,9 +21,6 @@ const Desemprego = ({
   const sortableContainerRef = useRef<HTMLDivElement>(null);
   const [chartData, setChartData] = useState({})
 
-  console.log('DATat reiniciando ->', data)
-  console.log('Months ->', months)
-
   useEffect(() => {
       setChartData(data)
   }, [data])
@@ -33,7 +30,7 @@ const Desemprego = ({
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-            {/* <Component data={chartData} year={year} color={ColorPalette.default[index]} /> */}
+            <Component data={chartData} year={year} color={ColorPalette.default[index]} />
           </React.Suspense>
         ))}
       </div>

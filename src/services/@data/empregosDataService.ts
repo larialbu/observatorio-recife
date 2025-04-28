@@ -64,14 +64,18 @@ export class EmpregosDataService {
     
     // tanto faz, o ideial é filtrar somente por municipio
     const filteredMunicipioData = applyGenericFilters(empregosCur, filters, ['Região', 'Trimestre']);
-    const filteredMunicipioPastData = applyGenericFilters(empregosPast, filters, ['Região', 'Trimestre']);
+    const filteredMunicipioPastData = applyGenericFilters(empregosPast, filters, ['Região', 'Trimestre'], ['Trimestre']);
+    const filteredMunicipioTrimestreData = applyGenericFilters(empregosCur, filters, ['Região']);
     // tudo menos filtrar por municipio
     const filteredDesempregoData = applyGenericFilters(empregosCur, filters, ['Capital']);
     
     return {
         municipios: filteredMunicipioData,
         desemprego: filteredDesempregoData,
-        municipiosPast: filteredMunicipioPastData,
+        trimestre: {
+          municipiosTrimestre: filteredMunicipioTrimestreData,
+          municipiosTrimestrePast: filteredMunicipioPastData,
+        },
         id: "dempregos-caged"
     };
   }

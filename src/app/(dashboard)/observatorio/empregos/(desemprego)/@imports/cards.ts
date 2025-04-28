@@ -4,21 +4,35 @@ const cards = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/cards/empregos/geral/SaldoGeral"
+        "@/components/@build/observatorio/cards/empregos/desempregos/TaxaTrimestre"
       )
     ),
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/cards/empregos/geral/EstoqueEmpregos"
+        "@/components/@build/observatorio/cards/empregos/desempregos/TaxaTrimestreAnterior"
       )
     ),
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/cards/empregos/geral/SaldoMedio"
+        "@/components/@build/observatorio/cards/empregos/desempregos/VariacaoTrimesteAnterior"
+      )
+    ),
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/cards/empregos/desempregos/TaxaTrimestreAnoAnterior"
+      )
+    ),
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/cards/empregos/desempregos/VariacaoAno"
       )
     ),
   },

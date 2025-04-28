@@ -1,16 +1,17 @@
 import Card from "@/components/@global/cards/Card";
 
-const TaxaTrimestre = ({
+const TaxaTrimestreAnoAnterior = ({
   data,
   date,
-  title = `Taxa desemprego`,
+  title = `Taxa desemprego `,
   local = '',
   year,
   color,
 }: any) => {
  
   const dataMunicipio = data['trimestre']?.['municipiosTrimestre'] || []
-  
+  const dataMunicipioPast = data['trimestre']?.['municipiosTrimestrePast'] || []
+   
   const quarter = dataMunicipio.reduce((acc: number, obj: any) => {
       const data = +obj['Trimestre'].split('º')[0]
       acc = acc <= data ? data : acc
@@ -18,10 +19,10 @@ const TaxaTrimestre = ({
       return acc
     }, 0)
 
-  const dataFiltred = dataMunicipio.filter((obj: any) => +obj['Trimestre'].split('º')[0] == quarter) 
+  const dataFiltred = dataMunicipioPast.filter((obj: any) => +obj['Trimestre'].split('º')[0] == quarter)
 
   const chartData = dataFiltred.reduce((acc: number, obj: any) => acc += obj['Taxa'] , 0) || 0
- 
+  
   title = title + ` - (${dataFiltred?.[0]?.['Trimestre'] || ''})`
 
   return (
@@ -35,4 +36,4 @@ const TaxaTrimestre = ({
   );
 };
 
-export default TaxaTrimestre;
+export default TaxaTrimestreAnoAnterior;
