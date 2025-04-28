@@ -6,9 +6,9 @@ import { ObsHeader } from "@/components/home/ObsHeader";
 import { NavBarHome } from "@/components/home/NavBarHome";
 import "../styles/home/style.scss";
 import "../styles/explore/style.scss";
-import { Modal } from "@/components/fontes/Modal"; // Novo componente Modal
-import { SourcesCard } from "@/components/fontes/SourcesCard"; // Novo componente para os cards
-import { Zenitho, Lumiflex } from "uvcanvas";
+import { Modal } from "@/components/fontes/Modal"; 
+import { SourcesCard } from "@/components/fontes/SourcesCard"; 
+import { Zenitho } from "uvcanvas";
 
 interface Sources {
   name: string;
@@ -108,7 +108,7 @@ export default function SourcesPage() {
 
   const handleCloseModal = () => {
     setOpenModal(false);
-    setTimeout(() => setActiveCollaborator(null), 300); // Limpa colaborador após animação
+    setTimeout(() => setActiveCollaborator(null), 300); 
   };
 
   return (
@@ -124,7 +124,6 @@ export default function SourcesPage() {
             <Zenitho />
           </div>
         </div>
-        {/* Título e Descrição */}
         <div className="relative z-10 max-w-4xl text-center px-4 __title">
           <div className="flex flex-col lg:flex-row items-center lg:inline-flex gap-2 lg:gap-0">
             <div className="w-[64px] mr-[1em] icon-wrapper">
@@ -150,8 +149,7 @@ export default function SourcesPage() {
           <path fill="#ffffff" className="dark:fill-[#0C1B2B]" fill-opacity="1" d="M0,192L48,202.7C96,213,192,235,288,245.3C384,256,480,256,576,240C672,224,768,192,864,197.3C960,203,1056,245,1152,229.3C1248,213,1344,139,1392,101.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
         </svg>
       </section>
-      
-      {/* Grid de Colaboradores */}
+
       <main className="relative w-full min-h-screen flex flex-col items-center justify-start bg-white dark:bg-[#0C1B2B] py-16 px-4">
         
         <div className="max-w-6xl mx-auto text-center mb-8">
@@ -174,7 +172,6 @@ export default function SourcesPage() {
         </div>
       </main>
 
-      {/* Modal */}
       <Modal
         isOpen={openModal}
         onClose={handleCloseModal}

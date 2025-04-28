@@ -68,6 +68,12 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
       onClick: undefined,
       className: `${baseNavItemClass} flex-shrink-0 hover:underline`,
     },
+    {
+      text: "Ajuda",
+      href: "/ajuda",
+      onClick: undefined,
+      className: `${baseNavItemClass} flex-shrink-0 hover:underline`,
+    },
   ];
 
   /** Fechar menu ao clicar fora */
