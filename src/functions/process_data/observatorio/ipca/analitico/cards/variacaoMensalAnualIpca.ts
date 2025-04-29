@@ -4,12 +4,6 @@ export const variacaoMensalAnualIpca = (data: IpcaGeralHeaders[], capital: strin
   // Filtra os dados pela capital fornecida
   const dadosFiltrados = data.filter((dado) => dado.Capital === capital);
 
-  const mensalTotal = dadosFiltrados.reduce((acc, obj) => {
-    const objMensal = obj["IPCA - Variação mensal"]
-
-    return acc + objMensal;
-  }, 0);
-
   if (dadosFiltrados.length === 0) {
     return {
       mês: "0",
@@ -24,13 +18,12 @@ export const variacaoMensalAnualIpca = (data: IpcaGeralHeaders[], capital: strin
   );
 
   // Seleciona o maior mês (primeiro da lista ordenada)
-  const maiorMes = dadosOrdenados[0];
+  const recentMonth = dadosOrdenados[0];
 
   // Retorna as informações necessárias
   return {
-    mês: maiorMes.MÊS,
-    // variaçãoMensal: maiorMes["variação mensal"],
-    variaçãoMensal: mensalTotal.toFixed(2),
-    variaçãoAcumuladaNoAno: maiorMes["IPCA - Variação acumulado no ano"],
+    mês: recentMonth.MÊS,
+    variaçãoMensal: recentMonth["IPCA - Variação mensal"],
+    variaçãoAcumuladaNoAno: recentMonth["IPCA - Variação acumulado no ano"],
   };
 };

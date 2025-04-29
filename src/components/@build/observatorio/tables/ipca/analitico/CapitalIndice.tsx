@@ -1,7 +1,5 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
-import { rowsCountrysByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsCountrysByMunicipio";
 import { rowsCapitalsIndice } from "@/functions/process_data/observatorio/ipca/analitico/tables/rowsCapitalsIndice";
-import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
 import { percentFormatter } from "@/utils/formatters/@global/percentFormatter";
 
 const CapitalIndice = ({
@@ -14,12 +12,8 @@ const CapitalIndice = ({
     monthRecent ? `${monthRecent} - ` : ""
   }${year}) - Índices`,
 }: any) => {
-  const aggregatedData = rowsCapitalsIndice(data, year, capital, monthRecent);
 
-
-  const sortedData = Object.values(aggregatedData).sort(
-    (a: any, b: any) => parseInt(a.MÊS, 10) - parseInt(b.MÊS, 10)
-  );
+  const aggregatedData = rowsCapitalsIndice(data, capital);
 
   const firstAggregated: any = aggregatedData[0];
 
