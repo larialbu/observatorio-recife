@@ -10,7 +10,7 @@ import { IpcaGrupoHeaders } from "@/@types/observatorio/@fetch/ipca";
 
 const GrupoParticipacaoIpca = ({
   data = [],
-  nameKey = "grupo",
+  nameKey = "label",
   colors = ColorPalette.default,
   title = "IPCA Grupo",
 }: ChartBuild<IpcaGrupoHeaders[]>) => {
@@ -25,7 +25,7 @@ const GrupoParticipacaoIpca = ({
           title={title}
           colors={colors.slice(1)}
           xKey={nameKey}
-          bars={[{ dataKey: "porcentagem", name: "Participação do Grupo no IPCA (%)", barWidth: 30 }]}
+          bars={[{ dataKey: "value", name: "Participação do Grupo no IPCA (%)", barWidth: 30 }]}
         />
       </ChartGrabber>
     </div>

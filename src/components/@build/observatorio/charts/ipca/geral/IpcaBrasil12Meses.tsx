@@ -9,13 +9,13 @@ import { IpcaGeralHeaders } from "@/@types/observatorio/@fetch/ipca";
 import { ChartBuild } from "@/@types/observatorio/shared";
 
 const IpcaBrasil12Meses = ({
-  data = [],
+  rawData = [],
   nameKey = "capital",
   colors = ColorPalette.default,
   title = "IPCA Acumulado nos últimos 12 meses no Brasil",
 }: ChartBuild<IpcaGeralHeaders[]>) => {
   
-  const chartData = processIpcaBrasilUltimos12Meses(data);
+  const chartData = processIpcaBrasilUltimos12Meses(rawData);
 
   return (
     <div className="chart-wrapper">

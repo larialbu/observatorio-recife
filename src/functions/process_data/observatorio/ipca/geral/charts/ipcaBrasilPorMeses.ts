@@ -13,7 +13,7 @@ export const processBrasilVariacaoMensal = (data: IpcaGeralHeaders[]) => {
     }));
   
     filteredData.forEach((item) => {
-      const variaçãoMensal = item["IPCA - Variação acumulado no ano"] || 0;
+      const variaçãoMensal = item["IPCA - Variação mensal"] || 0;
   
       const mes = item["MÊS"];
   

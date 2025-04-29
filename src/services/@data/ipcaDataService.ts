@@ -33,8 +33,9 @@ export class IpcaDataService {
 
     const ipcaService = new IpcaData(this.currentYear);
     const geral = await ipcaService.fetchProcessedGeralData();
-    const rawData = await getRawData({applyGenericFilters, service: ipcaService, nameFunc: 'fetchProcessedGeralData', currentYear: this.currentYear, years: filters.years, keyName: 'Capital', filters, lengthIgnore: 1})
-    const geralFiltered = {...applyGenericFilters(geral, filters), rawData};
+    const rawData = applyGenericFilters(geral, filters, ['Capital'])
+    // const rawData = await getRawData({applyGenericFilters, service: ipcaService, nameFunc: 'fetchProcessedGeralData', currentYear: this.currentYear, years: filters.years, keyName: 'Capital', filters, lengthIgnore: 1})
+    const geralFiltered = {...applyGenericFilters(geral, filters, ['MÊS']), rawData: rawData.filteredData};
 
     return { geral: geralFiltered, id: "ipca" };
   }

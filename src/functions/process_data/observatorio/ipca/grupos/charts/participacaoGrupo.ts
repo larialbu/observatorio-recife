@@ -35,11 +35,11 @@ export const processPercentageByType = (
   
     return Object.values(processedData)
       .map((group) => ({
-        [type]: group.key,
-        porcentagem: (group.totalIndice / totalGeralIndice) * 100,
+        label: group.key,
+        value: (group.totalIndice / totalGeralIndice) * 100,
       }))
       .sort(
-        (a, b) => b.porcentagem - a.porcentagem
+        (a, b) => b.value - a.value
       );
   };
   
