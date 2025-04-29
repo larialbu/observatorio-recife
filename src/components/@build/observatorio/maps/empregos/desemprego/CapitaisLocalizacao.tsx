@@ -6,12 +6,13 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processDesempregoTaxaCapital } from "@/functions/process_data/observatorio/empregos/desemprego/desempregoTaxaCapital";
 import { capitaisCoordsDicts } from "@/utils/dicts/empregos/desemprego/capitaisCoordsDicts";
 
-type PortoData = {
-  Longitude: string;
-  Latitude: string;
-  "Porto Atracação": string;
-  Mes: number;
-  VLPesoCargaBruta: number;
+type DesempregoData = {
+  Ano: number
+  Capital: string
+  "Mês": number
+  "Região": string
+  Taxa: number
+  Trimestre: string
 };
 
 type GeoJSONFeature = {
@@ -31,27 +32,26 @@ type GeoJSON = {
   features: GeoJSONFeature[];
 };
 
-// function convertToGeoJSON(data: any[], selectedMonths: number[]): GeoJSON {
-function convertToGeoJSON(data: any[]): any {
+function convertToGeoJSON(data: DesempregoData[]): GeoJSON {
   if (!Array.isArray(data)) {
-    console.error("A data deve ser um array.");
     return { type: "FeatureCollection", features: [] };
   }
 
-  const quarter = data.reduce((acc: number, obj: any) => {
+  const quarter = data.reduce((acc: number, obj: DesempregoData) => {
     const data = +obj['Trimestre'].split('º')[0]
     acc = acc <= data ? data : acc
 
     return acc
   }, 0)
 
-    const dataFiltred = data.filter((obj: any) => +obj['Trimestre'].split('º')[0] == quarter)
+    const dataFiltred = data.filter((obj: DesempregoData) => +obj['Trimestre'].split('º')[0] == quarter)
+
+    const quarterStr = dataFiltred?.[0]?.['Trimestre']
 
     const capitalsData = processDesempregoTaxaCapital(dataFiltred)
     const chartData = capitalsData.map((obj) =>  {
         const coords = capitaisCoordsDicts[obj.label];
         if (!coords) {
-          console.warn(`Coordenadas não encontradas para: ${obj.label}`);
           return null;
         }
 
@@ -69,7 +69,7 @@ function convertToGeoJSON(data: any[]): any {
         ],
       },
       properties: {
-        label: item.label,
+        label: item.label + `$${quarterStr}`,
         value: item.value,
       },
     })),
@@ -77,23 +77,23 @@ function convertToGeoJSON(data: any[]): any {
 }
 
 type CapitaisLocalizacaoProps = {
-  data: any;
-};
+  data: {
+    desemprego: DesempregoData[], municipios: DesempregoData[], trimestre: {
+      municipiosTrimestre: DesempregoData[], municipiosTrimestrePast: DesempregoData[]
+    };
+  };
+}
 
 export default function CapitaisLocalizacao({ data }: CapitaisLocalizacaoProps) {
-  console.log('DATa', data)
 
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
 
     if (!mapRef.current || !data['desemprego']) {
-    // if (!mapRef.current || !data || !Array.isArray(data) || data.length < 2) {
       return;
     }
 
-    // const portoData = data[0];
-    // const selectedMonths = data[1];
 
     const map = L.map(mapRef.current).setView([-14.673, -51.260], 4); // Coordenadas iniciais e zoom
 
@@ -120,44 +120,46 @@ export default function CapitaisLocalizacao({ data }: CapitaisLocalizacaoProps) 
     }).addTo(map);
 
     const geoJsonData = convertToGeoJSON(data['desemprego']);
-    console.log('GeoJSONData', geoJsonData)
-    // const geoJsonData = convertToGeoJSON(portoData, selectedMonths);
 
     L.geoJSON(geoJsonData, {
       pointToLayer: (feature, latlng) => {
-        const fillColor = feature.properties.label === "Recife-PE" ? "red" : ColorPalette.default[1];
         const { label, value } = feature.properties;
+        const name = label.split('$')[0]
+        const quarterStr = label.split('$')[1]
+       
+        const fillColor = name === "Recife-PE" ? "red" : ColorPalette.default[1];
 
+        const scaledRadius = Math.sqrt(value) * 5; // ajuste o fator multiplicador conforme necessário
+    
         const circleMarker = L.circleMarker(latlng, {
-          radius: 8,
+          radius: scaledRadius,
           fillColor,
           color: "#000",
           weight: 1,
           opacity: 1,
           fillOpacity: 0.8,
         });
-
+    
         circleMarker.bindPopup(`
           <div>
-            <h3 style="margin: 0; color: #0077cc; font-size: 17px;">⚓ ${label}</h3>
+            <h3 style="margin: 0; color: #0077cc; font-size: 17px;">📈 ${name}</h3>
+            <h3 style="margin: 0; color: #333; font-size: 12px;">${quarterStr}</h3>
             <hr style="border: 0; height: 1px; background: #ddd; margin: 8px 0;">
-            <p style="margin: 0; font-size: 14px;"><strong>Carga:</strong></p>
-            <p style="margin: 0; font-size: 13px; font-weight: bold; color: #333;">${value} (ton)</p>
+            <p style="margin: 0; font-size: 14px;"><strong>Taxa:</strong></p>
+            <p style="margin: 0; font-size: 13px; font-weight: bold; color: #333;">${value}%</p>
           </div>
         `);
-
+    
         return circleMarker;
       },
     }).addTo(map);
+    
 
     return () => {
       map.remove();
     };
 
-//   }, [data?.[0], data?.[1]]);
-}, []);
-
-// const dataDesemprego = data['desemprego']
+}, [data]);
 
   return (
     <div className="w-full h-full">

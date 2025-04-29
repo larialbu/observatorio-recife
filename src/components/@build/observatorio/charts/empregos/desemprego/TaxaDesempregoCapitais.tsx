@@ -28,9 +28,7 @@ const TaxaDesempregoCapitais = ({
 
   const chartData = processDesempregoTaxaCapital(dataFiltred)
   
-  const titleAdd = title + `- (${dataFiltred[0]['Trimestre']})`
-
-  console.log('CAHRtData', chartData.map((obj) =>  ({ ...obj, ...capitaisCoordsDicts[obj['label']] })))
+  const titleAdd = title + `- (${dataFiltred?.[0]?.['Trimestre']})`
 
   return (
     <div className="chart-wrapper">

@@ -30,7 +30,7 @@ const TaxaTrimestreAnoAnterior = ({
       local={local}
       title={`${title}`}
       data={chartData}
-      year={year}
+      year={`${+year - 1}`}
       color={color}
     />
   );

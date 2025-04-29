@@ -24,7 +24,7 @@ const TaxaTrimestreAnterior = ({
 
   const chartData = dataFiltred.reduce((acc: number, obj: any) => acc += obj['Taxa'] , 0) || 0
   
-  title =  title + ` - (${quarter > 0 ? dataFiltred[0]['Trimestre'] : 'Não possui dados'} )`
+  title =  title + ` - (${quarter > 0 ? dataFiltred?.[0]?.['Trimestre'] : 'Não possui dados'} )`
 
   return (
     <Card

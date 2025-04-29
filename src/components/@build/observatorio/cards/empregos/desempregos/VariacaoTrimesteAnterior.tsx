@@ -27,7 +27,9 @@ const VariacaoTrimesteAnterior = ({
   const taxaPastData = dataPastFiltred.reduce((acc: number, obj: any) => acc += obj['Taxa'] , 0) || 0
   const taxaCurData = dataCurFiltred.reduce((acc: number, obj: any) => acc += obj['Taxa'] , 0) || 0
   
-  const chartData = (taxaCurData - taxaPastData).toFixed(2)
+  const chartData = taxaPastData > 0 ? (taxaCurData - taxaPastData).toFixed(2) : 0
+
+  title += taxaPastData > 0 ? '' : ' - (Não possui dados)'
 
   return (
     <Card
