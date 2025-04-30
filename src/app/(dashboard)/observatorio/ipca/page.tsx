@@ -40,7 +40,7 @@ const IpcaPage = () => {
   }, [data]);
 
   const renderContent = () => {
-    if (!data) {
+    if (!data || !ipca || !ipcaRawData) {
       return (
         <div className="text-center text-gray-600">Construindo gráficos...</div>
       );

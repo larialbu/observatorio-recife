@@ -48,7 +48,7 @@ const AeroportosPage = () => {
     if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
-    if (!data) {
+    if (!data || !anac) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
