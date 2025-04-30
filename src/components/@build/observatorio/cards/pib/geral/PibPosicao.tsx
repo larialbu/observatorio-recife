@@ -17,7 +17,7 @@ const PibPosicao = ({
   const chartData = itens.length
 
   return data.current.length > 1 ? (
-   <p>dado inválido (vou arrmuar isso)</p>
+   <></>
   ) : (
     <Card
       local={capital}
