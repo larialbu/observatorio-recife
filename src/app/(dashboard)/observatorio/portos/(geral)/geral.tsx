@@ -8,16 +8,13 @@ import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import tables from "./@imports/tables";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
 
 const Geral = ({
   data,
-  // year,
   months,
-}: {
-  data: any;
-  // year: string;
-  months: any;
-}) => {
+}: ChartBuild<PortoGeralData>) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
   // REF do container e REF da instância do Sortable
@@ -25,7 +22,8 @@ const Geral = ({
   const sortableContainerRef = useRef<HTMLDivElement>(null);
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
 
-  const { Component }: any = maps[0]
+  const { Component } = maps[0]
+  console.log(data)
 
   return (
     <div>

@@ -1,13 +1,13 @@
+import { CardBuild } from "@/@types/observatorio/shared";
 import Card from "@/components/@global/cards/Card";
+import { PortoPassageirosOutputData } from "@/@types/observatorio/@data/portoData";
 
 const TotalPassageirosPortoAnterior = ({
   data,
-  date,
   title = `Total Passageiros (ano anterior)`,
-  local,
   year,
   color,
-}: any) => {
+}: CardBuild<PortoPassageirosOutputData>) => {
   const chartData = data.past || 0
 
   return (

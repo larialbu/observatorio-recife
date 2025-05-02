@@ -3,14 +3,7 @@ import React, { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-
-type PortoData = {
-  Longitude: string;
-  Latitude: string;
-  "Porto Atracação": string;
-  Mes: number;
-  VLPesoCargaBruta: number;
-};
+import { PortoCoordHeaders } from "@/@types/observatorio/@fetch/porto";
 
 type GeoJSONFeature = {
   type: "Feature";
@@ -29,17 +22,17 @@ type GeoJSON = {
   features: GeoJSONFeature[];
 };
 
-function convertToGeoJSON(data: PortoData[], selectedMonths: number[]): GeoJSON {
+function convertToGeoJSON(data: PortoCoordHeaders[], selectedMonths: number[]): GeoJSON {
   if (!Array.isArray(data)) {
     console.error("A data deve ser um array.");
     return { type: "FeatureCollection", features: [] };
   }
 
   const filteredData = selectedMonths.length > 0
-    ? data.filter((item) => selectedMonths.includes(item.Mes))
+    ? data.filter((item) => selectedMonths.includes(Number(item.Mes)))
     : data;
 
-  const aggregatedData: { [key: string]: PortoData } = {};
+  const aggregatedData: { [key: string]: PortoCoordHeaders } = {};
 
   filteredData.forEach((item) => {
     const key = item["Porto Atracação"];
@@ -74,7 +67,7 @@ function convertToGeoJSON(data: PortoData[], selectedMonths: number[]): GeoJSON 
 }
 
 type PortoLocalizacaoProps = {
-  data: [PortoData[], number[]];
+  data: [PortoCoordHeaders[], number[]];
 };
 
 export default function PortoLocalizacao({ data }: PortoLocalizacaoProps) {

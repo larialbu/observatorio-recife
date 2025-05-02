@@ -29,19 +29,27 @@ export interface ChartBuild<T = unknown> {
   rawData?: T;
   colors?: string[];
   title?: string;
-  months?: number;
+  months?: any;
   toCompare?: string[];
   monthRecent?: number;
   subText?: string;
   type?: "Embarque" | "Desembarque";
   nameKey?: string;
   year?: string;
+  porto?: string; // TIRAR ESSA MERDA RALADA
+  color?: string | string[]; // TIRAR ISSO AQUI QUE TEM EM PORTO
+}
+
+export interface CardComponent {
+  Component: React.ElementType;
 }
 
 export interface CardBuild<T = unknown> {
   data: T;
   title?: string;
   year: string;
-  color: string;
+  color: string[] | string;
   capital?: string;
+  local?: string;
+  cards?: CardComponent[];
 }

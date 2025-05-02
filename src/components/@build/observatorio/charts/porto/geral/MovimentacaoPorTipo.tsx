@@ -6,14 +6,16 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorAcao";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
+import { PortoAtracacaoHeaders } from "@/@types/observatorio/@fetch/porto";
 
 const MovimentacaoPorTipo = ({
   data,
   title = "Tipo de Transação (Ton)",
-  year,
-}: any) => {
+}: ChartBuild<PortoGeralData>) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = prepareCargasPorAcaoData(data.atracacao, data.carga, false)
+  const chartData = prepareCargasPorAcaoData(data.atracacao as PortoAtracacaoHeaders[], data.carga, false)
 
   return (
     <div className="chart-wrapper">

@@ -1,17 +1,16 @@
+import { PortoOperacaoData } from "@/@types/observatorio/@data/portoData";
+import { CardBuild } from "@/@types/observatorio/shared";
 import Card from "@/components/@global/cards/Card";
-import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorAcao";
-import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 
 const MovimentacaoTotal = ({
   data,
-  date,
   title = `Movimentacão de cargas`,
   local = '',
   year,
   color,
-}: any) => {
+}: CardBuild<PortoOperacaoData[]>) => {
 
-  const chartData = data.find((data: any) => data.acao === 'Total')?.totalPeso || 0
+  const chartData = data.find((data) => data.acao === 'Total')?.totalPeso || 0
 
   return (
     <Card

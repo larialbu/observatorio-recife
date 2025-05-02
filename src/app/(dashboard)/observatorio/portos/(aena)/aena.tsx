@@ -7,10 +7,19 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import tables from "./@imports/tables";
+import { PortoPassageirosOutputData } from "@/@types/observatorio/@data/portoData";
+
+const defaultPassageiros: PortoPassageirosOutputData = {
+  passageiros: {
+    current: [],
+    past: [],
+  },
+};
+
 
 const AenaPage = () => {
   const { data, isLoading } = useDashboard();
-  const [passageiros, setPassageiros] = useState({ passageiros: { current: [], past:  []}});
+  const [passageiros, setPassageiros] = useState(defaultPassageiros);
 
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
@@ -21,8 +30,8 @@ const AenaPage = () => {
 
   useEffect(() => {
     const fetchPassageirosData = () => {
-      if (data) {
-        const passageirosData = { 
+      if (data && data.id === "porto-passageiros") {
+        const passageirosData = {
           passageiros: { 
             current: data?.passageiros?.current.filteredData || [],
             past: data?.passageiros?.past.filteredData || []
@@ -47,7 +56,7 @@ const AenaPage = () => {
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.slice(0, 1).map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-            <Component data={passageiros} cards={cards.slice(1)} ColorPalette={ColorPalette.default} />
+            <Component data={passageiros} cards={cards.slice(1)} year={""} color={ColorPalette.default} />
           </React.Suspense>
         ))}
       </div>

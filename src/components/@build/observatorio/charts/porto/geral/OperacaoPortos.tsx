@@ -5,18 +5,19 @@ import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBa
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processCargasPorPorto } from "@/functions/process_data/observatorio/porto/geral/charts/operacaoPorPorto";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
  
 const OperacaoPortos = ({
   data,
   months,
   title = "Operação Portos (Ton)",
-  year,
-}: any) => {
+}: ChartBuild<PortoGeralData>) => {
   const dataCoords =  data?.coords?.[0] || []
 
   const monthsToRead = months?.selected.length ? months.selected : months.options
 
-  const dataToRead = dataCoords.filter((data: any) => monthsToRead.includes(parseInt(data.Mes))) || []
+  const dataToRead = dataCoords.filter((data) => monthsToRead.includes(data.Mes)) || []
 
   const chartData = processCargasPorPorto(dataToRead)
 

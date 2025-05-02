@@ -1,13 +1,5 @@
-export interface Atracacao {
-    IDAtracacao: string;
-    [key: string]: any;
-}
-  
-export interface Carga {
-    Ação: string;
-    IDAtracacao: string;
-    [key: string]: any;
-}
+import { PortoAtracacaoHeaders, PortoCargaHeaders } from "@/@types/observatorio/@fetch/porto";
+
   
 export interface AcaoCount {
     acao: string;
@@ -17,12 +9,12 @@ export interface AcaoCount {
 export interface ProcessedCarga {
     acao: string;
     totalPeso: number;
-    cargas: (Carga & { atracacao: Atracacao | null })[];
+    cargas: (PortoCargaHeaders & { atracacao: PortoAtracacaoHeaders | null })[];
 }
 
 export const processCargasPorAcao = (
-    atracacoes: any[], 
-    cargas: any[], 
+    atracacoes: PortoAtracacaoHeaders[], 
+    cargas: PortoCargaHeaders[], 
     incluirTotal: boolean = true // Parâmetro para controlar a inclusão do total - mds Rodrigo
 ): Record<string, ProcessedCarga> => {
     return cargas.reduce((acc, carga) => {
@@ -52,5 +44,5 @@ export const processCargasPorAcao = (
     }, {} as Record<string, ProcessedCarga>);
 };
 
-export const prepareCargasPorAcaoData = (atracacoes: any[], cargas: any[], incluirTotal: boolean = true): ProcessedCarga[] => 
+export const prepareCargasPorAcaoData = (atracacoes: PortoAtracacaoHeaders[], cargas: PortoCargaHeaders[], incluirTotal: boolean = true): ProcessedCarga[] => 
     Object.values(processCargasPorAcao(atracacoes, cargas, incluirTotal));

@@ -6,16 +6,14 @@ import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import cards from "./@imports/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { PortoGeralData, PortoOperacaoData } from "@/@types/observatorio/@data/portoData";
 
 const Operacao = ({
   data,
   year,
   months,
-}: {
-  data: any;
-  year: string;
-  months: number;
-}) => {
+}: ChartBuild<PortoGeralData & PortoOperacaoData[]>) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
 
   // REF do container e REF da instância do Sortable
@@ -26,7 +24,7 @@ const Operacao = ({
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.slice(0, 1).map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-            <Component data={data} cards={cards.slice(1)} year={year} ColorPalette={ColorPalette.default} />
+            <Component data={data} cards={cards.slice(1)} year={year ?? "2024"} color={ColorPalette.default} />
           </React.Suspense>
         ))}
       </div>

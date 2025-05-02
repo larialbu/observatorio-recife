@@ -1,19 +1,13 @@
-import Card from "@/components/@global/cards/Card";
-import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorAcao";
+import { PortoPassageirosOutputData } from "@/@types/observatorio/@data/portoData";
+import { CardBuild } from "@/@types/observatorio/shared";
 import { processPassageirosTotalizados } from "@/functions/process_data/observatorio/porto/passageiro/cards/passageirosTotalizados";
-import { getUniqueValues, getUniqueValuesArr } from "@/utils/filters/@global/getUniqueValues";
 import React, { ElementType } from "react";
 
 const PassageirosGeral = ({
   data,
   cards,
-  ColorPalette,
-  date,
-  title = `Exportação de cargas`,
-  local,
-  year,
   color,
-}: any) => {
+}: CardBuild<PortoPassageirosOutputData>) => {
 
   const current = processPassageirosTotalizados(data.passageiros.current || [])
   const past = processPassageirosTotalizados(data.passageiros.past || [])
@@ -28,9 +22,9 @@ const PassageirosGeral = ({
 
   return (
     <div className="flex flex-wrap gap-4 justify-center mb-2">
-    {cards.map(({ Component }: { Component: ElementType }, index: number) => (
+    {cards?.map(({ Component }: { Component: ElementType }, index: number) => (
       <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-        <Component data={chartData} year={year} color={ColorPalette[index]} />
+        <Component data={chartData} color={color[index]} />
       </React.Suspense>
     ))}
   </div>

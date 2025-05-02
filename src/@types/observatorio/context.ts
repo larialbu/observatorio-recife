@@ -3,8 +3,9 @@ import { AeroportoDataResult } from "./@data/aeroportoData";
 import { IpcaDataResult } from "./@data/ipcaData";
 
 import { Filters } from "./shared";
+import { PortoDataResult } from "./@data/portoData";
 
-export type DashboardData = AeroportoDataResult | BalancaGeralData | IpcaDataResult;
+export type DashboardData = AeroportoDataResult | BalancaGeralData | IpcaDataResult | PortoDataResult;
 
 export interface HiddenChart {
   id: string;

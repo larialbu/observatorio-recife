@@ -1,27 +1,29 @@
-import Card from "@/components/@global/cards/Card";
 import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorAcao";
-import { getUniqueValues, getUniqueValuesArr } from "@/utils/filters/@global/getUniqueValues";
 import React, { ElementType } from "react";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { CardBuild } from "@/@types/observatorio/shared";
+import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
+import { PortoAtracacaoHeaders } from "@/@types/observatorio/@fetch/porto";
+
 
 const MovimentacaoGeral = ({
   data,
   cards,
-  ColorPalette,
-  date,
-  title = `Exportação de cargas`,
   local,
   year,
   color,
-}: any) => {
+}: CardBuild<PortoGeralData>) => {
 
 
-  const chartData = prepareCargasPorAcaoData(data.atracacao, data.carga, true)
+  const chartData = prepareCargasPorAcaoData(data.atracacao as PortoAtracacaoHeaders[], data.carga, true)
+
+  color = ColorPalette.default;
 
   return (
     <div className="flex flex-wrap gap-4 justify-center mb-2">
-    {cards.map(({ Component }: {Component: ElementType}, index: number) => (
+    {cards?.map(({ Component }: {Component: ElementType}, index: number) => (
       <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-        <Component local={local} data={chartData} year={year} color={ColorPalette[index]} />
+        <Component local={local} data={chartData} year={year} color={color[index]} />
       </React.Suspense>
     ))}
   </div>

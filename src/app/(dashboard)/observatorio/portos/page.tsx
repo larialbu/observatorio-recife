@@ -10,38 +10,30 @@ import Operacao from "./(embarque)/operacao";
 import AenaPage from "./(aena)/aena";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getMonths } from "@/utils/filters/@global/getMonths";
-import { sameKeys } from "@/utils/filters/@features/sameKeys";
+import { PortoGeralData, PortoOperacaoData } from "@/@types/observatorio/@data/portoData";
+
+const defaultData: PortoGeralData = {
+  atracacao: [],
+  carga: [],
+  coords: [[], []],
+  dictionaries: {
+    origem: [],
+    destino: [],
+    mercado: [],
+  },
+  rawData: {
+    atracacao: [],
+    carga: [],
+  },
+  id: "porto",
+};
 
 const PortosPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters, setData } = useDashboard();
-  const [porto, setPorto] = useState([] as any);
+  const [porto, setPorto] = useState<PortoGeralData>(defaultData);
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
-
-  const defaultData: any = {
-    atracacao: [],
-    carga: [],
-    coords: [],
-    dictionaries: { 
-      atracacao: [], 
-      carga: [], 
-      origem: [], 
-      destino: [], 
-      mercado: [] 
-    },
-    rawData: { 
-      atracacao: [], 
-      carga: [] 
-    },
-    charts: { 
-      portos: [],
-    },
-    passageiros: {
-      current: [],
-      past: []
-    }
-  };
 
   useEffect(() => {
     const tab = searchParams.get("tab");
@@ -54,13 +46,12 @@ const PortosPage = () => {
   }, [searchParams, activeTab, router]);
 
     useEffect(() => {
-      if (data?.atracacao) {
+      if (data && data.id === "porto" && "filteredData" in data.atracacao) {
         setPorto({
           ...data,
           atracacao: data?.atracacao?.filteredData,
-          carga: data?.carga,
-        });
-
+        } as PortoGeralData);
+        console.log(data)
       } else {
         setPorto(defaultData);
       }
@@ -70,6 +61,7 @@ const PortosPage = () => {
     if (Object.keys(porto).length === 0) {
       setPorto(defaultData);
     }
+
 
     if (isLoading) return <LoadingScreen />;
 
@@ -86,9 +78,9 @@ const PortosPage = () => {
       case "geral":
         return <Geral data={porto} months={getMonths(filters, true)} />;
       case "operacao":
-        return <Operacao data={porto} months={getMonths(filters)} year={getYearSelected(filters)} />;
+        return <Operacao data={porto as PortoGeralData & PortoOperacaoData[]} months={getMonths(filters)} year={getYearSelected(filters)} />;
       case "comparativo":
-        return <Comparativo data={porto} rawData={porto.rawData} year={getYearSelected(filters)} months={getMonths(filters)}   />;
+        return <Comparativo data={porto} year={getYearSelected(filters)} months={getMonths(filters)}   />;
       case "passageiro":
         return <AenaPage />;
       default:

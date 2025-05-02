@@ -1,61 +1,48 @@
 import { fetchData } from "@/@api/config/dataFetcher";
+import { PortoDataResult } from "@/@types/observatorio/@data/portoData";
+import { PortoAtracacaoHeaders, PortoCargaHeaders, PortoCoordHeaders, PortoDestinoHeaders, PortoMercadoHeaders, PortoOrigemDestinoHeaders, PortoPassageirosHeaders } from "@/@types/observatorio/@fetch/porto";
 
 export class PortoData {
   public year: string;
-  private static cache: Record<string, any> = {};
+  private static cache: Record<string, PortoDataResult> = {};
 
   constructor(year: string) {
     this.year = year;
   }
 
 
-  async fetchAtracacaoPorAno(): Promise<any[]> {
+  async fetchAtracacaoPorAno(): Promise<PortoAtracacaoHeaders[]> {
     const endpoint = `/porto/atracacao/${this.year}`;
-    return fetchData<any[]>(endpoint, PortoData.cache);
+    return fetchData<PortoAtracacaoHeaders[]>(endpoint, PortoData.cache);
   }
 
-  async fetchCargaPorAno(): Promise<any[]> {
+  async fetchCargaPorAno(): Promise<PortoCargaHeaders[]> {
     const endpoint = `/porto/carga/${this.year}`;
-    return fetchData<any[]>(endpoint, PortoData.cache);
+    return fetchData<PortoCargaHeaders[]>(endpoint, PortoData.cache);
   }
 
-  async fetchPassageirosPorAno(): Promise<any[]> {
+  async fetchPassageirosPorAno(): Promise<PortoPassageirosHeaders[]> {
     const endpoint = `/porto/passageiros/${this.year}`;
-    return fetchData<any[]>(endpoint, PortoData.cache);
+    return fetchData<PortoPassageirosHeaders[]>(endpoint, PortoData.cache);
   }
 
-  async fetchAtracacaoDictionaryPorAno(): Promise<any[]> {
-    const endpoint = `/porto/dictionaries/atracacao/anos/${this.year}`;
-    return fetchData<any[]>(endpoint, PortoData.cache);
-  }
-
-  async fetchCargaDictionaryPorAno(): Promise<any[]> {
-    const endpoint = `/porto/dictionaries/carga/anos/${this.year}`;
-    return fetchData<any[]>(endpoint, PortoData.cache);
-  }
-
-  async fetchOrigemDictionary(): Promise<any[]> {
+  async fetchOrigemDictionary(): Promise<PortoOrigemDestinoHeaders[]> {
     const endpoint = `/porto/dictionaries/origem`;
-    return fetchData<any[]>(endpoint, PortoData.cache);
+    return fetchData<PortoOrigemDestinoHeaders[]>(endpoint, PortoData.cache);
   }
 
-  async fetchDestinoDictionary(): Promise<any[]> {
+  async fetchDestinoDictionary(): Promise<PortoDestinoHeaders[]> {
     const endpoint = `/porto/dictionaries/destino`;
-    return fetchData<any[]>(endpoint, PortoData.cache);
+    return fetchData<PortoDestinoHeaders[]>(endpoint, PortoData.cache);
   }
 
-  async fetchMercadoriaDictionary(): Promise<any[]> {
+  async fetchMercadoriaDictionary(): Promise<PortoMercadoHeaders[]> {
     const endpoint = `/porto/dictionaries/mercadoria`;
-    return fetchData<any[]>(endpoint, PortoData.cache);
+    return fetchData<PortoMercadoHeaders[]>(endpoint, PortoData.cache);
   }
 
-  async fetchCoordinates(): Promise<any[]> {
+  async fetchCoordinates(): Promise<PortoCoordHeaders[]> {
     const endpoint= `/porto/charts/coords/${this.year}`;
-    return fetchData<any[]>(endpoint, PortoData.cache);
-  }
-
-  async fetchPortosOperations(): Promise<any[]> {
-    const endpoint= `/porto/charts/coords/${this.year}`;
-    return fetchData<any[]>(endpoint, PortoData.cache);
+    return fetchData<PortoCoordHeaders[]>(endpoint, PortoData.cache);
   }
 }

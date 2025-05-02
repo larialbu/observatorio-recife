@@ -1,10 +1,12 @@
 import { PortoData } from "@/@api/http/to-charts/porto/PortoData";
+import { PortoGeralData, PortoDataResult, PortoPassageirosData, PortoPassageirosResult } from "@/@types/observatorio/@data/portoData";
+import { Filters } from "@/@types/observatorio/shared";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
 
 export class PortoDataService {
   private static instance: PortoDataService;
   private currentYear: string = "2024";
-  private dataCache: Record<string, any> = {};
+  private dataCache: Record<string, PortoDataResult> = {};
 
   private constructor() {}
 
@@ -19,13 +21,13 @@ export class PortoDataService {
     this.currentYear = year;
   }
 
-  private getCacheKey(tab: string, filters: Record<string, any>): string {
+  private getCacheKey(tab: string, filters: Filters): string {
     return `${tab}-${this.currentYear}-${JSON.stringify(filters)}`;
   }
 
-  private async fetchPortoData(filters: Record<string, any>) {
+  private async fetchPortoData(filters: Filters) {
     try {
-      const portoData = new PortoData(this.currentYear); // Cria uma nova instância sempre
+      const portoData = new PortoData(this.currentYear);
       const pastYear = `${+this.currentYear - 1}`;
 
       const [
@@ -53,7 +55,7 @@ export class PortoDataService {
         (item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga']
       );
 
-      const portosSelected = filters?.additionalFilters.find((item: any) => item.label === "Porto Atracação")?.selected ?? [];
+      const portosSelected = filters?.additionalFilters.find((item) => item.label === "Porto Atracação")?.selected ?? [];
       
       return {
         atracacao: atracacaoFiltered,
@@ -64,7 +66,10 @@ export class PortoDataService {
           destino: destinoDictionary,
           mercado: mercadoriaDictionary,
         },
-        coords: [coords, filters.additionalFilters.find((item: any) => item.label === "Mes").selected],
+        coords: [
+          coords,
+          (filters.additionalFilters.find((item) => item.label === "Mes")?.selected ?? []).map(Number)
+        ],
         charts: {
           months: {
             past: [pastYear, coordsPast.filter((coord) => portosSelected?.includes(coord['Porto Atracação']))],
@@ -72,14 +77,14 @@ export class PortoDataService {
           }
         }, 
         id: "porto"
-      };
+      } as PortoGeralData;
     } catch (error) {
       console.error("Erro ao buscar dados de porto:", error);
       throw error;
     }
   }
 
-  private async fetchPortoPassageirosData(filters: Record<string, any>) {
+  private async fetchPortoPassageirosData(filters: Filters) {
     const pastYear = `${+this.currentYear - 1}`;
     const [passageirosCur, passageirosPast] = await Promise.allSettled([
       new PortoData(this.currentYear).fetchPassageirosPorAno(),
@@ -90,11 +95,15 @@ export class PortoDataService {
     const passageirosPastFiltered = applyGenericFilters(passageirosPast.status === 'fulfilled' ? passageirosPast.value : [], filters);
 
     return {
-      passageiros: { current: passageirosCurFiltered, past: passageirosPastFiltered }, id: "porto-passageiros"
-    };
+      passageiros: { 
+        current: passageirosCurFiltered, 
+        past: passageirosPastFiltered 
+      }, 
+      id: "porto-passageiros"
+    } as PortoPassageirosResult;
   }
 
-  public async fetchDataForTab(tab: string, filters: Record<string, any>) {
+  public async fetchDataForTab(tab: string, filters: Filters) {
     const cacheKey = this.getCacheKey(tab, filters);
 
     if (this.dataCache[cacheKey]) {

@@ -1,33 +1,28 @@
-interface Porto {
-    "Porto Atracação": string;
-    Mes: number;
-    VLPesoCargaBruta: number;
-  }
+import { PortoMesData } from "@/@types/observatorio/@fetch/porto";
+
+interface portoResult {
+  porto: string;
+  carga: number;
+}
   
-  interface ResultadoPorto {
-    porto: string;
-    carga: number;
-  }
-  
- export function processCargasPorPorto(array: Porto[]): ResultadoPorto[] {
-    const resultado: ResultadoPorto[] = [];
-  
-    // Itera sobre o array e acumula os valores das cargas por porto
-    array.forEach(item => {
-      const portoExistente = resultado.find(p => p.porto === item["Porto Atracação"]);
-      
-      if (portoExistente) {
-        // Se o porto já existir no resultado, soma o peso da carga
-        portoExistente.carga += item.VLPesoCargaBruta;
-      } else {
-        // Se o porto não existir, cria um novo objeto para o porto
-        resultado.push({
-          porto: item["Porto Atracação"],
-          carga: item.VLPesoCargaBruta
-        });
-      }
-    });
-  
-    return resultado.sort((a, b) => b.carga - a.carga);
-  }
+export function processCargasPorPorto(array: PortoMesData[]): portoResult[] {
+  const result: portoResult[] = [];
+
+  array.forEach(item => {
+    const portoExists = result.find(p => p.porto === item["Porto Atracação"]);
+    
+    if (portoExists) {
+      // Se o porto já existir no result, soma o peso da carga
+      portoExists.carga += item.VLPesoCargaBruta;
+    } else {
+      // Se o porto não existir, cria um novo objeto para o porto
+      result.push({
+        porto: item["Porto Atracação"],
+        carga: item.VLPesoCargaBruta
+      });
+    }
+  });
+
+  return result.sort((a, b) => b.carga - a.carga);
+}
   

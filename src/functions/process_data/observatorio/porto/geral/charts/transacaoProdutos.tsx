@@ -1,11 +1,11 @@
-export const processAtracacoesPorCarga = (atracacoes: any[], cargas: any[]) => {
-    // Filtra as cargas que possuem uma atracação correspondente
+import { PortoAtracacaoHeaders, PortoCargaHeaders } from "@/@types/observatorio/@fetch/porto";
+
+export const processAtracacoesPorCarga = (atracacoes: PortoAtracacaoHeaders[], cargas: PortoCargaHeaders[]) => {
     const cargasFiltradas = cargas.filter((carga) => 
       atracacoes.some((atracacao) => +atracacao.IDAtracacao === +carga.IDAtracacao)
     );
 
-    // Processa os dados agrupando por CDMercadoria
-    const processedData = cargasFiltradas.reduce((acc: any, carga: any) => {
+    const processedData = cargasFiltradas.reduce((acc: { [cdMercadoria: string]: {CDMercadoria: string, totalVLPesoCargaBruta: number} }, carga) => {
       const cdMercadoria = carga.CDMercadoria || "Indefinido";
       const vlPesoCargaBruta = parseFloat(String(carga.VLPesoCargaBruta)?.replace(",", ".") || "0");
   
@@ -21,9 +21,8 @@ export const processAtracacoesPorCarga = (atracacoes: any[], cargas: any[]) => {
       return acc;
     }, {});
   
-    // Retorna os valores ordenados pelo peso total da carga em ordem decrescente
     return Object.values(processedData).sort(
-      (a: any, b: any) => b.totalVLPesoCargaBruta - a.totalVLPesoCargaBruta
+      (a, b) => b.totalVLPesoCargaBruta - a.totalVLPesoCargaBruta
     );
   };
   

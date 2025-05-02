@@ -1,10 +1,11 @@
-export const processAtracacoesPorMes = (atracacoes: any[], cargas: any[]) => {
+import { PortoAtracacaoHeaders, PortoCargaHeaders } from "@/@types/observatorio/@fetch/porto";
+
+export const processAtracacoesPorMes = (atracacoes: PortoAtracacaoHeaders[], cargas: PortoCargaHeaders[]) => {
   // Lista de meses no formato que queremos (abreviação)
   const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
-  // Inicializa os dados processados com os meses do ano (1 a 12)
   const processedData = Array(12).fill(null).map(() => ({
-    mes: "",  // Agora mes será uma string (ex: "Jan", "Fev", "Mar")
+    mes: "",
     totalVLPesoCargaBruta: 0,
     outrosCarga: 0,
     cabotagemCarga: 0,
@@ -17,23 +18,19 @@ export const processAtracacoesPorMes = (atracacoes: any[], cargas: any[]) => {
     atracacoes.some((atracacao) => Number(atracacao.IDAtracacao) === Number(carga.IDAtracacao))
   );
 
-  // Processa os dados agrupando por mês
   cargasFiltradas.forEach((carga) => {
     const vlPesoCargaBruta = carga.VLPesoCargaBruta || 0;
     const atracacao = atracacoes.find((a) => +a.IDAtracacao === +carga.IDAtracacao);
 
     if (atracacao) {
-      const mes = atracacao.Mes; // Mes é um número entre 1 e 12
-      const mesIndex = mes - 1; // Convertendo para índice do array (0 a 11)
+      const mes = atracacao.Mes;
+      const mesIndex = mes - 1;
 
       if (mesIndex >= 0 && mesIndex < 12) {
-        // Armazenando o nome do mês (Jan, Fev, Mar, ...)
         processedData[mesIndex].mes = meses[mesIndex];
 
-        // Acumulando o peso da carga
         processedData[mesIndex].totalVLPesoCargaBruta += vlPesoCargaBruta;
 
-        // Classifica as cargas por tipo de operação
         switch (carga["Tipo Operação da Carga"].toLowerCase()) {
           case "apoio":
           case "outros":

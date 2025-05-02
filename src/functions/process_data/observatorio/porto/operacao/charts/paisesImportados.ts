@@ -1,22 +1,17 @@
-export const processCargasLongoCurso = (atracacoes: any[], cargas: any[], type: 'importacao' | 'exportacao') => {
+import { PortoAtracacaoHeaders, PortoCargaHeaders } from "@/@types/observatorio/@fetch/porto";
 
-    // Define o tipo de operação
+export const processCargasLongoCurso = (atracacoes: PortoAtracacaoHeaders[], cargas: PortoCargaHeaders[], type: 'importacao' | 'exportacao') => {
     const tipoOperacao = type === 'importacao' ? "Importação" : "Exportação";
-    // const tipoOperacao = type === 'importacao' ? "Longo Curso Importação" : "Longo Curso Exportação";
-    // Define o campo de origem ou destino
+
     const campoOrigemDestino = type === 'importacao' ? 'Origem' : 'Destino';
 
-    // Filtra as cargas que têm uma atracação correspondente e o tipo de operação adequado
     const cargasFiltradas = cargas.filter((carga) => 
         atracacoes.some((atracacao) => +atracacao.IDAtracacao === +carga.IDAtracacao) &&
         carga["Ação"] === tipoOperacao
-        // carga["Tipo Operação da Carga"].includes(tipoOperacao)
-        // carga["Tipo Operação da Carga"] === tipoOperacao
     );
   
-    // Processa os dados agrupando por origem/destino e somando as quantidades e o peso bruto
-    const processedData = cargasFiltradas.reduce((acc, carga) => {
-        const origemDestino = carga[campoOrigemDestino] || "Indefinido"; // Agrupa pela origem ou destino
+    const processedData = cargasFiltradas.reduce((acc: { [origemDestino: string]: {totalVLPesoCargaBruta: number} }, carga) => {
+        const origemDestino = carga[campoOrigemDestino] || "Indefinido";
         const vlPesoCargaBruta =  carga.VLPesoCargaBruta  ||  0 
     
         if (!acc[origemDestino]) {
@@ -30,8 +25,7 @@ export const processCargasLongoCurso = (atracacoes: any[], cargas: any[], type: 
         
         return acc;
     }, {});
-  
-    // Organiza os dados no formato final
+
     const result = Object.keys(processedData).map((origemDestino) => ({
         codigo: origemDestino,
         totalVLPesoCargaBruta: processedData[origemDestino].totalVLPesoCargaBruta

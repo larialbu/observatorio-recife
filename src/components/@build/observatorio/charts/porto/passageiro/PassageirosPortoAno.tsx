@@ -5,15 +5,16 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
-import { processAtracacoesPorMes } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorMes";
 import { processPassageirosAnoPorto } from "@/functions/process_data/observatorio/porto/passageiro/charts/passageirosAnoPorto";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { PortoPassageirosOutputData } from "@/@types/observatorio/@data/portoData";
 
 const PassageirosPortoAno = ({
-  data = [],
+  data,
   colors = ColorPalette.default,
   title = "Passageiros Durante o Ano",
   months
-}: any) => {
+}: ChartBuild<PortoPassageirosOutputData>) => {
 const yearCur = data.passageiros?.current[0]?.['Data'].split('-')[0] || 'Dado não encontrado'
 const yearPast = data.passageiros?.past[0]?.['Data'].split('-')[0] || 'Dado não encontrado'
 

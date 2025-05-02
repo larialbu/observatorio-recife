@@ -11,9 +11,9 @@ const Card = ({
 }: {
   title: string;
   local?: string;
-  data: number | string;
+  data: number | string | {};
   year: string;
-  color: string;
+  color: string | string[];
   percent?: boolean;
   position?: boolean;
 }) => {

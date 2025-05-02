@@ -6,19 +6,19 @@ import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
 import { processAtracacoesPorMes } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorMes";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { RawDataPortos } from "@/@types/observatorio/@data/portoData";
 
 const OperacaoCargasAno = ({
-  data = [],
+  data,
   porto,
   colors = ColorPalette.default,
   title = "Movimentação de Cargas (Ton)"  + ` - ${porto}`,
   months
-}: any) => {
-
-
+}: ChartBuild<RawDataPortos>) => {
   const chartData = processAtracacoesPorMes(data.atracacao, data.carga)
 
-  const updatedData = updatedMonthChartData(chartData, months);
+  const updatedData = updatedMonthChartData(chartData, months ?? 1);
 
    
   return (

@@ -1,4 +1,7 @@
-export function getPortoCountryNameByCode(cargaArray: any, origemArray: any, nomeOrigem: 'Origem' | 'Destino') {
+import { PortoCargaHeaders, PortoDestinoHeaders } from "@/@types/observatorio/@fetch/porto";
+
+
+export function getPortoCountryNameByCode(cargaArray: PortoCargaHeaders[], origemArray: PortoDestinoHeaders[], nomeOrigem: 'Origem' | 'Destino') {
     // First, we map and add the `Country ${nomeOrigem}` to the carga objects
     const cargaWithCountry = cargaArray.map((carga: any) => {
         // Finding the origin in the second array based on the passed field name
@@ -13,9 +16,9 @@ export function getPortoCountryNameByCode(cargaArray: any, origemArray: any, nom
     });
 
     // Now, let's group the objects by `Country ${nomeOrigem}` and sum the values
-    const groupedByCountry: any = {};
+    const groupedByCountry: { [country: string]: {pais: string, totalVLPesoCargaBruta: number} } = {};
 
-    cargaWithCountry.forEach((carga: any) => {
+    cargaWithCountry.forEach((carga) => {
         const country = carga[`País ${nomeOrigem}`];
 
         if (!groupedByCountry[country]) {
@@ -31,7 +34,7 @@ export function getPortoCountryNameByCode(cargaArray: any, origemArray: any, nom
     });
 
     // Convert the grouped object into an array and sort by totalVLPesoCargaBruta in descending order
-    const resultArray = Object.values(groupedByCountry).sort((a: any, b: any) => b.totalVLPesoCargaBruta - a.totalVLPesoCargaBruta);
+    const resultArray = Object.values(groupedByCountry).sort((a, b) => b.totalVLPesoCargaBruta - a.totalVLPesoCargaBruta);
 
     return resultArray;
 }
