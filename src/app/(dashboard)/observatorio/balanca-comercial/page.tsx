@@ -51,7 +51,7 @@ const BalancaComercialPage = () => {
   const renderContent = () => {
     // Se data ainda não estiver disponível,
     // podemos mostrar um pequeno aviso ou algo similar.
-    if (!data) {
+    if (!data || !balanca) {
       return <div className="text-center text-gray-600">Gerando gráficos...</div>;
     }
 

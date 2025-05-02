@@ -9,14 +9,14 @@ import { IpcaGeralHeaders } from "@/@types/observatorio/@fetch/ipca";
 import { ChartBuild } from "@/@types/observatorio/shared";
 
 const IpcaAcumuladoPorCapital = ({
-  data = [],
+  rawData = [],
   nameKey = "capital",
   colors = ColorPalette.default,
   title = "IPCA Acumulado ao Ano no Brasil",
 }: ChartBuild<IpcaGeralHeaders[]>) => {
   
   // Processamento inicial dos dados
-  const chartData = processIpcaBrasilNoAno(data);
+  const chartData = processIpcaBrasilNoAno(rawData);
 
   return (
     <div className="chart-wrapper">

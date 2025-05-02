@@ -11,11 +11,13 @@ import Geral from "./(geral)/geral";
 import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
 import Link from "next/link";
+import Desemprego from "./(desemprego)/desemprego";
 
 const EmpregosPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
   const [caged, setCaged] = useState({});
+  const [desemprego, setDesemprego] = useState({});
   const [activeTab, setActiveTab] = useState("geral");
   
   const pathname = usePathname();
@@ -42,11 +44,34 @@ const EmpregosPage = () => {
 
           clearInterval(intervalId);
         } else {
-            setCaged({
-                caged: [],
-                municipios: []
-              });
-          }
+          setCaged({
+              caged: [],
+              municipios: []
+            });
+        }
+
+        if (data?.desemprego) {
+          setDesemprego({
+            desemprego: data.desemprego.filteredData,
+            municipios: data.municipios.filteredData,
+            trimestre: {
+              municipiosTrimestre: data.trimestre.municipiosTrimestre.filteredData,
+              municipiosTrimestrePast: data.trimestre.municipiosTrimestrePast.filteredData,
+            },
+          });
+
+          clearInterval(intervalId);
+        } else {
+          setDesemprego({
+              desemprego: [],
+              municipios: [],
+              trimestre: {
+                municipiosTrimestre: [],
+                municipiosTrimestrePast: [],
+              },
+            });
+        }
+
       }, 50);
   
       return () => clearInterval(intervalId);
@@ -56,7 +81,7 @@ const EmpregosPage = () => {
 
 
   const renderContent = () => {
-    if (!data || !caged.caged || !caged.municipios) {
+    if (!data || !caged.caged || !caged.municipios || !desemprego.desemprego || !desemprego.municipios ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
@@ -68,14 +93,13 @@ const EmpregosPage = () => {
           months={getMonths(filters)}
         />;
       case "comparativo":
-        return <Geral
+        return <Comparativo
           data={caged} 
           year={getYearSelected(filters)}
-          months={getMonths(filters)}
         />;
       case "desemprego":
-        return <Geral 
-        data={caged}
+        return <Desemprego 
+        data={desemprego}
         year={getYearSelected(filters)}
         months={getMonths(filters)}
         />;
@@ -111,7 +135,7 @@ const EmpregosPage = () => {
         >
           Resumo Geral
         </button>
-        {/* <button
+        <button
           onClick={() => handleNavigation("comparativo")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "comparativo"
@@ -120,7 +144,7 @@ const EmpregosPage = () => {
           }`}
         >
           Comparativo
-        </button> */}
+        </button>
         <button
           onClick={() => handleNavigation("desemprego")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${

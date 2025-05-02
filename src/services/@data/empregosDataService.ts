@@ -31,6 +31,8 @@ export class EmpregosDataService {
 
     const fetchData = await empregosData.fetchProcessedDataCaged();
 
+    console.log('Desempregos Fetch: ', await empregosData.fetchProcessedDataCagedDesemprego())
+    
 
     // tanto faz, o ideial é filtrar somente por municipio
     const filteredMunicipioData = applyGenericFilters(fetchData,  filters, ['Região', 'UF']);
@@ -44,6 +46,39 @@ export class EmpregosDataService {
     };
   }
 
+  private async fetchGeralCagedDesemprego(filters: Record<string, any>) {
+    const empregosData = new EmpregosData(this.currentYear);
+    const pastYear = `${+this.currentYear - 1}`;
+
+    // const fetchData = await empregosData.fetchProcessedDataCagedDesemprego();
+
+    const [
+      empregosCur,
+      empregosPast,
+    ] = await Promise.all([
+      empregosData.fetchProcessedDataCagedDesemprego(),
+      new EmpregosData(pastYear).fetchProcessedDataCagedDesemprego().catch(() => []),
+    ]);
+
+    // console.log('Desempregos Fetch: ', await empregosData.fetchProcessedDataCagedDesemprego())
+    
+    // tanto faz, o ideial é filtrar somente por municipio
+    const filteredMunicipioData = applyGenericFilters(empregosCur, filters, ['Região', 'Trimestre']);
+    const filteredMunicipioPastData = applyGenericFilters(empregosPast, filters, ['Região', 'Trimestre'], ['Trimestre']);
+    const filteredMunicipioTrimestreData = applyGenericFilters(empregosCur, filters, ['Região']);
+    // tudo menos filtrar por municipio
+    const filteredDesempregoData = applyGenericFilters(empregosCur, filters, ['Capital']);
+    
+    return {
+        municipios: filteredMunicipioData,
+        desemprego: filteredDesempregoData,
+        trimestre: {
+          municipiosTrimestre: filteredMunicipioTrimestreData,
+          municipiosTrimestrePast: filteredMunicipioPastData,
+        },
+        id: "dempregos-caged"
+    };
+  }
 
   public async fetchDataForTab(tab: string, filters: Record<string, any>): Promise<any> {
     const cacheKey = this.getCacheKey(tab, filters);
@@ -53,8 +88,8 @@ export class EmpregosDataService {
     }
 
     let data;
-    if (tab === "rais") {
-      data = await this.fetchGeralCaged(filters);
+    if (tab === "desemprego") {
+      data = await this.fetchGeralCagedDesemprego(filters);
     } else {
       data = await this.fetchGeralCaged(filters);
     }

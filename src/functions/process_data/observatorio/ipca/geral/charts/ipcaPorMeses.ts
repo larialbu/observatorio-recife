@@ -25,7 +25,7 @@ export const processVariacaoMensal = (data: IpcaGeralHeaders[]): { mes: string; 
   });
 
   filteredData.forEach((item) => {
-    const variacaoMensal = item["IPCA - Variação acumulado no ano"] || 0;
+    const variacaoMensal = item["IPCA - Variação mensal"] || 0;
 
     const mes = item["MÊS"].toString();
     const categoriaNome = item["Capital"];

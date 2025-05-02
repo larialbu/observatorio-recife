@@ -1,19 +1,24 @@
 export const empregosCagedFilters = {
-    years: ["2023", "2024"], // Filtra por ano
+    years: ["2023", "2024"], 
     additionalFilters: [
       {
-        label: "Municipio", // O Mês será preenchido dinamicamente
-        options: [], // Deixe vazio para preencher com base nos dados
+        label: "Mês",  
+        options: [],  
+        selected: []
+      },
+      {
+        label: "Municipio",  
+        options: [],  
         selected: ['Recife-PE'],
       },
       {
-        label: "Região", // O Mês será preenchido dinamicamente
-        options: [], // Deixe vazio para preencher com base nos dados
+        label: "Região",  
+        options: [],  
         selected: [],
       },
       {
-        label: "UF", // O Mês será preenchido dinamicamente
-        options: [], // Deixe vazio para preencher com base nos dados
+        label: "UF",  
+        options: [],  
         selected: [],
       },
     ],

@@ -25,6 +25,7 @@ import { pibCapitaFilters } from "@/utils/filters/pib/pibCapitaFilters";
 import { empregosCagedFilters } from "@/utils/filters/empregos/empregosCagedFilters";
 import { raisGeralFilters } from "@/utils/filters/rais/raisGeralFilters";
 import { Filters } from "@/@types/observatorio/shared";
+import { empregosDesempregoFilters } from "@/utils/filters/empregos/empregosDesempregoFilter";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 type TabFiltersMap = Record<string, Filters>;
@@ -81,7 +82,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
   "/observatorio/empregos": {
     geral: empregosCagedFilters,
     comparativo: empregosCagedFilters,
-    desemprego: empregosCagedFilters,
+    desemprego: empregosDesempregoFilters,
   },
 
   "/observatorio/rais": {

@@ -11,12 +11,12 @@ import { ChartBuild } from "@/@types/observatorio/shared";
 
 const SubitemParticipacaoIpca = ({
   data = [],
-  nameKey = "item",
+  nameKey = "label",
   colors = ColorPalette.default,
   title = "IPCA Subitem",
 }: ChartBuild<IpcaGrupoHeaders[]>) => {
   
-  const chartData = processPercentageByType(data, 'item');
+  const chartData = processPercentageByType(data, 'subitem');
 
   return (
     <div className="chart-wrapper">
@@ -28,7 +28,7 @@ const SubitemParticipacaoIpca = ({
           xKey={nameKey}
           widthY={100}
           left={15}
-          bars={[{ dataKey: "porcentagem", name: "Participação do Subitem no IPCA (%)", barWidth: 30 }]}
+          bars={[{ dataKey: "value", name: "Participação do Subitem no IPCA (%)", barWidth: 30 }]}
         />
       </ChartGrabber>
     </div>

@@ -1,8 +1,11 @@
 import { IpcaGeralHeaders } from "@/@types/observatorio/@fetch/ipca";
 
 export const processIpcaUltimos12Meses = (data: IpcaGeralHeaders[]) => {
+    const recentMonth = data.reduce((acc: number, obj: IpcaGeralHeaders) => acc = acc > obj["MÊS"] ? acc : obj["MÊS"], 0)
 
-    const processedData = data.reduce((acc: { [capital: string]: {capital: string, acumuladoUltimosMeses: number} }, item) => {
+    const dataFiltred = data.filter((obj) => obj["MÊS"] === recentMonth)
+    
+    const processedData = dataFiltred.reduce((acc: { [capital: string]: {capital: string, acumuladoUltimosMeses: number} }, item) => {
       const capital = item["Capital"] || "Indefinido";
 
       if (capital == "Brasil") {

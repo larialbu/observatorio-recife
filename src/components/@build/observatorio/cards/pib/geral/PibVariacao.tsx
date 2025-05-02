@@ -18,9 +18,7 @@ const PibVariacao = ({
 
   const chartData = ((current - past) / past) * 100
 
-  return data.current.length > 1 ? (
-    <p>dado inválido (vou arrmuar isso)</p>
-   ) : (
+   return (
      <Card
        local={capital}
        title={`${title}`}

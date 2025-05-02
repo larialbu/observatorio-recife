@@ -18,7 +18,7 @@ export class EmpregosData {
   }
 
   async fetchProcessedDataCagedDesemprego(): Promise<any[]> {
-    const endpoint = `/empregos/caged/anos/${this.year}`;
+    const endpoint = `/empregos/desemprego/anos/${this.year}`;
     return fetchData<any[]>(endpoint, EmpregosData.cache);
   }
 

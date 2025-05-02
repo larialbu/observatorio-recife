@@ -19,7 +19,7 @@ const CargasEmbarqueDom = ({
 }: ChartBuild<AnacGeralHeaders[]>) => {
 
   const chartData = processEmbarqueDesembarqueNaturezaTipo(
-    data = [],
+    data,
     toCompare,
     "Doméstica",
     "cargas", 

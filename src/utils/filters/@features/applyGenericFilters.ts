@@ -4,6 +4,7 @@ export function applyGenericFilters<T extends Record<string, any>>(
   data: T[],
   filters: Filters,
   skipLabel: string[] = [],
+  skipOptions: string[] = [],
 ): DataWithFilters<T> {
 
 
@@ -16,9 +17,12 @@ export function applyGenericFilters<T extends Record<string, any>>(
     if (filters.additionalFilters) {
       for (const f of filters.additionalFilters as AdditionalFilter[]) {
         if (!f.selected || f.selected.length === 0 || skipLabel.includes(f.label)) continue;
+
         const val = item[f.label];
-        if (f.fixed?.includes(val as string)) return true;
-        if (!f.selected.includes(val as string)) {
+        const valStr = String(val);
+
+        if (f.fixed?.includes(valStr as string)) return true;
+        if (!f.selected.includes(valStr as string)) {
           return false;
         }
       }
@@ -40,7 +44,7 @@ export function applyGenericFilters<T extends Record<string, any>>(
         .map((v) => String(v))
         .filter((op) => !(f.fixed && f.fixed.includes(op)));;
 
-      return { ...f, options: uniqueValues };
+      return { ...f, options: skipOptions.includes(f.label) ? [] : uniqueValues };
     }) || [];
 
   // Retornamos o "filteredData" pra exibir no gráfico ou tabela,

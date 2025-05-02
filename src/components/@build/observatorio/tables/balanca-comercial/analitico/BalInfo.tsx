@@ -2,7 +2,7 @@ import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { processRowsPaisesByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsCountrysByMunicipio";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
 import { percentFormatter } from "@/utils/formatters/@global/percentFormatter";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useState } from "react";
 import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 
 type AggregatedRow = {
@@ -32,6 +32,10 @@ const BalInfo: FC<BalInfoProps> = ({
   monthRecent,
   title = `${municipio} (${monthRecent ? `${monthRecent} - ` : ""}${year}) - Negociações`,
 }) => {
+  const [ordenation, setOrdenation] = useState([{ index: 1, name: 'PARTICIPAÇÃO', ordenation: 0 }, { index: 2, name: 'NEGOCIADO', ordenation: 0 }, { index: 3, name: 'IMPORTAÇÃO', ordenation: 0 }, { index: 4, name: 'EXPORTAÇÃO', ordenation: 0 }]);
+
+  const order = ordenation.find((item) => item.ordenation != 0)
+
   const aggregatedData = processRowsPaisesByMunicipio(
     data,
     municipio,
@@ -42,6 +46,8 @@ const BalInfo: FC<BalInfoProps> = ({
   const sortedData = Object.values(aggregatedData).sort(
     (a: AggregatedRow, b: AggregatedRow) => (b.NEGOCIADO - a.NEGOCIADO)
   );
+
+  const dataSorted = order ? sortedData.sort((a: any, b: any) => order.ordenation === 1 ? a[order.name] - b[order.name] : b[order.name] - a[order.name]) : sortedData
 
   const firstAggregated = sortedData[0];
 
@@ -64,6 +70,8 @@ const BalInfo: FC<BalInfoProps> = ({
   return (
     <div className="relative w-full">
       <TableGeneric
+        ordenations={ordenation}
+        onOrdenationChange={setOrdenation}
         searchIndexes={[0]}
         enablePagination={false}
         withClick
@@ -73,7 +81,7 @@ const BalInfo: FC<BalInfoProps> = ({
         color={color}
         headers={header}
         title={title}
-        rows={getRows(sortedData)}
+        rows={getRows(dataSorted)}
       />
     </div>
   );

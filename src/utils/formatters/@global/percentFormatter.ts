@@ -13,6 +13,10 @@ export const formatPercentage = (value: number): string => {
 export const percentFormatter = (val: number) => {
     let percent;
 
+    if (val === 0) {
+      return Math.round(0)
+    }
+
     if (Math.round(val * 100) / 100 != 0) {
       percent = Math.round(val * 100) / 100;
     } else if (

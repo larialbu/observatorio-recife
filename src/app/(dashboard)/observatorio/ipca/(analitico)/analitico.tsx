@@ -46,14 +46,7 @@ const Analitico = ({
 
   useEffect(() => {
     const getNewTables = tempFiltred.map((val) => {
-      return {
-        Component: React.lazy(
-          () =>
-            import(
-              "@/components/@build/observatorio/tables/ipca/analitico/CapitalIndice"
-            )
-        ),
-      };
+      return tables[0];
     });
 
     setTablesRender([...getNewTables]);

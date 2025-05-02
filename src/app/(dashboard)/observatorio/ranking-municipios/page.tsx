@@ -44,7 +44,7 @@ const RankingPage = () => {
   if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
-    if (!data) {
+    if (!data || !ranking) {
       return (
         <div className="text-center text-gray-600">Construindo gráficos...</div>
       );

@@ -5,7 +5,7 @@ import charts from "./@imports/charts";
 import cards from "./@imports/cards";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import { cnaeAccFunction, geralAccFunction } from "@/functions/process_data/observatorio/empregos/rais/demografia/geralFuncition";
+import { cnaeAccFunction, geralAccFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";

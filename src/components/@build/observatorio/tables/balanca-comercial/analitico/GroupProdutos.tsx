@@ -2,7 +2,7 @@ import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { processRowsSh4ByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsSH4Municipio";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
 import { percentFormatter } from "@/utils/formatters/@global/percentFormatter";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useState } from "react";
 import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 
 type AggregatedProductRow = {
@@ -35,6 +35,9 @@ const GroupProdutos: FC<GroupProdutosProps> = ({
     country ? `- ${country}` : ""
   } - Grupo de produtos`,
 }) => {
+  const [ordenation, setOrdenation] = useState([{ index: 0, name: 'PARTICIPAÇÃO', ordenation: 0 }, { index: 3, name: 'NEGOCIADO', ordenation: 0 }, { index: 4, name: 'IMPORTAÇÃO', ordenation: 0 }, { index: 5, name: 'EXPORTAÇÃO', ordenation: 0 }]);
+
+  const order = ordenation.find((item) => item.ordenation != 0)
 
   const aggregatedData = processRowsSh4ByMunicipio(
     data,
@@ -44,6 +47,7 @@ const GroupProdutos: FC<GroupProdutosProps> = ({
     country || ""
   );
 
+  const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenation === 1 ? a[order.name] - b[order.name] : b[order.name] - a[order.name]) : aggregatedData
 
   const firstAggregated = aggregatedData[0];
 
@@ -82,13 +86,15 @@ const GroupProdutos: FC<GroupProdutosProps> = ({
   return (
     <div className="relative w-full">
       <TableGeneric
+        ordenations={ordenation}
+        onOrdenationChange={setOrdenation}
         searchIndexes={[1, 2]}
         enablePagination={false}
         onClick={() => {}}
         color={color}
         headers={header}
         title={title}
-        rows={getRows(aggregatedData)}
+        rows={getRows(dataSorted)}
       />
     </div>
   );

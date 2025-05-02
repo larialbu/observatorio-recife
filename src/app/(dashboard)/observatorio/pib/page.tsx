@@ -54,7 +54,7 @@ const PibPage = () => {
     }, [data]);
 
   const renderContent = () => {
-    if (!data) {
+    if (!data || !pibData.geral || !pibData.current || !pibData.past || !pibData.rawDataCurrent) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 

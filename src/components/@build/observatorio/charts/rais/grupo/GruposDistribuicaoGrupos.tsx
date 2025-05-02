@@ -6,7 +6,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import { raisGrupoDicts } from "@/utils/dicts/rais/raisGrupoDicts";
-import { uniqueLabel } from "@/functions/process_data/observatorio/empregos/rais/demografia/geralFuncition";
+import { uniqueLabel } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
 
 const GruposDistribuicaoGrupos = ({
   data,

@@ -1,9 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 
 const MunicipalityInfo = ({ data = [], year, color = "#000000" }: any) => {
+  const [ordenation, setOrdenation] = useState([{ index: 2, name: 'Nota', ordenation: 0 }, { index: 3, name: 'Colocação', ordenation: 0 }]);
+
+  const order = ordenation.find((item) => item.ordenation != 0)
+
   // Filtra os dados com base no ano
   const aggregatedData = data
     .filter((item: any) => item["Ano"]?.toString() === `${year}`)
@@ -19,6 +23,8 @@ const MunicipalityInfo = ({ data = [], year, color = "#000000" }: any) => {
   const sortedData = aggregatedData.sort(
     (a: any, b: any) => a.Colocação - b.Colocação
   );
+
+  const dataSorted = order ? sortedData.sort((a: any, b: any) => order.ordenation === 1 ? a[order.name] - b[order.name] : b[order.name] - a[order.name]) : sortedData
 
   // Cabeçalho para a tabela
   const header = ["Município", "UF", "Nota", "Colocação", "Dimensão"];
@@ -48,12 +54,14 @@ const MunicipalityInfo = ({ data = [], year, color = "#000000" }: any) => {
   return (
     <div className="relative w-full h-full">
       <TableGeneric
+        ordenations={ordenation}
+        onOrdenationChange={setOrdenation}
         maxHeight={900}
         rowsPerPage={100}
         color={color}
         headers={header}
         title={`Dados de Municípios (${year})`}
-        rows={getRows(sortedData)}
+        rows={getRows(dataSorted)}
       />
     </div>
   );
