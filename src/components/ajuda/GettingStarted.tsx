@@ -1,71 +1,96 @@
 import React, { useState } from "react";
+import GenericModal from "./GenericModal";
+import { useTutorial } from "./TutorialProvider";
 
 interface CardProps {
+  id: string;
   title: string;
   description: string;
   icon: JSX.Element;
+  tutorial: string | JSX.Element;
 }
 
-const HelpCard: React.FC<CardProps> = ({ title, description, icon }) => {
+const HelpCard: React.FC<CardProps> = ({ id, title, description, icon }) => {
+  const tutorials = useTutorial();
+  const tutorial = tutorials[id] || { content: "Conteúdo não encontrado." };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <div className="relative h-[300px] bg-gray-100 dark:bg-[#1d2b3d] p-8 rounded-lg shadow-md hover:cursor-pointer:">
-      <div className="w-20 flex mb-8">
-        {icon}
+    <>
+      <div 
+        className="relative h-[300px] bg-gray-100 dark:bg-[#1d2b3d] p-8 rounded-lg shadow-md hover:cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl hover:bg-gray-200"
+        onClick={() => setIsModalOpen(true)}
+      >
+        <div className="w-20 flex mb-8">
+          {icon}
+        </div>
+        <div className="absolute top-32 pr-8">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2 dark:text-white">{title}</h3>
+          <p className="text-sm text-gray-600 dark:text-white dark:opacity-75">{description}</p>
+        </div>
       </div>
-      <div className="absolute top-32 pr-8">
-        <h3 className="text-lg font-semibold text-gray-800 mb-2 dark:text-white">{title}</h3>
-        <p className="text-sm text-gray-600 dark:text-white dark:opacity-75">{description}</p>
-      </div>
-    </div>
+
+      <GenericModal
+      isOpen={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+      title={title}
+      description={tutorial.description}
+      tutorial={tutorial.content}
+      />
+    </>
   );
 };
 
+
 const GettingStarted: React.FC = () => {
   const helpItems = [
-    {
-      title: "Gerenciando Tarefas",
+    { 
+      id: "esconderGraficos",
+      title: "Esconder Gráficos",
       description:
-        "Suas tarefas econômicas são específicas ao Recife. Incluem dados e análises disponíveis no portal.",
+        "Oculte todos os gráficos para facilitar a navegação visual.",
       icon: (
-        <svg className="w-20 h-20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-          <path fill="#0155AE" fill-rule="evenodd" d="M4,4 L9,4 C9.55228,4 10,3.55228 10,3 C10,2.44772 9.55228,2 9,2 L4,2 C2.89543,2 2,2.89543 2,4 L2,12 C2,13.1046 2.89543,14 4,14 L12,14 C13.1046,14 14,13.1046 14,12 L14,10 C14,9.44771 13.5523,9 13,9 C12.4477,9 12,9.44771 12,10 L12,12 L4,12 L4,4 Z M15.2071,2.29289 C14.8166,1.90237 14.1834,1.90237 13.7929,2.29289 L8.5,7.58579 L7.70711,6.79289 C7.31658,6.40237 6.68342,6.40237 6.29289,6.79289 C5.90237,7.18342 5.90237,7.81658 6.29289,8.20711 L7.79289,9.70711 C7.98043,9.89464 8.23478,10 8.5,10 C8.76522,10 9.01957,9.89464 9.20711,9.70711 L15.2071,3.70711 C15.5976,3.31658 15.5976,2.68342 15.2071,2.29289 Z"/>
+        <svg viewBox="0 0 24 24" className="fill-[#0155AE]" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M3.61399 4.21063C3.17804 3.87156 2.54976 3.9501 2.21069 4.38604C1.87162 4.82199 1.95016 5.45027 2.38611 5.78934L4.66386 7.56093C3.78436 8.54531 3.03065 9.68043 2.41854 10.896L2.39686 10.9389C2.30554 11.1189 2.18764 11.3514 2.1349 11.6381C2.09295 11.8661 2.09295 12.1339 2.1349 12.3618C2.18764 12.6485 2.30554 12.881 2.39686 13.0611L2.41854 13.104C4.35823 16.956 7.71985 20 12.0001 20C14.2313 20 16.2129 19.1728 17.8736 17.8352L20.3861 19.7893C20.8221 20.1284 21.4503 20.0499 21.7894 19.6139C22.1285 19.178 22.0499 18.5497 21.614 18.2106L3.61399 4.21063ZM16.2411 16.5654L14.4434 15.1672C13.7676 15.6894 12.9201 16 12.0001 16C9.79092 16 8.00006 14.2091 8.00006 12C8.00006 11.4353 8.11706 10.898 8.32814 10.4109L6.24467 8.79044C5.46659 9.63971 4.77931 10.6547 4.20485 11.7955C4.17614 11.8525 4.15487 11.8948 4.13694 11.9316C4.12114 11.964 4.11132 11.9853 4.10491 12C4.11132 12.0147 4.12114 12.036 4.13694 12.0684C4.15487 12.1052 4.17614 12.1474 4.20485 12.2045C5.9597 15.6894 8.76726 18 12.0001 18C13.5314 18 14.9673 17.4815 16.2411 16.5654ZM10.0187 11.7258C10.0064 11.8154 10.0001 11.907 10.0001 12C10.0001 13.1046 10.8955 14 12.0001 14C12.2667 14 12.5212 13.9478 12.7538 13.8531L10.0187 11.7258Z"/>
+          <path d="M10.9506 8.13908L15.9995 12.0661C15.9999 12.0441 16.0001 12.022 16.0001 12C16.0001 9.79085 14.2092 7.99999 12.0001 7.99999C11.6369 7.99999 11.285 8.04838 10.9506 8.13908Z"/>
+          <path d="M19.7953 12.2045C19.4494 12.8913 19.0626 13.5326 18.6397 14.1195L20.2175 15.3467C20.7288 14.6456 21.1849 13.8917 21.5816 13.104L21.6033 13.0611C21.6946 12.881 21.8125 12.6485 21.8652 12.3618C21.9072 12.1339 21.9072 11.8661 21.8652 11.6381C21.8125 11.3514 21.6946 11.1189 21.6033 10.9389L21.5816 10.896C19.6419 7.04402 16.2803 3.99998 12.0001 3.99998C10.2848 3.99998 8.71714 4.48881 7.32934 5.32257L9.05854 6.66751C9.98229 6.23476 10.9696 5.99998 12.0001 5.99998C15.2329 5.99998 18.0404 8.31058 19.7953 11.7955C19.824 11.8525 19.8453 11.8948 19.8632 11.9316C19.879 11.964 19.8888 11.9853 19.8952 12C19.8888 12.0147 19.879 12.036 19.8632 12.0684C19.8453 12.1052 19.824 12.1474 19.7953 12.2045Z"/>
         </svg>
         
       ),
     },
-    {
-      title: "Dados Econômicos",
+    { 
+      id: "telaCheia",
+      title: "Tela Cheia",
       description:
-        "Curta introdução aos principais indicadores econômicos do Recife.",
+        "Ative o modo de tela cheia para visualizar os dados em tela inteira.",
       icon: (
-        <svg className="fill-[#52B348]" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-            <svg width="700px" height="700px" viewBox="-10 -8 30 30" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11 2h2v4h6v2H7v3H5V6h6V2zM5 18h6v4h2v-4h6v-2H5v2zm14-7H5v2h12v3h2v-5z"/>
-            </svg>
-            <path d="M182.55 474.18c0-181.12 147.36-328.48 328.48-328.48s328.48 147.36 328.48 328.48c0 22.13-2.23 44.29-6.59 65.87l71.53 14.51c5.35-26.34 8.06-53.37 8.06-80.37 0-221.37-180.1-401.47-401.47-401.47s-401.47 180.1-401.47 401.47c0 159.39 94.34 303.76 240.34 367.81l29.33-66.83C259.75 722.74 182.55 604.6 182.55 474.18z"/>
-            <path d="M739.64 693.13h54.03L660.73 826.08l-107.7-107.71-184.09 184.09 51.61 51.61 132.48-132.48 107.7 107.71 178.78-178.78V793h72.99V620.14H739.64z"/>
+        <svg className="fill-[#52B348]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path fillRule="evenodd" clipRule="evenodd" d="M3 4C3 3.44772 3.44772 3 4 3H8C8.55228 3 9 3.44772 9 4C9 4.55228 8.55228 5 8 5H6.41421L9.70711 8.29289C10.0976 8.68342 10.0976 9.31658 9.70711 9.70711C9.31658 10.0976 8.68342 10.0976 8.29289 9.70711L5 6.41421V8C5 8.55228 4.55228 9 4 9C3.44772 9 3 8.55228 3 8V4ZM16 3H20C20.5523 3 21 3.44772 21 4V8C21 8.55228 20.5523 9 20 9C19.4477 9 19 8.55228 19 8V6.41421L15.7071 9.70711C15.3166 10.0976 14.6834 10.0976 14.2929 9.70711C13.9024 9.31658 13.9024 8.68342 14.2929 8.29289L17.5858 5H16C15.4477 5 15 4.55228 15 4C15 3.44772 15.4477 3 16 3ZM9.70711 14.2929C10.0976 14.6834 10.0976 15.3166 9.70711 15.7071L6.41421 19H8C8.55228 19 9 19.4477 9 20C9 20.5523 8.55228 21 8 21H4C3.44772 21 3 20.5523 3 20V16C3 15.4477 3.44772 15 4 15C4.55228 15 5 15.4477 5 16V17.5858L8.29289 14.2929C8.68342 13.9024 9.31658 13.9024 9.70711 14.2929ZM14.2929 14.2929C14.6834 13.9024 15.3166 13.9024 15.7071 14.2929L19 17.5858V16C19 15.4477 19.4477 15 20 15C20.5523 15 21 15.4477 21 16V20C21 20.5523 20.5523 21 20 21H16C15.4477 21 15 20.5523 15 20C15 19.4477 15.4477 19 16 19H17.5858L14.2929 15.7071C13.9024 15.3166 13.9024 14.6834 14.2929 14.2929Z"/>
         </svg>
       ),
     },
-    {
-      title: "Atualizando seus Dados",
+    { 
+      id: "baixarGraficos",
+      title: "Baixar os Gráficos",
       description:
-        "Deseja atualizar suas informações ou adicionar novos dados? É fácil!",
+        "Baixe os gráficos em formato de imagem para uso externo ou relatórios.",
       icon: (
-        <svg className="" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g id="System / Data">
-          <path id="Vector" d="M18 12V17C18 18.6569 15.3137 20 12 20C8.68629 20 6 18.6569 6 17V12M18 12V7M18 12C18 13.6569 15.3137 15 12 15C8.68629 15 6 13.6569 6 12M18 7C18 5.34315 15.3137 4 12 4C8.68629 4 6 5.34315 6 7M18 7C18 8.65685 15.3137 10 12 10C8.68629 10 6 8.65685 6 7M6 12V7" stroke="#EC6625" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg className="stroke-2 stroke-[#EC6625]" viewBox="0 0 24 24"xmlns="http://www.w3.org/2000/svg">
+          <g id="Interface / Download">
+            <path id="Vector" d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12" strokeLinecap="round" strokeLinejoin="round"/>
           </g>
         </svg>
       ),
     },
     {
-      title: "Entre em Contato",
+      id: "quadro",
+      title: "Quadro",
       description:
-        "Precisa de ajuda? Envie sua solicitação e entraremos em contato.",
+        "Monte seu próprio painel de análise com gráficos, anotações e desenhos.",
       icon: (
-        <svg className="w-20 h-20 fill-none stroke-purple-700 stroke-[1.91px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6 12.0001V10.0001H18V12.0001M3.02832 10.0002L10.2246 14.8168C10.8661 15.2444 11.1869 15.4583 11.5336 15.5414C11.8399 15.6148 12.1593 15.6148 12.4657 15.5414C12.8124 15.4583 13.1332 15.2444 13.7747 14.8168L20.9709 10.0001M10.2981 4.06892L4.49814 7.71139C3.95121 8.05487 3.67775 8.2266 3.4794 8.45876C3.30385 8.66424 3.17176 8.90317 3.09111 9.16112C3 9.45256 3 9.77548 3 10.4213V16.8001C3 17.9202 3 18.4803 3.21799 18.9081C3.40973 19.2844 3.71569 19.5904 4.09202 19.7821C4.51984 20.0001 5.07989 20.0001 6.2 20.0001H17.8C18.9201 20.0001 19.4802 20.0001 19.908 19.7821C20.2843 19.5904 20.5903 19.2844 20.782 18.9081C21 18.4803 21 17.9202 21 16.8001V10.4213C21 9.77548 21 9.45256 20.9089 9.16112C20.8282 8.90317 20.6962 8.66424 20.5206 8.45876C20.3223 8.2266 20.0488 8.05487 19.5019 7.71139L13.7019 4.06891C13.0846 3.68129 12.776 3.48747 12.4449 3.41192C12.152 3.34512 11.848 3.34512 11.5551 3.41192C11.224 3.48747 10.9154 3.68129 10.2981 4.06892Z" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg className="fill-purple-700" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.8944 5.44721C18.1414 4.95324 17.9412 4.35256 17.4472 4.10557C16.9532 3.85858 16.3526 4.05881 16.1056 4.55279L13.6414 9.48107L11.0435 7.53264C10.3319 6.99895 9.31491 7.19817 8.85727 7.96089L6.14251 12.4855C5.85836 12.9591 6.01192 13.5733 6.4855 13.8575C6.95908 14.1416 7.57334 13.9881 7.85749 13.5145L10.287 9.46527L12.9207 11.4405C13.6694 12.0021 14.7438 11.7484 15.1624 10.9114L17.8944 5.44721Z"/>
+          <path fillRule="evenodd" clipRule="evenodd" d="M23 4C23 2.34315 21.6569 1 20 1H4C2.34315 1 1 2.34315 1 4V14C1 15.6569 2.34315 17 4 17H10.438L5.35982 21.2318C4.93554 21.5853 4.87821 22.2159 5.23178 22.6402C5.58534 23.0645 6.21591 23.1218 6.64018 22.7682L11 19.135V22C11 22.5523 11.4477 23 12 23C12.5523 23 13 22.5523 13 22V19.135L17.3598 22.7682C17.7841 23.1218 18.4147 23.0645 18.7682 22.6402C19.1218 22.2159 19.0645 21.5853 18.6402 21.2318L13.562 17H20C21.6569 17 23 15.6569 23 14V4ZM21 4C21 3.44772 20.5523 3 20 3H4C3.44772 3 3 3.44772 3 4V14C3 14.5523 3.44772 15 4 15H20C20.5523 15 21 14.5523 21 14V4Z"/>
         </svg>
       ),
     },
@@ -73,10 +98,11 @@ const GettingStarted: React.FC = () => {
 
   return (
     <div className="container max-w-[1120px] px-4 py-10 flex flex-col">
-      <h2 className="text-3xl font-bold mb-8 text-gray-800 dark:text-white text-center self-start">Começando Agora?</h2>
+      <h2 className="text-3xl font-bold text-gray-800 dark:text-white text-center self-start">Começando Agora?</h2>
+      <p className="text-lg mb-8 text-gray-600 dark:text-white text-center self-start">Aprenda a usar nossas funcionalidades!</p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-9">
         {helpItems.map((item, index) => (
-          <HelpCard key={index} {...item} />
+          <HelpCard tutorial={""} key={index} {...item} />
         ))}
       </div>
     </div>
