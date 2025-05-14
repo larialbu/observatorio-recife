@@ -26,6 +26,7 @@ import { empregosCagedFilters } from "@/utils/filters/empregos/empregosCagedFilt
 import { raisGeralFilters } from "@/utils/filters/rais/raisGeralFilters";
 import { Filters } from "@/@types/observatorio/shared";
 import { empregosDesempregoFilters } from "@/utils/filters/empregos/empregosDesempregoFilter";
+import { microCagedGeralFilters } from "@/utils/filters/micro-caged/microCagedGeralFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 type TabFiltersMap = Record<string, Filters>;
@@ -92,6 +93,10 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     grupo: raisGeralFilters,
     estoque: raisGeralFilters,
     remuneracao: raisGeralFilters,
+  },
+
+    "/observatorio/micro-caged": {
+    geral: microCagedGeralFilters,
   },
 
   // E assim por diante pra outras rotas...

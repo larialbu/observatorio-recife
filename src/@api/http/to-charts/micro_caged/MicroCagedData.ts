@@ -3,7 +3,7 @@ import { fetchData } from "@/@api/config/dataFetcher";
 const DB_NAME = "parquetDB";
 const STORE_NAME = "parquetFiles";
 
-export class RaisData {
+export class MicroCagedData {
   private year: string;
   private static cache: Record<string, any> = {}; // Cache estático para todas as instâncias
 
@@ -11,14 +11,14 @@ export class RaisData {
     this.year = year;
   }
 
-  async fetchProcessedDataRais(): Promise<any[]> {
-    const endpoint = `/empregos/rais/recife/anos/${this.year}`;
-    return fetchData<any[]>(endpoint, RaisData.cache);
+  async fetchProcessedDataMicroCaged(): Promise<any[]> {
+    const endpoint = `/empregos/micro-caged/anos/${this.year}`;
+    return fetchData<any[]>(endpoint, MicroCagedData.cache);
   }
 
   // Limpa o cache de dados
   clearCache(): void {
-    RaisData.cache = {};
+    MicroCagedData.cache = {};
   }
 }
 

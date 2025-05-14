@@ -4,6 +4,7 @@ import { aeroportoDataService } from "@/services/@data/aeroportoDataService";
 import { balancaDataService } from "@/services/@data/balancaComercialDataService";
 import { empregosDataService } from "@/services/@data/empregosDataService";
 import { ipcaDataService } from "@/services/@data/ipcaDataService";
+import { microCagedDataService } from "@/services/@data/microCagedService";
 import { pibDataService } from "@/services/@data/pibDataService";
 import { portoDataService } from "@/services/@data/portoDataService";
 import { raisDataService } from "@/services/@data/raisDataService";
@@ -74,6 +75,10 @@ export const routeServicesMap: Record<
     grupo: raisDataService,
     estoque: raisDataService,
     remuneracao: raisDataService,
+  },
+  
+  "/observatorio/micro-caged": {
+  geral: microCagedDataService,
   },
    
   // E assim por diante ...

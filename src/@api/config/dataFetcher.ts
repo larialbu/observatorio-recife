@@ -1,4 +1,4 @@
-import { getFromIndexedDB, saveToIndexedDB } from "@/@api/cache/indexDB";
+import { getFromIndexedDB, listIndexedDBKeys, saveToIndexedDB } from "@/@api/cache/indexDB";
 import { readParquetFromBuffer } from "./parquetReader";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!;
@@ -9,6 +9,9 @@ export async function fetchData<T>(
   endpoint: string,
   cache: Record<string, any>
 ): Promise<T> {
+  // console.log('CAHCE ->', cache)
+  // console.log('endpoint ->', endpoint)
+
   if (cache[endpoint]) {
     console.log("Usando cache para:", endpoint);
     return cache[endpoint];
@@ -16,6 +19,7 @@ export async function fetchData<T>(
 
   const filename = endpoint;
   const cachedBuffer = await getFromIndexedDB("parquetDB", "parquetFiles", filename);
+  console.log('dbKEys', await listIndexedDBKeys("parquetDB", "parquetFiles")) ;
 
   let data: T;
 
