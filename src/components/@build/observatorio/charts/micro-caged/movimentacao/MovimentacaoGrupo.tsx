@@ -5,6 +5,7 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import TreeMapChart from "@/components/@global/charts/TreeMapChart";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import { getAccTextGroup } from "@/functions/process_data/observatorio/micro-caged/getAccTextGroup";
 
 const MovimentacaoGrupo = ({
   data = [],
@@ -12,10 +13,13 @@ const MovimentacaoGrupo = ({
   colors = ColorPalette.default,
   title = "Grupo",
 //   title = "Distribuição desligamentos de empregos por Setor",
-  
 }: any) => {
- 
-  const chartData = getObjToArr<number>(data['seção'] || {})
+
+  const groups = [{ name: 'Indústria', includes: ['C', 'E', 'D', 'B'], quantity: 0 }, { name: 'Comércio', includes: ['G'], quantity: 0 }, { name: 'Agropecuária', includes: ['A'], quantity: 0 }, { name: 'Construção', includes: ['F'], quantity: 0 }, { name: 'Serviços', includes: ['N', 'P', 'H', 'K', 'Q', 'I', 'J', 'S', 'M', 'R', 'L', 'O', 'U'], quantity: 0 } ]
+
+  const dataArr = getObjToArr<number>(data['seção'] || {})
+
+  const chartData = getAccTextGroup(dataArr, groups)
 
   return (
     <div className="chart-wrapper">

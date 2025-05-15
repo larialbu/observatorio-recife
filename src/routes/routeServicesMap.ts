@@ -78,7 +78,8 @@ export const routeServicesMap: Record<
   },
   
   "/observatorio/micro-caged": {
-  geral: microCagedDataService,
+    geral: microCagedDataService,
+    saldo: microCagedDataService,
   },
    
   // E assim por diante ...

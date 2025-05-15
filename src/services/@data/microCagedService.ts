@@ -27,16 +27,10 @@ export class MicroCagedDataService {
 
   private async fetchGeral(filters: Record<string, any>) {
     const microCagedData = new MicroCagedData(this.currentYear);
-    // const pastYear = `${+this.currentYear - 1}`;
 
     const fetchData = await microCagedData.fetchProcessedDataMicroCaged() 
 
-    console.log('Fetchded', fetchData)
-
     const filteredData = applyGenericFilters(fetchData, filters);
-    // const filteredDataAtiv = applyGenericFilters(fetchData.filter((data) => data['Vínculo Ativo 31/12'] == '1'), filters);
-    // const filteredDataNoAtiv = applyGenericFilters(fetchData.filter((data) => data['Vínculo Ativo 31/12'] == '0'), filters);    
-    console.log('FiltredData', filteredData)
 
     return {
       microCaged: filteredData,

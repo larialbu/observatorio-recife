@@ -7,6 +7,7 @@ import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import Movimentacao from "./(movimentacao)/movimentacao";
 import Link from "next/link";
+import Saldo from "./(saldo)/saldo";
 
 const MicroCagedPage = () => {
   const { isLoading, data, filters } = useDashboard();
@@ -16,8 +17,6 @@ const MicroCagedPage = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-
-  console.log('PAGE FATHER ->', data)
 
   useEffect(() => {
       const tab = searchParams.get("tab");
@@ -50,7 +49,6 @@ const MicroCagedPage = () => {
 
     
   const renderContent = () => {
-    console.log('micCAGEd', microCaged)    
     if (!data || !microCaged.length ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
@@ -61,8 +59,8 @@ const MicroCagedPage = () => {
         data={microCaged} 
         year={getYearSelected(filters)} 
         />  
-      case "desligamento":
-        return <Movimentacao
+      case "saldo":
+        return <Saldo
         data={microCaged} 
         year={getYearSelected(filters)} 
         /> 
@@ -105,17 +103,17 @@ const MicroCagedPage = () => {
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Demográfia
+          Movimentações
         </button>
         <button
-          onClick={() => handleNavigation("desligamento")}
+          onClick={() => handleNavigation("saldo")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "desligamento"
+            activeTab === "saldo"
               ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Desligamento
+          Saldo
         </button>
         <button
           onClick={() => handleNavigation("diversidade")}

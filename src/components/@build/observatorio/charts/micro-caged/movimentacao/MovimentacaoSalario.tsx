@@ -7,16 +7,17 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import { getAccGroups } from "@/functions/process_data/observatorio/micro-caged/getAccGroups";
 
-const MovimentacaoHoras = ({
+const MovimentacaoSalario = ({
   data,
   title = "hora",
 //   title = "Distribuição formal de empregos por faixa etária",
   year,
 }: any) => {
   
-  const chartData = getAccGroups(data['horascontratuais'],  [[0, 20, 0], [20, 30, 0], [30, 40, 0], [40, 44, 0], [44, 120, 0]]).map((group) => {
-    return { label: `${group[0]}H ${ group[0] === 44 ? 'ou mais' : `a ${group[1]}H`}`, value: group[2] }
+  const chartData = getAccGroups(data['salário'],  [[0, 1500, 0], [1501, 3000, 0], [3001, 4500, 0], [4501, 6000, 0], [6001, 7500, 0], [7501, 9000, 0], [9001, 100000000000000, 0] ]).map((group) => {
+    return { label: `${group[0]},00 ${ group[0] === 9001 ? 'ou mais' : `a ${group[1]},00`}`, value: group[2] }
   }).sort((a, b) => b.value - a.value)
+
 
   return (
     <div className="chart-wrapper">
@@ -36,4 +37,4 @@ const MovimentacaoHoras = ({
   );
 };
 
-export default MovimentacaoHoras;
+export default MovimentacaoSalario;
