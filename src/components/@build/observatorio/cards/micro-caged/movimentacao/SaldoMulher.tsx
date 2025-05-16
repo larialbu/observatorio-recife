@@ -9,9 +9,9 @@ const SaldoMulher = ({
   color,
 }: any) => {
 
-  const dataMovimentacao = data['saldoMulher']['saldomovimentação']
+  const dataMovimentacao = data?.['saldoMulher']?.['saldomovimentação']
 
-  const chartData = dataMovimentacao['Admitidos'] - dataMovimentacao['Demitidos']
+  const chartData = dataMovimentacao?.['Admitidos'] - dataMovimentacao?.['Demitidos']
 
   return (
     <Card

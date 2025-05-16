@@ -7,15 +7,15 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import { getAccGroups } from "@/functions/process_data/observatorio/micro-caged/getAccGroups";
 
-const MovimentacaoEtaria = ({
+const MovimentacaoSalario = ({
   data,
-  title = "idade",
+  title = "hora",
 //   title = "Distribuição formal de empregos por faixa etária",
   year,
 }: any) => {
   
-  const chartData = getAccGroups(data['idade'],  [[10, 14, 0], [15, 17, 0], [18, 24, 0], [25, 29, 0], [30, 39, 0], [40, 49, 0], [50, 64, 0], [65, 120, 0]]).map((group) => {
-    return { label: `${group[0]} ${ group[0] === 65 ? 'ou mais' : `a ${group[1]}`}`, value: group[2] }
+  const chartData = getAccGroups(data['salário'],  [[0, 1500, 0], [1501, 3000, 0], [3001, 4500, 0], [4501, 6000, 0], [6001, 7500, 0], [7501, 9000, 0], [9001, 100000000000000, 0] ]).map((group) => {
+    return { label: `${group[0]},00 ${ group[0] === 9001 ? 'ou mais' : `a ${group[1]},00`}`, value: group[2] }
   }).sort((a, b) => b.value - a.value)
 
 
@@ -30,11 +30,11 @@ const MovimentacaoEtaria = ({
           colors={ColorPalette.default}
           heightPerCategory={50}
           widthY={130}
-          left={-75}
+          left={-15}
         />
       </ChartGrabber>
     </div>
   );
 };
 
-export default MovimentacaoEtaria;
+export default MovimentacaoSalario;

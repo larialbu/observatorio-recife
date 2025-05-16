@@ -11,7 +11,7 @@ const Saldo = ({
 
   const dataMovimentacao = data?.['saldomovimentação']
 
-  const chartData = dataMovimentacao?.['Admitidos'] - dataMovimentacao?.['Demitidos']
+  const chartData = dataMovimentacao?.['Admitidos'] - dataMovimentacao?.['Demitidos'] || 0
 
   return (
     <Card

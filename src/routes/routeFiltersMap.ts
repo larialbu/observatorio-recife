@@ -98,6 +98,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     "/observatorio/micro-caged": {
     geral: microCagedGeralFilters,
     saldo: microCagedGeralFilters,
+    media: microCagedGeralFilters,
   },
 
   // E assim por diante pra outras rotas...

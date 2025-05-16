@@ -9,7 +9,7 @@ const Desligamentos = ({
   color,
 }: any) => {
 
-  const chartData = data['saldomovimentação']['Demitidos']
+  const chartData = data?.['saldomovimentação']?.['Demitidos']
 
 
   return (

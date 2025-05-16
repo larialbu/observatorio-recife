@@ -18,7 +18,7 @@ const getDataObj = (data: any[]) => {
   return { ...geralInfos, ...womanInfos, ...manInfos }
 }
 
-const Saldo = ({
+const Media = ({
   data,
   year,
 }: {
@@ -42,7 +42,7 @@ const Saldo = ({
 
   return (
     <div>
-      <div className="flex flex-wrap gap-4 justify-center mb-8">
+      {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
             <ErrorBoundary>
@@ -54,9 +54,9 @@ const Saldo = ({
             </ErrorBoundary>
           </React.Suspense>
         ))}
-      </div>
+      </div> */}
 
-      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
           const { Component } = charts[index];
           return (
@@ -72,9 +72,9 @@ const Saldo = ({
             </div>
           );
         })}
-      </SortableDiv>
+      </SortableDiv> */}
     </div>
   );
 };
 
-export default Saldo;
+export default Media;

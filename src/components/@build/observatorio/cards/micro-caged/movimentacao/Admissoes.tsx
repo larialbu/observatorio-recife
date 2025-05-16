@@ -9,7 +9,7 @@ const Admissoes = ({
   color,
 }: any) => {
 
-  const chartData = data['saldomovimentação']['Admitidos']
+  const chartData = data?.['saldomovimentação']?.['Admitidos']
 
   return (
     <Card

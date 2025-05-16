@@ -1,17 +1,16 @@
 import Card from "@/components/@global/cards/Card";
 
-const Saldo = ({
+const Desligamentos = ({
   data,
   date,
-  title = `Saldo`,
+  title = `Desligamentos`,
   local = '',
   year,
   color,
 }: any) => {
 
-  const dataMovimentacao = data?.['saldomovimentação']
+  const chartData = data?.['saldomovimentação']?.['Demitidos'] || 0
 
-  const chartData = dataMovimentacao?.['Admitidos'] - dataMovimentacao?.['Demitidos']
 
   return (
     <Card
@@ -24,4 +23,4 @@ const Saldo = ({
   );
 };
 
-export default Saldo;
+export default Desligamentos;

@@ -1,18 +1,18 @@
 import Card from "@/components/@global/cards/Card";
 
-const Saldo = ({
+const SaldoMulher = ({
   data,
   date,
-  title = `Saldo`,
+  title = `Saldo Mulher`,
   local = '',
   year,
   color,
 }: any) => {
 
-  const dataMovimentacao = data?.['saldomovimentação']
+  const dataMovimentacao = data?.['saldoMulher']?.['saldomovimentação']
 
-  const chartData = dataMovimentacao?.['Admitidos'] - dataMovimentacao?.['Demitidos']
-
+  const chartData = dataMovimentacao?.['Admitidos'] - dataMovimentacao?.['Demitidos'] || 0
+ 
   return (
     <Card
       local={local}
@@ -24,4 +24,4 @@ const Saldo = ({
   );
 };
 
-export default Saldo;
+export default SaldoMulher;

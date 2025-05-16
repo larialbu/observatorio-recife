@@ -8,6 +8,7 @@ import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import Movimentacao from "./(movimentacao)/movimentacao";
 import Link from "next/link";
 import Saldo from "./(saldo)/saldo";
+import Media from "./(media)/media";
 
 const MicroCagedPage = () => {
   const { isLoading, data, filters } = useDashboard();
@@ -64,6 +65,11 @@ const MicroCagedPage = () => {
         data={microCaged} 
         year={getYearSelected(filters)} 
         /> 
+      case "media":
+        return <Media
+        data={microCaged} 
+        year={getYearSelected(filters)} 
+        /> 
       default:
         return <Movimentacao 
         data={microCaged} 
@@ -81,7 +87,7 @@ const MicroCagedPage = () => {
   return (
     <div className="p-6 min-h-screen mt-48">
        <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
-        RAIS
+        Microdados (CAGED)
       </h1>
       
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
@@ -116,14 +122,14 @@ const MicroCagedPage = () => {
           Saldo
         </button>
         <button
-          onClick={() => handleNavigation("diversidade")}
+          onClick={() => handleNavigation("media")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "diversidade"
+            activeTab === "media"
               ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Diversidade
+          Salário Médio
         </button>
         <button
           onClick={() => handleNavigation("grupo")}
