@@ -16,6 +16,14 @@
   font-family: "Poppins", sans-serif;
 }
 
+:root {
+  --yaxis-tick-color: #333;
+}
+
+.dark {
+  --yaxis-tick-color: #AAA; 
+}
+
 .capture_div {
   line-height: normal !important;
 }
@@ -95,8 +103,16 @@
  fill: gray;
 }
 
+.dark .menu-item-wrapper svg path {
+ fill: #e5e7eb;
+}
+
 .menu-item-wrapper svg polygon{
   fill: gray;
+}
+
+.dark .menu-item-wrapper svg polygon{
+  fill: #e5e7eb;
 }
 
 .tooltip {
@@ -152,7 +168,7 @@
 }
 
 .chart-content-wrapper{
-  @apply bg-white h-full shadow-xl rounded-lg p-6 w-full flex flex-col items-center transition-all transform hover:shadow-2xl
+  @apply bg-white dark:bg-[#0C1B2B] h-full shadow-xl rounded-lg p-6 w-full flex flex-col items-center transition-all transform hover:shadow-2xl
 }
 
 .chart-wrapper{
@@ -175,10 +191,6 @@
 .Island .dropdown-menu-container > :nth-child(2) {
   display: none !important;
 }
-
-
-
-/*  */
 
 @keyframes progressIndeterminate {
   0%   { transform: translateX(-100%) }
@@ -217,8 +229,8 @@
 }
 
 /* Estiliza a "frestinha" do balão */
-.leaflet-popup-tip-container {
-}
+/* .leaflet-popup-tip-container {
+} */
 
 /* OU: Se quiser apenas mudar a cor da flecha */
 .leaflet-popup-tip {
@@ -228,4 +240,16 @@
 .leaflet-control-attribution{
   display: inline-flex;
   width: max-content;
+}
+
+.dark .recharts-legend-wrapper div {
+  border-color: #AAA;
+}
+
+.recharts-tooltip-cursor {
+  fill: #ccc;
+}
+
+.dark .recharts-tooltip-cursor {
+  fill: #233B53;
 }

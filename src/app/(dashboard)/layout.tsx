@@ -11,6 +11,7 @@ import { ExcalidrawProvider } from "@/components/@global/excalidraw/context/useC
 import { DrawingStoreProvider } from "@/components/@global/excalidraw/context/drawingStoreContext";
 import FloatingExcalidrawButton from "@/components/@global/excalidraw/floatButton";
 import "@excalidraw/excalidraw/index.css";
+import ToggleDarkMode from "@/components/@global/features/ToggleDarkMode";
 
 export default function DashboardLayout({
   children,
@@ -20,28 +21,27 @@ export default function DashboardLayout({
   const pathname = usePathname();
 
   // Define backgrounds para cada rota específica
-  const getBackgroundForRoute = () => {
-    switch (pathname) {
-      case "/observatorio/balanca-comercial":
-        return "bg-[url('/images/backgrounds/dashboard/bal_comercial.avif')]";
-      case "/observatorio/aeroportos":
-        return "bg-[url('/images/backgrounds/dashboard/aeroportos.avif')]";
-      case "/observatorio/ipca":
-        return "bg-[url('/images/backgrounds/dashboard/ipca.avif')]";
-      case "/observatorio/ranking-municipios":
-        return "bg-[url('/images/backgrounds/dashboard/ranking.avif')]";
-      case "/observatorio/portos":
-        return "bg-[url('/images/backgrounds/dashboard/portos.avif')]";
-      case "/observatorio/pib":
-        return "bg-[url('/images/backgrounds/dashboard/pib.avif')]";
-      case "/observatorio/empregos":
-        return "bg-[url('/images/backgrounds/dashboard/empregos.avif')]";
-        case "/observatorio/rais":
-        return "bg-[url('/images/backgrounds/dashboard/empregos.avif')]";
-      default:
-        return "bg-[#F7F8FA]";
-    }
-  };
+const getBackgroundForRoute = () => {
+  switch (pathname) {
+    case "/observatorio/balanca-comercial":
+      return "bg-[url('/images/backgrounds/dashboard/light/bal_comercial.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/bal_comercial.avif')]";
+    case "/observatorio/aeroportos":
+      return "bg-[url('/images/backgrounds/dashboard/light/aeroportos.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/aeroportos.avif')]";
+    case "/observatorio/ipca":
+      return "bg-[url('/images/backgrounds/dashboard/light/ipca.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/ipca.avif')]";
+    case "/observatorio/ranking-municipios":
+      return "bg-[url('/images/backgrounds/dashboard/light/ranking.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/ranking.avif')]";
+    case "/observatorio/portos":
+      return "bg-[url('/images/backgrounds/dashboard/light/portos.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/portos.avif')]";
+    case "/observatorio/pib":
+      return "bg-[url('/images/backgrounds/dashboard/light/pib.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/pib.avif')]";
+    case "/observatorio/empregos":
+    case "/observatorio/rais":
+      return "bg-[url('/images/backgrounds/dashboard/light/empregos.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/empregos.avif')]";
+    default:
+      return "bg-[#F7F8FA] dark:bg-[#0C1B2B]";
+  }
+};
 
   return (
     <Suspense fallback={< LoadingScreen />}>
@@ -52,6 +52,7 @@ export default function DashboardLayout({
             className={`flex-1 ${getBackgroundForRoute()} bg-cover overflow-scroll flex flex-col pb-[1em]`}
           >
             <Navbar />
+            <ToggleDarkMode />
             <HiddenChartsPanel />
             <DrawingStoreProvider>
               <ExcalidrawProvider>

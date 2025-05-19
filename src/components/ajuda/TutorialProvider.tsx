@@ -1,7 +1,7 @@
 import React from "react";
 
 // Definimos uma interface para padronizar os tutoriais
-interface TutorialItem {
+export interface TutorialItem {
   id: string;
   title: string;
   description: string;
@@ -10,7 +10,7 @@ interface TutorialItem {
 }
 
 // Aqui dentro colocamos os tutoriais em formato JSON
-const tutorialData: Record<string, TutorialItem> = {
+export const tutorialData: Record<string, TutorialItem> = {
   esconderGraficos: {
     id: "esconderGraficos",
     title: "Esconder Gráficos",
@@ -57,9 +57,6 @@ const tutorialData: Record<string, TutorialItem> = {
       <>
         <p>
           Para baixar um gráfico, clique no botão de download localizado no canto superior direito de cada gráfico.
-        </p>
-        <p className="mt-2">
-          Os formatos disponíveis são: <strong>PNG</strong>, <strong>JPEG</strong> e <strong>PDF</strong> (se suportado).
         </p>
         <ol className="list-decimal pl-5 mt-2 space-y-1">
           <li>Clique no ícone de download no gráfico desejado.</li>

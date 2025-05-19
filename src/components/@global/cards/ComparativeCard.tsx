@@ -48,11 +48,11 @@ const percentage = percentComparative(+data, +data2)
 
   return (
     <div
-      className="rounded-2xl p-4 flex-1 min-w-[250px] bg-white text-black h-full flex flex-col"
+      className="rounded-2xl p-4 flex-1 min-w-[250px] bg-white dark:bg-[#0C1B2B] text-black dark:text-white h-full flex flex-col"
       style={{ borderLeft: `8px solid ${color}` }}
     >
       <div className="flex justify-between items-center ">
-        <span className="text-xs font-light text-gray-600">
+        <span className="text-xs font-light text-gray-600 dark:text-gray-400">
             {year}
         </span>
        {toCompare !== comp && <span style={{ borderColor: `${color}` }} className={`border bg-white rounded-full font-semibold text-[12px] px-2 ${percentage.color} py-1`}>{percentage.text} {comp}</span>}

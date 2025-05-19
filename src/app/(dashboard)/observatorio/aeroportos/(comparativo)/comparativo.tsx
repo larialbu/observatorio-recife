@@ -73,7 +73,7 @@ const Comparativo: React.FC<ChartBuild> = ({
         notFoundMessage="Nenhum aeroporto encontrado"
       />
 
-      <div className="mb-2">
+      <div className="mb-2 dark:text-gray-200">
         <SelectCompare
           options={toCompare}
           initialValue={'Recife'}

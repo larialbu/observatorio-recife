@@ -134,9 +134,9 @@ const ChartGrabber = ({
       Array.from(buttonContainers).forEach((element) => {
         element.parentNode?.removeChild(element);
       });
-
+      const isDarkMode = document.documentElement.classList.contains("dark");
       html2canvas(tempChartRef.current, {
-        backgroundColor: "white",
+        backgroundColor: isDarkMode ? "#0C1B2B" : "white",
         scale: 2,
         useCORS: true,
       }).then((canvas) => {
@@ -151,7 +151,8 @@ const ChartGrabber = ({
 
   const handleFullScreen = () => {
     if (chartRef.current) {
-      chartRef.current.style.backgroundColor = "white";
+      const isDarkMode = document.documentElement.classList.contains("dark");
+      chartRef.current.style.backgroundColor = isDarkMode ? "#0C1B2B" : "white";
       chartRef.current.requestFullscreen();
       setIsFullScreen(true);
       chartRef.current.onfullscreenchange = () => {
@@ -210,7 +211,7 @@ const ChartGrabber = ({
           {children}
         </div>
       </div>
-
+        
       {showTempContainer && (
         <div
           className="capture_div p-10"
@@ -221,13 +222,15 @@ const ChartGrabber = ({
             top: "-9999px",
             left: "-9999px",
             paddingBottom: "20px",
-            background: "white",
+            backgroundColor: document.documentElement.classList.contains("dark")
+            ? "#0C1B2B"
+            : "white",
             lineHeight: "normal",
           }}
           ref={tempChartRef}
         >
           {removeButtonContainer(children)}
-          <div className="border shadow-md rounded-md p-4 text-sm text-gray-700">
+          <div className="border shadow-md rounded-md p-4 text-sm text-gray-700 dark:text-gray-300">
           <ul>
             <li><strong>Filtros:</strong></li>
             

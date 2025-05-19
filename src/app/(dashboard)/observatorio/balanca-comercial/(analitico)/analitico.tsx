@@ -68,9 +68,9 @@ const Analitico = ({
         <div className="flex flex-col gap-6">
        
          <div className="flex items-center justify-between gap-2">
-            <div className="flex-1 h-[1px] bg-black"></div>
-            <p className="">Negociações</p>
-            <div className="flex-1 h-[1px] bg-black"></div>
+            <div className="flex-1 h-[1px] bg-gray-800 dark:bg-gray-200"></div>
+            <p className="text-gray-800 dark:text-gray-200">Negociações</p>
+            <div className="flex-1 h-[1px] bg-gray-800 dark:bg-gray-200"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
@@ -102,9 +102,9 @@ const Analitico = ({
           </div>
           
           <div className="flex items-center justify-between gap-2">
-            <div className="flex-1 h-[1px] bg-black"></div>
-            <p className="">Grupos de Produtos</p>
-            <div className="flex-1 h-[1px] bg-black"></div>
+            <div className="flex-1 h-[1px] bg-gray-800 dark:bg-gray-200"></div>
+            <p className="text-gray-800 dark:text-gray-200">Grupos de Produtos</p>
+            <div className="flex-1 h-[1px] bg-gray-800 dark:bg-gray-200"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">

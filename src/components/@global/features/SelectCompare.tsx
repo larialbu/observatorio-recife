@@ -39,12 +39,12 @@ const SelectCompare = ({
 
   return (
     <div className="relative flex flex-col">
-        <label className="text-xs font-medium text-gray-600 mb-1">{label}</label>
+        <label className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">{label}</label>
         <button
         onClick={() => {
             setDropdown(true);
         }}
-        className="bg-white max-w-[200px] flex justify-between items-center px-3 py-2 border rounded-md text-sm"
+        className="bg-white dark:bg-[#0C1B2B] max-w-[200px] flex justify-between items-center px-3 py-2 border dark:border-gray-600 rounded-md text-sm"
         >
         <span>
             {filters}
@@ -57,7 +57,7 @@ const SelectCompare = ({
                 open={dropdown}
                 setOpen={(val) => setDropdown(val)}
             > 
-                <div className="absolute z-50 mt-1 p-4 bg-white border shadow-md max-h-60 overflow-y-auto">
+                <div className="absolute z-50 mt-1 p-4 bg-white dark:bg-[#1d2b3d] border dark:border-gray-600 shadow-md max-h-60 overflow-y-auto">
                 <input
                     type="text"
                     placeholder="Pesquisar..."
@@ -65,7 +65,7 @@ const SelectCompare = ({
                     onChange={(e) => {
                         setSearchTerm(e.target.value)
                     }}
-                    className="border rounded mb-2 px-2 py-1 text-sm w-full"
+                    className="border rounded mb-2 px-2 py-1 text-sm w-full dark:bg-[#0C1B2B] dark:text-white dark:border-gray-600"
                 />
 
                 {options

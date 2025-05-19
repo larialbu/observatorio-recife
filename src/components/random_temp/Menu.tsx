@@ -13,7 +13,7 @@ const Menu = ({ open }: { open: boolean }) => {
           <span
             className={`${
               open ? "block" : "hidden"
-            } text-gray-400 font-light my-4`}
+            } text-gray-400 dark:text-gray-100 font-light my-4`}
           >
             {section.title}
           </span>
@@ -30,7 +30,7 @@ const Menu = ({ open }: { open: boolean }) => {
                 href={item.href}
                 className={`flex max-w-[200px] items-center ${
                   open ? "justify-start" : "justify-center"
-                } gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-lamaSkyLight menu-item-wrapper`}
+                } gap-4 text-gray-500 dark:text-gray-200 py-2 md:px-2 rounded-md hover:bg-lamaSkyLight dark:hover:bg-[#15273b] menu-item-wrapper`}
                 onMouseEnter={() => setHoveredItem(item.label)} // Detecta hover no link
                 onMouseLeave={() => setHoveredItem(null)} // Remove hover ao sair do link
               >
@@ -41,7 +41,7 @@ const Menu = ({ open }: { open: boolean }) => {
               {/* Tooltip para Sidebar Fechada */}
               {!open && (
                 <div
-                  className={`absolute left-full top-1/2 -translate-y-1/2 ml-2 bg-white shadow-lg px-3 py-1 z-50 rounded-md transition-all duration-500 transform ${
+                  className={`absolute left-full top-1/2 -translate-y-1/2 ml-2 bg-white dark:bg-[#15273b] dark:text-gray-200 shadow-lg px-3 py-1 z-50 rounded-md transition-all duration-500 transform ${
                     hoveredItem === item.label
                       ? "opacity-100 translate-x-2"
                       : "opacity-0 translate-x-[-10px] pointer-events-none"

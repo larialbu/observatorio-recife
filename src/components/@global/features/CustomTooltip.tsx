@@ -2,7 +2,7 @@ const CustomTooltip = ({ active, payload, label, customTooltipFormatter, fontSiz
   if (active && payload && payload.length) {
     return (
       <div
-        className="mb-[-1em] bg-white p-4 rounded-lg shadow-md sm:max-w-[300px] max-w-[180px] break-words text-sm text-gray-800 border-l-4 border-blue-600">
+        className="mb-[-1em] bg-white dark:bg-[#11273D] p-4 rounded-lg shadow-md sm:max-w-[300px] max-w-[180px] break-words text-sm text-gray-800 border-l-4 border-blue-600">
         <h4
           className={`font-bold text-blue-600 mb-2 sm:text-lg text-[13px]`}
           style={{
@@ -18,7 +18,7 @@ const CustomTooltip = ({ active, payload, label, customTooltipFormatter, fontSiz
               key={index}
               className="flex flex-col justify-between mb-2 mt-2 text-sm"
             >
-              <span className="text-gray-500 font-medium">
+              <span className="text-gray-500 dark:text-gray-400 font-medium">
                 {treeMap ? entry.payload.label : entry.name}:
               </span>
               <span

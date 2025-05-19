@@ -1,6 +1,6 @@
 export const ChevronIcon = ({ up = false }: { up?: boolean }) => (
     <svg
-      className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
+      className={`h-4 w-4 text-gray-500 dark:fill-gray-200 transition-transform duration-200 ${
         up ? "rotate-180" : ""
       }`}
       viewBox="0 0 20 20"
