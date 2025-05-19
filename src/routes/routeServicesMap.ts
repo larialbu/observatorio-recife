@@ -81,6 +81,7 @@ export const routeServicesMap: Record<
     geral: microCagedDataService,
     saldo: microCagedDataService,
     media: microCagedDataService,
+    salario: microCagedDataService,
   },
    
   // E assim por diante ...

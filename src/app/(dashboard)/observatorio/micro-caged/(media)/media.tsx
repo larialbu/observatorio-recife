@@ -9,9 +9,10 @@ import ErrorBoundary from "@/utils/loader/errorBoundary";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { geralAccFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
 import { getSaldoData } from "@/functions/process_data/observatorio/micro-caged/getSaldoData";
+import { getAvarageGroups } from "@/functions/process_data/observatorio/micro-caged/getAvarageGroups";
 
 const getDataObj = (data: any[]) => {
-  const geralInfos = geralAccFunction(data || [], ['salário', 'saldomovimentação', "tamestabjan", "graudeinstrução", "sexo", "seção", "raçacor", "tamestabjan", "horascontratuais", "idade"])
+  const geralInfos = geralAccFunction(data || [], ["tamestabjan", "graudeinstrução", "sexo", "seção", "raçacor", "horascontratuais", "idade", "cbo2002ocupação"])
   const womanInfos = { saldoMulher: geralAccFunction(data.filter((item: any) => item["sexo"] === "Mulher") || [], ['saldomovimentação' ])}
   const manInfos = { saldoHomem: geralAccFunction(data.filter((item: any) => item["sexo"] === "Homem") || [], ['saldomovimentação' ])}
 
@@ -29,15 +30,41 @@ const Media = ({
   const sortableContainerRef = useRef<HTMLDivElement>(null);
   const [chartData, setChartData] = useState({})
   
-  console.log('FOI!')
+  console.log('FOI! média')
 
   useEffect(() => {
-    const dataAdmitidos = getDataObj(data.filter((obj: any) => obj['saldomovimentação'] === "Admitidos"))
-    const dataDemitidos = getDataObj(data.filter((obj: any) => obj['saldomovimentação'] === "Demitidos"))
+    const dataObj = getDataObj(data)
 
-    const dataSaldo = getSaldoData(dataAdmitidos, dataDemitidos)
+    const keysObj = Object.keys(data[0]).filter(key => !['salário', 'competênciamov', 'ano', 'município', 'unidadesaláriocódigo', 'valorsaláriofixo'].includes(key))
 
-    setChartData(dataSaldo)
+    const dataSalario = data.reduce((acc, obj) => {
+
+    keysObj.map((key) => {
+      if (!acc[key]) {
+        acc[key] = {}
+      }
+
+      if (!acc[key][obj[key]]) {
+        acc[key][obj[key]] = 0
+      }
+      // console.log(acc[key], acc[key][obj[key]])
+
+      acc[key][obj[key]] += obj['salário']
+    })
+      
+
+      return acc
+    }, {})
+
+    console.log('Salário total ->',  dataSalario)
+
+    console.log('DataObj', dataObj)
+
+    getAvarageGroups(dataSalario, dataObj)
+
+    // console.log('SalTotla', data.reduce((acc, obj) => acc += obj['salário'], 0), data.length, data.reduce((acc, obj) => acc += obj['salário'], 0) / data.length)
+
+    setChartData(dataObj)
   }, [data])
 
   return (

@@ -99,6 +99,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     geral: microCagedGeralFilters,
     saldo: microCagedGeralFilters,
     media: microCagedGeralFilters,
+    salario: microCagedGeralFilters,
   },
 
   // E assim por diante pra outras rotas...

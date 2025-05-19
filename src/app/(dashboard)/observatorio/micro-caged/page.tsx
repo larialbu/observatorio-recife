@@ -9,6 +9,7 @@ import Movimentacao from "./(movimentacao)/movimentacao";
 import Link from "next/link";
 import Saldo from "./(saldo)/saldo";
 import Media from "./(media)/media";
+import Salario from "./(salario)/salario";
 
 const MicroCagedPage = () => {
   const { isLoading, data, filters } = useDashboard();
@@ -67,6 +68,11 @@ const MicroCagedPage = () => {
         /> 
       case "media":
         return <Media
+        data={microCaged} 
+        year={getYearSelected(filters)} 
+        /> 
+      case "salario":
+        return <Salario
         data={microCaged} 
         year={getYearSelected(filters)} 
         /> 
@@ -152,14 +158,14 @@ const MicroCagedPage = () => {
           Estoque por empresas
         </button>
         <button
-          onClick={() => handleNavigation("remuneracao")}
+          onClick={() => handleNavigation("salario")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "remuneracao"
+            activeTab === "salario"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
               : "bg-gray-300 text-gray-500"
           }`}
         >
-          Relatório de remuneração
+          Comparação CBO
         </button>
       </div>
       {renderContent()}
