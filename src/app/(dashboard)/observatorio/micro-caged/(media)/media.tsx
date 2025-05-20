@@ -33,11 +33,13 @@ const Media = ({
   console.log('FOI! média')
 
   useEffect(() => {
-    const dataObj = getDataObj(data)
+    const dataFiltred = data.filter((obj) => obj['indtrabintermitente'] == 0 && obj['salário'] > 1518 * 0.3 && obj['salário'] < 1518 * 150)
+
+    const dataObj = getDataObj(dataFiltred)
 
     const keysObj = Object.keys(data[0]).filter(key => !['salário', 'competênciamov', 'ano', 'município', 'unidadesaláriocódigo', 'valorsaláriofixo'].includes(key))
 
-    const dataSalario = data.reduce((acc, obj) => {
+    const dataSalario = dataFiltred.reduce((acc, obj) => {
 
     keysObj.map((key) => {
       if (!acc[key]) {
@@ -56,15 +58,7 @@ const Media = ({
       return acc
     }, {})
 
-    console.log('Salário total ->',  dataSalario)
-
-    console.log('DataObj', dataObj)
-
-    getAvarageGroups(dataSalario, dataObj)
-
-    // console.log('SalTotla', data.reduce((acc, obj) => acc += obj['salário'], 0), data.length, data.reduce((acc, obj) => acc += obj['salário'], 0) / data.length)
-
-    setChartData(dataObj)
+    setChartData({ quantity: dataObj, values: dataSalario})
   }, [data])
 
   return (
@@ -83,7 +77,7 @@ const Media = ({
         ))}
       </div> */}
 
-      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
           const { Component } = charts[index];
           return (
@@ -99,7 +93,7 @@ const Media = ({
             </div>
           );
         })}
-      </SortableDiv> */}
+      </SortableDiv>
     </div>
   );
 };

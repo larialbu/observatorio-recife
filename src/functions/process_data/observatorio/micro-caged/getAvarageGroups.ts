@@ -8,8 +8,9 @@ export const getAvarageGroups = (dataSalario: any, dataObj: any) => {
           // console.log('keys', key1, copyDataSalario[key1], copyDataSalario[key1][keySec1], dataObj?.[key1]?.[keySec1], copyDataSalario[key1][keySec1] / dataObj?.[key1]?.[keySec1])
          
           // sesse ->
-          console.log('keys', key1, keySec1, copyDataSalario[key1][keySec1], dataObj?.[key1]?.[keySec1], copyDataSalario[key1][keySec1] / dataObj?.[key1]?.[keySec1])
-          
+          // console.log('keys', key1, keySec1, copyDataSalario[key1][keySec1], dataObj?.[key1]?.[keySec1], copyDataSalario[key1][keySec1] / dataObj?.[key1]?.[keySec1])
+          copyDataSalario[key1][keySec1] = copyDataSalario[key1][keySec1] / dataObj?.[key1]?.[keySec1]
+
           // const admitidoInfo = copyDataSalario[key1][keySec1]
           // const demitidoInfo = dataObj[key1][keySec1] || 0
           // const resultInfo =  admitidoInfo - demitidoInfo
@@ -25,5 +26,5 @@ export const getAvarageGroups = (dataSalario: any, dataObj: any) => {
       // }
     }
 
-    // return copyDataSalario
+    return copyDataSalario
 }

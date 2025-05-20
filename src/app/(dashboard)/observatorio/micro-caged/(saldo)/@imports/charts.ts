@@ -4,6 +4,13 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
+        "@/components/@build/observatorio/charts/micro-caged/saldo/SaldoInstrucao"
+      )
+    ),
+  },
+  {
+    Component: React.lazy(() =>
+      import(
         "@/components/@build/observatorio/charts/micro-caged/saldo/VinculosEmpregaticios"
       )
     ),
