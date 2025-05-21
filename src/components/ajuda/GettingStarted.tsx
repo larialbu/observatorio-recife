@@ -18,7 +18,7 @@ const HelpCard: React.FC<CardProps> = ({ id, title, description, icon }) => {
   return (
     <>
       <div 
-        className="relative h-[300px] bg-gray-100 dark:bg-[#1d2b3d] p-8 rounded-lg shadow-md hover:cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl hover:bg-gray-200"
+        className="relative h-[320px] bg-gray-100 dark:bg-[#1d2b3d] p-8 rounded-lg shadow-md hover:cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl hover:bg-gray-200"
         onClick={() => setIsModalOpen(true)}
       >
         <div className="w-20 flex mb-8">
@@ -94,13 +94,30 @@ const GettingStarted: React.FC = () => {
         </svg>
       ),
     },
+    {
+      id: "tema",
+      title: "Alterar Tema",
+      description:
+        "Mude entre tema claro e escuro para sua preferência visual.",
+      icon: (
+        <svg className="rotate-0 transition-transform duration-500 fill-[#facc00]" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <g id="Page-1" stroke="none" stroke-width="1" fill-rule="evenodd">
+            <g id="Dribbble-Light-Preview" transform="translate(-180.000000, -4199.000000)">
+              <g id="icons" transform="translate(56.000000, 160.000000)">
+                <path d="M126,4049 C126,4044.589 129.589,4041 134,4041 L134,4057 C129.589,4057 126,4053.411 126,4049 M134,4039 C128.477,4039 124,4043.477 124,4049 C124,4054.523 128.477,4059 134,4059 C139.523,4059 144,4054.523 144,4049 C144,4043.477 139.523,4039 134,4039"></path>
+              </g>
+            </g>
+          </g>
+        </svg>
+      ),
+    },
   ];
 
   return (
     <div className="container max-w-[1120px] px-4 py-10 flex flex-col">
       <h2 className="text-3xl font-bold text-gray-800 dark:text-white text-center self-start">Começando Agora?</h2>
       <p className="text-lg mb-8 text-gray-600 dark:text-white text-center self-start">Aprenda a usar nossas funcionalidades!</p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-9">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-9">
         {helpItems.map((item, index) => (
           <HelpCard tutorial={""} key={index} {...item} />
         ))}

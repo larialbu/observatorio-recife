@@ -91,6 +91,42 @@ export const tutorialData: Record<string, TutorialItem> = {
       </>
     ),
   },
+   tema: {
+    id: "tema",
+    title: "Alterar Tema",
+    description: "Mude entre tema claro e escuro para sua preferência visual.",
+    content: (
+      <>
+        <p>
+          Personalize a aparência da interface para se adequar ao seu ambiente e preferência visual. 
+          Alterne facilmente entre os modos claro e escuro com apenas um clique.
+        </p>
+
+        <h3 className="font-semibold mt-4">Como usar:</h3>
+        <ol className="list-decimal pl-5 mt-2 space-y-2">
+          <li>
+            <strong>Localize o ícone de tema:</strong> Encontre-o no canto superior direito da tela — ele representa a opção de alterar o tema.
+            <svg className="rotate-0 transition-transform duration-500 fill-black dark:fill-white w-8 h-8 m-2" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg">
+              <g id="Page-1" stroke="none" stroke-width="1" fill-rule="evenodd">
+                <g id="Dribbble-Light-Preview" transform="translate(-180.000000, -4199.000000)">
+                  <g id="icons" transform="translate(56.000000, 160.000000)">
+                    <path d="M126,4049 C126,4044.589 129.589,4041 134,4041 L134,4057 C129.589,4057 126,4053.411 126,4049 M134,4039 C128.477,4039 124,4043.477 124,4049 C124,4054.523 128.477,4059 134,4059 C139.523,4059 144,4054.523 144,4049 C144,4043.477 139.523,4039 134,4039"></path>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </li>
+          <li>
+            <strong>Clique no ícone para alternar entre modo claro e escuro.</strong>
+            <ul className="list-disc pl-5 mt-1">
+              <li>O tema será atualizado imediatamente após o clique.</li>
+              <li>Para voltar ao modo anterior, basta clicar novamente no mesmo ícone.</li>
+            </ul>
+          </li>
+        </ol>
+      </>
+    ),
+  },
 };
 
 // Contexto opcional (para escalabilidade futura)

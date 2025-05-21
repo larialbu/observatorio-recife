@@ -44,7 +44,7 @@ const SelectCompare = ({
         onClick={() => {
             setDropdown(true);
         }}
-        className="bg-white dark:bg-[#0C1B2B] max-w-[200px] flex justify-between items-center px-3 py-2 border dark:border-gray-600 rounded-md text-sm"
+        className="bg-white dark:bg-[#0C1B2B] max-w-[200px] flex justify-between items-center px-3 py-2 border dark:border-gray-600 rounded-md text-sm dark:text-gray-200"
         >
         <span>
             {filters}
@@ -57,7 +57,7 @@ const SelectCompare = ({
                 open={dropdown}
                 setOpen={(val) => setDropdown(val)}
             > 
-                <div className="absolute z-50 mt-1 p-4 bg-white dark:bg-[#1d2b3d] border dark:border-gray-600 shadow-md max-h-60 overflow-y-auto">
+                <div className="absolute z-50 mt-1 p-4 bg-white dark:bg-[#1d2b3d] border dark:border-gray-600 dark:text-gray-200 shadow-md max-h-60 overflow-y-auto">
                 <input
                     type="text"
                     placeholder="Pesquisar..."

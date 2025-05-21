@@ -195,7 +195,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
               <button
                 onClick={prevPage}
                 disabled={currentPage === 1}
-                className="px-4 py-2 bg-white rounded disabled:bg-gray-300"
+                className="px-4 py-2 bg-white dark:bg-[#0C1B2B] dark:text-gray-200 rounded disabled:text-gray-400 dark:disabled:text-gray-500 disabled:bg-gray-300 dark:disabled:bg-[#233B53]"
               >
                 Anterior
               </button>
@@ -207,7 +207,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
               <button
                 onClick={nextPage}
                 disabled={currentPage === totalPages}
-                className="px-4 py-2 bg-white rounded disabled:text-gray-200 disabled:bg-gray-300"
+                className="px-4 py-2 bg-white dark:bg-[#0C1B2B] dark:text-gray-200 rounded disabled:text-gray-400 dark:disabled:text-gray-500 disabled:bg-gray-300 dark:disabled:bg-[#233B53]"
               >
                 Próxima
               </button>

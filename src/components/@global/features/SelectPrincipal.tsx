@@ -88,7 +88,7 @@ const SelectPrincipal = ({
         <input
           type="text"
           id="municipio"
-          className="p-2 pl-8 border rounded-lg w-full dark:bg-[#0C1A28] dark:border-gray-600"
+          className="p-2 pl-8 border rounded-lg w-full dark:bg-[#0C1A28] dark:border-gray-600 dark:text-gray-200"
           placeholder={placeholder}
           value={searchTerm}
           onClick={(e) => {

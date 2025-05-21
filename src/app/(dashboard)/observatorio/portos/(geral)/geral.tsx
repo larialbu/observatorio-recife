@@ -67,7 +67,7 @@ const Geral = ({
         </SortableDiv>
 
       <div className="place-items-center z-0 mb-6">
-        <div className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center">
+        <div className="bg-white dark:bg-[#0C1A28] shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center">
           <Component data={data.coords || []} />
         </div>
       </div>

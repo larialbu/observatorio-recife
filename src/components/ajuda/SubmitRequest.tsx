@@ -11,7 +11,7 @@ const SubmitRequest: React.FC = () => {
                     <h3 className="mb-4 font-bold text-[28px] text-gray-800 dark:text-gray-200">Não achou o que estava procurando?</h3>
                     <span className="mb-12 text-gray-600 dark:text-gray-400">Quer conversar com alguém do suporte? Estamos aqui para você. Você pode enviar uma solicitação abaixo, conversar conosco ou nos ligar.</span>
                 </div>
-                <a href="mailto:desenvolvimento@recife.pe.gov.br" className="py-3 px-5 bg-[#EC6625] rounded-[7px] cursor-pointer size-fit text-white font-semibold shadow-lg hover:bg-[#ce5a21] hover:scale-105">Fale com a gente!</a>
+                <a href="mailto:desenvolvimento@recife.pe.gov.br" target="_blank" className="py-3 px-5 bg-[#EC6625] rounded-[7px] cursor-pointer size-fit text-white font-semibold shadow-lg hover:bg-[#ce5a21] hover:scale-105">Fale com a gente!</a>
             </div>
             <div className="flex w-[50%] md:w-[40%] lg:w-[35%]">
                 <img src="images/svgs/Thinking face-cuate.svg" alt="" />

@@ -34,12 +34,12 @@ const ComparativeCard = ({
     if (percentageDifference > 0) {
       return {
         text: `- ${percentageDifference.toFixed(2)}%`,
-        color: 'text-red-700'
+        color: 'text-red-700 dark:text-red-500'
       } 
     } else {
       return {
         text: `+ ${Math.abs(percentageDifference).toFixed(2)}%`,
-        color: 'text-green-700'
+        color: 'text-green-700 dark:text-green-400'
     }  
   };
 }
@@ -55,7 +55,7 @@ const percentage = percentComparative(+data, +data2)
         <span className="text-xs font-light text-gray-600 dark:text-gray-400">
             {year}
         </span>
-       {toCompare !== comp && <span style={{ borderColor: `${color}` }} className={`border bg-white rounded-full font-semibold text-[12px] px-2 ${percentage.color} py-1`}>{percentage.text} {comp}</span>}
+       {toCompare !== comp && <span style={{ borderColor: `${color}` }} className={`border bg-white dark:bg-[#0C1A28] rounded-full font-semibold text-[12px] px-2 ${percentage.color} py-1`}>{percentage.text} {comp}</span>}
       </div>
      <div className="flex flex-col justify-between flex-1 ">
         <h1 className="text-2xl text-whit font-semibold my-4">{tooltipFormatter(+data2)}<span className="opacity-85 text-sm">{ toCompare !== comp && `/ ${tooltipFormatter(+data)}` }</span></h1>
