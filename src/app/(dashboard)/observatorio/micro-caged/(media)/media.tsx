@@ -58,12 +58,15 @@ const Media = ({
       return acc
     }, {})
 
+    // console.log('DataFiltr', dataFiltred)
+    // console.log('Data', dataFiltred.reduce((acc, obj) => acc += obj['salário'], 0))
+
     setChartData({ quantity: dataObj, values: dataSalario})
   }, [data])
 
   return (
     <div>
-      {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
+      <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
             <ErrorBoundary>
@@ -75,7 +78,7 @@ const Media = ({
             </ErrorBoundary>
           </React.Suspense>
         ))}
-      </div> */}
+      </div>
 
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
