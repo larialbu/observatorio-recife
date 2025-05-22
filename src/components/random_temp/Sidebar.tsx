@@ -13,9 +13,10 @@ export const ArrowIcon = () => {
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    className="stroke-[#6b7280] dark:stroke-[#e5e7eb]"
   >
-    <path d="M17 12L8 12" stroke="#6b7280" />
-    <path d="M11 8L7 12L11 16" stroke="#6b7280" />
+    <path d="M17 12L8 12" />
+    <path d="M11 8L7 12L11 16" />
   </svg>)
 }
 
@@ -52,7 +53,7 @@ const Bar = ({
       className={`
         ${menuOpen ? "fixed min-w-[200px] z-50 shadow-2xl overflow-y-scroll" : ""}
         ${isMobile && !menuOpen ? "hidden" : `w-[${menuOpen ? "14%" : "6%"}]`}
-        p-3 bg-white h-full transition-all duration-300
+        p-3 bg-white dark:bg-[#0C1B2B] h-full transition-all duration-300
       `}
     >
       <div
@@ -62,7 +63,7 @@ const Bar = ({
       >
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="flex p-1 my-4 items-center justify-center hover:bg-lamaSkyLight"
+          className="flex p-1 my-4 items-center justify-center hover:bg-lamaSkyLight dark:hover:bg-[#15273b] rounded-full"
         >
           {menuOpen ? (
             <ArrowIcon />
@@ -73,21 +74,29 @@ const Bar = ({
               height="30px"
               viewBox="0 0 24 24"
               fill="none"
+              className="stroke-[#6b7280] dark:stroke-white"
             >
-              <path d="M4 12H20M4 8H20M4 16H12" stroke="#6b7280" />
+              <path d="M4 12H20M4 8H20M4 16H12" />
             </svg>
           )}
         </button>
       </div>
 
-      <Link href="/" className="flex items-center justify-center">
+      <Link href="/" className="flex items-center justify-center flex-col">
         <Image
-          src={menuOpen ? "/observatorio.jpg" : "/images/logos/observatorio_logo.png"}
+          src="/images/logos/logo-obs-economico.svg"
           alt="logo"
-          width={menuOpen ? 150 : 35}
+          width={menuOpen ? 100 : 35}
           height={32}
           className={menuOpen ? "" : "hover:rotate-45"}
         />
+        {menuOpen && (
+          <span className="text-center text-[#2976C0] dark:text-gray-200 font-medium -mt-2 leading-4">
+            Observatório <br />
+            Econômico <br />
+            do Recife
+          </span>
+        )}
       </Link>
       <Menu open={menuOpen} />
     </div>

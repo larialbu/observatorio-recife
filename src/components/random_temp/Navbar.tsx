@@ -101,6 +101,7 @@ const Navbar = () => {
         className={`
           sticky top-0 z-40
           bg-[#d6d6d686]
+          dark:bg-[#0c1b2b86]
           flex flex-col py-4 px-4
           items-start
 
@@ -122,16 +123,16 @@ const Navbar = () => {
             e.stopPropagation(); // Impede a propagação do clique
             toggleFiltersVisible();
           }}
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 px-4 py-2 border bg-white border-gray-300 rounded-md mb-2"
+          className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-200 px-4 py-2 border bg-white dark:bg-[#0C1B2B] border-gray-300 dark:border-gray-600 rounded-md mb-2"
         >
           {filtersVisible ? "Esconder Filtros" : "Exibir Filtros"}
           <ChevronIcon up={filtersVisible} />
         </button>
 
           {/* Resumo dos filtros atuais */}
-          <div className="p-4 bg-white shadow-md rounded-lg text-sm text-gray-700">
-            <span className="font-medium text-lg text-gray-800">Filtros selecionados:</span>
-            <ul className="flex flex-wrap gap-4 mt-2">
+          <div className="p-4 bg-white dark:bg-[#0C1B2B] shadow-md rounded-lg text-sm text-gray-700">
+            <span className="font-medium text-lg text-gray-800 dark:text-gray-100">Filtros selecionados:</span>
+            <ul className="flex flex-wrap gap-4 mt-2 dark:text-gray-300">
               <li>
                 Ano: <strong>{filters.year || (filters.years && filters.years[filters.years.length - 1])}</strong>
               </li>
@@ -164,18 +165,18 @@ const Navbar = () => {
           {/* Modal principal de filtros */}
           {filtersVisible && tempFilters && (
           <FocusHidden open={filtersVisible} setOpen={setFiltersVisible}>
-            <div className="absolute rounded-lg border bg-white p-6 shadow-sm z-50 mt-2">
-                <h2 className="mb-4 text-base font-semibold text-gray-800">Filtros</h2>
+            <div className="absolute rounded-lg border dark:border-gray-600 dark:bg-[#0C1B2B] bg-white p-6 shadow-sm z-50 mt-2">
+                <h2 className="mb-4 text-base font-semibold text-gray-800 dark:text-gray-200">Filtros</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {/* Seletor de Ano */}
                   <div className="flex flex-col">
-                    <label className="text-xs font-medium text-gray-600 mb-1">ANO</label>
+                    <label className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">ANO</label>
                     <select
                       value={tempFilters.year || filters.years && filters.years[filters.years.length - 1]}
                       onChange={(e) => {
                         setTempFilters((prev) => ({ ...prev, year: e.target.value }));
                       }}
-                      className="px-3 py-2 border text-sm rounded-md"
+                      className="px-3 py-2 border text-sm rounded-md dark:bg-[#182e46] dark:border-gray-600 dark:text-gray-300"
                     >
                       {filters.years?.map((yr: string) => (
                         <option key={yr} value={yr}>
@@ -188,14 +189,14 @@ const Navbar = () => {
                   {/* Additional filters */}
                   {tempFilters.additionalFilters?.map((f: AdditionalFilter) => (
                     <div key={f.label} className="relative flex flex-col">
-                      <label className="text-xs font-medium text-gray-600 mb-1">{f.label}</label>
+                      <label className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">{f.label}</label>
                       <button
                         onClick={() => {
                           toggleDropdown(f.label);
                         }}
                         className="w-full flex justify-between items-center px-3 py-2 border rounded-md text-sm"
                       >
-                        <span>
+                        <span className="text-gray-500">
                           {f.selected?.length
                             ? `${f.selected.length} selecionado(s)`
                             : "Nenhum selecionado"}
@@ -208,7 +209,7 @@ const Navbar = () => {
                           open={dropdowns[f.label]}
                           setOpen={(val) => setDropdowns((prev) => ({ ...prev, [f.label]: val }))}
                         >
-                          <div className="absolute z-50 mt-1 p-4 bg-white border shadow-md max-h-60 overflow-y-auto">
+                          <div className="absolute z-50 mt-1 p-4 bg-white dark:bg-[#243041] border dark:border-gray-600 shadow-md max-h-60 overflow-y-auto">
                             <input
                               type="text"
                               placeholder="Pesquisar..."
@@ -216,7 +217,7 @@ const Navbar = () => {
                               onChange={(e) => {
                                 handleSearchChange(f.label, e.target.value);
                               }}
-                              className="border rounded mb-2 px-2 py-1 text-sm w-full"
+                              className="border rounded mb-2 px-2 py-1 text-sm w-full dark:text-gray-300 dark:bg-[#152638] dark:border-gray-600"
                             />
                             <button
                               onClick={() => {
@@ -249,7 +250,7 @@ const Navbar = () => {
                                 return String(op).includes(searchTerm);
                               })
                               .map((op: string) => (
-                                <label key={op} className="flex items-center gap-2 py-1 text-sm">
+                                <label key={op} className="flex items-center gap-2 py-1 text-sm dark:text-gray-300">
                                   <input
                                     type="checkbox"
                                     checked={f.selected.includes(op)}
@@ -272,7 +273,7 @@ const Navbar = () => {
                 <div className="flex justify-end gap-4 mt-4">
                   <button
                     onClick={onResetFilters}
-                    className="bg-gray-100 px-4 py-2 rounded-md"
+                    className="bg-gray-100 px-4 py-2 rounded-md dark:bg-transparent dark:text-blue-500 dark:border dark:border-blue-500 hover:dark:bg-white hover:dark:bg-opacity-10" 
                   >
                     Limpar Filtros
                   </button>
@@ -289,11 +290,13 @@ const Navbar = () => {
         </div>
 
         {/* Ícone (botão) para mostrar/ocultar a navbar */}
-        <div className="absolute top-[100%] right-[8%] px-4 bg-[#d6d6d686] rounded-b-lg" style={{ backdropFilter: "blur(5px)" }}>
+        <div className="absolute top-[100%] right-[8%] px-4 bg-[#d6d6d686] dark:bg-[#0c1b2b86] rounded-b-lg" style={{ backdropFilter: "blur(5px)" }}>
           {!navVisible && (
             <button onClick={() => setNavVisible(true)} className="flex items-center">
               <p
                 className="
+                  text-gray-800
+                  dark:text-gray-200
                   relative 
                   inline-block 
                   font-medium 
@@ -316,8 +319,7 @@ const Navbar = () => {
                 height="45px"
                 viewBox="0 0 16 16"
                 xmlns="http://www.w3.org/2000/svg"
-                fill="#000000"
-                className="rotate-90"
+                className="rotate-90 fill-gray-800 dark:fill-gray-200"
               >
                 <path
                   fillRule="evenodd"
@@ -332,6 +334,8 @@ const Navbar = () => {
             <button onClick={() => setNavVisible(false)} className="flex items-center">
               <p
                 className="
+                  text-gray-800
+                  dark:text-gray-200
                   relative 
                   inline-block 
                   font-medium
@@ -354,8 +358,7 @@ const Navbar = () => {
                 height="45px"
                 viewBox="0 0 16 16"
                 xmlns="http://www.w3.org/2000/svg"
-                fill="#000000"
-                className="-rotate-90"
+                className="-rotate-90 fill-gray-800 dark:fill-gray-200"
               >
                 <path
                   fillRule="evenodd"

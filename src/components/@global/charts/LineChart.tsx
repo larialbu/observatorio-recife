@@ -29,9 +29,9 @@ const LineChart = ({
   };
 
   return (
-    <div className="relative bg-white w-full h-full">
+    <div className="relative bg-white w-full h-full dark:bg-[#0C1B2B]">
       <div className="flex flex-col items-center justify-center">
-        <h3 className="text-center font-semibold w-[90%]">{title}</h3>
+        <h3 className="text-center font-semibold w-[90%] text-gray-800 dark:text-gray-100">{title}</h3>
       </div>
       <ResponsiveContainer width="100%" height={400}>
         <RechartsLineChart
@@ -39,9 +39,9 @@ const LineChart = ({
           margin={{ top: 20, right: 20, left: 23, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey={xKey} tick={{ fontSize: 12, fill: "#333" }} />
+          <XAxis dataKey={xKey} tick={{ fontSize: 12, fill: "var(--yaxis-tick-color)" }}/>
           <YAxis
-            tick={{ fontSize: 11, fill: "#333" }}
+            tick={{ fontSize: 11, fill: "var(--yaxis-tick-color)" }}
             tickFormatter={yAxisFormatter}
             {...yAxis}
           />

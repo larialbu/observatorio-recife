@@ -45,7 +45,7 @@ export const LoadingScreen = () => {
 
   if (isMinimized) {
     return (
-      <div className="fixed z-[999] bottom-4 right-4 w-16 h-16 bg-white rounded-lg shadow-lg flex flex-col items-center justify-center p-2">
+      <div className="fixed z-[999] bottom-4 right-4 w-16 h-16 bg-white dark:bg-[#0C1B2B] rounded-lg shadow-lg flex flex-col items-center justify-center p-2">
         <img
           src="/images/logos/observatorio_logo.png"
           alt="logo observatorio"
@@ -68,7 +68,7 @@ export const LoadingScreen = () => {
   }
 
   return (
-    <div className="fixed z-[999] flex flex-col items-center justify-center right-0 top-0 px-5 h-screen w-full bg-white">
+    <div className="fixed z-[999] flex flex-col items-center justify-center right-0 top-0 px-5 h-screen w-full bg-white dark:bg-[#0C1B2B]">
       {isFirstLoad && (
         <div className="absolute inset-0 top-0 left-0 brightness-[250%] opacity-30 grayscale-[0] z-10 w-full h-full">
           <div className="hue-rotate-[220deg] w-full h-full">
@@ -91,7 +91,7 @@ export const LoadingScreen = () => {
           alt="logo observatorio"
           className="animate-spin w-20 h-20 object-cover"
         />
-        <p className="text-center text-gray-600 mt-2">
+        <p className="text-center text-gray-600 dark:text-gray-400 mt-2">
           {loadingMessage}<br/>Total: {progress}%
         </p>
         <div className="relative w-48 h-2 bg-gray-200 rounded overflow-hidden mt-4">

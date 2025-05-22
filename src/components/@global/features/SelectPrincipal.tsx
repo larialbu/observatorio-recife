@@ -63,7 +63,7 @@ const SelectPrincipal = ({
     <div className="mb-6 relative">
       <label
         htmlFor="municipio"
-        className="flex items-center text-gray-700 gap-[4px] font-semibold mb-2 text-2xl"
+        className="flex items-center text-gray-700 dark:text-gray-200 gap-[4px] font-semibold mb-2 text-2xl"
       > 
         <svg
         width="25px" 
@@ -72,12 +72,12 @@ const SelectPrincipal = ({
         id="analysis-left" 
         data-name="Flat Line" 
         xmlns="http://www.w3.org/2000/svg" 
-        className="icon flat-line">
+        className="icon flat-line stroke-gray-700 dark:stroke-[#e5e7eb]">
           <circle id="secondary" style={{ fill: "transparent", strokeWidth: "2" }} cx="8" cy="10" r="3" />
           <path id="primary" d="M5.83,12.12,3,15M8,7a3,3,0,1,0,3,3A3,3,0,0,0,8,7Zm3,10h6m-2-4h2" 
-          style={{fill: "none", stroke: "oklch(0.373 0.034 259.733)", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "3"}}/>
+          style={{fill: "none", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "3"}}/>
           <path id="primary-2" data-name="primary" d="M8,3H20a1,1,0,0,1,1,1V20a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V17" 
-          style={{fill: "none", stroke: "oklch(0.373 0.034 259.733)", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "3"}}/>
+          style={{fill: "none", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "3"}}/>
         </svg>
         {label}
       </label>
@@ -88,7 +88,7 @@ const SelectPrincipal = ({
         <input
           type="text"
           id="municipio"
-          className="p-2 pl-8 border rounded-lg w-full"
+          className="p-2 pl-8 border rounded-lg w-full dark:bg-[#0C1A28] dark:border-gray-600 dark:text-gray-200"
           placeholder={placeholder}
           value={searchTerm}
           onClick={(e) => {
@@ -118,7 +118,7 @@ const SelectPrincipal = ({
           setOpen={setDropdown}
       
         >
-          <div className="p-4 max-h-60 overflow-y-auto absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-30">
+          <div className="p-4 max-h-60 overflow-y-auto absolute top-full mt-2 w-full bg-white dark:bg-[#0C1A28] border border-gray-200 dark:border-gray-600 rounded-md shadow-lg z-30">
             {optionsCopy.filter((option) => !!option && option
                 .toLocaleLowerCase()
                 .includes(search ? searchTerm.toLocaleLowerCase() : "") 
@@ -132,7 +132,7 @@ const SelectPrincipal = ({
                 .map((option: string) => (
                   <label
                     key={option}
-                    className="cursor-pointer flex items-center gap-2 py-1 text-sm text-gray-700"
+                    className="cursor-pointer flex items-center gap-2 py-1 text-sm dark:bg-[#0C1A28] text-gray-700 dark:text-gray-200"
                   >
                     <input
                       type="checkbox"
@@ -144,7 +144,7 @@ const SelectPrincipal = ({
                   </label>
                 ))
             ) : (
-              <p className="text-sm text-gray-700 p-1 text-center">
+              <p className="text-sm text-gray-700 dark:text-gray-200 p-1 text-center">
                 {notFoundMessage}
               </p>
             )}
@@ -152,7 +152,7 @@ const SelectPrincipal = ({
         </FocusHidden>
       )}
 
-      <p className="text-gray-700 font-medium text-sm mt-2">
+      <p className="text-gray-700 dark:text-gray-200 font-medium text-sm mt-2">
         Comparando com: {filters.length ? filters.join(", ") : "nenhum"}
       </p>
     </div>

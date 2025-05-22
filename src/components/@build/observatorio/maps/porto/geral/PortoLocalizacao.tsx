@@ -168,8 +168,8 @@ export default function PortoLocalizacao({ data }: PortoLocalizacaoProps) {
   }, [data?.[0], data?.[1]]);
 
   return (
-    <div className="w-full h-full">
-      <div className="flex w-full justify-center mb-2 text-lg">
+    <div className="w-full h-full dark:bg-[#0C1A28]">
+      <div className="flex w-full justify-center mb-2 text-lg dark:text-gray-200">
         <strong>Carga dos portos por Localização</strong>
       </div>
       <div ref={mapRef} style={{ height: "500px", width: "100%" }} />

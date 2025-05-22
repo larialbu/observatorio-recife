@@ -92,7 +92,7 @@ const MicroCagedPage = () => {
 
   return (
     <div className="p-6 min-h-screen mt-48">
-       <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide">
+       <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide dark:text-gray-200">
         Microdados (CAGED)
       </h1>
       
@@ -102,7 +102,7 @@ const MicroCagedPage = () => {
           className={`px-6 py-3 rounded-lg flex items-center justify-center flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "caged"
               ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
-              : "bg-gray-300 text-gray-500"
+              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
           Caged
@@ -112,7 +112,7 @@ const MicroCagedPage = () => {
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "geral"
               ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
-              : "bg-gray-300 text-gray-500"
+              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
           Movimentações
@@ -122,7 +122,7 @@ const MicroCagedPage = () => {
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "saldo"
               ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
-              : "bg-gray-300 text-gray-500"
+              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
           Saldo
@@ -132,7 +132,7 @@ const MicroCagedPage = () => {
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "media"
               ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
-              : "bg-gray-300 text-gray-500"
+              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
           Salário Médio
@@ -142,7 +142,7 @@ const MicroCagedPage = () => {
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "grupo"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
-              : "bg-gray-300 text-gray-500"
+              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
           Grupos
@@ -152,7 +152,7 @@ const MicroCagedPage = () => {
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "estoque"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
-              : "bg-gray-300 text-gray-500"
+              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
           Estoque por empresas
@@ -162,7 +162,7 @@ const MicroCagedPage = () => {
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "salario"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
-              : "bg-gray-300 text-gray-500"
+              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
           Comparação CBO

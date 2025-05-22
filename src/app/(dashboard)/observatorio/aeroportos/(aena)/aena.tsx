@@ -32,7 +32,7 @@ const [filteredCargas, setFilteredCargas] = useState<AenaCargasHeaders[]>([]);
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
+      <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-8 text-center">
         Movimentação AENA
       </h2>
 

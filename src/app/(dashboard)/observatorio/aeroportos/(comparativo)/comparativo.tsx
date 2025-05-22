@@ -73,7 +73,7 @@ const Comparativo: React.FC<ChartBuild> = ({
         notFoundMessage="Nenhum aeroporto encontrado"
       />
 
-      <div className="mb-2">
+      <div className="mb-2 dark:text-gray-200">
         <SelectCompare
           options={toCompare}
           initialValue={'Recife'}
@@ -87,11 +87,11 @@ const Comparativo: React.FC<ChartBuild> = ({
         {tempFiltredCard.length >= 1 ? (
           <>
             <button
-              className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
+              className="border transition duration-500 hover:bg-slate-200 dark:hover:bg-[#0F253D] bg-white dark:bg-[#0C1A28] dark:border-gray-600 rounded-full w-10 h-10 flex items-center justify-center"
               onClick={() => handlePageChange("prev")}
             >
               <svg
-                className={`h-4 w-4 text-gray-500 transition-transform duration-200 rotate-90`}
+                className={`h-4 w-4 text-gray-500 dark:text-gray-300 transition-transform duration-200 rotate-90`}
                 viewBox="0 0 20 20"
                 fill="none"
                 stroke="currentColor"
@@ -128,11 +128,11 @@ const Comparativo: React.FC<ChartBuild> = ({
             </div>
 
             <button
-              className="border transition duration-500 hover:bg-slate-200 bg-white rounded-full w-10 h-10 flex items-center justify-center"
+              className="border transition duration-500 hover:bg-slate-200 dark:hover:bg-[#0F253D] bg-white dark:bg-[#0C1A28] dark:border-gray-600 rounded-full w-10 h-10 flex items-center justify-center"
               onClick={() => handlePageChange("next")}
             >
               <svg
-                className={`h-4 w-4 text-gray-500 transition-transform duration-200 -rotate-90`}
+                className={`h-4 w-4 text-gray-500 dark:text-gray-300 transition-transform duration-200 -rotate-90`}
                 viewBox="0 0 20 20"
                 fill="none"
                 stroke="currentColor"
@@ -157,9 +157,9 @@ const Comparativo: React.FC<ChartBuild> = ({
             <button
               key={i}
               onClick={() => setPageCompare(i)}
-              className={`transition duration-200 hover:bg-slate-200 h-4 w-4 ${
-                pageCompare === i ? "bg-slate-500" : "bg-white"
-              } rounded-full border`}
+              className={`transition duration-200 hover:bg-slate-200 dark:hover:bg-[#0F253D] h-4 w-4 ${
+                pageCompare === i ? "bg-slate-500 dark:bg-slate-600" : "bg-white dark:bg-[#0C1A28]"
+              } rounded-full border dark:border-gray-400`}
             ></button>
           );
         })}

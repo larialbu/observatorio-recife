@@ -87,9 +87,9 @@ const VerticalScrollableBarChart = ({
   const totalHeight = Math.max(dataRead.length * heightPerCategory, 300);
 
   return (
-    <div className="relative bg-white w-full">
+    <div className="relative bg-white w-full dark:bg-[#0C1B2B]">
       <div className="flex flex-col items-center justify-center">
-        <h3 className="text-center mb-4 font-semibold w-[90%]">{title}</h3>
+        <h3 className="text-center mb-4 font-semibold w-[90%] text-gray-800 dark:text-gray-100">{title}</h3>
       </div>
 
       <div
@@ -108,13 +108,13 @@ const VerticalScrollableBarChart = ({
               <XAxis
                 type="number"
                 tickFormatter={yAxisFormatter}
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 12, fill: "var(--yaxis-tick-color)" }}
                 orientation="top"
               />
               <YAxis
                 type="category"
                 dataKey={xKey}
-                tick={{ fontSize: yFontSize }}
+                tick={{ fontSize: yFontSize, fill: "var(--yaxis-tick-color)" }}
                 interval={0}
                 width={widthY}
                 // Truncar o texto apenas no eixo Y

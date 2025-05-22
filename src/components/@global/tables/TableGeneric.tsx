@@ -40,6 +40,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
   const [clicked, setClicked] = useState(-1);
   const [itemsPerPage, setItemsPerPage] = useState(rowsPerPage || rows.length);
   const [searchTexts, setSearchTexts] = useState<string[]>(new Array(headers.length).fill("")); // Estado para cada filtro de coluna
+  const isDarkMode = document.documentElement.classList.contains('dark');
 
   const totalRows = rows.length;
 
@@ -115,23 +116,23 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
                   value={searchTexts[index]}
                   onChange={(e) => handleSearchChange(e, index)}
                   placeholder={` Pesquisar por ${headers[index]}`}
-                  className="w-full p-2 rounded border border-gray-300 pl-8"
+                  className="w-full p-2 rounded border border-gray-300 pl-8 dark:bg-[#0C1B2B] dark:text-white dark:border-gray-600"
                 />
                 </div>
               ))}
             </div>
           )}
 
-          <div style={{ height: `${maxHeight}px`, overflowY: 'auto', backgroundColor: '#FFFFFF'}}>
+          <div style={{ height: `${maxHeight}px`, overflowY: 'auto'}} className="bg-white dark:bg-[#0C1B2B]">
             <table className="w-full border-collapse">
-            <thead className="bg-gray-200 sticky top-0 z-10">
+            <thead className="bg-gray-200 sticky top-0 z-10 dark:bg-[#11273D]">
                 <tr>
                 {headers.map((header, index) => {
                     const current = ordenations.find((item) => item.index === index);
                     return (
                       <th
                         key={header}
-                        className="relative text-sm p-2 px-5 border-b border-gray-200 font-semibold text-gray-700 text-center"
+                        className="relative text-sm p-2 px-5 border-b border-gray-200 font-semibold text-gray-700 dark:text-gray-200 text-center"
                         onClick={() => {
                           if (!current) return;
 
@@ -157,18 +158,21 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
                 </tr>
               </thead>
 
-              <tbody className="bg-white">
+              <tbody className="bg-white dark:bg-[#0C1B2B]">
                 {currentRows.map((row, rowIndex) => (
                   <tr
                     onClick={() => setClicked(withClick && clicked !== rowIndex ? rowIndex : -1)}
                     key={rowIndex}
-                    className={`${rowIndex === clicked ? `bg-[${clickedColor}] text-white` : 'bg-white hover:bg-gray-100'} text-center`}
-                    style={{ backgroundColor: rowIndex === clicked ? clickedColor : '#FFFFFF'}}
+                    className={`${rowIndex === clicked ? `bg-[${clickedColor}] text-white` : 'bg-white  hover:bg-gray-100'} text-center`}
+                    style={{ 
+                      backgroundColor: rowIndex === clicked ? clickedColor : '#FFFFFF',
+                      ...(isDarkMode && { backgroundColor: rowIndex === clicked ? clickedColor : '#0C1B2B' })
+                    }}
                   >
                     {row.map((cell, cellIndex) => (
                       <td
                         key={cellIndex}
-                        className="p-2 px-5 border-b border-gray-200 text-sm"
+                        className="p-2 px-5 border-b border-gray-200 dark:border-gray-600 text-sm dark:text-gray-200 bg-white dark:bg-[#0C1B2B]"
                         onClick={() => {
                           if (onClick && clicked !== rowIndex) {
                             onClick(row);
@@ -191,7 +195,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
               <button
                 onClick={prevPage}
                 disabled={currentPage === 1}
-                className="px-4 py-2 bg-white rounded disabled:bg-gray-300"
+                className="px-4 py-2 bg-white dark:bg-[#0C1B2B] dark:text-gray-200 rounded disabled:text-gray-400 dark:disabled:text-gray-500 disabled:bg-gray-300 dark:disabled:bg-[#233B53]"
               >
                 Anterior
               </button>
@@ -203,7 +207,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
               <button
                 onClick={nextPage}
                 disabled={currentPage === totalPages}
-                className="px-4 py-2 bg-white rounded disabled:text-gray-200 disabled:bg-gray-300"
+                className="px-4 py-2 bg-white dark:bg-[#0C1B2B] dark:text-gray-200 rounded disabled:text-gray-400 dark:disabled:text-gray-500 disabled:bg-gray-300 dark:disabled:bg-[#233B53]"
               >
                 Próxima
               </button>

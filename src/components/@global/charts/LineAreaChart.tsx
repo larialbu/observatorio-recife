@@ -38,9 +38,9 @@ const LineAreaChart = ({
   };
 
   return (
-    <div className="relative bg-white w-full h-full">
+    <div className="relative bg-white dark:bg-[#0C1B2B] w-full h-full">
       <div className="flex flex-col items-center justify-center">
-        <h3 className="text-center font-semibold w-[90%]">{title}</h3>
+        <h3 className="text-center font-semibold w-[90%] text-gray-800 dark:text-gray-200">{title}</h3>
       </div>
       <ResponsiveContainer width="100%" height={400}>
         <RechartsAreaChart
@@ -48,8 +48,8 @@ const LineAreaChart = ({
           margin={{ top: 20, right: 20, left: 23, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey={xKey} tick={{ fontSize: 12, fill: "#333" }} />
-          <YAxis tick={{ fontSize: 11, fill: "#333" }} />
+          <XAxis dataKey={xKey} tick={{ fontSize: 12, fill: "var(--yaxis-tick-color)" }}/>
+          <YAxis tick={{ fontSize: 11, fill: "var(--yaxis-tick-color)" }} />
           <Tooltip
             content={(e) => CustomTooltip({...e, customTooltipFormatter})}
           />

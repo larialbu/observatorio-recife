@@ -59,9 +59,9 @@ const StackerBarChartVertical = ({
   }, 0);
 
   return (
-    <div className="relative bg-white w-full">
+    <div className="relative bg-white w-full dark:bg-[#0C1B2B]">
       {title &&       <div className="flex flex-col items-center justify-center">
-        <h3 className="text-center mb-[2em] font-semibold w-[90%]">{title}</h3>
+        <h3 className="text-center mb-[2em] font-semibold w-[90%] text-gray-800 dark:text-gray-100">{title}</h3>
       </div>}
 
       <div
@@ -75,11 +75,16 @@ const StackerBarChartVertical = ({
             margin={{ top: 0, right: 7, left, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" tickFormatter={yAxisFormatter} tick={{ fontSize: 12 }} orientation="top" />
+            <XAxis 
+              type="number" 
+              tickFormatter={yAxisFormatter} 
+              tick={{ fontSize: 12, fill: "var(--yaxis-tick-color)" }} 
+              orientation="top" 
+            />
             <YAxis
               type="category"
               dataKey={xKey}
-              tick={{ fontSize: yFontSize }}
+              tick={{ fontSize: yFontSize, fill: "var(--yaxis-tick-color)" }}
               interval={0}
               width={widthY}
               tickFormatter={truncateForYAxis}

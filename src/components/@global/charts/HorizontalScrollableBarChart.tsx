@@ -21,7 +21,7 @@ const HorizontalScrollableBarChart = ({
     return (
       <div className="relative w-full h-full">
       <div className="flex flex-col items-center justify-center">
-        <h3 className="text-center mb-4 font-semibold w-[90%]">{title}</h3>
+        <h3 className="text-center mb-4 font-semibold w-[90%] text-gray-800 dark:text-gray-200">{title}</h3>
       </div>
         {/* Wrapper div with horizontal scroll */}
         <div className="overflow-x-auto">
@@ -32,11 +32,11 @@ const HorizontalScrollableBarChart = ({
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   dataKey={xKey} 
-                  tick={{ fontSize: 12 }}
+                  tick={{ fontSize: 12, fill: "var(--yaxis-tick-color)" }}
                   orientation="top"
                 />
                 <YAxis 
-                  tick={{ fontSize: 12 }}
+                  tick={{ fontSize: 12, fill: "var(--yaxis-tick-color)" }}
                   tickFormatter={yAxisFormatter}
                 />
                 <Tooltip
