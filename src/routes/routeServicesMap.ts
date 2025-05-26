@@ -82,6 +82,7 @@ export const routeServicesMap: Record<
     saldo: microCagedDataService,
     media: microCagedDataService,
     "comparativo-mov": microCagedDataService,
+    "comparativo-med": microCagedDataService,
     salario: microCagedDataService,
   },
    

@@ -12,7 +12,7 @@ import { geralAccFunction } from "@/functions/process_data/observatorio/rais/dem
 
 // AEROPORTO NOME
 
-const Comparativo = ({
+const ComparativoMed = ({
   year,
   data,
   toCompare = getUniqueValues<any, "município">(
@@ -287,4 +287,4 @@ const Comparativo = ({
   );
 };
 
-export default Comparativo;
+export default ComparativoMed;

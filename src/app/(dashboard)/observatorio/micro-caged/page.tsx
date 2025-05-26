@@ -10,7 +10,8 @@ import Link from "next/link";
 import Saldo from "./(saldo)/saldo";
 import Media from "./(media)/media";
 import Salario from "./(salario)/salario";
-import Comparativo from "./(comparativo)/comparativo";
+import ComparativoMov from "./(comparativo-mov)/comparativo-mov";
+import ComparativoMed from "./(comparativo-med)/comparativo-med";
 
 const MicroCagedPage = () => {
   const { isLoading, data, filters } = useDashboard();
@@ -73,7 +74,12 @@ const MicroCagedPage = () => {
         year={getYearSelected(filters)} 
         /> 
       case "comparativo-mov":
-        return <Comparativo
+        return <ComparativoMov
+        data={microCaged} 
+        year={getYearSelected(filters)} 
+        /> 
+      case "comparativo-med":
+        return <ComparativoMed
         data={microCaged} 
         year={getYearSelected(filters)} 
         /> 
@@ -154,14 +160,14 @@ const MicroCagedPage = () => {
           Movimentação Comparativo
         </button>
         <button
-          onClick={() => handleNavigation("estoque")}
+          onClick={() => handleNavigation("comparativo-med")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "estoque"
+            activeTab === "comparativo-med"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
-          Estoque por empresas
+          Salário Médio Comparativo
         </button>
         <button
           onClick={() => handleNavigation("salario")}
