@@ -7,20 +7,21 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { getDateKeys } from "@/utils/formatters/getDataKeys";
 import { processPIBPorAnoComparativo } from "@/functions/process_data/observatorio/pib/comparativo/pibAnoComparativo";
 
-const PibAnoComparativo = ({
+const ComparativoMovimentacao = ({
   data = [],
   colors = ColorPalette.default,
-  title = "PIB ao Longo do Ano",
+  title = "ComparativoMovimentacao",
   toCompare,
 }: any) => {
 
-  const chartData = processPIBPorAnoComparativo(data.geral, toCompare)
+  console.log('Data ->,', data)  
+  console.log('Comparativo', toCompare)
 
-  console.log('ChartData ->', data)
+//   const chartData = processPIBPorAnoComparativo(data.geral, toCompare)
 
   return (
     <div className="chart-wrapper">
-      <ChartGrabber>
+      {/* <ChartGrabber>
         <LineChart
           data={chartData}
           title={title}
@@ -28,9 +29,9 @@ const PibAnoComparativo = ({
           xKey="ano"
           lines={[...getDateKeys(toCompare)]}
         />
-      </ChartGrabber>
+      </ChartGrabber> */}
     </div>
   );
 };
 
-export default PibAnoComparativo;
+export default ComparativoMovimentacao;

@@ -35,6 +35,8 @@ export class BalancaDataService {
     const filtered = applyGenericFilters(raw, filters);
 
 
+    console.log('FEtchedBal', filtered)
+
     return {
       geral: filtered,
       id: "balanca",

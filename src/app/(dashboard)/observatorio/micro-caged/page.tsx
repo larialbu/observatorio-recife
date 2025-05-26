@@ -10,6 +10,7 @@ import Link from "next/link";
 import Saldo from "./(saldo)/saldo";
 import Media from "./(media)/media";
 import Salario from "./(salario)/salario";
+import Comparativo from "./(comparativo)/comparativo";
 
 const MicroCagedPage = () => {
   const { isLoading, data, filters } = useDashboard();
@@ -68,6 +69,11 @@ const MicroCagedPage = () => {
         /> 
       case "media":
         return <Media
+        data={microCaged} 
+        year={getYearSelected(filters)} 
+        /> 
+      case "comparativo-mov":
+        return <Comparativo
         data={microCaged} 
         year={getYearSelected(filters)} 
         /> 
@@ -138,14 +144,14 @@ const MicroCagedPage = () => {
           Salário Médio
         </button>
         <button
-          onClick={() => handleNavigation("grupo")}
+          onClick={() => handleNavigation("comparativo-mov")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "grupo"
+            activeTab === "comparativo-mov"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
-          Grupos
+          Movimentação Comparativo
         </button>
         <button
           onClick={() => handleNavigation("estoque")}
