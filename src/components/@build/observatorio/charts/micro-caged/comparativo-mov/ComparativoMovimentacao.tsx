@@ -14,22 +14,28 @@ const ComparativoMovimentacao = ({
   toCompare,
 }: any) => {
 
-  console.log('Data ->,', data)  
-  console.log('Comparativo', toCompare)
+  const dataCompare = data?.[toCompare]
 
-//   const chartData = processPIBPorAnoComparativo(data.geral, toCompare)
+  const dataAdmitidos = dataCompare?.['admitidos'] || []
+  const dataDemitidos = dataCompare?.['demitidos'] || []
+
+  const chartData = []
+
+  for (const key in dataAdmitidos) {
+    chartData.push({ admitidos: dataAdmitidos[key], demitidos: dataDemitidos[key] })
+  }
 
   return (
     <div className="chart-wrapper">
-      {/* <ChartGrabber>
+      <ChartGrabber>
         <LineChart
           data={chartData}
           title={title}
           colors={colors}
           xKey="ano"
-          lines={[...getDateKeys(toCompare)]}
+          lines={[{ dataKey: "admitidos", name: "Admitidos", strokeWidth: 2 }, { dataKey: "demitidos", name: "Demitidos", strokeWidth: 2 }]}
         />
-      </ChartGrabber> */}
+      </ChartGrabber>
     </div>
   );
 };

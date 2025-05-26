@@ -30,7 +30,9 @@ const Comparativo = ({
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
   const [selectCompare, setSelectCompare] = useState('')
-  const [tablesRender, setTablesRender] = useState(tables);
+  const [tablesRender, setTablesRender] = useState(charts);
+  const [tablesRenderSecond, setTablesRenderSecond] = useState(charts);
+  // const [tablesRender, setTablesRender] = useState(tables);
   const [animationClass, setAnimationClass] = useState("card-enter");
 
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
@@ -68,11 +70,16 @@ const Comparativo = ({
 
   useEffect(() => {
     const getNewTables = tempFiltred.map((val) => {
-      return tables[0]
+      return charts[0]
     });
-
+    
+    const getNewTablesSecond = tempFiltred.map((val) => {
+      return charts[1]
+    });
+    
     // setTablesRender([...tables, ...getNewTables]);
     setTablesRender([...getNewTables]);
+    setTablesRenderSecond([...getNewTablesSecond]);
   }, [tempFiltred]);
 
   const tempFiltredCard = tempFiltred.filter((municipio) => municipio !== selectCompare)
@@ -116,7 +123,7 @@ const Comparativo = ({
         />
       </div>
 
-      {/* <div className="flex justify-between items-center gap-2">
+      <div className="flex justify-between items-center gap-2">
         {tempFiltredCard.length >= 1 ? (
           <>
             <button
@@ -150,7 +157,7 @@ const Comparativo = ({
                       <Component
                         compare={selectCompare}
                         toCompare={toCompare}
-                        data={data}
+                        data={chartData}
                         year={year}
                         color={ColorPalette.default[index]}
                       />
@@ -182,7 +189,7 @@ const Comparativo = ({
             Selecione um município para as informações serem comparadas
           </p>
         )}
-      </div> */}
+      </div>
 
       <div className="flex items-center justify-center mb-6 gap-2">
         {/* {tempFiltredCard.map((_, i) => {
@@ -200,7 +207,7 @@ const Comparativo = ({
 
       <div className="flex flex-col gap-6">
        
-      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
           const { Component, col } = charts[index];
           return (
@@ -218,6 +225,44 @@ const Comparativo = ({
             </div>
           );
         })}
+      </SortableDiv> */}
+
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+        {tablesRender.map(({ Component }, index) => (
+          <div
+            key={index}
+            className="chart-content-wrapper"
+          >
+            <React.Suspense fallback={<div>Carregando...</div>}>
+              <Component
+                toCompare={[...tempFiltred][index]}
+                // municipio={[...tempFiltred][index]}
+                color={ColorPalette.default[index]}
+                data={chartData}
+                year={year}
+              />
+            </React.Suspense>
+          </div>
+        ))}
+      </SortableDiv>
+
+     <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+        {tablesRenderSecond.map(({ Component }, index) => (
+          <div
+            key={index}
+            className="chart-content-wrapper"
+          >
+            <React.Suspense fallback={<div>Carregando...</div>}>
+              <Component
+                toCompare={[...tempFiltred][index]}
+                // municipio={[...tempFiltred][index]}
+                color={ColorPalette.default[index]}
+                data={chartData}
+                year={year}
+              />
+            </React.Suspense>
+          </div>
+        ))}
       </SortableDiv>
 
         {/* <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">

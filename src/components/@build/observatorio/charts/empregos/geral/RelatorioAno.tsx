@@ -18,6 +18,8 @@ const RelatorioAno = ({
   const chartData = data['municipios'].sort((a: any, b: any) => a["Mês"] - b["Mês"]).map((data: any) => ({ ...data, "Mês": monthShortName(data['Mês'])}));
 
   const updatedData = updatedMonthChartData(chartData, months ?? 1);
+  
+  console.log('DataLine -.', chartData)
 
   return (
     <div className="chart-wrapper">

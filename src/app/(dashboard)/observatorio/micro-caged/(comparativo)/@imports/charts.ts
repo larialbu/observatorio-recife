@@ -8,7 +8,7 @@ const charts = [
           "@/components/@build/observatorio/charts/micro-caged/comparativo-mov/ComparativoMovimentacao"
         )
     ),
-    col: 'full'
+    // col: 'full'
   },
   {
     Component: React.lazy(
@@ -18,38 +18,6 @@ const charts = [
         )
     ),
   },
-  // {
-  //   Component: React.lazy(
-  //     () =>
-  //       import(
-  //         "@/components/@build/observatorio/charts/pib/comparativo/PibAnoComparativo"
-  //       )
-  //   ),
-  // },
-  // {
-  //   Component: React.lazy(
-  //     () =>
-  //       import(
-  //         "@/components/@build/observatorio/charts/pib/comparativo/PibAnoComparativoCapita"
-  //       )
-  //   ),
-  // },
-  // {
-  //   Component: React.lazy(
-  //     () =>
-  //       import(
-  //         "@/components/@build/observatorio/charts/pib/comparativo/PibAnoVariacaoComparativo"
-  //       )
-  //   ),
-  // },
-  // {
-  //   Component: React.lazy(
-  //     () =>
-  //       import(
-  //         "@/components/@build/observatorio/charts/pib/comparativo/PibAnoVariacaoComparativoCapita"
-  //       )
-  //   ),
-  // },
 ];
 
 export default charts;

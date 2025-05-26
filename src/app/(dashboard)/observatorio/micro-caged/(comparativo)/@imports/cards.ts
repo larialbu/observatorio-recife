@@ -4,24 +4,24 @@ const cards = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/cards/pib/comparativo/PibAtualComparativo"
+        "@/components/@build/observatorio/cards/micro-caged/comparativo-mov/AdmitidosComparativo"
+      )
+    ),
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/cards/micro-caged/comparativo-mov/DemitidosComparativo"
       )
     ),
   },  
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/cards/pib/comparativo/PibVariacaoComparativo"
+        "@/components/@build/observatorio/cards/micro-caged/comparativo-mov/SaldoComparativo"
       )
     ),
-  },
-  {
-    Component: React.lazy(() =>
-      import(
-        "@/components/@build/observatorio/cards/pib/comparativo/PibPosicaoComparativo"
-      )
-    ),
-  },
+  },  
 ];
 
 export default cards;

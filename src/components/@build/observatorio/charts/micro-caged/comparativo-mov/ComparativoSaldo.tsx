@@ -5,19 +5,32 @@ import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBa
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import { monthToNumber } from "@/utils/formatters/@global/monthToNumber";
 
 const ComparativoSaldo = ({
-  data,
+  data = [],
+  colors = ColorPalette.default,
   title = "ComparativoSaldo",
-//   title = "Distribuição formal de empregos por faixa etária",
-  year,
+  toCompare,
+  // year
 }: any) => {
   
-//   const chartData = getObjToArr<number>(data['raçacor'] || {}).sort((a, b) => b.value - a.value)
+  const dataCompare = data?.[toCompare]
+
+  const dataAdmitidos = dataCompare?.['admitidos'] || []
+  const dataDemitidos = dataCompare?.['demitidos'] || []
+
+  const dataNoOrdanation = []
+
+  for (const key in dataAdmitidos) {
+    dataNoOrdanation.push({ label: key, value: dataAdmitidos[key] - dataDemitidos[key] })
+  }
+
+  const chartData = dataNoOrdanation.map((data) => ({ ...data, month: monthToNumber(data.label) })).sort((a, b) => a.month - b.month)
 
   return (
     <div className="chart-wrapper">
-      {/* <ChartGrabber>
+      <ChartGrabber>
         <ScrollableBarChart
           data={chartData}
           title={title}
@@ -28,7 +41,7 @@ const ComparativoSaldo = ({
           widthY={130}
           left={-15}
         />
-      </ChartGrabber> */}
+      </ChartGrabber>
     </div>
   );
 };
