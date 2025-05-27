@@ -9,6 +9,7 @@ import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import SelectCompare from "@/components/@global/features/SelectCompare";
 import { geralAccFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
+import { getAccSalario } from "@/functions/process_data/observatorio/micro-caged/getAccSalario";
 
 // AEROPORTO NOME
 
@@ -52,18 +53,27 @@ const ComparativoMed = ({
   useEffect(() => {
     const dataMuni: { [key: string]: any } = {}
 
-     toCompare.map((muni: string) => {
-      const dataFiltred = data?.filter((micro: any) => micro['município'] === muni) || []
+    // nesse 1518, temos q pegar a primeira linha data[0] e pegar oa param sm (salário minimo) data[0]['sm'], ele vai retornar o valor do salário minimo
+    const dataFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] > 1518 * 0.3 && obj['salário'] < 1518 * 150)
+
+    toCompare.map((muni: string) => {
+      const dataFiltredMuni = dataFiltred?.filter((micro: any) => micro['município'] === muni) || []
       if (!dataMuni[muni]) dataMuni[muni] = {}  
 
-      const dataAdmitidos = geralAccFunction(dataFiltred.filter((obj: any) => obj['saldomovimentação'] === "Admitidos") || [], ['mês'])
-      const dataDemitidos = geralAccFunction(dataFiltred.filter((obj: any) => obj['saldomovimentação'] === "Demitidos") || [], ['mês'])
+      const keysObj = Object.keys(data[0]).filter(key => key === "mês")
+      
+      const dataSalario = getAccSalario(dataFiltredMuni, keysObj)
+      const dataAcc = geralAccFunction(dataFiltredMuni || [], ["mês"])
 
-      const { 'mês': admitidos  } = dataAdmitidos
-      const { 'mês': demitidos  } = dataDemitidos
+      const { 'mês': muniAcc} = dataAcc
+      const { 'mês': muniSalario } = dataSalario 
 
-      dataMuni[muni] = { admitidos, demitidos } 
-    }) 
+      for (const key in muniAcc) {
+        if (!dataMuni[muni][key]) dataMuni[muni][key] = 0
+
+        dataMuni[muni][key] = muniSalario[key] / muniAcc[key]
+      }
+    })
 
     setChartData(dataMuni)
   }, [data])
@@ -124,7 +134,7 @@ const ComparativoMed = ({
       </div>
 
       <div className="flex justify-between items-center gap-2">
-        {tempFiltredCard.length >= 1 ? (
+        {/* {tempFiltredCard.length >= 1 ? (
           <>
             <button
               className="border transition duration-500 hover:bg-slate-200 dark:hover:bg-[#0F253D] bg-white dark:bg-[#0C1A28] dark:border-gray-600 rounded-full w-10 h-10 flex items-center justify-center"
@@ -188,7 +198,7 @@ const ComparativoMed = ({
           <p className="text-center w-full text-gray-700 dark:text-gray-300">
             Selecione um município para as informações serem comparadas
           </p>
-        )}
+        )} */}
       </div>
 
       <div className="flex items-center justify-center mb-6 gap-2">
@@ -207,27 +217,27 @@ const ComparativoMed = ({
 
       <div className="flex flex-col gap-6">
        
-      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
           const { Component, col } = charts[index];
           return (
             <div
               key={index}
-              className={`chart-content-wrapper ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`}
+              className={`chart-content-wrapper ${col === 'full' && 'col-span-full'}`}
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component
                   data={chartData}
-                  // data={data}
                   toCompare={[...tempFiltred]}
                 />
               </React.Suspense>
             </div>
           );
         })}
-      </SortableDiv> */}
+      </SortableDiv>
 
-      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+      {/* TAVA AQUI ABERTO */}
+      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {tablesRender.map(({ Component }, index) => (
           <div
             key={index}
@@ -244,26 +254,27 @@ const ComparativoMed = ({
             </React.Suspense>
           </div>
         ))}
-      </SortableDiv>
+      </SortableDiv> */}
 
-     <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
-        {tablesRenderSecond.map(({ Component }, index) => (
-          <div
-            key={index}
-            className="chart-content-wrapper"
-          >
-            <React.Suspense fallback={<div>Carregando...</div>}>
-              <Component
-                toCompare={[...tempFiltred][index]}
-                // municipio={[...tempFiltred][index]}
-                color={ColorPalette.default[index]}
-                data={chartData}
-                year={year}
-              />
-            </React.Suspense>
-          </div>
-        ))}
-      </SortableDiv>
+      {/* TAVA AQUI ABERTO */}
+      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+          {tablesRenderSecond.map(({ Component }, index) => (
+            <div
+              key={index}
+              className="chart-content-wrapper"
+            >
+              <React.Suspense fallback={<div>Carregando...</div>}>
+                <Component
+                  toCompare={[...tempFiltred][index]}
+                  // municipio={[...tempFiltred][index]}
+                  color={ColorPalette.default[index]}
+                  data={chartData}
+                  year={year}
+                />
+              </React.Suspense>
+            </div>
+          ))}
+        </SortableDiv> */}
 
         {/* <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
           {tablesRender.map(({ Component }, index) => (

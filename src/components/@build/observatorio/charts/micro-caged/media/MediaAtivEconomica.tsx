@@ -26,7 +26,9 @@ const MediaAtivEconomica = ({
   const avarageData = getAvarageGroups(values, quantity)['seção'] || {}
 
 
+  console.log('AVerage', avarageData)
   const chartData = getObjToArr<number>(avarageData || {}).map((obj) => ({ ...obj, label: microCagedAtivEconomicaDicts[obj.label] })).sort((a, b) => b.value - a.value)
+  console.log('ChartData', chartData)
 
   return (
     <div ref={containerRef} className="chart-wrapper">

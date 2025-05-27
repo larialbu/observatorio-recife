@@ -5,19 +5,37 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/micro-caged/comparativo-mov/ComparativoMovimentacao"
+          "@/components/@build/observatorio/charts/micro-caged/comparativo-med/ComparativoMedia"
         )
     ),
-    // col: 'full'
+    col: 'full'
   },
   {
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/micro-caged/comparativo-mov/ComparativoSaldo"
+          "@/components/@build/observatorio/charts/micro-caged/comparativo-med/COmparativoVariacao"
         )
     ),
+    col: 'full'
   },
+  // {
+  //   Component: React.lazy(
+  //     () =>
+  //       import(
+  //         "@/components/@build/observatorio/charts/micro-caged/comparativo-mov/ComparativoMovimentacao"
+  //       )
+  //   ),
+  //   col: 'full'
+  // },
+  // {
+  //   Component: React.lazy(
+  //     () =>
+  //       import(
+  //         "@/components/@build/observatorio/charts/micro-caged/comparativo-mov/ComparativoSaldo"
+  //       )
+  //   ),
+  // },
 ];
 
 export default charts;

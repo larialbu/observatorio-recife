@@ -10,6 +10,7 @@ import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { geralAccFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
 import { getSaldoData } from "@/functions/process_data/observatorio/micro-caged/getSaldoData";
 import { getAvarageGroups } from "@/functions/process_data/observatorio/micro-caged/getAvarageGroups";
+import { getAccSalario } from "@/functions/process_data/observatorio/micro-caged/getAccSalario";
 
 const getDataObj = (data: any[]) => {
   const geralInfos = geralAccFunction(data || [], ["tamestabjan", "graudeinstrução", "sexo", "seção", "raçacor", "horascontratuais", "idade", "cbo2002ocupação"])
@@ -33,33 +34,14 @@ const Media = ({
   console.log('FOI! média')
 
   useEffect(() => {
-    const dataFiltred = data.filter((obj) => obj['indtrabintermitente'] == 0 && obj['salário'] > 1518 * 0.3 && obj['salário'] < 1518 * 150)
+    // nesse 1518, temos q pegar a primeira linha data[0] e pegar oa param sm (salário minimo) data[0]['sm'], ele vai retornar o valor do salário minimo
+    const dataFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] > 1518 * 0.3 && obj['salário'] < 1518 * 150)
 
     const dataObj = getDataObj(dataFiltred)
 
     const keysObj = Object.keys(data[0]).filter(key => !['salário', 'competênciamov', 'ano', 'município', 'unidadesaláriocódigo', 'valorsaláriofixo'].includes(key))
 
-    const dataSalario = dataFiltred.reduce((acc, obj) => {
-
-    keysObj.map((key) => {
-      if (!acc[key]) {
-        acc[key] = {}
-      }
-
-      if (!acc[key][obj[key]]) {
-        acc[key][obj[key]] = 0
-      }
-      // console.log(acc[key], acc[key][obj[key]])
-
-      acc[key][obj[key]] += obj['salário']
-    })
-      
-
-      return acc
-    }, {})
-
-    // console.log('DataFiltr', dataFiltred)
-    // console.log('Data', dataFiltred.reduce((acc, obj) => acc += obj['salário'], 0))
+    const dataSalario = getAccSalario(dataFiltred, keysObj)
 
     setChartData({ quantity: dataObj, values: dataSalario})
   }, [data])

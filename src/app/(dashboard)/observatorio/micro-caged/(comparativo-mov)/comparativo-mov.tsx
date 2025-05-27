@@ -53,6 +53,8 @@ const ComparativoMov = ({
       dataMuni[muni] = { admitidos, demitidos } 
     }) 
 
+    console.log('dataMuni', dataMuni)
+
     setChartData(dataMuni)
   }, [data])
 
