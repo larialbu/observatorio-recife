@@ -11,5 +11,10 @@ export const microCagedGeralFilters = {
         options: [],  
         selected: [],
       },
+      {
+        label: "saldomovimentação",  
+        options: [],  
+        selected: [],
+      },
     ],
   };

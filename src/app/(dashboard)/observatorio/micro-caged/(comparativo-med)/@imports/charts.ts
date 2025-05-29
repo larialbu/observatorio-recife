@@ -14,7 +14,7 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/micro-caged/comparativo-med/COmparativoVariacao"
+          "@/components/@build/observatorio/charts/micro-caged/comparativo-med/ComparativoVariacao"
         )
     ),
     col: 'full'

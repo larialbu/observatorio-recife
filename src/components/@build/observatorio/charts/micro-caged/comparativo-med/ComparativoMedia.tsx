@@ -15,17 +15,19 @@ const ComparativoMedia = ({
   toCompare,
 }: any) => {
 
+  const dataCurrent = data['current']
+
   const dataFull: any[] = []
 
-  for (const keyMuni in data) {
+  for (const keyMuni in dataCurrent) {
     if (toCompare.includes(keyMuni)) {
-        for (const keyMonth in data[keyMuni]) {
+        for (const keyMonth in dataCurrent[keyMuni]) {
             const dataMonthIndex = dataFull.findIndex((obj: any) => obj['mes'] === keyMonth )
 
             if (dataMonthIndex === -1) {
-                dataFull.push({ mes: keyMonth, [keyMuni]: data[keyMuni][keyMonth] })
+                dataFull.push({ mes: keyMonth, [keyMuni]: dataCurrent[keyMuni][keyMonth] })
             } else {
-                dataFull[dataMonthIndex] = { ...dataFull[dataMonthIndex], [keyMuni]: data[keyMuni][keyMonth] }
+                dataFull[dataMonthIndex] = { ...dataFull[dataMonthIndex], [keyMuni]: dataCurrent[keyMuni][keyMonth] }
             }
         }
     }

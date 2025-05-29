@@ -13,11 +13,39 @@ import { getAccSalario } from "@/functions/process_data/observatorio/micro-caged
 
 // AEROPORTO NOME
 
+const getMunicipiosMonthData = (data: any, municipios: string[]) => {
+    const dataMuni: { [key: string]: any } = {}
+
+    // nesse 1518, temos q pegar a primeira linha data[0] e pegar oa param sm (salário minimo) data[0]['sm'], ele vai retornar o valor do salário minimo
+    const dataFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] > 1518 * 0.3 && obj['salário'] < 1518 * 150)
+
+    municipios.map((muni: string) => {
+      const dataFiltredMuni = dataFiltred?.filter((micro: any) => micro['município'] === muni) || []
+      if (!dataMuni[muni]) dataMuni[muni] = {}  
+
+      const keysObj = Object.keys(data[0]).filter(key => key === "mês")
+      
+      const dataSalario = getAccSalario(dataFiltredMuni, keysObj)
+      const dataAcc = geralAccFunction(dataFiltredMuni || [], ["mês"])
+
+      const { 'mês': muniAcc} = dataAcc
+      const { 'mês': muniSalario } = dataSalario 
+
+      for (const key in muniAcc) {
+        if (!dataMuni[muni][key]) dataMuni[muni][key] = 0
+
+        dataMuni[muni][key] = muniSalario[key] / muniAcc[key]
+      }
+    })
+
+    return dataMuni
+}
+
 const ComparativoMed = ({
   year,
   data,
   toCompare = getUniqueValues<any, "município">(
-    data,
+    data.current,
     "município"
   )
   // toCompare = [],
@@ -51,31 +79,14 @@ const ComparativoMed = ({
   // console.log('ToCompare ->', toCompare)
 
   useEffect(() => {
-    const dataMuni: { [key: string]: any } = {}
+    const dataPast = getMunicipiosMonthData(data['past'], toCompare)
+    const dataCurrent = getMunicipiosMonthData(data['current'], toCompare)
 
-    // nesse 1518, temos q pegar a primeira linha data[0] e pegar oa param sm (salário minimo) data[0]['sm'], ele vai retornar o valor do salário minimo
-    const dataFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] > 1518 * 0.3 && obj['salário'] < 1518 * 150)
+    console.log('DataMuniz ->', dataCurrent)
+    console.log('send >', { current: dataCurrent, past: dataPast })
 
-    toCompare.map((muni: string) => {
-      const dataFiltredMuni = dataFiltred?.filter((micro: any) => micro['município'] === muni) || []
-      if (!dataMuni[muni]) dataMuni[muni] = {}  
-
-      const keysObj = Object.keys(data[0]).filter(key => key === "mês")
-      
-      const dataSalario = getAccSalario(dataFiltredMuni, keysObj)
-      const dataAcc = geralAccFunction(dataFiltredMuni || [], ["mês"])
-
-      const { 'mês': muniAcc} = dataAcc
-      const { 'mês': muniSalario } = dataSalario 
-
-      for (const key in muniAcc) {
-        if (!dataMuni[muni][key]) dataMuni[muni][key] = 0
-
-        dataMuni[muni][key] = muniSalario[key] / muniAcc[key]
-      }
-    })
-
-    setChartData(dataMuni)
+    setChartData({ current: dataCurrent, past: dataPast })
+    // setChartData(dataCurrent)
   }, [data])
 
   useEffect(() => {

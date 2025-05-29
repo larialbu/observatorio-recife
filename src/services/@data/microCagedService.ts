@@ -38,6 +38,36 @@ export class MicroCagedDataService {
     };
   }
 
+  private async fetchMedia(filters: Record<string, any>) {
+    const microCagedData = new MicroCagedData(this.currentYear);
+    const pastYear = `${+this.currentYear - 1}`
+
+    const [microCagedCur, microCagedPast] = await Promise.all([microCagedData.fetchProcessedDataMicroCaged(), new MicroCagedData(pastYear).fetchProcessedDataMicroCaged().catch(() => [])])
+
+    const filteredDataCur = applyGenericFilters(microCagedCur, filters)
+    const filteredDataPast = applyGenericFilters(microCagedPast, filters)
+
+    console.log('RealSend', {
+      microCaged: {
+        current: filteredDataCur,
+        past: filteredDataPast
+      }
+    })
+
+    // const fetchData = await microCagedData.fetchProcessedDataMicroCaged() 
+
+    // const filteredData = applyGenericFilters(fetchData, filters);
+
+    return {
+      // microCaged: filteredDataCur,
+      microCaged: {
+        current: filteredDataCur,
+        past: filteredDataPast
+      },
+      id: "empregos-micro-caged-media",
+    };
+  }
+
 
   public async fetchDataForTab(tab: string, filters: Record<string, any>): Promise<any> {
     const cacheKey = this.getCacheKey(tab, filters);
@@ -47,8 +77,8 @@ export class MicroCagedDataService {
     }
 
     let data;
-    if (tab === "micro-caged") {
-      data = await this.fetchGeral(filters);
+    if (tab === "comparativo-med") {
+      data = await this.fetchMedia(filters);
     } else {
       data = await this.fetchGeral(filters);
     }

@@ -16,6 +16,7 @@ import ComparativoMed from "./(comparativo-med)/comparativo-med";
 const MicroCagedPage = () => {
   const { isLoading, data, filters } = useDashboard();
   const [microCaged, setMicroCaged] = useState<any>([]);
+  const [microCagedMedia, setMicroCagedMedia] = useState<any>([]);
   const [activeTab, setActiveTab] = useState("geral");
 
   const pathname = usePathname();
@@ -35,7 +36,7 @@ const MicroCagedPage = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
         
-        if (data?.microCaged) {
+        if (data?.id === 'empregos-micro-caged' as 'porto') {
           const microCagedData = data?.microCaged || [];
 
           setMicroCaged(microCagedData.filteredData);
@@ -43,6 +44,17 @@ const MicroCagedPage = () => {
           clearInterval(intervalId);
         } else {
             setMicroCaged([]);
+          }
+
+        if (data?.id === 'empregos-micro-caged-media' as 'porto') {
+          // const microCagedData = data?.microCaged || [];
+          const microCagedMediaData = { current: data?.microCaged?.current?.filteredData || [], past: data?.microCaged?.past?.filteredData || [] };
+
+          setMicroCagedMedia(microCagedMediaData);
+
+          clearInterval(intervalId);
+        } else {
+            setMicroCagedMedia({ current: [], past: [] });
           }
       }, 50);
   
@@ -53,7 +65,7 @@ const MicroCagedPage = () => {
 
     
   const renderContent = () => {
-    if (!data || !microCaged.length ) {
+    if (!data || !(microCaged.length || microCagedMedia.current.length) ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
@@ -80,7 +92,7 @@ const MicroCagedPage = () => {
         /> 
       case "comparativo-med":
         return <ComparativoMed
-        data={microCaged} 
+        data={microCagedMedia} 
         year={getYearSelected(filters)} 
         /> 
       case "salario":

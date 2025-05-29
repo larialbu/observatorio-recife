@@ -12,5 +12,10 @@ export const microCagedComparativoFilters = {
         options: [],  
         selected: [],
       },
+      {
+        label: "saldomovimentação",  
+        options: [],  
+        selected: [],
+      },
     ],
   };
