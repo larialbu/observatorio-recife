@@ -5,33 +5,40 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { getDateKeys } from "@/utils/formatters/getDataKeys";
-import { processPIBPorAnoComparativo } from "@/functions/process_data/observatorio/pib/comparativo/pibAnoComparativo";
 import { monthToNumber } from "@/utils/formatters/@global/monthToNumber";
+import { processMunicipiosMonthValues } from "@/functions/process_data/observatorio/micro-caged/comparativo-med/municipiosMonthValues";
 
 const ComparativoVariacao = ({
   data = [],
   colors = ColorPalette.default,
-  title = "ComparativoVariacao",
+  title = "ComparativoVariacaoAnoAnterior",
   toCompare,
 }: any) => {
+  const dataCurrent = data['current']
+  const dataPast = data['past']
 
-  const dataFull: any[] = []
+  const monthCurrentData = processMunicipiosMonthValues(dataCurrent, toCompare)
+  const monthPastData = processMunicipiosMonthValues(dataPast, toCompare) || []
 
-  for (const keyMuni in data) {
-    if (toCompare.includes(keyMuni)) {
-        for (const keyMonth in data[keyMuni]) {
-            const dataMonthIndex = dataFull.findIndex((obj: any) => obj['mes'] === keyMonth )
+  const monthVariation = monthCurrentData.map((month) => {
+    const monthPast = monthPastData.find((obj) => obj['mes'] === month['mes']) || {}
 
-            if (dataMonthIndex === -1) {
-                dataFull.push({ mes: keyMonth, [keyMuni]: data[keyMuni][keyMonth] })
-            } else {
-                dataFull[dataMonthIndex] = { ...dataFull[dataMonthIndex], [keyMuni]: data[keyMuni][keyMonth] }
-            }
-        }
+    const dataVariation: { mes: string  } & { [key: string]: number | string } = { mes: ''}
+
+    for (const key in month) {
+      if (key === 'mes') dataVariation[key] = month[key] || 'inválido'
+
+      if (!dataVariation[key]) {
+        dataVariation[key] = monthPast?.[key] ? Math.round(((month[key] - monthPast[key]) / monthPast[key]) * 100 * 100) / 100 : 0
+      };
     }
-  }
 
-  const chartData = dataFull.map((data) => ({ ...data, order: monthToNumber(data['mes']) })).sort((a, b) => a.order - b.order)
+    return dataVariation
+  })
+
+  console.log('Variation ->', monthVariation)
+
+  const chartData = monthVariation.map((data) => ({ ...data, order: monthToNumber(data['mes']) })).sort((a, b) => a.order - b.order)
 
   return (
     <div className="chart-wrapper">

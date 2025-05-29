@@ -16,10 +16,10 @@ const DemitidosComparativo = ({
   const dataAll = []
 
   for (const key in dataToCompare) {
-    dataAll.push({ label: key, value: dataCompare[key], month: monthToNumber(key) })
+    dataAll.push({ label: key, value: dataCompare[key], order: monthToNumber(key) })
   }
 
-  const dataMonthKey = dataAll.sort((a, b) => b.month - a.month)[0].label
+  const dataMonthKey = dataAll.sort((a, b) => b.order - a.order)[0].label
 
   const chartData = dataCompare[dataMonthKey] 
 

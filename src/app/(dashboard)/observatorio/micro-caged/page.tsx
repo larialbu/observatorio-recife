@@ -65,7 +65,7 @@ const MicroCagedPage = () => {
 
     
   const renderContent = () => {
-    if (!data || !(microCaged.length || microCagedMedia.current.length) ) {
+    if (!data || !(microCaged?.length || microCagedMedia?.current?.length) ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 

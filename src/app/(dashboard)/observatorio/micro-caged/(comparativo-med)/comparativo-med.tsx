@@ -14,7 +14,9 @@ import { getAccSalario } from "@/functions/process_data/observatorio/micro-caged
 // AEROPORTO NOME
 
 const getMunicipiosMonthData = (data: any, municipios: string[]) => {
-    const dataMuni: { [key: string]: any } = {}
+  if (!data.length) return
+
+  const dataMuni: { [key: string]: any } = {}
 
     // nesse 1518, temos q pegar a primeira linha data[0] e pegar oa param sm (salário minimo) data[0]['sm'], ele vai retornar o valor do salário minimo
     const dataFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] > 1518 * 0.3 && obj['salário'] < 1518 * 150)
@@ -79,7 +81,7 @@ const ComparativoMed = ({
   // console.log('ToCompare ->', toCompare)
 
   useEffect(() => {
-    const dataPast = getMunicipiosMonthData(data['past'], toCompare)
+    const dataPast = getMunicipiosMonthData(data['past'], toCompare) || {}
     const dataCurrent = getMunicipiosMonthData(data['current'], toCompare)
 
     console.log('DataMuniz ->', dataCurrent)
@@ -145,7 +147,7 @@ const ComparativoMed = ({
       </div>
 
       <div className="flex justify-between items-center gap-2">
-        {/* {tempFiltredCard.length >= 1 ? (
+        {tempFiltredCard.length >= 1 ? (
           <>
             <button
               className="border transition duration-500 hover:bg-slate-200 dark:hover:bg-[#0F253D] bg-white dark:bg-[#0C1A28] dark:border-gray-600 rounded-full w-10 h-10 flex items-center justify-center"
@@ -209,11 +211,11 @@ const ComparativoMed = ({
           <p className="text-center w-full text-gray-700 dark:text-gray-300">
             Selecione um município para as informações serem comparadas
           </p>
-        )} */}
+        )}
       </div>
 
       <div className="flex items-center justify-center mb-6 gap-2">
-        {/* {tempFiltredCard.map((_, i) => {
+        {tempFiltredCard.map((_, i) => {
           return (
             <button
               key={i}
@@ -223,7 +225,7 @@ const ComparativoMed = ({
               } rounded-full border`}
             ></button>
           );
-        })} */}
+        })}
       </div>
 
       <div className="flex flex-col gap-6">
