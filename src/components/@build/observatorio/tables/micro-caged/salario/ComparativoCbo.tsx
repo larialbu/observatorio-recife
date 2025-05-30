@@ -1,9 +1,10 @@
 import TableGeneric from "@/components/@global/tables/TableGeneric";
+import { rowsComparativoCbo } from "@/functions/process_data/observatorio/micro-caged/salario/rowsComparativoCbo";
 import { rowsProfissao } from "@/functions/process_data/observatorio/rais/remuneracao/rowsProfissao";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
 import { useState } from "react";
 
-const RemuneracaoProfissao = ({
+const ComparativoCbo = ({
   data = [],
   profissao,
   color = "#000000",
@@ -12,13 +13,15 @@ const RemuneracaoProfissao = ({
 // -1, 0, 1
 // asc, null, desc
 // passar isso no componenten e o componente vai ficar alterando o objeto e quando mudar vai alterar aki tb
-const [ordenation, setOrdenation] = useState([{ index: 2, name: 'quantidade', ordenation: 0 }, { index: 3, name: 'salarioMinMed', ordenation: 0 }, { index: 4, name: 'remunecaoMed', ordenation: 0 }, { index: 5, name: 'remuneracaoMaior', ordenation: 0 }]);
+const [ordenation, setOrdenation] = useState([{ index: 2, name: 'salario', ordenation: 0 }]);
 
-const dataFiltred = profissao.length ? data.ativ.filter((item: any) => profissao.includes(item["CBO Ocupação 2002"])) : data.ativ
+const dataFiltred = profissao.length ? data.filter((item: any) => profissao.includes(item["cbo2002ocupação"])) : data
 
 const order = ordenation.find((item) => item.ordenation != 0)
 
-const aggregatedData = rowsProfissao(dataFiltred || []) 
+const aggregatedData = rowsComparativoCbo(dataFiltred || [])
+console.log('Aggrefated', aggregatedData) 
+// const aggregatedData = rowsProfissao(dataFiltred || []) 
 
 const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenation === 1 ? a[order.name] - b[order.name] : b[order.name] - a[order.name]) : aggregatedData
 
@@ -28,33 +31,24 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
     return <div>Nenhum dado econtrado</div>;
   }
 
-  const header = ['Título', 'Código CBO', 'Quantidade', 'Média de salário mínimo', 'Remuneração média dezembro nomial', 'Maior Remuneração', 'Celetistas ativos', 'Estatutários ativos']
+  const header = ['Código CBO', 'Descrição', 'Salário médio']
 
   const getRows = (values: any) => {
     const rows: string[][] = [];
 
     values.map((obj: any) => {
       rows.push([
-        <div className="w-full flex justify-center">
-            <div className="w-[250px]">{obj["nome"]}</div>
-        </div>,
-        obj["codCbo"],
-        obj["quantidade"],
-        <div className="w-full flex justify-center">
-            <div className="w-[100px]">{formatNumber(obj["salarioMinMed"])}</div>
-        </div>,
-        <div className="w-full flex justify-center">
-          <div className="w-[150px]">
-            <span>R$</span> {formatNumber(obj["remunecaoMed"])}
+        obj["codigo"],
+        <div className="w-full flex justify-start">
+          <div className="w-full text-start">
+            {obj["descricao"]}
           </div>
         </div>,
         <div className="w-full flex justify-center">
           <div className="w-[150px]">
-            <span>R$</span> {formatNumber(obj["remuneracaoMaior"])}
+            <span>R$</span> {formatNumber(obj["salario"])}
           </div>
         </div>,
-        obj["celetistas"],
-        obj["estatutarios"]
       ]);
     });
     return rows;
@@ -78,6 +72,6 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
   );
 };
 
-export default RemuneracaoProfissao;
+export default ComparativoCbo;
 
 

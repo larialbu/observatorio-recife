@@ -36,7 +36,7 @@ const SelectPrincipal = ({
   }, []);
 
   // Remover 'Recife' das opções se a flag `noRecife` for verdadeira
-  const recifeOption = options?.filter((option: string) => option?.toLowerCase().includes('recife'))
+  const recifeOption = options?.filter((option: string) => option?.toString().toLowerCase().includes('recife'))
   const recifeIndex = options.indexOf(recifeOption[0]);
   if (noRecife && recifeIndex !== -1) {
     optionsCopy.splice(recifeIndex, 1);
@@ -119,13 +119,13 @@ const SelectPrincipal = ({
       
         >
           <div className="p-4 max-h-60 overflow-y-auto absolute top-full mt-2 w-full bg-white dark:bg-[#0C1A28] border border-gray-200 dark:border-gray-600 rounded-md shadow-lg z-30">
-            {optionsCopy.filter((option) => !!option && option
+            {optionsCopy.filter((option) => !!option && option.toString()
                 .toLocaleLowerCase()
                 .includes(search ? searchTerm.toLocaleLowerCase() : "") 
             ).length > 0 ? (
               optionsCopy
                 .filter((option) =>
-                  !!option && option
+                  !!option && option.toString()
                     .toLocaleLowerCase()
                     .includes(search ? searchTerm.toLocaleLowerCase() : "")
                 )
@@ -140,7 +140,7 @@ const SelectPrincipal = ({
                       onChange={() => handleSelectCheck(option)}
                       className="cursor-pointer form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                     />
-                    <span className="truncate">{option}</span>
+                    <span className="truncate">{option.toString()}</span>
                   </label>
                 ))
             ) : (

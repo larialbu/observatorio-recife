@@ -8,6 +8,7 @@ import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import SelectCompare from "@/components/@global/features/SelectCompare";
 import { raisCboDicts } from "@/utils/dicts/rais/raisCboDicts";
 import { raisCodCboDicts } from "@/utils/dicts/rais/raisCodCboDicts";
+import { microCagedCboDicts } from "@/utils/dicts/micro-caged/microCagedCboDicts";
 
 // AEROPORTO NOME
 
@@ -15,27 +16,60 @@ const Salario = ({
   year,
   data,
   toCompare = getUniqueValues<any, "cbo2002ocupação">(
-    data.ativ,
+    data,
     "cbo2002ocupação"
+  ),
+  toCompareMuni = getUniqueValues<any, "município">(
+    data,
+    "município"
   ),
 }: {
   year: string;
   toCompare?: any;
+  toCompareMuni?: any
   data: any;
 }) => {
   const [tempFiltred, setTempFiltred] = useState([]);
   const [tempFiltredCBO, setTempFiltredCBO] = useState([]);
+
+  const [selectCompare, setSelectCompare] = useState([])
+  const [tablesRender, setTablesRender] = useState(tables);
+  
 
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
 
   // REF do container e REF da instância do Sortable
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
 
+  const cboOption = toCompare.map((opt: string) => `${microCagedCboDicts[opt]}`).filter((opt: string) => opt !== 'undefined')
 
-  const cboOption = toCompare.map((opt: string) => `${raisCboDicts[opt]}`)
+  useEffect(() => {
+    const getNewTables = selectCompare.map((val) => {
+      return tables[0]
+    });
+    
+    // setTablesRender([...tables, ...getNewTables]);
+    setTablesRender([...getNewTables]);
+  }, [selectCompare]);
+  
+  const dataFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] >= 1518 * 0.3 && obj['salário'] <= 1518 * 150)
+  // const dataFiltred = data
 
   return (
     <div>
+      <div className="">
+        <SelectPrincipal
+          options={toCompareMuni}
+          initialValue={['Recife-PE']}
+          noRecife={false}
+          filters={selectCompare}
+          setFilters={setSelectCompare}
+          label="Compare Municípios"
+          placeholder="Digite para buscar uma profissão"
+          notFoundMessage="Nenhuma profissão encontrada"
+        />
+      </div>
+
       <div className="sm:grid sm:grid-cols-[60fr_40fr] gap-5">
         <SelectPrincipal
           options={toCompare}
@@ -61,9 +95,8 @@ const Salario = ({
       </div>
 
       <div className="flex flex-col gap-6">
-        <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper !grid-cols-1">
-          {tableOrder.map((index) => { 
-            const { Component } = tables[index];
+        <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style={`charts-items-wrapper ${selectCompare.length > 1 ? "!md:grid-cols-2" : "!grid-cols-1"}`}>
+          {tablesRender.map(({ Component }, index) => { 
 
             return (
             <div
@@ -71,9 +104,9 @@ const Salario = ({
               className="bg-white shadow-md rounded-lg flex flex-col items-center w-full min-h-[800px]"
             >
                 <Component
-                  profissao={[...tempFiltred, ...tempFiltredCBO.map((cbo) => raisCodCboDicts[cbo])]}
+                  profissao={[...tempFiltred, ...tempFiltredCBO.map((cbo) => microCagedCboDicts[cbo])]}
                   color={ColorPalette.default[index]}
-                  data={data}
+                  data={dataFiltred.filter((obj: any) => obj['município'] === selectCompare[index])}
                   year={year}
                 />
             </div>

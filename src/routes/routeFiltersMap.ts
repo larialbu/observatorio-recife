@@ -102,7 +102,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     media: microCagedGeralFilters,
     "comparativo-mov": microCagedComparativoFilters,
     "comparativo-med": microCagedComparativoFilters,
-    salario: microCagedGeralFilters,
+    salario: microCagedComparativoFilters,
   },
 
   // E assim por diante pra outras rotas...
