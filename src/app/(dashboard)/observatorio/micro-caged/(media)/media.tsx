@@ -39,7 +39,7 @@ const Media = ({
 
     const dataObj = getDataObj(dataFiltred)
 
-    const keysObj = Object.keys(data[0]).filter(key => !['salário', 'competênciamov', 'ano', 'município', 'unidadesaláriocódigo', 'valorsaláriofixo'].includes(key))
+    const keysObj = Object.keys(data?.[0] || []).filter(key => !['salário', 'competênciamov', 'ano', 'município', 'unidadesaláriocódigo', 'valorsaláriofixo'].includes(key))
 
     const dataSalario = getAccSalario(dataFiltred, keysObj)
 

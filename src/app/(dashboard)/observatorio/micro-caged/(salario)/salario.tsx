@@ -2,15 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import SelectCompare from "@/components/@global/features/SelectCompare";
-import { raisCboDicts } from "@/utils/dicts/rais/raisCboDicts";
-import { raisCodCboDicts } from "@/utils/dicts/rais/raisCodCboDicts";
 import { microCagedCboDicts } from "@/utils/dicts/micro-caged/microCagedCboDicts";
-
-// AEROPORTO NOME
+import charts from "./@imports/charts";
 
 const Salario = ({
   year,
@@ -34,9 +29,10 @@ const Salario = ({
 
   const [selectCompare, setSelectCompare] = useState([])
   const [tablesRender, setTablesRender] = useState(tables);
-  
+  const [chartsRender, setChartsRender] = useState(charts);
 
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
+  const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
 
   // REF do container e REF da instância do Sortable
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
@@ -47,13 +43,14 @@ const Salario = ({
     const getNewTables = selectCompare.map((val) => {
       return tables[0]
     });
+    const getNewCharts = selectCompare.map((val) => {
+      return charts[0]
+    });
     
-    // setTablesRender([...tables, ...getNewTables]);
     setTablesRender([...getNewTables]);
+    setChartsRender([...getNewCharts]);
   }, [selectCompare]);
   
-  const dataFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] >= 1518 * 0.3 && obj['salário'] <= 1518 * 150)
-  // const dataFiltred = data
 
   return (
     <div>
@@ -73,7 +70,6 @@ const Salario = ({
       <div className="sm:grid sm:grid-cols-[60fr_40fr] gap-5">
         <SelectPrincipal
           options={toCompare}
-          // initialValue={['Recife']}
           noRecife={false}
           filters={tempFiltred}
           setFilters={setTempFiltred}
@@ -84,7 +80,6 @@ const Salario = ({
 
         <SelectPrincipal
           options={cboOption}
-          // initialValue={['Recife']}
           noRecife={false}
           filters={tempFiltredCBO}
           setFilters={setTempFiltredCBO}
@@ -95,21 +90,55 @@ const Salario = ({
       </div>
 
       <div className="flex flex-col gap-6">
-        <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style={`charts-items-wrapper ${selectCompare.length > 1 ? "!md:grid-cols-2" : "!grid-cols-1"}`}>
+        <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style={`charts-items-wrapper ${selectCompare.length > 1 ? "md:!grid-cols-2 " : "!grid-cols-1"}`}>
           {tablesRender.map(({ Component }, index) => { 
 
             return (
-            <div
-              key={index}
-              className="bg-white shadow-md rounded-lg flex flex-col items-center w-full min-h-[800px]"
-            >
-                <Component
-                  profissao={[...tempFiltred, ...tempFiltredCBO.map((cbo) => microCagedCboDicts[cbo])]}
-                  color={ColorPalette.default[index]}
-                  data={dataFiltred.filter((obj: any) => obj['município'] === selectCompare[index])}
-                  year={year}
-                />
-            </div>
+              <div className="w-full">
+                <p className="font-semibold text-2xl text-gray-700 mb-2">
+                  {selectCompare[index]}
+                </p>
+                <div
+                  key={index}
+                  className="bg-white shadow-md rounded-lg flex flex-col items-center w-full min-h-[800px]"
+                >
+          
+                    <Component
+                      profissao={[...tempFiltred, ...tempFiltredCBO.map((cbo) => microCagedCboDicts[cbo])]}
+                      color={ColorPalette.default[index]}
+                      data={data.filter((obj: any) => obj['município'] === selectCompare[index])}
+                      year={year}
+                    />
+                </div> 
+              </div>
+ 
+          )})}
+        </SortableDiv>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerTableRef} style={`charts-items-wrapper ${selectCompare.length > 1 ? "md:!grid-cols-2 " : "!grid-cols-1"}`}>
+          {chartsRender.map(({ Component }, index) => { 
+
+            return (
+              <div className="w-full">
+                <p className="font-semibold text-2xl text-gray-700 mb-2">
+                  {selectCompare[index]}
+                </p>
+                <div
+                  key={index}
+                  className="chart-content-wrapper"
+                >
+          
+                    <Component
+                      profissao={[...tempFiltred, ...tempFiltredCBO.map((cbo) => microCagedCboDicts[cbo])]}
+                      color={ColorPalette.default[index]}
+                      data={data.filter((obj: any) => obj['município'] === selectCompare[index])}
+                      year={year}
+                    />
+                </div> 
+              </div>
+ 
           )})}
         </SortableDiv>
       </div>
