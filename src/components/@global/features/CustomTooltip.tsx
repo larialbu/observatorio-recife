@@ -1,4 +1,4 @@
-const CustomTooltip = ({ active, payload, label, customTooltipFormatter, fontSize, treeMap }: any) => {
+const CustomTooltip = ({ active, payload, label, customTooltipFormatter, fontSize, treeMap, isNegative = false }: any) => {
   if (active && payload && payload.length) {
     return (
       <div
@@ -25,7 +25,7 @@ const CustomTooltip = ({ active, payload, label, customTooltipFormatter, fontSiz
                 style={{ color: entry.color }}
                 className={`font-bold ${entry.color ? `text-[${entry.color}]` : 'text-blue-600'}`}
               >
-                {customTooltipFormatter(entry.value)}
+                {customTooltipFormatter(isNegative ? -entry.value : entry.value)}
               </span>
             </p>
           ))}
