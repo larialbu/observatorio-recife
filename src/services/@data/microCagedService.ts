@@ -1,5 +1,7 @@
 import { MicroCagedData } from "@/@api/http/to-charts/micro_caged/MicroCagedData";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
+import { applyHashedFilters } from "@/utils/filters/@features/applyHashedFilters";
+import { gropoHash } from "@/utils/hashs/micro-caged/gropoHash";
 
 export class MicroCagedDataService {
   private static instance: MicroCagedDataService;
@@ -26,11 +28,13 @@ export class MicroCagedDataService {
   }
 
   private async fetchGeral(filters: Record<string, any>) {
+    const filtersHashed = applyHashedFilters(filters, 'grupamento', 'seção', gropoHash)
+
     const microCagedData = new MicroCagedData(this.currentYear);
 
     const fetchData = await microCagedData.fetchProcessedDataMicroCaged() 
 
-    const filteredData = applyGenericFilters(fetchData, filters);
+    const filteredData = applyGenericFilters(fetchData, filtersHashed, ['grupamento']);
 
     return {
       microCaged: filteredData,
@@ -46,13 +50,6 @@ export class MicroCagedDataService {
 
     const filteredDataCur = applyGenericFilters(microCagedCur, filters)
     const filteredDataPast = applyGenericFilters(microCagedPast, filters)
-
-    console.log('RealSend', {
-      microCaged: {
-        current: filteredDataCur,
-        past: filteredDataPast
-      }
-    })
 
     // const fetchData = await microCagedData.fetchProcessedDataMicroCaged() 
 

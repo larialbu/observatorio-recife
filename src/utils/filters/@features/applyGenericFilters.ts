@@ -34,7 +34,8 @@ export function applyGenericFilters<T extends Record<string, any>>(
   //    ou seja, pega TODOS os aeroportos (outra label) do ano, sem restringir pela seleção
   const additionalFiltersOptions: AdditionalFilter[] =
     filters.additionalFilters?.map((f) => {
-      const uniqueValues = Array.from(
+
+      const uniqueValues = f.blocked ? f.options : Array.from(
         new Set(
           data
             .map((item) => (item)[f.label])
@@ -45,7 +46,7 @@ export function applyGenericFilters<T extends Record<string, any>>(
         .filter((op) => !(f.fixed && f.fixed.includes(op)));;
 
       return { ...f, options: skipOptions.includes(f.label) ? [] : uniqueValues };
-    }) || [];
+    }).filter((additionalFilter) => !additionalFilter.temp) || [];
 
   // Retornamos o "filteredData" pra exibir no gráfico ou tabela,
   // mas as 'options' vêm de 'data'.

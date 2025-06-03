@@ -24,3 +24,4 @@ export const microCagedGrupoDicts: {
   "U": "SERVIÇOS",
   "Z": "NÃO IDENTIFICADO",
 };
+

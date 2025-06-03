@@ -11,6 +11,8 @@ export interface AdditionalFilter {
     selected: string[];
     allowMultiple?: boolean;
     fixed?: string[];
+    blocked?: boolean
+    temp?: boolean
 }
 
 export interface DataWithFilters<T> {
