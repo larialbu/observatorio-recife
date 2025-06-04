@@ -10,9 +10,8 @@ import { monthToNumber } from "@/utils/formatters/@global/monthToNumber";
 const ComparativoSaldo = ({
   data = [],
   colors = ColorPalette.default,
-  title = "ComparativoSaldo",
+  title = "Saldo no ano",
   toCompare,
-  // year
 }: any) => {
   
   const dataCompare = data?.[toCompare]

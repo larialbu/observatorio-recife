@@ -11,8 +11,7 @@ import { getAvarageGroups } from "@/functions/process_data/observatorio/micro-ca
 
 const MediaAtivEconomica = ({
   data,
-  title = "MediaAtivEconomica",
-//   title = "Distribuição formal de empregos por faixa etária",
+  title = "Salário Médio por Agrupamento Econômico",
   year,
 }: any) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -26,9 +25,7 @@ const MediaAtivEconomica = ({
   const avarageData = getAvarageGroups(values, quantity)['seção'] || {}
 
 
-  console.log('AVerage', avarageData)
   const chartData = getObjToArr<number>(avarageData || {}).map((obj) => ({ ...obj, label: microCagedAtivEconomicaDicts[obj.label] })).sort((a, b) => b.value - a.value)
-  console.log('ChartData', chartData)
 
   return (
     <div ref={containerRef} className="chart-wrapper">

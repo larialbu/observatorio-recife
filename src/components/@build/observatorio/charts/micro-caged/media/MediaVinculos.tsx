@@ -9,8 +9,7 @@ import { getAvarageGroups } from "@/functions/process_data/observatorio/micro-ca
 
 const MediaVinculos = ({
   data,
-  title = "MediaVinculos",
-//   title = "Distribuição formal de empregos por faixa etária",
+  title = "Salário médio por Empresas e Vínculos Empregatícios",
   year,
 }: any) => {
   const quantity = data?.['quantity'] || {}

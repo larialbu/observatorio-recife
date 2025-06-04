@@ -11,7 +11,7 @@ import { processMunicipiosMonthValues } from "@/functions/process_data/observato
 const ComparativoMedia = ({
   data = [],
   colors = ColorPalette.default,
-  title = "ComparativoMedia",
+  title = "Salário Médio",
   toCompare,
 }: any) => {
 

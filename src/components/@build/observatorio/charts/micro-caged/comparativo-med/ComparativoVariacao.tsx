@@ -11,7 +11,7 @@ import { processMunicipiosMonthValues } from "@/functions/process_data/observato
 const ComparativoVariacao = ({
   data = [],
   colors = ColorPalette.default,
-  title = "ComparativoVariacaoAnoAnterior",
+  title = "Variação de Salário Médio (ano)",
   toCompare,
 }: any) => {
   const dataCurrent = data['current']

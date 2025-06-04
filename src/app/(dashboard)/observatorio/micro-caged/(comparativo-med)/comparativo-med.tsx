@@ -2,46 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
-import tables from "./@imports/tables";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import SelectCompare from "@/components/@global/features/SelectCompare";
-import { geralAccFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
-import { getAccSalario } from "@/functions/process_data/observatorio/micro-caged/getAccSalario";
-
-// AEROPORTO NOME
-
-const getMunicipiosMonthData = (data: any, municipios: string[]) => {
-  if (!data.length) return
-
-  const dataMuni: { [key: string]: any } = {}
-
-    // nesse 1518, temos q pegar a primeira linha data[0] e pegar oa param sm (salário minimo) data[0]['sm'], ele vai retornar o valor do salário minimo
-    const dataFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] > 1518 * 0.3 && obj['salário'] < 1518 * 150)
-
-    municipios.map((muni: string) => {
-      const dataFiltredMuni = dataFiltred?.filter((micro: any) => micro['município'] === muni) || []
-      if (!dataMuni[muni]) dataMuni[muni] = {}  
-
-      const keysObj = Object.keys(data[0]).filter(key => key === "mês")
-      
-      const dataSalario = getAccSalario(dataFiltredMuni, keysObj)
-      const dataAcc = geralAccFunction(dataFiltredMuni || [], ["mês"])
-
-      const { 'mês': muniAcc} = dataAcc
-      const { 'mês': muniSalario } = dataSalario 
-
-      for (const key in muniAcc) {
-        if (!dataMuni[muni][key]) dataMuni[muni][key] = 0
-
-        dataMuni[muni][key] = muniSalario[key] / muniAcc[key]
-      }
-    })
-
-    return dataMuni
-}
+import { getMunicipiosMonthData } from "@/functions/process_data/observatorio/micro-caged/comparativo-med/getMonthsValues";
 
 const ComparativoMed = ({
   year,
@@ -50,60 +16,34 @@ const ComparativoMed = ({
     data.current,
     "município"
   )
-  // toCompare = [],
-  // months,
 }: {
   year: string;
   toCompare?: any;
   data: any;
-  // months: number;
 }) => {
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
   const [selectCompare, setSelectCompare] = useState('')
-  const [tablesRender, setTablesRender] = useState(charts);
-  const [tablesRenderSecond, setTablesRenderSecond] = useState(charts);
-  // const [tablesRender, setTablesRender] = useState(tables);
   const [animationClass, setAnimationClass] = useState("card-enter");
 
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
-  const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
-
   const [chartData, setChartData] = useState({})
 
-  // REF do container e REF da instância do Sortable
   const sortableContainerRef = useRef<HTMLDivElement>(null);
-  const sortableContainerTableRef = useRef<HTMLDivElement>(null);
-
-  // console.log('ASDADOIFJOIDJ ->')
-
-  // console.log('Data ->', data)
-  // console.log('ToCompare ->', toCompare)
 
   useEffect(() => {
-    const dataPast = getMunicipiosMonthData(data['past'], toCompare) || {}
-    const dataCurrent = getMunicipiosMonthData(data['current'], toCompare)
 
-    console.log('DataMuniz ->', dataCurrent)
-    console.log('send >', { current: dataCurrent, past: dataPast })
+    const filterData = (data: any[]) => {
+      // nesse 1518, temos q pegar a primeira linha data[0] e pegar oa param sm (salário minimo) data[0]['sm'], ele vai retornar o valor do salário minimo
+      return data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] > 1518 * 0.3 && obj['salário'] < 1518 * 150)
+    }
+
+    const dataPast = getMunicipiosMonthData(filterData(data['past']), toCompare) || {}
+    const dataCurrent = getMunicipiosMonthData(filterData(data['current']), toCompare)
 
     setChartData({ current: dataCurrent, past: dataPast })
-    // setChartData(dataCurrent)
   }, [data])
 
-  useEffect(() => {
-    const getNewTables = tempFiltred.map((val) => {
-      return charts[0]
-    });
-    
-    const getNewTablesSecond = tempFiltred.map((val) => {
-      return charts[1]
-    });
-    
-    // setTablesRender([...tables, ...getNewTables]);
-    setTablesRender([...getNewTables]);
-    setTablesRenderSecond([...getNewTablesSecond]);
-  }, [tempFiltred]);
 
   const tempFiltredCard = tempFiltred.filter((municipio) => municipio !== selectCompare)
 
@@ -248,64 +188,6 @@ const ComparativoMed = ({
           );
         })}
       </SortableDiv>
-
-      {/* TAVA AQUI ABERTO */}
-      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
-        {tablesRender.map(({ Component }, index) => (
-          <div
-            key={index}
-            className="chart-content-wrapper"
-          >
-            <React.Suspense fallback={<div>Carregando...</div>}>
-              <Component
-                toCompare={[...tempFiltred][index]}
-                // municipio={[...tempFiltred][index]}
-                color={ColorPalette.default[index]}
-                data={chartData}
-                year={year}
-              />
-            </React.Suspense>
-          </div>
-        ))}
-      </SortableDiv> */}
-
-      {/* TAVA AQUI ABERTO */}
-      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
-          {tablesRenderSecond.map(({ Component }, index) => (
-            <div
-              key={index}
-              className="chart-content-wrapper"
-            >
-              <React.Suspense fallback={<div>Carregando...</div>}>
-                <Component
-                  toCompare={[...tempFiltred][index]}
-                  // municipio={[...tempFiltred][index]}
-                  color={ColorPalette.default[index]}
-                  data={chartData}
-                  year={year}
-                />
-              </React.Suspense>
-            </div>
-          ))}
-        </SortableDiv> */}
-
-        {/* <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
-          {tablesRender.map(({ Component }, index) => (
-            <div
-              key={index}
-              className="bg-white shadow-md rounded-lg flex flex-col items-center w-full"
-            >
-              <React.Suspense fallback={<div>Carregando...</div>}>
-                <Component
-                  municipio={[...tempFiltred][index]}
-                  color={ColorPalette.default[index]}
-                  data={data}
-                  year={year}
-                />
-              </React.Suspense>
-            </div>
-          ))}
-        </SortableDiv> */}
       </div>
     </div>
   );

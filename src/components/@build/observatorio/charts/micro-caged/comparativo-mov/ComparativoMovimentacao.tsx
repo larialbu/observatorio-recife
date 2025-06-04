@@ -10,7 +10,7 @@ import { processPIBPorAnoComparativo } from "@/functions/process_data/observator
 const ComparativoMovimentacao = ({
   data = [],
   colors = ColorPalette.default,
-  title = "ComparativoMovimentacao",
+  title = "Admissões e Admissões no Ano",
   toCompare,
 }: any) => {
 

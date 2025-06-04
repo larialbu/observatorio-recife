@@ -99,6 +99,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
       if (newAdditional.length) {
         setFilters((prev) => {
+          // ao invés de fazer uma comparação com base nos additionalfiltes, vmaos colocar um campo chamado id ou key e a partir disso fazer a comparação, se for diferente fazemos um novo fetch
           const merged = newAdditional.map((newF: AdditionalFilter) => {
             const oldF = prev.additionalFilters?.find(
               (o: AdditionalFilter) => o.label === newF.label
@@ -179,6 +180,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     const baseFilters = getFiltersForRoute(pathname, tab) as Filters;
     
     // Se os filtros não mudaram, não faz nada
+    // ao invés de fazer uma comparação com base nos additionalfiltes, vmaos colocar um campo chamado id ou key e a partir disso fazer a comparação, se for diferente fazemos um novo fetch
     if (JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters)) {
       return;
     }

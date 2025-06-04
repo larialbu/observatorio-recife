@@ -40,7 +40,8 @@ const TreeMapChart = ({
     xKey,
     dataKey, 
     bars,
-    tooltipEntry
+    tooltipEntry,
+    integerInfos = true,
 }: any) => {
     const [percent, setPercent] = useState(false)
 
@@ -92,7 +93,7 @@ const TreeMapChart = ({
                                         color: colors[index],
                                     }}
                                 >
-                                    {entry.label} ({percent ? `${percentage}%` : entry.value})
+                                    {entry.label} ({percent ? `${percentage}%` : entry.value.toFixed(integerInfos ? 0 : 2)})
                                 </span>
                             </div>
                         );

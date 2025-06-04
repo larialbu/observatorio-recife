@@ -33,6 +33,7 @@ const Salario = ({
 
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
+  const [chartData, setChartData] = useState([])
 
   // REF do container e REF da instância do Sortable
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
@@ -51,6 +52,12 @@ const Salario = ({
     setChartsRender([...getNewCharts]);
   }, [selectCompare]);
   
+  useEffect(() => {
+    // primeiro vou passar um loop no campo de salário minio para pegar os valores dos salários minimos no ano, e vou selecioanr o menor valor e subistituir pelo 1518
+    const dataFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] >= 1518 * 0.3 && obj['salário'] <= 1518 * 150)
+
+    setChartData(dataFiltred)
+  }, [data])
 
   return (
     <div>
@@ -94,19 +101,18 @@ const Salario = ({
           {tablesRender.map(({ Component }, index) => { 
 
             return (
-              <div className="w-full">
+              <div key={index} className="w-full">
                 <p className="font-semibold text-2xl text-gray-700 mb-2">
                   {selectCompare[index]}
                 </p>
                 <div
-                  key={index}
                   className="bg-white shadow-md rounded-lg flex flex-col items-center w-full min-h-[800px]"
                 >
           
                     <Component
                       profissao={[...tempFiltred, ...tempFiltredCBO.map((cbo) => microCagedCboDicts[cbo])]}
                       color={ColorPalette.default[index]}
-                      data={data.filter((obj: any) => obj['município'] === selectCompare[index])}
+                      data={chartData.filter((obj: any) => obj['município'] === selectCompare[index])}
                       year={year}
                     />
                 </div> 
@@ -121,19 +127,18 @@ const Salario = ({
           {chartsRender.map(({ Component }, index) => { 
 
             return (
-              <div className="w-full">
+              <div  key={index} className="w-full">
                 <p className="font-semibold text-2xl text-gray-700 mb-2">
                   {selectCompare[index]}
                 </p>
                 <div
-                  key={index}
                   className="chart-content-wrapper"
                 >
           
                     <Component
                       profissao={[...tempFiltred, ...tempFiltredCBO.map((cbo) => microCagedCboDicts[cbo])]}
                       color={ColorPalette.default[index]}
-                      data={data.filter((obj: any) => obj['município'] === selectCompare[index])}
+                      data={chartData.filter((obj: any) => obj['município'] === selectCompare[index])}
                       year={year}
                     />
                 </div> 

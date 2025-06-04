@@ -9,7 +9,6 @@ export const getAccSalario = (data: any, keysObj: string[]) => {
         if (!acc[key][obj[key]]) {
           acc[key][obj[key]] = 0
         }
-        // console.log(acc[key], acc[key][obj[key]])
 
         acc[key][obj[key]] += obj['salário']
       })

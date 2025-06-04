@@ -10,7 +10,6 @@ import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import SelectCompare from "@/components/@global/features/SelectCompare";
 import { geralAccFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
 
-// AEROPORTO NOME
 
 const ComparativoMov = ({
   year,
@@ -53,8 +52,6 @@ const ComparativoMov = ({
       dataMuni[muni] = { admitidos, demitidos } 
     }) 
 
-    console.log('dataMuni', dataMuni)
-
     setChartData(dataMuni)
   }, [data])
 
@@ -67,7 +64,6 @@ const ComparativoMov = ({
       return charts[1]
     });
     
-    // setTablesRender([...tables, ...getNewTables]);
     setTablesRender([...getNewTables]);
     setTablesRenderSecond([...getNewTablesSecond]);
   }, [tempFiltred]);
@@ -199,37 +195,46 @@ const ComparativoMov = ({
 
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {tablesRender.map(({ Component }, index) => (
-          <div
-            key={index}
-            className="chart-content-wrapper"
-          >
-            <React.Suspense fallback={<div>Carregando...</div>}>
-              <Component
-                toCompare={[...tempFiltred][index]}
-                // municipio={[...tempFiltred][index]}
-                color={ColorPalette.default[index]}
-                data={chartData}
-                year={year}
-              />
-            </React.Suspense>
+          <div key={index} className="w-full">
+            <p className="font-semibold text-2xl text-gray-700 mb-2">
+              {[...tempFiltred][index]}
+            </p>
+            <div
+              key={index}
+              className="chart-content-wrapper"
+            >
+              <React.Suspense fallback={<div>Carregando...</div>}>
+                <Component
+                  toCompare={[...tempFiltred][index]}
+                  color={ColorPalette.default[index]}
+                  data={chartData}
+                  year={year}
+                />
+              </React.Suspense>
+            </div>
           </div>
         ))}
       </SortableDiv>
 
      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {tablesRenderSecond.map(({ Component }, index) => (
-          <div
-            key={index}
-            className="chart-content-wrapper"
-          >
-            <React.Suspense fallback={<div>Carregando...</div>}>
-              <Component
-                toCompare={[...tempFiltred][index]}
-                color={ColorPalette.default[index]}
-                data={chartData}
-                year={year}
-              />
-            </React.Suspense>
+          <div key={index} className="w-full">
+            <p className="font-semibold text-2xl text-gray-700 mb-2">
+              {[...tempFiltred][index]}
+            </p>
+            <div
+              key={index}
+              className="chart-content-wrapper"
+            >
+              <React.Suspense fallback={<div>Carregando...</div>}>
+                <Component
+                  toCompare={[...tempFiltred][index]}
+                  color={ColorPalette.default[index]}
+                  data={chartData}
+                  year={year}
+                />
+              </React.Suspense>
+            </div>
           </div>
         ))}
       </SortableDiv>

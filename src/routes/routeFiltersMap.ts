@@ -28,6 +28,7 @@ import { Filters } from "@/@types/observatorio/shared";
 import { empregosDesempregoFilters } from "@/utils/filters/empregos/empregosDesempregoFilter";
 import { microCagedGeralFilters } from "@/utils/filters/micro-caged/microCagedGeralFilters";
 import { microCagedComparativoFilters } from "@/utils/filters/micro-caged/microCagedComparativoFilters";
+import { microCagedComparativoMedFilters } from "@/utils/filters/micro-caged/microCagedComparativoMedFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 type TabFiltersMap = Record<string, Filters>;
@@ -101,7 +102,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     saldo: microCagedGeralFilters,
     media: microCagedGeralFilters,
     "comparativo-mov": microCagedComparativoFilters,
-    "comparativo-med": microCagedComparativoFilters,
+    "comparativo-med": microCagedComparativoMedFilters,
     salario: microCagedComparativoFilters,
   },
 

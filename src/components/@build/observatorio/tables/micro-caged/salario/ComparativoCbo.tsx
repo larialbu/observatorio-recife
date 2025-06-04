@@ -15,10 +15,7 @@ const ComparativoCbo = ({
 // passar isso no componenten e o componente vai ficar alterando o objeto e quando mudar vai alterar aki tb
 const [ordenation, setOrdenation] = useState([{ index: 3, name: 'admitidos', ordenation: 0 }, { index: 4, name: 'demitidos', ordenation: 0 }, { index: 5, name: 'saldo', ordenation: 0 }, { index: 6, name: 'salario', ordenation: 0 }]);
 
-// primeiro vou passar um loop no campo de salário minio para pegar os valores dos salários minimos no ano, e vou selecioanr o menor valor e subistituir pelo 1518
-const dataSalarioFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] >= 1518 * 0.3 && obj['salário'] <= 1518 * 150)
-
-const dataFiltred = profissao.length ? dataSalarioFiltred.filter((item: any) => profissao.includes(item["cbo2002ocupação"])) : dataSalarioFiltred
+const dataFiltred = profissao.length ? data.filter((item: any) => profissao.includes(item["cbo2002ocupação"])) : data
 
 const order = ordenation.find((item) => item.ordenation != 0)
 
