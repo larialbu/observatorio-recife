@@ -8,7 +8,7 @@ import { getAccGroups } from "@/functions/process_data/observatorio/micro-caged/
 
 const MovimentacaoHoras = ({
   data,
-  title = "hora",
+  title = "Movimentação por Horas Semanais",
   year,
 }: any) => {
 
@@ -41,7 +41,7 @@ const MovimentacaoHoras = ({
           colors={ColorPalette.default}
           heightPerCategory={50}
           widthY={130}
-          left={-47}
+          left={-15}
         />
       </ChartGrabber>
     </div>

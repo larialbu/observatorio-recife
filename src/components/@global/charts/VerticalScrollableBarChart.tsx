@@ -15,6 +15,7 @@ import CustomTooltip from "../features/CustomTooltip";
 import CustomLegend from "../features/CustomLegend";
 import { useEffect, useRef, useState } from "react";
 import { truncateTextFormatter } from "@/utils/formatters/@global/truncateTextFormatter";
+import { resizeDiv } from "../features/resizeDiv";
 
 const splitDataInBlocks = (data: any[], blockSize: number = 100) => {
   const blocks: any[][] = [];
@@ -37,12 +38,17 @@ const VerticalScrollableBarChart = ({
   widthY = 100,
   left = -5,
   yFontSize = 12,
-  maxDescriptionLength = 50, // Definir limite de caracteres para o eixo Y
+  maxDescriptionLength = 20, // Definir limite de caracteres para o eixo Y
 }: any) => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const [width, setWidth] = useState<number | null>(null);
   const [scrollPosition, setScrollPosition] = useState("start");
   const [dataRead, setDataRead] = useState<any[]>([]);
   const [blocksCount, setBlocksCount] = useState(1);
+
+  resizeDiv(containerRef, width, setWidth)
 
   useEffect(() => {
     const blocks = splitDataInBlocks(data);
@@ -87,7 +93,7 @@ const VerticalScrollableBarChart = ({
   const totalHeight = Math.max(dataRead.length * heightPerCategory, 300);
 
   return (
-    <div className="relative bg-white w-full dark:bg-[#0C1B2B]">
+    <div ref={containerRef} className="relative bg-white w-full dark:bg-[#0C1B2B]">
       <div className="flex flex-col items-center justify-center">
         <h3 className="text-center mb-4 font-semibold w-[90%] text-gray-800 dark:text-gray-100">{title}</h3>
       </div>
@@ -98,7 +104,7 @@ const VerticalScrollableBarChart = ({
         style={{ height: `${visibleHeight}px` }}
       >
         <div>
-          <ResponsiveContainer width="100%" height={totalHeight}>
+          <ResponsiveContainer width={(width || 0) - 5} height={totalHeight}>
             <RechartsBarChart
               data={dataRead}
               layout="vertical"
@@ -114,7 +120,8 @@ const VerticalScrollableBarChart = ({
               <YAxis
                 type="category"
                 dataKey={xKey}
-                tick={{ fontSize: yFontSize, fill: "var(--yaxis-tick-color)" }}
+                // altera o tamanho max da texto
+                tick={{ width: 110, fontSize: yFontSize, fill: "var(--yaxis-tick-color)" }}
                 interval={0}
                 width={widthY}
                 // Truncar o texto apenas no eixo Y
@@ -132,6 +139,24 @@ const VerticalScrollableBarChart = ({
                 )}
                 iconSize={20}
               />
+
+              {/* <Legend 
+                verticalAlign="top" 
+                align="center"
+                content={({ payload }) => (
+                    <div className="pl-5 mt-2 w-[100%]">
+                      <CustomLegend payload={payload} />
+                    </div>
+                )}
+                iconSize={20}
+              />
+
+              <Legend 
+                verticalAlign="top" 
+                align="center"
+                content={({ payload }) => <CustomLegend payload={payload} />}
+                iconSize={20}
+              /> */}
 
               {bars.map((bar: any, index: number) => (
                 <Bar key={index} dataKey={bar.dataKey} name={bar.name} fill={colors[0]}>

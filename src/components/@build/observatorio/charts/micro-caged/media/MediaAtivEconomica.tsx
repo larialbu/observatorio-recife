@@ -11,7 +11,7 @@ import { getAvarageGroups } from "@/functions/process_data/observatorio/micro-ca
 
 const MediaAtivEconomica = ({
   data,
-  title = "Salário Médio por Agrupamento Econômico",
+  title = "Salário Médio por Atividade Econômico",
   year,
 }: any) => {
   const containerRef = useRef<HTMLDivElement | null>(null);

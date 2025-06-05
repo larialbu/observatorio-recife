@@ -8,10 +8,10 @@ import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
 const VinculosEmpregaticios = ({
   data,
-  title = "VinculosEmpregaticios",
-//   title = "Distribuição formal de empregos por faixa etária",
+  title = "Movimentação por Empresas e Vínculos Empregatícios",
   year,
 }: any) => {
+  console.log('DAta ->,.>', data['tamestabjan'])
   
   const chartData = getObjToArr<number>(data['tamestabjan'] || {}).sort((a, b) => b.value - a.value)
 

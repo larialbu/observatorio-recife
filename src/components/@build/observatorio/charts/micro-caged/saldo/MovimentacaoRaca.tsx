@@ -8,8 +8,7 @@ import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
 const MovimentacaoRaca = ({
   data,
-  title = "rraça",
-//   title = "Distribuição formal de empregos por faixa etária",
+  title = "Saldo por Raça e Cor",
   year,
 }: any) => {
   

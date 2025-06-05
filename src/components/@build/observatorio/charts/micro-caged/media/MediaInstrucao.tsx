@@ -9,8 +9,7 @@ import { getAvarageGroups } from "@/functions/process_data/observatorio/micro-ca
 
 const MediaInstrucao = ({
   data,
-  title = "MediaInstrucao",
-//   title = "Distribuição formal de empregos por faixa etária",
+  title = "Salário Médio por Grau de Instrução",
   year,
 }: any) => {
   const quantity = data?.['quantity'] || {}

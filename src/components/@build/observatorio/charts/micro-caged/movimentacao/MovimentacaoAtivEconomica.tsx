@@ -10,8 +10,7 @@ import { resizeDiv } from "@/components/@global/features/resizeDiv";
 
 const MovimentacaoAtivEconomica = ({
   data,
-  title = "ativecno",
-//   title = "Distribuição formal de empregos por faixa etária",
+  title = "Movimentação por Atividade Econômica",
   year,
 }: any) => {
   const containerRef = useRef<HTMLDivElement | null>(null);

@@ -11,8 +11,7 @@ const MovimentacaoGrupo = ({
   data = [],
   nameKey = "AEROPORTO REGIÃO",
   colors = ColorPalette.default,
-  title = "Grupo",
-//   title = "Distribuição desligamentos de empregos por Setor",
+  title = "Movimentação por Agrupamento Econômico",
 }: any) => {
 
   const groups = [{ name: 'Indústria', includes: ['C', 'E', 'D', 'B'], quantity: 0 }, { name: 'Comércio', includes: ['G'], quantity: 0 }, { name: 'Agropecuária', includes: ['A'], quantity: 0 }, { name: 'Construção', includes: ['F'], quantity: 0 }, { name: 'Serviços', includes: ['N', 'P', 'H', 'K', 'Q', 'I', 'J', 'S', 'M', 'R', 'L', 'O', 'U'], quantity: 0 } ]

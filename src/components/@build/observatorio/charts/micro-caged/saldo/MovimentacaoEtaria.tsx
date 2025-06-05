@@ -9,8 +9,7 @@ import { getAccGroups } from "@/functions/process_data/observatorio/micro-caged/
 
 const MovimentacaoEtaria = ({
   data,
-  title = "idade",
-//   title = "Distribuição formal de empregos por faixa etária",
+  title = "Saldo por Faixa Etária",
   year,
 }: any) => {
   
@@ -30,7 +29,7 @@ const MovimentacaoEtaria = ({
           colors={ColorPalette.default}
           heightPerCategory={50}
           widthY={130}
-          left={-75}
+          left={-15}
         />
       </ChartGrabber>
     </div>

@@ -8,10 +8,9 @@ import { getAccGroups } from "@/functions/process_data/observatorio/micro-caged/
 
 const MovimentacaoHoras = ({
   data,
-  title = "hora",
+  title = "Saldo por Horas Semanais",
   year,
 }: any) => {
-
 
   const chartData = getAccGroups(data["horascontratuais"], [
     [0, 20, 0],

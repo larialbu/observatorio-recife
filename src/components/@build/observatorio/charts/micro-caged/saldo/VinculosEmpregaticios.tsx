@@ -8,8 +8,7 @@ import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
 const VinculosEmpregaticios = ({
   data,
-  title = "VinculosEmpregaticios",
-//   title = "Distribuição formal de empregos por faixa etária",
+  title = "Saldo por Empresas e Vínculos Empregatícios",
   year,
 }: any) => {
   

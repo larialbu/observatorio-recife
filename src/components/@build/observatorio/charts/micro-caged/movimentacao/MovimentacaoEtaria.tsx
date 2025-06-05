@@ -9,8 +9,7 @@ import { getAccGroups } from "@/functions/process_data/observatorio/micro-caged/
 
 const MovimentacaoEtaria = ({
   data,
-  title = "idade",
-//   title = "Distribuição formal de empregos por faixa etária",
+  title = "Movimentação por Faixa Etária",
   year,
 }: any) => {
   
@@ -22,16 +21,16 @@ const MovimentacaoEtaria = ({
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
-        <ScrollableBarChart
-          data={chartData}
-          title={title}
-          xKey="label"
-          bars={[{ dataKey: "value", name: "Quantidade" }]}
-          colors={ColorPalette.default}
-          heightPerCategory={50}
-          widthY={130}
-          left={-75}
-        />
+          <ScrollableBarChart
+            data={chartData}
+            title={title}
+            xKey="label"
+            bars={[{ dataKey: "value", name: "Quantidade" }]}
+            colors={ColorPalette.default}
+            heightPerCategory={50}
+            widthY={130}
+            left={-15}
+          />
       </ChartGrabber>
     </div>
   );

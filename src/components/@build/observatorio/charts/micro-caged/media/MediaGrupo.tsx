@@ -10,8 +10,7 @@ const MediaGrupo = ({
   data = [],
   nameKey = "AEROPORTO REGIÃO",
   colors = ColorPalette.default,
-  title = "MediaGrupo",
-//   title = "Distribuição desligamentos de empregos por Setor",
+  title = "Salário Médio por Agrupamento Econômico",
 }: any) => {
 
   const quantity = data?.['quantity'] || {}

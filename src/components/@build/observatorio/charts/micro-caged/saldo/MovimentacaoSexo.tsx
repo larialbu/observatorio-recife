@@ -9,7 +9,8 @@ import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
 const MovimentacaoSexo = ({
   data,
-  title = "  Gênero",
+  title = "Saldo por Gênero",
+
 //   title = "Distribuição formal de desligamentos por Gênero",
   year,
 }: any) => {
