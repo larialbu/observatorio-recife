@@ -8,6 +8,7 @@ import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import SelectCompare from "@/components/@global/features/SelectCompare";
 import { getMunicipiosMonthData } from "@/functions/process_data/observatorio/micro-caged/comparativo-med/getMonthsValues";
+import { getSmFiltred } from "@/functions/process_data/observatorio/micro-caged/getSmFiltred";
 
 const ComparativoMed = ({
   year,
@@ -32,14 +33,8 @@ const ComparativoMed = ({
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-
-    const filterData = (data: any[]) => {
-      // nesse 1518, temos q pegar a primeira linha data[0] e pegar oa param sm (salário minimo) data[0]['sm'], ele vai retornar o valor do salário minimo
-      return data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] > 1518 * 0.3 && obj['salário'] < 1518 * 150)
-    }
-
-    const dataPast = getMunicipiosMonthData(filterData(data['past']), toCompare) || {}
-    const dataCurrent = getMunicipiosMonthData(filterData(data['current']), toCompare)
+    const dataPast = getMunicipiosMonthData(getSmFiltred(data['past']), toCompare) || {}
+    const dataCurrent = getMunicipiosMonthData(getSmFiltred(data['current']), toCompare)
 
     setChartData({ current: dataCurrent, past: dataPast })
   }, [data])

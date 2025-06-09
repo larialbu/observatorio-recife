@@ -28,7 +28,7 @@ function convertToGeoJSON(data: PortoCoordHeaders[], selectedMonths: number[]): 
     return { type: "FeatureCollection", features: [] };
   }
 
-  console.log('DAATa', data)
+  // console.log('DAATa', data)
 
   const filteredData = selectedMonths.length > 0
     ? data.filter((item) => selectedMonths.includes(Number(item.Mes)))
@@ -47,30 +47,30 @@ function convertToGeoJSON(data: PortoCoordHeaders[], selectedMonths: number[]): 
     }
   });
 
-  console.log('aGGREData', aggregatedData)
-  console.log('FiltredData', filteredData)
+  // console.log('aGGREData', aggregatedData)
+  // console.log('FiltredData', filteredData)
 
   const aggregatedDataArray = Object.values(aggregatedData);
 
-  console.log('aGGREDataArray', aggregatedDataArray)
+  // console.log('aGGREDataArray', aggregatedDataArray)
 
-  console.log('REturned', {
-    type: "FeatureCollection",
-    features: aggregatedDataArray.map((item) => ({
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [
-          parseFloat(item.Longitude.replace(",", ".")),
-          parseFloat(item.Latitude.replace(",", ".")),
-        ],
-      },
-      properties: {
-        name: item["Porto Atracação"],
-        vlPesoCargaBruta: item.VLPesoCargaBruta,
-      },
-    })),
-  })
+  // console.log('REturned', {
+  //   type: "FeatureCollection",
+  //   features: aggregatedDataArray.map((item) => ({
+  //     type: "Feature",
+  //     geometry: {
+  //       type: "Point",
+  //       coordinates: [
+  //         parseFloat(item.Longitude.replace(",", ".")),
+  //         parseFloat(item.Latitude.replace(",", ".")),
+  //       ],
+  //     },
+  //     properties: {
+  //       name: item["Porto Atracação"],
+  //       vlPesoCargaBruta: item.VLPesoCargaBruta,
+  //     },
+  //   })),
+  // })
 
   return {
     type: "FeatureCollection",
@@ -96,6 +96,7 @@ type PortoLocalizacaoProps = {
 };
 
 export default function PortoLocalizacao({ data }: PortoLocalizacaoProps) {
+
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -133,7 +134,8 @@ export default function PortoLocalizacao({ data }: PortoLocalizacaoProps) {
 
     const geoJsonData = convertToGeoJSON(portoData, selectedMonths);
 
-    console.log('GEoSJon ->',geoJsonData)
+    // console.log('datas ->', selectedMonths, portoData)
+    // console.log('GEoSJon ->',geoJsonData)
 
     L.geoJSON(geoJsonData, {
       pointToLayer: (feature, latlng) => {

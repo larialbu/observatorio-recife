@@ -9,6 +9,7 @@ import ErrorBoundary from "@/utils/loader/errorBoundary";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { getAccSalario } from "@/functions/process_data/observatorio/micro-caged/getAccSalario";
 import { getDataObj } from "@/functions/process_data/observatorio/micro-caged/getDataObj";
+import { getSmFiltred } from "@/functions/process_data/observatorio/micro-caged/getSmFiltred";
 
 
 const Media = ({
@@ -24,7 +25,8 @@ const Media = ({
   
   useEffect(() => {
     // nesse 1518, temos q pegar a primeira linha data[0] e pegar oa param sm (salário minimo) data[0]['sm'], ele vai retornar o valor do salário minimo
-    const dataFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] > 1518 * 0.3 && obj['salário'] < 1518 * 150)
+    // const dataFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] > 1518 * 0.3 && obj['salário'] < 1518 * 150)
+    const dataFiltred = getSmFiltred(data)
 
     const dataObj = getDataObj(dataFiltred)
 

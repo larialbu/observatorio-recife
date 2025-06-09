@@ -17,7 +17,7 @@ const OperacaoPortos = ({
 
   const monthsToRead = months?.selected.length ? months.selected : months.options
 
-  const dataToRead = dataCoords.filter((data) => monthsToRead.includes(data.Mes)) || []
+  const dataToRead = dataCoords.filter((data) => monthsToRead.includes(`${data.Mes}`)) || []
 
   const chartData = processCargasPorPorto(dataToRead)
 

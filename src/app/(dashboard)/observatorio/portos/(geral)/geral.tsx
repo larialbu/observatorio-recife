@@ -23,7 +23,6 @@ const Geral = ({
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
 
   const { Component } = maps[0]
-  console.log(data)
 
   return (
     <div>

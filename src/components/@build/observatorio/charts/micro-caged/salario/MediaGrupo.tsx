@@ -11,7 +11,6 @@ import { getAttGroups } from "@/functions/process_data/observatorio/micro-caged/
 const MediaGrupo = ({
   data,
   title = "Informações por CBO",
-//   title = "Distribuição formal de empregos por faixa etária",
   year,
 }: any) => {
   const dataObj = geralAccFunction(data || [], ["seção"])

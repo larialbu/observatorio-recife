@@ -53,6 +53,8 @@ useEffect(() => {
 
   const absoluteDivRef = useRef<HTMLDivElement>(null);
 
+  console.log('dATa', data)
+
   return (
     <div>
       <SelectPrincipal
@@ -99,6 +101,12 @@ useEffect(() => {
       <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper 2xl:!grid-cols-2">
         {tablesRender.map((arrChart, index) => {
           
+        console.log('DADOAS PASSADOS ->', { 
+                  ...data, 
+                  atracacao: portosDataFiltered.find((obj) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [] as PortoAtracacaoHeaders[], 
+                  carga: portosDataFiltered.find((obj) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], 
+                })
+
         return arrChart.slice(0, 1).map(({ Component, col }) => {
             return (
               <div key={index} className={`chart-content-wrapper ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`}>

@@ -16,6 +16,10 @@ const OperacaoCargasAno = ({
   title = "Movimentação de Cargas (Ton)"  + ` - ${porto}`,
   months
 }: ChartBuild<RawDataPortos>) => {
+  console.log('LOg Operacao Ano', data)
+
+  console.log('Usnado', data.atracacao, data.carga)
+
   const chartData = processAtracacoesPorMes(data.atracacao, data.carga)
 
   const updatedData = updatedMonthChartData(chartData, months ?? 1);

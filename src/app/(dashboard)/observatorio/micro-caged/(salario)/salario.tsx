@@ -6,6 +6,7 @@ import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import { microCagedCboDicts } from "@/utils/dicts/micro-caged/microCagedCboDicts";
 import charts from "./@imports/charts";
+import { getSmFiltred } from "@/functions/process_data/observatorio/micro-caged/getSmFiltred";
 
 const Salario = ({
   year,
@@ -33,7 +34,7 @@ const Salario = ({
 
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
-  const [chartData, setChartData] = useState([])
+  const [chartData, setChartData] = useState<any[]>([])
 
   // REF do container e REF da instância do Sortable
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
@@ -54,7 +55,8 @@ const Salario = ({
   
   useEffect(() => {
     // primeiro vou passar um loop no campo de salário minio para pegar os valores dos salários minimos no ano, e vou selecioanr o menor valor e subistituir pelo 1518
-    const dataFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] >= 1518 * 0.3 && obj['salário'] <= 1518 * 150)
+    // const dataFiltred = data.filter((obj: any) => obj['indtrabintermitente'] == 0 && obj['salário'] >= 1518 * 0.3 && obj['salário'] <= 1518 * 150)
+    const dataFiltred = getSmFiltred(data)
 
     setChartData(dataFiltred)
   }, [data])
