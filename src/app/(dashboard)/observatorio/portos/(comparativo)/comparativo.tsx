@@ -20,7 +20,7 @@ const Comparativo = ({
     "filteredData" in data.atracacao ? data.atracacao.filteredData : data.atracacao,
     "Porto Atracação"
   ),
-  rawData,
+  months
 }: ChartBuild<PortoGeralData>) => {
 
   const [pageCompare, setPageCompare] = useState(0);
@@ -41,7 +41,7 @@ const Comparativo = ({
 const attTempFiltred = ['Recife', ...tempFiltred]
 
 useEffect(() => {
-  const portosDataFiltered = getFilteredData(rawData as RawDataPortos, attTempFiltred);
+  const portosDataFiltered = getFilteredData(data.rawData as RawDataPortos, attTempFiltred);
 
     const getNewTables = tempFiltred.map((val) => {
       return [...charts];
@@ -49,11 +49,9 @@ useEffect(() => {
 
     setPortosDataFiltered(portosDataFiltered)
     setTablesRender([[...charts], ...getNewTables]);
-  }, [tempFiltred, rawData]);
+  }, [tempFiltred, data]);
 
   const absoluteDivRef = useRef<HTMLDivElement>(null);
-
-  console.log('dATa', data)
 
   return (
     <div>
@@ -100,17 +98,10 @@ useEffect(() => {
        
       <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper 2xl:!grid-cols-2">
         {tablesRender.map((arrChart, index) => {
-          
-        console.log('DADOAS PASSADOS ->', { 
-                  ...data, 
-                  atracacao: portosDataFiltered.find((obj) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [] as PortoAtracacaoHeaders[], 
-                  carga: portosDataFiltered.find((obj) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], 
-                })
 
         return arrChart.slice(0, 1).map(({ Component, col }) => {
             return (
               <div key={index} className={`chart-content-wrapper ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`}>
-              {/* <div key={index} className={`chart-content-wrapper`}> */}
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
                   porto={["Recife", ...tempFiltred][index]}
@@ -120,6 +111,7 @@ useEffect(() => {
                     carga: portosDataFiltered.find((obj) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], 
                   }}
                   year={year}
+                  months={months}
                 />
               </React.Suspense>
             </div>
