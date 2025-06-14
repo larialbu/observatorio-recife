@@ -26,7 +26,7 @@ export class PibDataService {
   }
 
 
-  private async fetchGeralData(filters: Record<string, any>) {
+  private async fetchGeralData(filters: any) {
     const pibData = new PibData(this.currentYear);
     const pastYear = `${+this.currentYear - 1}`;
 

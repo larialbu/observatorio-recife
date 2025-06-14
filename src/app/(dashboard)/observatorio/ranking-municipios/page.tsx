@@ -13,7 +13,7 @@ import Indicador from "./(indicador)/indicador";
 
 const RankingPage = () => {
   const searchParams = useSearchParams();
-  const { isLoading, data, filters } = useDashboard();
+  const { isLoading, data, filters } = useDashboard() as any;
   const [ranking, setRanking] = useState([]);
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();

@@ -21,7 +21,7 @@ const ChartGrabber = ({
   const chartWrapperRef = useRef<HTMLElement | null>(null);
 
   const additionalFilters = filters.additionalFilters
-  const yearFilter = filters?.year || filters.years[filters.years.length - 1]
+  const yearFilter = filters?.year || filters.years![filters.years!.length - 1]
 
   const [showTempContainer, setShowTempContainer] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);

@@ -25,7 +25,7 @@ export class EmpregosDataService {
     return `${tab}-${this.currentYear}-${JSON.stringify(filters.additionalFilters)}`;
   }
 
-  private async fetchGeralCaged(filters: Record<string, any>) {
+  private async fetchGeralCaged(filters: any) {
     const empregosData = new EmpregosData(this.currentYear);
     // const pastYear = `${+this.currentYear - 1}`;
 
@@ -46,7 +46,7 @@ export class EmpregosDataService {
     };
   }
 
-  private async fetchGeralCagedDesemprego(filters: Record<string, any>) {
+  private async fetchGeralCagedDesemprego(filters: any) {
     const empregosData = new EmpregosData(this.currentYear);
     const pastYear = `${+this.currentYear - 1}`;
 

@@ -16,7 +16,7 @@ const PibPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const { isLoading, data, filters } = useDashboard();
+  const { isLoading, data, filters } = useDashboard() as any;
 
   const [activeTab, setActiveTab] = useState("geral");
   const [pibData, setPibData] = useState({} as any)

@@ -16,10 +16,13 @@ export interface AenaAeroportoData {
 }
 
 export interface AenaPassageirosData extends DataWithFilters<AenaPassageirosHeaders> {
+  reduce(arg0: (total: number, item: AenaPassageirosHeaders) => number, arg1: number): number;
   rawDataPassageiros: AenaPassageirosHeaders[];
 }
 
 export interface AenaCargasData extends DataWithFilters<AenaCargasHeaders> {
+  reduce(arg0: (total: number, item: AenaCargasHeaders) => number, arg1: number): number;
+  reduce(arg0: (total: number, item: AenaCargasHeaders) => number, arg1: number): number;
   rawDataCargas: AenaCargasHeaders[];
 }
 

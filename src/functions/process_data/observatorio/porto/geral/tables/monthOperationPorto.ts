@@ -1,4 +1,4 @@
-import { PortoMesData } from "@/@types/observatorio/@fetch/porto";
+// import { PortoMesData } from "@/@types/observatorio/@fetch/porto";
 
 interface ProcessedCargaMes {
   mes: string;
@@ -8,8 +8,8 @@ interface ProcessedCargaMes {
 }
 
 export const processCargasPorMes = (
-  current: PortoMesData[],
-  past: PortoMesData[]
+  current: any[],
+  past: any[]
 ): ProcessedCargaMes[] => {
   const meses = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
 

@@ -14,7 +14,7 @@ import ComparativoMov from "./(comparativo-mov)/comparativo-mov";
 import ComparativoMed from "./(comparativo-med)/comparativo-med";
 
 const MicroCagedPage = () => {
-  const { isLoading, data, filters } = useDashboard();
+  const { isLoading, data, filters } = useDashboard() as any;
   const [microCaged, setMicroCaged] = useState<any>([]);
   const [microCagedMedia, setMicroCagedMedia] = useState<any>([]);
   const [activeTab, setActiveTab] = useState("geral");

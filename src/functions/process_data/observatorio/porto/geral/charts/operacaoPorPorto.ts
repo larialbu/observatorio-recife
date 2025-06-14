@@ -1,11 +1,11 @@
-import { PortoMesData } from "@/@types/observatorio/@fetch/porto";
+// import { PortoMesData } from "@/@types/observatorio/@fetch/porto";
 
 interface portoResult {
   porto: string;
   carga: number;
 }
   
-export function processCargasPorPorto(array: PortoMesData[]): portoResult[] {
+export function processCargasPorPorto(array: any[]): portoResult[] { //no any era o PortoMesData
   const result: portoResult[] = [];
 
   array.forEach(item => {

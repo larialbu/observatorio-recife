@@ -7,7 +7,7 @@ import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import { ProcessedDataPib } from "@/@types/observatorio/@fetch/pib/ProcessedDataPib";
+// import { ProcessedDataPib } from "@/@types/observatorio/@fetch/pib/ProcessedDataPib";
 import SelectCompare from "@/components/@global/features/SelectCompare";
 
 // AEROPORTO NOME
@@ -15,7 +15,7 @@ import SelectCompare from "@/components/@global/features/SelectCompare";
 const Comparativo = ({
   year,
   data,
-  toCompare = getUniqueValues<ProcessedDataPib, "Município - UF">(
+  toCompare = getUniqueValues<any, "Município - UF">(
     data.rawDataCurrent,
     "Município - UF"
   )

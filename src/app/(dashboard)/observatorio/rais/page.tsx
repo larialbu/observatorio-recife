@@ -14,7 +14,7 @@ import Remuneracao from "./(remuneracao)/remuneracao";
 import Link from "next/link";
 
 const RaisPage = () => {
-  const { isLoading, data, filters } = useDashboard();
+  const { isLoading, data, filters } = useDashboard() as any;
   const [rais, setRais] = useState<any>({});
   const [activeTab, setActiveTab] = useState("geral");
 

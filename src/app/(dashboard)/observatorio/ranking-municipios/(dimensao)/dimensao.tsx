@@ -16,7 +16,7 @@ const Dimensao = ({
   data: any[];
   rawData: any[];
 }) => {
-  const { data, isLoading } = useDashboard();
+  const { data, isLoading } = useDashboard() as any;
   const [dimensaoData, setDimensaoData] = useState([]);
 
   useEffect(() => {

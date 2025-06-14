@@ -12,7 +12,7 @@ const Embarque = ({
   monthRecent?: number;
   data: any;
 }) => {
-  const [type, setType] = useState(['Embarque']);
+  const [type, setType] = useState<["Embarque" | "Desembarque"]>(["Embarque"]);
 
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
 

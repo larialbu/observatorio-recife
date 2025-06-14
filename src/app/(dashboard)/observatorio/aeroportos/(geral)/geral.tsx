@@ -9,6 +9,7 @@ import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const Geral: React.FC<ChartBuild> = ({
   data,
@@ -38,7 +39,7 @@ const Geral: React.FC<ChartBuild> = ({
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <ErrorBoundary>
-                  <Component data={data as AnacGeralData} rawData={rawData as AnacGeralData} months={months} />
+                  <Component data={data as AnacGeralHeaders[]} rawData={rawData as AnacGeralHeaders[]} months={months} />
                 </ErrorBoundary>
               </React.Suspense>
             </div>

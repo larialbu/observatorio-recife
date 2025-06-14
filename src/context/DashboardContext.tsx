@@ -51,7 +51,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         service.setYear(year);
       }
 
-      const fetched: DashboardData = await service.fetchDataForTab(tab, filtersToUse);
+      const fetched: any = await service.fetchDataForTab(tab, filtersToUse); // Aqui era DashboardData tipado
 
       if (process.env.NODE_ENV === 'development') {
         console.log("✅ Dados carregados:", fetched);

@@ -1,7 +1,7 @@
-import { ProcessedRankingDimensaoData } from "@/@types/observatorio/@fetch/ranking/processedRankingDimensaoData";
-import { ProcessedRankingGeralData } from "@/@types/observatorio/@fetch/ranking/processedRankingGeralData";
-import { ProcessedRankingIndicadorData } from "@/@types/observatorio/@fetch/ranking/processedRankingIndicadorData";
-import { ProcessedRankingPilaresData } from "@/@types/observatorio/@fetch/ranking/processedRankingPilaresData";
+// import { any } from "@/@types/observatorio/@fetch/ranking/any";
+// import { any } from "@/@types/observatorio/@fetch/ranking/any";
+// import { any } from "@/@types/observatorio/@fetch/ranking/any";
+// import { any } from "@/@types/observatorio/@fetch/ranking/any";
 import { fetchData } from "@/@api/config/dataFetcher";
 
 
@@ -14,24 +14,24 @@ export class RankingData {
   }
 
 
-  async fetchProcessedGeralData(): Promise<ProcessedRankingGeralData[]> {
+  async fetchProcessedGeralData(): Promise<any[]> {
     const endpoint = `/ranking/geral/anos/${this.year}`;
-    return fetchData<ProcessedRankingGeralData[]>(endpoint, RankingData.cache);
+    return fetchData<any[]>(endpoint, RankingData.cache);
   }
 
-  async fetchProcessedDimensaoData(): Promise<ProcessedRankingDimensaoData[]> {
+  async fetchProcessedDimensaoData(): Promise<any[]> {
     const endpoint = `/ranking/dimensao/anos/${this.year}`;
-    return fetchData<ProcessedRankingDimensaoData[]>(endpoint, RankingData.cache);
+    return fetchData<any[]>(endpoint, RankingData.cache);
   }
 
-  async fetchProcessedIndicadorData(): Promise<ProcessedRankingIndicadorData[]> {
+  async fetchProcessedIndicadorData(): Promise<any[]> {
     const endpoint = `/ranking/indicador/anos/${this.year}`;
-    return fetchData<ProcessedRankingIndicadorData[]>(endpoint, RankingData.cache);
+    return fetchData<any[]>(endpoint, RankingData.cache);
   }
 
-  async fetchProcessedPilaresData(): Promise<ProcessedRankingPilaresData[]> {
+  async fetchProcessedPilaresData(): Promise<any[]> {
     const endpoint = `/ranking/pilares/anos/${this.year}`;
-    return fetchData<ProcessedRankingPilaresData[]>(endpoint, RankingData.cache);
+    return fetchData<any[]>(endpoint, RankingData.cache);
   }
 
   clearCache(): void {

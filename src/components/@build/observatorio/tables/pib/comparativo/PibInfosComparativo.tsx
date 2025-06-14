@@ -1,4 +1,4 @@
-import { ProcessedDataPib } from "@/@types/observatorio/@fetch/pib/ProcessedDataPib";
+import { ProcessedDataPib } from "@/@types/observatorio/@data/ProcessedDataPib";
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { processPIBvariacao } from "@/functions/process_data/observatorio/pib/geral/pibAnoVariacao";
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";

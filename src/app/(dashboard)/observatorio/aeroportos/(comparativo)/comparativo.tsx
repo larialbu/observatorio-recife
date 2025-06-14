@@ -9,7 +9,7 @@ import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import SelectCompare from "@/components/@global/features/SelectCompare";
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
-import { ChartBuild } from "@/@types/observatorio/shared";
+import { ChartBuild, DataWithFilters } from "@/@types/observatorio/shared";
 import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
 // AEROPORTO NOME
@@ -177,7 +177,7 @@ const Comparativo: React.FC<ChartBuild> = ({
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component
-                  data={data as AnacGeralData}
+                  data={(data as AnacGeralHeaders[])}
                   toCompare={[...tempFiltred]}
                   months={months}
                 />

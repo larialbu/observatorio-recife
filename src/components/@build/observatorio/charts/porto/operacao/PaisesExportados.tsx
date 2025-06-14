@@ -15,7 +15,7 @@ const PaisesExportados = ({
   title = "Passageiros por Aeroporto",
 }: ChartBuild<PortoGeralData>) => {
 
-  const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao as PortoAtracacaoHeaders[], data.carga, 'exportacao'), data.dictionaries.destino, 'Destino')
+  const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao as PortoAtracacaoHeaders[], data.carga, 'exportacao') as any, data.dictionaries.destino, 'Destino')
 
   return (
     <div className="chart-wrapper">

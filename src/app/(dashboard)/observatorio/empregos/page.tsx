@@ -15,9 +15,9 @@ import Desemprego from './(desemprego)/desemprego'
 
 const EmpregosPage = () => {
   const searchParams = useSearchParams()
-  const { isLoading, data, filters } = useDashboard()
-  const [caged, setCaged] = useState({})
-  const [desemprego, setDesemprego] = useState({})
+  const { isLoading, data, filters } = useDashboard() as any; //tirar esse any
+  const [caged, setCaged] = useState({}) as any;
+  const [desemprego, setDesemprego] = useState({}) as any;
   const [activeTab, setActiveTab] = useState('geral')
 
   const pathname = usePathname()

@@ -25,7 +25,7 @@ export class EmpregosDataService {
     return `${tab}-${this.currentYear}-${JSON.stringify(filters.additionalFilters)}`;
   }
 
-  private async fetchGeral(filters: Record<string, any>) {
+  private async fetchGeral(filters: any) {
     const raisData = new RaisData(this.currentYear);
     // const pastYear = `${+this.currentYear - 1}`;
 

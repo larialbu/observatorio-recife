@@ -4,6 +4,7 @@ import charts from "./@imports/charts";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 const Embarque: React.FC<ChartBuild> = ({
   toCompare,
@@ -54,7 +55,7 @@ const Embarque: React.FC<ChartBuild> = ({
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component
                   toCompare={toCompare ?? []}
-                  data={data as AnacGeralData}
+                  data={data as AnacGeralHeaders[]}
                   months={monthRecent ?? 1}
                   type={type[0] as "Embarque" | "Desembarque"}
                 />

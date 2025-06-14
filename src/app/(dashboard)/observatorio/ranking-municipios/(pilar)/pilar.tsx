@@ -15,7 +15,7 @@ const Pilar = ({
   data: any[];
   rawData: any[];
 }) => {
-  const { data, isLoading } = useDashboard();
+  const { data, isLoading } = useDashboard() as any;
   const [pilarData, setPilarData] = useState([]);
 
   useEffect(() => {

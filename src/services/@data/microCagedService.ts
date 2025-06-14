@@ -27,7 +27,7 @@ export class MicroCagedDataService {
     return `${tab}-${this.currentYear}-${JSON.stringify(filters.additionalFilters)}`;
   }
 
-  private async fetchGeral(filters: Record<string, any>) {
+  private async fetchGeral(filters: any) {
     const filtersHashed = applyHashedFilters(filters, 'grupamento', 'seção', gropoHash)
 
     const microCagedData = new MicroCagedData(this.currentYear);
@@ -42,7 +42,7 @@ export class MicroCagedDataService {
     };
   }
 
-  private async fetchMedia(filters: Record<string, any>) {
+  private async fetchMedia(filters: any) {
     const microCagedData = new MicroCagedData(this.currentYear);
     const pastYear = `${+this.currentYear - 1}`
 
