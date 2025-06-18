@@ -1,3 +1,5 @@
+import { monthHash } from "@/utils/hashs/monthHash";
+
 export const anacComparativoFilters = {
     years: ["2021", "2022", "2023", "2024"], // Filtra por ano
     additionalFilters: [
@@ -11,7 +13,8 @@ export const anacComparativoFilters = {
         label: "MÊS", // O Mês será preenchido dinamicamente
         options: [], // Deixe vazio para preencher com base nos dados
         selected: [],
-        static: true
+        static: true,
+        hash: monthHash
       },
     ],
   };

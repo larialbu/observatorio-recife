@@ -25,7 +25,7 @@ const SalarioMedio = ({
   const quantityTotal = totalAcc(quantity['seção'])
   const valuesTotal = totalAcc(values['seção'])
 
-  const chartData = (valuesTotal / quantityTotal) || 0
+  const chartData = ((valuesTotal / quantityTotal) || 0).toFixed(2)
 
   return (
     <Card

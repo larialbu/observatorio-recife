@@ -1,10 +1,13 @@
+import { monthHash } from "@/utils/hashs/monthHash";
+
 export const empregosCagedFilters = {
     years: ["2023", "2024"], 
     additionalFilters: [
       {
         label: "Mês",  
         options: [],  
-        selected: []
+        selected: [],
+        hash: monthHash
       },
       {
         label: "Municipio",  

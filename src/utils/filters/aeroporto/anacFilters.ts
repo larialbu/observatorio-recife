@@ -1,3 +1,5 @@
+import { monthHash } from "@/utils/hashs/monthHash";
+
 export const anacFilters = {
   years: ["2021", "2022", "2023", "2024"], // Filtra por ano
   additionalFilters: [
@@ -10,6 +12,7 @@ export const anacFilters = {
       label: "MÊS", // O Mês será preenchido dinamicamente
       options: [], // Deixe vazio para preencher com base nos dados
       selected: [],
+      hash: monthHash
     },
     {
       label: "AEROPORTO REGIÃO", // Região será preenchida dinamicamente

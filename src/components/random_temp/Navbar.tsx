@@ -138,7 +138,7 @@ const Navbar = () => {
               </li>
               {filters.additionalFilters?.map((f: AdditionalFilter) => {
                 if (f.selected?.length > 0) {
-                  const visible = f.selected.slice(0, 5).join(", ");
+                  const visible = f?.hash ? f.selected.map((item) => f.hash?.[item]).slice(0, 5).join(", ") : f.selected.slice(0, 5).join(", ");
                   const remaining = f.selected.length - 5;
                   return (
                     <li key={f.label}>
@@ -259,7 +259,7 @@ const Navbar = () => {
                                     }}
                                     className="h-4 w-4 text-blue-600"
                                   />
-                                  {op}
+                                  {f?.hash ? f.hash[`${op}`] : op}
                                 </label>
                               ))}
                           </div>

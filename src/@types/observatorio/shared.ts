@@ -13,6 +13,7 @@ export interface AdditionalFilter {
     fixed?: string[];
     blocked?: boolean
     temp?: boolean
+    hash?: { [key: string]: number }
 }
 
 export interface DataWithFilters<T> {
