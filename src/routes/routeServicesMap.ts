@@ -3,6 +3,7 @@ import { Service } from "@/@types/observatorio/shared";
 import { aeroportoDataService } from "@/services/@data/aeroportoDataService";
 import { balancaDataService } from "@/services/@data/balancaComercialDataService";
 import { empregosDataService } from "@/services/@data/empregosDataService";
+import { empresasDataService } from "@/services/@data/empresasDataService";
 import { ipcaDataService } from "@/services/@data/ipcaDataService";
 import { microCagedDataService } from "@/services/@data/microCagedService";
 import { pibDataService } from "@/services/@data/pibDataService";
@@ -84,6 +85,17 @@ export const routeServicesMap: Record<
     "comparativo-mov": microCagedDataService,
     "comparativo-med": microCagedDataService,
     salario: microCagedDataService,
+  },
+
+  "/observatorio/empresas": {
+    geral: empresasDataService,
+    "empresas-ativas": empresasDataService,
+    "empresas-inativas": empresasDataService,
+    // saldo: empresasGeralFilters,
+    // media: empresasGeralFilters,
+    // "comparativo-mov": empresasGeralFilters,
+    // "comparativo-med": empresasGeralFilters,
+    // salario: empresasGeralFilters,
   },
    
   // E assim por diante ...

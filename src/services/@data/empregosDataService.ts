@@ -31,9 +31,6 @@ export class EmpregosDataService {
 
     const fetchData = await empregosData.fetchProcessedDataCaged();
 
-    console.log('Desempregos Fetch: ', await empregosData.fetchProcessedDataCagedDesemprego())
-    
-
     // tanto faz, o ideial é filtrar somente por municipio
     const filteredMunicipioData = applyGenericFilters(fetchData,  filters, ['Região', 'UF']);
     // tudo menos filtrar por municipio
@@ -60,7 +57,6 @@ export class EmpregosDataService {
       new EmpregosData(pastYear).fetchProcessedDataCagedDesemprego().catch(() => []),
     ]);
 
-    // console.log('Desempregos Fetch: ', await empregosData.fetchProcessedDataCagedDesemprego())
     
     // tanto faz, o ideial é filtrar somente por municipio
     const filteredMunicipioData = applyGenericFilters(empregosCur, filters, ['Região', 'Trimestre']);
