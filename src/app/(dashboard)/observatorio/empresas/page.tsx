@@ -15,8 +15,8 @@ import ComparativoMed from "./(comparativo-med)/comparativo-med";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
-  const [microCaged, setMicroCaged] = useState<any>([]);
-  const [microCagedMedia, setMicroCagedMedia] = useState<any>([]);
+  const [dataArr, setDataArr] = useState<any>([]);
+  const [dataObj, setDataObj] = useState<any>({});
   const [activeTab, setActiveTab] = useState("geral");
 
   const pathname = usePathname();
@@ -34,55 +34,59 @@ const EmpresasPage = () => {
     }, [searchParams, activeTab, router]);
 
   useEffect(() => {
-    // const intervalId = setInterval(() => {
-        
-    //     if (data?.id === 'empregos-micro-caged' as 'porto') {
-    //       const microCagedData = data?.microCaged || [];
+    const intervalId = setInterval(() => {
+        const idArrays = ["empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas"]
+        const idObjs = ['nada ainda']
+      
+        if (idArrays.includes(data?.id)) {
 
-    //       setMicroCaged(microCagedData.filteredData);
+          const empresasDataObj = data?.empresas || [];
 
-    //       clearInterval(intervalId);
-    //     } else {
-    //         setMicroCaged([]);
-    //       }
+          setDataArr(empresasDataObj.filteredData);
 
-    //     if (data?.id === 'empregos-micro-caged-media' as 'porto') {
-    //       // const microCagedData = data?.microCaged || [];
-    //       const microCagedMediaData = { current: data?.microCaged?.current?.filteredData || [], past: data?.microCaged?.past?.filteredData || [] };
+          clearInterval(intervalId);
+        } else {
+            setDataArr([]);
+          }
 
-    //       setMicroCagedMedia(microCagedMediaData);
+        if (idObjs.includes(data?.id)) {
+          // const microCagedData = data?.microCaged || [];
+          // mudar isso aqui
+          const empresasDataObj = { current: data?.microCaged?.current?.filteredData || [], past: data?.microCaged?.past?.filteredData || [] };
 
-    //       clearInterval(intervalId);
-    //     } else {
-    //         setMicroCagedMedia({ current: [], past: [] });
-    //       }
-    //   }, 50);
+          setDataObj(empresasDataObj);
+
+          clearInterval(intervalId);
+        } else {
+            setDataObj({ current: [], past: [] });
+          }
+      }, 50);
   
-    //   return () => clearInterval(intervalId);
+      return () => clearInterval(intervalId);
     }, [data, pathname]);
   
     if (isLoading) return <LoadingScreen />;
 
     
   const renderContent = () => {
-    // if (!data || !(microCaged?.length || microCagedMedia?.current?.length) ) {
-    //   return <div className="text-center text-gray-600">Construindo gráficos...</div>;
-    // }
+    if (!data || !(dataArr?.length || dataObj?.current?.length) ) {
+      return <div className="text-center text-gray-600">Construindo gráficos...</div>;
+    }
 
     switch (activeTab) {
       case "geral":
         return <EmpresasAtivasRecife
-        data={microCaged} 
+        data={dataArr} 
         year={getYearSelected(filters)} 
         />  
       case "empresas-ativas":
         return <EmpresasAtivas
-        data={microCaged} 
+        data={dataArr} 
         year={getYearSelected(filters)} 
         /> 
       case "empresas-inativas":
         return <EmpresasInativas
-        data={microCaged} 
+        data={dataArr} 
         year={getYearSelected(filters)} 
         /> 
       // case "comparativo-mov":
@@ -102,7 +106,7 @@ const EmpresasPage = () => {
       //   /> 
       default:
         return <EmpresasAtivasRecife 
-        data={microCaged} 
+        data={dataArr} 
         year={getYearSelected(filters)} 
         />
     }
@@ -117,7 +121,7 @@ const EmpresasPage = () => {
   return (
     <div className="p-6 min-h-screen mt-48">
        <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide dark:text-gray-200">
-        Microdados (CAGED)
+        Empresas
       </h1>
       
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
