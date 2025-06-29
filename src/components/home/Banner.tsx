@@ -11,7 +11,7 @@ interface BannerProps {
 
 export const Banner: React.FC<BannerProps> = ({ onSearch }) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onSearch(event.target.value); // Envia o termo para o componente pai
+    onSearch(event.target.value);
   };
 
   // Variants do "pai" (SVG) - define como os filhos (paths) se animam no hover
