@@ -52,9 +52,9 @@ const Comparativo = ({
           noRecife={false}
           filters={tempFiltred}
           setFilters={setTempFiltred}
-          label="Buscar por Profissão"
-          placeholder="Digite para buscar uma profissão"
-          notFoundMessage="Nenhuma profissão encontrada"
+          label="Buscar por Município"
+          placeholder="Digite para buscar um município"
+          notFoundMessage="Nenhuma município encontrado"
         />
 
 

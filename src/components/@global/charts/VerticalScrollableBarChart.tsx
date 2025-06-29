@@ -124,7 +124,6 @@ const VerticalScrollableBarChart = ({
                 tick={{ width: 110, fontSize: yFontSize, fill: "var(--yaxis-tick-color)" }}
                 interval={0}
                 width={widthY}
-                // Truncar o texto apenas no eixo Y
                 tickFormatter={(value: string) => truncateTextFormatter(value, maxDescriptionLength)}
               />
               <Tooltip content={(e) => CustomTooltip({ ...e, customTooltipFormatter: tooltipFormatter })} />
