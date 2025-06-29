@@ -1,7 +1,9 @@
 import { BarChart as RechartsBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
-import CustomTooltip from "../features/CustomTooltip";
+
 import CustomLegend from "../features/CustomLegend";
+import CustomTooltip from "../features/CustomTooltip";
 
 const BarChart = ({ 
   data, 

@@ -1,15 +1,16 @@
 "use client";
 
 import React from "react";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import LineChart from "@/components/@global/charts/LineChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { getDateKeys } from "@/utils/formatters/getDataKeys";
-import { processCargasAnoComparativo } from "@/functions/process_data/observatorio/aeroporto/comparativo/cargasAnoComparativo";
-import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
-import { ChartBuild } from "@/@types/observatorio/shared";
+
 import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import LineChart from "@/components/@global/charts/LineChart";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { processCargasAnoComparativo } from "@/functions/process_data/observatorio/aeroporto/comparativo/cargasAnoComparativo";
+import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
+import { getDateKeys } from "@/utils/formatters/getDataKeys";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const CargasAnoComparativo = ({
   data = [],

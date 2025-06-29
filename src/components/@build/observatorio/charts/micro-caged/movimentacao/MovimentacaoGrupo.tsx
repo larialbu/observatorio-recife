@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
 import TreeMapChart from "@/components/@global/charts/TreeMapChart";
-import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getAccTextGroup } from "@/functions/process_data/observatorio/micro-caged/getAccTextGroup";
+import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const MovimentacaoGrupo = ({
   data = [],

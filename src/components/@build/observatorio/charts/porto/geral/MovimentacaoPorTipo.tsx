@@ -1,14 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
+
+import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
+import { PortoAtracacaoHeaders } from "@/@types/observatorio/@fetch/porto";
+import { ChartBuild } from "@/@types/observatorio/shared";
 import PieChart from "@/components/@global/charts/PieChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorAcao";
-import { ChartBuild } from "@/@types/observatorio/shared";
-import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
-import { PortoAtracacaoHeaders } from "@/@types/observatorio/@fetch/porto";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const MovimentacaoPorTipo = ({
   data,

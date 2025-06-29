@@ -2,14 +2,15 @@
 import "./styles/home/style.scss";
 
 import { useState, useEffect } from "react";
+
+import { loadAndSyncBundles } from "@/@api/cache/bundleDecompress";
+import { checkSaves } from "@/@api/cache/indexDB";
 import { Banner } from "@/components/home/Banner";
 import { ExploreSection } from "@/components/home/ExploreSection";
 import { Footer } from "@/components/home/Footer";
-import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
-import NewsSection from "@/components/home/NewsSection";
-import { loadAndSyncBundles } from "@/@api/cache/bundleDecompress";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
-import { checkSaves } from "@/@api/cache/indexDB";
+import NewsSection from "@/components/home/NewsSection";
+import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
 import { useLoading } from "@/context/LoadingContext";
 
 const Page = () => {

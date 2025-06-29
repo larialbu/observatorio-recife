@@ -3,16 +3,6 @@
  * como chave do objeto e, dentro dela, mapear as possíveis abas (tabs) para
  * diferentes conjuntos de filtros.
  */
-import { defaultFilters } from "@/utils/filters/defaultFilters";
-import { anacFilters } from "@/utils/filters/aeroporto/anacFilters";
-import { aenaFilters } from "@/utils/filters/aeroporto/aenaFilters";
-import { balancaComercialFilters } from "../utils/filters/balanca-comercial/balancaComercialFilters";
-import { ipcaGeralFilters } from "@/utils/filters/ipca/ipcaGeralFilters";
-import { ipcaGruposFilters } from "@/utils/filters/ipca/ipcaGruposFilters";
-import { ipcaAnaliticoFilters } from "@/utils/filters/ipca/ipcaAnaliticoFilters";
-import { rankingGeralFilters } from "@/utils/filters/ranking/rankingGeralFilters";
-import { rankingDimensaoFilters } from "@/utils/filters/ranking/rankingDimensaoFilters";
-import { rankingPilarFilters } from "@/utils/filters/ranking/rankingPilarFilters";
 import { rankingIndicadorFilters } from "@/utils/filters/ranking/rankingIndicadorFilters";
 import { anacComparativoFilters } from "@/utils/filters/aeroporto/anacComparativoFilters";
 import { portoGeralFilters } from "@/utils/filters/porto/portoGeralFilters";
@@ -25,13 +15,24 @@ import { pibCapitaFilters } from "@/utils/filters/pib/pibCapitaFilters";
 import { empregosCagedFilters } from "@/utils/filters/empregos/empregosCagedFilters";
 import { raisGeralFilters } from "@/utils/filters/rais/raisGeralFilters";
 import { Filters } from "@/@types/observatorio/shared";
+import { aenaFilters } from "@/utils/filters/aeroporto/aenaFilters";
+import { anacFilters } from "@/utils/filters/aeroporto/anacFilters";
+import { defaultFilters } from "@/utils/filters/defaultFilters";
 import { empregosDesempregoFilters } from "@/utils/filters/empregos/empregosDesempregoFilter";
-import { microCagedGeralFilters } from "@/utils/filters/micro-caged/microCagedGeralFilters";
-import { microCagedComparativoFilters } from "@/utils/filters/micro-caged/microCagedComparativoFilters";
-import { microCagedComparativoMedFilters } from "@/utils/filters/micro-caged/microCagedComparativoMedFilters";
 import { empresasGeralFilters } from "@/utils/filters/empresas/empresasGeralFilters";
 import { empresasAtivasFilters } from "@/utils/filters/empresas/empresasAtivasFilters";
 import { empresasInativasFilters } from "@/utils/filters/empresas/empresasInativasFilters";
+import { ipcaAnaliticoFilters } from "@/utils/filters/ipca/ipcaAnaliticoFilters";
+import { ipcaGeralFilters } from "@/utils/filters/ipca/ipcaGeralFilters";
+import { ipcaGruposFilters } from "@/utils/filters/ipca/ipcaGruposFilters";
+import { microCagedComparativoFilters } from "@/utils/filters/micro-caged/microCagedComparativoFilters";
+import { microCagedComparativoMedFilters } from "@/utils/filters/micro-caged/microCagedComparativoMedFilters";
+import { microCagedGeralFilters } from "@/utils/filters/micro-caged/microCagedGeralFilters";
+import { rankingDimensaoFilters } from "@/utils/filters/ranking/rankingDimensaoFilters";
+import { rankingGeralFilters } from "@/utils/filters/ranking/rankingGeralFilters";
+import { rankingPilarFilters } from "@/utils/filters/ranking/rankingPilarFilters";
+
+import { balancaComercialFilters } from "../utils/filters/balanca-comercial/balancaComercialFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 type TabFiltersMap = Record<string, Filters>;

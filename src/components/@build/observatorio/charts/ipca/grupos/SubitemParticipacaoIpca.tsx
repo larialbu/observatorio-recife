@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processIpcaNoAno } from "@/functions/process_data/observatorio/ipca/geral/charts/ipcaNoAno";
-import { processPercentageByType } from "@/functions/process_data/observatorio/ipca/grupos/charts/participacaoGrupo";
+
 import { IpcaGrupoHeaders } from "@/@types/observatorio/@fetch/ipca";
 import { ChartBuild } from "@/@types/observatorio/shared";
+import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { processIpcaNoAno } from "@/functions/process_data/observatorio/ipca/geral/charts/ipcaNoAno";
+import { processPercentageByType } from "@/functions/process_data/observatorio/ipca/grupos/charts/participacaoGrupo";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const SubitemParticipacaoIpca = ({
   data = [],

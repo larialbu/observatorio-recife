@@ -1,10 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
-import charts from "./@imports/charts";
+
+import { IpcaGrupoData } from "@/@types/observatorio/@data/ipcaData";
+import { IpcaGrupoHeaders } from "@/@types/observatorio/@fetch/ipca";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { useDashboard } from "@/context/DashboardContext";
-import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import { IpcaGrupoHeaders } from "@/@types/observatorio/@fetch/ipca";
-import { IpcaGrupoData } from "@/@types/observatorio/@data/ipcaData";
+
+import charts from "./@imports/charts";
 
 const Grupos = () => {
   const { data } = useDashboard();

@@ -1,14 +1,15 @@
 "use client";
 
 import React from "react";
-import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { getPortoCountryNameByCode } from "@/utils/formatters/getPortoCountryNameByCode";
-import { processCargasLongoCurso } from "@/functions/process_data/observatorio/porto/operacao/charts/paisesImportados";
-import { ChartBuild } from "@/@types/observatorio/shared";
+
 import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
 import { PortoAtracacaoHeaders } from "@/@types/observatorio/@fetch/porto";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { processCargasLongoCurso } from "@/functions/process_data/observatorio/porto/operacao/charts/paisesImportados";
+import { getPortoCountryNameByCode } from "@/utils/formatters/getPortoCountryNameByCode";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const PaisesExportados = ({
   data,

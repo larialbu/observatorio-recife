@@ -1,7 +1,8 @@
+import { useState } from "react";
+
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { rowsCapitalsIndice } from "@/functions/process_data/observatorio/ipca/analitico/tables/rowsCapitalsIndice";
 import { percentFormatter } from "@/utils/formatters/@global/percentFormatter";
-import { useState } from "react";
 
 const CapitalIndice = ({
   data = [],

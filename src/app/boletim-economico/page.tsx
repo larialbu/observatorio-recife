@@ -4,11 +4,12 @@ import "../styles/home/style.scss";
 import "../styles/explore/style.scss";
 import "../styles/boletim-economico/style.scss";
 
-import { ObsHeader } from "@/components/home/ObsHeader";
-import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
+import { useState } from "react";
+
 import { Footer } from "@/components/home/Footer";
 import { NavBarHome } from "@/components/home/NavBarHome";
-import { useState } from "react";
+import { ObsHeader } from "@/components/home/ObsHeader";
+import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
 import { ModalBoletim } from "@/components/random_temp/ModalBoletim";
 
 const boletins = [

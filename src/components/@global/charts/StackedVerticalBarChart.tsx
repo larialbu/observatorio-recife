@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   BarChart as RechartsBarChart,
   Bar,
@@ -10,8 +11,9 @@ import {
   ResponsiveContainer,
   LabelList,
 } from "recharts";
-import { useState, useEffect } from "react";
+
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
+
 import CustomLegend from "../features/CustomLegend";
 import CustomTooltip from "../features/CustomTooltip";
 

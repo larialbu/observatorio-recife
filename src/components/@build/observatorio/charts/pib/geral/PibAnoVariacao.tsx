@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
+
 import LineChart from "@/components/@global/charts/LineChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processPIBvariacao } from "@/functions/process_data/observatorio/pib/geral/pibAnoVariacao";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const PibAnoVariacao = ({
     data = [],

@@ -10,7 +10,7 @@ export const sameKeys = <T extends object, U extends object>(obj1: T, obj2: U): 
     }
 
     // Verifica se todas as chaves de obj1 estão presentes em obj2
-    for (let key of keys1) {
+    for (const key of keys1) {
         if (!keys2.includes(key as any)) {
             return false;
         }

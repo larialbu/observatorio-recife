@@ -1,8 +1,9 @@
+import { useState } from "react";
+
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { processPIBvariacao } from "@/functions/process_data/observatorio/pib/geral/pibAnoVariacao";
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
 import { percentFormatter } from "@/utils/formatters/@global/percentFormatter";
-import { useState } from "react";
 
 const PibInfosCapita = ({
   data = [],

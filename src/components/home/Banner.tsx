@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
 import { motion } from "framer-motion";
-import { NavBarHome } from "./NavBarHome";
+import React from "react";
+
 import { Header } from "./Header";
+import { NavBarHome } from "./NavBarHome";
 
 interface BannerProps {
   onSearch: (term: string) => void;

@@ -4,12 +4,13 @@ import "../styles/home/style.scss";
 import "../styles/explore/style.scss";
 
 import React from "react";
+
+import { HighlightMemberProps, HighlightSection } from "@/components/equipe/HighlightSection";
+import { TeamGrid } from "@/components/equipe/TeamGrid";
+import { TechnologyDesignSection } from "@/components/equipe/TechnologyDesignSection";
+import { Footer } from "@/components/home/Footer";
 import { NavBarHome } from "@/components/home/NavBarHome";
 import { ObsHeader } from "@/components/home/ObsHeader";
-import { Footer } from "@/components/home/Footer";
-import { TechnologyDesignSection } from "@/components/equipe/TechnologyDesignSection";
-import { TeamGrid } from "@/components/equipe/TeamGrid";
-import { HighlightMemberProps, HighlightSection } from "@/components/equipe/HighlightSection";
 
 interface TeamMember {
   name: string;

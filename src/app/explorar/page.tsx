@@ -3,12 +3,14 @@
 import "../styles/home/style.scss";
 import "../styles/explore/style.scss";
 
-import { ObsHeader } from "@/components/home/ObsHeader";
-import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
+import { Head } from "next/document";
+
+import { CardsContainer } from "@/components/explorar/CardsContainer";
 import { Footer } from "@/components/home/Footer";
 import { NavBarHome } from "@/components/home/NavBarHome";
-import { CardsContainer } from "@/components/explorar/CardsContainer";
-import { Head } from "next/document";
+import { ObsHeader } from "@/components/home/ObsHeader";
+import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
+
 
 const Homepage = () => {
   

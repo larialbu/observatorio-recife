@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDashboard } from "@/context/DashboardContext";
+
+import { PortoPassageirosOutputData } from "@/@types/observatorio/@data/portoData";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import { useDashboard } from "@/context/DashboardContext";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import tables from "./@imports/tables";
-import { PortoPassageirosOutputData } from "@/@types/observatorio/@data/portoData";
+
 
 const defaultPassageiros: PortoPassageirosOutputData = {
   passageiros: {

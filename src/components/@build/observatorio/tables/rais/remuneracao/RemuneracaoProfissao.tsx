@@ -1,7 +1,8 @@
+import { useState } from "react";
+
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { rowsProfissao } from "@/functions/process_data/observatorio/rais/remuneracao/rowsProfissao";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
-import { useState } from "react";
 
 const RemuneracaoProfissao = ({
   data = [],

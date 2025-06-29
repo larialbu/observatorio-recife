@@ -1,17 +1,20 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useDashboard } from "@/context/DashboardContext";
-import { LoadingScreen } from "@/components/home/LoadingScreen";
-import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import Link from "next/link";
-import EmpresasAtivasRecife from "./(empresas-ativas-recife)/empresas-ativas-recife";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import React, { useState, useEffect } from "react";
+
+import { LoadingScreen } from "@/components/home/LoadingScreen";
+import { useDashboard } from "@/context/DashboardContext";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
+
+
+import ComparativoMed from "./(comparativo-med)/comparativo-med";
+import ComparativoMov from "./(comparativo-mov)/comparativo-mov";
 import EmpresasAtivas from "./(empresas-ativas)/empresas-ativas";
+import EmpresasAtivasRecife from "./(empresas-ativas-recife)/empresas-ativas-recife";
 import EmpresasInativas from "./(empresas-inativas)/empresas-inativas";
 import Salario from "./(salario)/salario";
-import ComparativoMov from "./(comparativo-mov)/comparativo-mov";
-import ComparativoMed from "./(comparativo-med)/comparativo-med";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;

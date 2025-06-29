@@ -1,10 +1,12 @@
 import React, { useRef, useState } from "react";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import charts from "./@imports/charts";
-import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import { ChartBuild } from "@/@types/observatorio/shared";
+
 import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+
+import charts from "./@imports/charts";
 
 const Embarque: React.FC<ChartBuild> = ({
   toCompare,

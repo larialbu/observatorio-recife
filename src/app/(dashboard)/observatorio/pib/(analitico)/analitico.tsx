@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import tables from "./@imports/tables";
+
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import tables from "./@imports/tables";
 
 const Analitico = ({
   year,

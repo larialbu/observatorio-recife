@@ -1,14 +1,16 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import charts from "./@imports/charts";
-import cards from "./@imports/cards";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { cnaeAccFunction, geralAccFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import cards from "./@imports/cards";
+import charts from "./@imports/charts";
 
 const Desligamento = ({
   data,

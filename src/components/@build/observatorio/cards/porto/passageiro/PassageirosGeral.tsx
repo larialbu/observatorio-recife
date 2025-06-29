@@ -1,7 +1,8 @@
+import React, { ElementType } from "react";
+
 import { PortoPassageirosOutputData } from "@/@types/observatorio/@data/portoData";
 import { CardBuild } from "@/@types/observatorio/shared";
 import { processPassageirosTotalizados } from "@/functions/process_data/observatorio/porto/passageiro/cards/passageirosTotalizados";
-import React, { ElementType } from "react";
 
 const PassageirosGeral = ({
   data,

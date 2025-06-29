@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
+
 import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import { getAccGroups } from "@/functions/process_data/observatorio/micro-caged/getAccGroups";
+import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const MovimentacaoEtaria = ({
   data,

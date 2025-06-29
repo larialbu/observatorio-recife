@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { menuItems } from "./menuIcons";
 import { useState } from "react";
+
+import { menuItems } from "./menuIcons";
 
 const Menu = ({ open }: { open: boolean }) => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);

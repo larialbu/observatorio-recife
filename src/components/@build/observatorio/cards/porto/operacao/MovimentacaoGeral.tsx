@@ -1,9 +1,10 @@
-import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorAcao";
 import React, { ElementType } from "react";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { CardBuild } from "@/@types/observatorio/shared";
+
 import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
 import { PortoAtracacaoHeaders } from "@/@types/observatorio/@fetch/porto";
+import { CardBuild } from "@/@types/observatorio/shared";
+import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorAcao";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 
 const MovimentacaoGeral = ({

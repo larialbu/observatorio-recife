@@ -2,9 +2,10 @@
 import React, { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
 import { processDesempregoTaxaCapital } from "@/functions/process_data/observatorio/empregos/desemprego/desempregoTaxaCapital";
 import { capitaisCoordsDicts } from "@/utils/dicts/empregos/desemprego/capitaisCoordsDicts";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 type DesempregoData = {
   Ano: number

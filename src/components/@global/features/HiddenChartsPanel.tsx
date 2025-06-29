@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
-import { useDashboard } from "@/context/DashboardContext";
 import { usePathname } from "next/navigation";
+import React, { useState } from "react";
+
+import { useDashboard } from "@/context/DashboardContext";
 
 const HiddenChartsPanel = () => {
   const { hiddenCharts, removeHiddenChart } = useDashboard();

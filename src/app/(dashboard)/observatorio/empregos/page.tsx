@@ -1,17 +1,20 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { useSearchParams, useRouter, usePathname } from 'next/navigation'
-import { useDashboard } from '@/context/DashboardContext'
-import { LoadingScreen } from '@/components/home/LoadingScreen'
-import { getYearSelected } from '@/utils/filters/@global/getYearSelected'
-import { getMonths } from '@/utils/filters/@global/getMonths'
-
-import Geral from './(geral)/geral'
-import Comparativo from './(comparativo)/comparativo'
-import Embarque from './(embarque)/embarque'
 import Link from 'next/link'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import React, { useState, useEffect } from 'react'
+
+import { LoadingScreen } from '@/components/home/LoadingScreen'
+import { useDashboard } from '@/context/DashboardContext'
+import { getMonths } from '@/utils/filters/@global/getMonths'
+import { getYearSelected } from '@/utils/filters/@global/getYearSelected'
+
+import Comparativo from './(comparativo)/comparativo'
 import Desemprego from './(desemprego)/desemprego'
+import Embarque from './(embarque)/embarque'
+import Geral from './(geral)/geral'
+
+
 
 const EmpregosPage = () => {
   const searchParams = useSearchParams()

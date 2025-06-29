@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
+
+import { AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { ChartBuild } from "@/@types/observatorio/shared";
 import PieChart from "@/components/@global/charts/PieChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { preparePassageirosPorEscalaData } from "@/functions/process_data/observatorio/aeroporto/aena/passageirosPorEscalaAena";
-import { ChartBuild } from "@/@types/observatorio/shared";
-import { AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const PassageirosPorEscalaAena = ({
   data = [],

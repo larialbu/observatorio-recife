@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
 import TreeMapChart from "@/components/@global/charts/TreeMapChart";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const DesligamentosSetor = ({
   data = [],

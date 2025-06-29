@@ -1,16 +1,18 @@
 import { createExtractorFromData } from "node-unrar-js";
+
+import { setProgress, setMessage, enableFirst, disableFirst } from "@/utils/loader/progressEmitter";
+
 import { saveToIndexedDB } from "./indexDB";
 import { saveVersion, getVersion } from "./versionUtils";
-import { setProgress, setMessage, enableFirst, disableFirst } from "@/utils/loader/progressEmitter";
 
 const DB_NAME = "parquetDB";
 const STORE_NAME = "parquetFiles";
 const MANIFEST_URL = "/manifest.json";
 
 function cleanFilePath(filePath: string) {
-  let cleanedKey = filePath.replace(/^bundles\//, "");
-  let parts = cleanedKey.split("/");
-  let fileName = parts[parts.length - 1].replace(/\.parquet$/, "");
+  const cleanedKey = filePath.replace(/^bundles\//, "");
+  const parts = cleanedKey.split("/");
+  const fileName = parts[parts.length - 1].replace(/\.parquet$/, "");
   if (/^\d+$/.test(fileName)) {
     parts[parts.length - 1] = fileName;
   } else {

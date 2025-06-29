@@ -10,6 +10,7 @@ import {
 } from "recharts";
 
 import { tooltipFormatter } from "@/utils/formatters/@global/graphFormatter";
+
 // import CustomLegend from "../features/CustomLegends";
 import CustomLegend from "../features/CustomLegend";
 import CustomTooltip from "../features/CustomTooltip";

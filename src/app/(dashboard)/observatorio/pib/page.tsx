@@ -1,16 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useDashboard } from "@/context/DashboardContext";
+import React, { useState, useEffect } from "react";
+
 import { LoadingScreen } from "@/components/home/LoadingScreen";
-
-import Geral from "./(geral)/geral";
-
-import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
+import { useDashboard } from "@/context/DashboardContext";
 import { getMonths } from "@/utils/filters/@global/getMonths";
-import Comparativo from "./(comparativo)/comparativo";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
+
 import Capita from "./(capita)/capita";
+import Comparativo from "./(comparativo)/comparativo";
+import Geral from "./(geral)/geral";
 
 const PibPage = () => {
   const searchParams = useSearchParams();

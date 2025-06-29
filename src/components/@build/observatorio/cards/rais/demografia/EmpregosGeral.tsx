@@ -1,7 +1,8 @@
+import React, { ElementType } from "react";
+
 import Card from "@/components/@global/cards/Card";
 import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorAcao";
 import { getUniqueValues, getUniqueValuesArr } from "@/utils/filters/@global/getUniqueValues";
-import React, { ElementType } from "react";
 
 const EmpregosGeral = ({
   data,

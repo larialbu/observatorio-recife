@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
-import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processPassageirosPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosPorAeroporto";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { ChartBuild } from "@/@types/observatorio/shared";
+
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { processPassageirosPorAeroporto } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosPorAeroporto";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const PassageirosPorAeroporto = ({
   rawData = [],

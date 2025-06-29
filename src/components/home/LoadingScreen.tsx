@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { subscribeToProgress, subscribeToMessage, first } from "@/utils/loader/progressEmitter";
 import { Novatrix } from "uvcanvas";
+
 import { getAllVersions } from "@/@api/cache/versionUtils";
+import { subscribeToProgress, subscribeToMessage, first } from "@/utils/loader/progressEmitter";
 
 export const LoadingScreen = () => {
   const [progress, setProgress] = useState(0);

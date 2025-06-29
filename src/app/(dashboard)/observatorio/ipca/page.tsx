@@ -1,16 +1,18 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useDashboard } from "@/context/DashboardContext";
-import { LoadingScreen } from "@/components/home/LoadingScreen";
-import Geral from "./(geral)/geral";
+import React, { useState, useEffect } from "react";
 
-import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
-import { getMonths } from "@/utils/filters/@global/getMonths";
-import Analitico from "./(analitico)/analitico";
-import Grupos from "./(grupos)/grupos";
 import { IpcaGeralHeaders } from "@/@types/observatorio/@fetch/ipca";
+import { LoadingScreen } from "@/components/home/LoadingScreen";
+import { useDashboard } from "@/context/DashboardContext";
+import { getMonths } from "@/utils/filters/@global/getMonths";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
+
+import Analitico from "./(analitico)/analitico";
+import Geral from "./(geral)/geral";
+import Grupos from "./(grupos)/grupos";
+
 
 const IpcaPage = () => {
   const searchParams = useSearchParams();

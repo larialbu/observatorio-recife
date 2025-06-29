@@ -1,7 +1,9 @@
 import React, { useRef, useState } from "react";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import charts from "./@imports/charts";
+
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+
+import charts from "./@imports/charts";
 
 const Embarque = ({
   toCompare,

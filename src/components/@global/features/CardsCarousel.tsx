@@ -10,7 +10,7 @@ export const CardsCarousel = ({ absoluteDivRef, dataPassed, children, pageCompar
     
         // Cria um ResizeObserver para monitorar mudanças na altura
         const observer = new ResizeObserver((entries) => {
-          for (let entry of entries) {
+          for (const entry of entries) {
             if (entry.contentRect.height !== height) {
               setHeight(entry.contentRect.height);
             }

@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from 'next/document';
+
 import { SEO_CONFIG } from '@/utils/config/seo_config';
 
 export default function Document() {

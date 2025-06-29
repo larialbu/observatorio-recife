@@ -1,9 +1,8 @@
-import { useEffect, useState, useRef } from "react";
-import { useReward } from "react-rewards";
+import React, { useEffect, useState } from "react";
+
 import { iconsExplore } from "./ExploreIconsObservatorio";
 import { ExploreItem } from "./ExploreItem"
-import Link from "next/link";
-import React from "react";
+
 
 interface ExploreDivProps {
   searchTerm: string;

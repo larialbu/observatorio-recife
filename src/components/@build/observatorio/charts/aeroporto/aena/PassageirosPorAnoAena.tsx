@@ -1,12 +1,12 @@
 "use client";
 
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import LineChart from "@/components/@global/charts/LineChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
-import { processPassageirosAnoAena } from "@/functions/process_data/observatorio/aeroporto/aena/passageirosAnoAena";
-import { ChartBuild } from "@/@types/observatorio/shared";
 import { AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import LineChart from "@/components/@global/charts/LineChart";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { processPassageirosAnoAena } from "@/functions/process_data/observatorio/aeroporto/aena/passageirosAnoAena";
+import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const PassageirosAnoAena = ({
   rawData = [],

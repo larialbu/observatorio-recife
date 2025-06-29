@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import React, { useState, useEffect, useRef } from "react";
 
 /** Componente simples para separar itens. */
 const Separator: React.FC = () => (

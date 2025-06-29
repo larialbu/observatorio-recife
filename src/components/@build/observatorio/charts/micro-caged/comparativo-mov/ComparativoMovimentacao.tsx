@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
+
 import LineChart from "@/components/@global/charts/LineChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { getDateKeys } from "@/utils/formatters/getDataKeys";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processPIBPorAnoComparativo } from "@/functions/process_data/observatorio/pib/comparativo/pibAnoComparativo";
+import { getDateKeys } from "@/utils/formatters/getDataKeys";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const ComparativoMovimentacao = ({
   data = [],

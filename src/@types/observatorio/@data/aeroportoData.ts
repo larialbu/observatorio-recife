@@ -1,5 +1,5 @@
-import { DataWithFilters } from "../shared";
 import { AnacGeralHeaders, AenaCargasHeaders, AenaPassageirosHeaders } from "../@fetch/aeroporto";
+import { DataWithFilters } from "../shared";
 
   
 export interface AnacAeroportoData {

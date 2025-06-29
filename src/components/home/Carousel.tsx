@@ -1,5 +1,6 @@
-import { useState } from "react";
 import Image from "next/image";
+import { useState } from "react";
+
 import { NavBarHome } from "./NavBarHome";
 
 export const Carousel = () => {

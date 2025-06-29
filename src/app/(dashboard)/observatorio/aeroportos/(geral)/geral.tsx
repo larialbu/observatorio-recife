@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import charts from "./@imports/charts";
-import cards from "./@imports/cards";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import ErrorBoundary from "@/utils/loader/errorBoundary";
+
 import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
-import { ChartBuild } from "@/@types/observatorio/shared";
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import ErrorBoundary from "@/utils/loader/errorBoundary";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import cards from "./@imports/cards";
+import charts from "./@imports/charts";
 
 const Geral: React.FC<ChartBuild> = ({
   data,

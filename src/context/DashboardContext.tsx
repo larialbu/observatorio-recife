@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname, useSearchParams } from "next/navigation";
 import React, {
   createContext,
   useState,
@@ -8,12 +9,11 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
-import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
-import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
 
 import { HiddenChart, DashboardContextProps, DashboardData  } from "@/@types/observatorio/context";
 import { Filters, AdditionalFilter } from "@/@types/observatorio/shared";
+import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
+import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
 
 const DashboardContext = createContext<DashboardContextProps<unknown> | undefined>(undefined);
 

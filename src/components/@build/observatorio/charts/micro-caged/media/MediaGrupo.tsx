@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
 import TreeMapChart from "@/components/@global/charts/TreeMapChart";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getAttGroups } from "@/functions/process_data/observatorio/micro-caged/getAttGroups";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const MediaGrupo = ({
   data = [],

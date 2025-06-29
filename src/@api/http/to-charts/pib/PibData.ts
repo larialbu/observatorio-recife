@@ -1,6 +1,6 @@
+import { fetchData } from "@/@api/config/dataFetcher";
 import { ProcessedDataPib } from "@/@types/observatorio/@data/ProcessedDataPib";
 
-import { fetchData } from "@/@api/config/dataFetcher";
 
 const DB_NAME = "parquetDB";
 const STORE_NAME = "parquetFiles";

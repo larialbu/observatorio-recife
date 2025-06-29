@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import tables from "./@imports/tables";
-import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
-import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
-import { useDashboard } from "@/context/DashboardContext";
-import cards from "./@imports/cards";
+
 import { IpcaGeralData } from "@/@types/observatorio/@data/ipcaData";
 import { IpcaGeralHeaders, IpcaTabelaHeaders } from "@/@types/observatorio/@fetch/ipca";
+import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
+import { useDashboard } from "@/context/DashboardContext";
+import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import cards from "./@imports/cards";
+import tables from "./@imports/tables";
+
+
 
 const Analitico = ({
   year,

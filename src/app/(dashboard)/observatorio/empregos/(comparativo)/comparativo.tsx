@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
+
+import SelectCompare from "@/components/@global/features/SelectCompare";
+import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import { raisCboDicts } from "@/utils/dicts/rais/raisCboDicts";
+import { raisCodCboDicts } from "@/utils/dicts/rais/raisCodCboDicts";
+import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
-import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
-import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import SelectCompare from "@/components/@global/features/SelectCompare";
-import { raisCboDicts } from "@/utils/dicts/rais/raisCboDicts";
-import { raisCodCboDicts } from "@/utils/dicts/rais/raisCodCboDicts";
 
 // AEROPORTO NOME
 

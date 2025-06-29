@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import charts from "./@imports/charts";
-import tables from "./@imports/tables";
+
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { useDashboard } from "@/context/DashboardContext";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import charts from "./@imports/charts";
+import tables from "./@imports/tables";
 
 
 const Indicador = ({

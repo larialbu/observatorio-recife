@@ -1,7 +1,7 @@
 "use client";
 
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import LineChart from "@/components/@global/charts/LineChart";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const VariacaoEmpresasAtivasRecife = ({

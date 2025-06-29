@@ -1,5 +1,6 @@
 "use client";
 import { Poppins } from "next/font/google";
+
 import "./globals.css";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { LoadingProvider, useLoading } from "@/context/LoadingContext";

@@ -1,11 +1,11 @@
 "use client";
 
-import StackerBarChartVertical from "@/components/@global/charts/StackedVerticalBarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processImportacaoExportacaoPorPais } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/paisesImportacaoExportacao";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { ChartBuild } from "@/@types/observatorio/shared";
 import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import StackerBarChartVertical from "@/components/@global/charts/StackedVerticalBarChart";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { processImportacaoExportacaoPorPais } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/paisesImportacaoExportacao";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const ImportacaoExportacaoPorPais = ({
   data = [],

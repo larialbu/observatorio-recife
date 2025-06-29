@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import HorizontalScrollableBarChart from "@/components/@global/charts/HorizontalScrollableBarChart";
-import { processEmbarqueDesembarqueNaturezaTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDesembarqueNaturezaTipo";
-import { ChartBuild } from "@/@types/observatorio/shared";
+
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import HorizontalScrollableBarChart from "@/components/@global/charts/HorizontalScrollableBarChart";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { processEmbarqueDesembarqueNaturezaTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDesembarqueNaturezaTipo";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const PassageirosIntEmbarque = ({
   data,

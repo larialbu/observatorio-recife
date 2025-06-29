@@ -1,7 +1,8 @@
+import { useState } from "react";
+
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { monthFormatter } from "@/utils/formatters/@global/dateArrFormatter";
 import { formatNormalnumber } from "@/utils/formatters/@global/numberFormatter";
-import { useState } from "react";
 
 const AeroportoInfo = ({
   data = [],

@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import tables from "./@imports/tables";
+
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
-import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import { microCagedCboDicts } from "@/utils/dicts/micro-caged/microCagedCboDicts";
-import charts from "./@imports/charts";
 import { getSmFiltred } from "@/functions/process_data/observatorio/micro-caged/getSmFiltred";
+import { microCagedCboDicts } from "@/utils/dicts/micro-caged/microCagedCboDicts";
+import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import charts from "./@imports/charts";
+import tables from "./@imports/tables";
 
 const Salario = ({
   year,

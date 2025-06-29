@@ -1,17 +1,19 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useDashboard } from "@/context/DashboardContext";
-import { LoadingScreen } from "@/components/home/LoadingScreen";
-import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
-import Movimentacao from "./(movimentacao)/movimentacao";
 import Link from "next/link";
-import Saldo from "./(saldo)/saldo";
-import Media from "./(media)/media";
-import Salario from "./(salario)/salario";
-import ComparativoMov from "./(comparativo-mov)/comparativo-mov";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import React, { useState, useEffect } from "react";
+
+import { LoadingScreen } from "@/components/home/LoadingScreen";
+import { useDashboard } from "@/context/DashboardContext";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
+
 import ComparativoMed from "./(comparativo-med)/comparativo-med";
+import ComparativoMov from "./(comparativo-mov)/comparativo-mov";
+import Media from "./(media)/media";
+import Movimentacao from "./(movimentacao)/movimentacao";
+import Salario from "./(salario)/salario";
+import Saldo from "./(saldo)/saldo";
 
 const MicroCagedPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;

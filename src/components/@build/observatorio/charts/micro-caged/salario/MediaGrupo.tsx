@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
+
 import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { geralAccFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
 import { getAccSalario } from "@/functions/process_data/observatorio/micro-caged/getAccSalario";
 import { getAttGroups } from "@/functions/process_data/observatorio/micro-caged/getAttGroups";
+import { geralAccFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const MediaGrupo = ({
   data,

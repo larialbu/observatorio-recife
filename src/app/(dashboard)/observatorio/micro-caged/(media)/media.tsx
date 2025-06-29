@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import charts from "./@imports/charts";
-import cards from "./@imports/cards";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import ErrorBoundary from "@/utils/loader/errorBoundary";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { getAccSalario } from "@/functions/process_data/observatorio/micro-caged/getAccSalario";
 import { getDataObj } from "@/functions/process_data/observatorio/micro-caged/getDataObj";
 import { getSmFiltred } from "@/functions/process_data/observatorio/micro-caged/getSmFiltred";
+import ErrorBoundary from "@/utils/loader/errorBoundary";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import cards from "./@imports/cards";
+import charts from "./@imports/charts";
 
 
 const Media = ({

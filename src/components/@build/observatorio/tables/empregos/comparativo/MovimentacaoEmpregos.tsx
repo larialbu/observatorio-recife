@@ -1,10 +1,11 @@
+import { useState } from "react";
+
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { rowsProfissao } from "@/functions/process_data/observatorio/rais/remuneracao/rowsProfissao";
 import { tooltipFormatter } from "@/utils/formatters/@global/graphFormatter";
 import { monthShortName } from "@/utils/formatters/@global/monthShortName";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
 import { percentFormatter } from "@/utils/formatters/@global/percentFormatter";
-import { useState } from "react";
 
 const MovimentacaoEmpregos = ({
   data = [],

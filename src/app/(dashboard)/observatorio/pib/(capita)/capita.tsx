@@ -1,10 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
 import Sortable from "sortablejs";
-import charts from "./@imports/charts";
-import cards from "./@imports/cards";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import cards from "./@imports/cards";
+import charts from "./@imports/charts";
 import tables from "./@imports/tables";
 
 const Capita = ({ toCompare, data, year, months }: { toCompare?: string[]; data: any; year: string, months: number }) => {

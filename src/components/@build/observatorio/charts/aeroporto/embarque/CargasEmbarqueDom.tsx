@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
+
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { ChartBuild } from "@/@types/observatorio/shared";
 import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processEmbarqueDesembarqueNaturezaTipo } from "@/functions/process_data/observatorio/aeroporto/embarque/embarqueDesembarqueNaturezaTipo";
-import { ChartBuild } from "@/@types/observatorio/shared";
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const CargasEmbarqueDom = ({
   data,

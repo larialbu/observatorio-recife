@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import FocusHidden from "./FocusHidden";
+
 import { ChevronIcon } from "@/components/random_temp/ChevronIcon";
+
+import FocusHidden from "./FocusHidden";
 
 const SelectCompare = ({
   options,

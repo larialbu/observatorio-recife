@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
+
+import { PortoGeralData, PortoOperacaoData, RawDataPortos } from "@/@types/observatorio/@data/portoData";
+import { PortoAtracacaoHeaders, PortoCargaHeaders } from "@/@types/observatorio/@fetch/porto";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { CardsCarousel } from "@/components/@global/features/CardsCarousel";
+import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import { getFilteredData, rearrangeArray } from "@/functions/process_data/observatorio/porto/comparativo/charts/filteredPortoData";
+import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
+import ErrorBoundary from "@/utils/loader/errorBoundary";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
-import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
-import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
-import ErrorBoundary from "@/utils/loader/errorBoundary";
-import { getFilteredData, rearrangeArray } from "@/functions/process_data/observatorio/porto/comparativo/charts/filteredPortoData";
-import { CardsCarousel } from "@/components/@global/features/CardsCarousel";
-import { PortoAtracacaoHeaders, PortoCargaHeaders } from "@/@types/observatorio/@fetch/porto";
-import { ChartBuild } from "@/@types/observatorio/shared";
-import { PortoGeralData, PortoOperacaoData, RawDataPortos } from "@/@types/observatorio/@data/portoData";
 
 const Comparativo = ({
   year,

@@ -1,9 +1,10 @@
+import { FC, ReactNode, useState } from "react";
+
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { processRowsPaisesByMunicipio } from "@/functions/process_data/observatorio/balanca-comercial/analitico/rowsCountrysByMunicipio";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
 import { percentFormatter } from "@/utils/formatters/@global/percentFormatter";
-import { FC, ReactNode, useState } from "react";
-import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 
 type AggregatedRow = {
   PAÍS: string;

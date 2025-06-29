@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import charts from "./@imports/charts";
-import tables from "./@imports/tables";
+
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import charts from "./@imports/charts";
+import tables from "./@imports/tables";
 
 
 const Geral = ({

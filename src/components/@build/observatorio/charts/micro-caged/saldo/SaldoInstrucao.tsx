@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+
 import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import { resizeDiv } from "@/components/@global/features/resizeDiv";
+import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const SaldoInstrucao = ({
   data,

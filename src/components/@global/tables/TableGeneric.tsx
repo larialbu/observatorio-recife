@@ -1,5 +1,6 @@
-import { ArrowIcon } from "@/components/random_temp/Sidebar";
 import React, { useState } from "react";
+
+import { ArrowIcon } from "@/components/random_temp/Sidebar";
 
 interface PaginatedTableProps {
   headers: string[];

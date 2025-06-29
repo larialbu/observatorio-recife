@@ -1,5 +1,5 @@
-import type { BalancaGeralData } from "@/@types/observatorio/@data/balancaComercialData";
 import { BalancaComercialData } from "@/@api/http/to-charts/bal_comercial/BalancaComercialData";
+import type { BalancaGeralData } from "@/@types/observatorio/@data/balancaComercialData";
 import { Filters } from "@/@types/observatorio/shared";
 import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
 

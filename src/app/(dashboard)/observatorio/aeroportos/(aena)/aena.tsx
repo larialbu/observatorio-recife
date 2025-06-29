@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDashboard } from "@/context/DashboardContext";
-import { LoadingScreen } from "@/components/home/LoadingScreen";
-import chartsCargas from "./@imports/carga/charts";
-import chartsPassageiros from "./@imports/passageiro/charts";
-import cardsPassageiros from "./@imports/passageiro/cards";
-import cardsCargas from "./@imports/carga/cards";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { AenaCargasHeaders, AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+
 import { AenaCargasData, AenaPassageirosData } from "@/@types/observatorio/@data/aeroportoData";
+import { AenaCargasHeaders, AenaPassageirosHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import { LoadingScreen } from "@/components/home/LoadingScreen";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import { useDashboard } from "@/context/DashboardContext";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import cardsCargas from "./@imports/carga/cards";
+import chartsCargas from "./@imports/carga/charts";
+import cardsPassageiros from "./@imports/passageiro/cards";
+import chartsPassageiros from "./@imports/passageiro/charts";
+
 
 const AenaPage = ({ months}: {months: number}) => {
   const { data, isLoading } = useDashboard();

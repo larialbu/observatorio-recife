@@ -1,17 +1,18 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useDashboard } from "@/context/DashboardContext";
-import { LoadingScreen } from "@/components/home/LoadingScreen";
+import React, { useState, useEffect } from "react";
 
-import Geral from "./(geral)/geral";
-import Analitico from "./(analitico)/analitico";
-
-import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
-import { getMonths } from "@/utils/filters/@global/getMonths";
 import { BalancaGeralData } from "@/@types/observatorio/@data/balancaComercialData";
 import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+import { LoadingScreen } from "@/components/home/LoadingScreen";
+import { useDashboard } from "@/context/DashboardContext";
+import { getMonths } from "@/utils/filters/@global/getMonths";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
+
+import Analitico from "./(analitico)/analitico";
+import Geral from "./(geral)/geral";
+
 
 /**
  * Page de Balança Comercial

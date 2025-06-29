@@ -1,17 +1,17 @@
 "use client";
+import { usePathname } from "next/navigation";
 import { Suspense } from "react";
-import { LoadingScreen } from "@/components/home/LoadingScreen";
 
+import { DrawingStoreProvider } from "@/components/@global/excalidraw/context/drawingStoreContext";
+import { ExcalidrawProvider } from "@/components/@global/excalidraw/context/useContext";
+import FloatingExcalidrawButton from "@/components/@global/excalidraw/floatButton";
+import HiddenChartsPanel from "@/components/@global/features/HiddenChartsPanel";
+import ToggleDarkMode from "@/components/@global/features/ToggleDarkMode";
+import { LoadingScreen } from "@/components/home/LoadingScreen";
 import Navbar from "@/components/random_temp/Navbar";
 import { Sidebar } from "@/components/random_temp/Sidebar";
 import { DashboardProvider } from "@/context/DashboardContext";
-import { usePathname } from "next/navigation";
-import HiddenChartsPanel from "@/components/@global/features/HiddenChartsPanel";
-import { ExcalidrawProvider } from "@/components/@global/excalidraw/context/useContext";
-import { DrawingStoreProvider } from "@/components/@global/excalidraw/context/drawingStoreContext";
-import FloatingExcalidrawButton from "@/components/@global/excalidraw/floatButton";
 import "@excalidraw/excalidraw/index.css";
-import ToggleDarkMode from "@/components/@global/features/ToggleDarkMode";
 
 export default function DashboardLayout({
   children,

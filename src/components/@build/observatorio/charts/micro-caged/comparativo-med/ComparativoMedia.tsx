@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
+
 import LineChart from "@/components/@global/charts/LineChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { getDateKeys } from "@/utils/formatters/getDataKeys";
-import { monthToNumber } from "@/utils/formatters/@global/monthToNumber";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processMunicipiosMonthValues } from "@/functions/process_data/observatorio/micro-caged/comparativo-med/municipiosMonthValues";
+import { monthToNumber } from "@/utils/formatters/@global/monthToNumber";
+import { getDateKeys } from "@/utils/formatters/getDataKeys";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const ComparativoMedia = ({
   data = [],

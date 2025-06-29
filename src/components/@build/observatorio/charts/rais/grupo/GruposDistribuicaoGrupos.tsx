@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
+
 import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { getObjToArr } from "@/utils/formatters/getObjToArr";
-import { raisGrupoDicts } from "@/utils/dicts/rais/raisGrupoDicts";
 import { uniqueLabel } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
+import { raisGrupoDicts } from "@/utils/dicts/rais/raisGrupoDicts";
+import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const GruposDistribuicaoGrupos = ({
   data,

@@ -140,8 +140,8 @@ export const createCompositeChartImage = async (chartWrapper: HTMLElement): Prom
   const titleElem = chartWrapper.querySelector("h3") as HTMLElement | null;
   
   const legendElem = chartWrapper.querySelector(".recharts-legend-wrapper") as HTMLElement | null;
-  let titleData = titleElem ? await captureElementAsPNG(titleElem) : null;
-  let legendData = legendElem ? await captureElementAsPNG(legendElem) : null;
+  const titleData = titleElem ? await captureElementAsPNG(titleElem) : null;
+  const legendData = legendElem ? await captureElementAsPNG(legendElem) : null;
 
   const chartImg = await loadImageFromDataURL(chartData.dataURL);
   const titleImg = titleData ? await loadImageFromDataURL(titleData.dataURL) : null;

@@ -2,8 +2,9 @@
 import React, { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
 import { PortoCoordHeaders } from "@/@types/observatorio/@fetch/porto";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 type GeoJSONFeature = {
   type: "Feature";

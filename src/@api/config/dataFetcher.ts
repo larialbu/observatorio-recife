@@ -1,4 +1,5 @@
 import { getFromIndexedDB, listIndexedDBKeys, saveToIndexedDB } from "@/@api/cache/indexDB";
+
 import { readParquetFromBuffer } from "./parquetReader";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!;

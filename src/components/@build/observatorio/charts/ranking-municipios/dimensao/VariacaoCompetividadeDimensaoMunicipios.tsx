@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
+
 import LineChart from "@/components/@global/charts/LineChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processVariacaoPosicao } from "@/functions/process_data/observatorio/ranking-municipios/geral/charts/variacaoCompetitividadeMunicipios";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 interface VariacaoCompetividadeDimensaoMunicipiosProps {
   data: any;

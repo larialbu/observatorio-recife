@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 
 const RankingIndicador = ({

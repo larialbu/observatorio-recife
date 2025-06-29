@@ -1,12 +1,12 @@
 "use client";
 
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+import { ChartBuild } from "@/@types/observatorio/shared";
 import LineChart from "@/components/@global/charts/LineChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processValoresImportacaoExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/valoresImportacaoExportacao";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
-import { ChartBuild } from "@/@types/observatorio/shared";
-import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const CargasAnoComparativo = ({
   data = [],

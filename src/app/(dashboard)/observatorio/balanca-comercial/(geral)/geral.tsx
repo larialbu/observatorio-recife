@@ -1,11 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
-import charts from "./@imports/charts";
-import cards from "./@imports/cards";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import ErrorBoundary from "@/utils/loader/errorBoundary";
+
 import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import ErrorBoundary from "@/utils/loader/errorBoundary";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import cards from "./@imports/cards";
+import charts from "./@imports/charts";
 
 const Geral = ({ data, year, months }: { data: BalancaHeaders[]; year: string, months: number }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));

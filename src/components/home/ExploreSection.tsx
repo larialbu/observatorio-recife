@@ -1,6 +1,7 @@
-import React from "react";
-import { ExploreDiv } from "./ExploreDiv";
 import Link from "next/link";
+import React from "react";
+
+import { ExploreDiv } from "./ExploreDiv";
 import { iconsExplore } from "./ExploreIconsObservatorio";
 
 interface ExploreSectionProps {

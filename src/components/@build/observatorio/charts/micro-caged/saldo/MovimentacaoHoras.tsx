@@ -1,10 +1,11 @@
 "use client";
 
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
+
 import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getAccGroups } from "@/functions/process_data/observatorio/micro-caged/getAccGroups";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const MovimentacaoHoras = ({
   data,

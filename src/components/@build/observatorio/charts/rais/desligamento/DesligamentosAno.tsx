@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
+
 import LineChart from "@/components/@global/charts/LineChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { monthShortName } from "@/utils/formatters/@global/monthShortName";
+import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const DesligamentosAno = ({
   data = [],

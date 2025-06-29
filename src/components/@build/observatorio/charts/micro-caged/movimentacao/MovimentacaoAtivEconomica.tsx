@@ -1,12 +1,13 @@
 "use client";
 
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
+
 import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { getObjToArr } from "@/utils/formatters/getObjToArr";
-import { microCagedAtivEconomicaDicts } from "@/utils/dicts/micro-caged/microCagedAtivEconomicaDicts";
 import { resizeDiv } from "@/components/@global/features/resizeDiv";
+import { microCagedAtivEconomicaDicts } from "@/utils/dicts/micro-caged/microCagedAtivEconomicaDicts";
+import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const MovimentacaoAtivEconomica = ({
   data,

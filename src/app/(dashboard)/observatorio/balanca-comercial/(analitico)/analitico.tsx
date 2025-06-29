@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import tables from "./@imports/tables";
+
+import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
-import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import tables from "./@imports/tables";
 
 const Analitico = ({
   year,

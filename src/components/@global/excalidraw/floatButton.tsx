@@ -5,13 +5,9 @@ import React, {
   useEffect,
 } from "react";
 import { createPortal } from "react-dom";
-import { useExcalidraw } from "./context/useContext";
-import { useIsMobile } from "@/hooks/useIsMobile";
-import { saveExcalidrawBuffer, loadExcalidrawBuffer, saveExcalidrawDraft, loadExcalidrawDraft } from "./handleSaves";
-import { useDrawingStore } from "./context/drawingStoreContext";
-import SavedDrawingsPanel from "./SavedDrawingsPanel";
-import IntroExcalidraw from "./intro";
 import { Zenitho } from "uvcanvas";
+
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 import Excalidraw, {
   ExcalidrawImperativeAPI,
@@ -19,6 +15,11 @@ import Excalidraw, {
   BinaryFiles,
   getExcalidrawUtils,
 } from "./client/excalidraw.client";
+import { useDrawingStore } from "./context/drawingStoreContext";
+import { useExcalidraw } from "./context/useContext";
+import { saveExcalidrawBuffer, loadExcalidrawBuffer, saveExcalidrawDraft, loadExcalidrawDraft } from "./handleSaves";
+import IntroExcalidraw from "./intro";
+import SavedDrawingsPanel from "./SavedDrawingsPanel";
 
 const fixAppState = (appState: any): any => ({
   ...appState,

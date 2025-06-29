@@ -1,15 +1,18 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+
+import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import ErrorBoundary from "@/utils/loader/errorBoundary";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
 import charts from "./@imports/charts";
 import maps from "./@imports/maps";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import tables from "./@imports/tables";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import ErrorBoundary from "@/utils/loader/errorBoundary";
-import { ChartBuild } from "@/@types/observatorio/shared";
-import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
+
 
 const Geral = ({
   data,

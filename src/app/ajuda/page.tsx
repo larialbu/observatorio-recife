@@ -1,8 +1,8 @@
 "use client";
 
 import { Footer } from "@/components/home/Footer";
-import { ObsHeader } from "@/components/home/ObsHeader";
 import { NavBarHome } from "@/components/home/NavBarHome";
+import { ObsHeader } from "@/components/home/ObsHeader";
 import "../styles/home/style.scss";
 import "../styles/explore/style.scss";
 import HelpCenter from "@/components/ajuda/HelpCenter";

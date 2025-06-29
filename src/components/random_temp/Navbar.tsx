@@ -1,10 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import FocusHidden from "../@global/features/FocusHidden";
-import { useDashboard } from "@/context/DashboardContext";
-import { ChevronIcon } from "./ChevronIcon";
+
 import { AdditionalFilter, Filters } from "@/@types/observatorio/shared";
+import { useDashboard } from "@/context/DashboardContext";
+
+import { ChevronIcon } from "./ChevronIcon";
+import FocusHidden from "../@global/features/FocusHidden";
+
 
 const Navbar = () => {
   const { filters, applyFilters, resetFilters } = useDashboard();

@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
+
+import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
+import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { ChartBuild, DataWithFilters } from "@/@types/observatorio/shared";
+import SelectCompare from "@/components/@global/features/SelectCompare";
+import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
-import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
-import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import SelectCompare from "@/components/@global/features/SelectCompare";
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
-import { ChartBuild, DataWithFilters } from "@/@types/observatorio/shared";
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 
 // AEROPORTO NOME
 

@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
+
+import { PortoPassageirosOutputData } from "@/@types/observatorio/@data/portoData";
+import { ChartBuild } from "@/@types/observatorio/shared";
 import PieChart from "@/components/@global/charts/PieChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { preparePassageirosPorOperacaoData } from "@/functions/process_data/observatorio/porto/passageiro/charts/passageirosPorOperacao";
-import { ChartBuild } from "@/@types/observatorio/shared";
-import { PortoPassageirosOutputData } from "@/@types/observatorio/@data/portoData";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const PassageirosOperacaoPorto = ({
   data,

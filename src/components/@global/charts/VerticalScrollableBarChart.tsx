@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import {
   BarChart as RechartsBarChart,
   Bar,
@@ -11,10 +12,10 @@ import {
 } from "recharts";
 
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
-import CustomTooltip from "../features/CustomTooltip";
-import CustomLegend from "../features/CustomLegend";
-import { useEffect, useRef, useState } from "react";
 import { truncateTextFormatter } from "@/utils/formatters/@global/truncateTextFormatter";
+
+import CustomLegend from "../features/CustomLegend";
+import CustomTooltip from "../features/CustomTooltip";
 import { resizeDiv } from "../features/resizeDiv";
 
 const splitDataInBlocks = (data: any[], blockSize: number = 100) => {

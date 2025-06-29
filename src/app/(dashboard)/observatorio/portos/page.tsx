@@ -1,16 +1,19 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useDashboard } from "@/context/DashboardContext";
+import React, { useState, useEffect } from "react";
+
+import { PortoGeralData, PortoOperacaoData } from "@/@types/observatorio/@data/portoData";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
-import Geral from "./(geral)/geral";
+import { useDashboard } from "@/context/DashboardContext";
+import { getMonths } from "@/utils/filters/@global/getMonths";
+import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
+
+import AenaPage from "./(aena)/aena";
 import Comparativo from "./(comparativo)/comparativo";
 import Operacao from "./(embarque)/operacao";
-import AenaPage from "./(aena)/aena";
-import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
-import { getMonths } from "@/utils/filters/@global/getMonths";
-import { PortoGeralData, PortoOperacaoData } from "@/@types/observatorio/@data/portoData";
+import Geral from "./(geral)/geral";
+
 
 const defaultData: PortoGeralData = {
   atracacao: [],

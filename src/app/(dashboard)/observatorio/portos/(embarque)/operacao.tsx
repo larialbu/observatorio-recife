@@ -1,13 +1,17 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import charts from "./@imports/charts";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import cards from "./@imports/cards";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { ChartBuild } from "@/@types/observatorio/shared";
+
 import { PortoGeralData, PortoOperacaoData } from "@/@types/observatorio/@data/portoData";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import cards from "./@imports/cards";
+import charts from "./@imports/charts";
+
+
 
 const Operacao = ({
   data,

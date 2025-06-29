@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import BarChart from "@/components/@global/charts/BarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processEmbarqueDesembarque } from "@/functions/process_data/observatorio/aeroporto/geral/charts/embarqueDesembarqueRegiao";
-import { ChartBuild } from "@/@types/observatorio/shared";
+
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import BarChart from "@/components/@global/charts/BarChart";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { processEmbarqueDesembarque } from "@/functions/process_data/observatorio/aeroporto/geral/charts/embarqueDesembarqueRegiao";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const EmbarqueDesembarqueRegiao = ({
   data = [],

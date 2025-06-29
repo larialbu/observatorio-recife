@@ -1,6 +1,5 @@
 import Link from "next/link";
-import React from "react";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useReward } from "react-rewards";
 
 export const ExploreItem = ({ item, bundleProgress, isDarkMode }: {

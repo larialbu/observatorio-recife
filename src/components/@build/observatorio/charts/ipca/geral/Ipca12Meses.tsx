@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processIpcaUltimos12Meses } from "@/functions/process_data/observatorio/ipca/geral/charts/ipcaUltimos12Meses";
-import { ChartBuild } from "@/@types/observatorio/shared";
+
 import { IpcaGeralHeaders } from "@/@types/observatorio/@fetch/ipca";
+import { ChartBuild } from "@/@types/observatorio/shared";
+import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { processIpcaUltimos12Meses } from "@/functions/process_data/observatorio/ipca/geral/charts/ipcaUltimos12Meses";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const IpcaAcumuladoPorCapital = ({
   rawData = [],

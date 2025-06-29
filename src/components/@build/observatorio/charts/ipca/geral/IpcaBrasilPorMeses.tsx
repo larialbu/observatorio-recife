@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import LineChart from "@/components/@global/charts/LineChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import { processBrasilVariacaoMensal } from "@/functions/process_data/observatorio/ipca/geral/charts/ipcaBrasilPorMeses";
-import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
+
 import { IpcaGeralHeaders } from "@/@types/observatorio/@fetch/ipca";
 import { ChartBuild } from "@/@types/observatorio/shared";
+import LineChart from "@/components/@global/charts/LineChart";
+import ChartGrabber from "@/components/@global/features/ChartGrabber";
+import { processBrasilVariacaoMensal } from "@/functions/process_data/observatorio/ipca/geral/charts/ipcaBrasilPorMeses";
+import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const IpcaPorMeses = ({
   data = [],

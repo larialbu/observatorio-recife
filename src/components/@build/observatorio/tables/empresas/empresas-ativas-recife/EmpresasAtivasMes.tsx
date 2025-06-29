@@ -1,8 +1,9 @@
+import { useState } from "react";
+
 import TableGeneric from "@/components/@global/tables/TableGeneric";
 import { rowsComparativoCbo } from "@/functions/process_data/observatorio/micro-caged/salario/rowsComparativoCbo";
 import { rowsProfissao } from "@/functions/process_data/observatorio/rais/remuneracao/rowsProfissao";
 import { formatNumber } from "@/utils/formatters/@global/numberFormatter";
-import { useState } from "react";
 
 const EmpresasAtivasMes = ({
   data = [],

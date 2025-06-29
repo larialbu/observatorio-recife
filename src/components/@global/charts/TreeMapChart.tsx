@@ -1,8 +1,10 @@
 import React, { PureComponent, useState } from 'react';
 import { Treemap, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+
+import { tooltipFormatter } from '@/utils/formatters/@global/graphFormatter';
+
 import CustomLegend from '../features/CustomLegend';
 import CustomTooltip from '../features/CustomTooltip';
-import { tooltipFormatter } from '@/utils/formatters/@global/graphFormatter';
 
 const CustomizedContent = ({ root, depth, x, y, width, height, index, payload, colors, rank, label }: any) => {
     const MIN_SIZE = 70;

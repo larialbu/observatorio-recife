@@ -1,11 +1,14 @@
 import React, { useRef, useState } from "react";
-import charts from "./@imports/charts";
-import cards from "./@imports/cards";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
+
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import tables from "./@imports/tables";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import cards from "./@imports/cards";
+import charts from "./@imports/charts";
+import tables from "./@imports/tables";
+
 
 const Geral = ({ toCompare, data, year, months }: { toCompare?: string[]; data: any; year: string, months: number }) => {
   

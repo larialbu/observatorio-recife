@@ -1,9 +1,8 @@
-import { BalancaGeralData } from "./@data/balancaComercialData";
 import { AeroportoDataResult } from "./@data/aeroportoData";
+import { BalancaGeralData } from "./@data/balancaComercialData";
 import { IpcaDataResult } from "./@data/ipcaData";
-
-import { Filters } from "./shared";
 import { PortoDataResult } from "./@data/portoData";
+import { Filters } from "./shared";
 
 export type DashboardData = AeroportoDataResult | BalancaGeralData | IpcaDataResult | PortoDataResult;
 

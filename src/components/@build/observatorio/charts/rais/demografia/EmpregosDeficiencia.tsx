@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+
 import PieChart from "@/components/@global/charts/PieChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const EmpregosDeficiencia = ({
   data,

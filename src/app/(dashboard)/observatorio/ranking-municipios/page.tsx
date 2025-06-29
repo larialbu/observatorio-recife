@@ -1,15 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useDashboard } from "@/context/DashboardContext";
+import React, { useState, useEffect } from "react";
+
 import { LoadingScreen } from "@/components/home/LoadingScreen";
+import { useDashboard } from "@/context/DashboardContext";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
-import Geral from "./(geral)/geral";
 import Dimensao from "./(dimensao)/dimensao";
-import Pilar from "./(pilar)/pilar";
+import Geral from "./(geral)/geral";
 import Indicador from "./(indicador)/indicador";
+import Pilar from "./(pilar)/pilar";
 
 const RankingPage = () => {
   const searchParams = useSearchParams();

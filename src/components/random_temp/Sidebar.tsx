@@ -2,9 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import Menu from "./Menu";
 import { useState, useEffect, useRef } from "react";
+
 import { useIsMobile } from "@/hooks/useIsMobile";
+
+import Menu from "./Menu";
 
 export const ArrowIcon = () => {
   return (            <svg

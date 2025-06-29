@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
+
 import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import { processGroupsValues } from "@/functions/process_data/observatorio/empregos/caged/cagedGroupsValues";
 import { processDesempregoTaxaCapital } from "@/functions/process_data/observatorio/empregos/desemprego/desempregoTaxaCapital";
 import { capitaisCoordsDicts } from "@/utils/dicts/empregos/desemprego/capitaisCoordsDicts";
+import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const TaxaDesempregoCapitais = ({
   data,

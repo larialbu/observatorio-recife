@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
+
 import { NewsData, NewsItem } from "@/@api/http/news/NewsData"; 
 
 function NewsSection() {

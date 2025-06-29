@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { Zenitho } from "uvcanvas";
 
 // Importando os dados do outro componente
-import { tutorialData, TutorialItem } from "@/components/ajuda/TutorialProvider"; 
 import GenericModal from "@/components/ajuda/GenericModal"; // Ajuste conforme necessário
+import { tutorialData, TutorialItem } from "@/components/ajuda/TutorialProvider"; 
 
 export const HelpHeader: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");

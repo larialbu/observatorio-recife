@@ -4,13 +4,14 @@ import "../styles/home/style.scss";
 import "../styles/explore/style.scss";
 
 import React, { useEffect, useState } from "react";
-import { NavBarHome } from "@/components/home/NavBarHome";
+
 import { Footer } from "@/components/home/Footer";
+import { NavBarHome } from "@/components/home/NavBarHome";
 import { ObsHeader } from "@/components/home/ObsHeader";
 import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
-import Timeline from "@/components/sobre/Timeline";
 import { FaqSection } from "@/components/sobre/FaqSection";
 import { MissionSection } from "@/components/sobre/MissionSection";
+import Timeline from "@/components/sobre/Timeline";
 
 const SobreNos: React.FC = () => {
   const [currentImage, setCurrentImage] = useState<string>("/images/about/about-1.png");

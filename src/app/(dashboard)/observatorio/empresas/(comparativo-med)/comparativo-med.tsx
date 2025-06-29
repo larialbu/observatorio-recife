@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-import cards from "./@imports/cards";
-import charts from "./@imports/charts";
-import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
-import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
-import { SortableDiv } from "@/components/@global/features/SortableDiv";
+
 import SelectCompare from "@/components/@global/features/SelectCompare";
+import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
+import { SortableDiv } from "@/components/@global/features/SortableDiv";
+import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import { getMunicipiosMonthData } from "@/functions/process_data/observatorio/micro-caged/comparativo-med/getMonthsValues";
 import { getSmFiltred } from "@/functions/process_data/observatorio/micro-caged/getSmFiltred";
+import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
+import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+
+import cards from "./@imports/cards";
+import charts from "./@imports/charts";
 
 const ComparativoMed = ({
   year,
