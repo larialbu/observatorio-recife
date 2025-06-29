@@ -5,15 +5,14 @@ import React, { useState, useEffect } from "react";
 const ToggleDarkMode: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
-  // Verifica preferência do sistema ou do localStorage ao carregar
+  // verifica preferência do sistema ou do localStorage ao carregar
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
-    const prefersDark =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    // const prefersDark =
+    //   window.matchMedia("(prefers-color-scheme: dark)").matches;
 
     const shouldEnableDark =
-      savedTheme === "dark" || (!savedTheme && prefersDark);
+      savedTheme === "dark" || false;
 
     if (shouldEnableDark) {
       document.documentElement.classList.add("dark");
