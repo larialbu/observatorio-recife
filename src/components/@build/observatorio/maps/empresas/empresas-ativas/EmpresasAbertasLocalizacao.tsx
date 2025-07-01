@@ -3,18 +3,8 @@ import React, { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-import { processDesempregoTaxaCapital } from "@/functions/process_data/observatorio/empregos/desemprego/desempregoTaxaCapital";
-import { capitaisCoordsDicts } from "@/utils/dicts/empregos/desemprego/capitaisCoordsDicts";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
-
-type DesempregoData = {
-  Ano: number
-  Capital: string
-  "Mês": number
-  "Região": string
-  Taxa: number
-  Trimestre: string
-};
+import { colorGroupHash, GroupType } from "@/utils/hashs/colorGroupHash";
 
 type GeoJSONFeature = {
   type: "Feature";
@@ -24,7 +14,8 @@ type GeoJSONFeature = {
   };
   properties: {
     label: string;
-    value: number;
+    fantasy: string;
+    group: string;
   };
 };
 
@@ -33,34 +24,14 @@ type GeoJSON = {
   features: GeoJSONFeature[];
 };
 
-function convertToGeoJSON(data: DesempregoData[]): GeoJSON {
-  console.log('convertGeo', data)
-
+function convertToGeoJSON(data: any[]): GeoJSON {
   if (!Array.isArray(data)) {
     return { type: "FeatureCollection", features: [] };
   }
 
-  const quarter = data.reduce((acc: number, obj: DesempregoData) => {
-    const data = +obj['Trimestre'].split('º')[0]
-    acc = acc <= data ? data : acc
+    const dataFiltred = data.filter((obj: any) => typeof obj['latitude'] === 'number' && typeof obj['longitude'] === 'number')
 
-    return acc
-  }, 0)
-
-    const dataFiltred = data.filter((obj: DesempregoData) => +obj['Trimestre'].split('º')[0] == quarter)
-
-    const quarterStr = dataFiltred?.[0]?.['Trimestre']
-
-    const capitalsData = processDesempregoTaxaCapital(dataFiltred)
-    const chartData = capitalsData.map((obj) =>  {
-        const coords = capitaisCoordsDicts[obj.label];
-        if (!coords) {
-          return null;
-        }
-
-       return ({ ...obj, ...capitaisCoordsDicts[obj['label']] })}).filter((obj) => obj!== null )
-
-    console.log('ChartDaaata', chartData)
+    const chartData = dataFiltred.map((dataMap) => ({label: dataMap['razao_social'], fantasy: dataMap['nome_fantasia'], group: dataMap['Grupo'], latitude: dataMap['latitude'], longitude: dataMap['longitude']}))
 
   return {
     type: "FeatureCollection",
@@ -74,35 +45,29 @@ function convertToGeoJSON(data: DesempregoData[]): GeoJSON {
         ],
       },
       properties: {
-        label: item.label + `$${quarterStr}`,
-        value: item.value,
+        label: item.label,
+        fantasy: item.fantasy,
+        group: item.group,
       },
     })),
   };
 }
 
 type CapitaisLocalizacaoProps = {
-  data: {
-    desemprego: DesempregoData[], municipios: DesempregoData[], trimestre: {
-      municipiosTrimestre: DesempregoData[], municipiosTrimestrePast: DesempregoData[]
-    };
-  };
+  data: any[]
 }
 
-export default function CapitaisLocalizacao({ data }: CapitaisLocalizacaoProps) {
-
-  console.log('DataMAp', data)
+export default function EmpresasAbertas({ data }: CapitaisLocalizacaoProps) {
 
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
 
-    if (!mapRef.current || !data['desemprego']) {
+    if (!mapRef.current || !data) {
       return;
     }
 
-
-    const map = L.map(mapRef.current).setView([-14.673, -51.260], 4); // Coordenadas iniciais e zoom
+    const map = L.map(mapRef.current).setView([-8.0631617, -34.875949], 15); // Coordenadas iniciais e zoom
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 18,
@@ -126,19 +91,20 @@ export default function CapitaisLocalizacao({ data }: CapitaisLocalizacaoProps) 
         Observatório Econômico do Recife`,
     }).addTo(map);
 
-    const geoJsonData = convertToGeoJSON(data['desemprego']);
-    console.log('RetrunGeo', geoJsonData)
+    const geoJsonData = convertToGeoJSON(data);
+
+    console.log('GeoJSONData', geoJsonData)
 
     L.geoJSON(geoJsonData, {
       pointToLayer: (feature, latlng) => {
-        const { label, value } = feature.properties;
-        const name = label.split('$')[0]
-        const quarterStr = label.split('$')[1]
-       
-        const fillColor = name === "Recife-PE" ? "red" : ColorPalette.default[1];
+        const { label, fantasy, group } = feature.properties;
 
-        const scaledRadius = Math.sqrt(value) * 5; // ajuste o fator multiplicador conforme necessário
-    
+        const groupKey = group as GroupType;
+
+        const fillColor = colorGroupHash[groupKey] ?? ColorPalette.default[1];
+
+        const scaledRadius = Math.sqrt(1) * 5; // ajuste o fator multiplicador conforme necessário
+
         const circleMarker = L.circleMarker(latlng, {
           radius: scaledRadius,
           fillColor,
@@ -147,14 +113,15 @@ export default function CapitaisLocalizacao({ data }: CapitaisLocalizacaoProps) 
           opacity: 1,
           fillOpacity: 0.8,
         });
-    
+
         circleMarker.bindPopup(`
           <div>
-            <h3 style="margin: 0; color: #0077cc; font-size: 17px;">📈 ${name}</h3>
-            <h3 style="margin: 0; color: #333; font-size: 12px;">${quarterStr}</h3>
+            <h3 style="margin: 0; color: #0077cc; font-size: 17px;">📈 ${label}</h3>
             <hr style="border: 0; height: 1px; background: #ddd; margin: 8px 0;">
-            <p style="margin: 0; font-size: 14px;"><strong>Taxa:</strong></p>
-            <p style="margin: 0; font-size: 13px; font-weight: bold; color: #333;">${value}%</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <p style="margin: 0; font-size: 14px; display: flex; gap: 5px"><strong>Grupo econômico:</strong>${group}</p>
+              <p style="margin: 0; font-size: 14px; display: flex; gap: 5px"><strong>Nome fantasia:</strong>${fantasy ? fantasy : 'Não possui'}</p>
+            </div>
           </div>
         `);
     
@@ -172,7 +139,14 @@ export default function CapitaisLocalizacao({ data }: CapitaisLocalizacaoProps) 
   return (
     <div className="w-full h-full">
       <div className="flex w-full justify-center mb-2 text-lg">
-        <strong>Taxa das capitais por Localização</strong>
+        <strong>Localiação de Empresas Abertas</strong>
+      </div>
+      <div className="rounded-md border flex items-center justify-center p-4 gap-3 mb-3">
+        {['Agropecuária', 'Comércio', 'Construção Civil', 'Indústria', 'Serviços'].map((group) => <div className="flex items-center gap-2">
+          <div style={{ backgroundColor: colorGroupHash[group as GroupType] ?? ColorPalette.default[1] }} className="h-4 w-4 rounded-full"></div>
+          <p style={{ color: colorGroupHash[group as GroupType] ?? ColorPalette.default[1] }}>{group}</p>
+        </div>)}
+        
       </div>
       <div ref={mapRef} style={{ height: "500px", width: "100%" }} />
     </div>

@@ -151,7 +151,7 @@ const EmpresasPage = () => {
         <button
           onClick={() => handleNavigation("empresas-ativas")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "saldo"
+            activeTab === "empresas-ativas"
               ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
@@ -161,7 +161,7 @@ const EmpresasPage = () => {
         <button
           onClick={() => handleNavigation("empresas-inativas")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "media"
+            activeTab === "empresas-inativas"
               ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}

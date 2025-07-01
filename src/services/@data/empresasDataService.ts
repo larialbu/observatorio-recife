@@ -38,11 +38,6 @@ export class EmpresasDataService {
 
     const filteredData = applyGenericFilters(fetchData, filters);
 
-    console.log('empresas-empresas-ativas -> ', {
-      empresas: filteredData,
-      id: "empresas-empresas-ativas-recife",
-    })
-
     return {
       empresas: filteredData,
       id: "empresas-empresas-ativas-recife",

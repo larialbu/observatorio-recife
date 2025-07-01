@@ -3,7 +3,7 @@ import Card from "@/components/@global/cards/Card";
 const EmpresasAtivasMediaAno = ({
   data,
   date,
-  title = `Média de Empresas Ativas no Ano`,
+  title = `Empresas Abertas - (mes)`,
   local = '',
   year,
   color,

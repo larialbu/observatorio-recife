@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useMemo, useRef, useState } from "react";
 
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
@@ -11,9 +11,11 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
+import { geralAccFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
+import maps from "./@imports/maps";
 
 
-const Saldo = ({
+const EmpresasAtivas = ({
   data,
   year,
 }: {
@@ -24,10 +26,19 @@ const Saldo = ({
 
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
+  const params = ['nome_bairro', 'Grupo', 'desc_atividade', 'mes']
+  console.log('data EmpresasAtivas ->', data)
+
+  const chartData = useMemo(() => {
+    return geralAccFunction(data, params)
+  }, [data, params])  
+  console.log('ChartData', chartData)
+  
+  const { Component }: any = maps[0]
+
   return (
     <div>
-      <p>empresas ativas</p>
-      {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
+      <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
             <ErrorBoundary>
@@ -57,9 +68,15 @@ const Saldo = ({
             </div>
           );
         })}
-      </SortableDiv> */}
+      </SortableDiv>
+
+      <div className="place-items-center z-0 mb-6">
+        <div className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center">
+          <Component data={data} />
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Saldo;
+export default EmpresasAtivas;

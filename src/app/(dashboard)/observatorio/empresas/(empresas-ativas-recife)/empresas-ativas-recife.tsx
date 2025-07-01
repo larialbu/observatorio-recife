@@ -66,19 +66,13 @@ const EmpresasAtivasRecife = ({
           const { Component } = tables[index];
 
             return (
-              <div key={index} className="w-full">
-                {/* <p className="font-semibold text-2xl text-gray-700 mb-2">
-                  {selectCompare[index]}
-                </p> */}
+              <div key={index} className="w-full col-span-full">
                 <div
-                  className="bg-white shadow-md rounded-lg flex flex-col items-center w-full min-h-[800px]"
+                  className="bg-white shadow-md rounded-lg flex flex-col items-center w-full min-h-[500px]"
                 >
-          
                     <Component
-                      // profissao={[...tempFiltred, ...tempFiltredCBO.map((cbo) => microCagedCboDicts[cbo])]}
                       color={ColorPalette.default[index]}
                       data={data}
-                      // data={chartData.filter((obj: any) => obj['município'] === selectCompare[index])}
                       year={year}
                     />
                 </div> 
