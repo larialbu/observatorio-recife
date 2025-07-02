@@ -14,6 +14,11 @@ const ImportacaoExportacaoContinente = ({
 }: ChartBuild<BalancaHeaders[]>) => {
   const chartData = processImportacaoExportacaoPorContinente(data);
 
+  // console.log('Balanca comercial ->', chartData)
+  // continente: "Ásia"
+  // exportacao: 1973084
+  // importacao: 87879680
+
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
@@ -41,7 +46,6 @@ const ImportacaoExportacaoContinente = ({
         visibleHeight={400} // Define a altura visível para scroll
       />
       </ChartGrabber>
-      
     </div>
   );
 };

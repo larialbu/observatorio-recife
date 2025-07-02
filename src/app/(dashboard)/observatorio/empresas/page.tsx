@@ -15,6 +15,7 @@ import EmpresasAtivas from "./(empresas-ativas)/empresas-ativas";
 import EmpresasAtivasRecife from "./(empresas-ativas-recife)/empresas-ativas-recife";
 import EmpresasInativas from "./(empresas-inativas)/empresas-inativas";
 import Salario from "./(salario)/salario";
+import EmpresasAtivasInativas from "./(empresas-ativas-inativas)/empresas-ativas-inativas";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
@@ -39,7 +40,7 @@ const EmpresasPage = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
         const idArrays = ["empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas"]
-        const idObjs = ['nada ainda']
+        const idObjs = ['empresas-empresas-ativas-inativas']
       
         if (idArrays.includes(data?.id)) {
 
@@ -55,13 +56,13 @@ const EmpresasPage = () => {
         if (idObjs.includes(data?.id)) {
           // const microCagedData = data?.microCaged || [];
           // mudar isso aqui
-          const empresasDataObj = { current: data?.microCaged?.current?.filteredData || [], past: data?.microCaged?.past?.filteredData || [] };
-
+          const empresasDataObj = { ativas: data?.empresas?.ativas?.filteredData || [], inativas: data?.empresas?.inativas?.filteredData || [] };
+          
           setDataObj(empresasDataObj);
 
           clearInterval(intervalId);
         } else {
-            setDataObj({ current: [], past: [] });
+            setDataObj({ ativas: [], inativas: [] });
           }
       }, 50);
   
@@ -72,7 +73,7 @@ const EmpresasPage = () => {
 
     
   const renderContent = () => {
-    if (!data || !(dataArr?.length || dataObj?.current?.length) ) {
+    if (!data || !(dataArr?.length || dataObj?.ativas?.length) ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
@@ -90,6 +91,11 @@ const EmpresasPage = () => {
       case "empresas-inativas":
         return <EmpresasInativas
         data={dataArr} 
+        year={getYearSelected(filters)} 
+        /> 
+      case "empresas-ativas-inativas":
+        return <EmpresasAtivasInativas
+        data={dataObj} 
         year={getYearSelected(filters)} 
         /> 
       // case "comparativo-mov":
@@ -169,14 +175,14 @@ const EmpresasPage = () => {
           Empresas Inativas  
         </button>
         <button
-          onClick={() => handleNavigation("comparativo-mov")}
+          onClick={() => handleNavigation("empresas-ativas-inativas")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "comparativo-mov"
+            activeTab === "empresas-ativas-inativas"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
-          Movimentação Comparativo
+          Empresas Inativas X Ativas 
         </button>
         <button
           onClick={() => handleNavigation("comparativo-med")}

@@ -33,6 +33,7 @@ import { rankingGeralFilters } from "@/utils/filters/ranking/rankingGeralFilters
 import { rankingPilarFilters } from "@/utils/filters/ranking/rankingPilarFilters";
 
 import { balancaComercialFilters } from "../utils/filters/balanca-comercial/balancaComercialFilters";
+import { empresasAtivasInativasFilters } from "@/utils/filters/empresas/empresasAtivasInativasFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 type TabFiltersMap = Record<string, Filters>;
@@ -113,7 +114,8 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
   "/observatorio/empresas": {
     geral: empresasGeralFilters,
     "empresas-ativas": empresasAtivasFilters,
-    "empresas-inativasa": empresasInativasFilters,
+    "empresas-inativas": empresasInativasFilters,
+    "empresas-ativas-inativas": empresasAtivasInativasFilters
     // saldo: empresasGeralFilters,
     // media: empresasGeralFilters,
     // "comparativo-mov": empresasGeralFilters,

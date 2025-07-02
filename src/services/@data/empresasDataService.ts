@@ -69,6 +69,32 @@ export class EmpresasDataService {
     };
   }
 
+  // tab4   
+  private async fetchEmpresasAtivasInativas(filters: any) {
+    const empresasData = new EmpresasData(this.currentYear);
+
+    const fetchDataAtivas = await empresasData.fetchProcessedEmpresasAtivas() 
+    const fetchDataInativas = await empresasData.fetchProcessedEmpresasInativas() 
+
+    const filteredDataAtivas = applyGenericFilters(fetchDataAtivas, filters);
+    const filteredDataInativas = applyGenericFilters(fetchDataInativas, filters);
+
+    console.log('empresas-empresas-ativas-inativas', {
+      empresas: {
+        ativas: filteredDataAtivas,
+        inativas: filteredDataInativas
+      },
+      id: "empresas-empresas-ativas-inativas",
+    })
+
+    return {
+      empresas: {
+        ativas: filteredDataAtivas,
+        inativas: filteredDataInativas
+      },
+      id: "empresas-empresas-ativas-inativas",
+    };
+  }
 //   private async fetchGeral(filters: any) {
 //     const filtersHashed = applyHashedFilters(filters, 'grupamento', 'seção', gropoHash)
 
@@ -118,6 +144,8 @@ export class EmpresasDataService {
       data = await this.fetchEmpresasAtivas(filters);
     } else if (tab === "empresas-inativas") {
       data = await this.fetchEmpresasInativas(filters);
+    } else if (tab === "empresas-ativas-inativas") {
+      data = await this.fetchEmpresasAtivasInativas(filters);
     } else {
       data = await this.fetchGeral(filters);
     }
