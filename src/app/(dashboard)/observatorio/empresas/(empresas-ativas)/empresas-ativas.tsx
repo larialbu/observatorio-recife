@@ -27,12 +27,10 @@ const EmpresasAtivas = ({
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
   const params = ['nome_bairro', 'Grupo', 'desc_atividade', 'mes']
-  console.log('data EmpresasAtivas ->', data)
 
   const chartData = useMemo(() => {
     return geralAccFunction(data, params)
   }, [data, params])  
-  console.log('ChartData', chartData)
   
   const { Component }: any = maps[0]
 

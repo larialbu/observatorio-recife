@@ -31,9 +31,6 @@ export class EmpresasDataService {
   private async fetchGeral(filters: any) {
     const empresasData = new EmpresasData(this.currentYear);
 
-    console.log('empresasData', empresasData)
-    console.log('filters', filters)
-
     const fetchData = await empresasData.fetchProcessedEmpresasAtivasRecife() 
 
     const filteredData = applyGenericFilters(fetchData, filters);
@@ -44,6 +41,7 @@ export class EmpresasDataService {
     };
   }
 
+  // tab2   
   private async fetchEmpresasAtivas(filters: any) {
     const empresasData = new EmpresasData(this.currentYear);
 
@@ -51,28 +49,19 @@ export class EmpresasDataService {
 
     const filteredData = applyGenericFilters(fetchData, filters);
 
-    console.log('empresas-empresas-ativas -> ', {
-      empresas: filteredData,
-      id: "empresas-empresas-ativas",
-    })
-
     return {
       empresas: filteredData,
       id: "empresas-empresas-ativas",
     };
   }
 
+  // tab3   
   private async fetchEmpresasInativas(filters: any) {
     const empresasData = new EmpresasData(this.currentYear);
 
     const fetchData = await empresasData.fetchProcessedEmpresasInativas() 
 
     const filteredData = applyGenericFilters(fetchData, filters);
-
-    console.log('empresas-empresas-inativas -> ', {
-      empresas: filteredData,
-      id: "empresas-empresas-inativas",
-    })
 
     return {
       empresas: filteredData,

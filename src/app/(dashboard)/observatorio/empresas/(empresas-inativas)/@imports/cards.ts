@@ -1,48 +1,30 @@
-import React from "react";
+import React from 'react'
 
 const cards = [
   {
-    Component: React.lazy(() =>
-      import(
-        "@/components/@build/observatorio/cards/micro-caged/media/SalarioMedio"
-      )
+    Component: React.lazy(
+      () =>
+        import(
+          '@/components/@build/observatorio/cards/empresas/empresas-inativas/EmpresasInativasMesRecente'
+        ),
     ),
   },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/cards/micro-caged/saldo/Admissoes"
-  //     )
-  //   ),
-  // },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/cards/micro-caged/saldo/Desligamentos"
-  //     )
-  //   ),
-  // },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/cards/micro-caged/saldo/Saldo"
-  //     )
-  //   ),
-  // },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/cards/micro-caged/saldo/SaldoHomem"
-  //     )
-  //   ),
-  // },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/cards/micro-caged/saldo/SaldoMulher"
-  //     )
-  //   ),
-  // },
-];
+  {
+    Component: React.lazy(
+      () =>
+        import(
+          '@/components/@build/observatorio/cards/empresas/empresas-inativas/EmpresasInativasMesAnterior'
+        ),
+    ),
+  },
+  {
+    Component: React.lazy(
+      () =>
+        import(
+          '@/components/@build/observatorio/cards/empresas/empresas-inativas/EmpresasVariacaoInativasRecente'
+        ),
+    ),
+  },  
+]
 
-export default cards;
+export default cards

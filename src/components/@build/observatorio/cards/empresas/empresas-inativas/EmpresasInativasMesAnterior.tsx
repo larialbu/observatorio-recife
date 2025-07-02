@@ -1,10 +1,10 @@
 import Card from '@/components/@global/cards/Card'
 import { monthLongName } from '@/utils/formatters/@global/monthLongName'
 
-const EmpresasAtivasMesAnterior = ({
+const EmpresasInativasMesAnterior = ({
   data,
   date,
-  title = `Empresas Ativas anteriormente (mês)`,
+  title = `Empresas Inativas anteriormente (mês)`,
   local = '',
   year,
   color,
@@ -33,4 +33,4 @@ const EmpresasAtivasMesAnterior = ({
   )
 }
 
-export default EmpresasAtivasMesAnterior
+export default EmpresasInativasMesAnterior

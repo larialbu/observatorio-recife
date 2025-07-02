@@ -1,41 +1,30 @@
-import React from "react";
+import React from 'react'
 
 const cards = [
   {
-    Component: React.lazy(() =>
-      import(
-        "@/components/@build/observatorio/cards/empresas/empresas-ativas/EmpresasAtivasMesRecente"
-      )
+    Component: React.lazy(
+      () =>
+        import(
+          '@/components/@build/observatorio/cards/empresas/empresas-ativas/EmpresasAtivasMesRecente'
+        ),
     ),
   },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/cards/micro-caged/saldo/Desligamentos"
-  //     )
-  //   ),
-  // },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/cards/micro-caged/saldo/Saldo"
-  //     )
-  //   ),
-  // },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/cards/micro-caged/saldo/SaldoHomem"
-  //     )
-  //   ),
-  // },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/cards/micro-caged/saldo/SaldoMulher"
-  //     )
-  //   ),
-  // },
-];
+  {
+    Component: React.lazy(
+      () =>
+        import(
+          '@/components/@build/observatorio/cards/empresas/empresas-ativas/EmpresasAtivasMesAnterior'
+        ),
+    ),
+  },
+  {
+    Component: React.lazy(
+      () =>
+        import(
+          '@/components/@build/observatorio/cards/empresas/empresas-ativas/EmpresasVariacaoAtivasRecente'
+        ),
+    ),
+  },  
+]
 
-export default cards;
+export default cards

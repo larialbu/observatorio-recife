@@ -1,10 +1,10 @@
 import Card from '@/components/@global/cards/Card'
 import { monthLongName } from '@/utils/formatters/@global/monthLongName'
 
-const EmpresasAtivasMesAnterior = ({
+const EmpresasInativasMesRecente = ({
   data,
   date,
-  title = `Empresas Ativas anteriormente (mês)`,
+  title = `Empresas Inativas (mês)`,
   local = '',
   year,
   color,
@@ -13,24 +13,21 @@ const EmpresasAtivasMesAnterior = ({
 
   const curMonthData = monthsData.sort(
     (a: any, b: any) => +b - +a,
-  )?.[1]
+  )?.[0]
 
   const curMonthName = monthLongName(+curMonthData)
 
   const chartData = data['mes'][curMonthData] || 0
 
   return (
-    <>
-      {curMonthData && <Card
-        local={local}
-        title={`${title.replace('mês', curMonthName)}`}
-        data={chartData}
-        year={year}
-        color={color}
-      />}
-    </>
-    
+    <Card
+      local={local}
+      title={`${title.replace('mês', curMonthName)}`}
+      data={chartData}
+      year={year}
+      color={color}
+    />
   )
 }
 
-export default EmpresasAtivasMesAnterior
+export default EmpresasInativasMesRecente

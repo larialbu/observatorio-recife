@@ -1,5 +1,5 @@
-import Card from "@/components/@global/cards/Card";
-import { monthLongName } from "@/utils/formatters/@global/monthLongName";
+import Card from '@/components/@global/cards/Card'
+import { monthLongName } from '@/utils/formatters/@global/monthLongName'
 
 const EmpresasAtivasMesRecente = ({
   data,
@@ -9,12 +9,13 @@ const EmpresasAtivasMesRecente = ({
   year,
   color,
 }: any) => {
-
   const monthsData = Object.keys(data['mes'])
 
-  const curMonthData = monthsData.sort((a: any, b: any) => +b['mes'] - +a['mes'])?.[0] 
-  
-  const curMonthName = monthLongName(+curMonthData) 
+  const curMonthData = monthsData.sort(
+    (a: any, b: any) => +b - +a,
+  )?.[0]
+
+  const curMonthName = monthLongName(+curMonthData)
 
   const chartData = data['mes'][curMonthData] || 0
 
@@ -26,7 +27,7 @@ const EmpresasAtivasMesRecente = ({
       year={year}
       color={color}
     />
-  );
-};
+  )
+}
 
-export default EmpresasAtivasMesRecente;
+export default EmpresasAtivasMesRecente

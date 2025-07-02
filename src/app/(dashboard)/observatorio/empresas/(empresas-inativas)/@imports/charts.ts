@@ -4,35 +4,28 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/micro-caged/media/MediaSalarioEtario"
+        "@/components/@build/observatorio/charts/empresas/empresas-inativas/EmpresasBairro"
       )
     ),
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/micro-caged/media/MediaInstrucao"
+        "@/components/@build/observatorio/charts/empresas/empresas-inativas/EmpresaGrupo"
       )
     ),
-  },
+  },  
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/micro-caged/media/MediaVinculos"
+        "@/components/@build/observatorio/charts/empresas/empresas-inativas/EmpresasDescricao"
       )
     ),
-  },
+  },  
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/micro-caged/media/MediaAtivEconomica"
-      )
-    ),
-  },
-  {
-    Component: React.lazy(() =>
-      import(
-        "@/components/@build/observatorio/charts/micro-caged/media/MediaGrupo"
+        "@/components/@build/observatorio/charts/empresas/empresas-inativas/EmpresasMes"
       )
     ),
   },

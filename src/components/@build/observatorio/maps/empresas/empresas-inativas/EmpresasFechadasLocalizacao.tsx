@@ -57,7 +57,7 @@ type CapitaisLocalizacaoProps = {
   data: any[]
 }
 
-export default function EmpresasAbertas({ data }: CapitaisLocalizacaoProps) {
+export default function EmpresasFechadas({ data }: CapitaisLocalizacaoProps) {
 
   const mapRef = useRef<HTMLDivElement | null>(null);
 
@@ -137,7 +137,7 @@ export default function EmpresasAbertas({ data }: CapitaisLocalizacaoProps) {
   return (
     <div className="w-full h-full">
       <div className="flex w-full justify-center mb-2 text-lg">
-        <strong>Localiação de Empresas Ativas</strong>
+        <strong>Localiação de Empresas Inativas</strong>
       </div>
       <div className="rounded-md border flex items-center justify-center p-4 gap-3 mb-3">
         {['Agropecuária', 'Comércio', 'Construção Civil', 'Indústria', 'Serviços'].map((group) => <div className="flex items-center gap-2">
