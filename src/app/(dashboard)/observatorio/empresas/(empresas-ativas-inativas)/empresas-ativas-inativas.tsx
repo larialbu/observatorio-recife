@@ -39,7 +39,7 @@ const EmpresasAtivasInativas = ({
 
   return (
     <div>
-      {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
+      <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
             <ErrorBoundary>
@@ -51,7 +51,7 @@ const EmpresasAtivasInativas = ({
             </ErrorBoundary>
           </React.Suspense>
         ))}
-      </div> */}
+      </div>
 
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
