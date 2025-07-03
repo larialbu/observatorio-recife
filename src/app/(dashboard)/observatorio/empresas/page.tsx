@@ -16,6 +16,7 @@ import EmpresasAtivasRecife from "./(empresas-ativas-recife)/empresas-ativas-rec
 import EmpresasInativas from "./(empresas-inativas)/empresas-inativas";
 import Salario from "./(salario)/salario";
 import EmpresasAtivasInativas from "./(empresas-ativas-inativas)/empresas-ativas-inativas";
+import EmpresasNaturezas from "./(empresas-naturezas)/empresas-naturezas";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
@@ -39,7 +40,7 @@ const EmpresasPage = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-        const idArrays = ["empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas"]
+        const idArrays = ["empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas", "empresas-empresas-naturezas"]
         const idObjs = ['empresas-empresas-ativas-inativas']
       
         if (idArrays.includes(data?.id)) {
@@ -98,6 +99,13 @@ const EmpresasPage = () => {
         data={dataObj} 
         year={getYearSelected(filters)} 
         /> 
+      case "empresas-naturezas":
+        return <EmpresasNaturezas
+        data={dataArr} 
+        year={getYearSelected(filters)} 
+        />       
+        // "empresas-naturezas"
+
       // case "comparativo-mov":
       //   return <ComparativoMov
       //   data={microCaged} 
@@ -185,14 +193,14 @@ const EmpresasPage = () => {
           Empresas Inativas X Ativas 
         </button>
         <button
-          onClick={() => handleNavigation("comparativo-med")}
+          onClick={() => handleNavigation("empresas-naturezas")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "comparativo-med"
+            activeTab === "empresas-naturezas"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
-          Salário Médio Comparativo
+          Empresas Naturezas
         </button>
         <button
           onClick={() => handleNavigation("salario")}

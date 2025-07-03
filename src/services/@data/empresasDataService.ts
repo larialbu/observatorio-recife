@@ -79,14 +79,6 @@ export class EmpresasDataService {
     const filteredDataAtivas = applyGenericFilters(fetchDataAtivas, filters);
     const filteredDataInativas = applyGenericFilters(fetchDataInativas, filters);
 
-    console.log('empresas-empresas-ativas-inativas', {
-      empresas: {
-        ativas: filteredDataAtivas,
-        inativas: filteredDataInativas
-      },
-      id: "empresas-empresas-ativas-inativas",
-    })
-
     return {
       empresas: {
         ativas: filteredDataAtivas,
@@ -95,6 +87,26 @@ export class EmpresasDataService {
       id: "empresas-empresas-ativas-inativas",
     };
   }
+
+  // tab5
+    private async fetchEmpresasNaturezas(filters: any) {
+    const empresasData = new EmpresasData(this.currentYear);
+
+    const fetchData = await empresasData.fetchProcessedNaturezas() 
+
+    const filteredData = applyGenericFilters(fetchData, filters);
+
+    console.log('empresas-empresas-naturezas', {
+      empresas: filteredData,
+      id: "empresas-empresas-naturezas",
+    })
+
+    return {
+      empresas: filteredData,
+      id: "empresas-empresas-naturezas",
+    };
+  }
+
 //   private async fetchGeral(filters: any) {
 //     const filtersHashed = applyHashedFilters(filters, 'grupamento', 'seção', gropoHash)
 
@@ -146,6 +158,10 @@ export class EmpresasDataService {
       data = await this.fetchEmpresasInativas(filters);
     } else if (tab === "empresas-ativas-inativas") {
       data = await this.fetchEmpresasAtivasInativas(filters);
+    } else if (tab === "empresas-naturezas") {
+      data = await this.fetchEmpresasNaturezas(filters);
+    } else if (tab === "empresas-classes") {
+      data = await this.fetchEmpresasNaturezas(filters);
     } else {
       data = await this.fetchGeral(filters);
     }

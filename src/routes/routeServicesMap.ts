@@ -90,7 +90,9 @@ export const routeServicesMap: Record<
     geral: empresasDataService,
     "empresas-ativas": empresasDataService,
     "empresas-inativas": empresasDataService,
-    "empresas-ativas-inativas": empresasDataService
+    "empresas-ativas-inativas": empresasDataService,
+    "empresas-naturezas": empresasDataService,
+    "empresas-classes": empresasDataService
     // saldo: empresasGeralFilters,
     // media: empresasGeralFilters,
     // "comparativo-mov": empresasGeralFilters,
