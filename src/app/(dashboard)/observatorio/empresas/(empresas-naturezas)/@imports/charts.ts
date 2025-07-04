@@ -4,7 +4,21 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/empresas/empresas-naturezas/EmpresasAtivasNatureza"
+        "@/components/@build/observatorio/charts/empresas/empresas-naturezas/EmpresasAtivasNaturezaMes"
+      )
+    ),
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/empresas/empresas-naturezas/EmpresasNatureza"
+      )
+    ),
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/empresas/empresas-naturezas/EmpresasMunicipioNatureza"
       )
     ),
   },

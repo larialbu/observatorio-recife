@@ -6,14 +6,14 @@ import { monthShortName } from "@/utils/formatters/@global/monthShortName";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
-const EmpresasAtivasNatureza = ({
+const EmpresasAtivasNaturezaMes = ({
   data,
   colors = ColorPalette.default,
   title = "Quantidade de Empresas Ativas no Recife",
   }: any) => {
+    const dataRawData = data['rawData']['mes']
 
-    console.log('Data a qnt->', data)
-    const chartData = getObjToArr<number>(data['mes'] || {}).sort((a, b) => +a.label - +b.label).map((dataMap) => ({ ...dataMap, label: monthShortName(+dataMap.label)}))
+    const chartData = getObjToArr<number>(dataRawData['mes'] || {}).sort((a, b) => +a.label - +b.label).map((dataMap) => ({ ...dataMap, label: monthShortName(+dataMap.label)}))
 
     return (
       <div className="chart-wrapper">
@@ -33,4 +33,4 @@ const EmpresasAtivasNatureza = ({
   
   
 
-export default EmpresasAtivasNatureza;
+export default EmpresasAtivasNaturezaMes;

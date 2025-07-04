@@ -9,6 +9,21 @@ export function geralAccFunction(dataArray: any, params: any) {
     }, {});
 }
 
+export const geralAccFieldFunction = (data: any, params: string[], accParam: string) => {
+    return data.reduce((acc: any, obj: any) => {
+        params.forEach((param) => {
+          if (!acc[param]) acc[param] = {} 
+
+          if (!acc[param][obj[param]]) acc[param][obj[param]] = 0
+
+          acc[param][obj[param]] += obj[accParam]
+        })
+
+        return acc
+      }, {})
+  }
+
+
 export function cnaeAccFunction(dataArray: any, cnaeParam: string) {
     return dataArray.reduce((acc: any, item: any) => {
         const cnae = item[cnaeParam];

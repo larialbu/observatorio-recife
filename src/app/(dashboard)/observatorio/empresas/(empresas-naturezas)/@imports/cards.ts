@@ -5,7 +5,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          '@/components/@build/observatorio/cards/empresas/empresas-ativas/EmpresasAtivasMesRecente'
+          '@/components/@build/observatorio/cards/empresas/empresas-naturezas/EmpresasAtivasNaturezaMesRecente'
         ),
     ),
   },
@@ -13,7 +13,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          '@/components/@build/observatorio/cards/empresas/empresas-ativas/EmpresasAtivasMesAnterior'
+          '@/components/@build/observatorio/cards/empresas/empresas-naturezas/EmpresasAtivasNaturezaMesAnterior'
         ),
     ),
   },
@@ -21,10 +21,10 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          '@/components/@build/observatorio/cards/empresas/empresas-ativas/EmpresasVariacaoAtivasRecente'
+          '@/components/@build/observatorio/cards/empresas/empresas-naturezas/EmpresasVariacaoAtivasNaturezaRecente'
         ),
     ),
-  },  
+  },
 ]
 
 export default cards

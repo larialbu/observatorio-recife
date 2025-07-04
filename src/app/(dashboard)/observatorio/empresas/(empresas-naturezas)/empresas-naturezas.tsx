@@ -1,19 +1,15 @@
 "use client";
 
-import React, { memo, useEffect, useMemo, useRef, useState } from "react";
+import React, {  useMemo, useRef, useState } from "react";
 
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { getDataObj } from "@/functions/process_data/observatorio/micro-caged/getDataObj";
-import { getSaldoData } from "@/functions/process_data/observatorio/micro-caged/getSaldoData";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
-import { geralAccFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
-import maps from "./@imports/maps";
-
+import { geralAccFieldFunction, geralAccFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
 
 const EmpresasNaturezas = ({
   data,
@@ -22,24 +18,25 @@ const EmpresasNaturezas = ({
   data: any;
   year: string;
 }) => {
-  console.log('DAta->', data)
-
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
 
   const sortableContainerRef = useRef<HTMLDivElement>(null);
  
   const params = ['Municipio', 'mes', 'Natureza Jurídica']
-  // const params = ['nome_bairro', 'Grupo', 'desc_atividade', 'mes']
-
+ 
   const chartData = useMemo(() => {
-    return geralAccFunction(data, params)
+    return { 
+      empresas: geralAccFieldFunction(data['empresas'], params, 'Estabelecimentos'),
+      rawData: {
+        municipio: geralAccFieldFunction(data['rawData']['municipio'], params, 'Estabelecimentos'),
+        mes: geralAccFieldFunction(data['rawData']['mes'], params, 'Estabelecimentos')
+      }
+    }
   }, [data, params])  
   
-  console.log('ChartData ->', chartData)
-
   return (
     <div>
-      {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
+      <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
             <ErrorBoundary>
@@ -51,7 +48,7 @@ const EmpresasNaturezas = ({
             </ErrorBoundary>
           </React.Suspense>
         ))}
-      </div> */}
+      </div>
 
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {

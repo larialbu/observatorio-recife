@@ -95,14 +95,26 @@ export class EmpresasDataService {
     const fetchData = await empresasData.fetchProcessedNaturezas() 
 
     const filteredData = applyGenericFilters(fetchData, filters);
+    const filteredDataRawDataMunicipio = applyGenericFilters(fetchData, filters, ['Municipio']);
+    const filteredDataRawDataMes = applyGenericFilters(fetchData, filters, ['mes']);
 
     console.log('empresas-empresas-naturezas', {
-      empresas: filteredData,
+      empresas: {
+        empresas: filteredData,
+        rawData: {mes: filteredDataRawDataMes, municipio: filteredDataRawDataMunicipio},   
+        // rawData: filteredDataRawData,   
+      },      
       id: "empresas-empresas-naturezas",
     })
 
     return {
-      empresas: filteredData,
+      empresas: {
+        empresas: filteredData,
+        rawData: {
+          mes: filteredDataRawDataMes, 
+          municipio: filteredDataRawDataMunicipio
+        },   
+      },      
       id: "empresas-empresas-naturezas",
     };
   }

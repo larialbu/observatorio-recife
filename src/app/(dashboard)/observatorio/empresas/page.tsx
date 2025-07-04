@@ -21,6 +21,7 @@ import EmpresasNaturezas from "./(empresas-naturezas)/empresas-naturezas";
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
   const [dataArr, setDataArr] = useState<any>([]);
+  const [dataObjRawData, setDataObjRawData] = useState<any>({});
   const [dataObj, setDataObj] = useState<any>({});
   const [activeTab, setActiveTab] = useState("geral");
 
@@ -40,9 +41,13 @@ const EmpresasPage = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-        const idArrays = ["empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas", "empresas-empresas-naturezas"]
-        const idObjs = ['empresas-empresas-ativas-inativas']
-      
+        // const idArrays = ["empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas"]
+        // const idObjsRawData = ['empresas-empresas-ativas-inativas', "empresas-empresas-naturezas"]
+        // const idObjs = ["empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas", "empresas-empresas-naturezas"]
+        const idArrays = ["empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas"]
+        const idObjsRawData = ["empresas-empresas-naturezas"]
+        const idObjs = ['empresas-empresas-ativas-inativas']      
+        
         if (idArrays.includes(data?.id)) {
 
           const empresasDataObj = data?.empresas || [];
@@ -65,6 +70,18 @@ const EmpresasPage = () => {
         } else {
             setDataObj({ ativas: [], inativas: [] });
           }
+
+        if (idObjsRawData.includes(data?.id)) {
+          const empresasDataObj = { empresas: data?.empresas?.empresas?.filteredData || [], rawData: { mes: data?.empresas?.rawData?.mes?.filteredData || [], municipio: data?.empresas?.rawData?.municipio?.filteredData || [] } };
+          
+          console.log('empresasAdtaObj', empresasDataObj)
+
+          setDataObjRawData(empresasDataObj);
+
+          clearInterval(intervalId);
+        } else {
+            setDataObjRawData({ empresas: [], rawData: {mes: [], municipio: []} });
+          }          
       }, 50);
   
       return () => clearInterval(intervalId);
@@ -74,7 +91,7 @@ const EmpresasPage = () => {
 
     
   const renderContent = () => {
-    if (!data || !(dataArr?.length || dataObj?.ativas?.length) ) {
+    if (!data || !(dataArr?.length || dataObj?.ativas?.length || dataObjRawData?.empresas?.length) ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
@@ -101,7 +118,7 @@ const EmpresasPage = () => {
         /> 
       case "empresas-naturezas":
         return <EmpresasNaturezas
-        data={dataArr} 
+        data={dataObjRawData} 
         year={getYearSelected(filters)} 
         />       
         // "empresas-naturezas"
