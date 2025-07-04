@@ -17,6 +17,7 @@ import EmpresasInativas from "./(empresas-inativas)/empresas-inativas";
 import Salario from "./(salario)/salario";
 import EmpresasAtivasInativas from "./(empresas-ativas-inativas)/empresas-ativas-inativas";
 import EmpresasNaturezas from "./(empresas-naturezas)/empresas-naturezas";
+import EmpresasClasses from "./(empresas-classes)/empresas-classes";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
@@ -41,11 +42,8 @@ const EmpresasPage = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-        // const idArrays = ["empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas"]
-        // const idObjsRawData = ['empresas-empresas-ativas-inativas', "empresas-empresas-naturezas"]
-        // const idObjs = ["empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas", "empresas-empresas-naturezas"]
         const idArrays = ["empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas"]
-        const idObjsRawData = ["empresas-empresas-naturezas"]
+        const idObjsRawData = ["empresas-empresas-naturezas", "empresas-empresas-classes"]
         const idObjs = ['empresas-empresas-ativas-inativas']      
         
         if (idArrays.includes(data?.id)) {
@@ -115,12 +113,17 @@ const EmpresasPage = () => {
         return <EmpresasAtivasInativas
         data={dataObj} 
         year={getYearSelected(filters)} 
-        /> 
+        />   
       case "empresas-naturezas":
         return <EmpresasNaturezas
         data={dataObjRawData} 
         year={getYearSelected(filters)} 
-        />       
+        />
+      case "empresas-classes":
+        return <EmpresasClasses
+        data={dataObjRawData} 
+        year={getYearSelected(filters)} 
+        />         
         // "empresas-naturezas"
 
       // case "comparativo-mov":
@@ -220,14 +223,14 @@ const EmpresasPage = () => {
           Empresas Naturezas
         </button>
         <button
-          onClick={() => handleNavigation("salario")}
+          onClick={() => handleNavigation("empresas-classes")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "salario"
+            activeTab === "empresas-classes"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
-          Comparação CBO
+          Ativas Geral NE
         </button>
       </div>
       {renderContent()}

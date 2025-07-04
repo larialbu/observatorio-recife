@@ -90,34 +90,58 @@ export class EmpresasDataService {
 
   // tab5
     private async fetchEmpresasNaturezas(filters: any) {
-    const empresasData = new EmpresasData(this.currentYear);
+      const empresasData = new EmpresasData(this.currentYear);
 
-    const fetchData = await empresasData.fetchProcessedNaturezas() 
+      const fetchData = await empresasData.fetchProcessedNaturezas() 
 
-    const filteredData = applyGenericFilters(fetchData, filters);
-    const filteredDataRawDataMunicipio = applyGenericFilters(fetchData, filters, ['Municipio']);
-    const filteredDataRawDataMes = applyGenericFilters(fetchData, filters, ['mes']);
+      const filteredData = applyGenericFilters(fetchData, filters);
+      const filteredDataRawDataMunicipio = applyGenericFilters(fetchData, filters, ['Municipio']);
+      const filteredDataRawDataMes = applyGenericFilters(fetchData, filters, ['mes']);
 
-    console.log('empresas-empresas-naturezas', {
-      empresas: {
-        empresas: filteredData,
-        rawData: {mes: filteredDataRawDataMes, municipio: filteredDataRawDataMunicipio},   
-        // rawData: filteredDataRawData,   
-      },      
-      id: "empresas-empresas-naturezas",
-    })
-
-    return {
-      empresas: {
-        empresas: filteredData,
-        rawData: {
-          mes: filteredDataRawDataMes, 
-          municipio: filteredDataRawDataMunicipio
-        },   
-      },      
-      id: "empresas-empresas-naturezas",
-    };
+      return {
+        empresas: {
+          empresas: filteredData,
+          rawData: {
+            mes: filteredDataRawDataMes, 
+            municipio: filteredDataRawDataMunicipio
+          },   
+        },      
+        id: "empresas-empresas-naturezas",
+      };
   }
+
+  private async fetchEmpresasClasses(filters: any) {
+   const empresasData = new EmpresasData(this.currentYear);
+
+      const fetchData = await empresasData.fetchProcessedClasses() 
+
+      const filteredData = applyGenericFilters(fetchData, filters);
+      const filteredDataRawDataMunicipio = applyGenericFilters(fetchData, filters, ['Municipio']);
+      const filteredDataRawDataMes = applyGenericFilters(fetchData, filters, ['mes']);
+
+      console.log('data->', {
+        empresas: {
+          empresas: filteredData,
+          rawData: {
+            mes: filteredDataRawDataMes, 
+            municipio: filteredDataRawDataMunicipio
+          },   
+        },      
+        id: "empresas-empresas-classes",
+      })
+
+      return {
+        empresas: {
+          empresas: filteredData,
+          rawData: {
+            mes: filteredDataRawDataMes, 
+            municipio: filteredDataRawDataMunicipio
+          },   
+        },      
+        id: "empresas-empresas-classes",
+      };
+  }
+
 
 //   private async fetchGeral(filters: any) {
 //     const filtersHashed = applyHashedFilters(filters, 'grupamento', 'seção', gropoHash)
@@ -173,7 +197,7 @@ export class EmpresasDataService {
     } else if (tab === "empresas-naturezas") {
       data = await this.fetchEmpresasNaturezas(filters);
     } else if (tab === "empresas-classes") {
-      data = await this.fetchEmpresasNaturezas(filters);
+      data = await this.fetchEmpresasClasses(filters);
     } else {
       data = await this.fetchGeral(filters);
     }

@@ -1,11 +1,24 @@
+import { monthHash } from "@/utils/hashs/monthHash";
+
 export const empresasClassesFilters = {
     years: ["2023", "2024", "2025" ], // Filtra por ano
     additionalFilters: [
-    //   {
-    //     label: "Mês",  
-    //     options: [],  
-    //     selected: [],
-    //   },
+      {
+        label: "mes",  
+        options: [],  
+        selected: [],
+        hash: monthHash        
+      },
+      {
+        label: "Municipio",  
+        options: [],  
+        selected: ["Recife"],
+      },      
+      // {
+      //   label: "Mês",  
+      //   options: [],  
+      //   selected: [],
+      // },
     //   {
     //     label: "município",  
     //     options: [],  
