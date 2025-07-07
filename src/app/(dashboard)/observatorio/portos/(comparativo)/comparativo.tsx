@@ -124,7 +124,7 @@ useEffect(() => {
           {(tablesRender.length > 1 ? rearrangeArray(tablesRender).slice(2) : tablesRender[0].slice(1)).map(({ Component }, index) => {
               // isso é para escolher qual porto ele vai pegar no tempfitred
               const virtuaIndex = tablesRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
-            
+      
               return (
                 <>
                   <div className={`hidden 2xl:block ${index !== 4 && "!hidden"}`}></div>

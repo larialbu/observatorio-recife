@@ -24,15 +24,15 @@ const EmpresasClasses = ({
  
   const params = ['Municipio', 'mes', 'Subclasse', 'nome_secao', 'secao']
  
-  console.log('Datata', data)
+  console.log('Datata', data) 
 
-// Estabelecimentos: 1002
-// Municipio: "Salvador"
-// Subclasse: "Fornecimento de alimentos preparados preponderantemente para empresas"
-// ano: 2025
-// mes: 1
-// nome_secao: "ALOJAMENTO E ALIMENTAÇÃO"
-// secao: "I"
+  // Estabelecimentos: 1002
+  // Municipio: "Salvador"
+  // Subclasse: "Fornecimento de alimentos preparados preponderantemente para empresas"
+  // ano: 2025
+  // mes: 1
+  // nome_secao: "ALOJAMENTO E ALIMENTAÇÃO"
+  // secao: "I"
 
   const chartData = useMemo(() => {
     return { 

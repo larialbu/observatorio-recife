@@ -10,7 +10,6 @@ import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
 
 import ComparativoMed from "./(comparativo-med)/comparativo-med";
-import ComparativoMov from "./(comparativo-mov)/comparativo-mov";
 import EmpresasAtivas from "./(empresas-ativas)/empresas-ativas";
 import EmpresasAtivasRecife from "./(empresas-ativas-recife)/empresas-ativas-recife";
 import EmpresasInativas from "./(empresas-inativas)/empresas-inativas";
@@ -18,6 +17,7 @@ import Salario from "./(salario)/salario";
 import EmpresasAtivasInativas from "./(empresas-ativas-inativas)/empresas-ativas-inativas";
 import EmpresasNaturezas from "./(empresas-naturezas)/empresas-naturezas";
 import EmpresasClasses from "./(empresas-classes)/empresas-classes";
+import ComparativoClasses from "./(comparativo-classes)/comparativo-classes";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
@@ -121,6 +121,11 @@ const EmpresasPage = () => {
         />
       case "empresas-classes":
         return <EmpresasClasses
+        data={dataObjRawData} 
+        year={getYearSelected(filters)} 
+        />     
+      case "comparativo-empresas-classes":
+        return <ComparativoClasses
         data={dataObjRawData} 
         year={getYearSelected(filters)} 
         />         
@@ -231,6 +236,16 @@ const EmpresasPage = () => {
           }`}
         >
           Ativas Geral NE
+        </button>
+        <button
+          onClick={() => handleNavigation("comparativo-empresas-classes")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "comparativo-empresas-classes"
+              ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
+              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
+          }`}
+        >
+          Compartivo Ativas Geral NE
         </button>
       </div>
       {renderContent()}

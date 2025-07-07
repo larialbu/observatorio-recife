@@ -110,6 +110,7 @@ export class EmpresasDataService {
       };
   }
 
+  // tab6 e tab7
   private async fetchEmpresasClasses(filters: any) {
    const empresasData = new EmpresasData(this.currentYear);
 
@@ -197,6 +198,8 @@ export class EmpresasDataService {
     } else if (tab === "empresas-naturezas") {
       data = await this.fetchEmpresasNaturezas(filters);
     } else if (tab === "empresas-classes") {
+      data = await this.fetchEmpresasClasses(filters);
+    } else if (tab === "comparativo-empresas-classes") {
       data = await this.fetchEmpresasClasses(filters);
     } else {
       data = await this.fetchGeral(filters);

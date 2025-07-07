@@ -92,7 +92,8 @@ export const routeServicesMap: Record<
     "empresas-inativas": empresasDataService,
     "empresas-ativas-inativas": empresasDataService,
     "empresas-naturezas": empresasDataService,
-    "empresas-classes": empresasDataService
+    "empresas-classes": empresasDataService,
+    "comparativo-empresas-classes": empresasDataService
     // saldo: empresasGeralFilters,
     // media: empresasGeralFilters,
     // "comparativo-mov": empresasGeralFilters,

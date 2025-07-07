@@ -36,6 +36,7 @@ import { balancaComercialFilters } from "../utils/filters/balanca-comercial/bala
 import { empresasAtivasInativasFilters } from "@/utils/filters/empresas/empresasAtivasInativasFilters";
 import { empresasNaturezasFilters } from "@/utils/filters/empresas/empresasNaturezasFilters";
 import { empresasClassesFilters } from "@/utils/filters/empresas/empresasClassesFilters";
+import { empresasComparativoClasses } from "@/utils/filters/empresas/empresasComparativoClasses";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 type TabFiltersMap = Record<string, Filters>;
@@ -119,7 +120,8 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     "empresas-inativas": empresasInativasFilters,
     "empresas-ativas-inativas": empresasAtivasInativasFilters,
     "empresas-naturezas": empresasNaturezasFilters,
-    "empresas-classes": empresasClassesFilters
+    "empresas-classes": empresasClassesFilters,
+    "comparativo-empresas-classes": empresasComparativoClasses
     // saldo: empresasGeralFilters,
     // media: empresasGeralFilters,
     // "comparativo-mov": empresasGeralFilters,
