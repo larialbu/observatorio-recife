@@ -1,27 +1,30 @@
-import React from "react";
+import React from 'react'
 
 const cards = [
   {
-    Component: React.lazy(() =>
-      import(
-        "@/components/@build/observatorio/cards/micro-caged/comparativo-mov/AdmitidosComparativo"
-      )
+    Component: React.lazy(
+      () =>
+        import(
+          '@/components/@build/observatorio/cards/empresas/comparativo-empresas-classes/EmpresasAtivasClassesMesRecente'
+        ),
     ),
   },
-  {
-    Component: React.lazy(() =>
-      import(
-        "@/components/@build/observatorio/cards/micro-caged/comparativo-mov/DemitidosComparativo"
-      )
-    ),
-  },  
-  {
-    Component: React.lazy(() =>
-      import(
-        "@/components/@build/observatorio/cards/micro-caged/comparativo-mov/SaldoComparativo"
-      )
-    ),
-  },  
-];
+  // {
+  //   Component: React.lazy(
+  //     () =>
+  //       import(
+  //         '@/components/@build/observatorio/cards/empresas/comparativo-empresas-classes/EmpresasAtivasClassesMesAnterior'
+  //       ),
+  //   ),
+  // },
+  // {
+  //   Component: React.lazy(
+  //     () =>
+  //       import(
+  //         '@/components/@build/observatorio/cards/empresas/comparativo-empresas-classes/EmpresasVariacaoAtivasClassesRecente'
+  //       ),
+  //   ),
+  // },
+]
 
-export default cards;
+export default cards

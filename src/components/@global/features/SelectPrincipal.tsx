@@ -12,7 +12,8 @@ const SelectPrincipal = ({
   label="Compare Municípios",
   placeholder="Digite para buscar um Município",
   notFoundMessage="Nenhum Município encontrado",
-  initialValue
+  initialValue,
+  selectMax,
 }: {
   options: any[];
   filters: any[];
@@ -24,6 +25,7 @@ const SelectPrincipal = ({
   unique?: boolean;
   initialValue?: any[];
   search?: boolean;
+  selectMax?: number
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdown, setDropdown] = useState<boolean>(false);
@@ -46,19 +48,30 @@ const SelectPrincipal = ({
   const handleSelectCheck = (value: string) => {
     const includes = filters.includes(value);
 
-    // Adiciona ou remove o valor do filtro
-    if (includes && !unique) {
-      setFilters(filters.filter((item: string) => item !== value));
-    } else if (!includes && !unique) {
-      setFilters([...filters, value]);
-    } else if (includes && unique) {
-      setFilters([...filters.filter((item: string) => item !== value)]);
-      setSearchTerm(`${value}`);
-    } else if (!includes && unique) {
-      setFilters([value]);
-      setSearchTerm(`${value}`);
+    if (unique) {
+      if (includes) {
+        setFilters([]);
+        setSearchTerm("");
+      } else {
+        setFilters([value]);
+        setSearchTerm(`${value}`);
+      }
+    } else {
+      if (includes) {
+        setFilters(filters.filter((item) => item !== value));
+      } else {
+        if (selectMax && filters.length >= selectMax) {
+          // Substitui o último selecionado pelo novo
+          const newFilters = [...filters];
+          newFilters.pop();
+          setFilters([...newFilters, value]);
+        } else {
+          setFilters([...filters, value]);
+        }
+      }
     }
   };
+
 
   return (
     <div className="mb-6 relative">

@@ -10,7 +10,6 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
-import tables from "./@imports/tables";
 import { rearrangeArray } from "@/functions/process_data/observatorio/porto/comparativo/charts/filteredPortoData";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 
@@ -93,31 +92,31 @@ const ComparativoClasses = ({
 
   const tempFiltredCard = tempFiltred.filter((municipio) => municipio !== selectCompare)
 
-  // const handlePageChange = (direction: "prev" | "next") => {
-  //   setAnimationClass("card-exit"); // Aplica a animação de saída
-  //   setTimeout(() => {
-  //     setPageCompare((prevPage) =>
-  //       direction === "next"
-  //         ? prevPage === tempFiltredCard.length - 1
-  //           ? 0
-  //           : prevPage + 1
-  //         : prevPage === 0
-  //         ? tempFiltredCard.length - 1
-  //         : prevPage - 1
-  //     );
-  //     setAnimationClass("card-enter"); // Aplica a animação de entrada após a mudança
-  //   }, 500); // Tempo suficiente para a animação de saída
-  // };
+  const handlePageChange = (direction: "prev" | "next") => {
+    setAnimationClass("card-exit"); // Aplica a animação de saída
+    setTimeout(() => {
+      setPageCompare((prevPage) =>
+        direction === "next"
+          ? prevPage === tempFiltredCard.length - 1
+            ? 0
+            : prevPage + 1
+          : prevPage === 0
+          ? tempFiltredCard.length - 1
+          : prevPage - 1
+      );
+      setAnimationClass("card-enter"); // Aplica a animação de entrada após a mudança
+    }, 500); // Tempo suficiente para a animação de saída
+  };
 
   // console.log('ChartData', chartData)
 
   return (
     <div>
-      <p>alguma coisa comparativo</p>
       <SelectPrincipal
         options={toCompare}
         initialValue={['Recife']}
         // initialValue={['Recife']}
+        selectMax={2}
         noRecife={false}
         filters={tempFiltred}
         setFilters={setTempFiltred}
@@ -136,7 +135,7 @@ const ComparativoClasses = ({
         />
       </div>
 
-      {/* <div className="flex justify-between items-center gap-2">
+      <div className="flex justify-between items-center gap-2">
         {tempFiltredCard.length >= 1 ? (
           <>
             <button
@@ -202,9 +201,9 @@ const ComparativoClasses = ({
             Selecione um município para as informações serem comparadas
           </p>
         )}
-      </div> */}
+      </div>
 
-      {/* <div className="flex items-center justify-center mb-6 gap-2">
+      <div className="flex items-center justify-center mb-6 gap-2">
         {tempFiltredCard.map((_, i) => {
           return (
             <button
@@ -216,33 +215,26 @@ const ComparativoClasses = ({
             ></button>
           );
         })}
-      </div> */}
+      </div>
 
       <div className="flex flex-col gap-6">
 
-      {/* <div key={index} className={`chart-content-wrapper ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`}> */}
-      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
-        {tablesRender.map(({ Component }, index) => (
-          <div key={index} className="w-full">
-            <p className="font-semibold text-2xl text-gray-700 mb-2">
-              {[...tempFiltred][index]}
-            </p>
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+        {tablesRender?.[0]?.slice(0, 1).map(({ Component }, index) => (
             <div
               key={index}
-              className="chart-content-wrapper"
+              className="chart-content-wrapper col-span-full"
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
-                  toCompare={[...tempFiltred][index]}
-                  color={ColorPalette.default[index]}
+                  toCompare={[...tempFiltred]}
                   data={chartData}
                   year={year}
                 />
               </React.Suspense>
             </div>
-          </div>
         ))}
-      </SortableDiv> */}
+      </SortableDiv>
 
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-4">
           {(tablesRender.length > 1 ? (rearrangeArray(tablesRender)?.slice(2) || []) : (tablesRender[0]?.slice(1) || [])).map(({ Component }, index) => {
