@@ -4,15 +4,12 @@ import React, { memo, useEffect, useMemo, useRef, useState } from "react";
 
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { getDataObj } from "@/functions/process_data/observatorio/micro-caged/getDataObj";
-import { getSaldoData } from "@/functions/process_data/observatorio/micro-caged/getSaldoData";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import { geralAccFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
-import maps from "./@imports/maps";
 
 
 const EmpresasAtivasInativas = ({
@@ -34,8 +31,6 @@ const EmpresasAtivasInativas = ({
         inativas: geralAccFunction(data['inativas'], params) 
       }
   }, [data, params])  
-
-  const { Component }: any = maps[0]
 
   return (
     <div>
@@ -70,12 +65,6 @@ const EmpresasAtivasInativas = ({
           );
         })}
       </SortableDiv>
-
-      {/* <div className="place-items-center z-0 mb-6">
-        <div className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center">
-          <Component data={data} />
-        </div>
-      </div> */}
     </div>
   );
 };

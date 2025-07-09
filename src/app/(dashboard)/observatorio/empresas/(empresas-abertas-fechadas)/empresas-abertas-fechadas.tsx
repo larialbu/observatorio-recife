@@ -17,9 +17,9 @@ import ErrorBoundary from "@/utils/loader/errorBoundary";
 const ComparativoClasses = ({
   year,
   data,
-  toCompare = getUniqueValues<any, "Municipio">(
-    data['rawData']['municipio'],
-    "Municipio"
+  toCompare = getUniqueValues<any, "Município">(
+    data['rawData']['ativas'],
+    "Município"
   )
 }: {
   year: string;
@@ -38,57 +38,88 @@ const ComparativoClasses = ({
 
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
-  const params = ['Municipio', 'mes', 'Subclasse', 'nome_secao', 'secao']
+  console.log('DAtaPAge->', data)
+  // existe diferenca
+  // console.log('ToCOmpare->', toCompare)
+  // console.log('INATIVAS', getUniqueValues<any, "Município">(
+  //   data['rawData']['inativas'],
+  //   "Município"
+  // ))
+
+  const params = ['Natureza Jurídica', 'mes', 'Porte', 'Município']
 
   useEffect(() => {
-    const dataMuni: { [key: string]: any } = {}
+    const dataFormat = (data: any) => {
+      const dataMuni: { [key: string]: any } = {}
 
-     toCompare.map((muni: string) => {
-      const dataFiltred =  data['rawData']['municipio']?.filter((micro: any) => micro['Municipio'] === muni) || []
-      if (!dataMuni[muni]) dataMuni[muni] = {}  
+      toCompare.map((muni: string) => {
+        const dataFiltred =  data?.filter((micro: any) => micro['Município'] === muni) || []
+        if (!dataMuni[muni]) dataMuni[muni] = {}  
 
 
-      dataMuni[muni] = {
-        municipio: geralAccFieldFunction(dataFiltred, params, 'Estabelecimentos'),
+          dataMuni[muni] = geralAccFieldFunction(dataFiltred, params, 'Quantidade de Empresas')
+      }) 
+
+      return dataMuni
+    }
+
+    const dataMuni = {
+      empresas: {
+        ativas: dataFormat(data['empresas']['ativas']),
+        inativas: dataFormat(data['empresas']['inativas'])
+      },
+      rawData: {
+        ativas: dataFormat(data['rawData']['ativas']),
+        inativas: dataFormat(data['rawData']['inativas'])
       }
-    }) 
+    }
 
+    // const dataMuni: { [key: string]: any } = {}
+
+    //  toCompare.map((muni: string) => {
+    //   const dataFiltred =  data['empresas']['ativas']?.filter((micro: any) => micro['Município'] === muni) || []
+    //   if (!dataMuni[muni]) dataMuni[muni] = {}  
+
+
+    //   dataMuni[muni] = geralAccFieldFunction(dataFiltred, params, 'Quantidade de Empresas')
+
+    // }) 
+
+    console.log('DATaMUNI', dataMuni)
     setChartData(dataMuni)
   }, [data])
 
 
-  useEffect(() => {
-    const getNewTables = tempFiltred.map(() => charts) 
+  // useEffect(() => {
+  //   const getNewTables = tempFiltred.map(() => charts) 
 
-    setTablesRender([...getNewTables])
+  //   setTablesRender([...getNewTables])
 
-    console.log('[...getNewTables]', [...getNewTables])
-  }, [tempFiltred]);
+  //   console.log('[...getNewTables]', [...getNewTables])
+  // }, [tempFiltred]);
 
-  console.log('TablesRender ->', tablesRender)
+  // const tempFiltredCard = tempFiltred.filter((municipio) => municipio !== selectCompare)
 
-  const tempFiltredCard = tempFiltred.filter((municipio) => municipio !== selectCompare)
-
-  const handlePageChange = (direction: "prev" | "next") => {
-    setAnimationClass("card-exit"); // Aplica a animação de saída
-    setTimeout(() => {
-      setPageCompare((prevPage) =>
-        direction === "next"
-          ? prevPage === tempFiltredCard.length - 1
-            ? 0
-            : prevPage + 1
-          : prevPage === 0
-          ? tempFiltredCard.length - 1
-          : prevPage - 1
-      );
-      setAnimationClass("card-enter"); // Aplica a animação de entrada após a mudança
-    }, 500); // Tempo suficiente para a animação de saída
-  };
+  // const handlePageChange = (direction: "prev" | "next") => {
+  //   setAnimationClass("card-exit"); // Aplica a animação de saída
+  //   setTimeout(() => {
+  //     setPageCompare((prevPage) =>
+  //       direction === "next"
+  //         ? prevPage === tempFiltredCard.length - 1
+  //           ? 0
+  //           : prevPage + 1
+  //         : prevPage === 0
+  //         ? tempFiltredCard.length - 1
+  //         : prevPage - 1
+  //     );
+  //     setAnimationClass("card-enter"); // Aplica a animação de entrada após a mudança
+  //   }, 500); // Tempo suficiente para a animação de saída
+  // };
 
 
   return (
     <div>
-      <SelectPrincipal
+      {/* <SelectPrincipal
         options={toCompare}
         initialValue={['Recife']}
         selectMax={2}
@@ -98,9 +129,9 @@ const ComparativoClasses = ({
         label="Compare Municípios"
         placeholder="Digite para buscar um município"
         notFoundMessage="Nenhum município encontrado"
-      />
+      /> */}
 
-      <div className="mb-2">
+      {/* <div className="mb-2">
         <SelectCompare
           options={toCompare}
           initialValue={'Recife'}
@@ -108,9 +139,9 @@ const ComparativoClasses = ({
           setFilters={setSelectCompare}
           label="Cards comparando com:"
         />
-      </div>
+      </div> */}
 
-      <div className="flex justify-between items-center gap-2">
+      {/* <div className="flex justify-between items-center gap-2">
         {tempFiltredCard.length >= 1 ? (
           <>
             <button
@@ -176,9 +207,9 @@ const ComparativoClasses = ({
             Selecione um município para as informações serem comparadas
           </p>
         )}
-      </div>
+      </div> */}
 
-      <div className="flex items-center justify-center mb-6 gap-2">
+      {/* <div className="flex items-center justify-center mb-6 gap-2">
         {tempFiltredCard.map((_, i) => {
           return (
             <button
@@ -190,11 +221,11 @@ const ComparativoClasses = ({
             ></button>
           );
         })}
-      </div>
+      </div> */}
 
       <div className="flex flex-col gap-6">
 
-      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {tablesRender?.[0]?.slice(0, 1).map(({ Component }, index) => (
             <div
               key={index}
@@ -209,9 +240,9 @@ const ComparativoClasses = ({
               </React.Suspense>
             </div>
         ))}
-      </SortableDiv>
+      </SortableDiv> */}
 
-      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-4">
+      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-4">
           {(tablesRender.length > 1 ? (rearrangeArray(tablesRender)?.slice(2) || []) : (tablesRender[0]?.slice(1) || [])).map(({ Component }, index) => {
               // isso é para escolher qual porto ele vai pegar no tempfitred
               const virtuaIndex = tablesRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
@@ -232,7 +263,7 @@ const ComparativoClasses = ({
                   </div>              
                 </>        
             )})}
-        </SortableDiv>
+        </SortableDiv> */}
       </div>
     </div>
   );

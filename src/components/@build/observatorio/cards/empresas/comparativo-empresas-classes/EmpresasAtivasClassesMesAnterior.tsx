@@ -1,35 +1,44 @@
 import Card from '@/components/@global/cards/Card'
+import ComparativeCard from '@/components/@global/cards/ComparativeCard'
 import { monthLongName } from '@/utils/formatters/@global/monthLongName'
 
 const EmpresasAtivasClassesMesAnterior = ({
   data,
-  date,
-  title = `Empresas Ativas anteriormente (mês)`,
-  local = '',
+  title = `Empresas Ativas anteriormente`,
+  compare,
+  toCompare,
+  comparative = `${toCompare} x ${compare}`,
   year,
   color,
 }: any) => {
-  const dataEmpresas = data['empresas']
+  const toCompareData = data[toCompare]['municipio']
+  const compareData = data[compare]['municipio']
+  
+  const monthsDataToCompare = Object.keys(toCompareData['mes'])
 
-  const monthsData = Object.keys(dataEmpresas['mes'])
-
-  const curMonthData = monthsData.sort(
+  const pastMonthData = monthsDataToCompare.sort(
     (a: any, b: any) => +b - +a,
   )?.[1]
 
-  const curMonthName = monthLongName(+curMonthData)
+  const pastMonthName = monthLongName(+pastMonthData)
 
-  const chartData = dataEmpresas['mes'][curMonthData] || 0
+  const chartData = compareData['mes'][pastMonthData] || 0
+  
+  const chartData2 = toCompareData['mes'][pastMonthData] || 0
 
   return (
     <>
-      {curMonthData && <Card
-        local={local}
-        title={`${title.replace('mês', curMonthName)}`}
-        data={chartData}
-        year={year}
-        color={color}
-      />}
+      {pastMonthData &&
+        <ComparativeCard
+          title={`${title} (${pastMonthName})`}
+          data={chartData}
+          year={year}
+          color={color}
+          data2={chartData2}
+          comparative={comparative}
+          compare={[toCompare, compare]}
+        />
+      }
     </>
     
   )

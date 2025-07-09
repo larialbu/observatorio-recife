@@ -24,7 +24,6 @@ const EmpresasClasses = ({
  
   const params = ['Municipio', 'mes', 'Subclasse', 'nome_secao', 'secao']
  
-  console.log('Datata', data) 
 
   // Estabelecimentos: 1002
   // Municipio: "Salvador"
@@ -44,7 +43,6 @@ const EmpresasClasses = ({
     }
   }, [data, params])  
   
-  console.log('ChartDaata ->', chartData)
 
   return (
     <div>

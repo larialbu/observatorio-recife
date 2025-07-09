@@ -18,12 +18,14 @@ import EmpresasAtivasInativas from "./(empresas-ativas-inativas)/empresas-ativas
 import EmpresasNaturezas from "./(empresas-naturezas)/empresas-naturezas";
 import EmpresasClasses from "./(empresas-classes)/empresas-classes";
 import ComparativoClasses from "./(comparativo-classes)/comparativo-classes";
+import EmpresasAbertasFechadas from "./(empresas-abertas-fechadas)/empresas-abertas-fechadas";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
   const [dataArr, setDataArr] = useState<any>([]);
   const [dataObjRawData, setDataObjRawData] = useState<any>({});
   const [dataObj, setDataObj] = useState<any>({});
+  const [dataTest, setDataTest] = useState<any>({});
   const [activeTab, setActiveTab] = useState("geral");
 
   const pathname = usePathname();
@@ -44,9 +46,11 @@ const EmpresasPage = () => {
     const intervalId = setInterval(() => {
         const idArrays = ["empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas"]
         const idObjsRawData = ["empresas-empresas-naturezas", "empresas-empresas-classes"]
-        const idObjs = ['empresas-empresas-ativas-inativas']      
-        
+        const idObjs = ['empresas-empresas-ativas-inativas',  ]      
+        const idTest = ["empresas-empresas-abertas-fechadas"]
+
         if (idArrays.includes(data?.id)) {
+          // aqui vai para de ser somente arrays { empresas: [], rawData: [] }
 
           const empresasDataObj = data?.empresas || [];
 
@@ -55,6 +59,19 @@ const EmpresasPage = () => {
           clearInterval(intervalId);
         } else {
             setDataArr([]);
+          }
+        
+        if (idTest.includes(data?.id)) {
+          const empresasDataObj = { 
+            empresas: { ativas: data?.empresas?.ativas?.filteredData || [], inativas: data?.empresas?.inativas?.filteredData || []}, 
+            rawData: { ativas: data?.rawData?.ativas || [], inativas: data?.rawData?.inativas || [] }
+          };
+
+          setDataTest(empresasDataObj);
+
+          clearInterval(intervalId);
+        } else {
+            setDataTest({ empresas: { ativas: [], inativas: []}, rawData: [] });
           }
 
         if (idObjs.includes(data?.id)) {
@@ -89,7 +106,8 @@ const EmpresasPage = () => {
 
     
   const renderContent = () => {
-    if (!data || !(dataArr?.length || dataObj?.ativas?.length || dataObjRawData?.empresas?.length) ) {
+    console.log('DataOBJ', dataObj)
+    if (!data || !(dataArr?.length || dataObj?.ativas?.length || dataObjRawData?.empresas?.length || dataTest?.empresas?.ativas?.length) ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
@@ -128,8 +146,14 @@ const EmpresasPage = () => {
         return <ComparativoClasses
         data={dataObjRawData} 
         year={getYearSelected(filters)} 
-        />         
+        />    
+      case "empresas-abertas-fechadas":
+        return <EmpresasAbertasFechadas
+        data={dataTest} 
+        year={getYearSelected(filters)} 
+        />        
         // "empresas-naturezas"
+// empresas-abertas-fechadas
 
       // case "comparativo-mov":
       //   return <ComparativoMov
@@ -167,16 +191,6 @@ const EmpresasPage = () => {
       </h1>
       
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
-      {/* <Link
-          href={'empregos?tab=geral'}
-          className={`px-6 py-3 rounded-lg flex items-center justify-center flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "caged"
-              ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
-              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
-          }`}
-        >
-          Caged
-        </Link> */}
         <button
           onClick={() => handleNavigation("geral")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
@@ -246,6 +260,16 @@ const EmpresasPage = () => {
           }`}
         >
           Compartivo Ativas Geral NE
+        </button>
+        <button
+          onClick={() => handleNavigation("empresas-abertas-fechadas")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "empresas-abertas-fechadas"
+              ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
+          }`}
+        >
+          Empresas Abertas e Fechadas  
         </button>
       </div>
       {renderContent()}

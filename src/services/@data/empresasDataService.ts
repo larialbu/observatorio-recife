@@ -120,17 +120,6 @@ export class EmpresasDataService {
       const filteredDataRawDataMunicipio = applyGenericFilters(fetchData, filters, ['Municipio']);
       const filteredDataRawDataMes = applyGenericFilters(fetchData, filters, ['mes']);
 
-      console.log('data->', {
-        empresas: {
-          empresas: filteredData,
-          rawData: {
-            mes: filteredDataRawDataMes, 
-            municipio: filteredDataRawDataMunicipio
-          },   
-        },      
-        id: "empresas-empresas-classes",
-      })
-
       return {
         empresas: {
           empresas: filteredData,
@@ -142,6 +131,29 @@ export class EmpresasDataService {
         id: "empresas-empresas-classes",
       };
   }
+
+  private async fetchEmpresasAbertasFechadas(filters: any) {
+    const empresasData = new EmpresasData(this.currentYear);
+
+    const fetchDataAbertas = await empresasData.fetchProcessedEmpresasAbertas() 
+    const fetchDataFechadas = await empresasData.fetchProcessedEmpresasFechadas() 
+
+    const filteredDataAbertas = applyGenericFilters(fetchDataAbertas, filters);
+    const filteredDataFechadas = applyGenericFilters(fetchDataFechadas, filters);
+
+    return {
+      empresas: {
+        ativas: filteredDataAbertas,
+        inativas: filteredDataFechadas
+      },
+      rawData: {
+        ativas: fetchDataAbertas,
+        inativas: fetchDataFechadas
+      },
+      id: "empresas-empresas-abertas-fechadas",
+    };
+  }
+
 
 
 //   private async fetchGeral(filters: any) {
@@ -201,10 +213,12 @@ export class EmpresasDataService {
       data = await this.fetchEmpresasClasses(filters);
     } else if (tab === "comparativo-empresas-classes") {
       data = await this.fetchEmpresasClasses(filters);
+    } else if (tab === "empresas-abertas-fechadas") {
+      data = await this.fetchEmpresasAbertasFechadas(filters);
     } else {
       data = await this.fetchGeral(filters);
     }
-
+    // fetchEmpresasAbertasFechadas
     this.dataCache[cacheKey] = data;
     return data;
   }
