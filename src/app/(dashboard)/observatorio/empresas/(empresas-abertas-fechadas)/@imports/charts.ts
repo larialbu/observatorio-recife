@@ -4,52 +4,25 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/empresas/empresas-ativas-inativas/EmpresasMesAtivasInativas"
+        "@/components/@build/observatorio/charts/empresas/empresas-abertas-fechadas/EmpresasMesAtivasInativas"
+      )
+    ),
+    col: 'full'
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/empresas/empresas-abertas-fechadas/EmpresasNaturezaAtivasInativas"
       )
     ),
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/empresas/empresas-ativas-inativas/EmpresasBairroAtivasInativas"
+        "@/components/@build/observatorio/charts/empresas/empresas-abertas-fechadas/EmpresasPorteAtivasInativas"
       )
     ),
   },
-  {
-    Component: React.lazy(() =>
-      import(
-        "@/components/@build/observatorio/charts/empresas/empresas-ativas-inativas/EmpresasDescricaoAtivasInativas"
-      )
-    ),
-  },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/charts/empresas/empresas-ativas/EmpresasBairro"
-  //     )
-  //   ),
-  // },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/charts/empresas/empresas-ativas/EmpresaGrupo"
-  //     )
-  //   ),
-  // },  
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/charts/empresas/empresas-ativas/EmpresasDescricao"
-  //     )
-  //   ),
-  // },  
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/charts/empresas/empresas-ativas/EmpresasMes"
-  //     )
-  //   ),
-  // },
 ];
 
 export default charts;

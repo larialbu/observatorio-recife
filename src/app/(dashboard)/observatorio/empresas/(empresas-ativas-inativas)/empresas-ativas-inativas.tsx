@@ -51,6 +51,8 @@ const EmpresasAtivasInativas = ({
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
           const { Component } = charts[index];
+          console.log('ChartData ->', chartData)
+
           return (
             <div
               key={index}

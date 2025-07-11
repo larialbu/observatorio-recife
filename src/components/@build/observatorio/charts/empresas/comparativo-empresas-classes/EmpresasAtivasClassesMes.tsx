@@ -13,6 +13,7 @@ const EmpresasAtivasClassesMes = ({
   color = ColorPalette.default,
   title = "Quantidade de Empresas Classes no Recife",
   }: any) => {
+    console.log('CHARTDADTA ->', data)
 
     const dataRawData = data
 
