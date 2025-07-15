@@ -19,6 +19,7 @@ import EmpresasNaturezas from "./(empresas-naturezas)/empresas-naturezas";
 import EmpresasClasses from "./(empresas-classes)/empresas-classes";
 import ComparativoClasses from "./(comparativo-classes)/comparativo-classes";
 import EmpresasAbertasFechadas from "./(empresas-abertas-fechadas)/empresas-abertas-fechadas";
+import EmpresasTempoAbertura from "./(empresas-tempo-abertura)/empresas-tempo-abertura";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
@@ -26,6 +27,7 @@ const EmpresasPage = () => {
   const [dataObjRawData, setDataObjRawData] = useState<any>({});
   const [dataObj, setDataObj] = useState<any>({});
   const [dataTest, setDataTest] = useState<any>({});
+  const [dataTestTwo, setDataTestTwo] = useState<any>({});
   const [activeTab, setActiveTab] = useState("geral");
 
   const pathname = usePathname();
@@ -48,6 +50,7 @@ const EmpresasPage = () => {
         const idObjsRawData = ["empresas-empresas-naturezas", "empresas-empresas-classes"]
         const idObjs = ['empresas-empresas-ativas-inativas',  ]      
         const idTest = ["empresas-empresas-abertas-fechadas"]
+        const idTest2 = ["empresas-empresas-tempo-abertura"]
 
         if (idArrays.includes(data?.id)) {
           // aqui vai para de ser somente arrays { empresas: [], rawData: [] }
@@ -74,6 +77,20 @@ const EmpresasPage = () => {
             setDataTest({ empresas: { ativas: [], inativas: []}, rawData: [] });
           }
 
+        if (idTest2.includes(data?.id)) {
+          const empresasDataObj = { 
+            empresas: data?.empresas?.filteredData || [], 
+            rawData: data?.rawData || []
+          };
+
+          setDataTestTwo(empresasDataObj);
+
+          clearInterval(intervalId);
+        } else {
+            setDataTestTwo({ empresas: [], rawData: [] });
+          }
+
+
         if (idObjs.includes(data?.id)) {
           // const microCagedData = data?.microCaged || [];
           // mudar isso aqui
@@ -89,8 +106,6 @@ const EmpresasPage = () => {
         if (idObjsRawData.includes(data?.id)) {
           const empresasDataObj = { empresas: data?.empresas?.empresas?.filteredData || [], rawData: { mes: data?.empresas?.rawData?.mes?.filteredData || [], municipio: data?.empresas?.rawData?.municipio?.filteredData || [] } };
           
-          console.log('empresasAdtaObj', empresasDataObj)
-
           setDataObjRawData(empresasDataObj);
 
           clearInterval(intervalId);
@@ -107,7 +122,7 @@ const EmpresasPage = () => {
     
   const renderContent = () => {
     console.log('DataOBJ', dataObj)
-    if (!data || !(dataArr?.length || dataObj?.ativas?.length || dataObjRawData?.empresas?.length || dataTest?.empresas?.ativas?.length) ) {
+    if (!data || !(dataArr?.length || dataObj?.ativas?.length || dataObjRawData?.empresas?.length || dataTest?.empresas?.ativas?.length || dataTestTwo?.empresas?.length) ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
@@ -150,6 +165,11 @@ const EmpresasPage = () => {
       case "empresas-abertas-fechadas":
         return <EmpresasAbertasFechadas
         data={dataTest} 
+        year={getYearSelected(filters)} 
+        />       
+      case "empresas-tempo-abertura":
+        return <EmpresasTempoAbertura
+        data={dataTestTwo} 
         year={getYearSelected(filters)} 
         />        
         // "empresas-naturezas"
@@ -270,6 +290,16 @@ const EmpresasPage = () => {
           }`}
         >
           Empresas Abertas e Fechadas  
+        </button>
+        <button
+          onClick={() => handleNavigation("empresas-tempo-abertura")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "empresas-tempo-abertura"
+              ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
+              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
+          }`}
+        >
+          Empresas Tempo Abertura  
         </button>
       </div>
       {renderContent()}

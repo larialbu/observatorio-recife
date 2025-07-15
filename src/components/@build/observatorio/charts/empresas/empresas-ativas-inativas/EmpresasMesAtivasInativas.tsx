@@ -18,8 +18,8 @@ const EmpresasMesAtivasInativas = ({
     const ativaNum = data['ativas']['mes'][key] || 0
     const inativaNum = data['inativas']['mes'][key] || 0
 
-    return { label: monthShortName(+key), ativa: ativaNum, inativa: inativaNum } 
-  }).sort((a, b) => (b['ativa'] + b['inativa']) - (a['ativa'] + a['inativa']))
+      return { label: key, ativa: ativaNum, inativa: inativaNum } 
+    }).sort((a, b) => +a['label'] - +b['label']).map((obj) => ({ ...obj, label: monthShortName(+obj.label) }))
 
     return (
       <div className="chart-wrapper">

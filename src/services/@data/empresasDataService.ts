@@ -154,6 +154,24 @@ export class EmpresasDataService {
     };
   }
 
+  private async fetchEmpresasTempoAbertura(filters: any) {
+    const empresasData = new EmpresasData(this.currentYear);
+
+    // const fetchDataAbertas = await empresasData.fetchProcessedEmpresasAbertas() 
+    // const fetchDataFechadas = await empresasData.fetchProcessedEmpresasFechadas() 
+    const fetchData = await empresasData.fetchProcessedTempoMedio() 
+
+    // const filteredDataAbertas = applyGenericFilters(fetchDataAbertas, filters);
+    // const filteredDataFechadas = applyGenericFilters(fetchDataFechadas, filters);
+    const filteredData = applyGenericFilters(fetchData, filters);
+
+    return {
+      empresas: filteredData,
+      rawData: fetchData,
+      id: "empresas-empresas-tempo-abertura",
+    };
+  }
+
 
 
 //   private async fetchGeral(filters: any) {
@@ -215,6 +233,8 @@ export class EmpresasDataService {
       data = await this.fetchEmpresasClasses(filters);
     } else if (tab === "empresas-abertas-fechadas") {
       data = await this.fetchEmpresasAbertasFechadas(filters);
+    } else if (tab === "empresas-tempo-abertura") {
+      data = await this.fetchEmpresasTempoAbertura(filters);
     } else {
       data = await this.fetchGeral(filters);
     }

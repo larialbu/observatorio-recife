@@ -12,6 +12,19 @@ export const getUniqueValues = <T, K extends keyof T>(data: T[], key: K): T[K][]
     return uniqueValues
 }
 
+export const getGroupValues = (data: any, column: string) => {
+    const groupData: { [key: string]: any[] } = {}
+
+    for (let i = 0; i < data.length; i++) {
+    const columnGroup = data[i][column] as string
+
+    if (!groupData[columnGroup]) groupData[columnGroup] = [] 
+
+    groupData[columnGroup].push(data[i])
+    }
+
+    return groupData
+}
 
 export const getUniqueValuesArr = <T, K extends keyof T>(data: T[], key: K): { [key: string]: T[] }[] => {
     // Cria um objeto para armazenar os valores agrupados por chave

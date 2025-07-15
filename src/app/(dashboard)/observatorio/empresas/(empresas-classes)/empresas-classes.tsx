@@ -24,15 +24,6 @@ const EmpresasClasses = ({
  
   const params = ['Municipio', 'mes', 'Subclasse', 'nome_secao', 'secao']
  
-
-  // Estabelecimentos: 1002
-  // Municipio: "Salvador"
-  // Subclasse: "Fornecimento de alimentos preparados preponderantemente para empresas"
-  // ano: 2025
-  // mes: 1
-  // nome_secao: "ALOJAMENTO E ALIMENTAÇÃO"
-  // secao: "I"
-
   const chartData = useMemo(() => {
     return { 
       empresas: geralAccFieldFunction(data['empresas'], params, 'Estabelecimentos'),
