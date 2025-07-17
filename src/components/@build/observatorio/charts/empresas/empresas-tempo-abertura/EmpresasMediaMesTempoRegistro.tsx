@@ -8,14 +8,14 @@ import { getDateKeys } from "@/utils/formatters/getDataKeys";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
-const EmpresasMediaMesTempoAbertura = ({
+const EmpresasMediaMesTempoRegistro = ({
   data,
   colors = ColorPalette.default,
   toCompare,
-  title = "Tempo Médio de Abertura de Empresas",
+  title = "Tempo Médio de Registro de Empresas",
   }: any) => {
 
-    const chartData = processEmpresasDataLineGraph(data, toCompare, 'Tempo_Medio_Abertura').map((obj) => ({ ...obj, label: monthShortName(+obj.label) }))
+    const chartData = processEmpresasDataLineGraph(data, toCompare, 'Tempo_Medio_Registro').map((obj) => ({ ...obj, label: monthShortName(+obj.label) }))
 
     return (
       <div className="chart-wrapper">
@@ -32,4 +32,4 @@ const EmpresasMediaMesTempoAbertura = ({
     );
   };
 
-export default EmpresasMediaMesTempoAbertura;
+export default EmpresasMediaMesTempoRegistro;

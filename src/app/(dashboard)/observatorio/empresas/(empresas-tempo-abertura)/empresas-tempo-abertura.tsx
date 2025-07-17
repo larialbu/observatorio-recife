@@ -201,6 +201,8 @@ const EmpresasTempoAbertura = ({
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
           const { Component } = charts[index];
+          console.log('ToCOmpare', [...tempFiltred])
+
           return (
             <div
               key={index}

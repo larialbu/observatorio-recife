@@ -23,13 +23,6 @@ const charts = [
       )
     ),
   },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/charts/empresas/comparativo-empresas-classes/EmpresasMunicipioClasses"
-  //     )
-  //   ),
-  // },
   {
     Component: React.lazy(() =>
       import(
