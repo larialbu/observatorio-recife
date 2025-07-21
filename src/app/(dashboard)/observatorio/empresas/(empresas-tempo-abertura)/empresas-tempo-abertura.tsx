@@ -3,15 +3,12 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import SelectCompare from "@/components/@global/features/SelectCompare";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import { geralAccFieldFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
 import { getGroupValues, getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
-import { rearrangeArray } from "@/functions/process_data/observatorio/porto/comparativo/charts/filteredPortoData";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
-import { dataFormat } from "@/functions/process_data/observatorio/empresas/empresas-abertas-fechadas/empresasDataFormat";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 
 
@@ -35,59 +32,43 @@ const EmpresasTempoAbertura = ({
 
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
 
-  // const [chartData, setChartData] = useState<any>({})
+  const [chartData, setChartData] = useState<any>({})
 
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
-  const params = ['Natureza Jurídica', 'mes', 'Porte', 'Município']
 
-  console.log('Data -> PAGE', data)
-  console.log('ToCompare ->', toCompare)
-  console.log('COMPARE', getGroupValues(data['empresas'], 'Municipio'))
+  useEffect(() => {
+    const dataMuni = { empresas: getGroupValues(data['empresas'], 'Municipio'), rawData: getGroupValues(data['rawData'], 'Municipio')} 
 
-  const chartData = useMemo(() => getGroupValues(data['rawData'], 'Municipio'), data)
-
-  // useEffect(() => {
-  //   const dataMuni = {
-  //     empresas: {
-  //       ativas: dataFormat(data['empresas']['ativas'], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction),
-  //       inativas: dataFormat(data['empresas']['inativas'], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction)
-  //     },
-  //     rawData: {
-  //       ativas: dataFormat(data['rawData']['ativas'], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction),
-  //       inativas: dataFormat(data['rawData']['inativas'], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction)
-  //     }
-  //   }
-
-  //   console.log('DATaMUNI', dataMuni)
-  //   setChartData(dataMuni)
-  // }, [data])
+    console.log('DATaMUNI', dataMuni)
+    setChartData(dataMuni)
+  }, [data, data['empresas']])
 
 
-  // useEffect(() => {
-  //   const getNewTables = tempFiltred.map(() => charts) 
+  useEffect(() => {
+    const getNewTables = tempFiltred.map(() => charts) 
 
-  //   setTablesRender([...getNewTables])
+    setTablesRender([...getNewTables])
 
-  // }, [tempFiltred]);
+  }, [tempFiltred]);
 
-  // const tempFiltredCard = tempFiltred.filter((municipio) => municipio !== selectCompare)
+  const tempFiltredCard = tempFiltred.filter((municipio) => municipio !== selectCompare)
 
-  // const handlePageChange = (direction: "prev" | "next") => {
-  //   setAnimationClass("card-exit"); // Aplica a animação de saída
-  //   setTimeout(() => {
-  //     setPageCompare((prevPage) =>
-  //       direction === "next"
-  //         ? prevPage === tempFiltredCard.length - 1
-  //           ? 0
-  //           : prevPage + 1
-  //         : prevPage === 0
-  //         ? tempFiltredCard.length - 1
-  //         : prevPage - 1
-  //     );
-  //     setAnimationClass("card-enter"); // Aplica a animação de entrada após a mudança
-  //   }, 500); // Tempo suficiente para a animação de saída
-  // };
+  const handlePageChange = (direction: "prev" | "next") => {
+    setAnimationClass("card-exit"); // Aplica a animação de saída
+    setTimeout(() => {
+      setPageCompare((prevPage) =>
+        direction === "next"
+          ? prevPage === tempFiltredCard.length - 1
+            ? 0
+            : prevPage + 1
+          : prevPage === 0
+          ? tempFiltredCard.length - 1
+          : prevPage - 1
+      );
+      setAnimationClass("card-enter"); // Aplica a animação de entrada após a mudança
+    }, 500); // Tempo suficiente para a animação de saída
+  };
 
 
   return (
@@ -114,7 +95,7 @@ const EmpresasTempoAbertura = ({
         />
       </div>
 
-      {/* <div className="flex justify-between items-center gap-2">
+      <div className="flex justify-between items-center gap-2">
         {tempFiltredCard.length >= 1 ? (
           <>
             <button
@@ -180,9 +161,9 @@ const EmpresasTempoAbertura = ({
             Selecione um município para as informações serem comparadas
           </p>
         )}
-      </div> */}
+      </div>
 
-      {/* <div className="flex items-center justify-center mb-6 gap-2">
+      <div className="flex items-center justify-center mb-6 gap-2">
         {tempFiltredCard.map((_, i) => {
           return (
             <button
@@ -194,7 +175,7 @@ const EmpresasTempoAbertura = ({
             ></button>
           );
         })}
-      </div> */}
+      </div>
 
       <div className="flex flex-col gap-6">
 
@@ -210,43 +191,13 @@ const EmpresasTempoAbertura = ({
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <ErrorBoundary>
-                  <Component toCompare={[...tempFiltred]} data={chartData} />
+                  <Component toCompare={[...tempFiltred]} data={chartData} color={ColorPalette.default[0]} />
                 </ErrorBoundary>
               </React.Suspense>
             </div>
           );
         })}
       </SortableDiv>
-
-
-      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-4">
-          {(tablesRender.length > 1 ? (rearrangeArray(tablesRender)?.slice(2) || []) : (tablesRender[0]?.slice(1) || [])).map(({ Component }, index) => {
-              // isso é para escolher qual porto ele vai pegar no tempfitred
-              const virtuaIndex = tablesRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
-
-              const chartDataEmpresas = chartData?.['empresas'] 
-
-              const chartDataPass = {
-                ativas: chartDataEmpresas?.['ativas']?.[[...tempFiltred][virtuaIndex]],
-                inativas: chartDataEmpresas?.['inativas']?.[[...tempFiltred][virtuaIndex]],
-              }
-
-              return (
-                <>
-                  <div className={`hidden 2xl:block ${index !== 4 && "!hidden"}`}></div>
-                  <div key={index} className={`chart-content-wrapper`}>
-                    <React.Suspense fallback={<div>Carregando...</div>}>
-                      <ErrorBoundary>
-                        <Component 
-                          color={ColorPalette.default[virtuaIndex]} 
-                          municipio={[...tempFiltred][virtuaIndex]} 
-                          data={chartDataPass} />
-                      </ErrorBoundary>                      
-                    </React.Suspense>
-                  </div>              
-                </>        
-            )})}
-        </SortableDiv> */}
       </div>
     </div>
   );

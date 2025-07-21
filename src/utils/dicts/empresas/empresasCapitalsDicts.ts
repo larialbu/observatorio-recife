@@ -1,0 +1,31 @@
+export const empresasCapitalsDicts: {
+  [key: string]: boolean;
+} = {
+    "Rio Branco - AC": true,
+    "Maceió - AL": true,
+    "Macapá - AP": true,
+    "Manaus - AM": true,
+    "Salvador - BA": true,
+    "Fortaleza - CE": true,
+    "Brasília - DF": true,
+    "Vitória - ES": true,
+    "Goiânia - GO": true,
+    "São Luís - MA": true,
+    "Cuiabá - MT": true,
+    "Campo Grande - MS": true,
+    "Belo Horizonte - MG": true,
+    "Belém - PA": true,
+    "João Pessoa - PB": true,
+    "Curitiba - PR": true,
+    "Recife - PE": true,
+    "Teresina - PI": true,
+    "Rio de Janeiro - RJ": true,
+    "Natal - RN": true,
+    "Porto Alegre - RS": true,
+    "Porto Velho - RO": true,
+    "Boa Vista - RR": true,
+    "Florianópolis - SC": true,
+    "São Paulo - SP": true,
+    "Aracaju - SE": true,
+    "Palmas - TO": true
+  };

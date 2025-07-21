@@ -5,7 +5,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          '@/components/@build/observatorio/cards/empresas/empresas-ativas/EmpresasAtivasMesRecente'
+          '@/components/@build/observatorio/cards/empresas/empresas-tempo-abertura/EmpresasTempoAberturaMedio'
         ),
     ),
   },
@@ -13,7 +13,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          '@/components/@build/observatorio/cards/empresas/empresas-ativas/EmpresasAtivasMesAnterior'
+          '@/components/@build/observatorio/cards/empresas/empresas-tempo-abertura/EmpresasTempoAberturaRegistro'
         ),
     ),
   },
@@ -21,10 +21,10 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          '@/components/@build/observatorio/cards/empresas/empresas-ativas/EmpresasVariacaoAtivasRecente'
+          '@/components/@build/observatorio/cards/empresas/empresas-tempo-abertura/EmpresasTempoAberturaViabilidade'
         ),
     ),
-  },  
+  },
 ]
 
 export default cards

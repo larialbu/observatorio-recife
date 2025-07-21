@@ -17,7 +17,6 @@ const EmpresasMesAtivasInativas = ({
     const dataInativas = data?.['inativas']
 
     const uniqueArrays = Array.from(new Set([...Object.keys(dataAtivas?.['mes'] || {}), ...Object.keys(dataInativas?.['mes'] || {})]))
-    console.log('UNIQUE ARRAYS', uniqueArrays)
 
     const chartData = uniqueArrays.map((key: string) => {
       const ativaNum = dataAtivas['mes'][key] || 0
