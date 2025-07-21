@@ -125,11 +125,6 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     "comparativo-empresas-classes": empresasComparativoClasses,
     "empresas-abertas-fechadas": empresasAbertasFechadasFilters,
     "empresas-tempo-abertura": empresasAbertasFechadasFilters
-    // saldo: empresasGeralFilters,
-    // media: empresasGeralFilters,
-    // "comparativo-mov": empresasGeralFilters,
-    // "comparativo-med": empresasGeralFilters,
-    // salario: empresasGeralFilters,
   },
 
   // E assim por diante pra outras rotas...

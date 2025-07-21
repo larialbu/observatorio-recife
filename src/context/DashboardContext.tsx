@@ -17,8 +17,6 @@ import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute
 
 const DashboardContext = createContext<DashboardContextProps<unknown> | undefined>(undefined);
 
-
-
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();

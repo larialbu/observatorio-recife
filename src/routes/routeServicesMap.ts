@@ -96,11 +96,6 @@ export const routeServicesMap: Record<
     "comparativo-empresas-classes": empresasDataService,
     "empresas-abertas-fechadas": empresasDataService,
     "empresas-tempo-abertura": empresasDataService
-    // saldo: empresasGeralFilters,
-    // media: empresasGeralFilters,
-    // "comparativo-mov": empresasGeralFilters,
-    // "comparativo-med": empresasGeralFilters,
-    // salario: empresasGeralFilters,
   },
    
   // E assim por diante ...

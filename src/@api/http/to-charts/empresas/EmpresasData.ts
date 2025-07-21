@@ -62,17 +62,6 @@ export class EmpresasData {
     return fetchData<any[]>(endpoint, EmpresasData.cache);
   }
 
-  
-  // async fetchProcessedDataCaged(): Promise<any[]> {
-  //   const endpoint = `/empregos/caged/anos/${this.year}`;
-  //   return fetchData<any[]>(endpoint, EmpresasData.cache);
-  // }
-
-  // async fetchProcessedDataCagedDesemprego(): Promise<any[]> {
-  //   const endpoint = `/empregos/desemprego/anos/${this.year}`;
-  //   return fetchData<any[]>(endpoint, EmpresasData.cache);
-  // }
-
   // Limpa o cache de dados
   clearCache(): void {
     EmpresasData.cache = {};
