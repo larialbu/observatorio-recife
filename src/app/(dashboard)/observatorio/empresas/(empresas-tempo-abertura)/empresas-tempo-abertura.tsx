@@ -27,7 +27,6 @@ const EmpresasTempoAbertura = ({
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
   const [selectCompare, setSelectCompare] = useState('')
-  const [tablesRender, setTablesRender] = useState([charts]);
   const [animationClass, setAnimationClass] = useState("card-enter");
 
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
@@ -40,17 +39,9 @@ const EmpresasTempoAbertura = ({
   useEffect(() => {
     const dataMuni = { empresas: getGroupValues(data['empresas'], 'Municipio'), rawData: getGroupValues(data['rawData'], 'Municipio')} 
 
-    console.log('DATaMUNI', dataMuni)
     setChartData(dataMuni)
   }, [data, data['empresas']])
 
-
-  useEffect(() => {
-    const getNewTables = tempFiltred.map(() => charts) 
-
-    setTablesRender([...getNewTables])
-
-  }, [tempFiltred]);
 
   const tempFiltredCard = tempFiltred.filter((municipio) => municipio !== selectCompare)
 
@@ -182,7 +173,6 @@ const EmpresasTempoAbertura = ({
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
           const { Component } = charts[index];
-          console.log('ToCOmpare', [...tempFiltred])
 
           return (
             <div
