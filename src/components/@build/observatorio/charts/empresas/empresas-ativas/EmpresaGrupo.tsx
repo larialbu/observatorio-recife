@@ -12,8 +12,9 @@ const EmpresaGrupo = ({
   title = "Empresas por Grupo de atividade econômico",
   year,
 }: any) => {
+  const dataEmpresas = data['empresas']
   
-  const chartData = getObjToArr<number>(data['Grupo'] || {}).sort((a, b) => b.value - a.value)
+  const chartData = getObjToArr<number>(dataEmpresas['Grupo'] || {}).sort((a, b) => b.value - a.value)
     
   return (
     <div className="chart-wrapper">

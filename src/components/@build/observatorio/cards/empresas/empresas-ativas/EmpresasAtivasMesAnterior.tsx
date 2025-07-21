@@ -9,7 +9,9 @@ const EmpresasAtivasMesAnterior = ({
   year,
   color,
 }: any) => {
-  const monthsData = Object.keys(data['mes'])
+  const dataEmpresas = data['empresas']
+  
+  const monthsData = Object.keys(dataEmpresas['mes'])
 
   const curMonthData = monthsData.sort(
     (a: any, b: any) => +b - +a,
@@ -17,7 +19,7 @@ const EmpresasAtivasMesAnterior = ({
 
   const curMonthName = monthLongName(+curMonthData)
 
-  const chartData = data['mes'][curMonthData] || 0
+  const chartData = dataEmpresas['mes'][curMonthData] || 0
 
   return (
     <>

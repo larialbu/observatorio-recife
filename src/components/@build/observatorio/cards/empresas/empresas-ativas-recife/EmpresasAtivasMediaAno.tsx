@@ -3,13 +3,14 @@ import Card from "@/components/@global/cards/Card";
 const EmpresasAtivasMediaAno = ({
   data,
   date,
-  title = `Empresas Abertas - (mes)`,
+  title = `Média Empresas Abertas no Ano`,
   local = '',
   year,
   color,
 }: any) => {
+  const dataEmpresas = data['empresas']
 
-  const chartData = (data.reduce((acc: number, data: any) => acc += data['Empresas Ativas'], 0) / data.length).toFixed(0) || 0
+  const chartData = (dataEmpresas.reduce((acc: number, data: any) => acc += data['Empresas Ativas'], 0) / dataEmpresas.length).toFixed(0) || 0
 
   return (
     <Card

@@ -12,8 +12,9 @@ const EmpresasBairro = ({
   title = "Empresas por Bairro",
   year,
 }: any) => {
-  
-  const chartData = getObjToArr<number>(data['nome_bairro'] || {}).sort((a, b) => b.value - a.value)
+  const dataEmpresas = data['empresas']
+
+  const chartData = getObjToArr<number>(dataEmpresas['nome_bairro'] || {}).sort((a, b) => b.value - a.value)
     
   return (
     <div className="chart-wrapper">

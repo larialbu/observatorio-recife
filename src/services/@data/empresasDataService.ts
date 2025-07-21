@@ -37,6 +37,7 @@ export class EmpresasDataService {
 
     return {
       empresas: filteredData,
+      rawData: fetchData,
       id: "empresas-empresas-ativas-recife",
     };
   }
@@ -51,6 +52,7 @@ export class EmpresasDataService {
 
     return {
       empresas: filteredData,
+      rawData: fetchData,
       id: "empresas-empresas-ativas",
     };
   }
@@ -65,6 +67,7 @@ export class EmpresasDataService {
 
     return {
       empresas: filteredData,
+      rawData: fetchData,
       id: "empresas-empresas-inativas",
     };
   }
@@ -99,13 +102,11 @@ export class EmpresasDataService {
       const filteredDataRawDataMes = applyGenericFilters(fetchData, filters, ['mes']);
 
       return {
-        empresas: {
-          empresas: filteredData,
-          rawData: {
-            mes: filteredDataRawDataMes, 
-            municipio: filteredDataRawDataMunicipio
-          },   
-        },      
+        empresas: filteredData,
+        rawData: {
+          mes: filteredDataRawDataMes, 
+          municipio: filteredDataRawDataMunicipio
+        },   
         id: "empresas-empresas-naturezas",
       };
   }
@@ -121,13 +122,11 @@ export class EmpresasDataService {
       const filteredDataRawDataMes = applyGenericFilters(fetchData, filters, ['mes']);
 
       return {
-        empresas: {
-          empresas: filteredData,
-          rawData: {
-            mes: filteredDataRawDataMes, 
-            municipio: filteredDataRawDataMunicipio
-          },   
-        },      
+        empresas: filteredData,
+        rawData: {
+          mes: filteredDataRawDataMes, 
+          municipio: filteredDataRawDataMunicipio
+        },   
         id: "empresas-empresas-classes",
       };
   }
@@ -157,12 +156,8 @@ export class EmpresasDataService {
   private async fetchEmpresasTempoAbertura(filters: any) {
     const empresasData = new EmpresasData(this.currentYear);
 
-    // const fetchDataAbertas = await empresasData.fetchProcessedEmpresasAbertas() 
-    // const fetchDataFechadas = await empresasData.fetchProcessedEmpresasFechadas() 
     const fetchData = await empresasData.fetchProcessedTempoMedio() 
 
-    // const filteredDataAbertas = applyGenericFilters(fetchDataAbertas, filters);
-    // const filteredDataFechadas = applyGenericFilters(fetchDataFechadas, filters);
     const filteredData = applyGenericFilters(fetchData, filters);
 
     return {

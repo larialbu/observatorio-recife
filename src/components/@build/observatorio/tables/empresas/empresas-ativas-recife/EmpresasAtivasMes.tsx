@@ -15,9 +15,11 @@ const EmpresasAtivasMes = ({
 // passar isso no componenten e o componente vai ficar alterando o objeto e quando mudar vai alterar aki tb
 const [ordenation, setOrdenation] = useState([{ index: 0, name: 'mes', ordenation: 0 }, { index: 1, name: 'empresas', ordenation: 0 }, { index: 2, name: 'variacao', ordenation: 0 }]);
 
+const dataRawData = data['rawData']
+
 const order = ordenation.find((item) => item.ordenation != 0)
 
-const chartData = processEmpresasMonthInfo(data)
+const chartData = processEmpresasMonthInfo(dataRawData)
 
 const aggregatedData = chartData
 

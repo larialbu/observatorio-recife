@@ -5,12 +5,13 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const EmpresasAtivasMes = ({
-  data = [],
+  data,
   colors = ColorPalette.default,
   title = "Quantidade de Empresas Ativas no Recife",
-  }) => {
- 
-    const chartData = data.map((dataMap) => ({ mes: dataMap['Mês'], empresas: dataMap['Empresas Ativas'] }))
+  }: any) => {
+    const dataRawData = data['rawData']
+
+    const chartData = dataRawData.map((dataMap: any) => ({ mes: dataMap['Mês'], empresas: dataMap['Empresas Ativas'] }))
 
     return (
       <div className="chart-wrapper">

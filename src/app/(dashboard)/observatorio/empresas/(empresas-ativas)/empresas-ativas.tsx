@@ -29,10 +29,11 @@ const EmpresasAtivas = ({
   const params = ['nome_bairro', 'Grupo', 'desc_atividade', 'mes']
 
   const chartData = useMemo(() => {
-    return geralAccFunction(data, params)
+    return { empresas: geralAccFunction(data['empresas'], params), rawData: geralAccFunction(data['rawData'], params) }
   }, [data, params])  
   
   const { Component }: any = maps[0]
+
 
   return (
     <div>
@@ -70,7 +71,7 @@ const EmpresasAtivas = ({
 
       <div className="place-items-center z-0 mb-6">
         <div className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center">
-          <Component data={data} />
+          <Component data={data['empresas']} />
         </div>
       </div>
     </div>

@@ -1,11 +1,9 @@
 "use client";
 
-import React, { memo, useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { getDataObj } from "@/functions/process_data/observatorio/micro-caged/getDataObj";
-import { getSaldoData } from "@/functions/process_data/observatorio/micro-caged/getSaldoData";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
@@ -29,7 +27,7 @@ const EmpresasInativas = ({
   const params = ['nome_bairro', 'Grupo', 'desc_atividade', 'mes']
 
   const chartData = useMemo(() => {
-    return geralAccFunction(data, params)
+    return { empresas: geralAccFunction(data['empresas'], params), rawData: geralAccFunction(data['rawData'], params) }
   }, [data, params])  
   
   const { Component }: any = maps[0]
@@ -70,7 +68,7 @@ const EmpresasInativas = ({
 
       <div className="place-items-center z-0 mb-6">
         <div className="bg-white shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center">
-          <Component data={data} />
+          <Component data={data['empresas']} />
         </div>
       </div>
     </div>

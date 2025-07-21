@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
@@ -9,11 +8,9 @@ import { useDashboard } from "@/context/DashboardContext";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
 
-import ComparativoMed from "./(comparativo-med)/comparativo-med";
 import EmpresasAtivas from "./(empresas-ativas)/empresas-ativas";
 import EmpresasAtivasRecife from "./(empresas-ativas-recife)/empresas-ativas-recife";
 import EmpresasInativas from "./(empresas-inativas)/empresas-inativas";
-import Salario from "./(salario)/salario";
 import EmpresasAtivasInativas from "./(empresas-ativas-inativas)/empresas-ativas-inativas";
 import EmpresasNaturezas from "./(empresas-naturezas)/empresas-naturezas";
 import EmpresasClasses from "./(empresas-classes)/empresas-classes";
@@ -23,11 +20,10 @@ import EmpresasTempoAbertura from "./(empresas-tempo-abertura)/empresas-tempo-ab
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
-  const [dataArr, setDataArr] = useState<any>([]);
   const [dataObjRawData, setDataObjRawData] = useState<any>({});
   const [dataObj, setDataObj] = useState<any>({});
   const [dataTest, setDataTest] = useState<any>({});
-  const [dataTestTwo, setDataTestTwo] = useState<any>({});
+  const [dataArr, setDataArr] = useState<any>({});
   const [activeTab, setActiveTab] = useState("geral");
 
   const pathname = usePathname();
@@ -46,24 +42,11 @@ const EmpresasPage = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-        const idArrays = ["empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas"]
         const idObjsRawData = ["empresas-empresas-naturezas", "empresas-empresas-classes"]
         const idObjs = ['empresas-empresas-ativas-inativas',  ]      
         const idTest = ["empresas-empresas-abertas-fechadas"]
-        const idTest2 = ["empresas-empresas-tempo-abertura"]
+        const idArr = ["empresas-empresas-tempo-abertura", "empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas"]
 
-        if (idArrays.includes(data?.id)) {
-          // aqui vai para de ser somente arrays { empresas: [], rawData: [] }
-
-          const empresasDataObj = data?.empresas || [];
-
-          setDataArr(empresasDataObj.filteredData);
-
-          clearInterval(intervalId);
-        } else {
-            setDataArr([]);
-          }
-        
         if (idTest.includes(data?.id)) {
           const empresasDataObj = { 
             empresas: { ativas: data?.empresas?.ativas?.filteredData || [], inativas: data?.empresas?.inativas?.filteredData || []}, 
@@ -77,17 +60,17 @@ const EmpresasPage = () => {
             setDataTest({ empresas: { ativas: [], inativas: []}, rawData: [] });
           }
 
-        if (idTest2.includes(data?.id)) {
+        if (idArr.includes(data?.id)) {
           const empresasDataObj = { 
             empresas: data?.empresas?.filteredData || [], 
             rawData: data?.rawData || []
           };
 
-          setDataTestTwo(empresasDataObj);
+          setDataArr(empresasDataObj);
 
           clearInterval(intervalId);
         } else {
-            setDataTestTwo({ empresas: [], rawData: [] });
+            setDataArr({ empresas: [], rawData: [] });
           }
 
 
@@ -104,7 +87,7 @@ const EmpresasPage = () => {
           }
 
         if (idObjsRawData.includes(data?.id)) {
-          const empresasDataObj = { empresas: data?.empresas?.empresas?.filteredData || [], rawData: { mes: data?.empresas?.rawData?.mes?.filteredData || [], municipio: data?.empresas?.rawData?.municipio?.filteredData || [] } };
+          const empresasDataObj = { empresas: data?.empresas?.filteredData || [], rawData: { mes: data?.rawData?.mes?.filteredData || [], municipio: data?.rawData?.municipio?.filteredData || [] } };
           
           setDataObjRawData(empresasDataObj);
 
@@ -122,7 +105,7 @@ const EmpresasPage = () => {
     
   const renderContent = () => {
     console.log('DataOBJ', dataObj)
-    if (!data || !(dataArr?.length || dataObj?.ativas?.length || dataObjRawData?.empresas?.length || dataTest?.empresas?.ativas?.length || dataTestTwo?.empresas?.length) ) {
+    if (!data || !(dataArr?.length || dataObj?.ativas?.length || dataObjRawData?.empresas?.length || dataTest?.empresas?.ativas?.length || dataArr?.empresas?.length) ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
@@ -169,27 +152,9 @@ const EmpresasPage = () => {
         />       
       case "empresas-tempo-abertura":
         return <EmpresasTempoAbertura
-        data={dataTestTwo} 
+        data={dataArr} 
         year={getYearSelected(filters)} 
         />        
-        // "empresas-naturezas"
-// empresas-abertas-fechadas
-
-      // case "comparativo-mov":
-      //   return <ComparativoMov
-      //   data={microCaged} 
-      //   year={getYearSelected(filters)} 
-      //   /> 
-      // case "comparativo-med":
-      //   return <ComparativoMed
-      //   data={microCagedMedia} 
-      //   year={getYearSelected(filters)} 
-      //   /> 
-      // case "salario":
-      //   return <Salario
-      //   data={microCaged} 
-      //   year={getYearSelected(filters)} 
-      //   /> 
       default:
         return <EmpresasAtivasRecife 
         data={dataArr} 
