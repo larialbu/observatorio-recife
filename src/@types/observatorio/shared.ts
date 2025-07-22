@@ -1,4 +1,5 @@
 export interface Filters<T = unknown> {
+    id: string
     year?: string;
     years?: string[];
     additionalFilters: AdditionalFilter[];

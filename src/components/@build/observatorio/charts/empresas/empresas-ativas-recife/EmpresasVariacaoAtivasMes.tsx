@@ -9,11 +9,11 @@ const VariacaoEmpresasAtivasRecife = ({
   colors = ColorPalette.default,
   title = "Variação de Empresas Ativas no Recife",
   }: any) => {
-    const dataRawData = data['rawData']
+    const dataRawData = data?.['rawData'] || []
     
-    const chartData = dataRawData.sort((a: any, b: any) => a['mes'] - b['mes']).map((dataMap: any, i: any) => {
+    const chartData = dataRawData.sort((a: any, b: any) => Number(a?.['mes']) - Number(b?.['mes'])).map((dataMap: any, i: any) => {
         if (dataMap['mes'] !== 1) {
-           return { mes: dataMap['Mês'], empresas: (((dataMap['Empresas Ativas'] - dataRawData[i - 1]['Empresas Ativas']) / dataRawData[i - 1]['Empresas Ativas']) * 100).toFixed(2) }
+           return { mes: dataMap['Mês'], empresas: (((dataMap?.['Empresas Ativas'] - dataRawData?.[i - 1]?.['Empresas Ativas']) / dataRawData?.[i - 1]?.['Empresas Ativas']) * 100).toFixed(2) }
         }
     }).filter((data: any) => !!data)
 

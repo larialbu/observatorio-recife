@@ -9,9 +9,9 @@ const EmpresasVariacaoInativasRecente = ({
   year,
   color,
 }: any) => {
-  const dataEmpresas = data['empresas']
+  const dataEmpresas = data?.['empresas']
   
-  const monthsData = Object.keys(dataEmpresas['mes'])
+  const monthsData = Object.keys(dataEmpresas?.['mes'] || {})
 
   const curMonthData = monthsData.sort(
     (a: any, b: any) => +b - +a,
@@ -23,7 +23,7 @@ const EmpresasVariacaoInativasRecente = ({
 
   const curMonthName = monthLongName(+curMonthData)
 
-  const chartData = (((dataEmpresas['mes'][curMonthData] - dataEmpresas['mes'][pastMonthData]) / dataEmpresas['mes'][pastMonthData]) * 100).toFixed(2)
+  const chartData = (((dataEmpresas?.['mes']?.[curMonthData] - dataEmpresas?.['mes']?.[pastMonthData]) / dataEmpresas?.['mes']?.[pastMonthData]) * 100).toFixed(2)
 
   return (
     <>

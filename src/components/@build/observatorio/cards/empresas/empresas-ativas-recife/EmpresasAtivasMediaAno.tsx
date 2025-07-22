@@ -8,9 +8,9 @@ const EmpresasAtivasMediaAno = ({
   year,
   color,
 }: any) => {
-  const dataEmpresas = data['empresas']
+  const dataEmpresas = data?.['empresas']
 
-  const chartData = (dataEmpresas.reduce((acc: number, data: any) => acc += data['Empresas Ativas'], 0) / dataEmpresas.length).toFixed(0) || 0
+  const chartData = (dataEmpresas.reduce((acc: number, data: any) => acc += data?.['Empresas Ativas'], 0) / dataEmpresas.length).toFixed(0) || 0
 
   return (
     <Card

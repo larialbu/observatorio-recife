@@ -13,9 +13,7 @@ const EmpresasAtivasClassesMes = ({
   color = ColorPalette.default,
   title = "Quantidade de Empresas Classes no Recife",
   }: any) => {
-    console.log('CHARTDADTA ->', data)
-
-    const dataRawData = data
+    const dataRawData = data 
 
     const dataArr = toCompare.map((compare: string) => getObjToArr(dataRawData?.[compare]?.['municipio']?.['mes']).map((obj) => ({ ...obj, name: compare }))).flat()
 

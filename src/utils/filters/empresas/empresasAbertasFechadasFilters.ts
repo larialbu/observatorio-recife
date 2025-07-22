@@ -1,6 +1,7 @@
 import { monthHash } from "@/utils/hashs/monthHash";
 
 export const empresasAbertasFechadasFilters = {
+    id: 'empresas-abertas-fechadas-filters',
     years: ["2023", "2024", "2025" ], // Filtra por ano
     additionalFilters: [
       {

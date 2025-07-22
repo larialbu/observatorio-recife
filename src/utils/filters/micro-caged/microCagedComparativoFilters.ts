@@ -1,4 +1,5 @@
 export const microCagedComparativoFilters = {
+    id: 'micro-caged-comparativo-filters',
     years: ["2023", "2024", "2025"], // Filtra por ano
     additionalFilters: [
       {

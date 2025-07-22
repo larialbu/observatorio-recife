@@ -23,15 +23,19 @@ const EmpresasAtivas = ({
   year: string;
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
+  const [chartData, setChartData] = useState({})
 
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
   const params = ['nome_bairro', 'Grupo', 'desc_atividade', 'mes']
 
-  const chartData = useMemo(() => {
-    return { empresas: geralAccFunction(data['empresas'], params), rawData: geralAccFunction(data['rawData'], params) }
-  }, [data, params])  
-  
+  // const chartData = useMemo(() => {
+  //   return { empresas: geralAccFunction(data['empresas'], params), rawData: geralAccFunction(data['rawData'], params) }
+  // }, [data, params])  
+  useEffect(() => {
+      setChartData({ empresas: geralAccFunction(data['empresas'], params), rawData: geralAccFunction(data['rawData'], params) })
+  }, [data])
+
   const { Component }: any = maps[0]
 
 

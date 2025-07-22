@@ -1,4 +1,5 @@
 export const raisGeralFilters = {
+    id: 'rais-geral-filters',
     years: ["2021", "2022", "2023", "2024"], // Filtra por ano
     additionalFilters: [
       {

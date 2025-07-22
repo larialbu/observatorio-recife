@@ -1,4 +1,5 @@
 export const empresasGeralFilters = {
+    id: 'empresas-geral-filters',
     years: ["2023", "2024" ], // Filtra por ano
     additionalFilters: [
       {

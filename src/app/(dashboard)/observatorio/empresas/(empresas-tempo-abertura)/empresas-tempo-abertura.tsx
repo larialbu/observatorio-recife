@@ -16,7 +16,7 @@ const EmpresasTempoAbertura = ({
   year,
   data,
   toCompare = getUniqueValues<any, "Municipio">(
-    data['rawData'],
+    data?.['rawData'] || [],
     "Municipio"
   )
 }: {

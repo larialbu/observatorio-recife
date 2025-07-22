@@ -11,7 +11,7 @@ const EmpresasMes = ({
   colors = ColorPalette.default,
   title = "Quantidade de Empresas Ativas no Recife",
   }: any) => {
-    const dataRawData = data['rawData']
+    const dataRawData = data?.['rawData'] || []
 
     const chartData = getObjToArr<number>(dataRawData['mes'] || {}).sort((a, b) => +a.label - +b.label).map((dataMap) => ({ ...dataMap, label: monthShortName(+dataMap.label)}))
 

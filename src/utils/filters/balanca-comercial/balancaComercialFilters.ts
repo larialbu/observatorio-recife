@@ -1,4 +1,5 @@
 export const balancaComercialFilters = {
+  id: 'balanca-comercial-filters',
   years: ["2021", "2022", "2023", "2024", "2025"], // Filtra por ano
   additionalFilters: [
     {

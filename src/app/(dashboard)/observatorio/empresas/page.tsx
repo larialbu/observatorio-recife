@@ -104,7 +104,6 @@ const EmpresasPage = () => {
 
     
   const renderContent = () => {
-    console.log('DataOBJ', dataObj)
     if (!data || !(dataArr?.length || dataObj?.ativas?.length || dataObjRawData?.empresas?.length || dataTest?.empresas?.ativas?.length || dataArr?.empresas?.length) ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }

@@ -9,9 +9,9 @@ const EmpresasAtivasMes = ({
   colors = ColorPalette.default,
   title = "Quantidade de Empresas Ativas no Recife",
   }: any) => {
-    const dataRawData = data['rawData']
+    const dataRawData = data?.['rawData'] || []
 
-    const chartData = dataRawData.map((dataMap: any) => ({ mes: dataMap['Mês'], empresas: dataMap['Empresas Ativas'] }))
+    const chartData = dataRawData.map((dataMap: any) => ({ mes: dataMap?.['Mês'], empresas: dataMap?.['Empresas Ativas'] }))
 
     return (
       <div className="chart-wrapper">

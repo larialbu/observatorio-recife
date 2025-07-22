@@ -22,10 +22,15 @@ const EmpresasAtivasRecife = ({
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
+  const [chartData, setChartData] = useState({ empresas: [], rawData: [] })
 
   const sortableContainerRef = useRef<HTMLDivElement>(null);
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
  
+  useEffect(() => {
+    setChartData(data)
+  }, [data])
+  
   return (
     <div>
       <div className="flex flex-wrap gap-4 justify-center mb-8">
@@ -33,7 +38,7 @@ const EmpresasAtivasRecife = ({
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
             <ErrorBoundary>
               <Component
-                data={data}
+                data={chartData}
                 year={year}
                 color={ColorPalette.default[index]}
               />
@@ -52,7 +57,7 @@ const EmpresasAtivasRecife = ({
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <ErrorBoundary>
-                  <Component data={data} />
+                  <Component data={chartData} />
                 </ErrorBoundary>
               </React.Suspense>
             </div>
@@ -72,7 +77,7 @@ const EmpresasAtivasRecife = ({
                 >
                     <Component
                       color={ColorPalette.default[index]}
-                      data={data}
+                      data={chartData}
                       year={year}
                     />
                 </div> 

@@ -12,11 +12,11 @@ const EmpresasMesAtivasInativas = ({
   title = "Quantidade de Empresas Ativas e Inativas",
   }: any) => {
 
-  const uniqueArrays = Array.from(new Set([...Object.keys(data['ativas']['mes']), ...Object.keys(data['inativas']['mes'])]))
+  const uniqueArrays = Array.from(new Set([...Object.keys(data?.['ativas']?.['mes'] || {}), ...Object.keys(data?.['inativas']?.['mes'] || {})]))
 
   const chartData = uniqueArrays.map((key: string) => {
-    const ativaNum = data['ativas']['mes'][key] || 0
-    const inativaNum = data['inativas']['mes'][key] || 0
+    const ativaNum = data?.['ativas']?.['mes']?.[key] || 0
+    const inativaNum = data?.['inativas']?.['mes']?.[key] || 0
 
       return { label: key, ativa: ativaNum, inativa: inativaNum } 
     }).sort((a, b) => +a['label'] - +b['label']).map((obj) => ({ ...obj, label: monthShortName(+obj.label) }))

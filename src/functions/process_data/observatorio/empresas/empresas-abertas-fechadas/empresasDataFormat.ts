@@ -3,7 +3,7 @@
 
       const groupData: { [key: string]: any[] } = {}
 
-      for (let i = 0; i < data.length; i++) {
+      for (let i = 0; i < data?.length; i++) {
         const municipio = data[i]['Município'] as string
 
         if (!groupData[municipio]) groupData[municipio] = [] 

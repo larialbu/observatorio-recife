@@ -123,7 +123,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const applyFilters = async (newFilters: Filters) => {
-    if (JSON.stringify(filters) !== JSON.stringify(newFilters)) {
+    if (filters?.id === newFilters?.id) {
       setFilters(newFilters);
       await fetchData(newFilters);
     }
@@ -179,7 +179,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     
     // Se os filtros não mudaram, não faz nada
     // ao invés de fazer uma comparação com base nos additionalfiltes, vmaos colocar um campo chamado id ou key e a partir disso fazer a comparação, se for diferente fazemos um novo fetch
-    if (JSON.stringify(prevFiltersRef.current) === JSON.stringify(baseFilters)) {
+    if (baseFilters?.id === prevFiltersRef?.current?.id) {
       return;
     }
     setData(null);

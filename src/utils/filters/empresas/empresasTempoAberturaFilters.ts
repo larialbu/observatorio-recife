@@ -1,12 +1,25 @@
-export const empresasInativasFilters = {
-    id: 'empresas-inativas-filters',
-    years: ["2023", "2024" ], // Filtra por ano
+import { monthHash } from "@/utils/hashs/monthHash";
+
+export const empresasTempoAberturaFilters = {
+    id: 'empresas-tempo-abertura-filters',
+    years: ["2023", "2024", "2025" ], // Filtra por ano
     additionalFilters: [
+      {
+        label: "mes",  
+        options: [],  
+        selected: [],
+        hash: monthHash        
+      },
     //   {
-    //     label: "Mês",  
+    //     label: "Municipio",  
     //     options: [],  
-    //     selected: [],
-    //   },
+    //     selected: ["Recife"],
+    //   },      
+      // {
+      //   label: "Mês",  
+      //   options: [],  
+      //   selected: [],
+      // },
     //   {
     //     label: "município",  
     //     options: [],  

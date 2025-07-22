@@ -1,6 +1,7 @@
 import { monthHash } from "@/utils/hashs/monthHash";
 
 export const portoComparativoFilters = {
+    id: 'porto-comparativo-filters',
     years: ["2023", "2024"], // Filtra por ano
     additionalFilters: [
       {

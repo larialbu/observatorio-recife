@@ -8,9 +8,9 @@ const EmpresasAtivasMesRecente = ({
   year,
   color,
 }: any) => {
-  const dataEmpresas = data['empresas']
+  const dataEmpresas = data?.['empresas']
 
-  const curMonthData = dataEmpresas.sort((a: any, b: any) => b['mes'] - a['mes'])?.[0] 
+  const curMonthData = dataEmpresas.sort((a: any, b: any) => Number(b?.['mes']) - Number(a?.['mes']))?.[0] 
   
   const curMonthName = curMonthData?.['Mês']
 

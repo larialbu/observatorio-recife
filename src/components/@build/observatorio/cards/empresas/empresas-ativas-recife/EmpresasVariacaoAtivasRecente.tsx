@@ -8,16 +8,16 @@ const EmpresasVariacaoAtivasRecente = ({
   year,
   color,
 }: any) => {
-  const dataEmpresas = data['empresas']
+  const dataEmpresas = data?.['empresas']
 
-  const allMonthData = dataEmpresas.sort((a: any, b: any) => b['mes'] - a['mes'])
+  const allMonthData = dataEmpresas.sort((a: any, b: any) => Number(b?.['mes']) - Number(a?.['mes']))
   
   const curMonthData = allMonthData?.[0]
   const pastMonthData = allMonthData?.[1]
   
   const curMonthName = curMonthData?.['Mês']
 
-  const chartData = (((curMonthData['Empresas Ativas'] - pastMonthData['Empresas Ativas']) / pastMonthData['Empresas Ativas']) * 100).toFixed(2)
+  const chartData = (((curMonthData?.['Empresas Ativas'] - pastMonthData?.['Empresas Ativas']) / pastMonthData?.['Empresas Ativas']) * 100).toFixed(2)
 
   return (
     <Card

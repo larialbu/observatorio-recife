@@ -9,7 +9,7 @@ const EmpresasAtivasMesRecente = ({
   year,
   color,
 }: any) => {
-  const monthsData = Object.keys(data['inativas']['mes'])
+  const monthsData = Object.keys(data?.['inativas']?.['mes'] || {})
 
   const curMonthData = monthsData.sort(
     (a: any, b: any) => +b - +a,
@@ -17,7 +17,7 @@ const EmpresasAtivasMesRecente = ({
 
   const curMonthName = monthLongName(+curMonthData)
 
-  const chartData = data['inativas']['mes'][curMonthData] || 0
+  const chartData = data?.['inativas']?.['mes']?.[curMonthData] || 0
 
   return (
     <Card

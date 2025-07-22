@@ -1,6 +1,7 @@
 import { monthHash } from "@/utils/hashs/monthHash";
 
 export const ipcaAnaliticoFilters = {
+  id: 'ipca-analitico-filters',
   years: ["2023", "2024"], // Filtra por ano
   additionalFilters: [
     {

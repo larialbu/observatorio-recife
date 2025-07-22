@@ -1,4 +1,5 @@
 export const empregosDesempregoFilters = {
+    id: 'empregos-desemprego-filters',
     years: ["2023", "2024"], 
     additionalFilters: [
       {

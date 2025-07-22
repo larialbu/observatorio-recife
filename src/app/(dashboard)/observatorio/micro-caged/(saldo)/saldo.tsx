@@ -24,7 +24,6 @@ const Saldo = ({
   const sortableContainerRef = useRef<HTMLDivElement>(null);
   const [chartData, setChartData] = useState({})
   
-  console.log('FOI!')
 
   useEffect(() => {
     const dataAdmitidos = getDataObj(data.filter((obj: any) => obj['saldomovimentação'] === "Admitidos"))

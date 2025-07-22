@@ -1,6 +1,7 @@
 import { monthHash } from "@/utils/hashs/monthHash";
 
 export const empresasAtivasFilters = {
+    id: 'empresas-ativas-filters',
     years: ["2023", "2024" ], // Filtra por ano
     additionalFilters: [
       {

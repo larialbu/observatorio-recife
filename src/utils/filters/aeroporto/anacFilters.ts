@@ -1,6 +1,7 @@
 import { monthHash } from "@/utils/hashs/monthHash";
 
 export const anacFilters = {
+  id: 'anac-filters',
   years: ["2021", "2022", "2023", "2024"], // Filtra por ano
   additionalFilters: [
     {

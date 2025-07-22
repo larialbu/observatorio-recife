@@ -1,4 +1,5 @@
 export const empresasAtivasInativasFilters = {
+    id: 'empresas-ativas-inativas-filters',
     years: ["2023", "2024" ], // Filtra por ano
     additionalFilters: [
     //   {

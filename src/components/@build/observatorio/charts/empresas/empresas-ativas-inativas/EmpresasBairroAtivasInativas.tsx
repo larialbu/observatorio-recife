@@ -12,11 +12,11 @@ const EmpresasBairroAtivasInativas = ({
   title = "Empresas por Bairro",
   year,
 }: any) => {
-  const uniqueArrays = Array.from(new Set([...Object.keys(data['ativas']['nome_bairro']), ...Object.keys(data['inativas']['nome_bairro'])]))
+  const uniqueArrays = Array.from(new Set([...Object.keys(data?.['ativas']?.['nome_bairro'] || {}), ...Object.keys(data?.['inativas']?.['nome_bairro'] || {})]))
 
   const chartData = uniqueArrays.map((key: string) => {
-    const ativaNum = data['ativas']['nome_bairro'][key] || 0
-    const inativaNum = data['inativas']['nome_bairro'][key] || 0
+    const ativaNum = data?.['ativas']?.['nome_bairro']?.[key] || 0
+    const inativaNum = data?.['inativas']?.['nome_bairro']?.[key] || 0
 
     return { label: key, ativa: ativaNum, inativa: inativaNum } 
   }).sort((a, b) => (b['ativa'] + b['inativa']) - (a['ativa'] + a['inativa']))
