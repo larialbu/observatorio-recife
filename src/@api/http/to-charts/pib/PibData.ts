@@ -19,11 +19,6 @@ export class PibData {
     return fetchData<ProcessedDataPib[]>(endpoint, PibData.cache);
   }
 
-  async fetchProcessedDataByYear(year: string): Promise<ProcessedDataPib[]> {
-    const endpoint = `/pib/geral/anos`;
-    return fetchData<ProcessedDataPib[]>(endpoint, PibData.cache);
-  }
-
   // Limpa o cache de dados
   clearCache(): void {
     PibData.cache = {};

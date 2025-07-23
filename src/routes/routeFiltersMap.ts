@@ -49,13 +49,13 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
       grupos: ipcaGruposFilters,
       analitico: ipcaAnaliticoFilters,
       // etc. Se quiser mesmo service, ok
-    },
+    }, // foi
 
     "/observatorio/portos": {
       geral: portoGeralFilters,
       operacao: portoGeralFilters,
       comparativo: portoComparativoFilters,
-      passageiros: portoPassageiroFilters,
+      passageiro: portoPassageiroFilters,
       // etc. Se quiser mesmo service, ok
     },
 
@@ -65,7 +65,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
       pilar: rankingPilarFilters,
       indicador: rankingIndicadorFilters,
       // etc. Se quiser mesmo service, ok
-    },
+    },  // foi
 
   "/observatorio/aeroportos": {
     // Se estivermos em /observatorio/aeroportos, podemos ter
@@ -75,13 +75,13 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     embarque: anacFilters,
     aena: aenaFilters,
     // Se existirem outras tabs, adicione aqui.
-  },
+  },  // foi
 
   "/observatorio/pib": {
     geral: pibGeralFilters,
     comparativo: pibComparativoFilters,
     capita: pibCapitaFilters,
-  },
+  }, // foi marromeno
 
   "/observatorio/balanca-comercial": {
     geral: {
@@ -90,7 +90,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     analitico: {
       ...balancaComercialAnaliticoFilters
     },
-  },
+  },  // foi
 
   "/observatorio/empregos": {
     geral: empregosCagedFilters,
@@ -126,7 +126,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     "comparativo-empresas-classes": empresasComparativoClasses,
     "empresas-abertas-fechadas": empresasAbertasFechadasFilters,
     "empresas-tempo-abertura": empresasTempoAberturaFilters
-  },
+  },  // foi
 
   // E assim por diante pra outras rotas...
 };

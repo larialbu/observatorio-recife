@@ -167,47 +167,12 @@ export class EmpresasDataService {
     };
   }
 
-
-
-//   private async fetchGeral(filters: any) {
-//     const filtersHashed = applyHashedFilters(filters, 'grupamento', 'seção', gropoHash)
-
-//     const empresasData = new EmpresasDataService(this.currentYear);
-
-//     const fetchData = await empresasData.fetchProcessedDataMicroCaged() 
-
-//     const filteredData = applyGenericFilters(fetchData, filtersHashed, ['grupamento']);
-
-//     return {
-//       microCaged: filteredData,
-//       id: "empregos-micro-caged",
-//     };
-//   }
-
-//   private async fetchMedia(filters: any) {
-//     const empresasData = new EmpresasDataService(this.currentYear);
-//     const pastYear = `${+this.currentYear - 1}`
-
-//     const [microCagedCur, microCagedPast] = await Promise.all([empresasData.fetchProcessedDataMicroCaged(), new EmpresasDataService(pastYear).fetchProcessedDataMicroCaged().catch(() => [])])
-
-//     const filteredDataCur = applyGenericFilters(microCagedCur, filters)
-//     const filteredDataPast = applyGenericFilters(microCagedPast, filters)
-
-//     return {
-//       microCaged: {
-//         current: filteredDataCur,
-//         past: filteredDataPast
-//       },
-//       id: "empregos-micro-caged-media",
-//     };
-//   }
-
-
   public async fetchDataForTab(tab: string, filters: Record<string, any>): Promise<any> {
     console.log('Tab ->', tab, tab === 'geral', filters)
     const cacheKey = this.getCacheKey(tab, filters);
 
     if (this.dataCache[cacheKey]) {
+      console.log('dataCache -> ', this.dataCache)
       return this.dataCache[cacheKey];
     }
 

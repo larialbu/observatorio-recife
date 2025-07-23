@@ -21,11 +21,6 @@ export class PortoData {
     return fetchData<PortoCargaHeaders[]>(endpoint, PortoData.cache);
   }
 
-  async fetchPassageirosPorAno(): Promise<PortoPassageirosHeaders[]> {
-    const endpoint = `/porto/passageiros/${this.year}`;
-    return fetchData<PortoPassageirosHeaders[]>(endpoint, PortoData.cache);
-  }
-
   async fetchOrigemDictionary(): Promise<PortoOrigemDestinoHeaders[]> {
     const endpoint = `/porto/dictionaries/origem`;
     return fetchData<PortoOrigemDestinoHeaders[]>(endpoint, PortoData.cache);
@@ -44,5 +39,10 @@ export class PortoData {
   async fetchCoordinates(): Promise<PortoCoordHeaders[]> {
     const endpoint= `/porto/charts/coords/${this.year}`;
     return fetchData<PortoCoordHeaders[]>(endpoint, PortoData.cache);
+  }  
+  
+  async fetchPassageirosPorAno(): Promise<PortoPassageirosHeaders[]> {
+    const endpoint = `/porto/passageiros/${this.year}`;
+    return fetchData<PortoPassageirosHeaders[]>(endpoint, PortoData.cache);
   }
 }

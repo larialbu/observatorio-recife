@@ -14,6 +14,9 @@ import { HiddenChart, DashboardContextProps, DashboardData  } from "@/@types/obs
 import { Filters, AdditionalFilter } from "@/@types/observatorio/shared";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
+import { dataYears } from "@/@api/config/dataYears";
+import { empresasRouteDataHash } from "@/utils/hashs/routes/empresasRouteDataHash";
+import { geralRouteDataHash } from "@/utils/hashs/routes/geralRouteDataHash";
 
 const DashboardContext = createContext<DashboardContextProps<unknown> | undefined>(undefined);
 
@@ -50,6 +53,8 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       }
 
       const fetched: any = await service.fetchDataForTab(tab, filtersToUse); // Aqui era DashboardData tipado
+
+      console.log('FETCHED NO dashboadContext: ->', fetched)
 
       if (process.env.NODE_ENV === 'development') {
         console.log("✅ Dados carregados:", fetched);
@@ -172,21 +177,38 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     setHiddenCharts(prev => prev.filter(c => c.id !== id));
   };
 
+   const getYearsData = async () => {
+    const tab = searchParams.get("tab");
+    
+    const pathWithTab = `${pathname}?tab=${tab}` as keyof typeof geralRouteDataHash;
+
+    const pathCorrect = geralRouteDataHash[pathWithTab];
+
+    return await dataYears(pathCorrect)
+  }
 
   useEffect(() => {
-    const tab = searchParams.get("tab");
-    const baseFilters = getFiltersForRoute(pathname, tab) as Filters;
-    
-    // Se os filtros não mudaram, não faz nada
-    // ao invés de fazer uma comparação com base nos additionalfiltes, vmaos colocar um campo chamado id ou key e a partir disso fazer a comparação, se for diferente fazemos um novo fetch
-    if (baseFilters?.id === prevFiltersRef?.current?.id) {
-      return;
+      const fetch = async () => {
+      const tab = searchParams.get("tab");
+      const baseFilters = getFiltersForRoute(pathname, tab) as Filters;
+      
+      const dataYears = await getYearsData()
+
+      const filtersWithYears = { ...baseFilters, years: dataYears }
+
+      // Se os filtros não mudaram, não faz nada
+      // ao invés de fazer uma comparação com base nos additionalfiltes, vmaos colocar um campo chamado id ou key e a partir disso fazer a comparação, se for diferente fazemos um novo fetch
+      if (baseFilters?.id === prevFiltersRef?.current?.id) {
+        return;
+      }
+      setData(null);
+      console.log("🔵 Filtros mudaram, chamando fetchData...");
+      prevFiltersRef.current = filtersWithYears;
+      setFilters(filtersWithYears);
+      fetchData(filtersWithYears);
     }
-    setData(null);
-    console.log("🔵 Filtros mudaram, chamando fetchData...");
-    prevFiltersRef.current = baseFilters;
-    setFilters(baseFilters);
-    fetchData(baseFilters);
+
+    fetch()
   }, [pathname, searchParams]);
 
 
