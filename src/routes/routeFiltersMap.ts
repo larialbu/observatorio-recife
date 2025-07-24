@@ -49,7 +49,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
       grupos: ipcaGruposFilters,
       analitico: ipcaAnaliticoFilters,
       // etc. Se quiser mesmo service, ok
-    }, // foi
+    }, 
 
     "/observatorio/portos": {
       geral: portoGeralFilters,
@@ -57,7 +57,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
       comparativo: portoComparativoFilters,
       passageiro: portoPassageiroFilters,
       // etc. Se quiser mesmo service, ok
-    },
+    }, 
 
     "/observatorio/ranking": {
       geral: rankingGeralFilters,
@@ -65,7 +65,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
       pilar: rankingPilarFilters,
       indicador: rankingIndicadorFilters,
       // etc. Se quiser mesmo service, ok
-    },  // foi
+    },  
 
   "/observatorio/aeroportos": {
     // Se estivermos em /observatorio/aeroportos, podemos ter
@@ -75,7 +75,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     embarque: anacFilters,
     aena: aenaFilters,
     // Se existirem outras tabs, adicione aqui.
-  },  // foi
+  },  
 
   "/observatorio/pib": {
     geral: pibGeralFilters,
@@ -90,13 +90,13 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     analitico: {
       ...balancaComercialAnaliticoFilters
     },
-  },  // foi
+  },  
 
   "/observatorio/empregos": {
     geral: empregosCagedFilters,
     comparativo: empregosCagedFilters,
     desemprego: empregosDesempregoFilters,
-  },
+  }, 
 
   "/observatorio/rais": {
     geral: raisGeralFilters,
@@ -105,7 +105,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     grupo: raisGeralFilters,
     estoque: raisGeralFilters,
     remuneracao: raisGeralFilters,
-  },
+  }, 
 
   "/observatorio/micro-caged": {
     geral: microCagedGeralFilters,
@@ -126,7 +126,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     "comparativo-empresas-classes": empresasComparativoClasses,
     "empresas-abertas-fechadas": empresasAbertasFechadasFilters,
     "empresas-tempo-abertura": empresasTempoAberturaFilters
-  },  // foi
+  },  
 
   // E assim por diante pra outras rotas...
 };

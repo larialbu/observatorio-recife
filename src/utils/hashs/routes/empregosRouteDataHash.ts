@@ -1,4 +1,5 @@
 export const empregosRouteDataHash = {
-    // '/observatorio/empresas?tab=geral': '/empresas/empresas-ativas',
- 
+    '/observatorio/empregos?tab=geral': '/empregos/caged',
+    '/observatorio/empregos?tab=comparativo': '/empregos/caged',
+    '/observatorio/empregos?tab=desemprego': '/empregos/desemprego',
 }  
