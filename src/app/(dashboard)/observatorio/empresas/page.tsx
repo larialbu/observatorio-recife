@@ -17,6 +17,7 @@ import EmpresasClasses from "./(empresas-classes)/empresas-classes";
 import ComparativoClasses from "./(comparativo-classes)/comparativo-classes";
 import EmpresasAbertasFechadas from "./(empresas-abertas-fechadas)/empresas-abertas-fechadas";
 import EmpresasTempoAbertura from "./(empresas-tempo-abertura)/empresas-tempo-abertura";
+import { getChartDataModel } from "@/functions/process_data/observatorio/empresas/getChartDataModel";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
@@ -41,64 +42,39 @@ const EmpresasPage = () => {
     }, [searchParams, activeTab, router]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-        const idObjsRawData = ["empresas-empresas-naturezas", "empresas-empresas-classes"]
-        const idObjs = ['empresas-empresas-ativas-inativas',  ]      
-        const idTest = ["empresas-empresas-abertas-fechadas"]
-        const idArr = ["empresas-empresas-tempo-abertura", "empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas"]
+  const intervalId = setInterval(() => {
+    if (!data?.id) return;
+    const idObjsRawData = ["empresas-empresas-naturezas", "empresas-empresas-classes"]
+    const idObjs = ['empresas-empresas-ativas-inativas',  ]      
+    const idTest = ["empresas-empresas-abertas-fechadas"]
+    const idArr = ["empresas-empresas-tempo-abertura", "empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas"]
 
-        if (idTest.includes(data?.id)) {
-          const empresasDataObj = { 
-            empresas: { ativas: data?.empresas?.ativas?.filteredData || [], inativas: data?.empresas?.inativas?.filteredData || []}, 
-            rawData: { ativas: data?.rawData?.ativas || [], inativas: data?.rawData?.inativas || [] }
-          };
+    const handler = getChartDataModel(data, data.id);
 
-          setDataTest(empresasDataObj);
+    if (handler) {
+      if (idTest.includes(data.id)) {
+        setDataTest(handler())
+      } else if (idArr.includes(data.id)) {
+        setDataArr(handler())
+      } else if (idObjs.includes(data.id)) {
+        setDataObj(handler())
+      } else if (idObjsRawData.includes(data.id)) {
+        setDataObjRawData(handler())
+      }
 
-          clearInterval(intervalId);
-        } else {
-            setDataTest({ empresas: { ativas: [], inativas: []}, rawData: [] });
-          }
+      handler();
+      clearInterval(intervalId);
+    } else {
+      // Resetar os estados para o padrão se não encontrar ID
+      setDataTest({ empresas: { ativas: [], inativas: [] }, rawData: { ativas: [], inativas: [] } });
+      setDataArr({ empresas: [], rawData: [] });
+      setDataObj({ ativas: [], inativas: [] });
+      setDataObjRawData({ empresas: [], rawData: { mes: [], municipio: [] } });
+    }
+  }, 50);
 
-        if (idArr.includes(data?.id)) {
-          const empresasDataObj = { 
-            empresas: data?.empresas?.filteredData || [], 
-            rawData: data?.rawData || []
-          };
-
-          setDataArr(empresasDataObj);
-
-          clearInterval(intervalId);
-        } else {
-            setDataArr({ empresas: [], rawData: [] });
-          }
-
-
-        if (idObjs.includes(data?.id)) {
-          // const microCagedData = data?.microCaged || [];
-          // mudar isso aqui
-          const empresasDataObj = { ativas: data?.empresas?.ativas?.filteredData || [], inativas: data?.empresas?.inativas?.filteredData || [] };
-          
-          setDataObj(empresasDataObj);
-
-          clearInterval(intervalId);
-        } else {
-            setDataObj({ ativas: [], inativas: [] });
-          }
-
-        if (idObjsRawData.includes(data?.id)) {
-          const empresasDataObj = { empresas: data?.empresas?.filteredData || [], rawData: { mes: data?.rawData?.mes?.filteredData || [], municipio: data?.rawData?.municipio?.filteredData || [] } };
-          
-          setDataObjRawData(empresasDataObj);
-
-          clearInterval(intervalId);
-        } else {
-            setDataObjRawData({ empresas: [], rawData: {mes: [], municipio: []} });
-          }          
-      }, 50);
-  
-      return () => clearInterval(intervalId);
-    }, [data, pathname]);
+  return () => clearInterval(intervalId);
+}, [data?.id, pathname]);
   
     if (isLoading) return <LoadingScreen />;
 
