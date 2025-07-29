@@ -39,6 +39,7 @@ import { empresasClassesFilters } from "@/utils/filters/empresas/empresasClasses
 import { empresasComparativoClasses } from "@/utils/filters/empresas/empresasComparativoClasses";
 import { empresasAbertasFechadasFilters } from "@/utils/filters/empresas/empresasAbertasFechadasFilters";
 import { empresasTempoAberturaFilters } from "@/utils/filters/empresas/empresasTempoAberturaFilters";
+import { tributosGeralFilters } from "@/utils/filters/tributos/tributosGeralFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 type TabFiltersMap = Record<string, Filters>;
@@ -127,6 +128,10 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     "empresas-abertas-fechadas": empresasAbertasFechadasFilters,
     "empresas-tempo-abertura": empresasTempoAberturaFilters
   },  
+
+  "/observatorio/tributos": {
+    geral: tributosGeralFilters,
+  },
 
   // E assim por diante pra outras rotas...
 };

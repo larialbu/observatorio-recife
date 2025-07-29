@@ -9,6 +9,7 @@ import { pibDataService } from "@/services/@data/pibDataService";
 import { portoDataService } from "@/services/@data/portoDataService";
 import { raisDataService } from "@/services/@data/raisDataService";
 import { rankingDataService } from "@/services/@data/rankingDataService";
+import { tributosDataService } from "@/services/@data/tributosDataService";
 
 export const routeServicesMap: Record<
   string,
@@ -98,5 +99,17 @@ export const routeServicesMap: Record<
     "empresas-tempo-abertura": empresasDataService
   },
    
+  "/observatorio/tributos": {
+    geral: tributosDataService,
+    // "empresas-ativas": empresasDataService,
+    // "empresas-inativas": empresasDataService,
+    // "empresas-ativas-inativas": empresasDataService,
+    // "empresas-naturezas": empresasDataService,
+    // "empresas-classes": empresasDataService,
+    // "comparativo-empresas-classes": empresasDataService,
+    // "empresas-abertas-fechadas": empresasDataService,
+    // "empresas-tempo-abertura": empresasDataService
+  },
+  
   // E assim por diante ...
 };

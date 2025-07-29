@@ -15,7 +15,6 @@ import { Filters, AdditionalFilter } from "@/@types/observatorio/shared";
 import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute";
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
 import { dataYears } from "@/@api/config/dataYears";
-import { empresasRouteDataHash } from "@/utils/hashs/routes/empresasRouteDataHash";
 import { geralRouteDataHash } from "@/utils/hashs/routes/geralRouteDataHash";
 
 const DashboardContext = createContext<DashboardContextProps<unknown> | undefined>(undefined);

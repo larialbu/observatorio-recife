@@ -168,11 +168,9 @@ export class EmpresasDataService {
   }
 
   public async fetchDataForTab(tab: string, filters: Record<string, any>): Promise<any> {
-    console.log('Tab ->', tab, tab === 'geral', filters)
     const cacheKey = this.getCacheKey(tab, filters);
 
     if (this.dataCache[cacheKey]) {
-      console.log('dataCache -> ', this.dataCache)
       return this.dataCache[cacheKey];
     }
 
