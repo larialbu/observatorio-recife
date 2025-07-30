@@ -1,14 +1,11 @@
 import React from "react";
 
-// Defina a interface de tipo de membro
 export interface TeamMember {
   name: string;
   role: string;
   image: string;
 }
 
-// Componente: TechnologyDesignSection
-// Recebe um array de `lastSectionMembers` para exibir
 export function TechnologyDesignSection({
   lastSectionMembers,
 }: {
@@ -16,7 +13,6 @@ export function TechnologyDesignSection({
 }) {
   return (
     <section className="relative w-full bg-gradient-to-t from-white to-blue-50 dark:bg-[#0c2136] dark:from-[#0c2136] dark:to-[#0c2136] px-6 py-16 overflow-hidden flex flex-col justify-center">
-      {/* Onda no topo */}
       <svg
         className="absolute top-0 left-0 w-full pointer-events-none fill-white dark:fill-[#0C1B2B]"
         viewBox="0 0 1440 320"
@@ -33,7 +29,7 @@ export function TechnologyDesignSection({
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 max-w-6xl mx-auto relative z-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-6xl mx-auto relative z-10">
         {lastSectionMembers.map((member, index) => (
           <div
             key={index}
