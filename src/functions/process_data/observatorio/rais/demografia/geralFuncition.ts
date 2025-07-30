@@ -10,7 +10,7 @@ export function geralAccFunction(dataArray: any, params: any) {
 }
 
 export const geralAccFieldFunction = (data: any, params: string[], accParam: string) => {
-    return data.reduce((acc: any, obj: any) => {
+    return (data || [])?.reduce((acc: any, obj: any) => {
         params.forEach((param) => {
           if (!acc[param]) acc[param] = {} 
 

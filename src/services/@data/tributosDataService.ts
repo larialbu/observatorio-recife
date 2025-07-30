@@ -36,9 +36,9 @@ export class TributosDataService {
     const filteredData = applyGenericFilters(fetchData, filters);
 
     return {
-      empresas: filteredData,
+      tributos: filteredData,
       rawData: fetchData,
-      id: "empresas-empresas-ativas-recife",
+      id: "tributos-itbi",
     };
   }
 
@@ -51,9 +51,9 @@ export class TributosDataService {
     const filteredData = applyGenericFilters(fetchData, filters);
 
     return {
-      empresas: filteredData,
+      tributos: filteredData,
       rawData: fetchData,
-      id: "empresas-empresas-ativas",
+      id: "tributos-iptu",
     };
   }
 

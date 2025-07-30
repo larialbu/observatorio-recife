@@ -1,7 +1,7 @@
 export const getUniqueValues = <T, K extends keyof T>(data: T[], key: K): T[K][] => {
-    const uniqueValues: T[K][] = []
+    const uniqueValues: T[K][] = [] as any
 
-    data.map((value) => {
+    (data || []).map((value) => {
         if (uniqueValues.includes(value[key])) {
             return
         }

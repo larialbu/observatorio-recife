@@ -8,16 +8,9 @@ import { useDashboard } from "@/context/DashboardContext";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
 
-import EmpresasAtivas from "./(empresas-ativas)/empresas-ativas";
-import EmpresasAtivasRecife from "./(empresas-ativas-recife)/empresas-ativas-recife";
-import EmpresasInativas from "./(empresas-inativas)/empresas-inativas";
-import EmpresasAtivasInativas from "./(empresas-ativas-inativas)/empresas-ativas-inativas";
-import EmpresasNaturezas from "./(empresas-naturezas)/empresas-naturezas";
-import EmpresasClasses from "./(empresas-classes)/empresas-classes";
-import ComparativoClasses from "./(comparativo-classes)/comparativo-classes";
-import EmpresasAbertasFechadas from "./(empresas-abertas-fechadas)/empresas-abertas-fechadas";
-import EmpresasTempoAbertura from "./(empresas-tempo-abertura)/empresas-tempo-abertura";
 import { getChartDataModel } from "@/functions/process_data/observatorio/empresas/getChartDataModel";
+import { getChartDataModelTributos } from "@/functions/process_data/observatorio/tributos/getChartDataModelTributos";
+import ItbiContribuintes from "./(itbi-contribuintes)/itbi-contribuintes";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
@@ -43,13 +36,30 @@ const EmpresasPage = () => {
 
   useEffect(() => {
   const intervalId = setInterval(() => {
-    // if (!data?.id) return;
+    if (!data?.id) return;
+    const idITBI = ["tributos-itbi"] 
+    const idIPTU = ["tributos-iptu"] 
     // const idObjsRawData = ["empresas-empresas-naturezas", "empresas-empresas-classes"]
     // const idObjs = ['empresas-empresas-ativas-inativas',  ]      
     // const idTest = ["empresas-empresas-abertas-fechadas"]
     // const idArr = ["empresas-empresas-tempo-abertura", "empresas-empresas-ativas-recife", "empresas-empresas-ativas", "empresas-empresas-inativas"]
 
     // const handler = getChartDataModel(data, data.id);
+    const handler = getChartDataModelTributos(data, data.id);
+
+    if (handler) {
+      if (idITBI.includes(data.id)) {
+        setDataArr(handler())
+      } else if (idIPTU.includes(data.id)) {
+        setDataArr(handler())
+      }  
+      
+      handler();
+      clearInterval(intervalId);
+    } else {
+      // Resetar os estados para o padrão se não encontrar ID
+      setDataArr({ tributos: [], rawData: [] });
+    }
 
     // if (handler) {
     //   if (idTest.includes(data.id)) {
@@ -80,13 +90,13 @@ const EmpresasPage = () => {
 
     
   const renderContent = () => {
-    if (!data || !(dataArr?.length || dataObj?.ativas?.length || dataObjRawData?.empresas?.length || dataTest?.empresas?.ativas?.length || dataArr?.empresas?.length) ) {
+    if (!data || !(dataArr?.tributos?.length || dataObj?.ativas?.length || dataObjRawData?.empresas?.length || dataTest?.empresas?.ativas?.length || dataArr?.empresas?.length) ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
     switch (activeTab) {
       case "geral":
-        return <EmpresasAtivasRecife
+        return <ItbiContribuintes
         data={dataArr} 
         year={getYearSelected(filters)} 
         />  
@@ -131,7 +141,7 @@ const EmpresasPage = () => {
       //   year={getYearSelected(filters)} 
       //   />        
       default:
-        return <EmpresasAtivasRecife 
+        return <ItbiContribuintes 
         data={dataArr} 
         year={getYearSelected(filters)} 
         />

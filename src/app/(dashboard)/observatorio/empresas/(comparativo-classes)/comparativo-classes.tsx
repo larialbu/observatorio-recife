@@ -18,7 +18,7 @@ const ComparativoClasses = ({
   year,
   data,
   toCompare = getUniqueValues<any, "Municipio">(
-    data['rawData']['municipio'],
+    data?.['rawData']?.['municipio'] || [],
     "Municipio"
   )
 }: {

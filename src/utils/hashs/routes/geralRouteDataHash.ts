@@ -8,6 +8,7 @@ import { pibRouteDataHash } from "./pibRouteDataHash";
 import { portosRouteDataHash } from "./portosRouteDataHash";
 import { raisRouteDataHash } from "./raisRouteDataHash";
 import { rankingRouteDataHash } from "./rankingRouteDataHash";
+import { tributosRouteDataHash } from "./tributosRouteDataHash";
 
 export const geralRouteDataHash = {
     ...empresasRouteDataHash,
@@ -19,5 +20,6 @@ export const geralRouteDataHash = {
     ...portosRouteDataHash,
     ...empregosRouteDataHash,
     ...raisRouteDataHash,
-    ...microCagedRouteDataHash
+    ...microCagedRouteDataHash,
+    ...tributosRouteDataHash
 }  

@@ -43,16 +43,15 @@ const ComparativoClasses = ({
   useEffect(() => {
     const dataMuni = {
       empresas: {
-        ativas: dataFormat(data['empresas']['ativas'], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction),
-        inativas: dataFormat(data['empresas']['inativas'], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction)
+        ativas: dataFormat(data?.['empresas']?.['ativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction),
+        inativas: dataFormat(data?.['empresas']?.['inativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction)
       },
       rawData: {
-        ativas: dataFormat(data['rawData']['ativas'], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction),
-        inativas: dataFormat(data['rawData']['inativas'], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction)
+        ativas: dataFormat(data?.['rawData']?.['ativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction),
+        inativas: dataFormat(data?.['rawData']?.['inativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction)
       }
     }
 
-    console.log('DATaMUNI', dataMuni)
     setChartData(dataMuni)
   }, [data])
 
