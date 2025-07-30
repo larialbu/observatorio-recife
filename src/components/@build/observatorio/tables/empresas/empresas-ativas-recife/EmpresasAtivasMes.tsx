@@ -17,9 +17,13 @@ const [ordenation, setOrdenation] = useState([{ index: 0, name: 'mes', ordenatio
 
 const dataRawData = data?.['rawData']
 
+console.log('dataRawData', dataRawData)
+
 const order = ordenation.find((item) => item.ordenation != 0)
 
 const chartData = processEmpresasMonthInfo(dataRawData)
+
+console.log('chartData', chartData)
 
 const aggregatedData = chartData
 

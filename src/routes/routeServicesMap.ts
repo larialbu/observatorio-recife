@@ -101,14 +101,11 @@ export const routeServicesMap: Record<
    
   "/observatorio/tributos": {
     geral: tributosDataService,
-    // "empresas-ativas": empresasDataService,
-    // "empresas-inativas": empresasDataService,
-    // "empresas-ativas-inativas": empresasDataService,
-    // "empresas-naturezas": empresasDataService,
-    // "empresas-classes": empresasDataService,
-    // "comparativo-empresas-classes": empresasDataService,
-    // "empresas-abertas-fechadas": empresasDataService,
-    // "empresas-tempo-abertura": empresasDataService
+    "itbi-avaliacoes": tributosDataService,
+    "itbi-pesquisa": tributosDataService,
+    "iptu-contribuintes": tributosDataService,
+    "iptu-valores": tributosDataService,
+    "iptu-pesquisa": tributosDataService,
   },
   
   // E assim por diante ...

@@ -131,6 +131,11 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
 
   "/observatorio/tributos": {
     geral: tributosGeralFilters,
+    "itbi-avaliacoes": tributosGeralFilters,
+    "itbi-pesquisa": tributosGeralFilters,
+    "iptu-contribuintes": tributosGeralFilters,
+    "iptu-valores": tributosGeralFilters,
+    "iptu-pesquisa": tributosGeralFilters,
   },
 
   // E assim por diante pra outras rotas...

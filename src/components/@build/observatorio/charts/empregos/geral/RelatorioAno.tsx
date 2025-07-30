@@ -20,8 +20,6 @@ const RelatorioAno = ({
 
   const updatedData = updatedMonthChartData(chartData, months ?? 1);
   
-  console.log('DataLine -.', chartData)
-
   return (
     <div className="chart-wrapper">
       <ChartGrabber>

@@ -69,8 +69,18 @@ export class TributosDataService {
     let data;
     if (tab === "geral") {
       data = await this.fetchITBI(filters);
-    } else {
+    } else if (tab === "itbi-avaliacoes") {
+      data = await this.fetchITBI(filters);
+    } else if (tab === "itbi-pesquisa") {
+      data = await this.fetchITBI(filters);
+    } else if (tab === "iptu-contribuintes") {
       data = await this.fetchIPTU(filters);
+    } else if (tab === "iptu-valores") {
+      data = await this.fetchIPTU(filters);
+    } else if (tab === "iptu-pesquisa") {
+      data = await this.fetchIPTU(filters);
+    } else {
+      data = await this.fetchITBI(filters);
     } 
     // fetchEmpresasAbertasFechadas
     this.dataCache[cacheKey] = data;

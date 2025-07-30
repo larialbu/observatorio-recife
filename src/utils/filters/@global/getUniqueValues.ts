@@ -15,12 +15,14 @@ export const getUniqueValues = <T, K extends keyof T>(data: T[], key: K): T[K][]
 export const getGroupValues = (data: any, column: string) => {
     const groupData: { [key: string]: any[] } = {}
 
-    for (let i = 0; i < data.length; i++) {
-    const columnGroup = data[i][column] as string
+    const chartData = data || []
+
+    for (let i = 0; i < chartData.length; i++) {
+    const columnGroup = chartData[i][column] as string
 
     if (!groupData[columnGroup]) groupData[columnGroup] = [] 
 
-    groupData[columnGroup].push(data[i])
+    groupData[columnGroup].push(chartData[i])
     }
 
     return groupData

@@ -17,8 +17,6 @@ const RelatorioGeral = ({
   const [showPercentage, setShowPercentage] = useState(true);
   const chartData = processAccValues(data['caged']) 
 
-  console.log('ChartData PieChart->', chartData)
-
   return (
     <div className="chart-wrapper">
       <ChartGrabber>

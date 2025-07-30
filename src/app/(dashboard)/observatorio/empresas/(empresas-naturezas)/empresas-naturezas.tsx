@@ -26,10 +26,10 @@ const EmpresasNaturezas = ({
  
   const chartData = useMemo(() => {
     return { 
-      empresas: geralAccFieldFunction(data['empresas'], params, 'Estabelecimentos'),
+      empresas: geralAccFieldFunction(data?.['empresas'] || [], params, 'Estabelecimentos'),
       rawData: {
-        municipio: geralAccFieldFunction(data['rawData']['municipio'], params, 'Estabelecimentos'),
-        mes: geralAccFieldFunction(data['rawData']['mes'], params, 'Estabelecimentos')
+        municipio: geralAccFieldFunction(data?.['rawData']?.['municipio'] || [], params, 'Estabelecimentos'),
+        mes: geralAccFieldFunction(data?.['rawData']?.['mes'] || [], params, 'Estabelecimentos')
       }
     }
   }, [data, params])  

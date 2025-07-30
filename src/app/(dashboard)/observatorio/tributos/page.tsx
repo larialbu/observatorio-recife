@@ -11,6 +11,7 @@ import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getChartDataModel } from "@/functions/process_data/observatorio/empresas/getChartDataModel";
 import { getChartDataModelTributos } from "@/functions/process_data/observatorio/tributos/getChartDataModelTributos";
 import ItbiContribuintes from "./(itbi-contribuintes)/itbi-contribuintes";
+import ItbiAvaliacoes from "../empresas/(empresas-ativas-recife)/empresas-ativas-recife";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
@@ -100,11 +101,11 @@ const EmpresasPage = () => {
         data={dataArr} 
         year={getYearSelected(filters)} 
         />  
-      // case "empresas-ativas":
-      //   return <EmpresasAtivas
-      //   data={dataArr} 
-      //   year={getYearSelected(filters)} 
-      //   /> 
+      case "itbi-avaliacoes":
+        return <ItbiAvaliacoes
+        data={dataArr} 
+        year={getYearSelected(filters)} 
+        /> 
       // case "empresas-inativas":
       //   return <EmpresasInativas
       //   data={dataArr} 
@@ -157,7 +158,7 @@ const EmpresasPage = () => {
   return (
     <div className="p-6 min-h-screen mt-48">
        <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide dark:text-gray-200">
-        Empresas
+        Tributos
       </h1>
       
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
@@ -169,57 +170,58 @@ const EmpresasPage = () => {
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
-          Panorama Empresas Ativas  
+          ITBI Contribuintes
         </button>
         <button
-          onClick={() => handleNavigation("empresas-ativas")}
+          onClick={() => handleNavigation("itbi-avaliacoes")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "empresas-ativas"
+            activeTab === "itbi-avaliacoes"
               ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
-          Empresas Ativas  
+          ITBI Avaliações  
         </button>
         <button
-          onClick={() => handleNavigation("empresas-inativas")}
+          onClick={() => handleNavigation("itbi-pesquisa")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "empresas-inativas"
+            activeTab === "itbi-pesquisa"
               ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
-        >
-          Empresas Inativas  
+        > 
+ 
+          ITBI Pesquisa 
         </button>
         <button
-          onClick={() => handleNavigation("empresas-ativas-inativas")}
+          onClick={() => handleNavigation("iptu-contribuintes")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "empresas-ativas-inativas"
+            activeTab === "iptu-contribuintes"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
-          Empresas Inativas X Ativas 
+          IPTU Contribuintes
         </button>
         <button
-          onClick={() => handleNavigation("empresas-naturezas")}
+          onClick={() => handleNavigation("iptu-valores")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "empresas-naturezas"
+            activeTab === "iptu-valores"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
-          Empresas Naturezas
+          IPTU Valores
         </button>
         <button
-          onClick={() => handleNavigation("empresas-classes")}
+          onClick={() => handleNavigation("iptu-pesquisa")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "empresas-classes"
+            activeTab === "iptu-pesquisa"
               ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
-          Ativas Geral NE
+          IPTU Pesquisa
         </button>
       </div>
       {renderContent()}

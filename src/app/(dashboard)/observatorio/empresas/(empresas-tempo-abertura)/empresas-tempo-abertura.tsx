@@ -37,7 +37,7 @@ const EmpresasTempoAbertura = ({
 
 
   useEffect(() => {
-    const dataMuni = { empresas: getGroupValues(data['empresas'], 'Municipio'), rawData: getGroupValues(data['rawData'], 'Municipio')} 
+    const dataMuni = { empresas: getGroupValues(data?.['empresas'] || [], 'Municipio'), rawData: getGroupValues(data['rawData'], 'Municipio')} 
 
     setChartData(dataMuni)
   }, [data, data['empresas']])
