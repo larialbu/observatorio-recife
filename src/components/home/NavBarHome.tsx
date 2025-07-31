@@ -76,7 +76,6 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
     },
   ];
 
-  /** Fechar menu ao clicar fora */
   useEffect(() => {
     if (typeof window !== "undefined") {
       setCurrentRoute(window.location.pathname);
@@ -92,19 +91,16 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Itens a exibir (exclui o item se 'currentRoute' bate com 'href')
   const displayedNavItems = currentRoute
     ? navItems.filter((item) => item.href !== currentRoute)
     : navItems;
 
-  // Toggle para menu mobile
   function toggleMenu() {
     setIsMenuOpen((prev) => !prev);
   }
 
-  // Classes extras se "simple" for true
   const containerClass = simple
-    ? "bg-[url('/images/backgrounds/home_carousel/carousel_1.png')] bg-cover bg-center items-center"
+    ? "bg-[url('/images/backgrounds/home_background2.avif')] bg-cover bg-center items-center"
     : "";
 
   return (
@@ -114,7 +110,6 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
         grid grid-cols-2 sm:grid-cols-[auto_auto] justify-between z-10 p-4 pr-2 sm:pr-4 pl-3 sm:pl-4 px-6 w-full
       `}
     >
-      {/* LOGO */}
       <Link href="/" className="w-fit hover:rotate-45 transition-transform">
         <img
           src="/images/logos/observatorio_logo.png"
@@ -123,7 +118,6 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
         />
       </Link>
 
-      {/* Menu Desktop */}
       <ul
         className={`hidden sm:flex h-fit justify-end items-center text-white ${
           simple ? "" : "pt-0 sm:pt-2"

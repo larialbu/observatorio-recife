@@ -1,67 +1,67 @@
 import React from "react";
 
-// Definimos uma interface para padronizar os tutoriais
 export interface TutorialItem {
   id: string;
   title: string;
   description: string;
-  content: string | React.ReactNode; // pode ser texto simples ou JSX
+  content: string | React.ReactNode;
   category?: string;
 }
 
-// Aqui dentro colocamos os tutoriais em formato JSON
 export const tutorialData: Record<string, TutorialItem> = {
   esconderGraficos: {
     id: "esconderGraficos",
     title: "Esconder Gráficos",
-    description: "Oculte todos os gráficos para facilitar a navegação visual.",
+    description: "Oculte gráficos específicos para personalizar sua visualização e focar no que é importante.",
     content: (
       <>
         <p>
-          Para ocultar todos os gráficos na tela, basta clicar no botão <strong>"Esconder Gráficos"</strong>.
+          Personalize seu painel ocultando gráficos individuais para focar nos dados mais relevantes para sua análise.
         </p>
-        <p className="mt-2">
-          Essa funcionalidade é útil quando você deseja focar apenas nos dados textuais ou fazer uma leitura simplificada das informações.
+        <p className="mt-3">
+          <strong>Como fazer:</strong> Clique no ícone de "olho" no canto superior do gráfico desejado. Para exibi-lo novamente, basta clicar no mesmo ícone.
         </p>
-        <ul className="list-disc pl-5 mt-2 space-y-1">
-          <li>Ocultamento global dos gráficos</li>
-          <li>Interface mais limpa</li>
-          <li>Ideal para relatórios ou apresentações rápidas</li>
+        <h3 className="font-semibold mt-4">Vantagens:</h3>
+        <ul className="list-disc pl-5 mt-2 space-y-1 text-gray-700 dark:text-gray-300">
+          <li>Foco total nos dados que importam.</li>
+          <li>Criação de uma visualização limpa e personalizada.</li>
+          <li>Facilita a comparação entre gráficos específicos.</li>
         </ul>
       </>
     ),
   },
   telaCheia: {
     id: "telaCheia",
-    title: "Tela Cheia",
-    description: "Ative o modo de tela cheia para visualizar os dados em tela inteira.",
+    title: "Modo Tela Cheia",
+    description: "Ative o modo de tela cheia para uma visualização imersiva e sem distrações.",
     content: (
       <>
         <p>
-          Clique no ícone <strong>Tela Cheia</strong> localizado no canto superior direito do painel para expandir a interface ao máximo.
+          Maximize sua área de visualização para uma análise detalhada e focada.
         </p>
-        <p className="mt-2">
-          Este recurso é ideal para análises detalhadas, apresentações ou quando desejar utilizar toda a área do monitor sem distrações.
+        <p className="mt-3">
+          <strong>Como ativar:</strong> Clique no ícone de <strong>Tela Cheia</strong> no canto superior direito do painel.
         </p>
-        <div className="bg-blue-50 dark:bg-blue-900 p-3 rounded mt-4 text-sm">
-          💡 <strong>Dica:</strong> Pressione ESC para sair do modo tela cheia.
+        <div className="bg-blue-50 dark:bg-blue-900 p-3 rounded-lg mt-4 text-sm">
+          💡 <strong>Dica:</strong> Para sair, pressione a tecla <strong>ESC</strong> em seu teclado.
         </div>
       </>
     ),
   },
   baixarGraficos: {
     id: "baixarGraficos",
-    title: "Baixar os Gráficos",
-    description: "Baixe os gráficos em formato de imagem para uso externo ou relatórios.",
+    title: "Baixar Gráficos",
+    description: "Salve qualquer gráfico como uma imagem (PNG) para usar em seus relatórios e apresentações.",
     content: (
       <>
         <p>
-          Para baixar um gráfico, clique no botão de download localizado no canto superior direito de cada gráfico.
+          Exporte facilmente qualquer visualização do painel para uma imagem de alta qualidade.
         </p>
-        <ol className="list-decimal pl-5 mt-2 space-y-1">
-          <li>Clique no ícone de download no gráfico desejado.</li>
-          <li>Selecione o formato de saída.</li>
-          <li>Salve o arquivo no seu dispositivo.</li>
+        <h3 className="font-semibold mt-4">Passo a passo:</h3>
+        <ol className="list-decimal pl-5 mt-2 space-y-2">
+          <li>Passe o mouse sobre o gráfico desejado para ver as opções.</li>
+          <li>Clique no ícone de <strong>download</strong> (uma nuvem com uma seta).</li>
+          <li>A imagem será salva automaticamente em seu dispositivo no formato PNG.</li>
         </ol>
       </>
     ),
@@ -69,73 +69,79 @@ export const tutorialData: Record<string, TutorialItem> = {
   quadro: {
     id: "quadro",
     title: "Quadro Interativo",
-    description: "Monte seu próprio painel de análise com gráficos, anotações e desenhos.",
+    description: "Sua tela de análise pessoal para combinar gráficos, anotações e desenhos.",
     content: (
       <>
         <p>
-          O Quadro é uma ferramenta interativa onde você pode montar seu próprio painel personalizado de análise.
+          O <strong>Quadro Interativo</strong> é uma ferramenta poderosa para quem deseja ir além da simples visualização e construir uma análise personalizada.
         </p>
-
-        <h3 className="font-semibold mt-4">Como usar:</h3>
-        <ol className="list-decimal pl-5 mt-2 space-y-2">
-          <li><strong>Crie um novo quadro:</strong> Clique no botão “Novo Quadro” no menu lateral ou no topo da página.</li>
-          <li><strong>Adicione gráficos:</strong> Arraste e solte gráficos existentes para dentro do quadro.</li>
-          <li><strong>Faça anotações:</strong> Use as ferramentas de escrita e marcação para adicionar comentários ou destaques.</li>
-          <li><strong>Desenhe:</strong> Ative a ferramenta de caneta para desenhar setas, formas ou linhas diretamente sobre os gráficos.</li>
-          <li><strong>Salve seu trabalho:</strong> Clique em “Salvar” para guardar seu quadro e acessá-lo posteriormente.</li>
-        </ol>
-
-        <div className="bg-green-50 dark:bg-green-900 p-3 rounded mt-4 text-sm">
-          ✅ <strong>Dica Pro:</strong> Você pode organizar múltiplos quadros por tema ou projeto!
+        <h3 className="font-semibold mt-4">Principais Ações:</h3>
+        <ul className="list-disc pl-5 mt-2 space-y-2">
+          <li><strong>Adicionar Gráficos:</strong> Arraste e solte visualizações do painel para o seu quadro.</li>
+          <li><strong>Anotar e Destacar:</strong> Use ferramentas de texto e marcação para adicionar insights.</li>
+          <li><strong>Desenhar Livremente:</strong> Crie setas, círculos e diagramas com a ferramenta de caneta.</li>
+          <li><strong>Salvar e Exportar:</strong> Guarde seus quadros na plataforma ou exporte-os como imagem.</li>
+        </ul>
+        <div className="bg-green-50 dark:bg-green-900 p-3 rounded-lg mt-4 text-sm">
+          ✅ <strong>Dica Pro:</strong> Crie múltiplos quadros para organizar suas análises por projeto ou tema.
         </div>
       </>
     ),
   },
-   tema: {
-    id: "tema",
-    title: "Alterar Tema",
-    description: "Mude entre tema claro e escuro para sua preferência visual.",
+  fontesDeDados: {
+    id: "fontesDeDados",
+    title: "Fontes dos Dados",
+    description: "Saiba mais sobre a origem e a metodologia dos dados utilizados no Observatório.",
     content: (
       <>
         <p>
-          Personalize a aparência da interface para se adequar ao seu ambiente e preferência visual. 
-          Alterne facilmente entre os modos claro e escuro com apenas um clique.
+          A credibilidade de nossas análises vem da qualidade de nossas fontes. Todos os dados são coletados de <strong>fontes públicas e oficiais</strong>.
         </p>
-
-        <h3 className="font-semibold mt-4">Como usar:</h3>
-        <ol className="list-decimal pl-5 mt-2 space-y-2">
-          <li>
-            <strong>Localize o ícone de tema:</strong> Encontre-o no canto superior direito da tela — ele representa a opção de alterar o tema.
-            <svg className="rotate-0 transition-transform duration-500 fill-black dark:fill-white w-8 h-8 m-2" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg">
-              <g id="Page-1" stroke="none" stroke-width="1" fill-rule="evenodd">
-                <g id="Dribbble-Light-Preview" transform="translate(-180.000000, -4199.000000)">
-                  <g id="icons" transform="translate(56.000000, 160.000000)">
-                    <path d="M126,4049 C126,4044.589 129.589,4041 134,4041 L134,4057 C129.589,4057 126,4053.411 126,4049 M134,4039 C128.477,4039 124,4043.477 124,4049 C124,4054.523 128.477,4059 134,4059 C139.523,4059 144,4054.523 144,4049 C144,4043.477 139.523,4039 134,4039"></path>
-                  </g>
+        <h3 className="font-semibold mt-4">Nossas Fontes Incluem:</h3>
+        <ul className="list-disc pl-5 mt-2 space-y-1 text-gray-700 dark:text-gray-300">
+          <li><strong>Aviação:</strong> ANAC, Aena</li>
+          <li><strong>Economia e Sociedade:</strong> IBGE, Novo Caged, Comex Stat</li>
+          <li><strong>Transporte e Logística:</strong> Portos do Recife, ANTAQ</li>
+          <li><strong>Setor Público e Empresarial:</strong> Prefeitura do Recife, Gov.br, Tesouro Nacional, BCB, CLP</li>
+        </ul>
+        <div className="bg-blue-50 dark:bg-blue-900 p-3 rounded-lg mt-4 text-sm">
+          💡 <strong>Para saber mais:</strong> Visite nossa página de <a href="/fontes" className="font-bold underline">Fontes</a> para ver a lista completa, com descrições e links diretos para os dados originais.
+        </div>
+      </>
+    ),
+  },
+  tema: {
+    id: "tema",
+    title: "Alterar Tema Visual",
+    description: "Alterne entre os modos claro e escuro para seu conforto visual.",
+    content: (
+      <>
+        <p>
+          Ajuste a aparência do painel para se adequar ao seu ambiente de trabalho e preferência pessoal.
+        </p>
+        <div className="flex items-center gap-4 mt-4">
+          <svg className="flex-shrink-0 rotate-0 transition-transform duration-500 fill-black dark:fill-white w-10 h-10" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <g id="Page-1" stroke="none" strokeWidth="1" fillRule="evenodd">
+              <g id="Dribbble-Light-Preview" transform="translate(-180.000000, -4199.000000)">
+                <g id="icons" transform="translate(56.000000, 160.000000)">
+                  <path d="M126,4049 C126,4044.589 129.589,4041 134,4041 L134,4057 C129.589,4057 126,4053.411 126,4049 M134,4039 C128.477,4039 124,4043.477 124,4049 C124,4054.523 128.477,4059 134,4059 C139.523,4059 144,4054.523 144,4049 C144,4043.477 139.523,4039 134,4039"></path>
                 </g>
               </g>
-            </svg>
-          </li>
-          <li>
-            <strong>Clique no ícone para alternar entre modo claro e escuro.</strong>
-            <ul className="list-disc pl-5 mt-1">
-              <li>O tema será atualizado imediatamente após o clique.</li>
-              <li>Para voltar ao modo anterior, basta clicar novamente no mesmo ícone.</li>
-            </ul>
-          </li>
-        </ol>
+            </g>
+          </svg>
+          <p>
+            <strong>Como usar:</strong> Clique no ícone de tema no canto superior direito da tela para alternar instantaneamente entre os modos <strong>claro</strong> e <strong>escuro</strong>.
+          </p>
+        </div>
       </>
     ),
   },
 };
 
-// Contexto opcional (para escalabilidade futura)
 export const TutorialContext = React.createContext(tutorialData);
 
-// Hook customizado para acessar tutoriais facilmente
 export const useTutorial = () => React.useContext(TutorialContext);
 
-// Componente provedor (útil se quiser carregar tutoriais via API futuramente)
 export const TutorialProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <TutorialContext.Provider value={tutorialData}>

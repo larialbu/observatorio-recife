@@ -3,7 +3,9 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
-import { NewsData, NewsItem } from "@/@api/http/news/NewsData"; 
+import { getAuthToken } from "@/@api/config/authService";
+import { performAutoLogin } from "@/@api/config/authService";
+import { NewsData, NewsItem } from "@/@api/http/news/NewsData";
 
 function NewsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -12,22 +14,36 @@ function NewsSection() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchNews = async () => {
-    const newsDataService = new NewsData();
-    try {
-      const data = await newsDataService.fetchNews();
-      const sortedNews = data.sort((a, b) => b.id - a.id);
-      setNews(sortedNews);
-    } catch (err) {
-      setError("Erro ao buscar notícias");
-      console.error("Erro ao buscar notícias", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchNews();
+    const initializeAndFetch = async () => {
+      setLoading(true);
+      let token = getAuthToken();
+
+      if (!token) {
+        console.log("Token não encontrado. Tentando login automático...");
+        const loginSuccess = await performAutoLogin();
+        if (loginSuccess) {
+          token = getAuthToken(); // Pega o token recém-criado
+          console.log("Login automático bem-sucedido. Token obtido.");
+        }
+      }
+
+      if (token) {
+        try {
+          const data = await NewsData.fetchNews();
+          const sortedNews = data.sort((a, b) => b.id - a.id);
+          setNews(sortedNews);
+        } catch (err) {
+          setError("Erro ao buscar notícias.");
+        }
+      } else {
+        setError("Falha na autenticação da aplicação.");
+      }
+      
+      setLoading(false);
+    };
+
+    initializeAndFetch();
   }, []);
 
   useEffect(() => {
@@ -54,13 +70,15 @@ function NewsSection() {
   };
 
   if (loading) {
-    return <div className="bg-gradient-to-b from-blue-50 to-blue-100 dark:from-[#27384b] dark:to-[#0C1B2B] text-center py-8">
-      <p className="text-2xl font-semibold text-gray-800 dark:text-white">Carregando notícias...</p>
-    </div>;
+    return (
+      <div className="bg-gradient-to-b from-blue-50 to-blue-100 dark:from-[#27384b] dark:to-[#0C1B2B] text-center py-8">
+        <p className="text-2xl font-semibold text-gray-800 dark:text-white">Carregando notícias...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="text-center py-8 text-red-500 font-semibold bg-gradient-to-b from-[#eff6ff] to-[#e2efff] dark:from-[#27384b] dark:to-[#0C1B2B]">{error}</div>;
   }
 
   return (
@@ -96,12 +114,12 @@ function NewsSection() {
               {news.map((newsItem) => (
                 <div
                   key={newsItem.id}
-                  className="flex-shrink-0 w-[calc(100%/3)] px-4"
+                  className="flex-shrink-0 px-4"
                   style={{ width: `${100 / slidesToShow}%` }}
                 >
                   <div
                     onClick={() => window.open(newsItem.link, "_blank")}
-                    className="flex flex-col h-full bg-white hover:bg-gray-200 dark:bg-[#142b42] dark:hover:bg-[#21466b] rounded-lg overflow-hidden"
+                    className="flex flex-col h-full bg-white hover:bg-gray-200 dark:bg-[#142b42] dark:hover:bg-[#21466b] rounded-lg overflow-hidden shadow-lg transition-shadow duration-300"
                     style={{ cursor: "pointer" }}
                   >
                     <img
@@ -113,27 +131,30 @@ function NewsSection() {
                       <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
                         {newsItem.title}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm mb-[3em] line-clamp-3">
+                      <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
                         {newsItem.description}
                       </p>
-                      <div className="absolute bottom-[3em] text-gray-500 dark:text-gray-400 text-xs mb-4 w-[max-content]">
-                        {newsItem.date}
-                      </div>
-                      <Link
-                        href={newsItem.link}
-                        className="text-[#0155AE] dark:text-[#EC6625] font-semibold hover:underline mt-auto flex items-center gap-[4px]"
-                        target="_blank"
-                      >
-                        Ler mais
-                        <svg
-                          className="fill-[#0155AE] dark:fill-[#EC6625]"
-                          height="13px"
-                          width="13px"
-                          viewBox="0 0 330 330"
+                      <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <div className="text-gray-500 dark:text-gray-400 text-xs mb-4">
+                          {newsItem.date}
+                        </div>
+                        <Link
+                          href={newsItem.link}
+                          className="text-[#0155AE] dark:text-[#EC6625] font-semibold hover:underline flex items-center gap-[4px]"
+                          target="_blank"
+                          onClick={(e) => e.stopPropagation()}
                         >
-                          <path d="M250.606,154.389l-150-149.996c-5.857-5.858-15.355-5.858-21.213,0.001c-5.857,5.858-5.857,15.355,0.001,21.213l139.393,139.39L79.393,304.394c-5.857,5.858-5.857,15.355,0.001,21.213C82.322,328.536,86.161,330,90,330s7.678-1.464,10.607-4.394l150-150.004c2.814-2.813,4.394-6.628,4.394-10.606C255,161.018,253.42,157.202,250.606,154.389z" />
-                        </svg>
-                      </Link>
+                          Ler mais
+                          <svg
+                            className="fill-[#0155AE] dark:fill-[#EC6625]"
+                            height="13px"
+                            width="13px"
+                            viewBox="0 0 330 330"
+                          >
+                            <path d="M250.606,154.389l-150-149.996c-5.857-5.858-15.355-5.858-21.213,0.001c-5.857,5.858-5.857,15.355,0.001,21.213l139.393,139.39L79.393,304.394c-5.857,5.858-5.857,15.355,0.001,21.213C82.322,328.536,86.161,330,90,330s7.678-1.464,10.607-4.394l150-150.004c2.814-2.813,4.394-6.628,4.394-10.606C255,161.018,253.42,157.202,250.606,154.389z" />
+                          </svg>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -47,7 +47,7 @@ const FloatingExcalidrawButton: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [showIntro, setShowIntro] = useState(false);
   const [shouldGlow, setShouldGlow] = useState(false);
-
+  const [isDarkMode, setIsDarkMode] = useState(false); // ✅ Novo estado
 
   const { initialData, setInitialData } = useExcalidraw();
   const isMobile = useIsMobile();
@@ -65,7 +65,6 @@ const FloatingExcalidrawButton: React.FC = () => {
 
   useEffect(() => {
     if (excalidrawAPIRef.current && initialData) {
-      console.log("Atualizando cena com novo initialData", initialData);
       excalidrawAPIRef.current.updateScene(fixInitialData(initialData) as any);
     }
   }, [initialData]);
@@ -124,10 +123,8 @@ const FloatingExcalidrawButton: React.FC = () => {
           appState: fixAppState(mergedData.appState),
           files: mergedData.files,
         } as any);
-        console.log("[Excalidraw] Dados combinados (initialData + rascunho)");
       } else {
         excalidrawAPIRef.current.updateScene(baseData as any);
-        console.log("[Excalidraw] InitialData carregado");
       }
     }
   }, [isOpen, initialData]);
@@ -137,12 +134,13 @@ const FloatingExcalidrawButton: React.FC = () => {
       hasUserModified.current = true;
       sceneDataRef.current = { elements: [...elements], appState, files };
       handleDebouncedSave(elements, appState, files);
+
+      setIsDarkMode(appState.theme === "dark");
     },
     [handleDebouncedSave]
   );
 
   const handleSaveDrawing = async () => {
-    console.log("handleSaveDrawing: Iniciando o salvamento.");
     if (!excalidrawAPIRef.current) return;
   
     let drawingToSave = currentDrawing;
@@ -168,11 +166,9 @@ const FloatingExcalidrawButton: React.FC = () => {
     });
 
     localStorage.removeItem("excalidrawDraft");
-  
     alert("Desenho salvo!");
   };
   
-
   const handleNewDrawing = async () => {
     const newDrawing = await createNewDrawing("Sem título");
     if (excalidrawAPIRef.current) {
@@ -224,8 +220,6 @@ const FloatingExcalidrawButton: React.FC = () => {
         },
       };
   
-      console.log("[Excalidraw] initialData mesclado com rascunho:", merged);
-  
       setInitialData({
         elements: merged.elements,
         appState: {
@@ -245,18 +239,21 @@ const FloatingExcalidrawButton: React.FC = () => {
     });
   }, [isOpen]);
   
-
   const modal = isOpen && createPortal(
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
       <div
         ref={containerRef}
-        className={`bg-white rounded-lg shadow-2xl relative overflow-hidden ${
+        className={`${
+          isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+        } rounded-lg shadow-2xl relative overflow-hidden ${
           isFullscreen ? "w-full h-full" : "w-[95%] h-[95%]"
         } flex flex-col`}
       >
 
-        <div className="flex justify-between items-center p-3 border-b bg-gray-50 shadow-sm">
-          <h2 className="text-lg font-bold text-gray-800">
+        <div className={`flex justify-between items-center p-3 border-b shadow-sm ${
+          isDarkMode ? "bg-gray-800 border-gray-700 text-white" : "bg-gray-50 text-gray-800"
+        }`}>
+          <h2 className="text-lg font-bold">
             {viewMode === "editor" ? "Editor de Quadros" : "Minhas Telas"}
           </h2>
           <div className="flex items-center gap-2">
@@ -301,13 +298,11 @@ const FloatingExcalidrawButton: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex-1 overflow-auto bg-gray-50 p-4">
+        <div className={`flex-1 overflow-auto p-4 ${isDarkMode ? "bg-gray-800" : "bg-gray-50"}`}>
           {viewMode === "editor" ? (
             <Excalidraw
               langCode="pt-BR"
-              initialData={
-                initialData ? fixInitialData(initialData) : undefined
-              }
+              initialData={initialData ? fixInitialData(initialData) : undefined}
               excalidrawAPI={(api) => (excalidrawAPIRef.current = api)}
               onChange={handleOnChange}
             />
@@ -320,7 +315,9 @@ const FloatingExcalidrawButton: React.FC = () => {
         </div>
 
         {viewMode === "editor" && (
-          <div className="bg-white border-t flex justify-end items-center px-6 py-3 space-x-3 shadow-inner">
+          <div className={`border-t flex justify-end items-center px-6 py-3 space-x-3 shadow-inner ${
+            isDarkMode ? "bg-gray-900 border-gray-700" : "bg-white"
+          }`}>
             <button
               onClick={handleNewDrawing}
               className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
@@ -343,12 +340,14 @@ const FloatingExcalidrawButton: React.FC = () => {
   return (
     <>
       {showIntro && <IntroExcalidraw onClose={() => setShowIntro(false)} />}
-      <button onClick={() => {
-        setIsOpen((prev) => !prev);
-        setShouldGlow(false);
-      }} 
-      className={`fixed overflow-hidden bottom-5 right-4 z-50 w-32 h-[3em] text-white rounded-full shadow-lg transition 
-        ${shouldGlow ? "animate-glow shadow-yellow-500/60" : "bg-blue-500 hover:bg-blue-600"}`}>
+      <button
+        onClick={() => {
+          setIsOpen((prev) => !prev);
+          setShouldGlow(false);
+        }} 
+        className={`fixed overflow-hidden bottom-5 right-4 z-50 w-32 h-[3em] text-white rounded-full shadow-lg transition 
+          ${shouldGlow ? "animate-glow shadow-yellow-500/60" : "bg-blue-500 hover:bg-blue-600"}`}
+      >
         <div className="z-20 absolute flex w-full h-full justify-center items-center bottom-0">
           {isOpen ? "Fechar Quadro" : "Abrir Quadro"}
         </div>

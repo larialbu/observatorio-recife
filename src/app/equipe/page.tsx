@@ -18,19 +18,18 @@ interface TeamMember {
   image: string;
 }
 
-// Dados para os membros destacados
 const highlightedMembers: HighlightMemberProps[] = [
   {
     name: "João Campos",
     role: "Prefeito da Cidade do Recife",
-    image: "/images/team/prefeito.jpeg",
+    image: "/images/team/prefeito.avif",
     description:
       "Engenheiro civil formado pela UFPE, João Campos é o prefeito mais jovem da história do Recife. Eleito em 2020 e reeleito em 2024, sua gestão prioriza o desenvolvimento sustentável e a inovação, promovendo políticas públicas que fortalecem a economia local, atraem investimentos e impulsionam novos negócios, consolidando o Recife como um polo econômico estratégico.",
   },
   {
     name: "Carlos Andrade Lima",
     role: "Secretário de Desenvolvimento Econômico",
-    image: "/images/team/secretario.jpeg",
+    image: "/images/team/secretario.avif",
     description:
       "Como Secretário de Desenvolvimento Econômico do Recife, Carlos Andrade Lima lidera iniciativas para impulsionar o crescimento sustentável da cidade, com foco na geração de negócios, atração de investimentos e fortalecimento de empreendimentos. Advogado, combina visão estratégica com ações para consolidar o Recife como um polo inovador e atrativo.",
     reverse: true,
@@ -39,28 +38,27 @@ const highlightedMembers: HighlightMemberProps[] = [
   {
     name: "Gelisa Bosi",
     role: "Secretária Executiva de Desenvolvimento e Inovação",
-    image: "/images/team/sec-exc-gelisa.png",
+    image: "/images/team/sec-exc-gelisa.avif",
     description:
       "Responsável por promover o crescimento econômico sustentável do Recife, Gelisa Bosi atua na atração de investimentos, no fortalecimento de negócios e na melhoria do ambiente de negócios, consolidando a cidade como um polo atrativo para empresas e pessoas.",
   },
 ];
 
-// Demais membros da equipe
 const teamMembers: TeamMember[] = [
   {
     name: "Pedro Lacerda",
     role: "Gerente Geral do Investe Recife",
-    image: "/images/team/ger-pedro.jpg",
+    image: "/images/team/ger-pedro.avif",
   },
   {
     name: "Ben-Hur Beltrão",
     role: "Gestor de Inovação",
-    image: "/images/team/gest-inov-benhur.jpg",
+    image: "/images/team/gest-inov-benhur.avif",
   },
   {
-    name: "Filipe Braga",
+    name: "Hugo Borba",
     role: "Gerente de Estudos Econômicos",
-    image: "/images/team/eco-filipe.png",
+    image: "/images/team/hugo-borba.avif",
   },
 ];
 
@@ -69,40 +67,32 @@ const lastSectionMembers: TeamMember[] = [
   {
     name: "Brenno França",
     role: "Desenvolvedor Full Stack",
-    image: "/images/team/dev-brenno.jpg",
+    image: "/images/team/dev-brenno.avif",
   },
   {
     name: "Italo Correia",
     role: "Desenvolvedor Full Stack",
-    image: "/images/team/dev-italo.jpg",
-  },
-  {
-    name: "Larissa Albuquerque",
-    role: "Desenvolvedora Full Stack",
-    image: "/images/team/dev-lari.jpg",
+    image: "/images/team/dev-italo.avif",
   },
   {
     name: "Rhuanderson Iago",
     role: "Designer UI/UX",
-    image: "/images/team/design-rhuan.jpg",
+    image: "/images/team/design-rhuan.avif",
   },
   {
     name: "Rodrigo Andrade",
     role: "Desenvolvedor Full Stack",
-    image: "/images/team/dev-rodrigo.jpg",
+    image: "/images/team/dev-rodrigo.avif",
   },
 ];
 
 export default function TeamPage() {
   return (
     <>
-      {/* Cabeçalho e Navbar */}
       <ObsHeader />
       <NavBarHome simple />
 
-      {/* Seção Principal */}
       <section className="relative min-h-screen bg-gradient-to-b dark:bg-[#0C1B2B] px-6 py-16">
-        {/* Forma decorativa no topo */}
         <svg
           className="absolute top-0 left-0 w-full pointer-events-none fill-blue-50 dark:fill-[#0c2136]"
           viewBox="0 0 1440 320"

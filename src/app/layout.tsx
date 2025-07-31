@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { LoadingProvider, useLoading } from "@/context/LoadingContext";
+import { AuthProvider } from "@/context/AuthContext";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -24,10 +25,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className={poppins.className}>
-        <LoadingProvider>
-          <WithLoading>{children}</WithLoading>
-        </LoadingProvider>
+      <body className={poppins.className}>     
+        <AuthProvider>
+          <LoadingProvider>
+            <WithLoading>{children}</WithLoading>
+          </LoadingProvider>
+        </AuthProvider>
       </body>
     </html>
   );

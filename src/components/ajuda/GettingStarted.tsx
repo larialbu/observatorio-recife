@@ -19,7 +19,7 @@ const HelpCard: React.FC<CardProps> = ({ id, title, description, icon }) => {
   return (
     <>
       <div 
-        className="relative h-[320px] bg-gray-100 dark:bg-[#1d2b3d] p-8 rounded-lg shadow-md hover:cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl hover:bg-gray-200"
+        className="relative flex flex-col h-[270px] sm:h-[230px] lg:h-[320px] bg-gray-100 dark:bg-[#1d2b3d] p-8 rounded-lg shadow-md hover:cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl hover:bg-gray-200"
         onClick={() => setIsModalOpen(true)}
       >
         <div className="w-20 flex mb-8">
