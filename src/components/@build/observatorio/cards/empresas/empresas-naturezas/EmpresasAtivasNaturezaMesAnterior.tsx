@@ -4,7 +4,7 @@ import { monthLongName } from '@/utils/formatters/@global/monthLongName'
 const EmpresasAtivasNaturezaMesAnterior = ({
   data,
   date,
-  title = `Empresas Ativas anteriormente (mês)`,
+  title = `Empresas Ativas Anteriormente (mês)`,
   local = '',
   year,
   color,

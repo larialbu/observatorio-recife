@@ -23,7 +23,7 @@ function NewsSection() {
         console.log("Token não encontrado. Tentando login automático...");
         const loginSuccess = await performAutoLogin();
         if (loginSuccess) {
-          token = getAuthToken(); // Pega o token recém-criado
+          token = getAuthToken();
           console.log("Login automático bem-sucedido. Token obtido.");
         }
       }
@@ -119,7 +119,7 @@ function NewsSection() {
                 >
                   <div
                     onClick={() => window.open(newsItem.link, "_blank")}
-                    className="flex flex-col h-full bg-white hover:bg-gray-200 dark:bg-[#142b42] dark:hover:bg-[#21466b] rounded-lg overflow-hidden shadow-lg transition-shadow duration-300"
+                    className="flex flex-col h-full bg-white transition hover:bg-gray-200 dark:bg-[#142b42] dark:hover:bg-[#21466b] rounded-lg overflow-hidden duration-300"
                     style={{ cursor: "pointer" }}
                   >
                     <img
@@ -134,7 +134,7 @@ function NewsSection() {
                       <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
                         {newsItem.description}
                       </p>
-                      <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <div className="mt-auto pt-4 border-t border-gray-300 dark:border-gray-700">
                         <div className="text-gray-500 dark:text-gray-400 text-xs mb-4">
                           {newsItem.date}
                         </div>

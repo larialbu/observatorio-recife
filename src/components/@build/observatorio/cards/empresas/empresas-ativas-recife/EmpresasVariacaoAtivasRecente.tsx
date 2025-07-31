@@ -3,7 +3,7 @@ import Card from "@/components/@global/cards/Card";
 const EmpresasVariacaoAtivasRecente = ({
   data,
   date,
-  title = `Variação Mês anterior de Empresas Ativas (mês)`,
+  title = `Variação Mês Anterior de Empresas Ativas (mês)`,
   local = '',
   year,
   color,

@@ -38,6 +38,10 @@ const getBackgroundForRoute = () => {
     case "/observatorio/empregos":
     case "/observatorio/rais":
       return "bg-[url('/images/backgrounds/dashboard/light/empregos.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/empregos.avif')]";
+    case "/observatorio/empresas":
+      return "bg-[url('/images/backgrounds/dashboard/light/empresas.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/empresas.avif')]";
+    case "/observatorio/tributos":
+      return "bg-[url('/images/backgrounds/dashboard/light/tributos.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/tributos.avif')]";
     default:
       return "bg-[#F7F8FA] dark:bg-[#0C1B2B]";
   }

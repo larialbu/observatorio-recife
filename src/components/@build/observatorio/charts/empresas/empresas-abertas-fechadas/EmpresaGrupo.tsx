@@ -9,7 +9,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const EmpresaGrupo = ({
   data,
-  title = "Empresas por Grupo de atividade econômico",
+  title = "Empresas por Grupo de Atividade Econômico",
 }: any) => {
   
   const chartData = getObjToArr<number>(data['Grupo'] || {}).sort((a, b) => b.value - a.value)

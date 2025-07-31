@@ -12,7 +12,7 @@ const EmpresasMediaAbertura = ({
   data,
   color,
 //   municipio,
-  title = "Tempo Médio Abertura de Empresas (Horas) ",
+  title = "Tempo Médio Abertura de Empresas (Horas)",
   year,
 }: any) => {
   const dataEmpresas = data['empresas'] || {}
@@ -36,7 +36,7 @@ const EmpresasMediaAbertura = ({
         //   title={title + ` - (${municipio})`}
           xKey="label"
           bars={[{ dataKey: "value", name: "Tempo" }]}
-          colors={[color]}
+          colors={ColorPalette.default}
           heightPerCategory={50}
           widthY={130}
           left={-15}

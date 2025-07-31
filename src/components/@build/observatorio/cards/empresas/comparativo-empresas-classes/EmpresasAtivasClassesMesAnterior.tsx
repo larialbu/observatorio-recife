@@ -4,7 +4,7 @@ import { monthLongName } from '@/utils/formatters/@global/monthLongName'
 
 const EmpresasAtivasClassesMesAnterior = ({
   data,
-  title = `Empresas Ativas anteriormente`,
+  title = `Empresas Ativas Anteriormente`,
   compare,
   toCompare,
   comparative = `${toCompare} x ${compare}`,

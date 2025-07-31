@@ -4,7 +4,7 @@ import { monthLongName } from "@/utils/formatters/@global/monthLongName";
 const ItbiVariacaoInativasRecente = ({
   data,
   date,
-  title = `Variação Mês anterior de Transmissões (mês)`,
+  title = `Variação Mês Anterior de Transmissões (mês)`,
   local = '',
   year,
   color,

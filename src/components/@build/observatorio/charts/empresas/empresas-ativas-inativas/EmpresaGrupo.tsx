@@ -9,7 +9,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const EmpresaGrupo = ({
   data,
-  title = "Empresas por Grupo de atividade econômico",
+  title = "Empresas por Grupo de Atividade Econômico",
   year,
 }: any) => {
   
