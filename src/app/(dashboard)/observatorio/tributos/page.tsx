@@ -11,7 +11,7 @@ import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 import { getChartDataModel } from "@/functions/process_data/observatorio/empresas/getChartDataModel";
 import { getChartDataModelTributos } from "@/functions/process_data/observatorio/tributos/getChartDataModelTributos";
 import ItbiContribuintes from "./(itbi-contribuintes)/itbi-contribuintes";
-import ItbiAvaliacoes from "../empresas/(empresas-ativas-recife)/empresas-ativas-recife";
+import ItbiAvaliacoes from "./(itbi-avaliacoes)/itbi-avaliacoes";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
@@ -85,7 +85,7 @@ const EmpresasPage = () => {
   }, 50);
 
   return () => clearInterval(intervalId);
-}, [data?.id, pathname]);
+}, [data, data?.id, pathname]);
   
     if (isLoading) return <LoadingScreen />;
 

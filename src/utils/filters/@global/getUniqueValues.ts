@@ -28,6 +28,24 @@ export const getGroupValues = (data: any, column: string) => {
     return groupData
 }
 
+export const getMultiplesGroupValues = (data: any, columns: string[]) => {
+    const groupData: { [key: string]: { [key: string]: any[] } } = {}
+
+    const chartData = data || []
+
+    columns.map((col) => {
+        for (let i = 0; i < chartData.length; i++) {
+            if (!groupData[col]) groupData[col] = {}
+
+            if (!groupData[col][chartData[i][col]]) groupData[col][chartData[i][col]] = []
+
+            groupData[col][chartData[i][col]].push(chartData[i])
+        }
+    })
+
+    return groupData
+}
+
 export const getUniqueValuesArr = <T, K extends keyof T>(data: T[], key: K): { [key: string]: T[] }[] => {
     // Cria um objeto para armazenar os valores agrupados por chave
     const uniqueValuesMap: { [key: string]: T[] } = {};

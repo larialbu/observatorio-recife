@@ -74,7 +74,7 @@ const EmpresasPage = () => {
   }, 50);
 
   return () => clearInterval(intervalId);
-}, [data?.id, pathname]);
+}, [data, data?.id, pathname]);
   
     if (isLoading) return <LoadingScreen />;
 

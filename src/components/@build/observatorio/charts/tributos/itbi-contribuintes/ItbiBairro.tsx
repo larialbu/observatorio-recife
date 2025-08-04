@@ -16,8 +16,6 @@ const ItbiBairro = ({
 
   const chartData = getObjToArr<number>(dataItbi['bairro'] || {}).sort((a, b) => b.value - a.value)
   
-  console.log('ChartDAta ITBI bairro ->', chartData)
-
   return (
     <div className="chart-wrapper">
       <ChartGrabber>

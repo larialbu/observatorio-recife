@@ -4,28 +4,28 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/tributos/tributos-itbi-contribuintes/ItbiBairro"
+        "@/components/@build/observatorio/charts/tributos/itbi-contribuintes/ItbiBairro"
       )
     ),
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/tributos/tributos-itbi-contribuintes/ItbiTipoConstrucao"
+        "@/components/@build/observatorio/charts/tributos/itbi-contribuintes/ItbiTipoConstrucao"
       )
     ),
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/tributos/tributos-itbi-contribuintes/ItbiMes"
+        "@/components/@build/observatorio/charts/tributos/itbi-contribuintes/ItbiMes"
       )
     ),
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/tributos/tributos-itbi-contribuintes/ItbiOcupacao"
+        "@/components/@build/observatorio/charts/tributos/itbi-contribuintes/ItbiOcupacao"
       )
     ),
   },

@@ -2,15 +2,20 @@ export const tributosGeralFilters = {
     id: 'tributos-geral-filters',
     years: ["2023", "2024" ], // Filtra por ano
     additionalFilters: [
-    //   {
-    //     label: "mes",  
-    //     options: [],  
-    //     selected: [],
-    //   },
+      {
+        label: "mes",  
+        options: [],  
+        selected: [],
+      },
+      {
+        label: "bairro",  
+        options: [],  
+        selected: [],
+      },
       // {
       //   label: "Mês",  
       //   options: [],  
-      //   selected: [],
+      //   selected: [], bairro
       // },
     //   {
     //     label: "município",  

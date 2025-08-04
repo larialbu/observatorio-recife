@@ -4,24 +4,24 @@ const cards = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/cards/empresas/empresas-ativas-recife/EmpresasAtivasMesRecente"
+        "@/components/@build/observatorio/cards/tributos/itbi-avaliacoes/ItbiMaiorAvaliacao"
       )
     ),
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/cards/empresas/empresas-ativas-recife/EmpresasVariacaoAtivasRecente"
+        "@/components/@build/observatorio/cards/tributos/itbi-avaliacoes/ItbiMenorAvaliacao"
       )
     ),
   },  
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/cards/empresas/empresas-ativas-recife/EmpresasAtivasMediaAno"
+        "@/components/@build/observatorio/cards/tributos/itbi-avaliacoes/ItbiTotalAvaliacao"
       )
     ),
-  },    
+  },
 ];
 
 export default cards;

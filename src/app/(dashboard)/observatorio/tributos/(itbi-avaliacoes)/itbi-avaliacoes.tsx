@@ -12,6 +12,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
+import { getGroupValues, getMultiplesGroupValues } from "@/utils/filters/@global/getUniqueValues";
 
 const EmpresasAtivasRecife = ({
   data,
@@ -22,33 +23,35 @@ const EmpresasAtivasRecife = ({
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
-  const [chartData, setChartData] = useState({ empresas: [], rawData: [] })
+  const [chartData, setChartData] = useState({ tributos: {}, rawData: {} })
 
   const sortableContainerRef = useRef<HTMLDivElement>(null);
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
  
   useEffect(() => {
-    setChartData(data)
+    const tributosSort = data['tributos'].sort((a: any, b: any) => a['valor_avaliacao'] - b['valor_avaliacao'])
+    const rawDataSort = data['rawData'].sort((a: any, b: any) => a['valor_avaliacao'] - b['valor_avaliacao'])
+    setChartData({ tributos: getMultiplesGroupValues(tributosSort, ['mes', 'bairro']), rawData: getMultiplesGroupValues(rawDataSort, ['mes', 'bairro']) })
   }, [data])
   
   return (
     <div>
-      <p>Itbi avaliacoes</p>
-      {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
+      <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
             <ErrorBoundary>
               <Component
-                data={chartData}
+                data={data}
+                // data={chartData}
                 year={year}
                 color={ColorPalette.default[index]}
               />
             </ErrorBoundary>
           </React.Suspense>
         ))}
-      </div> */}
+      </div>
 
-      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
           const { Component } = charts[index];
           return (
@@ -64,10 +67,10 @@ const EmpresasAtivasRecife = ({
             </div>
           );
         })}
-      </SortableDiv> */}
+      </SortableDiv>
 
       <div className="flex flex-col gap-6">
-        {/* <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style={`charts-items-wrapper !grid-cols-1"}`}>
+        <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style={`charts-items-wrapper !grid-cols-1"}`}>
           {tableOrder.map((index) => { 
           const { Component } = tables[index];
 
@@ -78,13 +81,14 @@ const EmpresasAtivasRecife = ({
                 >
                     <Component
                       color={ColorPalette.default[index]}
-                      data={chartData}
+                      data={data}
+                      // data={chartData}
                       year={year}
                     />
                 </div> 
               </div>
           )})}
-        </SortableDiv> */}
+        </SortableDiv>
       </div>
     </div>
   );

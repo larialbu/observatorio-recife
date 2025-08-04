@@ -26,6 +26,8 @@ const ItbiContribuintes = ({
   const params = ['bairro', 'tipo_imovel', 'tipo_ocupacao', 'mes']
  
   useEffect(() => {
+    console.log("data ->- Contribuinte", data);
+
     const chartData = { tributos: geralAccFunction(data['tributos'], params), rawData: geralAccFunction(data['rawData'], params) }  
     setChartData(chartData)
   }, [data])

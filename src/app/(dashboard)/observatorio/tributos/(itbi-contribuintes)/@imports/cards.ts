@@ -5,7 +5,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          '@/components/@build/observatorio/cards/tributos/tributos-itbi-contribuintes/ItbiMesRecente'
+          '@/components/@build/observatorio/cards/tributos/itbi-contribuintes/ItbiMesRecente'
         ),
     ),
   },
@@ -13,7 +13,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          '@/components/@build/observatorio/cards/tributos/tributos-itbi-contribuintes/ItbiMesAnterior'
+          '@/components/@build/observatorio/cards/tributos/itbi-contribuintes/ItbiMesAnterior'
         ),
     ),
   },
@@ -21,7 +21,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          '@/components/@build/observatorio/cards/tributos/tributos-itbi-contribuintes/ItbiVariacaoInativasRecente'
+          '@/components/@build/observatorio/cards/tributos/itbi-contribuintes/ItbiVariacaoInativasRecente'
         ),
     ),
   },
