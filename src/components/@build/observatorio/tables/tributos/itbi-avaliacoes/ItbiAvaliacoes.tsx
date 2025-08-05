@@ -38,7 +38,11 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
 
     values.map((obj: any) => {
       rows.push([
-        monthLongName(obj["mes"]),
+        <div className="w-full flex justify-start">
+          <div className="w-full text-start">
+            {monthLongName(obj["mes"])}
+          </div>
+        </div>,
         <div className="w-full flex justify-start">
           <div className="w-full text-start">
             {obj["logradouro"]}
@@ -49,11 +53,7 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
             {obj["bairro"]}
           </div>
         </div>,
-        <div className="w-full flex justify-start">
-          <div className="w-full text-start">
-            {obj["imovel"]}
-          </div>
-        </div>,
+        obj["imovel"],
         <div className="w-full flex justify-center">
           <div className="w-[150px]">
             <span>R$</span> {formatNumber(obj["avaliacao"])}

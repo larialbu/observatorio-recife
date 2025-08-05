@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { ArrowIcon } from "@/components/random_temp/Sidebar";
+import { getSplitedDataInBlocks } from "@/utils/filters/@global/getSplitedDataInBlocks";
 
 interface PaginatedTableProps {
   headers: string[];
@@ -41,6 +42,10 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
   const [clicked, setClicked] = useState(-1);
   const [itemsPerPage, setItemsPerPage] = useState(rowsPerPage || rows.length);
   const [searchTexts, setSearchTexts] = useState<string[]>(new Array(headers.length).fill("")); // Estado para cada filtro de coluna
+  const [dataRead, setDataRead] = useState<React.ReactNode[][]>([]);
+  const [blocksCount, setBlocksCount] = useState(1);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
   const isDarkMode = document.documentElement.classList.contains('dark');
 
   const totalRows = rows.length;
@@ -87,6 +92,40 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
     setCurrentPage(1); // Resetar para a primeira página ao fazer uma nova pesquisa
   };
 
+  useEffect(() => {
+    const blocks = getSplitedDataInBlocks(rows);
+    setDataRead(blocks[0] || []);
+    setBlocksCount(1);
+  }, [rows]);  
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!scrollRef.current) return;
+      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+
+     if (scrollTop + clientHeight >= scrollHeight) {
+        setBlocksCount((prev) => {
+          if (prev < getSplitedDataInBlocks(rows).length) {
+            setDataRead(rows.slice(0, (prev + 1) * 100));
+            return prev + 1;
+          }
+          return prev;
+        });
+      } 
+    };
+
+    const scrollElement = scrollRef.current;
+    if (scrollElement) {
+      scrollElement.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (scrollElement) {
+        scrollElement.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [dataRead]); 
+
   return (
     <div className="bg-none">
       <div className={`overflow-hidden flex flex-col rounded-lg h-full`} style={{ backgroundColor: `${color}` }}>
@@ -124,7 +163,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
             </div>
           )}
 
-          <div style={{ height: `${maxHeight}px`, overflowY: 'auto'}} className="bg-white dark:bg-[#0C1B2B]">
+          <div ref={scrollRef} style={{ height: `${maxHeight}px`, overflowY: 'auto'}} className="bg-white dark:bg-[#0C1B2B]">
             <table className="w-full border-collapse">
             <thead className="bg-gray-200 sticky top-0 z-10 dark:bg-[#11273D]">
                 <tr>
@@ -160,7 +199,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
               </thead>
 
               <tbody className="bg-white dark:bg-[#0C1B2B]">
-                {currentRows.map((row, rowIndex) => (
+                {dataRead.map((row, rowIndex) => (
                   <tr
                     onClick={() => setClicked(withClick && clicked !== rowIndex ? rowIndex : -1)}
                     key={rowIndex}

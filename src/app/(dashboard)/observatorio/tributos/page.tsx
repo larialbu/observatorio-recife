@@ -12,6 +12,7 @@ import { getChartDataModel } from "@/functions/process_data/observatorio/empresa
 import { getChartDataModelTributos } from "@/functions/process_data/observatorio/tributos/getChartDataModelTributos";
 import ItbiContribuintes from "./(itbi-contribuintes)/itbi-contribuintes";
 import ItbiAvaliacoes from "./(itbi-avaliacoes)/itbi-avaliacoes";
+import ItbiPesquisa from "./(itbi-pesquisa)/itbi-pesquisa";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
@@ -103,6 +104,11 @@ const EmpresasPage = () => {
         />  
       case "itbi-avaliacoes":
         return <ItbiAvaliacoes
+        data={dataArr} 
+        year={getYearSelected(filters)} 
+        /> 
+      case "itbi-pesquisa":
+        return <ItbiPesquisa
         data={dataArr} 
         year={getYearSelected(filters)} 
         /> 

@@ -17,16 +17,9 @@ import { truncateTextFormatter } from "@/utils/formatters/@global/truncateTextFo
 import CustomLegend from "../features/CustomLegend";
 import CustomTooltip from "../features/CustomTooltip";
 import { resizeDiv } from "../features/resizeDiv";
+import { getSplitedDataInBlocks } from "@/utils/filters/@global/getSplitedDataInBlocks";
 
-const splitDataInBlocks = (data: any[], blockSize: number = 100) => {
-  const blocks: any[][] = [];
-  
-  for (let i = 0; i < data.length; i += blockSize) {
-    blocks.push(data.slice(i, i + blockSize));
-  }
-  
-  return blocks;
-};
+ 
 
 const VerticalScrollableBarChart = ({
   data,
@@ -49,10 +42,11 @@ const VerticalScrollableBarChart = ({
   const [dataRead, setDataRead] = useState<any[]>([]);
   const [blocksCount, setBlocksCount] = useState(1);
 
+  console.log("Data Read -> ", dataRead);
   resizeDiv(containerRef, width, setWidth)
 
   useEffect(() => {
-    const blocks = splitDataInBlocks(data);
+    const blocks = getSplitedDataInBlocks(data);
     setDataRead(blocks[0] || []);
     setBlocksCount(1);
   }, [data]);  
@@ -68,7 +62,7 @@ const VerticalScrollableBarChart = ({
         setScrollPosition("end");
 
         setBlocksCount((prev) => {
-          if (prev < splitDataInBlocks(data).length) {
+          if (prev < getSplitedDataInBlocks(data).length) {
             setDataRead(data.slice(0, (prev + 1) * 100));
             return prev + 1;
           }
