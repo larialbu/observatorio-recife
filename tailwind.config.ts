@@ -34,6 +34,8 @@ const config: Config = {
         lamaYellowLight: "#FEFCE8",
         smokeGreyStroke: "#959595",
         blueObs: "#0155AE",
+        orangeObs: "#EC6625",
+        greenObs: "#52b348",
       },
       opacity: {
         "37": "0.37", // Adiciona a opacidade de 37%

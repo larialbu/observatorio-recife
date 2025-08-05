@@ -18,6 +18,11 @@
 
 :root {
   --yaxis-tick-color: #333;
+
+  --blue: #0155AE;
+  --orange: #EC6625;
+  --green: #52b348;
+
 }
 
 .dark {
