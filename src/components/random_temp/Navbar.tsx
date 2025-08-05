@@ -173,7 +173,7 @@ const Navbar = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {/* Seletor de Ano */}
                   <div className="flex flex-col">
-                    <label className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">ANO</label>
+                    <label className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">Ano</label>
                     <select
                       value={tempFilters.year || filters.years && filters.years[filters.years.length - 1]}
                       onChange={(e) => {

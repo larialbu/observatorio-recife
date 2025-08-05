@@ -12,5 +12,3 @@ export const dataYears = async (endpoint: string) => {
     
     return yearsList.filter((year) => Number(+year))
 }
-
-// /pib/geral/anos
