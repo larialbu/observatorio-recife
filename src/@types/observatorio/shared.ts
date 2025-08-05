@@ -9,6 +9,7 @@ export interface Filters<T = unknown> {
 export interface AdditionalFilter {
     options: string[];
     label: string;
+    name?: string; 
     selected: string[];
     allowMultiple?: boolean;
     fixed?: string[];

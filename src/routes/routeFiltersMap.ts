@@ -39,7 +39,7 @@ import { empresasClassesFilters } from "@/utils/filters/empresas/empresasClasses
 import { empresasComparativoClasses } from "@/utils/filters/empresas/empresasComparativoClasses";
 import { empresasAbertasFechadasFilters } from "@/utils/filters/empresas/empresasAbertasFechadasFilters";
 import { empresasTempoAberturaFilters } from "@/utils/filters/empresas/empresasTempoAberturaFilters";
-import { tributosGeralFilters } from "@/utils/filters/tributos/tributosGeralFilters";
+import { tributosGeralItbiFilters } from "@/utils/filters/tributos/tributosGeralItbiFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 type TabFiltersMap = Record<string, Filters>;
@@ -130,12 +130,12 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
   },  
 
   "/observatorio/tributos": {
-    geral: tributosGeralFilters,
-    "itbi-avaliacoes": tributosGeralFilters,
-    "itbi-pesquisa": tributosGeralFilters,
-    "iptu-contribuintes": tributosGeralFilters,
-    "iptu-valores": tributosGeralFilters,
-    "iptu-pesquisa": tributosGeralFilters,
+    geral: tributosGeralItbiFilters,
+    "itbi-avaliacoes": tributosGeralItbiFilters,
+    "itbi-pesquisa": tributosGeralItbiFilters,
+    "iptu-contribuintes": tributosGeralItbiFilters,
+    "iptu-valores": tributosGeralItbiFilters,
+    "iptu-pesquisa": tributosGeralItbiFilters,
   },
 
   // E assim por diante pra outras rotas...

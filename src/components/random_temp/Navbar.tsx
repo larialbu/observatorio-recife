@@ -192,7 +192,7 @@ const Navbar = () => {
                   {/* Additional filters */}
                   {tempFilters.additionalFilters?.map((f: AdditionalFilter) => (
                     <div key={f.label} className="relative flex flex-col">
-                      <label className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">{f.label}</label>
+                      <label className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">{f.name ? f.name : f.label}</label>
                       <button
                         onClick={() => {
                           toggleDropdown(f.label);

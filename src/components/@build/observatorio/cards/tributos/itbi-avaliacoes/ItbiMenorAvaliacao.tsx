@@ -10,7 +10,15 @@ const ItbiMenorAvaliacao = ({
 }: any) => {
   const dataTributos = data?.['tributos'] || []
 
-  const chartData = dataTributos?.[0]?.['valor_avaliacao'] || 0
+  const recursiveSearch = (arr: any[], num: number) => {
+    if (arr?.[num]?.['valor_avaliacao'] <= 0) {
+      return recursiveSearch(arr, num + 1)
+    } else {
+      return arr?.[num]?.['valor_avaliacao']
+    }
+  }
+
+  const chartData = recursiveSearch(dataTributos, 0) || 0
 
   return (
     <Card

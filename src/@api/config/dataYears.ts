@@ -10,7 +10,7 @@ export const dataYears = async (endpoint: string) => {
         return parts[parts.length - 1]; 
     });
     
-    return yearsList
+    return yearsList.filter((year) => Number(+year))
 }
 
 // /pib/geral/anos

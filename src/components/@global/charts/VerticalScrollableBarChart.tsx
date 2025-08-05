@@ -42,7 +42,6 @@ const VerticalScrollableBarChart = ({
   const [dataRead, setDataRead] = useState<any[]>([]);
   const [blocksCount, setBlocksCount] = useState(1);
 
-  console.log("Data Read -> ", dataRead);
   resizeDiv(containerRef, width, setWidth)
 
   useEffect(() => {
