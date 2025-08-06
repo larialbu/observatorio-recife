@@ -6,6 +6,7 @@ export interface PortoGeralData {
   atracacao: DataWithFilters<PortoAtracacaoHeaders> | PortoAtracacaoHeaders[];
   carga: PortoCargaHeaders[];
   months?: PortoMeses;
+  accumulated? : { [key: string]: { [key: string]: number } };
   coords: [PortoCoordHeaders[], number[]];
   dictionaries: {
     origem: PortoOrigemDestinoHeaders[];

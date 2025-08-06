@@ -12,7 +12,7 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/porto/geral/PrincipaisProdutos"
+        "@/components/@build/observatorio/charts/porto/operacao/PrincipaisProdutos"
       )
     ),
   },

@@ -10,13 +10,16 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorAcao";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
 const MovimentacaoPorTipo = ({
   data,
   title = "Tipo de Transação (Ton)",
 }: ChartBuild<PortoGeralData>) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = prepareCargasPorAcaoData(data.atracacao as PortoAtracacaoHeaders[], data.carga, false)
+  const dataAccumulated = data?.['accumulated'] || {}
+
+  const chartData = getObjToArr<number>(dataAccumulated?.['Ação'] || {}) 
 
   return (
     <div className="chart-wrapper">
@@ -30,8 +33,8 @@ const MovimentacaoPorTipo = ({
               setShowPercentage={setShowPercentage}
             />
           }
-          dataKey="totalPeso"
-          nameKey="acao"
+          dataKey="value"
+          nameKey="label"
           colors={ColorPalette.default}
           showPercentages={showPercentage}
           tooltipEntry=""

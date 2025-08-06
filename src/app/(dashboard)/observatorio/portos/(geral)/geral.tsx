@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 
 import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
 import { ChartBuild } from "@/@types/observatorio/shared";
@@ -12,6 +12,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import charts from "./@imports/charts";
 import maps from "./@imports/maps";
 import tables from "./@imports/tables";
+import { geralAccFieldFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
 
 
 const Geral = ({
@@ -25,7 +26,28 @@ const Geral = ({
   const sortableContainerRef = useRef<HTMLDivElement>(null);
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
 
+  const [chartData, setChartData] = useState<any>({})
+
   const { Component } = maps[0]
+
+  useEffect(() => {
+    if (!Array.isArray(data?.atracacao)) return;
+
+    const newData = []
+
+    for (let i = 0; i < data.carga?.length; i++) {
+      const cargaData = data?.atracacao?.find(c => c.IDAtracacao === data?.carga[i].IDAtracacao)
+      if (!cargaData) continue;
+      newData.push({ ...data?.carga[i], ...cargaData });
+    }
+
+    const params = ['CDMercadoria', 'Ação', 'Mes']
+
+    const dataAccumulatedField = geralAccFieldFunction(newData, params, 'VLPesoCargaBruta')
+
+    setChartData({ ...data, accumulated: dataAccumulatedField, carga: [], atratacao: [] })
+  }, [data]);
+
 
   return (
     <div>
@@ -39,7 +61,7 @@ const Geral = ({
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <ErrorBoundary>
-                  <Component data={data} months={months} />
+                  <Component data={chartData} months={months} />
                 </ErrorBoundary>
               </React.Suspense>
             </div>
@@ -60,7 +82,7 @@ const Geral = ({
                 <ErrorBoundary>
                   <Component
                     color={ColorPalette.default[index]}
-                    data={data}
+                    data={chartData}
                   />
                 </ErrorBoundary>
               </React.Suspense>

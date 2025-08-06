@@ -3,7 +3,7 @@ export function getPortoProductNameByCode(mercadoriaArray: any[], mercadoriaDict
   
     mercadoriaArray.forEach((mercadoriaItem: any) => {
       // Encontrar o item correspondente no dicionário pelo CDMercadoria
-      const mercadoriaDictionaryFind = mercadoriaDictionary.find((dictionary: any) => dictionary.CDMercadoria === mercadoriaItem.CDMercadoria);
+      const mercadoriaDictionaryFind = mercadoriaDictionary.find((dictionary: any) => dictionary.CDMercadoria === mercadoriaItem.label);
       
       // Obter a nomenclatura ou o nome da mercadoria
       const nomenclatura = mercadoriaDictionaryFind?.['Nomenclatura Simplificada Mercadoria'] || mercadoriaDictionaryFind?.Mercadoria;
@@ -11,17 +11,17 @@ export function getPortoProductNameByCode(mercadoriaArray: any[], mercadoriaDict
       // Se o CDMercadoria já existe no Map, somamos os valores, caso contrário, adicionamos um novo item
       if (resultMap.has(nomenclatura)) {
         const existing = resultMap.get(nomenclatura);
-        existing.totalVLPesoCargaBruta += mercadoriaItem.totalVLPesoCargaBruta;
+        existing.totalVLPesoCargaBruta += mercadoriaItem.value;
       } else {
         resultMap.set(nomenclatura, {
-          CDMercadoria: nomenclatura,
-          totalVLPesoCargaBruta: mercadoriaItem.totalVLPesoCargaBruta
+          label: nomenclatura,
+          value: mercadoriaItem.value
         });
       }
     });
   
     // Convertendo o Map de volta para um array e ordenando pelo totalVLPesoCargaBruta de forma decrescente
     return Array.from(resultMap.values())
-      .sort((a, b) => b.totalVLPesoCargaBruta - a.totalVLPesoCargaBruta); // Ordenação decrescente
+      .sort((a, b) => b.value - a.value); // Ordenação decrescente
   }
   
