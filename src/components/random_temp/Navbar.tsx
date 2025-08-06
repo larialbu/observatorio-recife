@@ -145,7 +145,7 @@ const Navbar = () => {
                   const remaining = f.selected.length - 5;
                   return (
                     <li key={f.label}>
-                      {f.label}: <strong>{visible}</strong>
+                      {f.name || f.label}: <strong>{visible}</strong>
                       {remaining > 0 && <span> ... e outros {remaining}</span>}
                     </li>
                   );

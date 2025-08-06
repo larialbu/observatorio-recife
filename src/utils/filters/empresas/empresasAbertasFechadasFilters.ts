@@ -6,30 +6,35 @@ export const empresasAbertasFechadasFilters = {
     additionalFilters: [
       {
         label: "mes",  
+        name: 'Mês',
         options: [],  
         selected: [],
         hash: monthHash        
       },
-    //   {
-    //     label: "Municipio",  
-    //     options: [],  
-    //     selected: ["Recife"],
-    //   },      
-      // {
-      //   label: "Mês",  
-      //   options: [],  
-      //   selected: [],
-      // },
-    //   {
-    //     label: "município",  
-    //     options: [],  
-    //     selected: ["Recife-PE"],
-    //   },
-    //   {
-    //     label: "mês",  
-    //     options: [],  
-    //     selected: [],
-    //   },
+      {
+        label: "UF",
+        name: 'Estado',  
+        options: [],  
+        selected: [],
+      },
+      {
+        label: "Município",
+        name: 'Município',  
+        options: [],  
+        selected: [],
+      },
+      {
+        label: "Natureza Jurídica",
+        name: 'Tipo Empreendimento',
+        options: [],  
+        selected: [],
+      },
+      {
+        label: "Porte",
+        name: 'Porte Empresa',
+        options: [],  
+        selected: [],
+      },
     //   {
     //     label: "saldomovimentação",  
     //     options: [],  

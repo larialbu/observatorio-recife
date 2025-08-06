@@ -6,12 +6,14 @@ export const empresasNaturezasFilters = {
     additionalFilters: [
       {
         label: "mes",  
+        name: 'Mês',
         options: [],  
         selected: [],
         hash: monthHash        
       },
       {
-        label: "Municipio",  
+        label: "Municipio", 
+        name: 'Capital do NE', 
         options: [],  
         selected: ["Recife"],
       },

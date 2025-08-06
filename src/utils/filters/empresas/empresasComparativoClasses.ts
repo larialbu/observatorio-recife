@@ -5,31 +5,36 @@ export const empresasComparativoClasses = {
     years: ["2023", "2024", "2025" ], // Filtra por ano
     additionalFilters: [
       {
-        label: "mes",  
+        label: "mes",
+        name: 'Mês',
         options: [],  
         selected: [],
         hash: monthHash        
       },
-    //   {
-    //     label: "Municipio",  
-    //     options: [],  
-    //     selected: ["Recife"],
-    //   },      
-      // {
-      //   label: "Mês",  
-      //   options: [],  
-      //   selected: [],
-      // },
-    //   {
-    //     label: "município",  
-    //     options: [],  
-    //     selected: ["Recife-PE"],
-    //   },
-    //   {
-    //     label: "mês",  
-    //     options: [],  
-    //     selected: [],
-    //   },
+      {
+        label: "Municipio", 
+        name: 'Capital do NE', 
+        options: [],  
+        selected: [],
+      },      
+      {
+        label: "Grupo", 
+        name: 'Grupamento',
+        options: [],  
+        selected: [],
+      },
+      {
+        label: "nome_secao",
+        name: 'Seção',  
+        options: [],  
+        selected: [],
+      },
+      {
+        label: "Subclasse",  
+        name: 'CNAE',
+        options: [],  
+        selected: [],
+      },
     //   {
     //     label: "saldomovimentação",  
     //     options: [],  

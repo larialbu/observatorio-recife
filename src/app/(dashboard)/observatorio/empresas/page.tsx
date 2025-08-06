@@ -219,7 +219,7 @@ const EmpresasPage = () => {
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
-          Compartivo Ativas Geral NE
+          Comparativo Ativas Geral NE
         </button>
         <button
           onClick={() => handleNavigation("empresas-abertas-fechadas")}

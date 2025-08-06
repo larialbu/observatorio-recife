@@ -11,6 +11,7 @@ export const empresasAtivasFilters = {
       },
       {
         label: "mes",  
+        name: 'Mês',
         options: [],  
         selected: [],
         hash: monthHash
