@@ -1,7 +1,7 @@
 import { PortoCargaHeaders, PortoDestinoHeaders } from "@/@types/observatorio/@fetch/porto";
 
 
-export function getPortoCountryNameByCode(cargaArray: PortoCargaHeaders[], origemArray: PortoDestinoHeaders[], nomeOrigem: 'Origem' | 'Destino') {
+export function getPortoCountryNameByCode(cargaArray: { label: string; value: number }[], origemArray: PortoDestinoHeaders[], nomeOrigem: 'Origem' | 'Destino') {
     // First, we map and add the `Country ${nomeOrigem}` to the carga objects
     const cargaWithCountry = cargaArray.map((carga: any) => {
         // Finding the origin in the second array based on the passed field name
@@ -16,7 +16,7 @@ export function getPortoCountryNameByCode(cargaArray: PortoCargaHeaders[], orige
     });
 
     // Now, let's group the objects by `Country ${nomeOrigem}` and sum the values
-    const groupedByCountry: { [country: string]: {pais: string, totalVLPesoCargaBruta: number} } = {};
+    const groupedByCountry: { [country: string]: {label: string, value: number} } = {};
 
     cargaWithCountry.forEach((carga) => {
         const country = carga[`País ${nomeOrigem}`];

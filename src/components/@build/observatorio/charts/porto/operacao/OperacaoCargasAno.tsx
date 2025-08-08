@@ -23,7 +23,7 @@ const chartData = getObjToArr(dataAccumulated?.['Ação'] || {})
   .sort((a, b) => +a['label'] - +b['label'])
   .map((dataMap) => {
     const val = dataMap.value;
-    const getValue = (key: string) => typeof val === 'object' && val !== null ? val['key'] ?? 0 : 0
+    const getValue = (key: string) => typeof val === 'object' && val !== null ? val[key] ?? 0 : 0
     return {
       label: monthShortName(+dataMap.label),
       cabotagemCarga: getValue('Cabotagem'),

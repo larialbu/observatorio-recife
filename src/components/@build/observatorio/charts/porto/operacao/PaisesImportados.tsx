@@ -19,10 +19,20 @@ const PaisesImportados = ({
 
   const dataAccumulated = data?.['accumulated'] || {}
 
-  // const chartData = getObjToArr<number>(dataAccumulated?.['Origem'] || {})
-  const chartData = getPortoCountryNameByCode(getObjToArr<number>(dataAccumulated?.['Origem'] || {}), data.dictionaries.origem, 'Origem')
+  const rawData = dataAccumulated?.['Origem'] || {};
+
+  const filteredData: Record<string, number> = {};
+
+  Object.entries(rawData).forEach(([key, val]) => {
+    if (typeof val === 'number') {
+      filteredData[key] = val;
+    }
+  });
+
+  const arrData = getObjToArr<number>(filteredData);
+
+  const chartData = getPortoCountryNameByCode(arrData, data?.dictionaries?.origem as any, 'Origem')
   // const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao as PortoAtracacaoHeaders[], data.carga, 'importacao') as any, data.dictionaries.origem as any, 'Origem')
-  console.log('Chart Data', chartData);
 
   return (
     <div className="chart-wrapper">

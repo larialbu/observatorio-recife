@@ -16,8 +16,18 @@ const PrincipaisProdutos = ({
 }: ChartBuild<PortoGeralData>) => {
   const dataAccumulated = data?.['accumulated'] || {}
 
-  const chartData = getPortoProductNameByCode(getObjToArr<number>(dataAccumulated?.['CDMercadoria'] || {}), data?.dictionaries?.mercado || [])
-  
+  const rawData = dataAccumulated?.['CDMercadoria'] || {};
+
+  const filteredData: Record<string, number> = {};
+
+  Object.entries(rawData).forEach(([key, val]) => {
+    if (typeof val === 'number') {
+      filteredData[key] = val;
+    }
+  });
+
+  const chartData = getPortoProductNameByCode(getObjToArr<number>(filteredData), data?.dictionaries?.mercado || []);
+
   return (
     <div className="chart-wrapper">
       <ChartGrabber>

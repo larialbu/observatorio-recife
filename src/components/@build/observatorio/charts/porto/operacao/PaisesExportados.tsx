@@ -19,7 +19,21 @@ const PaisesExportados = ({
 
   const dataAccumulated = data?.['accumulated'] || {}
 
-  const chartData = getPortoCountryNameByCode(getObjToArr<number>(dataAccumulated?.['Destino'] || {}), data.dictionaries.destino, 'Destino')
+  const rawData = dataAccumulated?.['Destino'] || {};
+
+  const filteredData: Record<string, number> = {};
+
+  Object.entries(rawData).forEach(([key, val]) => {
+    if (typeof val === 'number') {
+      filteredData[key] = val;
+    }
+  });
+
+  const arrData = getObjToArr<number>(filteredData);
+
+  const chartData = getPortoCountryNameByCode(arrData, data.dictionaries.destino, 'Destino');
+
+  // const chartData = getPortoCountryNameByCode(getObjToArr<number>(dataAccumulated?.['Destino'] || {}), data.dictionaries.destino, 'Destino')
   // const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao as PortoAtracacaoHeaders[], data.carga, 'exportacao') as any, data.dictionaries.destino, 'Destino')
 
 
