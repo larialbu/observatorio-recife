@@ -14,8 +14,8 @@ export const processAtracacoesPorMes = (atracacoes: PortoAtracacaoHeaders[], car
   }));
 
   // Filtra as cargas que possuem uma atracação correspondente
-  const cargasFiltradas = cargas.filter((carga) =>
-    atracacoes.some((atracacao) => Number(atracacao.IDAtracacao) === Number(carga.IDAtracacao))
+  const cargasFiltradas = cargas?.filter((carga) =>
+    atracacoes?.some((atracacao) => Number(atracacao.IDAtracacao) === Number(carga.IDAtracacao))
   );
 
   cargasFiltradas.forEach((carga) => {

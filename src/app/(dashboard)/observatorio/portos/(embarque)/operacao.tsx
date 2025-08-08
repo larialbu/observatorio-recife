@@ -10,7 +10,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
-import { geralAccFieldFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
+import { getChartDataModel } from "@/functions/process_data/observatorio/porto/getChartDataModel";
 
 
 
@@ -36,9 +36,10 @@ const Operacao = ({
       newData.push({ ...data?.carga[i], ...cargaData });
     }
 
-    const params = ['CDMercadoria', 'Destino', 'Origem', 'Mes']
+    const params = ['CDMercadoria', 'Destino', 'Origem', 'Mes', 'Ação']
 
-    const dataAccumulatedField = geralAccFieldFunction(newData, params, 'VLPesoCargaBruta')
+    const dataAccumulatedField = getChartDataModel(newData, params, 'VLPesoCargaBruta')
+    // const dataAccumulatedField = geralAccFieldFunction(newData, params, 'VLPesoCargaBruta')
 
     console.log('New Data ->0<-', newData);
 

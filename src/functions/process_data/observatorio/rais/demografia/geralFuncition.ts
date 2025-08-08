@@ -23,6 +23,8 @@ export const geralAccFieldFunction = (data: any, params: string[], accParam: str
       }, {})
   }
 
+ 
+
 
 export function cnaeAccFunction(dataArray: any, cnaeParam: string) {
     return dataArray.reduce((acc: any, item: any) => {
