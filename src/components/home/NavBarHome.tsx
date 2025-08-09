@@ -33,10 +33,10 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
   // Lista de itens do menu
   const navItems = [
     {
-      text: "Panorama",
-      href: "#",
+      text: "Início",
+      href: "/",
       onClick: undefined,
-      className: `${baseNavItemClass} px-[10px] py-[2px] bg-[#ec6625] rounded-full font-medium hover:bg-[#ce5a21] hover:scale-105`,
+      className: `${baseNavItemClass} flex-shrink-0 hover:underline`,
     },
     {
       text: "Explorar",

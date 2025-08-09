@@ -15,7 +15,7 @@ export const Header = () => {
             />
             </div>
             <div className="flex items-center ml-auto text-sm title-container">
-              <p className="text-white text-sm">Prefeitura da Cidade do Recife</p>
+              <p className="text-white text-sm">Secretaria de Desenvolvimento Econômico</p>
             </div>
           </div>
         </header>

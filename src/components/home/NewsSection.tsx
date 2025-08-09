@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import { getAuthToken } from "@/@api/config/authService";
 import { performAutoLogin } from "@/@api/config/authService";
 import { NewsData, NewsItem } from "@/@api/http/news/NewsData";
+import { formatarDataParaPtBR } from "@/utils/news/dateFormatter";
 
 function NewsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -136,7 +137,7 @@ function NewsSection() {
                       </p>
                       <div className="mt-auto pt-4 border-t border-gray-300 dark:border-gray-700">
                         <div className="text-gray-500 dark:text-gray-400 text-xs mb-4">
-                          {newsItem.date}
+                          {formatarDataParaPtBR(newsItem.date)}
                         </div>
                         <Link
                           href={newsItem.link}

@@ -20,7 +20,7 @@ export const CardsContainer: React.FC = () => {
         },
         {
             banner: "/images/banners/porto_recife_banner.avif",
-            title: "Movimentação dos Portos",
+            title: "Movimentação dos portos",
             logo: "/images/logos/partners/porto_recife_logo.png",
             description: "Cheque as movimentações dos portos!",
             detailedDescription: "A movimentação dos portos inclui informações sobre carga, descarga e o tráfego de navios, refletindo a dinâmica do comércio exterior e a importância econômica do setor portuário.",

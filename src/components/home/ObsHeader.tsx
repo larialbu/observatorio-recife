@@ -14,7 +14,7 @@ export const ObsHeader = () => {
             />
           </div>
           <div className="flex items-center ml-auto text-sm title-container">
-            <p className="header-title">Prefeitura da Cidade do Recife</p>
+            <p className="header-title">Secretaria de Desenvolvimento Econômico</p>
             </div>
         </div>
       </header>
