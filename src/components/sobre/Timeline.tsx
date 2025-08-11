@@ -21,13 +21,13 @@ export default function Timeline() {
         </style>
   
         <div className="max-w-6xl mx-auto">
-          {/* Título e descrição */}
-          <div className="text-center mb-10">
+          <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-800 dark:text-white">
-              Nossa Jornada
+              A Jornada do Observatório
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mt-4">
-              Confira os marcos importantes da nossa história.
+            <p className="text-lg text-gray-600 dark:text-gray-400 mt-4 max-w-3xl mx-auto">
+              Acompanhe a evolução do Observatório Econômico do Recife, desde sua
+              concepção até se tornar uma ferramenta estratégica para a cidade.
             </p>
           </div>
   

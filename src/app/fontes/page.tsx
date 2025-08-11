@@ -114,7 +114,7 @@ export default function SourcesPage() {
   };
 
   return (
-    <>
+    <div className="overflow-x-hidden"> 
       <ObsHeader />
       <NavBarHome simple />
 
@@ -181,6 +181,6 @@ export default function SourcesPage() {
       />
 
       <Footer />
-    </>
+    </div>
   );
 }

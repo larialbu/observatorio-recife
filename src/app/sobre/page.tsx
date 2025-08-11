@@ -9,9 +9,9 @@ import { Footer } from "@/components/home/Footer";
 import { NavBarHome } from "@/components/home/NavBarHome";
 import { ObsHeader } from "@/components/home/ObsHeader";
 import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
-import { FaqSection } from "@/components/sobre/FaqSection";
-import { MissionSection } from "@/components/sobre/MissionSection";
+import { AboutSdeSection } from "@/components/sobre/MissionSection";
 import Timeline from "@/components/sobre/Timeline";
+import ProgramsSection from "@/components/sobre/ProgramsSection";
 
 const SobreNos: React.FC = () => {
   const [currentImage, setCurrentImage] = useState<string>("/images/about/about-1.png");
@@ -71,12 +71,10 @@ const SobreNos: React.FC = () => {
             de inovação.
           </p>
         </div>
-        <MissionSection />
+        <AboutSdeSection />
       </section>
-
+      <ProgramsSection />
       <Timeline></Timeline>
-
-      <FaqSection />
 
       <SocialIconsContainer />
       <Footer />

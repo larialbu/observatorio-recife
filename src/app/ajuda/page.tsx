@@ -9,6 +9,7 @@ import HelpCenter from "@/components/ajuda/HelpCenter";
 import GettingStarted from "@/components/ajuda/GettingStarted";
 import SubmitRequest from "@/components/ajuda/SubmitRequest";
 import { HelpHeader } from "@/components/ajuda/HelpHeader";
+import { FaqSection } from "@/components/ajuda/FaqSection";
 
 
 
@@ -29,7 +30,7 @@ export default function HelpPage() {
           </div>
           <SubmitRequest />
       </main>
-
+      <FaqSection />
       <Footer />
     </>
   );

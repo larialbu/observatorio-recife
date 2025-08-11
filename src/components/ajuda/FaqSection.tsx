@@ -1,32 +1,11 @@
 import React, { useState } from "react";
+import { faqs } from "./Faqs";
 
 export const FaqSection: React.FC = () => {
-  // Perguntas e respostas
-  const faqs = [
-    {
-      question: "Qual o objetivo principal do Observatório Econômico do Recife?",
-      answer:
-        "O Observatório visa analisar, monitorar e compartilhar dados econômicos e sociais do Recife, auxiliando gestores públicos, empreendedores e a sociedade civil nas tomadas de decisão.",
-    },
-    {
-      question: "Quem pode acessar os dados e relatórios produzidos?",
-      answer:
-        "Todos! Nossa plataforma é aberta a qualquer pessoa interessada: estudantes, investidores, pesquisadores e cidadãos que queiram entender melhor o panorama econômico do Recife.",
-    },
-    {
-      question: "Como são coletados os dados que aparecem aqui?",
-      answer:
-        "Os dados são obtidos por meio de fontes oficiais, parcerias institucionais e também de pesquisas de campo realizadas pela equipe do Observatório.",
-    },
-  ];
-
-  // Estado para controlar quais FAQs estão abertas
   const [openFaqs, setOpenFaqs] = useState<boolean[]>(
-    // Todos fechados inicialmente
     faqs.map(() => false)
   );
 
-  // Função para trocar o estado (abre/fecha)
   const toggleFaq = (index: number) => {
     const newOpenFaqs = [...openFaqs];
     newOpenFaqs[index] = !newOpenFaqs[index];
@@ -42,12 +21,12 @@ export const FaqSection: React.FC = () => {
 
         <div className="space-y-4">
           {faqs.map((faq, index) => {
-            const isOpen = openFaqs[index]; // se estiver true, mostra a resposta
+            const isOpen = openFaqs[index];
 
             return (
               <div
                 key={index}
-                onClick={() => toggleFaq(index)} // clique no card todo
+                onClick={() => toggleFaq(index)}
                 className="
                   bg-white
                   dark:bg-gray-900
