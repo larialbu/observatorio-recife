@@ -1,5 +1,6 @@
 "use client";
 
+import { icon } from "leaflet";
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
 
@@ -107,16 +108,38 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
     <div
       className={`
         ${containerClass}
-        grid grid-cols-2 sm:grid-cols-[auto_auto] justify-between z-10 p-4 pr-2 sm:pr-4 pl-3 sm:pl-4 px-6 w-full
+        grid grid-cols-2 sm:grid-cols-[auto_auto] z-10 p-4 pr-2 sm:pr-4 pl-3 sm:pl-4 px-6 w-full
       `}
     >
-      <Link href="/" className="w-fit hover:rotate-45 transition-transform">
-        <img
-          src="/images/logos/observatorio_logo.png"
-          alt="logo observatorio"
-          className={simple ? "h-10" : "text-left w-[45px] sm:w-20"}
-        />
-      </Link>
+      <div className="flex items-center gap-10">
+        <Link href="/" className="w-fit hover:rotate-45 transition-transform">
+          <img
+            src="/images/logos/observatorio_logo.png"
+            alt="logo observatorio"
+            className={simple ? "h-10" : "text-left w-[45px] sm:w-20"}
+          />
+        </Link>
+
+        {currentRoute === "/" && (
+          <>
+            <Link href="/boletim-economico" className="w-fit transition-transform flex justify-center items-center hover:scale-105">
+              <img
+                src="/images/logos/boletim-economico.png"
+                alt="logo boletim economico"
+                className="w-52"
+              />
+            </Link>
+
+            <Link href="https://investerecife.recife.pe.gov.br/" className="w-fit transition-transform flex justify-center items-center hover:scale-105" target="_blank">
+              <img
+                src="/images/logos/investe-recife.png"
+                alt="logo investe recife"
+                className="w-36"
+              />
+            </Link>
+          </>
+        )}
+      </div>
 
       <ul
         className={`hidden sm:flex h-fit justify-end items-center text-white ${
@@ -132,7 +155,9 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
                   {item.text}
                 </a>
               ) : (
-                <Link href={item.href}>{item.text}</Link>
+                <Link href={item.href}>
+                  {item.text}
+                </Link>
               )}
             </li>
           </React.Fragment>
