@@ -13,7 +13,7 @@ export class NewsData {
   private static cache: Record<string, any> = {};
 
   public static async fetchNews(): Promise<NewsItem[]> {
-    const endpoint = "/news/newsData";
+    const endpoint = "/news";
     return fetchDataJwt<NewsItem[]>(endpoint, this.cache);
   }
 
