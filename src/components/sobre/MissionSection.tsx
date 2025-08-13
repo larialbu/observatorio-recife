@@ -102,16 +102,8 @@ export const AboutSdeSection: React.FC = () => {
   ];
 
   return (
-    <section className="w-full py-12 md:py-20 bg-white dark:bg-[#0C1B2B]">
+    <section className="w-full py-12 bg-white dark:bg-[#0C1B2B]">
       <div className="container mx-auto max-w-6xl px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-            Conheça a Secretaria de Desenvolvimento Econômico
-          </h2>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
-            Trabalhando para um Recife mais próspero, inovador e sustentável.
-          </p>
-        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {cardsData.map((card, index) => (
             <InfoCard

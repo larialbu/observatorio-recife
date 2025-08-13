@@ -30,6 +30,7 @@
     "sharp": "^0.33.5",
     "sortablejs": "^1.15.6",
     "style-loader": "^4.0.0",
+    "swiper": "^11.2.10",
     "uvcanvas": "^0.2.2"
   },
   "devDependencies": {
