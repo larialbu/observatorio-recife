@@ -13,6 +13,9 @@ import { getChartDataModelTributos } from "@/functions/process_data/observatorio
 import ItbiContribuintes from "./(itbi-contribuintes)/itbi-contribuintes";
 import ItbiAvaliacoes from "./(itbi-avaliacoes)/itbi-avaliacoes";
 import ItbiPesquisa from "./(itbi-pesquisa)/itbi-pesquisa";
+import IptuContribuintes from "./(iptu-contribuintes)/iptu-contribuintes";
+import IptuValores from "./(iptu-valores)/iptu-valores";
+import IptuPesquisa from "./(iptu-pesquisa)/iptu-pesquisa";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
@@ -109,6 +112,21 @@ const EmpresasPage = () => {
         /> 
       case "itbi-pesquisa":
         return <ItbiPesquisa
+        data={dataArr} 
+        year={getYearSelected(filters)} 
+        /> 
+      case "iptu-contribuintes":
+        return <IptuContribuintes
+        data={dataArr} 
+        year={getYearSelected(filters)} 
+        /> 
+      case "iptu-valores":
+        return <IptuValores
+        data={dataArr} 
+        year={getYearSelected(filters)} 
+        /> 
+      case "iptu-pesquisa":
+        return <IptuPesquisa
         data={dataArr} 
         year={getYearSelected(filters)} 
         /> 

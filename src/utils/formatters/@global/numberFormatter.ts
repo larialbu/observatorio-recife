@@ -6,7 +6,7 @@ export const formatNumber = (
   decimals: number = 2,
   locale: string = "pt-BR"
 ): string => {
-  return value.toLocaleString(locale, {
+  return (value || 0).toLocaleString(locale, {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   });

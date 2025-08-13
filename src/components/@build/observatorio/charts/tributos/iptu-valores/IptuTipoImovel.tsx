@@ -9,15 +9,15 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import PieChart from "@/components/@global/charts/PieChart";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 
-const ItbiOcupacao = ({
+const IptuTipoImovel = ({
   data,
-  title = "Transmissões por Ocupação",
+  title = "Contribuintes por Tipo do Imóvel",
   year,
 }: any) => {
   const [showPercentage, setShowPercentage] = useState(true);
   const dataItbi = data['tributos']
   
-  const chartData = getObjToArr<number>(dataItbi['tipo_ocupacao'] || {}).sort((a, b) => b.value - a.value)
+  const chartData = getObjToArr<number>(dataItbi['tipo de uso do imóvel'] || {}).sort((a, b) => b.value - a.value)
     
   return (
     <div className="chart-wrapper">
@@ -42,4 +42,4 @@ const ItbiOcupacao = ({
   );
 };
 
-export default ItbiOcupacao;
+export default IptuTipoImovel;
