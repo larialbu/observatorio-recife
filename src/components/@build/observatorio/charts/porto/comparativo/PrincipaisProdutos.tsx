@@ -10,6 +10,7 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processAtracacoesPorCarga } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoProdutos";
 import { getPortoProductNameByCode } from "@/utils/formatters/getPortoProductNameByCode";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
 const PrincipaisProdutos = ({
   data,
@@ -18,7 +19,19 @@ const PrincipaisProdutos = ({
   title = "Produtos Comercializados (Ton)" + ` - ${porto}`,
 }: ChartBuild<PortoGeralData>) => {
 
-  const chartData = getPortoProductNameByCode(processAtracacoesPorCarga(data.atracacao as PortoAtracacaoHeaders[], data.carga), data.dictionaries.mercado)
+  const dataAccumulated = data?.['accumulated'] || {}
+
+  const rawData = dataAccumulated?.['CDMercadoria'] || {};
+
+  const filteredData: Record<string, number> = {};
+
+  Object.entries(rawData).forEach(([key, val]) => {
+    if (typeof val === 'number') {
+      filteredData[key] = val;
+    }
+  });
+
+  const chartData = getPortoProductNameByCode(getObjToArr<number>(filteredData), data?.dictionaries?.mercado || []);
 
   return (
     <div className="chart-wrapper">
@@ -26,8 +39,8 @@ const PrincipaisProdutos = ({
         <ScrollableBarChart
           data={chartData}
           title={title}
-          xKey="CDMercadoria"
-          bars={[{ dataKey: "totalVLPesoCargaBruta", name: "Produto" }]}
+          xKey="label"
+          bars={[{ dataKey: "value", name: "Produto" }]}
           colors={[color]}
           heightPerCategory={50}
         />

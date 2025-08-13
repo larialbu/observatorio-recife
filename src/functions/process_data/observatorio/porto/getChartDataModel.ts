@@ -20,3 +20,27 @@ export const getChartDataModel = (data: any, params: string[], accParam: string)
         return acc
       }, {})
   }
+
+export const getChartDataModelComparative = (data: any, params: string[], accParam: string) => {
+  return (data || [])?.reduce((acc: any, obj: any) => {
+      params.forEach((param) => {
+        if (!acc[obj['Porto Atracação']]) acc[obj['Porto Atracação']] = {}
+
+        if (!acc[obj['Porto Atracação']][param]) acc[obj['Porto Atracação']][param] = {} 
+
+        if (param === 'Ação' && !acc[obj['Porto Atracação']][param][obj['Mes']]) acc[obj['Porto Atracação']][param][obj['Mes']] = {}
+
+        if (param === 'Ação' && !acc[obj['Porto Atracação']][param][obj['Mes']][obj[param]]) acc[obj['Porto Atracação']][param][obj['Mes']][obj[param]] = 0
+        
+        if (param !== 'Ação' && !acc[obj['Porto Atracação']][param][obj[param]]) acc[obj['Porto Atracação']][param][obj[param]] = 0
+
+        if (param === 'Ação') {
+          acc[obj['Porto Atracação']][param][obj['Mes']][obj[param]] += obj[accParam]
+        } else {
+          acc[obj['Porto Atracação']][param][obj[param]] += obj[accParam]
+        }
+      })
+
+      return acc
+    }, {})
+}

@@ -31,7 +31,7 @@ const PaisesExportados = ({
 
   const arrData = getObjToArr<number>(filteredData);
 
-  const chartData = getPortoCountryNameByCode(arrData, data.dictionaries.destino, 'Destino');
+  const chartData = getPortoCountryNameByCode(arrData, data?.dictionaries?.destino || [], 'Destino');
 
   // const chartData = getPortoCountryNameByCode(getObjToArr<number>(dataAccumulated?.['Destino'] || {}), data.dictionaries.destino, 'Destino')
   // const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao as PortoAtracacaoHeaders[], data.carga, 'exportacao') as any, data.dictionaries.destino, 'Destino')

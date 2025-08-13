@@ -2,13 +2,15 @@
 
 import React from "react";
 
-import { RawDataPortos } from "@/@types/observatorio/@data/portoData";
+import { PortoGeralData, RawDataPortos } from "@/@types/observatorio/@data/portoData";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import LineChart from "@/components/@global/charts/LineChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processAtracacoesPorMes } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorMes";
 import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { getObjToArr } from "@/utils/formatters/getObjToArr";
+import { monthShortName } from "@/utils/formatters/@global/monthShortName";
 
 const OperacaoCargasAno = ({
   data,
@@ -16,11 +18,26 @@ const OperacaoCargasAno = ({
   colors = ColorPalette.default,
   title = "Movimentação de Cargas (Ton)"  + ` - ${porto}`,
   months
-}: ChartBuild<RawDataPortos>) => {
+}: ChartBuild<PortoGeralData>) => {
+// }: ChartBuild<RawDataPortos>) => {
+  const dataAccumulated = data?.['accumulated'] || {};
 
-  const chartData = processAtracacoesPorMes(data.atracacao, data.carga)
-
-  const updatedData = updatedMonthChartData(chartData, months ?? 1);
+  const chartData = getObjToArr(dataAccumulated?.['Ação'] || {})
+    .sort((a, b) => +a['label'] - +b['label'])
+    .map((dataMap) => {
+      const val = dataMap.value;
+      const getValue = (key: string) => typeof val === 'object' && val !== null ? val[key] ?? 0 : 0
+      return {
+        label: monthShortName(+dataMap.label),
+        cabotagemCarga: getValue('Cabotagem'),
+        exportacaoCarga: getValue('Exportação'),
+        importacaoCarga: getValue('Importação'),
+        outrosCarga: getValue('Outros'),
+      }
+    });
+  
+  
+  const updatedData = updatedMonthChartData(chartData, months);
 
   return (
     <div className="chart-wrapper">

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { PortoGeralData, PortoOperacaoData, RawDataPortos } from "@/@types/observatorio/@data/portoData";
+import { PortoGeralData, PortoOperacaoData } from "@/@types/observatorio/@data/portoData";
 import { PortoAtracacaoHeaders, PortoCargaHeaders } from "@/@types/observatorio/@fetch/porto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import { CardsCarousel } from "@/components/@global/features/CardsCarousel";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import { getFilteredData, rearrangeArray } from "@/functions/process_data/observatorio/porto/comparativo/charts/filteredPortoData";
+import { rearrangeArray } from "@/functions/process_data/observatorio/porto/comparativo/charts/filteredPortoData";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
@@ -14,6 +14,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
+import { getChartDataModelComparative } from "@/functions/process_data/observatorio/porto/getChartDataModel";
 
 const Comparativo = ({
   year,
@@ -27,29 +28,60 @@ const Comparativo = ({
 
   const [pageCompare, setPageCompare] = useState(0);
   
-  const [tempFiltred, setTempFiltered] = useState([]);
+  const [tempFiltred, setTempFiltered] = useState<string[]>([]);
   const [tablesRender, setTablesRender] = useState([charts]);
 
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
 
-  const [portosDataFiltered, setPortosDataFiltered] = useState<{
-    porto: string;
-    atracacao: PortoAtracacaoHeaders[];
-    cargas: PortoCargaHeaders[];
-  }[]>([]);
+  // const [portosDataFiltered, setPortosDataFiltered] = useState<{
+  //     porto: string;
+  //     atracacao: PortoAtracacaoHeaders[];
+  //     cargas: PortoCargaHeaders[];
+  // }[]>([]);
+
+  const [portosDataFiltered, setPortosDataFiltered] = useState<{ 
+    [key: string]: {
+      [key: string]: {
+        [key: string]: number | {
+            [key: string]: number;
+        };
+      };
+    }
+  }>({});
 
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
 
 const attTempFiltred = ['Recife', ...tempFiltred]
 
 useEffect(() => {
-  const portosDataFiltered = getFilteredData(data.rawData as RawDataPortos, attTempFiltred);
+    const filtredAtracacao = data['rawData']['atracacao'].filter((item) =>
+      attTempFiltred.includes(item['Porto Atracação']),
+    )
+  
+    const atracacaoIds = new Set(filtredAtracacao.map((atracacao) => atracacao.IDAtracacao));
+  
+    const filtredCarga = data['rawData']['carga'].filter((item) => atracacaoIds.has(item.IDAtracacao));
+
+    const newData = []
+
+    for (let i = 0; i < filtredCarga?.length; i++) {
+      const cargaData = filtredAtracacao?.find(c => c.IDAtracacao === filtredCarga[i].IDAtracacao)
+      if (!cargaData) continue;
+      newData.push({ ...filtredCarga[i], ...cargaData });
+    }    
+
+    const params = ['CDMercadoria', 'Destino', 'Origem', 'Mes', 'Ação']
+
+    const dataAccumulatedField = getChartDataModelComparative(newData, params, 'VLPesoCargaBruta')
 
     const getNewTables = tempFiltred.map((val) => {
       return [...charts];
     });
 
-    setPortosDataFiltered(portosDataFiltered)
+    console.log('Data Accumulated FIEDLD', dataAccumulatedField);
+
+    setPortosDataFiltered(dataAccumulatedField)
+    // accumulated
     setTablesRender([[...charts], ...getNewTables]);
   }, [tempFiltred, data]);
 
@@ -83,11 +115,7 @@ useEffect(() => {
                  >
                  <ErrorBoundary>
                     <Component local={attTempFiltred[pageCompare]} 
-                    data={{ 
-                      ...data, 
-                      atracacao: portosDataFiltered.find((obj) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [] as PortoAtracacaoHeaders[], 
-                      carga: portosDataFiltered.find((obj) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], 
-                    } as PortoGeralData & PortoOperacaoData[]}
+                      data={{ ...data, accumulated: (portosDataFiltered?.[["Recife", ...tempFiltred]?.[index]] || {}) } as PortoGeralData & PortoOperacaoData[] }
                       cards={cards.slice(1)} year={year ?? "2024"} color={ColorPalette.default} />
                   </ErrorBoundary>
                   </div>
@@ -99,7 +127,7 @@ useEffect(() => {
       <div className="flex flex-col gap-6">
        
       <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper 2xl:!grid-cols-2">
-        {tablesRender.map((arrChart, index) => {
+        {tablesRender.map((arrChart, index: number) => {
 
         return arrChart.slice(0, 1).map(({ Component, col }) => {
             return (
@@ -108,10 +136,7 @@ useEffect(() => {
                 <Component
                   porto={["Recife", ...tempFiltred][index]}
                   color={ColorPalette.default[index]}
-                  data={{ ...data, 
-                    atracacao: portosDataFiltered.find((obj) => obj.porto == ["Recife", ...tempFiltred][index])?.['atracacao'] || [], 
-                    carga: portosDataFiltered.find((obj) => obj.porto == ["Recife", ...tempFiltred][index])?.['cargas'] || [], 
-                  }}
+                  data={{ ...data, accumulated: portosDataFiltered?.[["Recife", ...tempFiltred][index]] || {} } }
                   year={year}
                   months={months}
                 />
@@ -123,8 +148,10 @@ useEffect(() => {
       <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper 2xl:!grid-cols-4">
           {(tablesRender.length > 1 ? rearrangeArray(tablesRender).slice(2) : tablesRender[0].slice(1)).map(({ Component }, index) => {
               // isso é para escolher qual porto ele vai pegar no tempfitred
-              const virtuaIndex = tablesRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
-      
+              const virtuaIndex: number = tablesRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
+
+              const portoKey = ["Recife", ...tempFiltred][virtuaIndex] as string
+
               return (
                 <>
                   <div className={`hidden 2xl:block ${index !== 4 && "!hidden"}`}></div>
@@ -134,11 +161,7 @@ useEffect(() => {
                       <Component
                         porto={["Recife", ...tempFiltred][virtuaIndex]}
                         color={ColorPalette.default[virtuaIndex]}
-                        data={{ 
-                          ...data, 
-                          atracacao: portosDataFiltered.find((obj) => obj.porto == ["Recife", ...tempFiltred][virtuaIndex])?.['atracacao'] || [], 
-                          carga: portosDataFiltered.find((obj) => obj.porto == ["Recife", ...tempFiltred][virtuaIndex])?.['cargas'] || [], 
-                        }}
+                        data={{ ...data, accumulated: portosDataFiltered?.[portoKey] || {} } }
                         year={year}
                       />
                     </React.Suspense>

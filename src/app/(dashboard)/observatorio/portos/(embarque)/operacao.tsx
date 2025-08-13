@@ -28,6 +28,8 @@ const Operacao = ({
   useEffect(() => {
     if (!Array.isArray(data?.atracacao)) return;
 
+    // console.log('Data Operação -> ', data);
+
     const newData = []
 
     for (let i = 0; i < data.carga?.length; i++) {
@@ -36,12 +38,14 @@ const Operacao = ({
       newData.push({ ...data?.carga[i], ...cargaData });
     }
 
+    console.log('New Data -> OEP', newData);
+
     const params = ['CDMercadoria', 'Destino', 'Origem', 'Mes', 'Ação']
 
     const dataAccumulatedField = getChartDataModel(newData, params, 'VLPesoCargaBruta')
     // const dataAccumulatedField = geralAccFieldFunction(newData, params, 'VLPesoCargaBruta')
 
-    console.log('New Data ->0<-', newData);
+    // console.log('New Data ->0<-', newData);
 
     console.log('Data Accumulated FIEDLD', dataAccumulatedField);
 
@@ -53,7 +57,7 @@ const Operacao = ({
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.slice(0, 1).map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-            <Component data={data} cards={cards.slice(1)} year={year ?? "2024"} color={ColorPalette.default} />
+            <Component data={chartData} cards={cards.slice(1)} year={year ?? "2024"} color={ColorPalette.default} />
           </React.Suspense>
         ))}
       </div>

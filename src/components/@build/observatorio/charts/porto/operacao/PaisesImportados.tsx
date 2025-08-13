@@ -31,7 +31,7 @@ const PaisesImportados = ({
 
   const arrData = getObjToArr<number>(filteredData);
 
-  const chartData = getPortoCountryNameByCode(arrData, data?.dictionaries?.origem as any, 'Origem')
+  const chartData = getPortoCountryNameByCode(arrData, (data?.dictionaries?.origem || []) as any, 'Origem')
   // const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao as PortoAtracacaoHeaders[], data.carga, 'importacao') as any, data.dictionaries.origem as any, 'Origem')
 
   return (

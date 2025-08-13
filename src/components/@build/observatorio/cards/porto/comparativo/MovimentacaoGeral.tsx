@@ -5,6 +5,7 @@ import { PortoAtracacaoHeaders } from "@/@types/observatorio/@fetch/porto";
 import { CardBuild } from "@/@types/observatorio/shared";
 import { prepareCargasPorAcaoData } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoPorAcao";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { processPortosMovimentacaoGeral } from "@/functions/process_data/observatorio/porto/comparativo/cards/processPortosMovimentacaoGeral";
 
 
 const MovimentacaoGeral = ({
@@ -15,8 +16,10 @@ const MovimentacaoGeral = ({
   color,
 }: CardBuild<PortoGeralData>) => {
 
+  const dataAccumulated = data?.['accumulated'] || {}
+  const accAcao = (dataAccumulated?.['Ação'] || {}) as { [key: string]: { [key: string]: number } }
 
-  const chartData = prepareCargasPorAcaoData(data.atracacao as PortoAtracacaoHeaders[], data.carga, true)
+  const chartData: { acao: string, totalPeso: number }[] = processPortosMovimentacaoGeral(accAcao);
 
   color = ColorPalette.default;
 

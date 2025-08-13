@@ -10,6 +10,7 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processCargasLongoCurso } from "@/functions/process_data/observatorio/porto/operacao/charts/paisesImportados";
 import { getPortoCountryNameByCode } from "@/utils/formatters/getPortoCountryNameByCode";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
 const PaisesImportados = ({
   data,
@@ -18,7 +19,21 @@ const PaisesImportados = ({
   title = "Países Importados"  + ` - ${porto}`,
 }: ChartBuild<PortoGeralData>) => {
 
-  const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao as PortoAtracacaoHeaders[], data.carga, 'importacao') as any, data.dictionaries.origem as any, 'Origem')
+  const dataAccumulated = data?.['accumulated'] || {}
+
+  const rawData = dataAccumulated?.['Origem'] || {};
+
+  const filteredData: Record<string, number> = {};
+
+  Object.entries(rawData).forEach(([key, val]) => {
+    if (typeof val === 'number') {
+      filteredData[key] = val;
+    }
+  });
+
+  const arrData = getObjToArr<number>(filteredData);
+
+  const chartData = getPortoCountryNameByCode(arrData, data?.dictionaries?.origem as any, 'Origem')
 
   return (
     <div className="chart-wrapper">
@@ -26,8 +41,8 @@ const PaisesImportados = ({
         <ScrollableBarChart
           data={chartData}
           title={title}
-          xKey="pais"
-          bars={[{ dataKey: "totalVLPesoCargaBruta", name: "Carga (Ton)" }]}
+          xKey="label"
+          bars={[{ dataKey: "value", name: "Carga (Ton)" }]}
           colors={[color]}
           heightPerCategory={50}
         />
