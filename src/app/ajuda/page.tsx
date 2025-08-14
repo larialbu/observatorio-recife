@@ -29,8 +29,8 @@ export default function HelpPage() {
             <GettingStarted />
           </div>
           <SubmitRequest />
+          <FaqSection />
       </main>
-      <FaqSection />
       <Footer />
     </>
   );
