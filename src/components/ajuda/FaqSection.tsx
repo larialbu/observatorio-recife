@@ -13,7 +13,7 @@ export const FaqSection: React.FC = () => {
   };
 
   return (
-    <section className="py-16 w-full dark:bg-[#0C1B2B] px-6">
+    <section className="py-16 w-full dark:bg-[#0C1B2B] px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-extrabold text-center text-gray-800 dark:text-white mb-10">
           Perguntas Frequentes
@@ -32,19 +32,17 @@ export const FaqSection: React.FC = () => {
                   dark:bg-gray-900
                   rounded-lg
                   shadow
-                  p-6
+                  p-4 md:p-6
                   cursor-pointer
                   transition-transform
                   hover:-translate-y-1
                 "
               >
-                {/* Cabeçalho: Pergunta + Ícone */}
                 <div className="flex justify-between items-center w-full">
-                  <span className="text-lg font-semibold text-gray-800 dark:text-white">
+                  <span className="text-base md:text-lg font-semibold text-gray-800 dark:text-white mr-4">
                     {faq.question}
                   </span>
-                  <span className="text-[#0155AE] dark:text-[#EC6625] ml-2">
-                    {/* Se isOpen for true, mostramos ícone "chevron up", caso contrário "chevron down" */}
+                  <span className="text-[#0155AE] dark:text-[#EC6625] flex-shrink-0">
                     {isOpen ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -76,8 +74,6 @@ export const FaqSection: React.FC = () => {
                     )}
                   </span>
                 </div>
-
-                {/* Resposta - com transição de altura/opacidade */}
                 <div
                   className={`
                     mt-4 text-gray-600 dark:text-gray-400
