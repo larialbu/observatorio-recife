@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
@@ -21,12 +21,17 @@ const ItbiPesquisa = ({
   toCompare?: any;
   data: any;
 }) => {
-  const [tempFiltred, setTempFiltred] = useState([]);
+  const [tempFiltred, setTempFiltred] = useState<string[]>([]);
+  const [chartData, setChartData] = useState({ tributos: [], rawData: [] });
 
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
 
   // REF do container e REF da instância do Sortable
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setChartData({ ...data, tributos: (tempFiltred.length ? data?.tributos?.filter((value: any) => tempFiltred.includes(value?.['logradouro'])) : data?.tributos) || [] });
+  }, [tempFiltred, data])
 
   return (
     <div>
@@ -52,7 +57,7 @@ const ItbiPesquisa = ({
             >
                 <Component
                   color={ColorPalette.default[index]}
-                  data={data}
+                  data={chartData}
                   year={year}
                 />
             </div>

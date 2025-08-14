@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { ArrowIcon } from "@/components/random_temp/Sidebar";
 import { getSplitedDataInBlocks } from "@/utils/filters/@global/getSplitedDataInBlocks";
+import { get } from "sortablejs";
 
 interface PaginatedTableProps {
   headers: string[];
@@ -20,6 +21,7 @@ interface PaginatedTableProps {
     name: string
     ordenation: number}[]
   onOrdenationChange?: any
+  getRows?: (values: any) => any;
 }
 
 const TableGeneric: React.FC<PaginatedTableProps> = ({
@@ -35,7 +37,8 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
   enablePagination = true,
   searchIndexes = [], // Índices das colunas a serem filtradas
   ordenations = [],
-  onOrdenationChange
+  onOrdenationChange,
+  getRows
 }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -94,7 +97,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
 
   useEffect(() => {
     const blocks = getSplitedDataInBlocks(rows);
-    setDataRead(blocks[0] || []);
+    setDataRead((getRows ? getRows(blocks[0]) : blocks[0]) || []);
     setBlocksCount(1);
   }, [rows]);  
 
@@ -106,7 +109,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
      if (scrollTop + clientHeight >= scrollHeight) {
         setBlocksCount((prev) => {
           if (prev < getSplitedDataInBlocks(rows).length) {
-            setDataRead(rows.slice(0, (prev + 1) * 100));
+            setDataRead(getRows ? getRows(rows.slice(0, (prev + 1) * 100)) : rows.slice(0, (prev + 1) * 100));
             return prev + 1;
           }
           return prev;

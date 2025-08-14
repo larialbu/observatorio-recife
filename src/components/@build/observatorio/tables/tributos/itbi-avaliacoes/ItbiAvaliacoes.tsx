@@ -64,6 +64,7 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
     return rows;
   };
 
+
   return (
     <div className="w-full flex flex-col flex-1">
         <TableGeneric
@@ -76,7 +77,8 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
           headers={header}
           title={''}
           maxHeight={800}
-          rows={getRows(dataSorted)}
+          rows={dataSorted}
+          getRows={getRows}
         />
     </div>
   );
