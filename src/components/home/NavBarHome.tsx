@@ -1,10 +1,9 @@
 "use client";
 
-import { icon } from "leaflet";
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
-/** Componente simples para separar itens. */
 const Separator: React.FC = () => (
   <div className="h-[18px] sm:h-[20px] mx-[3px] w-[1px] sm:mx-[7px] bg-white" />
 );
@@ -14,87 +13,37 @@ interface NavBarHomeProps {
 }
 
 export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
-  // Estados
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [currentRoute, setCurrentRoute] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Referência para fechar menu ao clicar fora
+  const currentRoute = usePathname(); 
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Classe base para itens de navegação
   const baseNavItemClass = "text-[13px] sm:text-[15px]";
 
-  // Alterna Modo Escuro/Claro
   function toggleDarkMode() {
     setIsDarkMode((prev) => !prev);
     document.documentElement.classList.toggle("dark");
   }
 
-  // Lista de itens do menu
   const navItems = [
-    {
-      text: "Início",
-      href: "/",
-      onClick: undefined,
-      className: `${baseNavItemClass} flex-shrink-0 hover:underline`,
-    },
-    {
-      text: "Explorar",
-      href: "/explorar",
-      onClick: undefined,
-      className: `${baseNavItemClass} hover:underline`,
-    },
-    {
-      text: "Boletim Econômico",
-      href: "/boletim-economico",
-      onClick: undefined,
-      className: `${baseNavItemClass} flex-shrink-0 hover:underline`,
-    },
-    {
-      text: "Fontes",
-      href: "/fontes",
-      onClick: undefined,
-      className: `${baseNavItemClass} flex-shrink-0 hover:underline`,
-    },
-    {
-      text: "Equipe",
-      href: "/equipe",
-      onClick: undefined,
-      className: `${baseNavItemClass} flex-shrink-0 hover:underline`,
-    },
-    {
-      text: "Sobre",
-      href: "/sobre",
-      onClick: undefined,
-      className: `${baseNavItemClass} flex-shrink-0 hover:underline`,
-    },
-    {
-      text: "Ajuda",
-      href: "/ajuda",
-      onClick: undefined,
-      className: `${baseNavItemClass} flex-shrink-0 hover:underline`,
-    },
+    { text: "Início", href: "/" },
+    { text: "Explorar", href: "/explorar" },
+    { text: "Fontes", href: "/fontes" },
+    { text: "Equipe", href: "/equipe" },
+    { text: "Sobre", href: "/sobre" },
+    { text: "Ajuda", href: "/ajuda" },
   ];
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setCurrentRoute(window.location.pathname);
-    }
-
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const displayedNavItems = currentRoute
-    ? navItems.filter((item) => item.href !== currentRoute)
-    : navItems;
 
   function toggleMenu() {
     setIsMenuOpen((prev) => !prev);
@@ -121,8 +70,8 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
         </Link>
 
         {currentRoute === "/" && (
-          <>
-            <Link href="/boletim-economico" className="w-fit transition-transform flex justify-center items-center hover:scale-105">
+          <div className="flex items-center gap-6">
+            <Link href="https://desenvolvimentoeconomico.recife.pe.gov.br/boletins-economicos" className="w-fit transition-transform flex justify-center items-center hover:scale-105" target="_blank">
               <img
                 src="/images/logos/boletim-economico.png"
                 alt="logo boletim economico"
@@ -137,7 +86,7 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
                 className="w-36"
               />
             </Link>
-          </>
+          </div>
         )}
       </div>
 
@@ -146,25 +95,22 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
           simple ? "" : "pt-0 sm:pt-2"
         }`}
       >
-        {displayedNavItems.map((item, index) => (
-          <React.Fragment key={item.href}>
-            {index > 0 && <li><Separator /></li>}
-            <li className={item.className}>
-              {item.onClick ? (
-                <a href={item.href} onClick={item.onClick}>
-                  {item.text}
-                </a>
-              ) : (
+        {navItems.map((item, index) => {
+          const isActive = item.href === currentRoute;
+          return (
+            <React.Fragment key={item.href}>
+              {index > 0 && <li><Separator /></li>}
+              <li className={`${baseNavItemClass} ${isActive ? 'bg-white/20 py-[2px] px-[6px] rounded-full hover:bg-white/40' : 'hover:underline'}
+        `}>
                 <Link href={item.href}>
                   {item.text}
                 </Link>
-              )}
-            </li>
-          </React.Fragment>
-        ))}
+              </li>
+            </React.Fragment>
+          );
+        })}
 
         <Separator />
-        {/* Dark Mode Button */}
         <li>
           <div
             onClick={toggleDarkMode}
@@ -202,7 +148,6 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
         </li>
       </ul>
 
-      {/* Menu Mobile */}
       <div className="sm:hidden flex items-center justify-end">
         <button
           onClick={toggleMenu}
@@ -220,21 +165,22 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
         </button>
       </div>
 
-      {/* Dropdown Mobile */}
       {isMenuOpen && (
         <div
           ref={menuRef}
           className="absolute top-14 right-0 bg-[#27384b] dark:bg-[#1E293B] text-white rounded-lg shadow-lg p-4 z-20"
         >
           <ul className="flex flex-col space-y-2">
-            {displayedNavItems.map((item) => (
-              <li key={item.href} className="hover:underline">
-                <Link href={item.href}>{item.text}</Link>
-                <hr className="opacity-30 mt-2 border-black" />
-              </li>
-            ))}
+            {navItems.map((item) => {
+              const isActive = item.href === currentRoute;
+              return (
+                 <li key={item.href} className={`${isActive ? 'font-bold underline' : ''} hover:underline`}>
+                    <Link href={item.href}>{item.text}</Link>
+                    <hr className="opacity-30 mt-2 border-black" />
+                  </li>
+              )
+            })}
 
-            {/* Exemplo de item extra no menu mobile */}
             <li>
             <div
                 onClick={toggleDarkMode}
