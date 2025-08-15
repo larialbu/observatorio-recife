@@ -45,24 +45,28 @@ export class TributosDataService {
   // tab4 tab5 tab6 
   private async fetchIPTU(filters: any) {
     const tributosData = new TributosData(this.currentYear);
+    const pastYear = `${+this.currentYear - 1}`;
 
-    const fetchData = await tributosData.fetchProcessedIPTU() 
+    // const fetchData = await tributosData.fetchProcessedIPTU() 
+    const [fetchData, fetchPastData] = await Promise.all([tributosData.fetchProcessedIPTU(), new TributosData(pastYear).fetchProcessedIPTU().catch(() => [])])  
 
     const filteredData = applyGenericFilters(fetchData, filters);
+    const filteredPastData = applyGenericFilters(fetchPastData, filters);
+    console.log("fetchData", fetchData);  
+    console.log("fetchPASTData", fetchPastData);
 
     return {
       tributos: filteredData,
-      rawData: fetchData,
+      past: filteredPastData,
+      // rawData: fetchData,
       id: "tributos-iptu",
     };
   }
 
   public async fetchDataForTab(tab: string, filters: Record<string, any>): Promise<any> {
-    console.log('Tab ->', tab, tab === 'geral', filters)
     const cacheKey = this.getCacheKey(tab, filters);
 
     if (this.dataCache[cacheKey]) {
-      console.log('dataCache -> ', this.dataCache)
       return this.dataCache[cacheKey];
     }
 

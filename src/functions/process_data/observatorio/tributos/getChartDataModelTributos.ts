@@ -15,15 +15,15 @@ export const getChartDataModelTributos = (data: any, id: string) => {
 
       'tributos-itbi': () => {
         return {
-          tributos: data.tributos?.filteredData || [],
-          rawData: data.rawData || [],
+          tributos: data?.tributos?.filteredData || [],
+          rawData: data?.rawData || [],
         } 
       },
       
       'tributos-iptu': () => {
         return {
-          tributos: data.tributos?.filteredData || [],
-          rawData: data.rawData || [],
+          tributos: data?.tributos?.filteredData || [],
+          past: data?.past?.filteredData || [],
         } 
       },
 

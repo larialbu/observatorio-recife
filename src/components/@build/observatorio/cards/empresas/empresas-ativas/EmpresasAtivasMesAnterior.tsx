@@ -31,7 +31,6 @@ const EmpresasAtivasMesAnterior = ({
         color={color}
       />}
     </>
-    
   )
 }
 
