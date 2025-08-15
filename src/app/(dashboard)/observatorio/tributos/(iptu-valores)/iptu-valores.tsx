@@ -19,27 +19,24 @@ const IptuValores = ({
   year: string;
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
-  const [chartData, setChartData] = useState({ tributos: [], rawData: [] })
+  const [chartData, setChartData] = useState({ tributos: [], past: [] })
 
   const sortableContainerRef = useRef<HTMLDivElement>(null);
    
   const params = ['bairro', 'tipo de uso do imóvel', 'zona']
  
-  // valor total do imóvel estimado - não
-// valor cobrado de IPTU
-
   useEffect(() => {
 
     const chartData = { 
       tributos: geralAccFieldFunction(data['tributos'], params, 'valor cobrado de IPTU'), 
-      rawData: geralAccFieldFunction(data['rawData'], params, 'valor cobrado de IPTU') 
+      past: geralAccFieldFunction(data['past'], params, 'valor cobrado de IPTU') 
     }  
     setChartData(chartData)
   }, [data])
   
   return (
     <div>
-      {/* <div className="flex flex-wrap gap-4 justify-center mb-8">
+      <div className="flex flex-wrap gap-4 justify-center mb-8">
         {cards.map(({ Component }, index) => (
           <React.Suspense fallback={<div>Carregando...</div>} key={index}>
             <ErrorBoundary>
@@ -51,7 +48,7 @@ const IptuValores = ({
             </ErrorBoundary>
           </React.Suspense>
         ))}
-      </div> */}
+      </div>
 
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {

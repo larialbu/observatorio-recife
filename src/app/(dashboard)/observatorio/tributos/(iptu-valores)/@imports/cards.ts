@@ -5,7 +5,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          '@/components/@build/observatorio/cards/tributos/itbi-contribuintes/ItbiMesRecente'
+          '@/components/@build/observatorio/cards/tributos/iptu-valores/IptuContribuintes'
         ),
     ),
   },
@@ -13,7 +13,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          '@/components/@build/observatorio/cards/tributos/itbi-contribuintes/ItbiMesAnterior'
+          '@/components/@build/observatorio/cards/tributos/iptu-valores/IptuContribuintesAnoAnterior'
         ),
     ),
   },
@@ -21,7 +21,7 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          '@/components/@build/observatorio/cards/tributos/itbi-contribuintes/ItbiVariacaoInativasRecente'
+          '@/components/@build/observatorio/cards/tributos/iptu-valores/IptuContribuintesComparacao'
         ),
     ),
   },
