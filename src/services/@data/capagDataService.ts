@@ -30,11 +30,15 @@ export class CapagDataService {
 
     const fetchData = await capagData.fetchProcessedData() 
 
+    const fetchDataCurrentYear = fetchData.filter(item => item.ano === Number(this.currentYear));
+
     const filteredData = applyGenericFilters(fetchData, filters);
+
+    const filteredDataCurrentYear = applyGenericFilters(fetchDataCurrentYear, filters);
 
     return {
       capag: filteredData,
-      rawData: fetchData,
+      current: filteredDataCurrentYear,
       id: "capag-geral",
     };
   }

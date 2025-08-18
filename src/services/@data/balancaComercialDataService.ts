@@ -32,10 +32,13 @@ export class BalancaDataService {
 
     const raw = await balancaService.fetchProcessedData();
 
+    console.log('Raw Data =>', raw);
+
     const filtered = applyGenericFilters(raw, filters);
 
-
-    console.log('FEtchedBal', filtered)
+    console.log('Filters =>', this.currentYear, filters) 
+    
+    console.log('FilTerd', filtered) 
 
     return {
       geral: filtered,

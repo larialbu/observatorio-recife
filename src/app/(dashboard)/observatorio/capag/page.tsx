@@ -9,14 +9,15 @@ import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
 
 import { getChartDataModelTributos } from "@/functions/process_data/observatorio/tributos/getChartDataModelTributos";
-import ItbiContribuintes from "./(itbi-contribuintes)/itbi-contribuintes";
-import ItbiAvaliacoes from "./(itbi-avaliacoes)/itbi-avaliacoes";
-import ItbiPesquisa from "./(itbi-pesquisa)/itbi-pesquisa";
-import IptuContribuintes from "./(iptu-contribuintes)/iptu-contribuintes";
-import IptuValores from "./(iptu-valores)/iptu-valores";
-import IptuPesquisa from "./(iptu-pesquisa)/iptu-pesquisa";
+import CapagGeral from "./(geral)/geral";
+// import ItbiContribuintes from "./(itbi-contribuintes)/itbi-contribuintes";
+// import ItbiAvaliacoes from "./(itbi-avaliacoes)/itbi-avaliacoes";
+// import ItbiPesquisa from "./(itbi-pesquisa)/itbi-pesquisa";
+// import IptuContribuintes from "./(iptu-contribuintes)/iptu-contribuintes";
+// import IptuValores from "./(iptu-valores)/iptu-valores";
+// import IptuPesquisa from "./(iptu-pesquisa)/iptu-pesquisa";
 
-const EmpresasPage = () => {
+const CapagPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
   const [dataArr, setDataArr] = useState<any>({});
   const [activeTab, setActiveTab] = useState("geral");
@@ -70,40 +71,40 @@ const EmpresasPage = () => {
     if (!data || !(dataArr?.tributos?.length || dataArr?.empresas?.length) ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
-
+// CapagGeral
     switch (activeTab) {
       case "geral":
-        return <ItbiContribuintes
+        return <CapagGeral
         data={dataArr} 
         year={getYearSelected(filters)} 
         />  
-      case "itbi-avaliacoes":
-        return <ItbiAvaliacoes
-        data={dataArr} 
-        year={getYearSelected(filters)} 
-        /> 
-      case "itbi-pesquisa":
-        return <ItbiPesquisa
-        data={dataArr} 
-        year={getYearSelected(filters)} 
-        /> 
-      case "iptu-contribuintes":
-        return <IptuContribuintes
-        data={dataArr} 
-        year={getYearSelected(filters)} 
-        /> 
-      case "iptu-valores":
-        return <IptuValores
-        data={dataArr} 
-        year={getYearSelected(filters)} 
-        /> 
-      case "iptu-pesquisa":
-        return <IptuPesquisa
-        data={dataArr} 
-        year={getYearSelected(filters)} 
-        /> 
+    //   case "itbi-avaliacoes":
+    //     return <ItbiAvaliacoes
+    //     data={dataArr} 
+    //     year={getYearSelected(filters)} 
+    //     /> 
+    //   case "itbi-pesquisa":
+    //     return <ItbiPesquisa
+    //     data={dataArr} 
+    //     year={getYearSelected(filters)} 
+    //     /> 
+    //   case "iptu-contribuintes":
+    //     return <IptuContribuintes
+    //     data={dataArr} 
+    //     year={getYearSelected(filters)} 
+    //     /> 
+    //   case "iptu-valores":
+    //     return <IptuValores
+    //     data={dataArr} 
+    //     year={getYearSelected(filters)} 
+    //     /> 
+    //   case "iptu-pesquisa":
+    //     return <IptuPesquisa
+    //     data={dataArr} 
+    //     year={getYearSelected(filters)} 
+    //     /> 
       default:
-        return <ItbiContribuintes 
+        return <CapagGeral 
         data={dataArr} 
         year={getYearSelected(filters)} 
         />
@@ -133,7 +134,7 @@ const EmpresasPage = () => {
         >
           ITBI Contribuintes
         </button>
-        <button
+        {/* <button
           onClick={() => handleNavigation("itbi-avaliacoes")}
           className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
             activeTab === "itbi-avaliacoes"
@@ -183,11 +184,11 @@ const EmpresasPage = () => {
           }`}
         >
           IPTU Pesquisa
-        </button>
+        </button> */}
       </div>
       {renderContent()}
     </div>
   );
 };
 
-export default EmpresasPage;
+export default CapagPage;
