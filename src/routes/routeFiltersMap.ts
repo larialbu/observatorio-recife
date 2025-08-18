@@ -41,6 +41,7 @@ import { empresasAbertasFechadasFilters } from "@/utils/filters/empresas/empresa
 import { empresasTempoAberturaFilters } from "@/utils/filters/empresas/empresasTempoAberturaFilters";
 import { tributosGeralItbiFilters } from "@/utils/filters/tributos/tributosGeralItbiFilters";
 import { tributosGeralIptuFilters } from "@/utils/filters/tributos/tributosGeralIptuFilters";
+import { capagGeralFilters } from "@/utils/filters/capag/capagGeralFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 type TabFiltersMap = Record<string, Filters>;
@@ -138,6 +139,10 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     "iptu-valores": tributosGeralIptuFilters,
     "iptu-pesquisa": tributosGeralIptuFilters,
   },
+
+  "/observatorio/capag": {
+    geral: capagGeralFilters,
+  },  
 
   // E assim por diante pra outras rotas...
 };

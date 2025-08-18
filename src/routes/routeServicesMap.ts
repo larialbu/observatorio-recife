@@ -1,6 +1,7 @@
 import { Service } from "@/@types/observatorio/shared";
 import { aeroportoDataService } from "@/services/@data/aeroportoDataService";
 import { balancaDataService } from "@/services/@data/balancaComercialDataService";
+import { capagDataService } from "@/services/@data/capagDataService";
 import { empregosDataService } from "@/services/@data/empregosDataService";
 import { empresasDataService } from "@/services/@data/empresasDataService";
 import { ipcaDataService } from "@/services/@data/ipcaDataService";
@@ -108,5 +109,9 @@ export const routeServicesMap: Record<
     "iptu-pesquisa": tributosDataService,
   },
   
+  "/observatorio/capag": {
+    geral: capagDataService
+  },
+
   // E assim por diante ...
 };

@@ -52,8 +52,6 @@ export class TributosDataService {
 
     const filteredData = applyGenericFilters(fetchData, filters);
     const filteredPastData = applyGenericFilters(fetchPastData, filters);
-    console.log("fetchData", fetchData);  
-    console.log("fetchPASTData", fetchPastData);
 
     return {
       tributos: filteredData,

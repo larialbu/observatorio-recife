@@ -19,26 +19,6 @@ export const tributosGeralIptuFilters = {
         name: 'Zona',
         options: [],  
         selected: [],
-      },
-      // {
-      //   label: "mes",  
-      //   options: [],  
-      //   selected: [],
-      // },
-    //   {
-    //     label: "bairro",  
-    //     options: [],  
-    //     selected: [],
-    //   },
-    //   {
-    //     label: "tipo_imovel",  
-    //     options: [],  
-    //     selected: [],
-    //   },
-    //   {
-    //     label: "tipo_ocupacao",  
-    //     options: [],  
-    //     selected: [],
-    //   },
+      }, 
     ],
   };
