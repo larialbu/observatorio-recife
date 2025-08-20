@@ -13,10 +13,10 @@ export const getChartDataModelTributos = (data: any, id: string) => {
     //     } 
     //   },
 
-      'tributos-itbi': () => {
+      'capag-geral': () => {
         return {
-          tributos: data?.tributos?.filteredData || [],
-          rawData: data?.rawData || [],
+          capag: data?.capag?.filteredData || [],
+          current: data?.current?.filteredData || [],
         } 
       },
       

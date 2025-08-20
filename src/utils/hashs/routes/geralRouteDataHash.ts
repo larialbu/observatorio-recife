@@ -1,5 +1,6 @@
 import { aeroportosRouteDataHash } from "./aeroportosRouteDataHash";
 import { balancaComercialRouteDataHash } from "./balancaComercialRouteDataHash";
+import { capagRouteDataHash } from "./capagRouteDataHash";
 import { empregosRouteDataHash } from "./empregosRouteDataHash";
 import { empresasRouteDataHash } from "./empresasRouteDataHash";
 import { ipcaRouteDataHash } from "./ipcaRouteDataHash";
@@ -21,5 +22,6 @@ export const geralRouteDataHash = {
     ...empregosRouteDataHash,
     ...raisRouteDataHash,
     ...microCagedRouteDataHash,
-    ...tributosRouteDataHash
+    ...tributosRouteDataHash,
+    ...capagRouteDataHash
 }  

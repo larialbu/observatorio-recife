@@ -39,15 +39,16 @@ const CapagPage = () => {
   useEffect(() => {
   const intervalId = setInterval(() => {
     if (!data?.id) return;
+    const idCapag = ["capag-geral"]
     const idITBI = ["tributos-itbi"] 
     const idIPTU = ["tributos-iptu"] 
 
     const handler = getChartDataModelTributos(data, data.id);
 
     if (handler) {
-      if (idITBI.includes(data.id)) {
+      if (idCapag.includes(data.id)) {
         setDataArr(handler())
-      } else if (idIPTU.includes(data.id)) {
+      } else if (idCapag.includes(data.id)) {
         setDataArr(handler())
       }  
       
@@ -56,7 +57,7 @@ const CapagPage = () => {
     } else {
       // Resetar os estados para o padrão se não encontrar ID
       // mudar isso, tem q tuer o past tb 
-      setDataArr({ tributos: [], rawData: [] });
+      setDataArr({ capag: [], current: [] });
     }
 
   }, 50);
@@ -68,7 +69,7 @@ const CapagPage = () => {
 
     
   const renderContent = () => {
-    if (!data || !(dataArr?.tributos?.length || dataArr?.empresas?.length) ) {
+    if (!data || !(dataArr?.capag?.length || dataArr?.empresas?.length) ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 // CapagGeral

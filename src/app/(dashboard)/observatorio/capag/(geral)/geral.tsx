@@ -9,6 +9,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
+import tables from "./@imports/tables";
 import { rearrangeArray } from "@/functions/process_data/observatorio/porto/comparativo/charts/filteredPortoData";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 import { dataFormat } from "@/functions/process_data/observatorio/empresas/empresas-abertas-fechadas/empresasDataFormat";
@@ -17,22 +18,24 @@ import { dataFormat } from "@/functions/process_data/observatorio/empresas/empre
 const CapagGeral = ({
   year,
   data,
-  // toCompare = getUniqueValues<any, "Município">(
-  //   data?.['rawData']?.['ativas'] || [],
-  //   "Município"
-  // )
+  toCompare = getUniqueValues<any, "Município">(
+    data?.['current'] || [],
+    "Município"
+  )
 }: {
   year: string;
-  // toCompare?: any;
+  toCompare?: any;
   data: any;
 }) => {
   const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState([]);
   const [selectCompare, setSelectCompare] = useState('')
-  const [tablesRender, setTablesRender] = useState([charts]);
+  const [tablesRender, setTablesRender] = useState([tables]);
+  // const [tablesRender, setTablesRender] = useState([charts]);
   const [animationClass, setAnimationClass] = useState("card-enter");
 
-  const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
+  const [chartOrder, setChartOrder] = useState(tables.map((_, index) => index));
+  // const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
 
   const [chartData, setChartData] = useState<any>({})
 
@@ -40,28 +43,30 @@ const CapagGeral = ({
 
   const params = ['Natureza Jurídica', 'mes', 'Porte', 'Município']
 
-  // useEffect(() => {
-  //   const dataMuni = {
-  //     empresas: {
-  //       ativas: dataFormat(data?.['empresas']?.['ativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction),
-  //       inativas: dataFormat(data?.['empresas']?.['inativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction)
-  //     },
-  //     rawData: {
-  //       ativas: dataFormat(data?.['rawData']?.['ativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction),
-  //       inativas: dataFormat(data?.['rawData']?.['inativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction)
-  //     }
-  //   }
+  useEffect(() => {
+    // const dataMuni = {
+    //   empresas: {
+    //     ativas: dataFormat(data?.['empresas']?.['ativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction),
+    //     inativas: dataFormat(data?.['empresas']?.['inativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction)
+    //   },
+    //   rawData: {
+    //     ativas: dataFormat(data?.['rawData']?.['ativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction),
+    //     inativas: dataFormat(data?.['rawData']?.['inativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction)
+    //   }
+    // }
 
-  //   setChartData(dataMuni)
-  // }, [data])
+    // setChartData(dataMuni)
+    setChartData(data)
+  }, [data])
 
 
-  // useEffect(() => {
-  //   const getNewTables = tempFiltred.map(() => charts) 
+  useEffect(() => {
+    const getNewTables = tempFiltred.map(() => tables) 
+    // const getNewTables = tempFiltred.map(() => charts) 
 
-  //   setTablesRender([...getNewTables])
+    setTablesRender([...getNewTables])
 
-  // }, [tempFiltred]);
+  }, [tempFiltred]);
 
   // const tempFiltredCard = tempFiltred.filter((municipio) => municipio !== selectCompare)
 
@@ -84,8 +89,7 @@ const CapagGeral = ({
 
   return (
     <div>
-      <p>CApag Geral </p>
-      {/* <SelectPrincipal
+      <SelectPrincipal
         options={toCompare}
         initialValue={['Recife - PE']}
         selectMax={2}
@@ -95,9 +99,9 @@ const CapagGeral = ({
         label="Compare Municípios"
         placeholder="Digite para buscar um município"
         notFoundMessage="Nenhum município encontrado"
-      /> */}
+      />
 
-      {/* <div className="mb-2">
+      <div className="mb-2">
         <SelectCompare
           options={toCompare}
           initialValue={'Recife - PE'}
@@ -105,7 +109,7 @@ const CapagGeral = ({
           setFilters={setSelectCompare}
           label="Cards comparando com:"
         />
-      </div> */}
+      </div>
 
       {/* <div className="flex justify-between items-center gap-2">
         {tempFiltredCard.length >= 1 ? (
@@ -190,32 +194,30 @@ const CapagGeral = ({
       </div> */}
 
       <div className="flex flex-col gap-6">
-{/* 
+
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-2">
         {tablesRender.map((arrChart, index) => {
 
         return arrChart.slice(0, 1).map(({ Component, col }) => {
             const virtuaIndex = tablesRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
 
-            const chartDataEmpresas = chartData?.['rawData'] 
+            const chartDataEmpresas = chartData?.['current'] || []
 
-            const chartDataPass = {
-              ativas: chartDataEmpresas?.['ativas']?.[[...tempFiltred][virtuaIndex]],
-              inativas: chartDataEmpresas?.['inativas']?.[[...tempFiltred][virtuaIndex]],
-            }
+            const dataToPass = [chartDataEmpresas?.find((data: any) => data['Município'] === [...tempFiltred][virtuaIndex])] 
 
             return (
-              <div key={index} className={`chart-content-wrapper ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`}>
+              <div key={index} className={`chart-content-wrapper !p-0 ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`}>
+              {/* <p>table asd</p> */}
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
-                  municipio={[...tempFiltred][virtuaIndex]}
-                  data={chartDataPass}
+                  // municipio={[...tempFiltred][virtuaIndex]}
+                  data={dataToPass}
                   year={year}
                 />
               </React.Suspense>
             </div>
           )})})}
-      </SortableDiv>  */}
+      </SortableDiv> 
 
       {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-4">
           {(tablesRender.length > 1 ? (rearrangeArray(tablesRender)?.slice(2) || []) : (tablesRender[0]?.slice(1) || [])).map(({ Component }, index) => {
