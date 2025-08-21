@@ -15,19 +15,15 @@ export const Banner: React.FC<BannerProps> = ({ onSearch }) => {
     onSearch(event.target.value);
   };
 
-  // Variants do "pai" (SVG) - define como os filhos (paths) se animam no hover
   const parentVariants = {
     normal: {},
     hover: {
       transition: {
-        // path a path com 0.2s de diferença
         staggerChildren: 0.2,
       },
     },
   };
 
-  // Variants de cada <path>
-  // Ao passar o mouse, faz um keyframe [1 -> 0 -> 1] (some e volte)
   const pathVariants = {
     normal: { opacity: 1 },
     hover: {
@@ -41,9 +37,7 @@ export const Banner: React.FC<BannerProps> = ({ onSearch }) => {
 
   return (
     <div className="relative">
-      {/* Gradiente de fundo */}
       <div className="absolute bottom-0 w-full h-[50px] bg-gradient-to-b from-transparent to-white transition-opacity duration-[20ms] ease-out dark:opacity-0 dark:duration-[460ms]" />
-      {/* Gradiente escuro */}
       <div className="absolute bottom-0 w-full h-[50px] bg-gradient-to-b from-transparent to-[#0C1B2B] transition-opacity duration-[300ms] ease-out opacity-0 dark:opacity-100 dark:duration-[590ms]" />
 
       <section className="bg-[url('/images/backgrounds/home_background.avif')] w-full bg-center bg-cover">
@@ -64,7 +58,6 @@ export const Banner: React.FC<BannerProps> = ({ onSearch }) => {
                   viewBox="0 0 48 48"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  // Estados
                   variants={parentVariants}
                   initial="normal"
                   whileHover="hover"

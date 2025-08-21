@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { iconsExplore } from "./ExploreIconsObservatorio";
+import { iconsExplore } from "@/utils/home/ExploreIconsObservatorio";
 import { ExploreItem } from "./ExploreItem"
 
 

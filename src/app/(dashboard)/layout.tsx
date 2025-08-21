@@ -1,6 +1,6 @@
 "use client";
-import { usePathname } from "next/navigation";
 import { Suspense } from "react";
+import { usePathname } from "next/navigation";
 
 import { DrawingStoreProvider } from "@/components/@global/excalidraw/context/drawingStoreContext";
 import { ExcalidrawProvider } from "@/components/@global/excalidraw/context/useContext";
@@ -12,6 +12,7 @@ import Navbar from "@/components/random_temp/Navbar";
 import { Sidebar } from "@/components/random_temp/Sidebar";
 import { DashboardProvider } from "@/context/DashboardContext";
 import "@excalidraw/excalidraw/index.css";
+import { getBackgroundForRoute } from "@/utils/dashboard/getBackgroundForRoute";
 
 export default function DashboardLayout({
   children,
@@ -19,35 +20,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-
-  // Define backgrounds para cada rota específica
-const getBackgroundForRoute = () => {
-  switch (pathname) {
-    case "/observatorio/balanca-comercial":
-      return "bg-[url('/images/backgrounds/dashboard/light/bal_comercial.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/bal_comercial.avif')]";
-    case "/observatorio/aeroportos":
-      return "bg-[url('/images/backgrounds/dashboard/light/aeroportos.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/aeroportos.avif')]";
-    case "/observatorio/ipca":
-      return "bg-[url('/images/backgrounds/dashboard/light/ipca.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/ipca.avif')]";
-    case "/observatorio/ranking-municipios":
-      return "bg-[url('/images/backgrounds/dashboard/light/ranking.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/ranking.avif')]";
-    case "/observatorio/portos":
-      return "bg-[url('/images/backgrounds/dashboard/light/portos.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/portos.avif')]";
-    case "/observatorio/pib":
-      return "bg-[url('/images/backgrounds/dashboard/light/pib.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/pib.avif')]";
-    case "/observatorio/empregos":
-    case "/observatorio/rais":
-      return "bg-[url('/images/backgrounds/dashboard/light/empregos.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/empregos.avif')]";
-    case "/observatorio/micro-caged":
-      return "bg-[url('/images/backgrounds/dashboard/light/caged.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/caged.avif')]";         
-    case "/observatorio/empresas":
-      return "bg-[url('/images/backgrounds/dashboard/light/empresas.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/empresas.avif')]";
-    case "/observatorio/tributos":
-      return "bg-[url('/images/backgrounds/dashboard/light/tributos.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/tributos.avif')]";
-    default:
-      return "bg-[#F7F8FA] dark:bg-[#0C1B2B]";
-  }
-};
+  const backgroundClass = getBackgroundForRoute(pathname);
 
   return (
     <Suspense fallback={< LoadingScreen />}>
@@ -55,7 +28,7 @@ const getBackgroundForRoute = () => {
         <div className="h-screen flex overflow-hidden">
           <Sidebar />
           <div
-            className={`flex-1 ${getBackgroundForRoute()} bg-cover overflow-scroll flex flex-col pb-[1em]`}
+            className={`flex-1 ${backgroundClass} bg-cover overflow-scroll flex flex-col pb-[1em]`}
           >
             <Navbar />
             <ToggleDarkMode />

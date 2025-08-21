@@ -31,7 +31,6 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, collaborator }) =
           ${isOpen ? "translate-y-0" : "translate-y-8"}
         `}
       >
-        {/* Botão de Fechar */}
         <button
           onClick={onClose}
           className="
@@ -55,10 +54,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, collaborator }) =
             />
           </svg>
         </button>
-
-        {/* Conteúdo do Modal */}
         <div className="flex flex-col items-center justify-center space-y-4 mt-2">
-          {/* Logo */}
           {collaborator.imageUrl && (
             <img
               src={collaborator.imageUrl}
@@ -66,18 +62,12 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, collaborator }) =
               className="w-32 h-auto object-contain mb-2 pointer-events-none dark:invert dark:grayscale dark:brightness-0 duration-0 dark:duration-0"
             />
           )}
-
-          {/* Nome */}
           <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">
             {collaborator.name}
           </h3>
-
-          {/* Descrição */}
           <p className="text-gray-700 dark:text-gray-300 text-center leading-relaxed">
             {collaborator.description}
           </p>
-
-          {/* Link */}
           <Link
             href={collaborator.href}
             className="px-4 py-3 bg-[#3381d4] rounded-lg text-white font-semibold dark:bg-[#EC6625]"

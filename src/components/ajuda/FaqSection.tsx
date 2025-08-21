@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { faqs } from "./Faqs";
+import { faqs } from "@/utils/help/Faqs";
 
 export const FaqSection: React.FC = () => {
   const [openFaqs, setOpenFaqs] = useState<boolean[]>(

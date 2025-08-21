@@ -5,7 +5,7 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
-import { programsData } from './ProgramsData';
+import { programsData } from '@/utils/about/ProgramsData';
 
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
