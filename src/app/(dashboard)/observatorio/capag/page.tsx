@@ -41,8 +41,6 @@ const CapagPage = () => {
   const intervalId = setInterval(() => {
     if (!data?.id) return;
     const idCapag = ["capag-geral"]
-    const idITBI = ["tributos-itbi"] 
-    const idIPTU = ["tributos-iptu"] 
 
     const handler = getChartDataModelCapag(data, data.id);
 

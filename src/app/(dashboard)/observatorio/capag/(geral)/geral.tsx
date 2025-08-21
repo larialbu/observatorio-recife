@@ -28,7 +28,7 @@ const CapagGeral = ({
   data: any;
 }) => {
   const [pageCompare, setPageCompare] = useState(0);
-  const [tempFiltred, setTempFiltred] = useState([]);
+  const [tempFiltred, setTempFiltred] = useState<string[]>([]);
   const [selectCompare, setSelectCompare] = useState('')
   const [tablesRender, setTablesRender] = useState([tables]);
   const [chartsRender, setChartsRender] = useState([...charts]);
@@ -44,28 +44,14 @@ const CapagGeral = ({
   const params = ['Natureza Jurídica', 'mes', 'Porte', 'Município']
 
   useEffect(() => {
-    // const dataMuni = {
-    //   empresas: {
-    //     ativas: dataFormat(data?.['empresas']?.['ativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction),
-    //     inativas: dataFormat(data?.['empresas']?.['inativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction)
-    //   },
-    //   rawData: {
-    //     ativas: dataFormat(data?.['rawData']?.['ativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction),
-    //     inativas: dataFormat(data?.['rawData']?.['inativas'] || [], toCompare, params, 'Quantidade de Empresas', geralAccFieldFunction)
-    //   }
-    // }
-
-    // setChartData(dataMuni)
     setChartData(data)
   }, [data])
 
 
   useEffect(() => {
     const getNewTables = tempFiltred.map(() => tables) 
-    // const getNewCharts = tempFiltred.map(() => charts) 
 
     setTablesRender([...getNewTables])
-    // setChartsRender([...getNewCharts])
 
   }, [tempFiltred]);
 
@@ -226,24 +212,18 @@ const CapagGeral = ({
               const chartDataCapag = chartData?.['capag'] || []
 
               const dataToPass = chartDataCapag.filter((data: any) => tempFiltred.includes(data['Município']))
-              // const chartDataPass = {
-              //   ativas: chartDataEmpresas?.['ativas']?.[[...tempFiltred][virtuaIndex]],
-              //   inativas: chartDataEmpresas?.['inativas']?.[[...tempFiltred][virtuaIndex]],
-              // }
 
               return (
                 <>
                   <div className={`hidden 2xl:block ${index !== 4 && "!hidden"}`}></div>
                   <div key={index} className={`chart-content-wrapper`}>
-                    {/* <p>carregfar</p> */}
-                    {/* <React.Suspense fallback={<div>Carregando...</div>}>
+                    <React.Suspense fallback={<div>Carregando...</div>}>
                       <ErrorBoundary>
                         <Component 
                           color={ColorPalette.default[virtuaIndex]} 
-                          municipio={[...tempFiltred][virtuaIndex]} 
                           data={dataToPass} />
                       </ErrorBoundary>                      
-                    </React.Suspense> */}
+                    </React.Suspense>
                   </div>              
                 </>        
             )})}

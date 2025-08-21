@@ -29,8 +29,8 @@ const EmpresasAtivasRecife = ({
   const sortableContainerTableRef = useRef<HTMLDivElement>(null);
  
   useEffect(() => {
-    const tributosSort = data['tributos'].sort((a: any, b: any) => a['valor_avaliacao'] - b['valor_avaliacao'])
-    const rawDataSort = data['rawData'].sort((a: any, b: any) => a['valor_avaliacao'] - b['valor_avaliacao'])
+    const tributosSort = data?.['tributos']?.sort((a: any, b: any) => a?.['valor_avaliacao'] - b?.['valor_avaliacao']) || []
+    const rawDataSort = data?.['rawData']?.sort((a: any, b: any) => a?.['valor_avaliacao'] - b?.['valor_avaliacao']) || []
     setChartData({ tributos: getMultiplesGroupValues(tributosSort, ['mes', 'bairro']), rawData: getMultiplesGroupValues(rawDataSort, ['mes', 'bairro']) })
   }, [data])
   
