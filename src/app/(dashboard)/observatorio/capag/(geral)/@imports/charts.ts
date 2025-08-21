@@ -4,22 +4,21 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/empresas/empresas-abertas-fechadas/EmpresasMesAtivasInativas"
-      )
-    ),
-    col: 'full'
-  },
-  {
-    Component: React.lazy(() =>
-      import(
-        "@/components/@build/observatorio/charts/empresas/empresas-abertas-fechadas/EmpresasNaturezaAtivasInativas"
+        "@/components/@build/observatorio/charts/capag/geral/CapagEndividamentoNotas"
       )
     ),
   },
   {
     Component: React.lazy(() =>
       import(
-        "@/components/@build/observatorio/charts/empresas/empresas-abertas-fechadas/EmpresasPorteAtivasInativas"
+        "@/components/@build/observatorio/charts/capag/geral/CapagLiquidezNotas"
+      )
+    ),
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/capag/geral/CapagPoupancaCorrenteNotas"
       )
     ),
   },
