@@ -67,8 +67,7 @@ const SobreNos: React.FC = () => {
             Sobre Nós
           </h1>
           <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
-            Descubra mais sobre o Observatório Econômico do Recife e nossa missão
-            de inovação.
+            Descubra mais sobre a Secretaria de Desenvolvimento Econômico do Recife e nossa missão de inovação.
           </p>
         </div>
         <AboutSdeSection />
