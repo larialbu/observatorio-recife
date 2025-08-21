@@ -31,11 +31,11 @@ const CapagGeral = ({
   const [tempFiltred, setTempFiltred] = useState([]);
   const [selectCompare, setSelectCompare] = useState('')
   const [tablesRender, setTablesRender] = useState([tables]);
-  // const [tablesRender, setTablesRender] = useState([charts]);
+  const [chartsRender, setChartsRender] = useState([...charts]);
   const [animationClass, setAnimationClass] = useState("card-enter");
 
-  const [chartOrder, setChartOrder] = useState(tables.map((_, index) => index));
-  // const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
+  const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
+  const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
 
   const [chartData, setChartData] = useState<any>({})
 
@@ -62,9 +62,10 @@ const CapagGeral = ({
 
   useEffect(() => {
     const getNewTables = tempFiltred.map(() => tables) 
-    // const getNewTables = tempFiltred.map(() => charts) 
+    // const getNewCharts = tempFiltred.map(() => charts) 
 
     setTablesRender([...getNewTables])
+    // setChartsRender([...getNewCharts])
 
   }, [tempFiltred]);
 
@@ -195,7 +196,7 @@ const CapagGeral = ({
 
       <div className="flex flex-col gap-6">
 
-      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-2">
+      <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-2">
         {tablesRender.map((arrChart, index) => {
 
         return arrChart.slice(0, 1).map(({ Component, col }) => {
@@ -207,10 +208,8 @@ const CapagGeral = ({
 
             return (
               <div key={index} className={`chart-content-wrapper !p-0 ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`}>
-              {/* <p>table asd</p> */}
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
-                  // municipio={[...tempFiltred][virtuaIndex]}
                   data={dataToPass}
                   year={year}
                 />
@@ -219,34 +218,36 @@ const CapagGeral = ({
           )})})}
       </SortableDiv> 
 
-      {/* <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-4">
-          {(tablesRender.length > 1 ? (rearrangeArray(tablesRender)?.slice(2) || []) : (tablesRender[0]?.slice(1) || [])).map(({ Component }, index) => {
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-4">
+          {chartsRender.map(({ Component }, index) => {
               // isso é para escolher qual porto ele vai pegar no tempfitred
-              const virtuaIndex = tablesRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
+              const virtuaIndex = chartsRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
 
-              const chartDataEmpresas = chartData?.['empresas'] 
+              const chartDataCapag = chartData?.['capag'] || []
 
-              const chartDataPass = {
-                ativas: chartDataEmpresas?.['ativas']?.[[...tempFiltred][virtuaIndex]],
-                inativas: chartDataEmpresas?.['inativas']?.[[...tempFiltred][virtuaIndex]],
-              }
+              const dataToPass = chartDataCapag.filter((data: any) => tempFiltred.includes(data['Município']))
+              // const chartDataPass = {
+              //   ativas: chartDataEmpresas?.['ativas']?.[[...tempFiltred][virtuaIndex]],
+              //   inativas: chartDataEmpresas?.['inativas']?.[[...tempFiltred][virtuaIndex]],
+              // }
 
               return (
                 <>
                   <div className={`hidden 2xl:block ${index !== 4 && "!hidden"}`}></div>
                   <div key={index} className={`chart-content-wrapper`}>
-                    <React.Suspense fallback={<div>Carregando...</div>}>
+                    {/* <p>carregfar</p> */}
+                    {/* <React.Suspense fallback={<div>Carregando...</div>}>
                       <ErrorBoundary>
                         <Component 
                           color={ColorPalette.default[virtuaIndex]} 
                           municipio={[...tempFiltred][virtuaIndex]} 
-                          data={chartDataPass} />
+                          data={dataToPass} />
                       </ErrorBoundary>                      
-                    </React.Suspense>
+                    </React.Suspense> */}
                   </div>              
                 </>        
             )})}
-        </SortableDiv> */}
+        </SortableDiv>
       </div>
     </div>
   );

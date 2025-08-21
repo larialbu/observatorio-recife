@@ -10,6 +10,7 @@ import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
 import { getChartDataModelTributos } from "@/functions/process_data/observatorio/tributos/getChartDataModelTributos";
 import CapagGeral from "./(geral)/geral";
+import { getChartDataModelCapag } from "@/functions/process_data/observatorio/capag/getChartDataModelCapag";
 // import ItbiContribuintes from "./(itbi-contribuintes)/itbi-contribuintes";
 // import ItbiAvaliacoes from "./(itbi-avaliacoes)/itbi-avaliacoes";
 // import ItbiPesquisa from "./(itbi-pesquisa)/itbi-pesquisa";
@@ -43,7 +44,7 @@ const CapagPage = () => {
     const idITBI = ["tributos-itbi"] 
     const idIPTU = ["tributos-iptu"] 
 
-    const handler = getChartDataModelTributos(data, data.id);
+    const handler = getChartDataModelCapag(data, data.id);
 
     if (handler) {
       if (idCapag.includes(data.id)) {
