@@ -13,6 +13,15 @@ import { Sidebar } from "@/components/random_temp/Sidebar";
 import { DashboardProvider } from "@/context/DashboardContext";
 import "@excalidraw/excalidraw/index.css";
 import { getBackgroundForRoute } from "@/utils/dashboard/getBackgroundForRoute";
+import { pagesConfig } from "@/lib/pageConfig";
+import { MaintenancePage } from "@/components/observatorio/MaintenancePage";
+
+function getPageStatus(pathname: string): boolean {
+  const cleanPathname = pathname.split('?')[0]; 
+  const pages = pagesConfig.observatorio;
+  const pageKey = Object.keys(pages).find(key => pages[key].path === cleanPathname);
+  return pageKey ? pages[pageKey].status : true;
+}
 
 export default function DashboardLayout({
   children,
@@ -21,6 +30,26 @@ export default function DashboardLayout({
 }>) {
   const pathname = usePathname();
   const backgroundClass = getBackgroundForRoute(pathname);
+
+  const isPageActive = getPageStatus(pathname);
+
+  if (!isPageActive) {
+    return (
+        <div className="h-screen flex overflow-hidden">
+          <Sidebar />
+          <div
+            className={`flex-1 ${backgroundClass} bg-cover overflow-scroll flex flex-col`}
+          >
+            <ToggleDarkMode />
+            <DrawingStoreProvider>
+              <ExcalidrawProvider>
+                <MaintenancePage />
+              </ExcalidrawProvider>
+            </DrawingStoreProvider>
+          </div>
+        </div>
+    );
+  }
 
   return (
     <Suspense fallback={< LoadingScreen />}>
