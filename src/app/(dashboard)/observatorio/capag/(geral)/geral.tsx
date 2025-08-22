@@ -3,16 +3,13 @@ import React, { useState, useEffect, useRef } from "react";
 import SelectCompare from "@/components/@global/features/SelectCompare";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
-import { geralAccFieldFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
 import { getUniqueValues } from "@/utils/filters/@global/getUniqueValues";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
-import { rearrangeArray } from "@/functions/process_data/observatorio/porto/comparativo/charts/filteredPortoData";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
-import { dataFormat } from "@/functions/process_data/observatorio/empresas/empresas-abertas-fechadas/empresasDataFormat";
 
 
 const CapagGeral = ({
@@ -27,13 +24,10 @@ const CapagGeral = ({
   toCompare?: any;
   data: any;
 }) => {
-  const [pageCompare, setPageCompare] = useState(0);
   const [tempFiltred, setTempFiltred] = useState<string[]>([]);
   const [selectCompare, setSelectCompare] = useState('')
   const [tablesRender, setTablesRender] = useState([tables]);
-  const [cardsRender, setCardsRender] = useState([cards]);
   const [chartsRender, setChartsRender] = useState([...charts]);
-  const [animationClass, setAnimationClass] = useState("card-enter");
 
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
@@ -41,8 +35,6 @@ const CapagGeral = ({
   const [chartData, setChartData] = useState<any>({})
 
   const sortableContainerRef = useRef<HTMLDivElement>(null);
-
-  const params = ['Natureza Jurídica', 'mes', 'Porte', 'Município']
 
   useEffect(() => {
     setChartData(data)
@@ -54,28 +46,8 @@ const CapagGeral = ({
     const getNewCards= tempFiltred.map(() => cards) 
 
     setTablesRender([...getNewTables])
-    setCardsRender([...getNewCards])
 
   }, [tempFiltred]);
-
-  // const tempFiltredCard = tempFiltred.filter((municipio) => municipio !== selectCompare)
-
-  // const handlePageChange = (direction: "prev" | "next") => {
-  //   setAnimationClass("card-exit"); // Aplica a animação de saída
-  //   setTimeout(() => {
-  //     setPageCompare((prevPage) =>
-  //       direction === "next"
-  //         ? prevPage === tempFiltredCard.length - 1
-  //           ? 0
-  //           : prevPage + 1
-  //         : prevPage === 0
-  //         ? tempFiltredCard.length - 1
-  //         : prevPage - 1
-  //     );
-  //     setAnimationClass("card-enter"); // Aplica a animação de entrada após a mudança
-  //   }, 500); // Tempo suficiente para a animação de saída
-  // };
-
 
   return (
     <div>
@@ -101,111 +73,6 @@ const CapagGeral = ({
         />
       </div>
 
-      {/* <div className="flex justify-between items-center gap-2">
-        {tempFiltredCard.length >= 1 ? (
-          <>
-            <button
-              className="border transition duration-500 hover:bg-slate-200 dark:hover:bg-[#0F253D] bg-white dark:bg-[#0C1A28] dark:border-gray-600 rounded-full w-10 h-10 flex items-center justify-center"
-              onClick={() => handlePageChange("prev")}
-            >
-              <svg
-                className={`h-4 w-4 text-gray-500 dark:text-gray-300 transition-transform duration-200 rotate-90`}
-                viewBox="0 0 20 20"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M6 8l4 4 4-4" />
-              </svg>
-            </button>
-
-            <div className="w-[85%] flex flex-wrap gap-4 justify-center mb-2">
-              {tempFiltredCard.map((toCompare: string) => {
-                return cards.map(({ Component }, index) => (
-                  <React.Suspense fallback={<div>Carregando...</div>} key={index}>
-                    <div
-                      className={`${
-                        toCompare === tempFiltredCard[pageCompare]
-                          ? animationClass
-                          : "hidden"
-                      } flex-1`}
-                    >
-                      <Component
-                        compare={selectCompare}
-                        toCompare={toCompare}
-                        data={chartData}
-                        year={year}
-                        color={ColorPalette.default[index]}
-                      />
-                    </div>
-                  </React.Suspense>
-                ));
-              })}
-            </div>
-
-            <button
-              className="border transition duration-500 hover:bg-slate-200 dark:hover:bg-[#0F253D] bg-white dark:bg-[#0C1A28] dark:border-gray-600 rounded-full w-10 h-10 flex items-center justify-center"
-              onClick={() => handlePageChange("next")}
-            >
-              <svg
-                className={`h-4 w-4 text-gray-500 dark:text-gray-300 transition-transform duration-200 -rotate-90`}
-                viewBox="0 0 20 20"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M6 8l4 4 4-4" />
-              </svg>
-            </button>
-          </>
-        ) : (
-          <p className="text-center w-full text-gray-700 dark:text-gray-300">
-            Selecione um município para as informações serem comparadas
-          </p>
-        )}
-      </div> */}
-{/* 
-      <div className="flex items-center justify-center mb-6 gap-2">
-        {tempFiltredCard.map((_, i) => {
-          return (
-            <button
-              key={i}
-              onClick={() => setPageCompare(i)}
-              className={`transition duration-200 hover:bg-slate-200 h-4 w-4 ${
-                pageCompare === i ? "bg-slate-500" : "bg-white"
-              } rounded-full border`}
-            ></button>
-          );
-        })}
-      </div> */}
-
-      {/* <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-2">
-        {tablesRender.map((arrChart, index) => {
-
-        return arrChart.map(({ Component, col }) => {
-            const virtuaIndex = tablesRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
-
-            const chartDataEmpresas = chartData?.['current'] || []
-
-            const dataToPass = [chartDataEmpresas?.find((data: any) => data['Município'] === [...tempFiltred][virtuaIndex])] 
-
-            return (
-              <div key={index} className={`chart-content-wrapper !p-0 ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`}>
-              <React.Suspense fallback={<div>Carregando...</div>}>
-                <Component
-                  data={dataToPass}
-                  year={year}
-                />
-              </React.Suspense>
-            </div>
-          )})})}
-      </SortableDiv>  */}
-
-{/* mexer aqui */}
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {tempFiltred.map((filter, index) => {
           
