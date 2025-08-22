@@ -5,18 +5,10 @@ const cards = [
     Component: React.lazy(
       () =>
         import(
-          '@/components/@build/observatorio/cards/empresas/empresas-abertas-fechadas/EmpresasAtivasMesRecente'
+          '@/components/@build/observatorio/cards/capag/geral/CapagMunicipioNota'
         ),
     ),
   },
-  {
-    Component: React.lazy(
-      () =>
-        import(
-          '@/components/@build/observatorio/cards/empresas/empresas-abertas-fechadas/EmpresasInativasMesRecente'
-        ),
-    ),
-  },  
 ]
 
 export default cards

@@ -26,10 +26,6 @@ function transformarData(obj: any) {
   }));
 }
 
-const newData = transformarData(data[0]);
-console.log('newData ->', newData);
-console.log('data[0] ->>,', data[0])
-
 // const dataRawData = data?.['tributos'] || [];
 
 const order = ordenation.find((item) => item.ordenation != 0)
@@ -58,38 +54,6 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
         obj["indicador"],
         obj["valor"],
         obj["nota"],
-        // obj["ano"],
-        // <div className="w-full flex justify-start">
-        //   <div className="w-full text-start">
-        //     {obj["logradouro"]}
-        //   </div>
-        // </div>,
-        // <div className="w-full flex justify-start">
-        //   <div className="w-full text-start">
-        //     {obj["bairro"]}
-        //   </div>
-        // </div>,
-        // obj["zona"],
-        // <div className="w-full flex justify-center">
-        //   <div className="w-[150px]">
-        //     <span>R$</span> {formatNumber(obj["valueIptu"])}
-        //   </div>
-        // </div>,
-        // <div className="w-full flex justify-center">
-        //   <div className="w-[150px]">
-        //     <span>R$</span> {formatNumber(obj["valueConstrucao2m"])}
-        //   </div>
-        // </div>,
-        // <div className="w-full flex justify-center">
-        //   <div className="w-[150px]">
-        //     <span>R$</span> {formatNumber(obj["valueTerreno2m"])}
-        //   </div>
-        // </div>,
-        // <div className="w-full flex justify-center">
-        //   <div className="w-[150px]">
-        //     <span>R$</span> {formatNumber(obj["valueImovel"])}
-        //   </div>
-        // </div>,
       ] as string[]);
     });
     return rows;

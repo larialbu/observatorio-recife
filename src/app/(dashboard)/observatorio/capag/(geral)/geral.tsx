@@ -31,6 +31,7 @@ const CapagGeral = ({
   const [tempFiltred, setTempFiltred] = useState<string[]>([]);
   const [selectCompare, setSelectCompare] = useState('')
   const [tablesRender, setTablesRender] = useState([tables]);
+  const [cardsRender, setCardsRender] = useState([cards]);
   const [chartsRender, setChartsRender] = useState([...charts]);
   const [animationClass, setAnimationClass] = useState("card-enter");
 
@@ -50,8 +51,10 @@ const CapagGeral = ({
 
   useEffect(() => {
     const getNewTables = tempFiltred.map(() => tables) 
+    const getNewCards= tempFiltred.map(() => cards) 
 
     setTablesRender([...getNewTables])
+    setCardsRender([...getNewCards])
 
   }, [tempFiltred]);
 
@@ -180,12 +183,49 @@ const CapagGeral = ({
         })}
       </div> */}
 
+      {/* <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-2">
+        {tablesRender.map((arrChart, index) => {
+
+        return arrChart.map(({ Component, col }) => {
+            const virtuaIndex = tablesRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
+
+            const chartDataEmpresas = chartData?.['current'] || []
+
+            const dataToPass = [chartDataEmpresas?.find((data: any) => data['Município'] === [...tempFiltred][virtuaIndex])] 
+
+            return (
+              <div key={index} className={`chart-content-wrapper !p-0 ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`}>
+              <React.Suspense fallback={<div>Carregando...</div>}>
+                <Component
+                  data={dataToPass}
+                  year={year}
+                />
+              </React.Suspense>
+            </div>
+          )})})}
+      </SortableDiv>  */}
+
+{/* mexer aqui */}
+      <div className="flex flex-wrap gap-4 justify-center mb-8">
+        {tempFiltred.map((filter, index) => {
+          
+          const dataToPass = chartData['current'].filter((data: any) => data['Município'] === filter)
+
+          return cards.map(({ Component }) => { 
+            return (
+                <React.Suspense fallback={<div>Carregando...</div>} key={index}>
+                  <Component data={dataToPass} year={year} color={ColorPalette.default[index]} />
+                </React.Suspense>
+              )
+            })})}
+      </div>
+
       <div className="flex flex-col gap-6">
 
       <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-2">
         {tablesRender.map((arrChart, index) => {
 
-        return arrChart.slice(0, 1).map(({ Component, col }) => {
+        return arrChart.map(({ Component, col }) => {
             const virtuaIndex = tablesRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
 
             const chartDataEmpresas = chartData?.['current'] || []
