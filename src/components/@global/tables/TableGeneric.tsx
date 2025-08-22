@@ -6,7 +6,7 @@ import { get } from "sortablejs";
 
 interface PaginatedTableProps {
   headers: string[];
-  rows: React.ReactNode[][];
+  rows: React.ReactNode[][] | any[];
   rowsPerPage?: number;
   title: string;
   color: string;
