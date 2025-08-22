@@ -7,16 +7,9 @@ import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { useDashboard } from "@/context/DashboardContext";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
-
-import { getChartDataModelTributos } from "@/functions/process_data/observatorio/tributos/getChartDataModelTributos";
 import CapagGeral from "./(geral)/geral";
 import { getChartDataModelCapag } from "@/functions/process_data/observatorio/capag/getChartDataModelCapag";
-// import ItbiContribuintes from "./(itbi-contribuintes)/itbi-contribuintes";
-// import ItbiAvaliacoes from "./(itbi-avaliacoes)/itbi-avaliacoes";
-// import ItbiPesquisa from "./(itbi-pesquisa)/itbi-pesquisa";
-// import IptuContribuintes from "./(iptu-contribuintes)/iptu-contribuintes";
-// import IptuValores from "./(iptu-valores)/iptu-valores";
-// import IptuPesquisa from "./(iptu-pesquisa)/iptu-pesquisa";
+
 
 const CapagPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
@@ -71,38 +64,12 @@ const CapagPage = () => {
     if (!data || !(dataArr?.capag?.length || dataArr?.empresas?.length) ) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
-// CapagGeral
     switch (activeTab) {
       case "geral":
         return <CapagGeral
         data={dataArr} 
         year={getYearSelected(filters)} 
         />  
-    //   case "itbi-avaliacoes":
-    //     return <ItbiAvaliacoes
-    //     data={dataArr} 
-    //     year={getYearSelected(filters)} 
-    //     /> 
-    //   case "itbi-pesquisa":
-    //     return <ItbiPesquisa
-    //     data={dataArr} 
-    //     year={getYearSelected(filters)} 
-    //     /> 
-    //   case "iptu-contribuintes":
-    //     return <IptuContribuintes
-    //     data={dataArr} 
-    //     year={getYearSelected(filters)} 
-    //     /> 
-    //   case "iptu-valores":
-    //     return <IptuValores
-    //     data={dataArr} 
-    //     year={getYearSelected(filters)} 
-    //     /> 
-    //   case "iptu-pesquisa":
-    //     return <IptuPesquisa
-    //     data={dataArr} 
-    //     year={getYearSelected(filters)} 
-    //     /> 
       default:
         return <CapagGeral 
         data={dataArr} 
@@ -120,7 +87,7 @@ const CapagPage = () => {
   return (
     <div className="p-6 min-h-screen mt-48">
        <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide dark:text-gray-200">
-        Tributos
+        Capag
       </h1>
       
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
@@ -132,59 +99,8 @@ const CapagPage = () => {
               : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
           }`}
         >
-          ITBI Contribuintes
+          Geral
         </button>
-        {/* <button
-          onClick={() => handleNavigation("itbi-avaliacoes")}
-          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[300px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "itbi-avaliacoes"
-              ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
-              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
-          }`}
-        >
-          ITBI Avaliações  
-        </button>
-        <button
-          onClick={() => handleNavigation("itbi-pesquisa")}
-          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "itbi-pesquisa"
-              ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
-              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
-          }`}
-        > 
- 
-          ITBI Pesquisa 
-        </button>
-        <button
-          onClick={() => handleNavigation("iptu-contribuintes")}
-          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "iptu-contribuintes"
-              ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
-              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
-          }`}
-        >
-          IPTU Contribuintes
-        </button>
-        <button
-          onClick={() => handleNavigation("iptu-valores")}
-          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "iptu-valores"
-              ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
-              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
-          }`}
-        >
-          IPTU Valores
-        </button>
-        <button
-          onClick={() => handleNavigation("iptu-pesquisa")}
-          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "iptu-pesquisa"
-              ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white"
-              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
-          }`}
-        >
-          IPTU Pesquisa
-        </button> */}
       </div>
       {renderContent()}
     </div>
