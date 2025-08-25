@@ -17,7 +17,7 @@ import EmpresasClasses from "./(empresas-classes)/empresas-classes";
 import ComparativoClasses from "./(comparativo-classes)/comparativo-classes";
 import EmpresasAbertasFechadas from "./(empresas-abertas-fechadas)/empresas-abertas-fechadas";
 import EmpresasTempoAbertura from "./(empresas-tempo-abertura)/empresas-tempo-abertura";
-import { getChartDataModel } from "@/functions/process_data/observatorio/empresas/getChartDataModel";
+import { getChartDataModel } from "@/functions/process_data/observatorio/getChartDataModel";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;

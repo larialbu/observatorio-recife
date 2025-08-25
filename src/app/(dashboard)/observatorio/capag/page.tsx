@@ -8,7 +8,7 @@ import { useDashboard } from "@/context/DashboardContext";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
 import CapagGeral from "./(geral)/geral";
-import { getChartDataModelCapag } from "@/functions/process_data/observatorio/capag/getChartDataModelCapag";
+import { getChartDataModel } from "@/functions/process_data/observatorio/getChartDataModel";
 
 
 const CapagPage = () => {
@@ -35,7 +35,7 @@ const CapagPage = () => {
     if (!data?.id) return;
     const idCapag = ["capag-geral"]
 
-    const handler = getChartDataModelCapag(data, data.id);
+    const handler = getChartDataModel(data, data.id);
 
     if (handler) {
       if (idCapag.includes(data.id)) {

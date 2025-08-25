@@ -38,7 +38,7 @@
                 {
                     "label": "operacao", 
                     "path": "/observatorio/portos?tab=operacao", 
-                    "status": true
+                    "status": false
                 },
                 {
                     "label": "comparativo", 

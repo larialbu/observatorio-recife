@@ -8,13 +8,13 @@ import { useDashboard } from "@/context/DashboardContext";
 import { getYearSelected } from "@/utils/filters/@global/getYearSelected";
 
 
-import { getChartDataModelTributos } from "@/functions/process_data/observatorio/tributos/getChartDataModelTributos";
 import ItbiContribuintes from "./(itbi-contribuintes)/itbi-contribuintes";
 import ItbiAvaliacoes from "./(itbi-avaliacoes)/itbi-avaliacoes";
 import ItbiPesquisa from "./(itbi-pesquisa)/itbi-pesquisa";
 import IptuContribuintes from "./(iptu-contribuintes)/iptu-contribuintes";
 import IptuValores from "./(iptu-valores)/iptu-valores";
 import IptuPesquisa from "./(iptu-pesquisa)/iptu-pesquisa";
+import { getChartDataModel } from "@/functions/process_data/observatorio/getChartDataModel";
 
 const EmpresasPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
@@ -41,7 +41,7 @@ const EmpresasPage = () => {
     const idITBI = ["tributos-itbi"] 
     const idIPTU = ["tributos-iptu"] 
 
-    const handler = getChartDataModelTributos(data, data.id);
+    const handler = getChartDataModel(data, data.id);
 
     if (handler) {
       if (idITBI.includes(data.id)) {

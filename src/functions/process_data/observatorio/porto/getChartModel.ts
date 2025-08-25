@@ -1,5 +1,5 @@
   //   Mes  -  Ação
-export const getChartDataModel = (data: any, params: string[], accParam: string) => {
+export const getChartDataModelOperacao = (data: any, params: string[], accParam: string) => {
     return (data || [])?.reduce((acc: any, obj: any) => {
         params.forEach((param) => {
           if (!acc[param]) acc[param] = {} 

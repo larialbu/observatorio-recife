@@ -10,7 +10,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
-import { getChartDataModel } from "@/functions/process_data/observatorio/porto/getChartDataModel";
+import { getChartDataModelOperacao } from "@/functions/process_data/observatorio/porto/getChartModel";
 
 
 
@@ -42,7 +42,7 @@ const Operacao = ({
 
     const params = ['CDMercadoria', 'Destino', 'Origem', 'Mes', 'Ação']
 
-    const dataAccumulatedField = getChartDataModel(newData, params, 'VLPesoCargaBruta')
+    const dataAccumulatedField = getChartDataModelOperacao(newData, params, 'VLPesoCargaBruta')
     // const dataAccumulatedField = geralAccFieldFunction(newData, params, 'VLPesoCargaBruta')
 
     // console.log('New Data ->0<-', newData);

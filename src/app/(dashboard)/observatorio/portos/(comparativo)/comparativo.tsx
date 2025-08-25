@@ -14,7 +14,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import tables from "./@imports/tables";
-import { getChartDataModelComparative } from "@/functions/process_data/observatorio/porto/getChartDataModel";
+import { getChartDataModelComparative } from "@/functions/process_data/observatorio/porto/getChartModel";
 
 const Comparativo = ({
   year,
