@@ -1,4 +1,4 @@
-import pagesData from '../../public/pagination.json';
+import pagesData from '../../../public/pagination.json';
 
 interface TabConfig {
   label: string;
