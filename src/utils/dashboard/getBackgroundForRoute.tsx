@@ -11,6 +11,7 @@ export const getBackgroundForRoute = (pathname: string): string => {
     "/observatorio/micro-caged": "bg-[url('/images/backgrounds/dashboard/light/caged.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/caged.avif')]",
     "/observatorio/empresas": "bg-[url('/images/backgrounds/dashboard/light/empresas.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/empresas.avif')]",
     "/observatorio/tributos": "bg-[url('/images/backgrounds/dashboard/light/tributos.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/tributos.avif')]",
+    "/observatorio/capag": "bg-[url('/images/backgrounds/dashboard/light/capag.avif')] dark:bg-[url('/images/backgrounds/dashboard/dark/capag.avif')]",
   };
 
   return backgroundClasses[pathname] ?? "bg-[#F7F8FA] dark:bg-[#0C1B2B]";
