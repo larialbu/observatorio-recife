@@ -1,6 +1,6 @@
 "use client";
-import { Suspense } from "react";
-import { usePathname } from "next/navigation";
+import { Suspense, useEffect, useRef } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import { DrawingStoreProvider } from "@/components/@global/excalidraw/context/drawingStoreContext";
 import { ExcalidrawProvider } from "@/components/@global/excalidraw/context/useContext";
@@ -13,14 +13,50 @@ import { Sidebar } from "@/components/random_temp/Sidebar";
 import { DashboardProvider } from "@/context/DashboardContext";
 import "@excalidraw/excalidraw/index.css";
 import { getBackgroundForRoute } from "@/utils/dashboard/getBackgroundForRoute";
-import { pagesConfig } from "@/lib/pageConfig";
+import { pagesConfig } from "@/@types/observatorio/pageConfig";
 import { MaintenancePage } from "@/components/observatorio/MaintenancePage";
 
-function getPageStatus(pathname: string): boolean {
-  const cleanPathname = pathname.split('?')[0]; 
+function getPageStatus(pathname: string, searchParams: URLSearchParams): boolean {
+  const cleanPathname = pathname.split('?')[0];
   const pages = pagesConfig.observatorio;
+  
   const pageKey = Object.keys(pages).find(key => pages[key].path === cleanPathname);
-  return pageKey ? pages[pageKey].status : true;
+
+  if (!pageKey) {
+    return true;
+  }
+
+  const page = pages[pageKey];
+
+  if (!page.status) {
+    return false;
+  }
+
+  const tabName = searchParams.get('tab');
+  if (page.tabs && tabName) {
+    const tab = page.tabs.find(t => t.label === tabName);
+    return tab ? tab.status : true;
+  }
+
+  return page.status;
+}
+
+function getSafeReturnPath(pathname: string): string {
+    const cleanPathname = pathname.split('?')[0];
+    const pages = pagesConfig.observatorio;
+    const pageKey = Object.keys(pages).find(key => pages[key].path === cleanPathname);
+
+    if (pageKey) {
+        const page = pages[pageKey];
+        if (page.tabs && page.tabs.length > 0) {
+            // Retorna a primeira tab ativa, se houver, senão a primeira de todas
+            const firstActiveTab = page.tabs.find(t => t.status);
+            const fallbackTab = page.tabs[0];
+            return `${page.path}?tab=${(firstActiveTab || fallbackTab).label}`;
+        }
+        return page.path;
+    }
+    return "/";
 }
 
 export default function DashboardLayout({
@@ -29,45 +65,45 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  
+  const fullPath = `${pathname}?${searchParams}`;
+  const previousPathRef = useRef<string | null>(null);
+  useEffect(() => {
+    previousPathRef.current = fullPath;
+  }, [fullPath]);
+
+  const isPageActive = getPageStatus(pathname, searchParams);
+  const backLink = previousPathRef.current || getSafeReturnPath(pathname);
+
   const backgroundClass = getBackgroundForRoute(pathname);
 
-  const isPageActive = getPageStatus(pathname);
-
-  if (!isPageActive) {
-    return (
-        <div className="h-screen flex overflow-hidden">
-          <Sidebar />
-          <div
-            className={`flex-1 ${backgroundClass} bg-cover overflow-scroll flex flex-col`}
-          >
-            <ToggleDarkMode />
-            <DrawingStoreProvider>
-              <ExcalidrawProvider>
-                <MaintenancePage />
-              </ExcalidrawProvider>
-            </DrawingStoreProvider>
-          </div>
-        </div>
-    );
-  }
-
   return (
-    <Suspense fallback={< LoadingScreen />}>
+    <Suspense fallback={<LoadingScreen />}>
       <DashboardProvider>
         <div className="h-screen flex overflow-hidden">
           <Sidebar />
           <div
-            className={`flex-1 ${backgroundClass} bg-cover overflow-scroll flex flex-col pb-[1em]`}
+            className={`flex-1 ${backgroundClass} bg-cover overflow-y-auto flex flex-col ` + (!isPageActive ? '' : 'pb-[1em]')}
           >
-            <Navbar />
-            <ToggleDarkMode />
-            <HiddenChartsPanel />
-            <DrawingStoreProvider>
-              <ExcalidrawProvider>
-                {children}
-                <FloatingExcalidrawButton />
-              </ExcalidrawProvider>
-            </DrawingStoreProvider>
+            {isPageActive ? (
+              <>
+                <Navbar />
+                <HiddenChartsPanel />
+                <ToggleDarkMode />
+                <DrawingStoreProvider>
+                  <ExcalidrawProvider>
+                    {children}
+                    <FloatingExcalidrawButton />
+                  </ExcalidrawProvider>
+                </DrawingStoreProvider>
+              </>
+            ) : (
+              <>
+                <ToggleDarkMode />
+                <MaintenancePage backLink={backLink} />
+              </>
+            )}
           </div>
         </div>
       </DashboardProvider>
