@@ -63,16 +63,6 @@ const CapagGeral = ({
         notFoundMessage="Nenhum município encontrado"
       />
 
-      <div className="mb-2">
-        <SelectCompare
-          options={toCompare}
-          initialValue={'Recife - PE'}
-          filters={selectCompare}
-          setFilters={setSelectCompare}
-          label="Cards comparando com:"
-        />
-      </div>
-
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         {tempFiltred.map((filter, index) => {
           
@@ -100,14 +90,19 @@ const CapagGeral = ({
             const dataToPass = [chartDataEmpresas?.find((data: any) => data['Município'] === [...tempFiltred][virtuaIndex])] 
 
             return (
-              <div key={index} className={`chart-content-wrapper !p-0 ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`}>
-              <React.Suspense fallback={<div>Carregando...</div>}>
-                <Component
-                  data={dataToPass}
-                  year={year}
-                />
-              </React.Suspense>
-            </div>
+              <div className={`w-full ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`} key={index}>
+                <div className="w-full ">
+                  <p className="font-bold text-[26px] text-[#808080]">{[...tempFiltred][virtuaIndex]}</p>
+                </div>
+                <div key={index} className={`chart-content-wrapper !p-0 `}>
+                  <React.Suspense fallback={<div>Carregando...</div>}>
+                    <Component
+                      data={dataToPass}
+                      year={year}
+                    />
+                  </React.Suspense>
+                </div>
+              </div>
           )})})}
       </SortableDiv> 
 
