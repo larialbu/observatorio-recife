@@ -17,12 +17,13 @@ const CapagMunicipios = ({
 const [ordenation, setOrdenation] = useState([{ index: 1, name: 'valor', ordenation: 0 }]);
 
 function transformarData(obj: any) {
-  const indicadores = ['Endividamento', 'Liquidez', 'Poupança Corrente'];
+  // 'nota'
+  const indicadores = ['Endividamento', 'Liquidez', 'Poupança Corrente', 'nota'];
 
   return indicadores.map(indicador => ({
-    indicador,
-    valor: +obj?.[indicador].toFixed(3),
-    nota: obj?.[`${indicador}_Nota`]
+    indicador: indicador !== 'nota' ? indicador : 'Nota Geral',
+    valor: indicador !== 'nota' ? (+obj?.[indicador] || 0).toFixed(3) : '-',
+    nota: indicador !== 'nota' ?  obj?.[`${indicador}_Nota`] : obj?.[`${indicador}`]
   }));
 }
 
