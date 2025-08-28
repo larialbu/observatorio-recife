@@ -41,7 +41,7 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({
   return (
     <div className={`absolute z-20 ${isFullScreen 
       ? (left ? "top-3 right-2 transform scale-[1.5]" : "top-5 right-4 transform scale-[2]")
-      : (left ? "-top-6 left-2" : "top-[-.7em] right-[-.7em]")}`}>
+      : ( "-top-6 right-2")}`}>
       <button
         ref={buttonRef}
         className="text-gray-600 hover:text-gray-800 border-gray-600 options-button"

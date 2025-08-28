@@ -173,7 +173,7 @@
 }
 
 .chart-content-wrapper{
-  @apply bg-white dark:bg-[#0C1B2B] h-full shadow-xl rounded-lg p-6 w-full flex flex-col items-center transition-all transform hover:shadow-2xl
+  @apply bg-white dark:bg-[#0C1B2B] h-full shadow-xl rounded-lg pr-2 pl-2 pb-6 pt-8 w-full flex flex-col items-center transition-all transform hover:shadow-2xl
 }
 
 .chart-wrapper{
