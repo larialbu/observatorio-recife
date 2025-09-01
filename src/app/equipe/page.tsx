@@ -27,20 +27,26 @@ const highlightedMembers: HighlightMemberProps[] = [
       "Engenheiro civil formado pela UFPE, João Campos é o prefeito mais jovem da história do Recife. Eleito em 2020 e reeleito em 2024, sua gestão prioriza o desenvolvimento sustentável e a inovação, promovendo políticas públicas que fortalecem a economia local, atraem investimentos e impulsionam novos negócios, consolidando o Recife como um polo econômico estratégico.",
   },
   {
+    name: "Victor Marques",
+    role: "Vice-Prefeito da Cidade do Recife",
+    image: "/images/team/vice-prefeito.avif",
+    description: "Engenheiro civil e foi eleito para o cargo de vice-prefeito do Recife ao lado de João Campos, nas Eleições de 2024. Formado pela Universidade de Pernambuco (UPE), Victor Marques compartilha não apenas a mesma profissão que João Campos, mas também valores e uma visão de gestão alinhada com o prefeito do Recife.",
+    reverse: true,
+  },
+  {
     name: "Carlos Andrade Lima",
     role: "Secretário de Desenvolvimento Econômico",
     image: "/images/team/secretario.avif",
     description:
       "Como Secretário de Desenvolvimento Econômico do Recife, Carlos Andrade Lima lidera iniciativas para impulsionar o crescimento sustentável da cidade, com foco na geração de negócios, atração de investimentos e fortalecimento de empreendimentos. Advogado, combina visão estratégica com ações para consolidar o Recife como um polo inovador e atrativo.",
-    reverse: true,
     imagePosition: "object-top",
   },
   {
     name: "Gelisa Bosi",
     role: "Secretária Executiva de Desenvolvimento e Inovação",
     image: "/images/team/sec-exc-gelisa.avif",
-    description:
-      "Responsável por promover o crescimento econômico sustentável do Recife, Gelisa Bosi atua na atração de investimentos, no fortalecimento de negócios e na melhoria do ambiente de negócios, consolidando a cidade como um polo atrativo para empresas e pessoas.",
+    description: "Responsável por promover o crescimento econômico sustentável do Recife, Gelisa Bosi atua na atração de investimentos, no fortalecimento de negócios e na melhoria do ambiente de negócios, consolidando a cidade como um polo atrativo para empresas e pessoas.",
+    reverse: true,
   },
 ];
 

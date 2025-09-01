@@ -37,7 +37,7 @@ export const HelpHeader: React.FC = () => {
         </div>
       </div>
 
-      <div className="relative z-10 w-full max-w-2xl text-center px-4">
+      <div className="relative w-full max-w-2xl text-center px-4 ">
         <div className="mb-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-3 drop-shadow-md">
             Como podemos te ajudar?

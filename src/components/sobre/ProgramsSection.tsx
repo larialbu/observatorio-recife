@@ -1,115 +1,63 @@
-// src/components/sobre/CreativeProgramsCarousel.tsx
-
 "use client";
 
 import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
-import { programsData } from '@/utils/about/ProgramsData';
+import Link from 'next/link';
+import { Zenitho } from 'uvcanvas';
 
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+export default function StrategicPrograms() {
+  const sdeLink = "https://desenvolvimentoeconomico.recife.pe.gov.br/";
 
-export default function CreativeProgramsCarousel() {
   return (
-    <section className="relative w-full overflow-hidden bg-[#0C1B2B] py-20 text-white">
-      <style>{`
-        .swiper-button-prev, .swiper-button-next {
-          color: #fff !important;
-          transition: transform 0.2s ease;
-        }
-        .swiper-button-prev:hover, .swiper-button-next:hover {
-          transform: scale(1.2);
-        }
-        .swiper-pagination {
-          position: relative !important;
-          margin-top: 3rem !important;
-        }
-        .swiper-pagination-bullet {
-          background: #ffffff80 !important;
-          width: 20px !important;
-          height: 5px !important;
-          border-radius: 3px !important;
-          transition: width 0.3s ease !important;
-        }
-        .swiper-pagination-bullet-active {
-          background: #EC6625 !important;
-          width: 30px !important;
-        }
-      `}</style>
-
-      <div className="container mx-auto px-4 z-10 relative">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold">
-            Programas Estratégicos
-          </h2>
-          <p className="mt-4 text-lg text-gray-300 max-w-2xl mx-auto">
-            Explore as iniciativas que estão moldando o futuro econômico do Recife.
-          </p>
-        </div>
-        
-        <Swiper
-          effect={'coverflow'}
-          grabCursor={true}
-          centeredSlides={true}
-          loop={true}
-          slidesPerView={'auto'}
-          loopAdditionalSlides={2}
-          coverflowEffect={{
-            rotate: 5,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            slideShadows: false,
-          }}
-          pagination={{ clickable: true }}
-          navigation={true}
-          modules={[EffectCoverflow, Pagination, Navigation]}
-          className="w-full py-4"
-        >
-          {/* MUDANÇA 1: Duplicando o array de dados para garantir um loop perfeito */}
-          {[...programsData, ...programsData].map((program, index) => (
-            <SwiperSlide key={`${program.name}-${index}`} className="!w-[280px] md:!w-[350px]">
-              {({ isActive }) => (
-                <div 
-                  className={`
-                    flex flex-col items-center text-center p-6 rounded-xl 
-                    transition-all duration-500 min-h-[400px]
-                    ${isActive ? 'bg-white/10 backdrop-blur-sm' : ''}
-                  `}
-                >
-                  <div className={`flex-grow flex items-center justify-center transition-all duration-500 ease-in-out w-full ${isActive ? 'scale-100' : 'scale-75 opacity-60'}`}>
-                    <img
-                      src={program.logoUrl}
-                      alt={`Logo ${program.name}`}
-                      className="max-w-[160px] h-auto"
-                    />
-                  </div>
-                  
-                  <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isActive ? 'max-h-[200px] opacity-100 mt-2' : 'max-h-0 opacity-0'}`}>
-                    <h3 className={`font-bold text-xl mt-4 transition-colors duration-300 ${isActive ? 'text-white' : 'text-gray-400'}`}>
-                        {program.name}
-                    </h3>
-                    <p className="text-gray-300 text-sm mt-2">
-                      {program.description}
-                    </p>
-                    <a 
-                      href={program.href} 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block bg-[#EC6625] text-white font-bold py-2 px-5 rounded-full hover:bg-opacity-90 transition-all mt-4 text-sm"
-                    >
-                      Conheça o Programa
-                    </a>
-                  </div>
-                </div>
-              )}
-            </SwiperSlide>
-          ))}
-        </Swiper>
+    <div className='relative overflow-hidden'>
+      <div className='absolute hue-rotate-[50deg] dark:opacity-50 dark:hue-rotate-[300deg]'>
+        <Zenitho />
       </div>
-    </section>
+      <section className="relative w-full overflow-hidden bg-transparent py-20 text-white dark:text-gray-800">
+        <div className="container mx-auto px-4 z-10 relative">
+          <div className="text-center max-w-4xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold">
+              Iniciativas que Transformam
+            </h2>
+            
+            <p className="mt-6 text-lg text-gray-300 dark:text-gray-600">
+              A Secretaria de Desenvolvimento Econômico do Recife oferece um portfólio diversificado de programas estratégicos para impulsionar o crescimento, a qualificação profissional e o empreendedorismo na cidade.
+            </p>
+            <p className="mt-4 text-lg text-gray-300 dark:text-gray-600">
+              Descubra como nossas ações estão moldando um futuro mais próspero e inovador para todos.
+            </p>
+          </div>
+          
+          
+          <div className="text-center mt-12">
+            <Link href={sdeLink} target="_blank" rel="noopener noreferrer">
+              <button className="
+                relative
+                inline-flex items-center justify-center
+                px-10 py-4
+                text-lg font-bold text-white
+                bg-gradient-to-r from-[#EC6625] to-[#FF8C00]
+                rounded-full
+                shadow-lg
+                transform transition-all duration-300
+                hover:scale-105 hover:shadow-2xl
+                active:scale-95
+                focus:outline-none focus:ring-4 focus:ring-[#EC6625]/50
+                overflow-hidden group
+              ">
+                <span className="relative z-10">
+                  Conheça Todos os Programas
+                </span>
+                <span className="
+                  absolute -right-1/3 top-0 h-full w-full
+                  bg-white opacity-10
+                  transform skew-x-[-30deg]
+                  group-hover:right-full transition-all duration-700
+                "></span>
+              </button>
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

@@ -9,7 +9,6 @@ import { Banner } from "@/components/home/Banner";
 import { ExploreSection } from "@/components/home/ExploreSection";
 import { Footer } from "@/components/home/Footer";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
-import NewsSection from "@/components/home/NewsSection";
 import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
 import { useLoading } from "@/context/LoadingContext";
 
@@ -83,7 +82,6 @@ const Page = () => {
     <div className="min-h-screen dark:bg-[#0C1B2B]">
       <Banner onSearch={handleSearch} />
       <ExploreSection searchTerm={searchTerm} bundleProgress={bundleProgress} progress={progress} />
-      <NewsSection />
       <SocialIconsContainer />
       <Footer />
     </div>

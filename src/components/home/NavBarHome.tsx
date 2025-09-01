@@ -57,25 +57,25 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
     <div
       className={`
         ${containerClass}
-        grid grid-cols-2 sm:grid-cols-[auto_auto] z-10 p-4 pr-2 sm:pr-4 pl-3 sm:pl-4 px-6 w-full
+        grid grid-cols-2 sm:grid-cols-[auto_auto] z-10 p-4 pr-2 sm:pr-4 pl-3 sm:pl-4 px-6 w-full relative
       `}
     >
-      <div className="flex items-center gap-10">
+      <div className="flex items-center gap-4 md:gap-10">
         <Link href="/" className="w-fit hover:rotate-45 transition-transform">
           <img
             src="/images/logos/observatorio_logo.png"
             alt="logo observatorio"
-            className={simple ? "h-10" : "text-left w-[45px] sm:w-20"}
+            className={simple ? "w-10" : "text-left min-w-[45px] sm:w-20"}
           />
         </Link>
 
         {currentRoute === "/" && (
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 md:gap-6 min-[1024px]">
             <Link href="https://desenvolvimentoeconomico.recife.pe.gov.br/boletins-economicos" className="w-fit transition-transform flex justify-center items-center hover:scale-105" target="_blank">
               <img
                 src="/images/logos/boletim-economico.png"
                 alt="logo boletim economico"
-                className="w-52"
+                className="min-w-28 sm:w-32 md:w-44 lg:w-52"
               />
             </Link>
 
@@ -83,7 +83,7 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
               <img
                 src="/images/logos/investe-recife.png"
                 alt="logo investe recife"
-                className="w-36"
+                className="min-w-20 sm:w-24 md:w-28 lg:w-36"
               />
             </Link>
           </div>
@@ -91,7 +91,7 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
       </div>
 
       <ul
-        className={`hidden sm:flex h-fit justify-end items-center text-white ${
+        className={`hidden lg:flex h-fit justify-end items-center text-white ${
           simple ? "" : "pt-0 sm:pt-2"
         }`}
       >
@@ -148,7 +148,7 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
         </li>
       </ul>
 
-      <div className="sm:hidden flex items-center justify-end">
+      <div className="lg:hidden flex items-center justify-end relative -z-10">
         <button
           onClick={toggleMenu}
           className="text-white rounded hover:bg-gray-700 transition"

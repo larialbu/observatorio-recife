@@ -1,23 +1,23 @@
 import Image from "next/image";
 
 export const Header = () => {
-    return (
-        <header className="bg-black bg-opacity-37 text-blue-900 w-full flex items-center justify-center py-3 px-3">
-          <div className="inline-flex w-[80%] content_wrapper">
-            <div className="flex-shrink-0 logo_container">
-            <Image
-              src="/images/logos/prefeitura_recife_header.avif"
-              alt="Prefeitura do Recife"
-              width={100}
-              height={60}
-              unoptimized
-              className="flex-shrink-0 grayscale brightness-[300%]"
-            />
-            </div>
-            <div className="flex items-center ml-auto text-sm title-container">
-              <p className="text-white text-sm">Secretaria de Desenvolvimento Econômico</p>
-            </div>
-          </div>
-        </header>
-      )
+  return (
+    <header className="bg-black bg-opacity-37 text-blue-900 w-full flex items-center justify-center py-3 px-3">
+      <div className="inline-flex w-[80%] content_wrapper">
+        <div className="flex-shrink-0 flex items-center">
+          <Image
+            src="/images/logos/prefeitura_recife_header.avif"
+            alt="Prefeitura do Recife"
+            width={100}
+            height={60}
+            unoptimized
+            className="flex-shrink-0 grayscale brightness-[300%]"
+          />
+        </div>
+        <div className="flex items-center ml-auto text-sm title-container">
+          <p className="text-white text-xs md:text-sm text-end lg:text-start">Secretaria de Desenvolvimento Econômico</p>
+        </div>
+      </div>
+    </header>
+  )
 }
