@@ -8,7 +8,7 @@ export function geralAccFunction(dataArray: any, params: any) {
         return acc;
     }, {});
 }
-
+ 
 export const geralAccFieldFunction = (data: any, params: string[], accParam: string) => {
     return (data || [])?.reduce((acc: any, obj: any) => {
         params.forEach((param) => {
@@ -23,7 +23,40 @@ export const geralAccFieldFunction = (data: any, params: string[], accParam: str
       }, {})
   }
 
- 
+export const geralAccGroupFunction = (data: any, field: string, params: string[]) => {
+  return (data || [])?.reduce((acc: any, obj: any) => {
+
+    if (!acc[obj[field]]) acc[obj[field]] = {}
+
+    params.forEach((param) => {
+      if (!acc[obj[field]][param]) acc[obj[field]][param] = {}
+        acc[obj[field]][param]
+        const value = obj[param]
+        acc[obj[field]][param][value] = (acc[obj[field]][param][value] || 0) + 1
+    })
+
+
+    return acc
+  }, {})
+}
+
+export const geralAccGroupValuesFunction = (data: any, fields: string[], params: string[]) => {
+  return (data || [])?.reduce((acc: any, obj: any) => {
+
+    fields.forEach((field) => {
+      if (!acc[field]) acc[field] = {}
+      if (!acc[field][obj[field]]) acc[field][obj[field]] = {}
+
+      params.forEach((param) => {
+        if (!acc[field][obj[field]][param]) acc[field][obj[field]][param] = 0
+          const value = obj[param]
+          acc[field][obj[field]][param] += value
+      })
+    })
+
+    return acc
+  }, {})
+}
 
 
 export function cnaeAccFunction(dataArray: any, cnaeParam: string) {

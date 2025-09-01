@@ -44,8 +44,7 @@ const ComparativeCard = ({
   };
 }
 
-const percentage = percentComparative(+data, +data2)
-
+  const percentage = percentComparative(+data, +data2)
   return (
     <div
       className="rounded-2xl p-4 flex-1 min-w-[250px] bg-white dark:bg-[#0C1B2B] text-black dark:text-white h-full flex flex-col"
@@ -57,8 +56,9 @@ const percentage = percentComparative(+data, +data2)
         </span>
        {toCompare !== comp && <span style={{ borderColor: `${color}` }} className={`border bg-white dark:bg-[#0C1A28] rounded-full font-semibold text-[12px] px-2 ${percentage.color} py-1`}>{percentage.text} {comp}</span>}
       </div>
-     <div className="flex flex-col justify-between flex-1 ">
-        <h1 className="text-2xl text-whit font-semibold my-4">{tooltipFormatter(+data2)}<span className="opacity-85 text-sm">{ toCompare !== comp && `/ ${tooltipFormatter(+data)}` }</span></h1>
+     <div className="flex flex-col flex-1 ">
+        <p className="text-[10px] opacity-85 mt-3">{compare[0]} / {compare[1]}</p>
+        <h1 className="text-2xl text-whit font-semibold mb-4">{tooltipFormatter(+data2)}<span className="opacity-85 text-sm">{ toCompare !== comp && `/ ${tooltipFormatter(+data)}` }</span></h1>
       <div>
         <h2 className="text-sm font-semibold text-whit">{title}</h2>
         <span className="opacity-85 text-whit text-sm">{comparative}</span>

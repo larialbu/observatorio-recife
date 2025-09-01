@@ -2,34 +2,32 @@
 
 import React from "react";
 
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import LineChart from "@/components/@global/charts/LineChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { processPassageirosAno } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosAno";
-import { updatedMonthChartData } from "@/utils/filters/@global/updateMonthChartData";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { processRawAccumulator } from "@/functions/process_data/observatorio/aeroporto/geral/charts/rawAccumulator";
+
+type RawDataType = Record<string, Record<string, Record<string, number>>>;
 
 const PassageirosAno = ({
   data,
   colors = ColorPalette.default,
   title = "Passageiros ao Longo do Ano",
-  months
-}: ChartBuild<AnacGeralHeaders[]>) => {
-  const chartData = processPassageirosAno(data);
+}: ChartBuild<RawDataType>) => {
 
-  const updatedData = updatedMonthChartData(chartData, months ?? 1);
+  const chartData = processRawAccumulator(data, 'MÊS', 'PASSAGEIRO')
 
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
         <LineChart
-          data={updatedData}
+          data={chartData}
           title={title}
           colors={colors}
-          xKey="mes"
+          xKey="label"
           lines={[
-            { dataKey: "passageiros", name: "Passageiros", strokeWidth: 2 },
+            { dataKey: "value", name: "Passageiros", strokeWidth: 2 },
           ]}
         />
       </ChartGrabber>

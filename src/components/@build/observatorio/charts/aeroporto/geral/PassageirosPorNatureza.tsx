@@ -2,22 +2,23 @@
 
 import React, { useState } from "react";
 
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import PieChart from "@/components/@global/charts/PieChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
-import { processPassageirosPorNatureza } from "@/functions/process_data/observatorio/aeroporto/geral/charts/passageirosPorNatureza";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import { processRawAccumulator } from "@/functions/process_data/observatorio/aeroporto/geral/charts/rawAccumulator";
+
+type RawDataType = Record<string, Record<string, Record<string, number>>>;
 
 const PassageirosPorNatureza = ({
-  rawData = [],
-  title = "Cargas por Natureza do Voo",
+  rawData = {},
+  title = "Passageiros por Natureza do Voo",
   
-}: ChartBuild<AnacGeralHeaders[]>) => {
+}: ChartBuild<RawDataType>) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = processPassageirosPorNatureza(rawData);
 
+  const chartData = processRawAccumulator(rawData, 'NATUREZA', 'PASSAGEIRO');
 
   return (
     <div className="chart-wrapper">
@@ -31,8 +32,8 @@ const PassageirosPorNatureza = ({
               setShowPercentage={setShowPercentage}
             />
           }
-          dataKey="total"
-          nameKey="natureza"
+          dataKey="value"
+          nameKey="label"
           colors={ColorPalette.default}
           showPercentages={showPercentage}
           tooltipEntry=""

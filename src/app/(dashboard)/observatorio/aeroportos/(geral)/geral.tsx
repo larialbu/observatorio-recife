@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
 import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
@@ -12,6 +11,10 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
+import { geralAccGroupValuesFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
+
+type DataType = Record<string, Record<string, Record<string, number>>>;
+
 
 const Geral: React.FC<ChartBuild> = ({
   data,
@@ -20,7 +23,16 @@ const Geral: React.FC<ChartBuild> = ({
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const sortableContainerRef = useRef<HTMLDivElement>(null);
+  const [chartData, setChartData] = useState({data: {}, rawData: {}})
 
+  useEffect(() => {
+    setChartData({
+      data: geralAccGroupValuesFunction(data, ['AEROPORTO NOME', 'MÊS', 'NATUREZA'], ['DECOLAGENS', 'CARGA', 'PASSAGEIRO']), 
+      rawData: geralAccGroupValuesFunction(rawData, ['AEROPORTO NOME', 'MÊS', 'NATUREZA'], ['DECOLAGENS', 'CARGA', 'PASSAGEIRO'])
+    })
+  }, [data])
+
+  
   return (
     <div>
       <div className="flex flex-wrap gap-4 justify-center mb-8">
@@ -41,7 +53,7 @@ const Geral: React.FC<ChartBuild> = ({
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <ErrorBoundary>
-                  <Component data={data as AnacGeralHeaders[]} rawData={rawData as AnacGeralHeaders[]} months={months} />
+                  <Component data={chartData.data as DataType} rawData={chartData.rawData as DataType} months={months} />
                 </ErrorBoundary>
               </React.Suspense>
             </div>
