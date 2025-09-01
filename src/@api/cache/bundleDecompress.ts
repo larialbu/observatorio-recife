@@ -1,13 +1,11 @@
 import { createExtractorFromData } from "node-unrar-js";
-
 import { setProgress, setMessage, enableFirst, disableFirst } from "@/utils/loader/progressEmitter";
-
 import { saveToIndexedDB } from "./indexDB";
 import { saveVersion, getVersion } from "./versionUtils";
 
 const DB_NAME = "parquetDB";
 const STORE_NAME = "parquetFiles";
-const MANIFEST_URL = "/manifest.json";
+const MANIFEST_URL = "/api/bundles/manifest";
 
 function cleanFilePath(filePath: string) {
   const cleanedKey = filePath.replace(/^bundles\//, "");
@@ -51,13 +49,16 @@ async function processBundle(
   };
 
   try {
-    const bundleUrl = `/${filename}`;
+    const bundleUrl = `/api/bundles/download/${encodeURIComponent(filename)}`;
     const bundleArrayBuffer = await fetchWithProgress(bundleUrl, (percent) => {
       updateCategoryStatus("download", percent);
     });
 
     const wasmArrayBuffer = await getWasmBinary();
-    const extractor = await createExtractorFromData({ wasmBinary: wasmArrayBuffer, data: bundleArrayBuffer });
+    const extractor = await createExtractorFromData({ 
+      wasmBinary: wasmArrayBuffer, 
+      data: bundleArrayBuffer 
+    });
     const extracted = extractor.extract();
 
     const filesArray = Array.from(extracted.files);
@@ -91,7 +92,18 @@ export async function loadAndSyncBundles(
   setProgress(5);
   setMessage("Verificando dados...");
 
-  const response = await fetch(MANIFEST_URL, { cache: "no-store" });
+  const response = await fetch(MANIFEST_URL, { 
+    cache: "no-store",
+    headers: {
+      'Cache-Control': 'no-cache',
+      'Pragma': 'no-cache',
+    },
+  });
+  
+  if (!response.ok) {
+    throw new Error(`Erro ao buscar manifest: ${response.status} ${response.statusText}`);
+  }
+  
   const manifest = await response.json();
 
   const bundlesToUpdate = [];
@@ -104,8 +116,17 @@ export async function loadAndSyncBundles(
     }
   }
 
+  if (bundlesToUpdate.length === 0) {
+    setProgress(100);
+    setMessage("Todos os bundles estão atualizados.");
+    disableFirst();
+    return;
+  }
+
   const totalBundles = bundlesToUpdate.length;
   let completedBundles = 0;
+
+  setMessage(`Atualizando ${totalBundles} bundle(s)...`);
 
   for (const bundle of bundlesToUpdate) {
     await processBundle(
@@ -114,7 +135,7 @@ export async function loadAndSyncBundles(
       bundle.version,
       (progress) => {
         const scaledProgress = (completedBundles * 100 + progress) / totalBundles;
-        setProgress(scaledProgress);
+        setProgress(Math.min(scaledProgress, 99));
         if (onBundleProgress) onBundleProgress(bundle.bundleKey, progress);
       }
     );
@@ -126,10 +147,11 @@ export async function loadAndSyncBundles(
   disableFirst();
 }
 
-
 async function fetchWithProgress(url: string, onProgress: (percent: number) => void): Promise<ArrayBuffer> {
   const response = await fetch(url);
-  if (!response.ok) throw new Error(`Erro ao baixar ${url}: ${response.statusText}`);
+  if (!response.ok) {
+    throw new Error(`Erro ao baixar ${url}: ${response.status} ${response.statusText}`);
+  }
 
   const contentLengthHeader = response.headers.get("Content-Length");
   const total = contentLengthHeader ? parseInt(contentLengthHeader, 10) : 0;
