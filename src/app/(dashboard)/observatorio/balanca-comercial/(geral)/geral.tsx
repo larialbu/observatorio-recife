@@ -8,12 +8,18 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 import cards from "./@imports/cards";
 import charts from "./@imports/charts";
+import { geralAccFieldSeparetedFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
 
 const Geral = ({ data, year, months }: { data: BalancaHeaders[]; year: string, months: number }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
+  const [chartData, setChartData] = useState({})
 
-  // REF do container e REF da instância do Sortable
   const sortableContainerRef = useRef<HTMLDivElement>(null);
+
+
+  useEffect(() => {
+    setChartData(geralAccFieldSeparetedFunction(data, ['tipo', 'País', 'Continente', "Descrição SH4", "Mês"], 'Valor US$', 'tipo'))
+  }, [data])
 
   return (
     <div>
@@ -42,7 +48,7 @@ const Geral = ({ data, year, months }: { data: BalancaHeaders[]; year: string, m
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <ErrorBoundary>
-                  <Component data={data} months={months} />
+                  <Component data={chartData}   />
                 </ErrorBoundary>
               </React.Suspense>
             </div>

@@ -23,6 +23,23 @@ export const geralAccFieldFunction = (data: any, params: string[], accParam: str
       }, {})
   }
 
+export const geralAccFieldSeparetedFunction = (data: any, params: string[], accParam: string, separeted: string) => {
+    return (data || [])?.reduce((acc: any, obj: any) => {
+        params.forEach((param) => {
+          if (!acc[obj[separeted]]) acc[obj[separeted]] = {}
+
+          if (!acc[obj[separeted]][param]) acc[obj[separeted]][param] = {} 
+
+          if (!acc[obj[separeted]][param][obj[param]]) acc[obj[separeted]][param][obj[param]] = 0
+
+          acc[obj[separeted]][param][obj[param]] += obj[accParam]
+        })
+
+        return acc
+      }, {})
+  }
+
+
 export const geralAccGroupFunction = (data: any, field: string, params: string[]) => {
   return (data || [])?.reduce((acc: any, obj: any) => {
 

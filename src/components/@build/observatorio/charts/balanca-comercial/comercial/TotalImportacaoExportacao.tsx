@@ -2,22 +2,28 @@
 
 import  { useState } from "react";
 
-import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import PieChart from "@/components/@global/charts/PieChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
-import { processTotalImportacaoExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/totalImportacaoExportacao";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
+type DataType = Record<string, Record<string, Record<string, number>>>;
+
 const TotalImportacaoExportacao = ({
-  data = [],
+  data = {},
   colors = ColorPalette.default,
   title = "Total Importação e Exportação",
-}: ChartBuild<BalancaHeaders[]>) => {
+}: ChartBuild<DataType>) => {
   const [showPercentage, setShowPercentage] = useState(true);
 
-  const chartData = processTotalImportacaoExportacao(data);
+  const dataImportacao = data?.['Importação']?.['tipo'] || {}
+  const dataExportacao = data?.['Exportação']?.['tipo'] || {}
+
+  const chartData = [
+    { label: 'Importação', value: dataImportacao?.['Importação'] || 0 },
+    { label: 'Exportação', value: dataExportacao?.['Exportação'] || 0 },
+  ];
 
   return (
     <div className="chart-wrapper">
@@ -31,8 +37,8 @@ const TotalImportacaoExportacao = ({
               setShowPercentage={setShowPercentage}
             />
           }
-          dataKey="total"
-          nameKey="tipo"
+          dataKey="value"
+          nameKey="label"
           colors={colors}
           showPercentages={showPercentage}
           tooltipEntry=" dólares"

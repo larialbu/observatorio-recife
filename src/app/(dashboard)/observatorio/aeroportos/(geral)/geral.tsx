@@ -19,7 +19,6 @@ type DataType = Record<string, Record<string, Record<string, number>>>;
 const Geral: React.FC<ChartBuild> = ({
   data,
   rawData,
-  months,
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const sortableContainerRef = useRef<HTMLDivElement>(null);
@@ -53,7 +52,7 @@ const Geral: React.FC<ChartBuild> = ({
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <ErrorBoundary>
-                  <Component data={chartData.data as DataType} rawData={chartData.rawData as DataType} months={months} />
+                  <Component data={chartData.data as DataType} rawData={chartData.rawData as DataType}  />
                 </ErrorBoundary>
               </React.Suspense>
             </div>

@@ -60,7 +60,6 @@ const AeroportosPage = () => {
           data={anac || []}
           rawData={data?.id === "anac" ? data.geral?.rawData || [] : []}
           year={getYearSelected(filters)}
-          months={getMonths(filters)}
         />;
         //FAVOR, EDITAR ESTE TOCOMPARE PARA SER SETTADO COM BASE EM DATA PARA DEPOIS SÓ PRECISAR SETAR O FILTRO DA TAB COMO
         // DEFAULTFILTERS E CONSEGUIR PASSAR SOMENTE O ANO.

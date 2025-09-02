@@ -1,17 +1,23 @@
 "use client";
 
-import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import StackerBarChartVertical from "@/components/@global/charts/StackedVerticalBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { processImportacaoExportacaoPorPais } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/paisesImportacaoExportacao";
+import { processGetImportacaoExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/getImportacaoExportacao";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
+type DataType = Record<string, Record<string, Record<string, number>>>;
+
 const ImportacaoExportacaoPorPais = ({
-  data = [],
+  data = {},
   colors = ColorPalette.default,
-}: ChartBuild<BalancaHeaders[]>) => {
-  const chartData = processImportacaoExportacaoPorPais(data);
+}: ChartBuild<DataType>) => {
+
+  const dataImportacao = data?.['Importação']?.['País'] || {}
+  const dataExportacao = data?.['Exportação']?.['País'] || {}
+
+  const chartData = processGetImportacaoExportacao(dataImportacao, dataExportacao, true) 
+ 
 
   return (
     <div className="chart-wrapper">
@@ -20,7 +26,7 @@ const ImportacaoExportacaoPorPais = ({
         data={chartData}
         title="Importação vs Exportação por País"
         colors={colors.slice(1)}
-        xKey="pais"
+        xKey="label"
         bars={[
           { 
             dataKey: "importacao", 

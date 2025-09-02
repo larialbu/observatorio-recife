@@ -1,18 +1,23 @@
 "use client";
 
-import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import StackedBarChart from "@/components/@global/charts/StackedVerticalBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { processComercializacaoPorProduto } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/produtosImportacaoExportacao";
+import { processGetImportacaoExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/getImportacaoExportacao";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
+type DataType = Record<string, Record<string, Record<string, number>>>;
+
 const ImportacaoExportacaoContinente = ({
-  data = [],
+  data = {},
   colors = ColorPalette.default,
   title="Produtos Comercializados"
-}: ChartBuild<BalancaHeaders[]>) => {
-  const chartData = processComercializacaoPorProduto(data);
+}: ChartBuild<DataType>) => {
+
+  const dataImportacao = data?.['Importação']?.['Descrição SH4'] || {}
+  const dataExportacao = data?.['Exportação']?.['Descrição SH4'] || {}
+
+  const chartData = processGetImportacaoExportacao(dataImportacao, dataExportacao, true) 
 
   return (
     <div className="chart-wrapper">
@@ -21,7 +26,7 @@ const ImportacaoExportacaoContinente = ({
         data={chartData}
         colors={colors.slice(1)}
         title={title}
-        xKey="descricao"
+        xKey="label"
         bars={[
           { 
             dataKey: "importacao", 
@@ -37,7 +42,7 @@ const ImportacaoExportacaoContinente = ({
           },
         ]}
         tooltipEntry=" dólares"
-        heightPerCategory={60}  // Define a altura de cada categoria (barra)
+        heightPerCategory={60}   
         visibleHeight={400}
         widthY={150}
         left={-8}

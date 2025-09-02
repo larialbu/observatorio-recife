@@ -1,23 +1,23 @@
 "use client";
 
-import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import StackedBarChart from "@/components/@global/charts/StackedVerticalBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { processImportacaoExportacaoPorContinente } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/continentesImportacaoExportacao";
+import { processGetImportacaoExportacao } from "@/functions/process_data/observatorio/balanca-comercial/comercial/charts/getImportacaoExportacao";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
+type DataType = Record<string, Record<string, Record<string, number>>>;
+
 const ImportacaoExportacaoContinente = ({
-  data = [],
+  data = {},
   colors = ColorPalette.default,
   title="Importação vs Exportação por Continente"
-}: ChartBuild<BalancaHeaders[]>) => {
-  const chartData = processImportacaoExportacaoPorContinente(data);
+}: ChartBuild<DataType>) => {
 
-  // console.log('Balanca comercial ->', chartData)
-  // continente: "Ásia"
-  // exportacao: 1973084
-  // importacao: 87879680
+  const dataImportacao = data?.['Importação']?.['Continente'] || {}
+  const dataExportacao = data?.['Exportação']?.['Continente'] || {}
+
+  const chartData = processGetImportacaoExportacao(dataImportacao, dataExportacao, true) 
 
   return (
     <div className="chart-wrapper">
@@ -26,7 +26,7 @@ const ImportacaoExportacaoContinente = ({
         data={chartData}
         title={title}
         colors={colors.slice(1)}
-        xKey="continente"
+        xKey="label"
         bars={[
           { 
             dataKey: "importacao", 
