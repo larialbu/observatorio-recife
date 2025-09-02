@@ -25,22 +25,8 @@ const Analitico = ({
   const [selectCountries, setSelectCountries] = useState<string[]>([]);
 
   useEffect(() => {
-    const getNewTables = tempFiltred.map((val) => {
-      // VOU ARRUMAR ESSE FIQUE TRANQUILO
-      return {
-        Component: React.lazy(
-          () =>
-            import(
-              "@/components/@build/observatorio/tables/balanca-comercial/analitico/BalInfo"
-            )
-        ),
-        Secundary: React.lazy(
-          () =>
-            import(
-              "@/components/@build/observatorio/tables/balanca-comercial/analitico/GroupProdutos"
-            )
-        ),
-      };
+    const getNewTables = tempFiltred.map((_) => {
+      return tables[0];
     });
 
     setTablesRender([...getNewTables]);

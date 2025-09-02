@@ -10,7 +10,6 @@ export class PortoData {
     this.year = year;
   }
 
-
   async fetchAtracacaoPorAno(): Promise<PortoAtracacaoHeaders[]> {
     const endpoint = `/porto/atracacao/${this.year}`;
     return fetchData<PortoAtracacaoHeaders[]>(endpoint, PortoData.cache);
