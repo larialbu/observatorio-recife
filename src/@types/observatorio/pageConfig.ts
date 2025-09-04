@@ -1,4 +1,4 @@
-import pagesData from '../../../public/pagination.json';
+// import pagesData from '../../../public/pagination.json';
 
 interface TabConfig {
   label: string;
@@ -12,8 +12,8 @@ interface PageConfig {
   tabs: TabConfig[];
 }
 
-interface AppConfig {
+export interface AppConfig {
   observatorio: Record<string, PageConfig>;
 }
 
-export const pagesConfig: AppConfig = pagesData;
+// export const pagesConfig: AppConfig = pagesData;
