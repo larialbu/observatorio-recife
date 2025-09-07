@@ -108,13 +108,13 @@ export default function DashboardLayout({
 
   return (
     <Suspense fallback={<LoadingScreen />}>
-      <DashboardProvider>
-        <BundleProvider pathname={pathname}>
-          <DashboardContent>
-            {children}
-          </DashboardContent>
-        </BundleProvider>
-      </DashboardProvider>
+      <BundleProvider pathname={pathname}>
+        <DashboardProvider>
+            <DashboardContent>
+              {children}
+            </DashboardContent>
+        </DashboardProvider>
+      </BundleProvider>
     </Suspense>
   );
 }
