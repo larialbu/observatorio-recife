@@ -1,11 +1,14 @@
+
 import { useBundleContext } from '@/context/BundleContext';
+import { useLoading } from '@/context/LoadingContext';
 
 export function usePageBundle() {
-  const { bundleReady, loading, error, currentBundle } = useBundleContext();
+  const { bundleReady, error, currentBundle } = useBundleContext();
+  const { loading } = useLoading(); 
   
   return {
     isReady: bundleReady,
-    isLoading: loading,
+    isLoading: loading, 
     error,
     bundleName: currentBundle,
   };

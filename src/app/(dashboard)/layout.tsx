@@ -9,6 +9,7 @@ import ToggleDarkMode from "@/components/@global/features/ToggleDarkMode";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import Navbar from "@/components/random_temp/Navbar";
 import { Sidebar } from "@/components/random_temp/Sidebar";
+import { PageRenderer } from "@/components/@global/features/PageRenderer";
 import { DashboardProvider } from "@/context/DashboardContext";
 import { BundleProvider } from "@/context/BundleContext";
 import "@excalidraw/excalidraw/index.css";
@@ -52,52 +53,66 @@ function getSafeReturnPath(pathname: string): string {
     return "/";
 }
 
+function DashboardContent({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+ 
+  const fullPath = `${pathname}?${searchParams}`;
+  const previousPathRef = useRef<string | null>(null);
+  
+  useEffect(() => {
+    previousPathRef.current = fullPath;
+  }, [fullPath]);
+  
+  const isPageActive = getPageStatus(pathname, searchParams);
+  const backLink = previousPathRef.current || getSafeReturnPath(pathname);
+  const backgroundClass = getBackgroundForRoute(pathname);
+ 
+  return (
+    <div className="h-screen flex overflow-hidden">
+      <Sidebar />
+      <div
+        className={`flex-1 ${backgroundClass} bg-cover overflow-y-auto flex flex-col ` + (!isPageActive ? '' : 'pb-[1em]')}
+      >
+        {isPageActive ? (
+          <>
+            <Navbar />
+            <HiddenChartsPanel />
+            <ToggleDarkMode />
+            <DrawingStoreProvider>
+              <ExcalidrawProvider>
+                <PageRenderer>
+                  {children}
+                </PageRenderer>
+                <FloatingExcalidrawButton />
+              </ExcalidrawProvider>
+            </DrawingStoreProvider>
+          </>
+        ) : (
+          <>
+            <ToggleDarkMode />
+            <MaintenancePage backLink={backLink} />
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
- 
-  const fullPath = `${pathname}?${searchParams}`;
-  const previousPathRef = useRef<string | null>(null);
-  useEffect(() => {
-    previousPathRef.current = fullPath;
-  }, [fullPath]);
-  const isPageActive = getPageStatus(pathname, searchParams);
-  const backLink = previousPathRef.current || getSafeReturnPath(pathname);
-  const backgroundClass = getBackgroundForRoute(pathname);
-  
+
   return (
     <Suspense fallback={<LoadingScreen />}>
       <DashboardProvider>
         <BundleProvider pathname={pathname}>
-          <div className="h-screen flex overflow-hidden">
-            <Sidebar />
-            <div
-              className={`flex-1 ${backgroundClass} bg-cover overflow-y-auto flex flex-col ` + (!isPageActive ? '' : 'pb-[1em]')}
-            >
-              {isPageActive ? (
-                <>
-                  <Navbar />
-                  <HiddenChartsPanel />
-                  <ToggleDarkMode />
-                  <DrawingStoreProvider>
-                    <ExcalidrawProvider>
-                      {children}
-                      <FloatingExcalidrawButton />
-                    </ExcalidrawProvider>
-                  </DrawingStoreProvider>
-                </>
-              ) : (
-                <>
-                  <ToggleDarkMode />
-                  <MaintenancePage backLink={backLink} />
-                </>
-              )}
-            </div>
-          </div>
+          <DashboardContent>
+            {children}
+          </DashboardContent>
         </BundleProvider>
       </DashboardProvider>
     </Suspense>
