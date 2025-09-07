@@ -1,8 +1,8 @@
 "use client";
 import "./styles/home/style.scss";
 import { useState, useEffect } from "react";
-import { loadAndSyncBundles, savePagination } from "@/@api/cache/bundleDecompress";
-import { checkSaves, saveToIndexedDB } from "@/@api/cache/indexDB";
+import { loadAndSyncBundles } from "@/@api/cache/bundleDecompress";
+import { checkSaves } from "@/@api/cache/indexDB";
 import { Banner } from "@/components/home/Banner";
 import { ExploreSection } from "@/components/home/ExploreSection";
 import { Footer } from "@/components/home/Footer";
@@ -38,9 +38,7 @@ const Page = () => {
         if (!response.ok) {
           throw new Error(`Erro ao buscar manifest: ${response.status} ${response.statusText}`);
         }
-
-        await savePagination()
-
+        
         const manifest = await response.json();
 
         const manifestEntries = Object.entries(manifest).map(([bundleKey, info]: any) => ({

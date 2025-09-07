@@ -1,22 +1,18 @@
-export function openDatabase(dbName: string, storeName: string) {
-  return new Promise<IDBDatabase>((resolve, reject) => {
-    const request = indexedDB.open(dbName, 2); // 🔥 aumenta versão
-
-    request.onupgradeneeded = (e) => {
-      const db = (e.target as IDBOpenDBRequest).result;
-
-      ['parquetFiles', 'paginationFiles'].forEach(store => {
-        if (!db.objectStoreNames.contains(store)) {
-        db.createObjectStore(store);
-      }
-      })
-    };
-
-    request.onerror = (e) => reject((e.target as IDBRequest).error);
-    request.onsuccess = (e) => resolve((e.target as IDBRequest).result);
-  });
-}
-
+  export function openDatabase(dbName: string, storeName: string) {
+      return new Promise<IDBDatabase>((resolve, reject) => {
+        const request = indexedDB.open(dbName, 1);
+    
+        request.onupgradeneeded = (e) => {
+          const db = (e.target as IDBOpenDBRequest).result;
+          if (!db.objectStoreNames.contains(storeName)) {
+            db.createObjectStore(storeName);
+          }
+        };
+    
+        request.onerror = (e) => reject((e.target as IDBRequest).error);
+        request.onsuccess = (e) => resolve((e.target as IDBRequest).result);
+      });
+    }
     
     export async function saveToIndexedDB(
       dbName: string,
