@@ -1,10 +1,11 @@
 import { createExtractorFromData } from "node-unrar-js";
 import { setProgress, setMessage, enableFirst, disableFirst } from "@/utils/loader/progressEmitter";
-import { saveToIndexedDB } from "./indexDB";
+import { getFromIndexedDB, saveToIndexedDB } from "./indexDB";
 import { saveVersion, getVersion } from "./versionUtils";
 
 const DB_NAME = "parquetDB";
-const STORE_NAME = "parquetFiles";
+const STORE_NAME_PARQUET = "parquetFiles";
+const STORE_NAME_PAGINATION = "paginationFiles";
 const MANIFEST_URL = "/api/bundles/manifest";
 
 function cleanFilePath(filePath: string) {
@@ -70,7 +71,7 @@ async function processBundle(
     for (const file of filesArray) {
       const { fileHeader, extraction } = file;
       const cleanedKey = cleanFilePath(fileHeader.name);
-      await saveToIndexedDB(DB_NAME, STORE_NAME, cleanedKey, extraction?.buffer);
+      await saveToIndexedDB(DB_NAME, STORE_NAME_PARQUET, cleanedKey, extraction?.buffer);
       savedCount++;
       updateCategoryStatus("salvando", 30 + (savedCount / totalFiles) * 70);
     }
@@ -99,7 +100,7 @@ export async function loadAndSyncBundles(
       'Pragma': 'no-cache',
     },
   });
-  
+
   if (!response.ok) {
     throw new Error(`Erro ao buscar manifest: ${response.status} ${response.statusText}`);
   }
@@ -188,4 +189,28 @@ async function fetchWithProgress(url: string, onProgress: (percent: number) => v
   }
   
   return chunksAll.buffer;
+}
+
+export async function savePagination () {
+  const response = await fetch('/api/bundles/pagination', {
+    cache: "no-store",
+    headers: {
+      'Cache-Control': 'no-cache',
+      'Pragma': 'no-cache',
+    },
+  })
+
+  if (!response.ok) {
+    throw new Error(`Erro ao buscar paginação: ${response.status} ${response.statusText}`);
+  }
+
+  const pagination = await response.json();
+
+  await saveToIndexedDB(DB_NAME, STORE_NAME_PAGINATION, 'pagination', pagination);
+}
+
+export async function getPagination () {
+  const pagination = await getFromIndexedDB(DB_NAME, STORE_NAME_PAGINATION, 'pagination');
+
+  return pagination
 }
