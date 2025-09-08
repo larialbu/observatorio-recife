@@ -10,7 +10,7 @@ import FocusHidden from "../@global/features/FocusHidden";
 
 
 const Navbar = () => {
-  const { filters, applyFilters, resetFilters } = useDashboard();
+  const { filters, applyFilters, resetFilters, changeYearFilters } = useDashboard();
 
   const [tempFilters, setTempFilters] = useState(filters);
   const [filtersVisible, setFiltersVisible] = useState(false);
@@ -174,10 +174,12 @@ const Navbar = () => {
                   {/* Seletor de Ano */}
                   <div className="flex flex-col">
                     <label className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">Ano</label>
+                     
                     <select
-                      value={tempFilters.year || filters.years && filters.years[filters.years.length - 1]}
+                      value={tempFilters.year || filters.year || filters.years && filters.years[filters.years.length - 1]}
                       onChange={(e) => {
                         setTempFilters((prev) => ({ ...prev, year: e.target.value }));
+                        changeYearFilters(e.target.value)
                       }}
                       className="px-3 py-2 border text-sm rounded-md dark:bg-[#182e46] dark:border-gray-600 dark:text-gray-300"
                     >

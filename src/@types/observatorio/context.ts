@@ -27,4 +27,5 @@ export interface DashboardContextProps<T> {
   hiddenCharts: HiddenChart[];
   addHiddenChart: (chart: HiddenChart) => void;
   removeHiddenChart: (id: string) => void;
+  changeYearFilters: (year: string) => void
 }

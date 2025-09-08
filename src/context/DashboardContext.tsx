@@ -30,8 +30,65 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
   const prevFiltersRef = useRef<Filters | null>(null); // armazenar os filtros anteriores
 
+  const fetchAdditional = async (fetched: any, year?: string) => {
+
+    const newAdditional: AdditionalFilter[] = Object.values(Object.keys(fetched).filter((key) => key != 'id').map((key) => {
+      if (fetched?.[key]?.additionalFiltersOptions) {
+        return fetched[key].additionalFiltersOptions
+      } else {
+        return Object.keys(fetched[key]).map((keyInter) => fetched[key][keyInter].additionalFiltersOptions)
+      }
+      }).flat(Infinity).filter((val) => val != undefined).reduce((acc, curr) => {
+      const { label, ...rest } = curr;
+  
+      if (!acc[label]) {
+        acc[label] = { label };
+      }
+  
+      for (const key in rest) {
+        const value = rest[key];
+  
+        if (Array.isArray(value)) {
+          if (!Array.isArray(acc[label][key])) {
+            acc[label][key] = [];
+          }
+  
+          acc[label][key].push(...value);
+          acc[label][key] = [...new Set(acc[label][key])]; // remover duplicatas
+        } else {
+          // Se não for array, só atribui se ainda não tiver sido atribuído
+          if (!(key in acc[label])) {
+            acc[label][key] = value;
+          }
+        }
+      }
+  
+      return acc;
+    }, {}))
+
+    if (newAdditional.length) {
+      setFilters((prev) => {
+        // ao invés de fazer uma comparação com base nos additionalfiltes, vmaos colocar um campo chamado id ou key e a partir disso fazer a comparação, se for diferente fazemos um novo fetch
+        const merged = newAdditional.map((newF: AdditionalFilter) => {
+          const oldF = prev.additionalFilters?.find(
+            (o: AdditionalFilter) => o.label === newF.label
+          );
+          if (!oldF) {
+            return { ...newF, selected: newF.selected || [] };
+          }
+          // substitui options, mas preserva oldF.selected
+          return {
+            ...newF,
+            selected: oldF.selected || [],
+          };
+        });
+        return { ...prev, year, additionalFilters: merged };
+      });
+    }
+  }
+
   // Função para buscar os dados com base nos filtros
-  const fetchData = async (filtersToUse: Filters) => {
+  const fetchData = async (filtersToUse: Filters, persist = true) => {
     console.log("🔄 Chamando fetchData..."); // QUE LINDO
     setIsLoading(true);
 
@@ -53,71 +110,15 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
       const fetched: any = await service.fetchDataForTab(tab, filtersToUse); // Aqui era DashboardData tipado
 
-      console.log('FETCHED NO dashboadContext: ->', fetched)
-
       if (process.env.NODE_ENV === 'development') {
         console.log("✅ Dados carregados:", fetched);
       } // REMOVER ISSO AQUI DEPOIS
 
-      setData(fetched);
-
-      // Atualiza os filtros apenas se additionalFiltersOptions existirem
-      // antigo feio bosta
-      // const newAdditional = fetched?.[Object.keys(fetched)[0]]?.additionalFiltersOptions || [];
-      
-      const newAdditional: AdditionalFilter[] = Object.values(Object.keys(fetched).filter((key) => key != 'id').map((key) => {
-        if (fetched?.[key]?.additionalFiltersOptions) {
-         return fetched[key].additionalFiltersOptions
-        } else {
-         return Object.keys(fetched[key]).map((keyInter) => fetched[key][keyInter].additionalFiltersOptions)
-        }
-       }).flat(Infinity).filter((val) => val != undefined).reduce((acc, curr) => {
-        const { label, ...rest } = curr;
-    
-        if (!acc[label]) {
-          acc[label] = { label };
-        }
-    
-        for (const key in rest) {
-          const value = rest[key];
-    
-          if (Array.isArray(value)) {
-            if (!Array.isArray(acc[label][key])) {
-              acc[label][key] = [];
-            }
-    
-            acc[label][key].push(...value);
-            acc[label][key] = [...new Set(acc[label][key])]; // remover duplicatas
-          } else {
-            // Se não for array, só atribui se ainda não tiver sido atribuído
-            if (!(key in acc[label])) {
-              acc[label][key] = value;
-            }
-          }
-        }
-    
-        return acc;
-      }, {}))
-
-      if (newAdditional.length) {
-        setFilters((prev) => {
-          // ao invés de fazer uma comparação com base nos additionalfiltes, vmaos colocar um campo chamado id ou key e a partir disso fazer a comparação, se for diferente fazemos um novo fetch
-          const merged = newAdditional.map((newF: AdditionalFilter) => {
-            const oldF = prev.additionalFilters?.find(
-              (o: AdditionalFilter) => o.label === newF.label
-            );
-            if (!oldF) {
-              return { ...newF, selected: newF.selected || [] };
-            }
-            // substitui options, mas preserva oldF.selected
-            return {
-              ...newF,
-              selected: oldF.selected || [],
-            };
-          });
-          return { ...prev, additionalFilters: merged };
-        });
+      if (persist) {
+        setData(fetched);
       }
+      
+     await fetchAdditional(fetched, year)
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
       setData(null);
@@ -165,7 +166,6 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     applyFilters(baseFilters);
   };
   
-
   // PARA GERENCIAR OS GRÁFICOS ESCONDIDOS
 
   const addHiddenChart = (chart: HiddenChart) => {
@@ -211,6 +211,10 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   }, [pathname, searchParams]);
 
 
+  const changeYearFilters = async (year: any) => {
+    await fetchData({ ...filters, year }, false)
+  }
+
   return (
     <DashboardContext.Provider value={{ 
       filters, 
@@ -221,7 +225,8 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       setData,
       hiddenCharts,
       addHiddenChart,
-      removeHiddenChart
+      removeHiddenChart,
+      changeYearFilters
     }}>
       {children}
     </DashboardContext.Provider>
