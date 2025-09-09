@@ -3,7 +3,6 @@ import { AenaCargasHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 
 export const processCargasTotalAena = (
     data: AenaCargasData,
-    year: string,
     months?: [number] | [number, number],
     aeroportoName?: string
   ) => {
@@ -25,8 +24,7 @@ export const processCargasTotalAena = (
       totalCargas = data.reduce((total: number, item: AenaCargasHeaders) => {
         if (
           (!aeroportoName || item["Aeroporto"] === aeroportoName) &&
-          item["Mês"] === month &&
-          item["Ano"].toString() === year
+          item["Mês"] === month  
         ) {
           const carga = parseFloat(
             (item["Quantidade"] || "0").toString()
@@ -48,8 +46,7 @@ export const processCargasTotalAena = (
         if (
           (!aeroportoName || item["Aeroporto"] === aeroportoName) &&
           actualMonth >= startMonth &&
-          actualMonth <= endMonth &&
-          item["Ano"].toString() === year
+          actualMonth <= endMonth  
         ) {
           const carga = parseFloat(
             (item["Quantidade"] || "0").toString()
@@ -71,8 +68,7 @@ export const processCargasTotalAena = (
       // Filtra para o ano inteiro
       totalCargas = data.reduce((total: number, item: AenaCargasHeaders) => {
         if (
-          (!aeroportoName || item["Aeroporto"] === aeroportoName) &&
-          item["Ano"].toString() === year
+          (!aeroportoName || item["Aeroporto"] === aeroportoName) 
         ) {
           const carga = parseFloat(
             (item["Quantidade"] || "0").toString()
@@ -83,7 +79,6 @@ export const processCargasTotalAena = (
       }, 0);
   
       return {
-        ano: year,
         carga: totalCargas,
       };
     }

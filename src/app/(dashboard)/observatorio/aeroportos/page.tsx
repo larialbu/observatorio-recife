@@ -75,7 +75,7 @@ const AeroportosPage = () => {
           toCompare={filters.additionalFilters[4]?.selected}
         />;
       case "aena":
-        return <AenaPage months={getMonths(filters)} />;
+        return <AenaPage year={getYearSelected(filters)} months={getMonths(filters)} />;
       default:
         return <Geral 
         data={anac || []}

@@ -14,7 +14,7 @@ import cardsPassageiros from "./@imports/passageiro/cards";
 import chartsPassageiros from "./@imports/passageiro/charts";
 
 
-const AenaPage = ({ months}: {months: number}) => {
+const AenaPage = ({ months, year}: {months: number, year: string}) => {
   const { data, isLoading } = useDashboard();
   const [filteredPassageiros, setFilteredPassageiros] = useState<AenaPassageirosHeaders[]>([]);
 const [filteredCargas, setFilteredCargas] = useState<AenaCargasHeaders[]>([]);
@@ -45,7 +45,7 @@ const [filteredCargas, setFilteredCargas] = useState<AenaCargasHeaders[]>([]);
           <Component
             key={`passageiro-card-${index}`}
             data={filteredPassageiros}
-            year="2024"
+            year={year}
             color={ColorPalette.default[index]}
           />
         ))}
@@ -53,7 +53,7 @@ const [filteredCargas, setFilteredCargas] = useState<AenaCargasHeaders[]>([]);
           <Component
             key={`carga-card-${index}`}
             data={filteredCargas}
-            year="2024"
+            year={year}
             color={ColorPalette.default[index]}
           />
         ))}
