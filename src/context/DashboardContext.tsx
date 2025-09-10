@@ -30,7 +30,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
   const prevFiltersRef = useRef<Filters | null>(null); // armazenar os filtros anteriores
 
-  const fetchAdditional = async (fetched: any, year?: string) => {
+  const fetchAdditional = async (fetched: any, year?: string, persist?: boolean) => {
 
     const newAdditional: AdditionalFilter[] = Object.values(Object.keys(fetched).filter((key) => key != 'id').map((key) => {
       if (fetched?.[key]?.additionalFiltersOptions) {
@@ -82,7 +82,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
             selected: oldF.selected || [],
           };
         });
-        return { ...prev, year, additionalFilters: merged };
+        return { ...prev, yearTemp: persist ? undefined : year, additionalFilters: merged };
       });
     }
   }
@@ -102,7 +102,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      const year = filtersToUse?.year ?? filtersToUse?.years?.[filtersToUse.years.length - 1];
+      const year = persist ? filtersToUse?.year ?? filtersToUse?.years?.[filtersToUse.years.length - 1] : filtersToUse?.yearTemp
 
       if (year) {
         service.setYear(year);
@@ -118,7 +118,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         setData(fetched);
       }
       
-     await fetchAdditional(fetched, year)
+     await fetchAdditional(fetched, year, persist)
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
       setData(null);
@@ -129,8 +129,9 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
   const applyFilters = async (newFilters: Filters) => {
     if (filters?.id === newFilters?.id) {
-      setFilters(newFilters);
-      await fetchData(newFilters);
+      const newFiltersNoYearTemp = { ...newFilters, year: newFilters?.yearTemp, yearTemp: undefined };
+      setFilters(newFiltersNoYearTemp);
+      await fetchData(newFiltersNoYearTemp);
     }
   };
 
@@ -212,7 +213,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
 
   const changeYearFilters = async (year: any) => {
-    await fetchData({ ...filters, year }, false)
+    await fetchData({ ...filters, yearTemp: year }, false)
   }
 
   return (
