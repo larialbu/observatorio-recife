@@ -10,12 +10,16 @@ interface BundleContextType {
   bundleReady: boolean;
   error: string | null;
   currentBundle: string | null;
+  refresh: boolean;
+  refreshed: () => void;
 }
 
 const BundleContext = createContext<BundleContextType>({
   bundleReady: false,
   error: null,
   currentBundle: null,
+  refresh: false,
+  refreshed: () => {}
 });
 
 export const useBundleContext = () => useContext(BundleContext);
@@ -34,6 +38,8 @@ export const BundleProvider: React.FC<BundleProviderProps> = ({
   const [currentBundle, setCurrentBundle] = useState<string | null>(null);
   const [shouldRefresh, setShouldRefresh] = useState(false);
 
+  const [refresh, setRefresh] = useState(false)
+
   const { handlePageStatus } = usePages()
 
   const { setLoading } = useLoading();
@@ -51,13 +57,16 @@ export const BundleProvider: React.FC<BundleProviderProps> = ({
     return null;
   };
 
+  const refreshed = () => {
+    setRefresh(false)
+  }
+
   // Este useEffect precisa ser eliminado kkkk (é o que dá o refresh após 1 segundo)
   useEffect(() => {
+    refreshed()
     if (shouldRefresh && bundleReady && currentBundle) {
       console.log(`🔄 REFRESH FORÇADO - Bundle ${currentBundle} pronto, recarregando página...`);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      setRefresh(true)
     }
   }, [shouldRefresh, bundleReady, currentBundle]);
 
@@ -134,7 +143,7 @@ export const BundleProvider: React.FC<BundleProviderProps> = ({
 
   return (
     <BundleContext.Provider
-      value={{ bundleReady, error, currentBundle }}
+      value={{ bundleReady, error, currentBundle, refresh, refreshed }}
     >
       {children}
     </BundleContext.Provider>

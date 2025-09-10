@@ -12,7 +12,7 @@ import Navbar from "@/components/random_temp/Navbar";
 import { Sidebar } from "@/components/random_temp/Sidebar";
 import { PageRenderer } from "@/components/@global/features/PageRenderer";
 import { DashboardProvider } from "@/context/DashboardContext";
-import { BundleProvider, useBundleContext } from "@/context/BundleContext";
+import { BundleProvider } from "@/context/BundleContext";
 import "@excalidraw/excalidraw/index.css";
 import { getBackgroundForRoute } from "@/utils/dashboard/getBackgroundForRoute";
 import { MaintenancePage } from "@/components/observatorio/MaintenancePage";

@@ -16,6 +16,7 @@ import { getFiltersForRoute } from "@/utils/filters/@features/getFiltersForRoute
 import { getServiceForRoute } from "@/utils/filters/@features/getServiceForRoute";
 import { dataYears } from "@/@api/config/dataYears";
 import { geralRouteDataHash } from "@/utils/hashs/routes/geralRouteDataHash";
+import { useBundleContext } from "./BundleContext";
 
 const DashboardContext = createContext<DashboardContextProps<unknown> | undefined>(undefined);
 
@@ -29,6 +30,8 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   const [hiddenCharts, setHiddenCharts] = useState<HiddenChart[]>([]);
 
   const prevFiltersRef = useRef<Filters | null>(null); // armazenar os filtros anteriores
+
+  const { refresh, refreshed } = useBundleContext()
 
   const fetchAdditional = async (fetched: any, year?: string, persist?: boolean) => {
 
@@ -198,9 +201,10 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
       // Se os filtros não mudaram, não faz nada
       // ao invés de fazer uma comparação com base nos additionalfiltes, vmaos colocar um campo chamado id ou key e a partir disso fazer a comparação, se for diferente fazemos um novo fetch
-      if (baseFilters?.id === prevFiltersRef?.current?.id) {
+      if (baseFilters?.id === prevFiltersRef?.current?.id && !refresh) {
         return;
       }
+      refreshed()
       setData(null);
       console.log("🔵 Filtros mudaram, chamando fetchData...");
       prevFiltersRef.current = filtersWithYears;
@@ -209,7 +213,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     }
 
     fetch()
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, refresh]);
 
 
   const changeYearFilters = async (year: any) => {
