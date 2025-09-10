@@ -1,9 +1,10 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { loadAndSyncBundles } from "@/@api/cache/bundleDecompress";
+import { loadAndSyncBundles, savePagination } from "@/@api/cache/bundleDecompress";
 import { getVersion } from "@/@api/cache/versionUtils";
 import { useLoading } from "@/context/LoadingContext";
 import { iconsExplore } from "@/utils/home/ExploreIconsObservatorio";
+import { usePages } from "./PagesContext";
 
 interface BundleContextType {
   bundleReady: boolean;
@@ -32,6 +33,8 @@ export const BundleProvider: React.FC<BundleProviderProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [currentBundle, setCurrentBundle] = useState<string | null>(null);
   const [shouldRefresh, setShouldRefresh] = useState(false);
+
+  const { handlePageStatus } = usePages()
 
   const { setLoading } = useLoading();
 
@@ -73,6 +76,11 @@ export const BundleProvider: React.FC<BundleProviderProps> = ({
       setLoading(true);
 
       try {
+
+        await savePagination() 
+
+        await handlePageStatus()
+
         const currentVersion = await getVersion(bundleKey);
 
         const manifestResponse = await fetch("/api/bundles/manifest", {
