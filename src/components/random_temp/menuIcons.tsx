@@ -1,5 +1,3 @@
-import { title } from "process";
-
 export const menuItems = [
     {
       title: "MENU",
@@ -198,7 +196,7 @@ export const menuItems = [
             </svg>
           ),
           label: "Acesse o Boletim Econômico",
-          href: "/boletim-economico",
+          href: "https://desenvolvimentoeconomico.recife.pe.gov.br/boletins-economicos",
           visible: ["admin", "teacher", "student", "parent"],
         },
       ],

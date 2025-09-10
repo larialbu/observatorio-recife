@@ -16,7 +16,7 @@ import IptuValores from "./(iptu-valores)/iptu-valores";
 import IptuPesquisa from "./(iptu-pesquisa)/iptu-pesquisa";
 import { getChartDataModel } from "@/functions/process_data/observatorio/getChartDataModel";
 
-const EmpresasPage = () => {
+const TributosPage = () => {
   const { isLoading, data, filters } = useDashboard() as any;
   const [dataArr, setDataArr] = useState<any>({});
   const [activeTab, setActiveTab] = useState("geral");
@@ -190,4 +190,4 @@ const EmpresasPage = () => {
   );
 };
 
-export default EmpresasPage;
+export default TributosPage;

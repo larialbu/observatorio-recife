@@ -769,7 +769,7 @@ export const iconsExplore = [
                     "tributação sobre consumo",
                     "tributação sobre renda"
                 ],
-                bundleKey: "tributos"
+                bundleKey: "itbi"
             }
         ]
     }
