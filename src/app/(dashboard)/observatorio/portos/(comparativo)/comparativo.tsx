@@ -20,7 +20,7 @@ const Comparativo = ({
   year,
   data,
   toCompare = getUniqueValues<PortoAtracacaoHeaders, "Porto Atracação">(
-    "filteredData" in data.atracacao ? data.atracacao.filteredData : data.atracacao,
+    data.rawData.accumulated,
     "Porto Atracação"
   ),
   months
@@ -32,12 +32,6 @@ const Comparativo = ({
   const [tablesRender, setTablesRender] = useState([charts]);
 
   const [tableOrder, setTableOrder] = useState(tables.map((_, index) => index));
-
-  // const [portosDataFiltered, setPortosDataFiltered] = useState<{
-  //     porto: string;
-  //     atracacao: PortoAtracacaoHeaders[];
-  //     cargas: PortoCargaHeaders[];
-  // }[]>([]);
 
   const [portosDataFiltered, setPortosDataFiltered] = useState<{ 
     [key: string]: {
@@ -54,34 +48,20 @@ const Comparativo = ({
 const attTempFiltred = ['Recife', ...tempFiltred]
 
 useEffect(() => {
-    const filtredAtracacao = data['rawData']['atracacao'].filter((item) =>
+    const filtredAtracacao = data['rawData']['accumulated'].filter((item: any) =>
       attTempFiltred.includes(item['Porto Atracação']),
     )
-  
-    const atracacaoIds = new Set(filtredAtracacao.map((atracacao) => atracacao.IDAtracacao));
-  
-    const filtredCarga = data['rawData']['carga'].filter((item) => atracacaoIds.has(item.IDAtracacao));
-
-    const newData = []
-
-    for (let i = 0; i < filtredCarga?.length; i++) {
-      const cargaData = filtredAtracacao?.find(c => c.IDAtracacao === filtredCarga[i].IDAtracacao)
-      if (!cargaData) continue;
-      newData.push({ ...filtredCarga[i], ...cargaData });
-    }    
 
     const params = ['CDMercadoria', 'Destino', 'Origem', 'Mes', 'Ação']
 
-    const dataAccumulatedField = getChartDataModelComparative(newData, params, 'VLPesoCargaBruta')
+    const dataAccumulatedField = getChartDataModelComparative(filtredAtracacao, params, 'VLPesoCargaBruta')
 
     const getNewTables = tempFiltred.map((val) => {
       return [...charts];
     });
 
-    console.log('Data Accumulated FIEDLD', dataAccumulatedField);
 
     setPortosDataFiltered(dataAccumulatedField)
-    // accumulated
     setTablesRender([[...charts], ...getNewTables]);
   }, [tempFiltred, data]);
 

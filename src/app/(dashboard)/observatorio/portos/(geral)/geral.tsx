@@ -31,20 +31,12 @@ const Geral = ({
   const { Component } = maps[0]
 
   useEffect(() => {
-    if (!Array.isArray(data?.atracacao)) return;
-
-    const newData = []
-
-    for (let i = 0; i < data.carga?.length; i++) {
-      const cargaData = data?.atracacao?.find(c => c.IDAtracacao === data?.carga[i].IDAtracacao)
-      if (!cargaData) continue;
-      newData.push({ ...data?.carga[i], ...cargaData });
-    }
+    if (!Array.isArray(data?.accumulated)) return;
 
     const params = ['CDMercadoria', 'Ação', 'Mes']
 
-    const dataAccumulatedField = geralAccFieldFunction(newData, params, 'VLPesoCargaBruta')
-
+    const dataAccumulatedField = geralAccFieldFunction(data?.accumulated || [], params, 'VLPesoCargaBruta')
+    
     setChartData({ ...data, accumulated: dataAccumulatedField, carga: [], atratacao: [] })
   }, [data]);
 
@@ -88,7 +80,7 @@ const Geral = ({
               </React.Suspense>
             </div>
           )})}
-        </SortableDiv>
+        </SortableDiv> 
 
       <div className="place-items-center z-0 mb-6">
         <div className="bg-white dark:bg-[#0C1A28] shadow-md rounded-lg p-4 w-full overflow-x-hidden flex flex-col items-center">

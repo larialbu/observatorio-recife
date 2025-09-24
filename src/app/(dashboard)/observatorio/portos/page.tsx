@@ -16,8 +16,7 @@ import Geral from "./(geral)/geral";
 
 
 const defaultData: PortoGeralData = {
-  atracacao: [],
-  carga: [],
+  accumulated: [],
   coords: [[], []],
   dictionaries: {
     origem: [],
@@ -25,8 +24,7 @@ const defaultData: PortoGeralData = {
     mercado: [],
   },
   rawData: {
-    atracacao: [],
-    carga: [],
+    accumulated: [],
   },
   id: "porto",
 };
@@ -49,10 +47,10 @@ const PortosPage = () => {
   }, [searchParams, activeTab, router]);
 
     useEffect(() => {
-      if (data && data.id === "porto" && "filteredData" in data.atracacao) {
+      if (data && data.id === "porto" && "filteredData" in data.accumulated) {
         setPorto({
           ...data,
-          atracacao: data?.atracacao?.filteredData,
+          accumulated: data?.accumulated?.filteredData,
         } as PortoGeralData);
         console.log(data)
       } else {

@@ -15,6 +15,11 @@ export class PortoData {
     return fetchData<PortoAtracacaoHeaders[]>(endpoint, PortoData.cache);
   }
 
+  async fetchPortoPorAno(): Promise<PortoCargaHeaders[]> {
+    const endpoint = `/porto/carga-atracacao/${this.year}`;
+    return fetchData<PortoCargaHeaders[]>(endpoint, PortoData.cache);
+  }
+
   async fetchCargaPorAno(): Promise<PortoCargaHeaders[]> {
     const endpoint = `/porto/carga/${this.year}`;
     return fetchData<PortoCargaHeaders[]>(endpoint, PortoData.cache);

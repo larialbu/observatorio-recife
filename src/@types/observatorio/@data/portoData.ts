@@ -3,10 +3,11 @@ import { DataWithFilters } from "../shared";
 
 export interface PortoGeralData {
   id: "porto";
-  atracacao: DataWithFilters<PortoAtracacaoHeaders> | PortoAtracacaoHeaders[];
-  carga: PortoCargaHeaders[];
+  // atracacao: DataWithFilters<PortoAtracacaoHeaders> | PortoAtracacaoHeaders[];
+  // carga: PortoCargaHeaders[];
+  // accumulated?: PortoAtracacaoHeaders[] | { filteredData: PortoAtracacaoHeaders[] };
   months?: PortoMeses;
-  accumulated? : { [key: string]: { [key: string]: number | { [key: string]: number   }} };
+  accumulated : { [key: string]: { [key: string]: number | { [key: string]: number   }} } | any[] | DataWithFilters<any>;
   coords: [PortoCoordHeaders[], number[]];
   dictionaries: {
     origem: PortoOrigemDestinoHeaders[];
@@ -17,8 +18,9 @@ export interface PortoGeralData {
 }
 
 export interface RawDataPortos {
-    atracacao: PortoAtracacaoHeaders[];
-    carga: PortoCargaHeaders[];
+    // atracacao: PortoAtracacaoHeaders[];
+    // carga: PortoCargaHeaders[];
+    accumulated: any
 }
 
 export interface PortoOperacaoData {

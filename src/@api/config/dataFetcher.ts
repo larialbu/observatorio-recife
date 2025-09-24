@@ -1,4 +1,4 @@
-import { getFromIndexedDB, listIndexedDBKeys, saveToIndexedDB } from "@/@api/cache/indexDB";
+import { getFromIndexedDB, saveToIndexedDB } from "@/@api/cache/indexDB";
 
 import { readParquetFromBuffer } from "./parquetReader";
 

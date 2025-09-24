@@ -26,29 +26,11 @@ const Operacao = ({
   const sortableContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!Array.isArray(data?.atracacao)) return;
-
-    // console.log('Data Operação -> ', data);
-
-    const newData = []
-
-    for (let i = 0; i < data.carga?.length; i++) {
-      const cargaData = data?.atracacao?.find(c => c.IDAtracacao === data?.carga[i].IDAtracacao)
-      if (!cargaData) continue;
-      newData.push({ ...data?.carga[i], ...cargaData });
-    }
-
-    console.log('New Data -> OEP', newData);
+    if (!Array.isArray(data?.accumulated)) return;
 
     const params = ['CDMercadoria', 'Destino', 'Origem', 'Mes', 'Ação']
 
-    const dataAccumulatedField = getChartDataModelOperacao(newData, params, 'VLPesoCargaBruta')
-    // const dataAccumulatedField = geralAccFieldFunction(newData, params, 'VLPesoCargaBruta')
-
-    // console.log('New Data ->0<-', newData);
-
-    console.log('Data Accumulated FIEDLD', dataAccumulatedField);
-
+    const dataAccumulatedField = getChartDataModelOperacao(data?.accumulated || [], params, 'VLPesoCargaBruta')
     setChartData({ ...data, accumulated: dataAccumulatedField })
   }, [data]);
 
@@ -75,7 +57,6 @@ const Operacao = ({
             <div key={index} className={`chart-content-wrapper ${col === 'full' && 'col-span-full'}`}>
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component data={chartData} months={months} />
-                {/* <Component data={data} months={months} /> */}
               </React.Suspense>
             </div>
           );

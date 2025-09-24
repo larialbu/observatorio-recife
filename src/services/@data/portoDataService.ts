@@ -31,16 +31,14 @@ export class PortoDataService {
       const pastYear = `${+this.currentYear - 1}`;
 
       const [
-        atracacao,
-        carga,
+        porto,
         origemDictionary,
         destinoDictionary,
         mercadoriaDictionary,
         coords,
         coordsPast,
       ] = await Promise.all([
-        portoData.fetchAtracacaoPorAno(),
-        portoData.fetchCargaPorAno(),
+        portoData.fetchPortoPorAno(),
         portoData.fetchOrigemDictionary(),
         portoData.fetchDestinoDictionary(),
         portoData.fetchMercadoriaDictionary(),
@@ -48,19 +46,19 @@ export class PortoDataService {
         new PortoData(pastYear).fetchCoordinates().catch(() => []),
       ]);
 
-      const atracacaoFiltered = applyGenericFilters(atracacao, filters);
-      const atracacaoIds = new Set(atracacaoFiltered.filteredData.map((atracacao) => atracacao.IDAtracacao));
-
-      const cargaFiltered = carga.filter(
-        (item) => atracacaoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga']
+      const portoIds = new Set(porto.map((atracacao) => atracacao.IDAtracacao));
+      
+      const portoFlag = porto.filter(
+        (item) => portoIds.has(item.IDAtracacao) && item['FlagMCOperacaoCarga']
       );
+
+      const portoFiltered = applyGenericFilters(portoFlag, filters)
 
       const portosSelected = filters?.additionalFilters.find((item) => item.label === "Porto Atracação")?.selected ?? [];
       
       return {
-        atracacao: atracacaoFiltered,
-        carga: cargaFiltered,
-        rawData: { atracacao, carga },
+        accumulated: portoFiltered,
+        rawData: { accumulated: porto },
         dictionaries: {
           origem: origemDictionary,
           destino: destinoDictionary,
