@@ -28,7 +28,7 @@ const Operacao = ({
   useEffect(() => {
     if (!Array.isArray(data?.accumulated)) return;
 
-    const params = ['CDMercadoria', 'Destino', 'Origem', 'Mes', 'Ação']
+    const params = ['nomeMercadoria', 'País Destino', 'País Origem', 'Mes', 'Ação']
 
     const dataAccumulatedField = getChartDataModelOperacao(data?.accumulated || [], params, 'VLPesoCargaBruta')
     setChartData({ ...data, accumulated: dataAccumulatedField })

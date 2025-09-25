@@ -32,16 +32,10 @@ export class PortoDataService {
 
       const [
         porto,
-        origemDictionary,
-        destinoDictionary,
-        mercadoriaDictionary,
         coords,
         coordsPast,
       ] = await Promise.all([
         portoData.fetchPortoPorAno(),
-        portoData.fetchOrigemDictionary(),
-        portoData.fetchDestinoDictionary(),
-        portoData.fetchMercadoriaDictionary(),
         portoData.fetchCoordinates(),
         new PortoData(pastYear).fetchCoordinates().catch(() => []),
       ]);
@@ -59,11 +53,6 @@ export class PortoDataService {
       return {
         accumulated: portoFiltered,
         rawData: { accumulated: porto },
-        dictionaries: {
-          origem: origemDictionary,
-          destino: destinoDictionary,
-          mercado: mercadoriaDictionary,
-        },
         coords: [
           coords,
           (filters.additionalFilters.find((item) => item.label === "Mes")?.selected ?? []).map(Number)

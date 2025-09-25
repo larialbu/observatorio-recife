@@ -21,7 +21,7 @@ const PaisesExportados = ({
 
   const dataAccumulated = data?.['accumulated'] || {};
 
-  const rawData = dataAccumulated?.['Destino'] || {};
+  const rawData = dataAccumulated?.['País Destino'] || {};
 
   const filteredData: Record<string, number> = {};
 
@@ -31,9 +31,8 @@ const PaisesExportados = ({
     }
   });
 
-  const arrData = getObjToArr<number>(filteredData);
 
-  const chartData = getPortoCountryNameByCode(arrData, data.dictionaries.destino, 'Destino');  
+  const chartData = getObjToArr<number>(filteredData).sort((a, b) => b.value - a.value); 
 
   return (
     <div className="chart-wrapper">

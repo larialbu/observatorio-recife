@@ -6,7 +6,6 @@ import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { getPortoProductNameByCode } from "@/utils/formatters/getPortoProductNameByCode";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
@@ -16,7 +15,7 @@ const PrincipaisProdutos = ({
 }: ChartBuild<PortoGeralData>) => {
   const dataAccumulated = data?.['accumulated'] || {}
 
-  const chartData = getPortoProductNameByCode(getObjToArr<number>(dataAccumulated?.['CDMercadoria'] || {}), data?.dictionaries?.mercado || [])
+  const chartData = getObjToArr<number>(dataAccumulated?.['nomeMercadoria'] || {}).sort((a, b) => b.value - a.value);
   
   return (
     <div className="chart-wrapper">

@@ -18,11 +18,6 @@ import Geral from "./(geral)/geral";
 const defaultData: PortoGeralData = {
   accumulated: [],
   coords: [[], []],
-  dictionaries: {
-    origem: [],
-    destino: [],
-    mercado: [],
-  },
   rawData: {
     accumulated: [],
   },

@@ -21,7 +21,7 @@ const PaisesImportados = ({
 
   const dataAccumulated = data?.['accumulated'] || {}
 
-  const rawData = dataAccumulated?.['Origem'] || {};
+  const rawData = dataAccumulated?.['País Origem'] || {};
 
   const filteredData: Record<string, number> = {};
 
@@ -31,9 +31,7 @@ const PaisesImportados = ({
     }
   });
 
-  const arrData = getObjToArr<number>(filteredData);
-
-  const chartData = getPortoCountryNameByCode(arrData, data?.dictionaries?.origem as any, 'Origem')
+  const chartData = getObjToArr<number>(filteredData).sort((a, b) => b.value - a.value); 
 
   return (
     <div className="chart-wrapper">

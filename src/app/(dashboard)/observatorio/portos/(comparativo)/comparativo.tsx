@@ -52,7 +52,7 @@ useEffect(() => {
       attTempFiltred.includes(item['Porto Atracação']),
     )
 
-    const params = ['CDMercadoria', 'Destino', 'Origem', 'Mes', 'Ação']
+    const params = ['nomeMercadoria', 'País Destino', 'País Origem', 'Mes', 'Ação']
 
     const dataAccumulatedField = getChartDataModelComparative(filtredAtracacao, params, 'VLPesoCargaBruta')
 

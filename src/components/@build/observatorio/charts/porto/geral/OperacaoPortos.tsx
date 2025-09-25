@@ -16,7 +16,7 @@ const OperacaoPortos = ({
 }: ChartBuild<PortoGeralData>) => {
   const dataCoords =  data?.coords?.[0] || []
 
-  const monthsToRead = months?.selected.length ? months.selected : months.options
+  const monthsToRead = (months?.selected?.length ? months?.selected : months?.options) || []
 
   const dataToRead = dataCoords.filter((data) => monthsToRead.includes(`${data.Mes}`)) || []
 

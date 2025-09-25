@@ -10,34 +10,9 @@ export class PortoData {
     this.year = year;
   }
 
-  async fetchAtracacaoPorAno(): Promise<PortoAtracacaoHeaders[]> {
-    const endpoint = `/porto/atracacao/${this.year}`;
-    return fetchData<PortoAtracacaoHeaders[]>(endpoint, PortoData.cache);
-  }
-
   async fetchPortoPorAno(): Promise<PortoCargaHeaders[]> {
     const endpoint = `/porto/carga-atracacao/${this.year}`;
     return fetchData<PortoCargaHeaders[]>(endpoint, PortoData.cache);
-  }
-
-  async fetchCargaPorAno(): Promise<PortoCargaHeaders[]> {
-    const endpoint = `/porto/carga/${this.year}`;
-    return fetchData<PortoCargaHeaders[]>(endpoint, PortoData.cache);
-  }
-
-  async fetchOrigemDictionary(): Promise<PortoOrigemDestinoHeaders[]> {
-    const endpoint = `/porto/dictionaries/origem`;
-    return fetchData<PortoOrigemDestinoHeaders[]>(endpoint, PortoData.cache);
-  }
-
-  async fetchDestinoDictionary(): Promise<PortoDestinoHeaders[]> {
-    const endpoint = `/porto/dictionaries/destino`;
-    return fetchData<PortoDestinoHeaders[]>(endpoint, PortoData.cache);
-  }
-
-  async fetchMercadoriaDictionary(): Promise<PortoMercadoHeaders[]> {
-    const endpoint = `/porto/dictionaries/mercadoria`;
-    return fetchData<PortoMercadoHeaders[]>(endpoint, PortoData.cache);
   }
 
   async fetchCoordinates(): Promise<PortoCoordHeaders[]> {

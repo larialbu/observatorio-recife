@@ -3,12 +3,9 @@
 import React from "react";
 
 import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
-import { PortoAtracacaoHeaders } from "@/@types/observatorio/@fetch/porto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { processCargasLongoCurso } from "@/functions/process_data/observatorio/porto/operacao/charts/paisesImportados";
-import { getPortoCountryNameByCode } from "@/utils/formatters/getPortoCountryNameByCode";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
 
@@ -19,7 +16,7 @@ const PaisesImportados = ({
 
   const dataAccumulated = data?.['accumulated'] || {}
 
-  const rawData = dataAccumulated?.['Origem'] || {};
+  const rawData = dataAccumulated?.['País Origem'] || {};
 
   const filteredData: Record<string, number> = {};
 
@@ -29,10 +26,7 @@ const PaisesImportados = ({
     }
   });
 
-  const arrData = getObjToArr<number>(filteredData);
-
-  const chartData = getPortoCountryNameByCode(arrData, (data?.dictionaries?.origem || []) as any, 'Origem')
-  // const chartData = getPortoCountryNameByCode(processCargasLongoCurso(data.atracacao as PortoAtracacaoHeaders[], data.carga, 'importacao') as any, data.dictionaries.origem as any, 'Origem')
+  const chartData =  getObjToArr<number>(filteredData).sort((a, b) => b.value - a.value);
 
   return (
     <div className="chart-wrapper">

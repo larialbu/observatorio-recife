@@ -33,7 +33,7 @@ const Geral = ({
   useEffect(() => {
     if (!Array.isArray(data?.accumulated)) return;
 
-    const params = ['CDMercadoria', 'Ação', 'Mes']
+    const params = ['nomeMercadoria', 'Ação', 'Mes']
 
     const dataAccumulatedField = geralAccFieldFunction(data?.accumulated || [], params, 'VLPesoCargaBruta')
     

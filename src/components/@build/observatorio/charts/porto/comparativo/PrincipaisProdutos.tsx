@@ -21,7 +21,7 @@ const PrincipaisProdutos = ({
 
   const dataAccumulated = data?.['accumulated'] || {}
 
-  const rawData = dataAccumulated?.['CDMercadoria'] || {};
+  const rawData = dataAccumulated?.['nomeMercadoria'] || {};
 
   const filteredData: Record<string, number> = {};
 
@@ -31,7 +31,7 @@ const PrincipaisProdutos = ({
     }
   });
 
-  const chartData = getPortoProductNameByCode(getObjToArr<number>(filteredData), data?.dictionaries?.mercado || []);
+  const chartData = getObjToArr<number>(filteredData).sort((a, b) => b.value - a.value); 
 
   return (
     <div className="chart-wrapper">

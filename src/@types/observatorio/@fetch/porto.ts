@@ -29,8 +29,8 @@ export interface PortoCoordHeaders {
     "Porto Atracação": string;
     Mes: bigint;
     VLPesoCargaBruta: number;
-    Latitude: string;
-    Longitude: string;
+    Latitude: number;
+    Longitude: number;
 }
 
   export interface PortoMeses {
