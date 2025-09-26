@@ -16,8 +16,8 @@ const PassageirosVariacaoPortoAno = ({
   title = "Variação de Passageiros no Ano",
   months
 }: ChartBuild<PortoPassageirosOutputData>) => {
-const yearCur = data.passageiros?.current[0]?.['Data'].split('-')[0] || 'Dado não encontrado'
-const yearPast = data.passageiros?.past[0]?.['Data'].split('-')[0] || 'Dado não encontrado'
+const yearCur = data.passageiros?.current[0]?.['Ano'] || 'Dado não encontrado'
+const yearPast = data.passageiros?.past[0]?.['Ano'] || 'Dado não encontrado'
 
 const chartData = processPassageirosAnoPorto(data.passageiros.current || [], data.passageiros.past || [])
 
