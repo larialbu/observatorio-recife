@@ -18,7 +18,7 @@ const PassageirosComparativo = ({
   type
 }: ChartBuild<AnacChartData>) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = processEmbarqueDomesticoInternacional(data.anac, 'passageiros', toCompare, type, monthRecent)
+  const chartData = processEmbarqueDomesticoInternacional(data?.['anac'] || [], 'passageiros', toCompare, type, monthRecent)
 
   return (
     <div className="chart-wrapper">

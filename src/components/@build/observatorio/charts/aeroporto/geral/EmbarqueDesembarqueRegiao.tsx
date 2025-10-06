@@ -38,7 +38,7 @@ const EmbarqueDesembarqueRegiao = ({
   }, []);
 
   const chartData = processEmbarqueDesembarque(
-    data.anac,
+    data?.anac || [],
     nameKey,
     windowWidth
   );

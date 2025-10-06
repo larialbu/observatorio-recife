@@ -16,7 +16,7 @@ const CargaAno = ({
   title = "Carga Total ao Longo do Ano",
 }: ChartBuild<AnacChartData>) => {
   
-  const chartData = processRawAccumulator(data.rawData["MÊS"], 'MÊS', 'CARGA')
+  const chartData = processRawAccumulator(data?.rawData?.["MÊS"] || {}, 'MÊS', 'CARGA')
 
   return (
     <div className="chart-wrapper">

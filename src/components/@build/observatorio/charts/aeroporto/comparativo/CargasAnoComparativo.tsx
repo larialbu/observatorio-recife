@@ -18,7 +18,7 @@ const CargasAnoComparativo = ({
   toCompare,
   months
 }: ChartBuild<AnacChartData>) => {
-  const chartData = processCargasAnoComparativo(data.rawData['MÊS'], toCompare ?? []);
+  const chartData = processCargasAnoComparativo(data?.rawData?.['MÊS'] || {}, toCompare ?? []);
 
   const updatedData = updatedMonthChartData(chartData, months ?? 1);
 

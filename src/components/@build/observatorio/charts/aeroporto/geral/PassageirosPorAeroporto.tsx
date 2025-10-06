@@ -15,7 +15,7 @@ const PassageirosPorAeroporto = ({
   title = "Passageiros por Aeroporto",
 }: ChartBuild<AnacChartData>) => {
   
-  const chartData = processRawAccumulator(data.rawData["AEROPORTO NOME"], 'AEROPORTO NOME', 'PASSAGEIRO')
+  const chartData = processRawAccumulator(data?.rawData?.["AEROPORTO NOME"] || {}, 'AEROPORTO NOME', 'PASSAGEIRO')
 
   return (
     <div className="chart-wrapper">

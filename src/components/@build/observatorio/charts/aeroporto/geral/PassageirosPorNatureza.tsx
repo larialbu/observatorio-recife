@@ -18,7 +18,7 @@ const PassageirosPorNatureza = ({
 
   const [showPercentage, setShowPercentage] = useState(true);
 
-  const chartData = processRawAccumulator(data.rawData["AEROPORTO NOME"], 'NATUREZA', 'PASSAGEIRO');
+  const chartData = processRawAccumulator(data?.rawData?.["AEROPORTO NOME"] || {}, 'NATUREZA', 'PASSAGEIRO');
 
   return (
     <div className="chart-wrapper">

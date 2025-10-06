@@ -20,7 +20,7 @@ const CargasIntEmbarque = ({
 }: ChartBuild<AnacChartData>) => {
 
   const chartData = processEmbarqueDesembarqueNaturezaTipo(
-    data.anac,
+    data?.['anac'] || [],
     toCompare,
     'Internacional',
     "cargas",

@@ -20,7 +20,7 @@ const PassageirosEmbarqueDom = ({
 }: ChartBuild<AnacChartData>) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
   const chartData = processEmbarqueDesembarqueNaturezaTipo(
-    data.anac,
+    data?.['anac'] || [],
     toCompare,
     "Doméstica",
     "passageiros",

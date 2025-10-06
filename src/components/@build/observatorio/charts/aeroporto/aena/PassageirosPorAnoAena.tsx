@@ -15,7 +15,7 @@ const PassageirosAnoAena = ({
   months
   }: ChartBuild<AenaPassageirosHeaders[]>) => {
  
-    const chartData = processPassageirosAnoAena(rawData);
+    const chartData = processPassageirosAnoAena(rawData || []);
 
     const updatedData = updatedMonthChartData(chartData, months ?? 1);
 

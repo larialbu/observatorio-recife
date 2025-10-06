@@ -16,7 +16,7 @@ const CargaPorAeroporto = ({
   colors = ColorPalette.default,
 }: ChartBuild<AnacChartData>) => {
 
-  const chartData = processRawAccumulator(data.rawData["AEROPORTO NOME"], 'AEROPORTO NOME', 'CARGA')
+  const chartData = processRawAccumulator(data?.rawData?.["AEROPORTO NOME"] || {}, 'AEROPORTO NOME', 'CARGA')
 
   return (
     <div className="chart-wrapper">

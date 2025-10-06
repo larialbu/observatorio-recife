@@ -15,7 +15,7 @@ const TotalCargasAena = ({
   colors = ColorPalette.default,
 }: ChartBuild<AenaCargasHeaders[]>) => {
 
-  const chartData = processCargasPorAeroportoAena(rawData);
+  const chartData = processCargasPorAeroportoAena(rawData || []);
 
   return (
     <div className="chart-wrapper">

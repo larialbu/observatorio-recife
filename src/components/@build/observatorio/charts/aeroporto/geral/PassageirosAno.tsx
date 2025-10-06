@@ -16,7 +16,7 @@ const PassageirosAno = ({
   title = "Passageiros ao Longo do Ano",
 }: ChartBuild<AnacChartData>) => {
 
-  const chartData = processRawAccumulator(data.rawData["MÊS"], 'MÊS', 'PASSAGEIRO')
+  const chartData = processRawAccumulator(data?.rawData?.["MÊS"] || {}, 'MÊS', 'PASSAGEIRO')
 
   return (
     <div className="chart-wrapper">

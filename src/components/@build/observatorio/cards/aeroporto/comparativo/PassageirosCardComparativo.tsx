@@ -10,9 +10,9 @@ const PassageirosCardComparativo = ({
   year,
   color,
 }: any) => {
-  const chartData = processPassageirosMes(data.anac, year, compare);
+  const chartData = processPassageirosMes(data?.['anac'] || [], year, compare);
 
-  const chartData2 = processPassageirosMes(data.anac, year, toCompare);
+  const chartData2 = processPassageirosMes(data?.['anac'] || [], year, toCompare);
   return (
     <ComparativeCard
       title={`${title}`}

@@ -16,7 +16,7 @@ const PassageirosPorClassificacaoAena = ({
 }: ChartBuild<AenaPassageirosHeaders[]>) => {
   const [showPercentage, setShowPercentage] = useState(true);
   
-  const chartData = preparePassageirosPorClassificacaoData(data);
+  const chartData = preparePassageirosPorClassificacaoData(data || []);
 
   return (
     <div className="chart-wrapper">

@@ -15,7 +15,7 @@ const TotalPassageirosAena = ({
   colors = ColorPalette.default,
 }: ChartBuild<AenaPassageirosHeaders[]>) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
-  const chartData = processPassageirosPorAeroportoAena(rawData);
+  const chartData = processPassageirosPorAeroportoAena(rawData || []);
 
   return (
     <div className="chart-wrapper">

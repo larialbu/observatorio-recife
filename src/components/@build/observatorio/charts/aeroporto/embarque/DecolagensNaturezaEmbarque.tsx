@@ -18,7 +18,7 @@ const DecolagensComparativo = ({
   type
 }: ChartBuild<AnacChartData>) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = processEmbarqueDomesticoInternacional(data.anac, 'decolagens', toCompare, type, monthRecent)
+  const chartData = processEmbarqueDomesticoInternacional(data?.['anac'] || [], 'decolagens', toCompare, type, monthRecent)
 
   return (
     <div className="chart-wrapper">

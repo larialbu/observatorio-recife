@@ -18,7 +18,7 @@ const DecolagensAnoComparativo = ({
   toCompare,
   months
 }: ChartBuild<AnacChartData>) => {
-  const chartData = processDecolagensAnoComparativo(data.rawData['MÊS'], toCompare ?? []);
+  const chartData = processDecolagensAnoComparativo(data?.rawData?.['MÊS'] || {}, toCompare ?? []);
 
   const updatedData = updatedMonthChartData(chartData, months ?? 1);
   

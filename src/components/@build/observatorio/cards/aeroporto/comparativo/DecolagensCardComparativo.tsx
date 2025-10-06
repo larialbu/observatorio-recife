@@ -12,9 +12,9 @@ const DecolagensCardComparativo = ({
   
 }: any) => {
 
-  const chartData = processDecolagensMes(data.anac, year, compare);
+  const chartData = processDecolagensMes(data?.['anac'] || [], year, compare);
 
-  const chartData2 = processDecolagensMes(data.anac, year, toCompare);
+  const chartData2 = processDecolagensMes(data?.['anac'] || [], year, toCompare);
   return (
     <ComparativeCard
       title={`${title}`}

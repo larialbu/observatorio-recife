@@ -19,7 +19,7 @@ const DecolagensEmbarqueDom = ({
 }: ChartBuild<AnacChartData>) => {
 
   const chartData = processEmbarqueDesembarqueNaturezaTipo(
-    data.anac,
+    data?.['anac'] || [],
     toCompare,
     "Doméstica",
     "decolagens",
