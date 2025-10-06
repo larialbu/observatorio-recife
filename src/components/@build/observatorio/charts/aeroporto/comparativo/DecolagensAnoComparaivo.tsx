@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { AnacChartData, AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import LineChart from "@/components/@global/charts/LineChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
@@ -17,8 +17,8 @@ const DecolagensAnoComparativo = ({
   title = "Decolagens ao Longo do Ano",
   toCompare,
   months
-}: ChartBuild<AnacGeralHeaders[]>) => {
-  const chartData = processDecolagensAnoComparativo(data, toCompare ?? []);
+}: ChartBuild<AnacChartData>) => {
+  const chartData = processDecolagensAnoComparativo(data.rawData['MÊS'], toCompare ?? []);
 
   const updatedData = updatedMonthChartData(chartData, months ?? 1);
   

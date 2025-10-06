@@ -2,8 +2,7 @@
 
 import React from "react";
 
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import LineChart from "@/components/@global/charts/LineChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
@@ -13,13 +12,13 @@ import { getDateKeys } from "@/utils/formatters/getDataKeys";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const CargasAnoComparativo = ({
-  data = [],
+  data,
   colors = ColorPalette.default,
   title = "Cargas ao Longo do Ano",
   toCompare,
   months
-}: ChartBuild<AnacGeralHeaders[]>) => {
-  const chartData = processCargasAnoComparativo(data, toCompare ?? []);
+}: ChartBuild<AnacChartData>) => {
+  const chartData = processCargasAnoComparativo(data.rawData['MÊS'], toCompare ?? []);
 
   const updatedData = updatedMonthChartData(chartData, months ?? 1);
 

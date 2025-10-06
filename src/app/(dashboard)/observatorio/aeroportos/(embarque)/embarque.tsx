@@ -1,14 +1,13 @@
 import React, { useRef, useState } from "react";
 
-import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 
 import charts from "./@imports/charts";
 
-const Embarque: React.FC<ChartBuild> = ({
+const Embarque: React.FC<ChartBuild<AnacChartData>> = ({
   toCompare,
   monthRecent,
   data,
@@ -57,7 +56,7 @@ const Embarque: React.FC<ChartBuild> = ({
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component
                   toCompare={toCompare ?? []}
-                  data={data as AnacGeralHeaders[]}
+                  data={data}
                   months={monthRecent ?? 1}
                   type={type[0] as "Embarque" | "Desembarque"}
                 />

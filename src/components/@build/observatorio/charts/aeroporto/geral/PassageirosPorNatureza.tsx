@@ -8,17 +8,17 @@ import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processRawAccumulator } from "@/functions/process_data/observatorio/aeroporto/geral/charts/rawAccumulator";
+import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 
-type RawDataType = Record<string, Record<string, Record<string, number>>>;
 
 const PassageirosPorNatureza = ({
-  rawData = {},
+  data,
   title = "Passageiros por Natureza do Voo",
-  
-}: ChartBuild<RawDataType>) => {
+}: ChartBuild<AnacChartData>) => {
+
   const [showPercentage, setShowPercentage] = useState(true);
 
-  const chartData = processRawAccumulator(rawData, 'NATUREZA', 'PASSAGEIRO');
+  const chartData = processRawAccumulator(data.rawData["AEROPORTO NOME"], 'NATUREZA', 'PASSAGEIRO');
 
   return (
     <div className="chart-wrapper">

@@ -2,8 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
-import { ChartBuild } from "@/@types/observatorio/shared";
+import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
@@ -13,21 +12,24 @@ import cards from "./@imports/cards";
 import charts from "./@imports/charts";
 import { geralAccGroupValuesFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
 
-type DataType = Record<string, Record<string, Record<string, number>>>;
 
 
-const Geral: React.FC<ChartBuild> = ({
-  data,
-  rawData,
+const Geral = ({
+  data   
+}: {
+  data: any;
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const sortableContainerRef = useRef<HTMLDivElement>(null);
-  const [chartData, setChartData] = useState({data: {}, rawData: {}})
+  const [chartData, setChartData] = useState({anac: {}, rawData: {}})
 
   useEffect(() => {
     setChartData({
-      data: geralAccGroupValuesFunction(data, ['AEROPORTO NOME', 'MÊS', 'NATUREZA'], ['DECOLAGENS', 'CARGA', 'PASSAGEIRO']), 
-      rawData: geralAccGroupValuesFunction(rawData, ['AEROPORTO NOME', 'MÊS', 'NATUREZA'], ['DECOLAGENS', 'CARGA', 'PASSAGEIRO'])
+      anac: geralAccGroupValuesFunction(data?.anac || [], ['AEROPORTO NOME', 'MÊS', 'NATUREZA'], ['DECOLAGENS', 'CARGA', 'PASSAGEIRO']), 
+      rawData: {
+        "AEROPORTO NOME": geralAccGroupValuesFunction(data?.rawData?.["AEROPORTO NOME"] || [], ['AEROPORTO NOME', 'MÊS', 'NATUREZA'], ['DECOLAGENS', 'CARGA', 'PASSAGEIRO']),
+        "MÊS": geralAccGroupValuesFunction(data?.rawData?.["MÊS"] || [], ['AEROPORTO NOME', 'MÊS', 'NATUREZA'], ['DECOLAGENS', 'CARGA', 'PASSAGEIRO'])
+      }
     })
   }, [data])
 
@@ -52,7 +54,7 @@ const Geral: React.FC<ChartBuild> = ({
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <ErrorBoundary>
-                  <Component data={chartData.data as DataType} rawData={chartData.rawData as DataType}  />
+                  <Component data={chartData as AnacChartData}    />
                 </ErrorBoundary>
               </React.Suspense>
             </div>

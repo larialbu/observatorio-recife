@@ -19,6 +19,17 @@ export interface AnacGeralHeaders {
     "UF Destino": string;
 }
 
+// type RawDataType = Record<string, Record<string, Record<string, Record<string, number>>>>;
+
+
+export interface AnacChartData {
+    anac: AnacGeralHeaders[];
+    rawData: {
+        "MÊS": any
+        "AEROPORTO NOME": any
+    }
+}
+
 export interface AenaCargasHeaders {
     Data: string;
     Tipo: string;

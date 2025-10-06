@@ -12,9 +12,9 @@ const CargasCardComparativo = ({
   color,
 }: any) => {
 
-  const chartData = processCargasMes(data, year, compare);
+  const chartData = processCargasMes(data.anac, year, compare);
 
-  const chartData2 = processCargasMes(data, year, toCompare);
+  const chartData2 = processCargasMes(data.anac, year, toCompare);
   return (
     <ComparativeCard
       title={`${title}`}

@@ -7,7 +7,7 @@ const CargasMesRecente = ({
   year,
   color,
 }: any) => {
-  const chartData = processCargasMes(data, year);
+  const chartData = processCargasMes(data['anac'], year);
 
   return (
     <Card

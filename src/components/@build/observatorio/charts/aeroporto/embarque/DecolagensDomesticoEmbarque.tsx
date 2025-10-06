@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
@@ -16,10 +16,10 @@ const DecolagensEmbarqueDom = ({
   monthRecent,
   subText = 'UF Destino',
   type
-}: ChartBuild<AnacGeralHeaders[]>) => {
+}: ChartBuild<AnacChartData>) => {
 
   const chartData = processEmbarqueDesembarqueNaturezaTipo(
-    data,
+    data.anac,
     toCompare,
     "Doméstica",
     "decolagens",

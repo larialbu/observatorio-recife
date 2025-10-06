@@ -4,10 +4,20 @@ import { DataWithFilters } from "../shared";
   
 export interface AnacAeroportoData {
   id: "anac";
-  geral: AnacGeralData;
+  anac: DataWithFilters<AnacGeralHeaders>
+  rawData: {
+    "MÊS": any
+    "AEROPORTO NOME": any 
+  }
 }
 
-export type AnacGeralData = DataWithFilters<AnacGeralHeaders>;
+export type AnacGeralData = {
+  anac: DataWithFilters<AnacGeralHeaders>
+  rawData: {
+    "MÊS": DataWithFilters<AnacGeralHeaders>
+    "AEROPORTO NOME": AnacGeralHeaders 
+  }
+};
 
 export interface AenaAeroportoData {
   id: "aena";

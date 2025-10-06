@@ -3,7 +3,6 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { useDashboard } from "@/context/DashboardContext";
 import { getMonths } from "@/utils/filters/@global/getMonths";
@@ -13,12 +12,14 @@ import AenaPage from "./(aena)/aena";
 import Comparativo from "./(comparativo)/comparativo";
 import Embarque from "./(embarque)/embarque";
 import Geral from "./(geral)/geral";
+import { getChartDataModel } from "@/functions/process_data/observatorio/getChartDataModel";
 
 
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
-  const [anac, setAnac] = useState<AnacGeralHeaders[]>([]);
+  const [anac, setAnac] = useState<any>({});
+  const [aena, setAena] = useState<any>({});
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
 
@@ -34,14 +35,29 @@ const AeroportosPage = () => {
 
   useEffect(() => {
       const intervalId = setInterval(() => {
-        
-        if (data) {
-          if (data?.id === "anac") {
-            setAnac(data.geral?.filteredData || []);
+        if (!data?.id) return 
+        const anacId = ['anac']
+        const aenaId = ['aena']
+
+        const handler = getChartDataModel(data, data.id);
+
+        console.log('HANDLER', handler())
+
+        if (handler) {
+          if (anacId.includes(data?.id)) {
+            setAnac(handler());
+          } else if (aenaId.includes(data?.id)) {
+            setAena(handler());
           }
+
+          handler()
           
           clearInterval(intervalId);
+        } else {
+          setAnac({ anac: [], rawData: { "MÊS": [], "AEROPORTO NOME": []}  });
+          setAena({ passageiros: [], cargas: [], rawData: { passageiros: [], cargas: [] }  });
         }
+
       }, 50);
   
       return () => clearInterval(intervalId);
@@ -50,22 +66,20 @@ const AeroportosPage = () => {
     if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
-    if (!data || !anac) {
+    if (!data || !(anac?.anac || aena?.passageiros)) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
     switch (activeTab) {
       case "geral":
         return <Geral 
-          data={anac || []}
-          rawData={data?.id === "anac" ? data.geral?.rawData || [] : []}
-          year={getYearSelected(filters)}
+          data={anac || {}}
         />;
         //FAVOR, EDITAR ESTE TOCOMPARE PARA SER SETTADO COM BASE EM DATA PARA DEPOIS SÓ PRECISAR SETAR O FILTRO DA TAB COMO
         // DEFAULTFILTERS E CONSEGUIR PASSAR SOMENTE O ANO.
       case "comparativo":
         return <Comparativo
-          data={anac || []} 
+          data={anac || {}} 
           year={getYearSelected(filters)}
           months={getMonths(filters)}
         />;
@@ -75,13 +89,10 @@ const AeroportosPage = () => {
           toCompare={filters.additionalFilters[4]?.selected}
         />;
       case "aena":
-        return <AenaPage year={getYearSelected(filters)} months={getMonths(filters)} />;
+        return <AenaPage data={aena} year={getYearSelected(filters)} months={getMonths(filters)} />;
       default:
         return <Geral 
-        data={anac || []}
-        rawData={data?.id === "anac" ? data.geral?.rawData || [] : []}
-        year={getYearSelected(filters)}
-        months={getMonths(filters)}
+          data={anac || {}}
         />;
     }
   };

@@ -7,15 +7,15 @@ import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBa
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processRawAccumulator } from "@/functions/process_data/observatorio/aeroporto/geral/charts/rawAccumulator";
+import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 
-type RawDataType = Record<string, Record<string, Record<string, number>>>;
 
 const PassageirosPorAeroporto = ({
-  rawData = {},
+  data,
   title = "Passageiros por Aeroporto",
-}: ChartBuild<RawDataType>) => {
+}: ChartBuild<AnacChartData>) => {
   
-  const chartData = processRawAccumulator(rawData, 'AEROPORTO NOME', 'PASSAGEIRO')
+  const chartData = processRawAccumulator(data.rawData["AEROPORTO NOME"], 'AEROPORTO NOME', 'PASSAGEIRO')
 
   return (
     <div className="chart-wrapper">

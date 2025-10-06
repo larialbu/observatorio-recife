@@ -7,16 +7,16 @@ import LineChart from "@/components/@global/charts/LineChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processRawAccumulator } from "@/functions/process_data/observatorio/aeroporto/geral/charts/rawAccumulator";
+import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 
-type RawDataType = Record<string, Record<string, Record<string, number>>>;
 
 const PassageirosAno = ({
   data,
   colors = ColorPalette.default,
   title = "Passageiros ao Longo do Ano",
-}: ChartBuild<RawDataType>) => {
+}: ChartBuild<AnacChartData>) => {
 
-  const chartData = processRawAccumulator(data, 'MÊS', 'PASSAGEIRO')
+  const chartData = processRawAccumulator(data.rawData["MÊS"], 'MÊS', 'PASSAGEIRO')
 
   return (
     <div className="chart-wrapper">

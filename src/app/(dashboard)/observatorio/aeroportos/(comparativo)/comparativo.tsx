@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import { AnacGeralData } from "@/@types/observatorio/@data/aeroportoData";
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { AnacChartData, AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild, DataWithFilters } from "@/@types/observatorio/shared";
 import SelectCompare from "@/components/@global/features/SelectCompare";
 import SelectPrincipal from "@/components/@global/features/SelectPrincipal";
@@ -16,9 +16,9 @@ import tables from "./@imports/tables";
 
 // AEROPORTO NOME
 
-const Comparativo: React.FC<ChartBuild> = ({
+const Comparativo: React.FC<ChartBuild<AnacChartData>> = ({
   data,
-  toCompare = getUniqueValues<AnacGeralHeaders, "AEROPORTO NOME">(data as AnacGeralHeaders[], "AEROPORTO NOME"),
+  toCompare = getUniqueValues<AnacGeralHeaders, "AEROPORTO NOME">(data?.rawData?.['AEROPORTO NOME'] as AnacGeralHeaders[], "AEROPORTO NOME"),
   months,
   year
 }) => {
@@ -179,7 +179,7 @@ const Comparativo: React.FC<ChartBuild> = ({
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component
-                  data={(data as AnacGeralHeaders[])}
+                  data={(data)}
                   toCompare={[...tempFiltred]}
                   months={months}
                 />

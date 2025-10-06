@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { AnacChartData, AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import HorizontalScrollableBarChart from "@/components/@global/charts/HorizontalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
@@ -16,10 +16,10 @@ const PassageirosIntEmbarque = ({
   monthRecent,
   subText = 'País Destino',
   type
-}: ChartBuild<AnacGeralHeaders[]>) => {
+}: ChartBuild<AnacChartData>) => {
 
   const chartData = processEmbarqueDesembarqueNaturezaTipo(
-    data,
+    data.anac,
     toCompare,
     'Internacional',
     'passageiros',

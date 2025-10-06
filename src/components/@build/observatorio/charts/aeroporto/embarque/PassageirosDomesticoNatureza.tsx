@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
@@ -17,10 +17,10 @@ const PassageirosEmbarqueDom = ({
   monthRecent,
   subText = 'UF Destino',
   type
-}: ChartBuild<AnacGeralHeaders[]>) => {
+}: ChartBuild<AnacChartData>) => {
   // Assumimos que o filtro de dados (ano, etc.) já foi aplicado antes de passar para o componente.
   const chartData = processEmbarqueDesembarqueNaturezaTipo(
-    data,
+    data.anac,
     toCompare,
     "Doméstica",
     "passageiros",

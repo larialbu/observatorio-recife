@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import BarChart from "@/components/@global/charts/BarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
@@ -10,12 +10,12 @@ import { processEmbarqueDesembarque } from "@/functions/process_data/observatori
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const EmbarqueDesembarqueRegiao = ({
-  data = [],
+  data,
   nameKey = "AEROPORTO REGIÃO",
   colors = ColorPalette.default,
   title = "Embarque e Desembarque por Região",
   
-}: ChartBuild<AnacGeralHeaders[]>) => {
+}: ChartBuild<AnacChartData>) => {
   const [windowWidth, setWindowWidth] = useState(768);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const EmbarqueDesembarqueRegiao = ({
   }, []);
 
   const chartData = processEmbarqueDesembarque(
-    data,
+    data.anac,
     nameKey,
     windowWidth
   );

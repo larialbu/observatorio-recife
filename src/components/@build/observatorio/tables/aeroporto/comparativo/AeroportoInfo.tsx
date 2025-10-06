@@ -5,7 +5,7 @@ import { monthFormatter } from "@/utils/formatters/@global/dateArrFormatter";
 import { formatNormalnumber } from "@/utils/formatters/@global/numberFormatter";
 
 const AeroportoInfo = ({
-  data = [],
+  data,
   airport = 'Recife',
   year,
   color = '#000000'
@@ -16,7 +16,7 @@ const AeroportoInfo = ({
   const order = ordenation.find((item) => item.ordenation != 0)
 
   // Filtra os dados com base no aeroporto e ano
-  const aggregatedData = data
+  const aggregatedData = data.anac
     .filter((item: any) => item["AEROPORTO NOME"] === airport && item["ANO"].toString() === `${year}`)
     .reduce((acc: any, item: any) => {
       const mes = item["MÊS"];

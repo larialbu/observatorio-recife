@@ -82,7 +82,34 @@ export const getChartDataModel = (data: any, id: string) => {
           current: data?.current?.filteredData || [],
         } 
       },
+
+
+    // AEROPORTO _--------------------------------------------------
       
+      'anac': () => { 
+        return {
+          anac: data?.anac?.filteredData || [], 
+          rawData: { 
+            "MÊS": data?.rawData?.['MÊS']?.filteredData || [], 
+            "AEROPORTO NOME": data?.rawData?.['AEROPORTO NOME']?.filteredData || []
+          }  
+        }
+      },
+
+      'aena': () => {
+        return {
+          passageiros: data.passageiros?.filteredData || [],
+          cargas: data.cargas?.filteredData || [],
+          rawData: {
+            passageiros: data.passageiros?.rawDataPassageiros || [],
+            cargas: data.cargas?.rawDataCargas || []
+          }
+        }
+      }
+
+//       .passageiros?.filteredData
+// .cargas?.filteredData
+        
     };
 
     const handler = handlers[id];

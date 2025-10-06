@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { AnacGeralHeaders } from "@/@types/observatorio/@fetch/aeroporto";
+import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import PieChart from "@/components/@global/charts/PieChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
@@ -16,9 +16,9 @@ const PassageirosComparativo = ({
   toCompare = ["Recife"],
   monthRecent,
   type
-}: ChartBuild<AnacGeralHeaders[]>) => {
+}: ChartBuild<AnacChartData>) => {
   const [showPercentage, setShowPercentage] = useState(true);
-  const chartData = processEmbarqueDomesticoInternacional(data, 'passageiros', toCompare, type, monthRecent)
+  const chartData = processEmbarqueDomesticoInternacional(data.anac, 'passageiros', toCompare, type, monthRecent)
 
   return (
     <div className="chart-wrapper">
