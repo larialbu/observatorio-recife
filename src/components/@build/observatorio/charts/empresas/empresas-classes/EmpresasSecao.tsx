@@ -9,7 +9,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const EmpresasSecao = ({
   data,
-  title = "Empresas por Natureza Jurídica",
+  title = "Empresas Ativas por Seção",
   year,
 }: any) => {
   const dataEmpresas = data['empresas']

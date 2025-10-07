@@ -11,7 +11,7 @@ const EmpresasClasses = ({
   data,
   color,
   municipio,
-  title = "Empresas por Natureza Jurídica",
+  title = "Empresas Ativas por CNAE",
   year,
 }: any) => {
   const dataEmpresas = data

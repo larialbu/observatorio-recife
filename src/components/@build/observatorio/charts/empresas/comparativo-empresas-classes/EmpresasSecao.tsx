@@ -11,7 +11,7 @@ const EmpresasSecao = ({
   data,
   municipio,
   color,
-  title = "Empresas por Natureza Jurídica",
+  title = "Empresas Ativas por Seção",
   year,
 }: any) => {
   const dataEmpresas = data 

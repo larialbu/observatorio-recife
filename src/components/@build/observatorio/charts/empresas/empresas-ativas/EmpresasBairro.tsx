@@ -9,7 +9,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const EmpresasBairro = ({
   data,
-  title = "Empresas por Bairro",
+  title = "Empresas Ativas por Bairro",
   year,
 }: any) => {
   const dataEmpresas = data?.['empresas'] || []

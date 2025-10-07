@@ -7,7 +7,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 const EmpresasAtivasMes = ({
   data,
   colors = ColorPalette.default,
-  title = "Quantidade de Empresas Ativas no Recife",
+  title = "Quantidade de Empresas Ativas por Natureza Jurídica",
   }: any) => {
     const dataRawData = data?.['rawData'] || []
 

@@ -10,7 +10,7 @@ import { getAccTextGroup } from "@/functions/process_data/observatorio/micro-cag
 
 const EmpresasGrupo = ({
   data,
-  title = "Empresas por Natureza Jurídica Grupo",
+  title = "Empresas Ativas por Grupamento",
   year,
 }: any) => {
   const dataEmpresas = data['empresas']

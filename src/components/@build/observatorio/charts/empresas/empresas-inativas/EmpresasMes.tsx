@@ -9,7 +9,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 const EmpresasMes = ({
   data,
   colors = ColorPalette.default,
-  title = "Quantidade de Empresas Ativas no Recife",
+  title = "Quantidade de Empresas Inativas no Recife",
   }: any) => {
     const dataEmpresas = data['empresas']
 

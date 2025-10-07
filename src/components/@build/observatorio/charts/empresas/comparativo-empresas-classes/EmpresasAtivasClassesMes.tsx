@@ -11,7 +11,7 @@ const EmpresasAtivasClassesMes = ({
   data,
   toCompare,
   color = ColorPalette.default,
-  title = "Quantidade de Empresas Classes no Recife",
+  title = "Quantidade de Empresas Ativas",
   }: any) => {
     const dataRawData = data 
 
