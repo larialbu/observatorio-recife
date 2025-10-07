@@ -8,7 +8,7 @@ const charts = [
           "@/components/@build/observatorio/charts/micro-caged/comparativo-mov/ComparativoMovimentacao"
         )
     ),
-    // col: 'full'
+    // col: 'col-span-full'
   },
   {
     Component: React.lazy(

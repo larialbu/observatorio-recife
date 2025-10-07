@@ -7,7 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/comparativo-empresas-classes/EmpresasAtivasClassesMes"
       )
     ),
-    col: 'full'
+    col: 'col-span-full'
   },
   {
     Component: React.lazy(() =>

@@ -7,7 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/porto/passageiro/PassageirosPortoAno"
       )
     ),
-    col: 'full'
+    col: 'col-span-full'
   },
   {
     Component: React.lazy(() =>
@@ -15,7 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/porto/passageiro/PassageirosVariacaoPortoAno"
       )
     ),
-    col: 'full'
+    col: 'col-span-full'
   },
   {
     Component: React.lazy(() =>

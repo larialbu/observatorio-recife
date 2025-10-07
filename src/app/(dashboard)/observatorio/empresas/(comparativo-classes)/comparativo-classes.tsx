@@ -102,7 +102,7 @@ const ComparativoClasses = ({
 
       <div className="mb-2">
         <SelectCompare
-          options={toCompare}
+          options={tempFiltred}
           initialValue={'Recife'}
           filters={selectCompare}
           setFilters={setSelectCompare}

@@ -77,7 +77,7 @@ const Comparativo: React.FC<ChartBuild<AnacChartData>> = ({
 
       <div className="mb-2 dark:text-gray-200">
         <SelectCompare
-          options={toCompare}
+          options={tempFiltred}
           initialValue={'Recife'}
           filters={selectCompare}
           setFilters={setSelectCompare}
@@ -171,11 +171,11 @@ const Comparativo: React.FC<ChartBuild<AnacChartData>> = ({
        
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
-          const { Component } = charts[index];
+          const { Component, col } = charts[index];
           return (
             <div
               key={index}
-              className={`chart-content-wrapper`}
+              className={`chart-content-wrapper ${col}`}
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component

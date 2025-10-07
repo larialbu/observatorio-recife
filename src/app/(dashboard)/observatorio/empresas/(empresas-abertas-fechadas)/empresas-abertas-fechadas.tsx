@@ -98,7 +98,7 @@ const ComparativoClasses = ({
 
       <div className="mb-2">
         <SelectCompare
-          options={toCompare}
+          options={tempFiltred}
           initialValue={'Recife - PE'}
           filters={selectCompare}
           setFilters={setSelectCompare}
@@ -204,7 +204,7 @@ const ComparativoClasses = ({
             }
 
             return (
-              <div key={index} className={`chart-content-wrapper ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`}>
+              <div key={index} className={`chart-content-wrapper ${tablesRender.length === 1 && col}`}>
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
                   municipio={[...tempFiltred][virtuaIndex]}

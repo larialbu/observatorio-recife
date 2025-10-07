@@ -75,7 +75,7 @@ const AenaPage = () => {
           const { Component, col } = charts[index];
 
           return (
-            <div key={index} className={`chart-content-wrapper ${col === 'full' && 'col-span-full'}`}>
+            <div key={index} className={`chart-content-wrapper ${col}`}>
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component data={passageiros} months={12} />
               </React.Suspense>

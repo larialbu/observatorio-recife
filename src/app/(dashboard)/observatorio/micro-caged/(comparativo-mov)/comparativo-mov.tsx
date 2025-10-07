@@ -103,7 +103,7 @@ const ComparativoMov = ({
 
       <div className="mb-2">
         <SelectCompare
-          options={toCompare}
+          options={tempFiltred}
           initialValue={'Recife-PE'}
           filters={selectCompare}
           setFilters={setSelectCompare}

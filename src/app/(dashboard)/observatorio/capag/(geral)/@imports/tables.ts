@@ -8,7 +8,7 @@ const tables = [
           "@/components/@build/observatorio/tables/capag/geral/CapagMunicipios"
         )
     ),
-    col: 'full'
+    col: 'col-span-full'
   },
 ];
 

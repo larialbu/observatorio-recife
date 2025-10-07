@@ -90,7 +90,7 @@ const CapagGeral = ({
             const dataToPass = [chartDataEmpresas?.find((data: any) => data['Município'] === [...tempFiltred][virtuaIndex])] 
 
             return (
-              <div className={`w-full ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`} key={index}>
+              <div className={`w-full ${tablesRender.length === 1 && col}`} key={index}>
                 <div className="w-full ">
                   <p className="font-bold text-[26px] text-[#808080]">{[...tempFiltred][virtuaIndex]}</p>
                 </div>

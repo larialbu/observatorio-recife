@@ -111,7 +111,7 @@ useEffect(() => {
 
         return arrChart.slice(0, 1).map(({ Component, col }) => {
             return (
-              <div key={index} className={`chart-content-wrapper ${col === 'full' && tablesRender.length === 1 && 'col-span-full'}`}>
+              <div key={index} className={`chart-content-wrapper ${tablesRender.length === 1 && col}`}>
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
                   porto={["Recife", ...tempFiltred][index]}

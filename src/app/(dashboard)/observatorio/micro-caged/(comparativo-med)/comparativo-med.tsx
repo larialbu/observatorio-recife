@@ -75,7 +75,7 @@ const ComparativoMed = ({
 
       <div className="mb-2">
         <SelectCompare
-          options={toCompare}
+          options={tempFiltred}
           initialValue={'Recife-PE'}
           filters={selectCompare}
           setFilters={setSelectCompare}
@@ -173,7 +173,7 @@ const ComparativoMed = ({
           return (
             <div
               key={index}
-              className={`chart-content-wrapper ${col === 'full' && 'col-span-full'}`}
+              className={`chart-content-wrapper ${col}`}
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component

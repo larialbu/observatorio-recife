@@ -8,7 +8,7 @@ const charts = [
           "@/components/@build/observatorio/charts/micro-caged/comparativo-med/ComparativoMedia"
         )
     ),
-    col: 'full'
+    col: 'col-span-full'
   },
   {
     Component: React.lazy(
@@ -17,7 +17,7 @@ const charts = [
           "@/components/@build/observatorio/charts/micro-caged/comparativo-med/ComparativoVariacao"
         )
     ),
-    col: 'full'
+    col: 'col-span-full'
   },
 ];
 
