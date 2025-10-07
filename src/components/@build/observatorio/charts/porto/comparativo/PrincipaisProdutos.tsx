@@ -5,7 +5,7 @@ import React from "react";
 import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
 import { PortoAtracacaoHeaders } from "@/@types/observatorio/@fetch/porto";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
+import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processAtracacoesPorCarga } from "@/functions/process_data/observatorio/porto/geral/charts/transacaoProdutos";
 import { getPortoProductNameByCode } from "@/utils/formatters/getPortoProductNameByCode";
@@ -36,7 +36,7 @@ const PrincipaisProdutos = ({
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
-        <ScrollableBarChart
+        <VerticalScrollableBarChart
           data={chartData}
           title={title}
           xKey="label"

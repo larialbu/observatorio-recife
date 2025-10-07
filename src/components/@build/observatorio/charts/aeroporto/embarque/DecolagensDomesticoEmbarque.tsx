@@ -36,7 +36,7 @@ const DecolagensEmbarqueDom = ({
           colors={colors}
           xKey="uf"
           bars={[{ dataKey: "total", name: "Decolagens" }]}
-          height={400} // Altura do viewport visível para scroll
+          height={300} // Altura do viewport visível para scroll
           barSize={30} // Altura individual de cada barra
         />
         {/* Renderiza o subText dentro do ChartGrabber */}

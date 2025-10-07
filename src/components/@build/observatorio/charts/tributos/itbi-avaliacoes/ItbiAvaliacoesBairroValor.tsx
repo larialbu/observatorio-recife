@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
+import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { processItbiMediana } from "@/functions/process_data/observatorio/tributos/itbi-avaliacoes/itibiMesMediana";
@@ -19,7 +19,7 @@ const ItbiAvaliacoesBairroValor = ({
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
-        <ScrollableBarChart
+        <VerticalScrollableBarChart
           data={chartData}
           title={title}
           xKey="label"

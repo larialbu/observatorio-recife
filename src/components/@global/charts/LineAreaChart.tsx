@@ -43,7 +43,7 @@ const LineAreaChart = ({
       <div className="flex flex-col items-center justify-center">
         <h3 className="text-center font-semibold w-[90%] text-gray-800 dark:text-gray-200">{title}</h3>
       </div>
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" height={300}>
         <RechartsAreaChart
           data={data}
           margin={{ top: 20, right: 20, left: 23, bottom: 5 }}

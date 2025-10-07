@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
+import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getAccSalario } from "@/functions/process_data/observatorio/micro-caged/getAccSalario";
 import { getAttGroups } from "@/functions/process_data/observatorio/micro-caged/getAttGroups";
@@ -35,7 +35,7 @@ const MediaGrupo = ({
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
-        <ScrollableBarChart
+        <VerticalScrollableBarChart
           data={chartData}
           title={title}
           xKey="label"

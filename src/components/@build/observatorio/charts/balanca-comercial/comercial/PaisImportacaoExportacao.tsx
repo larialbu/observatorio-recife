@@ -43,7 +43,7 @@ const ImportacaoExportacaoPorPais = ({
         ]}
         tooltipEntry=" dólares"
         heightPerCategory={60}  // Define a altura de cada categoria (barra)
-        visibleHeight={400}  // Ajuste a altura do scroll
+        visibleheight={300}  // Ajuste a altura do scroll
         left={0}
         widthY={100}
       />

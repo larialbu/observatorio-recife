@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 
-import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
+import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { resizeDiv } from "@/components/@global/features/resizeDiv";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
@@ -23,7 +23,7 @@ const SaldoInstrucao = ({
   return (
     <div ref={containerRef} className="chart-wrapper">
       <ChartGrabber>
-        <ScrollableBarChart
+        <VerticalScrollableBarChart
           data={chartData}
           title={title}
           xKey="label"

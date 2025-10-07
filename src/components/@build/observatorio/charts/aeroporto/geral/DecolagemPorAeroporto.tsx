@@ -29,7 +29,7 @@ const DecolagensPorAeroporto = ({
           bars={[{ dataKey: "value", name: "Decolagens" }]}
           colors={colors}
           heightPerCategory={50} // Define a altura de cada barra
-          visibleHeight={400} // Define a altura visível para scroll
+          visibleheight={300} // Define a altura visível para scroll
         />
       </ChartGrabber>
     </div>

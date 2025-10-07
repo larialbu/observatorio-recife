@@ -2,7 +2,7 @@
 
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 
-import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
+import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { resizeDiv } from "@/components/@global/features/resizeDiv";
 import { microCagedAtivEconomicaDicts } from "@/utils/dicts/micro-caged/microCagedAtivEconomicaDicts";
@@ -24,7 +24,7 @@ const MovimentacaoAtivEconomica = ({
   return (
     <div ref={containerRef} className="chart-wrapper">
       <ChartGrabber>
-        <ScrollableBarChart
+        <VerticalScrollableBarChart
           data={chartData}
           title={title}
           xKey="label"

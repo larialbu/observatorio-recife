@@ -43,7 +43,7 @@ const ImportacaoExportacaoContinente = ({
         ]}
         tooltipEntry=" dólares"
         heightPerCategory={60}   
-        visibleHeight={400}
+        visibleheight={300}
         widthY={150}
         left={-8}
         yFontSize={11}

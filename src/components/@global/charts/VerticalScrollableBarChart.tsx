@@ -115,10 +115,12 @@ const VerticalScrollableBarChart = ({
                 type="category"
                 dataKey={xKey}
                 // altera o tamanho max da texto
-                tick={{ width: 110, fontSize: yFontSize, fill: "var(--yaxis-tick-color)" }}
+                tick={{ width: 100, fontSize: yFontSize, fill: "var(--yaxis-tick-color)" }}
                 interval={0}
                 width={widthY}
-                tickFormatter={(value: string) => truncateTextFormatter(value, maxDescriptionLength)}
+                tickFormatter={(value: string) =>
+                  truncateTextFormatter(value, maxDescriptionLength)
+                }
               />
               <Tooltip content={(e) => CustomTooltip({ ...e, customTooltipFormatter: tooltipFormatter })} />
 
@@ -152,7 +154,7 @@ const VerticalScrollableBarChart = ({
               /> */}
 
               {bars.map((bar: any, index: number) => (
-                <Bar key={index} dataKey={bar.dataKey} name={bar.name} fill={colors[0]}>
+                <Bar barSize={30} key={index} dataKey={bar.dataKey} name={bar.name} fill={colors[0]}>
                   {dataRead.map((entry: any, dataIndex: number) => (
                     <Cell
                       key={`cell-${dataIndex}`}

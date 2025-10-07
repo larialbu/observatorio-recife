@@ -2,7 +2,7 @@
 
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 
-import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
+import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getAccGroups } from "@/functions/process_data/observatorio/micro-caged/getAccGroups";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
@@ -33,7 +33,7 @@ const MovimentacaoHoras = ({
   return (
     <div  className="chart-wrapper">
       <ChartGrabber>
-        <ScrollableBarChart
+        <VerticalScrollableBarChart
           data={chartData}
           title={title}
           xKey="label"

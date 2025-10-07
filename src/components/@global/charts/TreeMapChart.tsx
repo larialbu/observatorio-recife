@@ -105,7 +105,7 @@ const TreeMapChart = ({
 
             
             <div className='rounded-md overflow-hidden w-full'>
-                <ResponsiveContainer width="100%" height={400}>
+                <ResponsiveContainer width="100%" height={300}>
                     <Treemap 
                         // dataKey={'displayValue'}
                         dataKey={dataKey}

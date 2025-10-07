@@ -37,7 +37,7 @@ const PassageirosEmbarqueDom = ({
           colors={colors}
           xKey="uf"
           bars={[{ dataKey: "total", name: "Passageiros" }]}
-          height={400} // Altura do viewport visível para scroll
+          height={300} // Altura do viewport visível para scroll
           barSize={30} // Altura individual de cada barra
         />
         <div className="absolute -rotate-90 top-[50%] -left-6">

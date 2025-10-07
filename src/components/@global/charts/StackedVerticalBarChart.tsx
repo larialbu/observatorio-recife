@@ -16,6 +16,7 @@ import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/gra
 
 import CustomLegend from "../features/CustomLegend";
 import CustomTooltip from "../features/CustomTooltip";
+import { truncateTextFormatter } from "@/utils/formatters/@global/truncateTextFormatter";
 
 const StackerBarChartVertical = ({
   data,
@@ -28,7 +29,7 @@ const StackerBarChartVertical = ({
   tooltipEntry,
   left = -35,
   yFontSize = 12,
-  maxDescriptionLength = 50,
+  maxDescriptionLength = 20,
   tooltipTitleFontSize,
   widthY = 150,
   showPercentage = true,
@@ -89,7 +90,9 @@ const StackerBarChartVertical = ({
               tick={{ fontSize: yFontSize, fill: "var(--yaxis-tick-color)" }}
               interval={0}
               width={widthY}
-              tickFormatter={truncateForYAxis}
+              tickFormatter={(value: string) =>
+                truncateTextFormatter(value, maxDescriptionLength)
+              }
             />
             <Tooltip
               content={(e) => CustomTooltip({ ...e, customTooltipFormatter, fontSize: tooltipTitleFontSize })}

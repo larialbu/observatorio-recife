@@ -26,7 +26,7 @@ const TotalPassageirosAena = ({
           colors={colors}
           xKey="aeroporto"
           bars={[{ dataKey: "totalPassageiros", name: "Passageiros" }]}
-          height={400} // Altura do viewport visível para scroll
+          height={300} // Altura do viewport visível para scroll
           heightPerCategory={100}
         />
       </ChartGrabber>

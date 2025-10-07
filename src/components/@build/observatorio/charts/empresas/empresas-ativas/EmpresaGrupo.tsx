@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
+import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
@@ -19,15 +19,15 @@ const EmpresaGrupo = ({
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
-        <ScrollableBarChart
+        <VerticalScrollableBarChart
           data={chartData}
           title={title}
           xKey="label"
           bars={[{ dataKey: "value", name: "Quantidade" }]}
           colors={ColorPalette.default}
+          left={10}
+          height={300}  
           heightPerCategory={50}
-          widthY={130}
-          left={-15}
         />
       </ChartGrabber>
     </div>

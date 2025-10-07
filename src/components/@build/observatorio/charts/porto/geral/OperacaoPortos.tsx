@@ -4,7 +4,7 @@ import React from "react";
 
 import { PortoGeralData } from "@/@types/observatorio/@data/portoData";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
+import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processCargasPorPorto } from "@/functions/process_data/observatorio/porto/geral/charts/operacaoPorPorto";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
@@ -25,7 +25,7 @@ const OperacaoPortos = ({
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
-        <ScrollableBarChart
+        <VerticalScrollableBarChart
           data={chartData}
           title={title}
           xKey="porto"

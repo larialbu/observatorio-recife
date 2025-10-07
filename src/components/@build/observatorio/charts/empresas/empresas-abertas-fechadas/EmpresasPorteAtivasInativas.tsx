@@ -46,7 +46,7 @@ const EmpresasPorteAtivasInativas = ({
         ]}
         tooltipEntry=""
         heightPerCategory={80} // Define a altura de cada barra
-        visibleHeight={400} // Define a altura visível para scroll
+        visibleheight={300} // Define a altura visível para scroll
       />
       </ChartGrabber>
     </div>

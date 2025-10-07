@@ -14,7 +14,7 @@ const EmpresasAtivasClassesMesRecente = ({
   const toCompareData = data?.['empresas']?.['ativas']?.[toCompare] || {}
   const compareData = data?.['empresas']?.['ativas']?.[compare] || {}
   
-  const monthsDataToCompare = Object.keys(toCompareData?.['mes'])
+  const monthsDataToCompare = Object.keys(toCompareData?.['mes'] || {}) || []
 
   const curMonthData = monthsDataToCompare.sort(
     (a: any, b: any) => +b - +a,

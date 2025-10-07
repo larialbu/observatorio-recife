@@ -51,6 +51,7 @@ const AttendanceChart: React.FC<AttendanceChartProps> = ({ title }) => {
         <Image src="/moreDark.png" alt="More options" width={20} height={20} />
       </div>
       <ResponsiveContainer width="100%" height="90%">
+        {/* mudar para height={300} */}
         <BarChart width={500} height={300} data={data} barSize={20}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ddd" />
           <XAxis

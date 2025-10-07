@@ -5,7 +5,7 @@ import React from "react";
 import { PortoDataResult, PortoGeralData, RawDataPortos } from "@/@types/observatorio/@data/portoData";
 import { PortoAtracacaoHeaders } from "@/@types/observatorio/@fetch/porto";
 import { ChartBuild } from "@/@types/observatorio/shared";
-import ScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
+import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import { processCargasLongoCurso } from "@/functions/process_data/observatorio/porto/operacao/charts/paisesImportados";
 import { getPortoCountryNameByCode } from "@/utils/formatters/getPortoCountryNameByCode";
@@ -37,7 +37,7 @@ const PaisesExportados = ({
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
-        <ScrollableBarChart
+        <VerticalScrollableBarChart
           data={chartData}
           title={title}
           xKey="label"
