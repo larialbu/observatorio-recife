@@ -7,7 +7,7 @@ const CargasRankingAena = ({
   year,
   color,
 }: any) => {
-  const nameAeroporto = data.cargas[0]?.Aeroporto;
+  const nameAeroporto = data?.cargas?.[0]?.Aeroporto || '';
 
   const chartData = processCargasRankingAena(data.rawData.cargas || []).find(obj => obj.aeroporto === nameAeroporto)?.position;
 
