@@ -22,6 +22,13 @@ const cards = [
       )
     ),
   },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/cards/pib/geral/PibPosicaoNe"
+      )
+    ),
+  },
 ];
 
 export default cards;
