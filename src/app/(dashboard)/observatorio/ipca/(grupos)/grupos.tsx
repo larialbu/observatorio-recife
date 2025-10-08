@@ -26,11 +26,11 @@ const Grupos = () => {
     <div>
        <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
-          const { Component } = charts[index];
+          const { Component, col } = charts[index] as any;
           return (
             <div
               key={index}
-              className={`chart-content-wrapper`}
+              className={`chart-content-wrapper ${col}`}
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <Component data={gruposData}   />

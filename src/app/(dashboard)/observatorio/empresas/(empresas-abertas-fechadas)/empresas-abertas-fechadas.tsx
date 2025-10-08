@@ -231,7 +231,7 @@ const ComparativoClasses = ({
               return (
                 <>
                   <div className={`hidden 2xl:block ${index !== 4 && "!hidden"}`}></div>
-                  <div key={index} className={`chart-content-wrapper`}>
+                  <div key={index} className={`chart-content-wrapper ${col}`}>
                     <React.Suspense fallback={<div>Carregando...</div>}>
                       <ErrorBoundary>
                         <Component 

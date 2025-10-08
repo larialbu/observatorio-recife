@@ -38,11 +38,11 @@ const Geral = ({ toCompare, data, year, months }: { toCompare?: string[]; data: 
 
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
-          const { Component } = charts[index];
+          const { Component, col } = charts[index];
           return (
             <div
               key={index}
-              className={`chart-content-wrapper`}
+              className={`chart-content-wrapper ${col}`}
             >
               <React.Suspense fallback={<GraphSkeleton />}>
                 <ErrorBoundary>
@@ -56,12 +56,12 @@ const Geral = ({ toCompare, data, year, months }: { toCompare?: string[]; data: 
 
       <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
           {tableOrder.map((index) => {
-          const { Component } = tables[index];
+          const { Component, col } = tables[index] as any;
          
           return ( 
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg flex flex-col items-center w-full"
+              className={`bg-white shadow-md rounded-lg flex flex-col items-center w-full ${col}`}
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <ErrorBoundary>

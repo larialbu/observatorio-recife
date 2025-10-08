@@ -54,7 +54,7 @@ const ComparativeCard = ({
         <span className="text-xs font-light text-gray-600 dark:text-gray-400">
             {year}
         </span>
-       {toCompare !== comp && <span style={{ borderColor: `${color}` }} className={`border bg-white dark:bg-[#0C1A28] rounded-full font-semibold text-[12px] px-2 ${percentage.color} py-1`}>{percentage.text} {comp}</span>}
+       {/* {toCompare !== comp && <span style={{ borderColor: `${color}` }} className={`border bg-white dark:bg-[#0C1A28] rounded-full font-semibold text-[12px] px-2 ${percentage.color} py-1`}>{percentage.text} {comp}</span>} */}
       </div>
      <div className="flex flex-col flex-1 ">
         <p className="text-[10px] opacity-85 mt-3">{compare[0]} / {compare[1]}</p>

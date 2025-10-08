@@ -41,8 +41,6 @@ const AeroportosPage = () => {
 
         const handler = getChartDataModel(data, data.id);
 
-        console.log('HANDLER', handler())
-
         if (handler) {
           if (anacId.includes(data?.id)) {
             setAnac(handler());

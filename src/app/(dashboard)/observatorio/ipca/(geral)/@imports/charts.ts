@@ -9,6 +9,7 @@ const charts = [
         )
     ),
     title: "Ipca Anual de Selecionados",
+    col: 'col-span-2'
   },
   {
     Component: React.lazy(
@@ -18,6 +19,7 @@ const charts = [
         )
     ),
     title: "Ipca Anual do Brasil",
+    col: 'col-span-2'
   },
   {
     Component: React.lazy(

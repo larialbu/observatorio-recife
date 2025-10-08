@@ -54,16 +54,17 @@ const AenaPage = ({data, months, year}: {data: any, months: number, year: string
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
           const charts = [
+            {...chartsPassageiros[0], type: 'passageiro'},
             ...chartsCargas.map(chart => ({ ...chart, type: 'carga' })), 
-            ...chartsPassageiros.map(chart => ({ ...chart, type: 'passageiro' }))
+            ...chartsPassageiros.slice(1).map(chart => ({ ...chart, type: 'passageiro' }))
           ];
 
-          const { Component, type } = charts[index]; // 'type' pode indicar se é carga ou passageiro
+          const { Component, type, col } = charts[index]; // 'type' pode indicar se é carga ou passageiro
             const filteredData = type === 'carga' ? filteredCargas: filteredPassageiros;
             const rawData = type === 'carga' ? data?.rawData?.cargas || [] : data?.rawData?.passageiros || [];
 
             return (
-              <div key={`chart-${index}`} className="chart-content-wrapper">
+              <div key={`chart-${index}`} className={`chart-content-wrapper ${col}`}>
                 <React.Suspense fallback={<GraphSkeleton />}>
                 <Component data={filteredData as AenaCargasHeaders[] & AenaPassageirosHeaders[]} rawData={rawData as AenaCargasHeaders[] & AenaPassageirosHeaders[]} months={months} />
                 </React.Suspense>

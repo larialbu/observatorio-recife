@@ -7,6 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/aeroporto/aena/CargasAnoAena"
       )
     ),
+    col: 'col-span-2'
   },
   {
     Component: React.lazy(() =>

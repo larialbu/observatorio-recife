@@ -6,14 +6,16 @@ const charts = [
       import(
         "@/components/@build/observatorio/charts/pib/capita/PibAnoCapita"
       )
-    )
+    ),
+    col: 'col-span-2'
   },
   {
     Component: React.lazy(() =>
       import(
         "@/components/@build/observatorio/charts/pib/capita/PibAnoVariacaoCapita"
       )
-    )
+    ),
+    col: 'col-span-2'
   },
   {
     Component: React.lazy(() =>

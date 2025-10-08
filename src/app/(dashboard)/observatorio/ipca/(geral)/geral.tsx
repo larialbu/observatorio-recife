@@ -20,9 +20,9 @@ const Geral = ({
     <div className="pb-4">
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
       {chartOrder.map((index) => {
-          const { Component } = charts[index];
+          const { Component, col } = charts[index] as any;
           return (
-            <div key={index} className={`chart-content-wrapper`}>
+            <div key={index} className={`chart-content-wrapper ${col}`}>
               <React.Suspense fallback={<GraphSkeleton />}>
                 <ErrorBoundary>
                   <Component data={data} rawData={rawData} months={months} />
