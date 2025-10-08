@@ -138,10 +138,12 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const resetFilters = () => {
+  const resetFilters = async () => {
     const tab = searchParams.get("tab") || "geral"; // Pega o valor do parâmetro 'tab' ou define como 'geral'
     let baseFilters = getFiltersForRoute(pathname, tab) as Filters;
   
+    const dataYears = await getYearsData()
+
     const hasAllowMultipleFalse = filters.additionalFilters?.some((f: AdditionalFilter) =>
       f.allowMultiple === false && !["Mes", "Mês", "MES", "MÊS"].includes(f.label)
     );
@@ -167,7 +169,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     }
   
     // Aplica os filtros modificados
-    applyFilters(baseFilters);
+    applyFilters({ ...baseFilters, years: dataYears });
   };
   
   // PARA GERENCIAR OS GRÁFICOS ESCONDIDOS
