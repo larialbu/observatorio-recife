@@ -9,7 +9,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const EmpresasClasses = ({
   data,
-  title = "Empresas por Natureza Jurídica",
+  title = "Empresas Ativas por CNAE",
   year,
 }: any) => {
   const dataEmpresas = data['empresas']

@@ -12,7 +12,7 @@ const EmpresasGrupo = ({
   data,
   municipio,
   color,
-  title = "Empresas por Natureza Jurídica Grupo",
+  title = "Empresas Ativas por Grupamento",
   year,
 }: any) => {
   const dataEmpresas = data

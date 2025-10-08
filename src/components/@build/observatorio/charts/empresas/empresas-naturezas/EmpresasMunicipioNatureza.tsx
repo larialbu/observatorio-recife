@@ -9,7 +9,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const EmpresasMunicipioNatureza = ({
   data,
-  title = "Empresas por Natureza Jurídica",
+  title = "Empresas Ativas por Natureza Jurídica nas Capitais do NE",
   year,
 }: any) => {
   const dataRawData = data['rawData']['municipio']
