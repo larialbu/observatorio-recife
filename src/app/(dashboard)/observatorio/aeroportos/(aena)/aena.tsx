@@ -35,7 +35,7 @@ const AenaPage = ({data, months, year}: {data: any, months: number, year: string
         {cardsPassageiros.map(({ Component }, index) => (
           <Component
             key={`passageiro-card-${index}`}
-            data={filteredPassageiros}
+            data={data}
             year={year}
             color={ColorPalette.default[index]}
           />
@@ -43,7 +43,7 @@ const AenaPage = ({data, months, year}: {data: any, months: number, year: string
         {cardsCargas.map(({ Component }, index) => (
           <Component
             key={`carga-card-${index}`}
-            data={filteredCargas}
+            data={data}
             year={year}
             color={ColorPalette.default[index]}
           />

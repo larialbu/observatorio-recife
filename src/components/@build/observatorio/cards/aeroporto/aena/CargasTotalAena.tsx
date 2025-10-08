@@ -8,7 +8,7 @@ const CargasTotalAena = ({
   color,
 }: any) => {
   // const chartData = processPassageirosMes(data, year, local.length > 0 ? undefined : 'Recife');
-  const chartData = processCargasTotalAena(data || []);
+  const chartData = processCargasTotalAena(data.cargas || []);
 
   return (
     <Card

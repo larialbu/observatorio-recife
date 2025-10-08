@@ -8,7 +8,13 @@ const cards = [
       )
     ),
   },
- 
+   {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/cards/aeroporto/aena/CargasRankinAena"
+      )
+    ),
+  },
 ];
 
 export default cards;
