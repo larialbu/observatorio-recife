@@ -1,11 +1,9 @@
 "use client";
 
-import React, { memo, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
 import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
-import { getDataObj } from "@/functions/process_data/observatorio/micro-caged/getDataObj";
-import { getSaldoData } from "@/functions/process_data/observatorio/micro-caged/getSaldoData";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
@@ -29,9 +27,6 @@ const EmpresasAtivas = ({
 
   const params = ['nome_bairro', 'Grupo', 'desc_atividade', 'mes']
 
-  // const chartData = useMemo(() => {
-  //   return { empresas: geralAccFunction(data['empresas'], params), rawData: geralAccFunction(data['rawData'], params) }
-  // }, [data, params])  
   useEffect(() => {
       setChartData({ empresas: geralAccFunction(data['empresas'], params), rawData: geralAccFunction(data['rawData'], params) })
   }, [data])

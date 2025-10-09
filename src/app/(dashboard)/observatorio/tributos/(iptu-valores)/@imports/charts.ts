@@ -7,6 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/tributos/iptu-valores/IptuBairro"
       )
     ),
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(() =>
@@ -14,6 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/tributos/iptu-valores/IptuZona"
       )
     ),
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(() =>
@@ -21,6 +23,7 @@ const charts = [
         "@/components/@build/observatorio/charts/tributos/iptu-valores/IptuTipoImovel"
       )
     ),
+    col: 'col-span-1'
   },
 ];
 

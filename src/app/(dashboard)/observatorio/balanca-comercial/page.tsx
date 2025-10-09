@@ -3,7 +3,6 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
-import { BalancaGeralData } from "@/@types/observatorio/@data/balancaComercialData";
 import { BalancaHeaders } from "@/@types/observatorio/@fetch/balanca-comercial";
 import { LoadingScreen } from "@/components/home/LoadingScreen";
 import { useDashboard } from "@/context/DashboardContext";

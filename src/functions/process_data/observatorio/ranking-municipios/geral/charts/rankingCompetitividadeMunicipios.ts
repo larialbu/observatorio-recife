@@ -4,9 +4,9 @@ export const processMunicipiosCompetitividade = (
   const municipiosSet = new Set<string>();
 
   // --- 1) Extrai os municípios únicos de todos os anos
-  const allYears = Object.keys(data); 
+  const allYears = Object.keys(data) || []; 
   allYears.forEach((year) => {
-    data[year].filteredData.forEach((item: any) => {
+    data?.[year]?.filteredData.forEach((item: any) => {
       const municipioNome = item["Município"];
       municipiosSet.add(municipioNome);
     });

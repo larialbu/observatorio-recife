@@ -1,14 +1,6 @@
 import React from "react";
 
 const charts = [
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/charts/aeroporto/geral/EmbarqueDesembarqueRegiao"
-  //     )
-  //   ),
-  //   title: "Embarque e Desembarque por Região",
-  // },
   {
     Component: React.lazy(() =>
       import(
@@ -31,6 +23,7 @@ const charts = [
         "@/components/@build/observatorio/charts/aeroporto/geral/PassageirosPorAeroporto"
       )
     ),
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(() =>
@@ -38,6 +31,7 @@ const charts = [
         "@/components/@build/observatorio/charts/aeroporto/geral/CargaPorAeroporto"
       )
     ),
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(() =>
@@ -45,6 +39,7 @@ const charts = [
         "@/components/@build/observatorio/charts/aeroporto/geral/DecolagemPorAeroporto"
       )
     ),
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(() =>
@@ -52,6 +47,7 @@ const charts = [
         "@/components/@build/observatorio/charts/aeroporto/geral/PassageirosPorNatureza"
       )
     ),
+    col: 'col-span-1'
   },
 ];
 

@@ -15,6 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/aeroporto/aena/CargasAeroportoAena"
       )
     ),
+    col: 'col-span-1'
   },
 ];
 

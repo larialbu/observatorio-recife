@@ -17,6 +17,7 @@ const charts = [
           "@/components/@build/observatorio/charts/porto/comparativo/PaisesExportados"
         )
     ),
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(
@@ -25,6 +26,7 @@ const charts = [
           "@/components/@build/observatorio/charts/porto/comparativo/PaisesImportados"
         )
     ),
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(
@@ -33,6 +35,7 @@ const charts = [
           "@/components/@build/observatorio/charts/porto/comparativo/PrincipaisProdutos"
         )
     ),
+    col: 'col-span-1'
   },
 ];
 

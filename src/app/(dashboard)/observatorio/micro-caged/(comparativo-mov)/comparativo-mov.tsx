@@ -196,14 +196,14 @@ const ComparativoMov = ({
       <div className="flex flex-col gap-6">
 
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
-        {tablesRender.map(({ Component }, index) => (
-          <div key={index} className="w-full">
+        {tablesRender.map(({ Component, col }: any, index) => (
+          <div key={index} className={`w-full ${col}`}>
             <p className="font-semibold text-2xl text-gray-700 mb-2">
               {[...tempFiltred][index]}
             </p>
             <div
               key={index}
-              className="chart-content-wrapper"
+              className={`chart-content-wrapper ${col}`}
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
@@ -219,14 +219,14 @@ const ComparativoMov = ({
       </SortableDiv>
 
      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
-        {tablesRenderSecond.map(({ Component }, index) => (
-          <div key={index} className="w-full">
+        {tablesRenderSecond.map(({ Component, col }, index) => (
+          <div key={index} className={`w-full ${col}`}>
             <p className="font-semibold text-2xl text-gray-700 mb-2">
               {[...tempFiltred][index]}
             </p>
             <div
               key={index}
-              className="chart-content-wrapper"
+              className={`chart-content-wrapper`}
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component

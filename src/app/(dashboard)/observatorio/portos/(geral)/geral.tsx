@@ -63,12 +63,12 @@ const Geral = ({
 
       <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
           {tableOrder.map((index) => {
-          const { Component } = tables[index];
+          const { Component, col } = tables[index] as any;
          
           return ( 
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg flex flex-col items-center w-full"
+              className={`bg-white shadow-md rounded-lg flex flex-col items-center w-full ${col}`}
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <ErrorBoundary>

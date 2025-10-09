@@ -8,6 +8,7 @@ const cards = [
           '@/components/@build/observatorio/cards/empresas/comparativo-empresas-classes/EmpresasAtivasClassesMesRecente'
         ),
     ),
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(
@@ -16,6 +17,7 @@ const cards = [
           '@/components/@build/observatorio/cards/empresas/comparativo-empresas-classes/EmpresasAtivasClassesMesAnterior'
         ),
     ),
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(
@@ -24,6 +26,7 @@ const cards = [
           '@/components/@build/observatorio/cards/empresas/comparativo-empresas-classes/EmpresasVariacaoAtivasClassesRecente'
         ),
     ),
+    col: 'col-span-1'
   },
 ]
 

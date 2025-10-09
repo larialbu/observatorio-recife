@@ -9,7 +9,7 @@ const CargasRankingAena = ({
 }: any) => {
   const nameAeroporto = data?.cargas?.[0]?.Aeroporto || '';
 
-  const chartData = processCargasRankingAena(data.rawData.cargas || []).find(obj => obj.aeroporto === nameAeroporto)?.position;
+  const chartData = processCargasRankingAena(data?.rawData?.cargas || []).find(obj => obj?.aeroporto === nameAeroporto)?.position;
 
   return (
     <Card

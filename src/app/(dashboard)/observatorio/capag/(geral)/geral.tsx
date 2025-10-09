@@ -107,7 +107,7 @@ const CapagGeral = ({
       </SortableDiv> 
 
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-4">
-          {chartsRender.map(({ Component }, index) => {
+          {chartsRender.map(({ Component, col }: any , index) => {
               // isso é para escolher qual porto ele vai pegar no tempfitred
               const virtuaIndex = chartsRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
 
@@ -117,7 +117,8 @@ const CapagGeral = ({
 
               return (
                 <>
-                  <div className={`hidden 2xl:block ${index !== 4 && "!hidden"}`}></div>
+                {/* não lembro o motivo disso  */}
+                  {/* <div className={`hidden 2xl:block ${index !== 4 && "!hidden"} ${col}`}></div> */}
                   <div key={index} className={`chart-content-wrapper ${col}`}>
                     <React.Suspense fallback={<div>Carregando...</div>}>
                       <ErrorBoundary>

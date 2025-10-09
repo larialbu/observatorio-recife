@@ -7,6 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-tempo-abertura/EmpresasMediaMesTempoAbertura"
       )
     ),
+    col: 'col-span-2'
   },
   {
     Component: React.lazy(() =>
@@ -14,6 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-tempo-abertura/EmpresasMediaMesTempoRegistro"
       )
     ),
+    col: 'col-span-2'
   },
   {
     Component: React.lazy(() =>
@@ -21,6 +23,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-tempo-abertura/EmpresasMediaMesTempoViabilidade"
       )
     ),
+    col: 'col-span-2'
   },
   {
     Component: React.lazy(() =>
@@ -28,6 +31,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-tempo-abertura/EmpresasMediaAbertura"
       )
     ),
+    col: 'col-span-2'
   },
 ];
 

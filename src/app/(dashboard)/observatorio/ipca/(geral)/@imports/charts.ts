@@ -27,6 +27,7 @@ const charts = [
         import("@/components/@build/observatorio/charts/ipca/geral/IpcaNoAno")
     ),
     title: "Ipca Anual do Brasil",
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(
@@ -36,6 +37,7 @@ const charts = [
         )
     ),
     title: "Ipca Anual do Brasil",
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(
@@ -45,6 +47,7 @@ const charts = [
         )
     ),
     title: "Ipca Anual do Brasil",
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(
@@ -54,6 +57,7 @@ const charts = [
         )
     ),
     title: "Ipca Anual do Brasil",
+    col: 'col-span-1'
   },
 ];
 

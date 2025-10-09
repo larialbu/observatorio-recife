@@ -8,6 +8,7 @@ const cards = [
           "@/components/@build/observatorio/cards/ipca/analitico/VariacaoMensalCardIpca"
         )
     ),
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(
@@ -16,6 +17,7 @@ const cards = [
           "@/components/@build/observatorio/cards/ipca/analitico/AcumuladoAnoCardIpca"
         )
     ),
+    col: 'col-span-1'
   },
 ];
 

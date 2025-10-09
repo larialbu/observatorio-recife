@@ -7,6 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-naturezas/EmpresasAtivasNaturezaMes"
       )
     ),
+    col: 'col-span-4'
   },
   {
     Component: React.lazy(() =>
@@ -14,6 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-naturezas/EmpresasNatureza"
       )
     ),
+    col: 'col-span-2'
   },
   {
     Component: React.lazy(() =>
@@ -21,35 +23,8 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-naturezas/EmpresasMunicipioNatureza"
       )
     ),
+    col: 'col-span-2'
   },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/charts/empresas/empresas-ativas/EmpresasBairro"
-  //     )
-  //   ),
-  // },
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/charts/empresas/empresas-ativas/EmpresaGrupo"
-  //     )
-  //   ),
-  // },  
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/charts/empresas/empresas-ativas/EmpresasDescricao"
-  //     )
-  //   ),
-  // },  
-  // {
-  //   Component: React.lazy(() =>
-  //     import(
-  //       "@/components/@build/observatorio/charts/empresas/empresas-ativas/EmpresasMes"
-  //     )
-  //   ),
-  // },
 ];
 
 export default charts;

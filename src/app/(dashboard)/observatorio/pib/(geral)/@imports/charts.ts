@@ -22,21 +22,24 @@ const charts = [
       import(
         "@/components/@build/observatorio/charts/pib/geral/PibRegiao"
       )
-    )
+    ),
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(() =>
       import(
         "@/components/@build/observatorio/charts/pib/geral/PibEstado"
       )
-    )
+    ),
+    col: 'col-span-1'
   },
   {
     Component: React.lazy(() =>
       import(
         "@/components/@build/observatorio/charts/pib/geral/PibMunicipio"
       )
-    )
+    ),
+    col: 'col-span-1'
   },
 ];
 
