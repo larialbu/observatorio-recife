@@ -98,7 +98,7 @@ export const AboutUs = () => {
         {renderCard(
           "Nossos Valores",
           "Somos guiados por inovação, ética, colaboração e compromisso social. Trabalhamos para tornar o Recife mais inclusivo e competitivo, promovendo a troca de conhecimento entre o poder público, a academia, o setor privado e a sociedade civil.",
-          "lg:col-span-1"
+          "lg:col-span-3"
         )}
       </div>
     </section>

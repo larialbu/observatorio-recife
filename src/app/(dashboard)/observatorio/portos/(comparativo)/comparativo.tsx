@@ -125,7 +125,7 @@ useEffect(() => {
           )})})}
       </SortableDiv> 
 
-      <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper 2xl:!grid-cols-4">
+      <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper ">
           {(tablesRender.length > 1 ? rearrangeArray(tablesRender).slice(2) : tablesRender[0].slice(1)).map(({ Component, col }, index) => {
               // isso é para escolher qual porto ele vai pegar no tempfitred
               const virtuaIndex: number = tablesRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0

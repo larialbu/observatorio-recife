@@ -7,7 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/aeroporto/aena/PassageirosPorAnoAena"
       )
     ),
-    col: 'col-span-2'
+    col: 'col-span-3 md:col-span-6'
   },
   {
     Component: React.lazy(() =>
@@ -15,7 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/aeroporto/aena/PassageirosAeroportoAena"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -23,7 +23,7 @@ const charts = [
         "@/components/@build/observatorio/charts/aeroporto/aena/PassageirosPorClassificacaoAena"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -31,7 +31,7 @@ const charts = [
         "@/components/@build/observatorio/charts/aeroporto/aena/PassageirosPorEscalaAena"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
 ];
 

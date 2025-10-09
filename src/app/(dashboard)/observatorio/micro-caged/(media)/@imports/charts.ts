@@ -7,7 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/micro-caged/media/MediaSalarioEtario"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -15,7 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/micro-caged/media/MediaInstrucao"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -23,7 +23,7 @@ const charts = [
         "@/components/@build/observatorio/charts/micro-caged/media/MediaVinculos"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -31,7 +31,7 @@ const charts = [
         "@/components/@build/observatorio/charts/micro-caged/media/MediaAtivEconomica"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -39,7 +39,7 @@ const charts = [
         "@/components/@build/observatorio/charts/micro-caged/media/MediaGrupo"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
 ];
 

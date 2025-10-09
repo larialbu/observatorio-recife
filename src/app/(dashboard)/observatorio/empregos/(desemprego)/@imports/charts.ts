@@ -7,7 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empregos/desemprego/TaxaDesempregoAno"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -15,7 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empregos/desemprego/TaxaDesempregoCapitais"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
 ];
 

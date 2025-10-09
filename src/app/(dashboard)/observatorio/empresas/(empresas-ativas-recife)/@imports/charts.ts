@@ -7,7 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-ativas-recife/EmpresasAtivasMes"
       )
     ),
-    col: 'col-span-2'
+    col: 'col-span-3 md:col-span-6'
   },
   {
     Component: React.lazy(() =>
@@ -15,7 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-ativas-recife/EmpresasVariacaoAtivasMes"
       )
     ),
-    col: 'col-span-2'
+    col: 'col-span-3 md:col-span-6'
   },  
 ];
 

@@ -106,7 +106,7 @@ const CapagGeral = ({
           )})})}
       </SortableDiv> 
 
-      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-4">
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper ">
           {chartsRender.map(({ Component, col }: any , index) => {
               // isso é para escolher qual porto ele vai pegar no tempfitred
               const virtuaIndex = chartsRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0

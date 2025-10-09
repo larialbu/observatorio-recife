@@ -195,10 +195,10 @@ const ComparativoClasses = ({
       <div className="flex flex-col gap-6">
 
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
-        {tablesRender?.[0]?.slice(0, 1).map(({ Component }, index) => (
+        {tablesRender?.[0]?.slice(0, 1).map(({ Component, col }, index) => (
             <div
               key={index}
-              className="chart-content-wrapper col-span-full"
+              className={`chart-content-wrapper col-span-full ${col}}`}
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
@@ -211,14 +211,15 @@ const ComparativoClasses = ({
         ))}
       </SortableDiv>
 
-      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper 2xl:!grid-cols-4">
+      <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
           {(tablesRender.length > 1 ? (rearrangeArray(tablesRender)?.slice(2) || []) : (tablesRender[0]?.slice(1) || [])).map(({ Component, col }, index) => {
               // isso é para escolher qual porto ele vai pegar no tempfitred
               const virtuaIndex = tablesRender.length > 1 ? (index % 2 === 0 ? 0 : 1) : 0
 
               return (
                 <>
-                  <div className={`hidden 2xl:block ${index !== 4 && "!hidden"}`}></div>
+                {/* não sei o pq disso */}
+                  {/* <div className={`hidden 2xl:block ${index !== 4 && "!hidden"}`}></div> */}
 
                   <div key={index} className={`chart-content-wrapper ${col}`}>
                     <React.Suspense fallback={<div>Carregando...</div>}>

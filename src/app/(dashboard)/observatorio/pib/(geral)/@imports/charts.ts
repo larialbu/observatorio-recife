@@ -7,7 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/pib/geral/PibAno"
       )
     ),
-    col: 'col-span-2'
+    col: 'col-span-3 md:col-span-6'
   },
   {
     Component: React.lazy(() =>
@@ -15,7 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/pib/geral/PibAnoVariacao"
       )
     ),
-    col: 'col-span-2'
+    col: 'col-span-3 md:col-span-6'
   },
   {
     Component: React.lazy(() =>
@@ -23,7 +23,7 @@ const charts = [
         "@/components/@build/observatorio/charts/pib/geral/PibRegiao"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -31,7 +31,7 @@ const charts = [
         "@/components/@build/observatorio/charts/pib/geral/PibEstado"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -39,7 +39,7 @@ const charts = [
         "@/components/@build/observatorio/charts/pib/geral/PibMunicipio"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
 ];
 

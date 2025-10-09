@@ -8,7 +8,7 @@ const charts = [
           "@/components/@build/observatorio/charts/aeroporto/comparativo/PassageirosAnoComparativo"
         )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(
@@ -17,7 +17,7 @@ const charts = [
           "@/components/@build/observatorio/charts/aeroporto/comparativo/CargasAnoComparativo"
         )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(
@@ -26,7 +26,7 @@ const charts = [
           "@/components/@build/observatorio/charts/aeroporto/comparativo/DecolagensAnoComparaivo"
         )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
 ];
 

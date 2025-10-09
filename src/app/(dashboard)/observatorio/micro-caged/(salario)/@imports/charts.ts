@@ -8,7 +8,7 @@ const charts = [
           "@/components/@build/observatorio/charts/micro-caged/salario/MediaGrupo"
         )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
 ];
 

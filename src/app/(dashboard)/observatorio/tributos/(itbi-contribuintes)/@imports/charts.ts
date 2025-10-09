@@ -7,7 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/tributos/itbi-contribuintes/ItbiMes"
       )
     ),
-    col: 'col-span-4'
+    col: 'col-span-3 md:col-span-6 xl:col-span-12'
   },
   {
     Component: React.lazy(() =>
@@ -15,7 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/tributos/itbi-contribuintes/ItbiBairro"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -23,7 +23,7 @@ const charts = [
         "@/components/@build/observatorio/charts/tributos/itbi-contribuintes/ItbiTipoConstrucao"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -31,7 +31,7 @@ const charts = [
         "@/components/@build/observatorio/charts/tributos/itbi-contribuintes/ItbiOcupacao"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
 ];
 

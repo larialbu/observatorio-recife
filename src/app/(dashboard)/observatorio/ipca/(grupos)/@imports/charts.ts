@@ -8,7 +8,7 @@ const charts = [
           "@/components/@build/observatorio/charts/ipca/grupos/GrupoParticipacaoIpca"
         )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(
@@ -17,7 +17,7 @@ const charts = [
           "@/components/@build/observatorio/charts/ipca/grupos/SubgrupoParticipacaoIpca"
         )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(
@@ -26,7 +26,7 @@ const charts = [
           "@/components/@build/observatorio/charts/ipca/grupos/ItemParticipacaoIpca"
         )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(
@@ -35,7 +35,7 @@ const charts = [
           "@/components/@build/observatorio/charts/ipca/grupos/SubitemParticipacaoIpca"
         )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
 ];
 

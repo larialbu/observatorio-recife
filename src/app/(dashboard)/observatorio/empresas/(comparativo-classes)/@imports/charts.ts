@@ -15,6 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/comparativo-empresas-classes/EmpresasClasses"
       )
     ),
+    col: 'col-span-3 xl:col-span-4'
   },
   {
     Component: React.lazy(() =>
@@ -22,6 +23,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/comparativo-empresas-classes/EmpresasSecao"
       )
     ),
+    col: 'col-span-3 xl:col-span-4'
   },
   {
     Component: React.lazy(() =>
@@ -29,6 +31,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/comparativo-empresas-classes/EmpresasGrupo"
       )
     ),
+    col: 'col-span-3 xl:col-span-4'
   }, 
 ];
 

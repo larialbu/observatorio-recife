@@ -7,7 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-classes/EmpresasAtivasClassesMes"
       )
     ),
-    col: 'col-span-4'
+    col: 'col-span-3 md:col-span-6 xl:col-span-12'
   },
   {
     Component: React.lazy(() =>
@@ -15,7 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-classes/EmpresasClasses"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -23,7 +23,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-classes/EmpresasSecao"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -31,7 +31,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-classes/EmpresasMunicipioClasses"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -39,7 +39,7 @@ const charts = [
         "@/components/@build/observatorio/charts/empresas/empresas-classes/EmpresasGrupo"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   }, 
 ];
 

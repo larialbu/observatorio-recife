@@ -9,7 +9,7 @@ const charts = [
         )
     ),
     title: "Ipca Anual de Selecionados",
-    col: 'col-span-2'
+    col: 'col-span-3 md:col-span-6'
   },
   {
     Component: React.lazy(
@@ -19,7 +19,7 @@ const charts = [
         )
     ),
     title: "Ipca Anual do Brasil",
-    col: 'col-span-2'
+    col: 'col-span-3 md:col-span-6'
   },
   {
     Component: React.lazy(
@@ -27,7 +27,7 @@ const charts = [
         import("@/components/@build/observatorio/charts/ipca/geral/IpcaNoAno")
     ),
     title: "Ipca Anual do Brasil",
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(
@@ -37,7 +37,7 @@ const charts = [
         )
     ),
     title: "Ipca Anual do Brasil",
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(
@@ -47,7 +47,7 @@ const charts = [
         )
     ),
     title: "Ipca Anual do Brasil",
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(
@@ -57,7 +57,7 @@ const charts = [
         )
     ),
     title: "Ipca Anual do Brasil",
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
 ];
 

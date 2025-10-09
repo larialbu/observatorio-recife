@@ -7,7 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/rais/diversidade/DiversidadeDeficiencia"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -15,7 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/rais/diversidade/DiversidadeGrauInstrucao"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -23,7 +23,7 @@ const charts = [
         "@/components/@build/observatorio/charts/rais/diversidade/DiversidadeGenero"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -31,7 +31,7 @@ const charts = [
         "@/components/@build/observatorio/charts/rais/diversidade/DiversidadeDistribuicao"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
   {
     Component: React.lazy(() =>
@@ -39,7 +39,7 @@ const charts = [
         "@/components/@build/observatorio/charts/rais/diversidade/DiversidadeSetor"
       )
     ),
-    col: 'col-span-1'
+    col: 'col-span-3'
   },
 ];
 
