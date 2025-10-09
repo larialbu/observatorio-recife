@@ -83,7 +83,8 @@ const Navbar = () => {
 
   const onApplyFilters = () => {
     hideInitialMessage();
-    applyFilters({...tempFilters, yearTemp: tempFilters.year || tempFilters.yearTemp, year: undefined });
+    const newFilters = {...tempFilters, yearTemp: (tempFilters.year !== tempFilters.yearTemp && typeof tempFilters.yearTemp === 'string') ? tempFilters.yearTemp : tempFilters.year, year: undefined }
+    applyFilters(newFilters);
     setFiltersVisible(false);
   };
 

@@ -92,6 +92,8 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
   // Função para buscar os dados com base nos filtros
   const fetchData = async (filtersToUse: Filters, persist = true) => {
+    console.log('FILTERS TO USE (context):', filtersToUse, persist); // REMOVER DEPOIS
+
     console.log("🔄 Chamando fetchData..."); // QUE LINDO
     setIsLoading(true);
 
