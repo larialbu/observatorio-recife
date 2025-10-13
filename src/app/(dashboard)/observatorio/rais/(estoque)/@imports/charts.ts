@@ -7,7 +7,7 @@ const charts = [
         "@/components/@build/observatorio/charts/rais/estoque/EstoqueCeiVinculado"
       )
     ),
-    col: 'col-span-3'
+    col: 'col-span-3 xl:col-span-4'
   },
   {
     Component: React.lazy(() =>
@@ -15,7 +15,7 @@ const charts = [
         "@/components/@build/observatorio/charts/rais/estoque/EstoqueSimplesNacional"
       )
     ),
-    col: 'col-span-3'
+    col: 'col-span-3 xl:col-span-4'
   },
   {
     Component: React.lazy(() =>
@@ -23,7 +23,7 @@ const charts = [
         "@/components/@build/observatorio/charts/rais/estoque/EstoqueTamanhoEmpresa"
       )
     ),
-    col: 'col-span-3'
+    col: 'col-span-3 xl:col-span-4'
   },
 ];
 

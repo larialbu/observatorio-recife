@@ -8,6 +8,7 @@ const tables = [
           "@/components/@build/observatorio/tables/porto/passageiro/PassageirosIndicadores"
         )
     ),
+    col: 'col-span-3'
   },
 ];
 

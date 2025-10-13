@@ -8,6 +8,7 @@ const tables = [
           "@/components/@build/observatorio/tables/empregos/comparativo/MovimentacaoEmpregos"
         )
     ),
+    col: 'col-span-3'
   },
 ];
 

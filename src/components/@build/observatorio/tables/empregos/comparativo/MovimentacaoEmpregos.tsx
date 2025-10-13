@@ -22,7 +22,7 @@ const [ordenation, setOrdenation] = useState([{ index: 0, name: 'Mês', ordenati
 
 const order = ordenation.find((item) => item.ordenation != 0)
 
-const aggregatedData = data.sort((a: any, b: any) => a['Mês'] - b['Mês'])
+const aggregatedData = ((data || []).sort((a: any, b: any) => a?.['Mês'] - b?.['Mês']) || [])
 
 const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenation === 1 ? a[order.name] - b[order.name] : b[order.name] - a[order.name]) : aggregatedData
 

@@ -196,10 +196,10 @@ const Comparativo = ({
       </SortableDiv>
 
         <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
-          {tablesRender.map(({ Component }, index) => (
+          {tablesRender.map(({ Component, col }, index) => (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg flex flex-col items-center w-full"
+              className={`bg-white shadow-md rounded-lg flex flex-col items-center w-full ${col}`}
             >
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component

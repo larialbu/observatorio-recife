@@ -8,6 +8,7 @@ const tables = [
           "@/components/@build/observatorio/tables/aeroporto/comparativo/AeroportoInfo"
         )
     ),
+    col: 'col-span-3 xl:col-span-4'
   },
 ];
 

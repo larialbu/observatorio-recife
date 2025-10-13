@@ -8,6 +8,7 @@ const tables = [
           "@/components/@build/observatorio/tables/pib/comparativo/PibInfosComparativo"
         )
     ),
+    col: 'col-span-3'
   },
 ];
 

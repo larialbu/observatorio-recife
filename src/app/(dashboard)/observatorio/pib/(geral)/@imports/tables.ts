@@ -6,7 +6,8 @@ const tables = [
       import(
         "@/components/@build/observatorio/tables/pib/geral/PibInfos"
       )
-    )
+    ),
+    col: 'col-span-3 xl:col-span-4'
   },
 ];
 

@@ -23,7 +23,7 @@ const charts = [
         "@/components/@build/observatorio/charts/pib/geral/PibRegiao"
       )
     ),
-    col: 'col-span-3'
+    col: 'col-span-3 xl:col-span-4'
   },
   {
     Component: React.lazy(() =>
@@ -31,7 +31,7 @@ const charts = [
         "@/components/@build/observatorio/charts/pib/geral/PibEstado"
       )
     ),
-    col: 'col-span-3'
+    col: 'col-span-3 xl:col-span-4'
   },
   {
     Component: React.lazy(() =>
@@ -39,7 +39,7 @@ const charts = [
         "@/components/@build/observatorio/charts/pib/geral/PibMunicipio"
       )
     ),
-    col: 'col-span-3'
+    col: 'col-span-3 xl:col-span-4'
   },
 ];
 
