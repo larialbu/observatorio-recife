@@ -1,0 +1,108 @@
+"use client";
+
+import { useSearchParams, useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
+
+import { LoadingScreen } from "@/components/home/LoadingScreen";
+import { useDashboard } from "@/context/DashboardContext";
+
+import Geral from "./(geral)/geral";
+import { getChartDataModel } from "@/functions/process_data/observatorio/getChartDataModel";
+
+
+const AeroportosPage = () => {
+  const searchParams = useSearchParams();
+  const { isLoading, data, filters } = useDashboard();
+  const [anac, setAnac] = useState<any>({});
+  const [aena, setAena] = useState<any>({});
+  const [activeTab, setActiveTab] = useState("geral");
+  const router = useRouter();
+
+  useEffect(() => {
+      const tab = searchParams.get("tab");
+      if (tab && tab !== activeTab) {
+        setActiveTab(tab);
+      } else if (!tab) {
+        setActiveTab('geral');
+        router.replace(`?tab=geral`);
+      }
+    }, [searchParams, activeTab, router]);
+
+  useEffect(() => {
+      const intervalId = setInterval(() => {
+        if (!data?.id) return 
+        const anacId = ['anac']
+        const aenaId = ['aena']
+
+        const handler = getChartDataModel(data, data.id);
+
+        if (handler) {
+          if (anacId.includes(data?.id)) {
+            setAnac(handler());
+          } else if (aenaId.includes(data?.id)) {
+            setAena(handler());
+          }
+
+          handler()
+          
+          clearInterval(intervalId);
+        } else {
+          setAnac({ anac: [], rawData: { "MÊS": [], "AEROPORTO NOME": []}  });
+          setAena({ passageiros: [], cargas: [], rawData: { passageiros: [], cargas: [] }  });
+        }
+
+      }, 50);
+  
+      return () => clearInterval(intervalId);
+    }, [data]);
+  
+    if (isLoading) return <LoadingScreen />;
+
+  const renderContent = () => {
+    if (!data || !(anac?.anac || aena?.passageiros)) {
+      return <div className="text-center text-gray-600">Construindo gráficos...</div>;
+    }
+
+    switch (activeTab) {
+      case "geral":
+        return <Geral 
+          data={anac || {}}
+        />;
+      default:
+        return <Geral 
+          data={anac || {}}
+        />;
+    }
+  };
+
+  const handleNavigation = async (tab: string) => {
+    router.replace(`?tab=${tab}`);
+  };
+
+  if (isLoading) return <LoadingScreen />;
+
+  return (
+    <div className="p-6 min-h-screen mt-48">
+      <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide dark:text-gray-200">
+        Panorama do Recife
+      </h1>
+      <div className="flex justify-center gap-6 mb-8 flex-wrap">
+        {/* Botões de navegação */}
+        <button
+          onClick={() => handleNavigation("geral")}
+          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+            activeTab === "geral"
+              ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
+              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
+          }`}
+        >
+          Resumo Geral
+        </button>
+        
+      </div>
+      {renderContent()}
+    </div>
+  );
+};
+
+export default AeroportosPage;

@@ -6,6 +6,7 @@ import { empregosDataService } from "@/services/@data/empregosDataService";
 import { empresasDataService } from "@/services/@data/empresasDataService";
 import { ipcaDataService } from "@/services/@data/ipcaDataService";
 import { microCagedDataService } from "@/services/@data/microCagedService";
+import { panoramaDataService } from "@/services/@data/panoramaDataService";
 import { pibDataService } from "@/services/@data/pibDataService";
 import { portoDataService } from "@/services/@data/portoDataService";
 import { raisDataService } from "@/services/@data/raisDataService";
@@ -16,6 +17,17 @@ export const routeServicesMap: Record<
   string,
   Record<string, Service<any>>
 > = {
+  
+  // Aeroportos
+  "/observatorio/panorama": {
+    geral: panoramaDataService,
+    // geral: aeroportoDataService,
+    // comparativo: aeroportoDataService,
+    // embarque: aeroportoDataService,
+    // aena: aeroportoDataService,
+    // etc. Se quiser mesmo service, ok
+  },
+
   "/observatorio/ipca": {
     geral: ipcaDataService,
     grupos: ipcaDataService,

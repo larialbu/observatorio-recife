@@ -5,6 +5,7 @@ import { empregosRouteDataHash } from "./empregosRouteDataHash";
 import { empresasRouteDataHash } from "./empresasRouteDataHash";
 import { ipcaRouteDataHash } from "./ipcaRouteDataHash";
 import { microCagedRouteDataHash } from "./microCagedRouteDataHash";
+import { panoramaRouteDataHash } from "./panoramaRouteDataHash";
 import { pibRouteDataHash } from "./pibRouteDataHash";
 import { portosRouteDataHash } from "./portosRouteDataHash";
 import { raisRouteDataHash } from "./raisRouteDataHash";
@@ -12,6 +13,7 @@ import { rankingRouteDataHash } from "./rankingRouteDataHash";
 import { tributosRouteDataHash } from "./tributosRouteDataHash";
 
 export const geralRouteDataHash = {
+    ...panoramaRouteDataHash,
     ...empresasRouteDataHash,
     ...aeroportosRouteDataHash,
     ...balancaComercialRouteDataHash,
@@ -23,5 +25,5 @@ export const geralRouteDataHash = {
     ...raisRouteDataHash,
     ...microCagedRouteDataHash,
     ...tributosRouteDataHash,
-    ...capagRouteDataHash
+    ...capagRouteDataHash,
 }  

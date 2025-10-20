@@ -42,11 +42,24 @@ import { empresasTempoAberturaFilters } from "@/utils/filters/empresas/empresasT
 import { tributosGeralItbiFilters } from "@/utils/filters/tributos/tributosGeralItbiFilters";
 import { tributosGeralIptuFilters } from "@/utils/filters/tributos/tributosGeralIptuFilters";
 import { capagGeralFilters } from "@/utils/filters/capag/capagGeralFilters";
+import { panoramaFilters } from "@/utils/filters/panorama/panoramaFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 type TabFiltersMap = Record<string, Filters>;
 
 export const routeFiltersMap: Record<string, TabFiltersMap> = {
+    
+    "/observatorio/panorama": {
+      // Se estivermos em /observatorio/aeroportos, podemos ter
+      // "geral" apontando para anacFilters, ou "aena" apontando para aenaFilters.
+      geral: panoramaFilters,
+      // comparativo: anacComparativoFilters,
+      // embarque: anacFilters,
+      // aena: aenaFilters,
+      // Se existirem outras tabs, adicione aqui.
+    },  
+
+  
     "/observatorio/ipca": {
       geral: ipcaGeralFilters,
       grupos: ipcaGruposFilters,

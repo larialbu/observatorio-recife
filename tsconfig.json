@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/utils/news", "src/functions/process_data/observatorio/porto/comparativo/cards/processPortosMovimentacaoGeral.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/utils/news", "src/functions/process_data/observatorio/porto/comparativo/cards/processPortosMovimentacaoGeral.ts", "src/@api/http/to-charts/panorama"],
   "exclude": ["node_modules"]
 }
