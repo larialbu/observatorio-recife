@@ -40,8 +40,9 @@ const AeroportosPage = () => {
           if (anacId.includes(data?.id)) {
             setAnac(handler());
           } else if (aenaId.includes(data?.id)) {
-            setAena(handler());
+            setAnac(handler());
           }
+            setAnac(handler());
 
           handler()
           

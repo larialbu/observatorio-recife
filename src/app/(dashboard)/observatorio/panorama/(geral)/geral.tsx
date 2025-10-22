@@ -21,6 +21,8 @@ const Geral = ({
   const sortableContainerRef = useRef<HTMLDivElement>(null);
   const [chartData, setChartData] = useState({anac: {}, rawData: {}})
 
+  console.log('DATA nA PAG', data)
+
   // useEffect(() => {
   //   setChartData({
   //     anac: geralAccGroupValuesFunction(data?.anac || [], ['AEROPORTO NOME', 'MÊS', 'NATUREZA'], ['DECOLAGENS', 'CARGA', 'PASSAGEIRO']), 

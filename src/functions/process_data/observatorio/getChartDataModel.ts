@@ -105,6 +105,10 @@ export const getChartDataModel = (data: any, id: string) => {
             cargas: data.cargas?.rawDataCargas || []
           }
         }
+      },
+
+      'panorama': () => {
+        return data
       }
 
 //       .passageiros?.filteredData

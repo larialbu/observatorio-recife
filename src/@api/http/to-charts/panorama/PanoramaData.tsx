@@ -22,8 +22,8 @@ export class PanoramaData {
     return fetchData<any[]>(`/balanco-comercial/geral/${this.year}`, []);
   }
 
-  async fetchProcessedEmpresasAtivasRecife(): Promise<any[]> {
-    const endpoint = `/empresas/empresas-ativas/anos/${this.year}`;
+  async fetchProcessedEmpresasAtivas(): Promise<any[]> {
+    const endpoint = `/empresas/empresas/anos/${this.year}`;
     return fetchData<any[]>(endpoint, []);
   }
 

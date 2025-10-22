@@ -39,11 +39,12 @@ export class PanoramaDataService implements Service<AeroportoDataResult> {
     const airportRawData = applyGenericFilters(anac, filters, ["AEROPORTO NOME"])
 
     console.log('anac', anac)
-    const pib = (await panoramaService.fetchProcessedDataPib()).filter(item => item['Município - UF'] === 'Recife - PE');
+    const pib = (await panoramaService.fetchProcessedDataPib()).filter((item) => item['Nome da Grande Região'] === 'Nordeste');
+    // const pib = (await panoramaService.fetchProcessedDataPib()).filter(item => item['Município - UF'] === 'Recife - PE');
     console.log('piv', pib)
     const balanca = (await panoramaService.fetchProcessedDataBalanca()).filter(item => item['Município'] === 'Recife - PE');
     console.log('balanca', balanca)
-    const empresas = await panoramaService.fetchProcessedEmpresasAtivasRecife();
+    const empresas = await panoramaService.fetchProcessedEmpresasAtivas();
     console.log('empresas', empresas)
     const caged = (await panoramaService.fetchProcessedDataCaged()).filter(item => item['Municipio'] === 'Recife-PE');
     console.log('caged', caged)
@@ -68,7 +69,7 @@ export class PanoramaDataService implements Service<AeroportoDataResult> {
         "MÊS": monthRawData,
         "AEROPORTO NOME": airportRawData
       },
-      id: 'anac' 
+      id: 'panorama' 
     } as any;
     // } as AnacAeroportoData;
   }

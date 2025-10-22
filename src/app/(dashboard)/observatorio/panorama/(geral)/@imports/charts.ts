@@ -1,6 +1,39 @@
 import React from "react";
 
 const charts = [
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/panorama/geral/MovimentacaoRecifeAnac"
+      )
+    ),
+    col: 'col-span-3'
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/panorama/geral/PibMunicipio"
+      )
+    ),
+    col: 'col-span-3'
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/panorama/geral/BalancaComercial"
+      )
+    ),
+    col: 'col-span-3'
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/panorama/geral/EmpresasGrupo"
+      )
+    ),
+    col: 'col-span-3'
+  },
+
   // {
   //   Component: React.lazy(() =>
   //     import(
