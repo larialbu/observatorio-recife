@@ -37,6 +37,19 @@ export class PanoramaData {
     return fetchData<any[]>(endpoint, []);
   }
 
+  async fetchProcessedGeralDataRanking(): Promise<any[]> {
+    const endpoint = `/ranking/geral/anos/${this.year}`;
+    return fetchData<any[]>(endpoint, []);
+  }
+ 
+
+  // async fetchProcessedDataCaged(): Promise<any[]> {
+  //   const endpoint = `/empregos/caged/anos/${this.year}`;
+  //   return fetchData<any[]>(endpoint, EmpregosData.cache);
+  // }
+
+
+
   clearCache(): void {
     PanoramaData.cache = {};
   }

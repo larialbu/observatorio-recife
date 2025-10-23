@@ -1,21 +1,20 @@
 import { IpcaGeralHeaders } from "@/@types/observatorio/@fetch/ipca";
 
-export const processVariacaoMensal = (data: IpcaGeralHeaders[]): { mes: string; [key: string]: number | string }[] => {
+export const processVariacaoMensal = (
+  data: IpcaGeralHeaders[]
+): { mes: string; [key: string]: number | string }[] => {
+  // Filtra para remover o agregado "Brasil"
+  const filteredData = data.filter((item) => item["Capital"] !== "Brasil");
 
-  const filteredData = data.filter(
-    (item) => item["Capital"] !== "Brasil"
+  // Identifica todas as capitais únicas
+  const categorias = Array.from(new Set(filteredData.map((item) => item["Capital"])));
+
+  // Identifica todos os meses únicos presentes nos dados
+  const meses = Array.from(new Set(filteredData.map((item) => item["MÊS"].toString()))).sort(
+    (a, b) => parseInt(a) - parseInt(b)
   );
 
-  const categoriasSet = new Set<string>();
-  filteredData.forEach((item) => {
-    const categoriaNome = item["Capital"];
-    categoriasSet.add(categoriaNome);
-  });
-
-  const categorias = Array.from(categoriasSet);
-
-  const meses = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
-
+  // Inicializa a estrutura base de saída com cada mês e todas as categorias zeradas
   const processedData = meses.map((mes) => {
     const result: { mes: string; [key: string]: number | string } = { mes };
     categorias.forEach((categoria) => {
@@ -24,25 +23,24 @@ export const processVariacaoMensal = (data: IpcaGeralHeaders[]): { mes: string; 
     return result;
   });
 
+  // Popula a estrutura com as variações mensais de cada capital
   filteredData.forEach((item) => {
     const variacaoMensal = item["IPCA - Variação mensal"] || 0;
-
     const mes = item["MÊS"].toString();
-    const categoriaNome = item["Capital"];
+    const categoria = item["Capital"];
 
-    if (categorias.includes(categoriaNome)) {
-      const mesIndex = parseInt(mes, 10) - 1;
-      if (processedData[mesIndex]) {
-        processedData[mesIndex][categoriaNome] =
-          (processedData[mesIndex][categoriaNome] as number) + variacaoMensal;
-      }
+    const mesIndex = meses.indexOf(mes);
+    if (mesIndex !== -1) {
+      processedData[mesIndex][categoria] =
+        (processedData[mesIndex][categoria] as number) + variacaoMensal;
     }
   });
 
+  // Formata o campo "mes" para exibir abreviações em português (jan, fev, mar, etc.)
   return processedData.map((item) => ({
     ...item,
     mes: new Date(0, parseInt(item.mes as string, 10) - 1).toLocaleString("pt-BR", {
       month: "short",
-    }), // Formata para um formato tipo "jan", "fev", etc.
+    }),
   }));
 };

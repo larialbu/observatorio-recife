@@ -60,7 +60,7 @@ const AeroportosPage = () => {
     if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
-    if (!data || !(anac?.anac || aena?.passageiros)) {
+    if (!data || !(anac?.anac || aena?.passageiros || data?.data)) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 

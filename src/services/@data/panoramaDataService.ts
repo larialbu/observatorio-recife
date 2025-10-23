@@ -28,47 +28,28 @@ export class PanoramaDataService implements Service<AeroportoDataResult> {
   
 
   private async fetchGeralData(filters: Filters) {
-    console.log('FOI ESSE AQUI QUE RODOU!')
     const panoramaService = new PanoramaData('2024');
-    // const panoramaService = new AeroportoData(this.currentYear);
+    const years = filters.years as any; // Lista de anos a serem buscados
+   
     const anac = (await panoramaService.fetchProcessedDataAnac()).filter(item => item['AEROPORTO NOME'] === 'Recife');
-    const rawData = await getRawData({applyGenericFilters, service: panoramaService, nameFunc:'fetchProcessedDataAnac', currentYear: this.currentYear, years: filters.years, keyName: 'AEROPORTO NOME', filters, lengthIgnore: 1})
-    const anacFiltered = {...applyGenericFilters(anac, filters), rawData};
-
-    const monthRawData = applyGenericFilters(anac, filters, ["MÊS"])
-    const airportRawData = applyGenericFilters(anac, filters, ["AEROPORTO NOME"])
-
-    console.log('anac', anac)
     const pib = (await panoramaService.fetchProcessedDataPib()).filter((item) => item['Nome da Grande Região'] === 'Nordeste');
-    // const pib = (await panoramaService.fetchProcessedDataPib()).filter(item => item['Município - UF'] === 'Recife - PE');
-    console.log('piv', pib)
     const balanca = (await panoramaService.fetchProcessedDataBalanca()).filter(item => item['Município'] === 'Recife - PE');
-    console.log('balanca', balanca)
     const empresas = await panoramaService.fetchProcessedEmpresasAtivas();
-    console.log('empresas', empresas)
+    const rankingPromises = years.map((year: any) => {
+      const rankingService = new PanoramaData(year);
+      return rankingService.fetchProcessedGeralDataRanking().then((data) => {
+        return data; // Organiza os dados por ano
+      });
+    });
+  
+    const ranking = (await Promise.all(rankingPromises)).flat().filter(item => item['Município'] === 'Recife');
+
+
     const caged = (await panoramaService.fetchProcessedDataCaged()).filter(item => item['Municipio'] === 'Recife-PE');
-    console.log('caged', caged)
     const ipca = (await panoramaService.fetchProcessedGeralDataIpca()).filter(item => item['Capital'] === 'Recife');
-    console.log('ipca', ipca)
-
-
-    console.log('FOI ESSE AQUI QUE RODOU!')
-
-    // anac - AEROPORTO NOME - Recife
-    // pib - Município - UF - Recife - PE
-    // balanca - Município - Recife - PE
-    // empresas - Municipio - Recife (não tem, se tiver vai ser esse)
-    // caged - Municipio - Recife-PE
-    // ipca - Capital - Recife 
-
+ 
     return { 
-      anac: anac, 
-    //   anac: anacFiltered, 
-      data: { anac, pib, balanca, empresas, caged, ipca },
-      rawData: {
-        "MÊS": monthRawData,
-        "AEROPORTO NOME": airportRawData
-      },
+      data: { anac, pib, balanca, empresas, caged, ipca, ranking },
       id: 'panorama' 
     } as any;
     // } as AnacAeroportoData;

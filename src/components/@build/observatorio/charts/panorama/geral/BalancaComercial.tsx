@@ -2,15 +2,14 @@
 
 import React from "react";
 
-import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import BarChart from "@/components/@global/charts/BarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
-const MovimentacaoRecifeAnac = ({
+const BalancaComercial = ({
   data,
-  title = "Exportação / Importação",
+  title = "Balança Comercial (Exportação / Importação)",
   colors = ColorPalette.default,
 }: ChartBuild<any>) => {
 // }: ChartBuild<AnacChartData>) => {
@@ -29,15 +28,13 @@ const MovimentacaoRecifeAnac = ({
 
   const chartData = Object.keys(result).map((key) => ({ label: key, value: result[key] }))
 
-//   const chartData = [{ label: 'Cargas', value: result['carga'] }, { label: 'Passageiros', value: result['passageiros'] }]
-
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
         <BarChart
           data={chartData}
           title={`${title}`}
-          colors={[colors[1]]}
+          colors={[colors[1], colors[0]]}
           xKey="label"
           bars={[{ dataKey: "value", name: "USD" }]}
           height={300} // Altura do viewport visível para scroll
@@ -50,4 +47,4 @@ const MovimentacaoRecifeAnac = ({
   );
 };
 
-export default MovimentacaoRecifeAnac;
+export default BalancaComercial;

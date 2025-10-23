@@ -2,7 +2,6 @@
 
 import React from "react";
 
-import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 import { ChartBuild } from "@/@types/observatorio/shared";
 import BarChart from "@/components/@global/charts/BarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";

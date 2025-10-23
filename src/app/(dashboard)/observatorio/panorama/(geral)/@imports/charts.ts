@@ -4,6 +4,22 @@ const charts = [
   {
     Component: React.lazy(() =>
       import(
+        "@/components/@build/observatorio/charts/panorama/geral/IpcaMeses"
+      )
+    ),
+    col: 'col-span-3 md:col-span-6'
+  },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/panorama/geral/RankingMunicipio"
+      )
+    ),
+    col: 'col-span-3 md:col-span-6'
+  },
+  {
+    Component: React.lazy(() =>
+      import(
         "@/components/@build/observatorio/charts/panorama/geral/MovimentacaoRecifeAnac"
       )
     ),
@@ -33,6 +49,15 @@ const charts = [
     ),
     col: 'col-span-3'
   },
+  {
+    Component: React.lazy(() =>
+      import(
+        "@/components/@build/observatorio/charts/panorama/geral/EmpregosGeral"
+      )
+    ),
+    col: 'col-span-3'
+  },
+
 
   // {
   //   Component: React.lazy(() =>

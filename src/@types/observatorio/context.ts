@@ -19,7 +19,7 @@ export interface HiddenChart {
 
 export interface DashboardContextProps<T> {
   filters: Filters;
-  data: DashboardData | null;
+  data: DashboardData | null | any;
   setData: React.Dispatch<React.SetStateAction<DashboardData | null>>;
   isLoading: boolean;
   applyFilters: (newFilters: Filters) => Promise<void>;

@@ -13,8 +13,6 @@ const PibMunicipio = ({
 }: any) => {
   const pib = data?.data?.['pib'] || []
 
-  console.log('PIIB data ->', data, pib)
-  
   const chartData =  processPibGroup(pib, 'municipio')
 
   return (
