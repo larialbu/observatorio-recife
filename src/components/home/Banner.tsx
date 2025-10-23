@@ -5,6 +5,7 @@ import React from "react";
 
 import { Header } from "./Header";
 import { NavBarHome } from "./NavBarHome";
+import Link from "next/link";
 
 interface BannerProps {
   onSearch: (term: string) => void;
@@ -45,12 +46,18 @@ export const Banner: React.FC<BannerProps> = ({ onSearch }) => {
         <NavBarHome />
 
         <div className="flex flex-col justify-center items-center">
-          <div className="pt-32 pb-60 gap-px w-full flex flex-col px-3 justify-center items-center">
-            <h1 className="text-white font-medium text-3xl mb-[2.5em] text-center">
+          <div className="pt-32 pb-60 mb-[2.5em] gap-4 w-full flex flex-col px-3 justify-center items-center">
+            <h1 className="text-white font-medium text-3xl   text-center">
               OBSERVATÓRIO ECONÔMICO DO RECIFE
             </h1>
 
-            <div className="relative input-content lg:w-2/6">
+            <Link href={"/observatorio/panorama"}>
+              <button className="lg:text-[18px] font-bold text-white drop-shadow-xl rounded-full bg-[#EC6625] py-4 px-20 hover:bg-[#ce5a21] hover:scale-105 hover:drop-shadow-2xl transition duration-200 sm:hover:scale-85">
+                {/* Dashboard userfriendly */}
+                Modo Visual
+              </button>
+            </Link>
+            {/* <div className="relative input-content lg:w-2/6">
               <span className="absolute top-[0.5em] left-[0.5em]">
                 <motion.svg
                   width="40"
@@ -86,7 +93,7 @@ export const Banner: React.FC<BannerProps> = ({ onSearch }) => {
                 type="text"
                 onChange={handleInputChange}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

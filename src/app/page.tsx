@@ -8,6 +8,8 @@ import { ExploreSection } from "@/components/home/ExploreSection";
 import { Footer } from "@/components/home/Footer";
 import { SocialIconsContainer } from "@/components/home/SocialIconsContainer";
 import { useLoading } from "@/context/LoadingContext";
+import dynamic from "next/dynamic";
+import Link from "next/link";
 
 const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -137,9 +139,16 @@ const Page = () => {
     );
   }
 
+  const PowerBi = dynamic(() => import("@/components/home/PowerBi"), {
+    ssr: false,
+    loading: () => <div className="min-h-[600px] flex items-center justify-center">Loading PowerBI...</div>
+  });
+
   return (
     <div className="min-h-screen dark:bg-[#0C1B2B]">
       <Banner onSearch={handleSearch} />
+      <PowerBi />   
+
       <ExploreSection 
         searchTerm={searchTerm} 
         bundleProgress={bundleProgress} 
