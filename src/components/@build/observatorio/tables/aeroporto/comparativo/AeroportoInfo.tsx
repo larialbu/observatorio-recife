@@ -47,15 +47,28 @@ const AeroportoInfo = ({
     const rows: string[][] = [];
 
     values.map((obj: any) => {
-      rows.push([monthFormatter(+obj.MÊS) || 'Desconhecido', formatNormalnumber(+obj.PASSAGEIRO), formatNormalnumber(+obj.CARGA), formatNormalnumber(+obj.DECOLAGENS)]);
+      rows.push([+obj.MÊS ? (monthFormatter(+obj.MÊS) || 'Desconhecido') : obj.MÊS, formatNormalnumber(+obj.PASSAGEIRO), formatNormalnumber(+obj.CARGA), formatNormalnumber(+obj.DECOLAGENS)]);
     });
 
     return rows;
   };
 
+  const total = dataSorted.reduce((acc: any, item: any) => {
+    acc.PASSAGEIRO += item.PASSAGEIRO;
+    acc.CARGA += item.CARGA;
+    acc.DECOLAGENS += item.DECOLAGENS;
+    
+    return acc
+  }, {
+    MÊS: 'Total',
+    PASSAGEIRO: 0,
+    CARGA: 0,
+    DECOLAGENS: 0
+  })
+
   return (
     <div className="relative w-full rounded-2xl">
-      <TableGeneric ordenations={ordenation} onOrdenationChange={setOrdenation} maxHeight={500} rowsPerPage={100} color={color} headers={header} title={`Dados de ${airport} (${year})`} rows={getRows(dataSorted)} />
+      <TableGeneric ordenations={ordenation} onOrdenationChange={setOrdenation} maxHeight={500} rowsPerPage={100} color={color} headers={header} title={`Dados de ${airport} (${year})`} rows={getRows([...dataSorted, total])} />
     </div>
   );
 };

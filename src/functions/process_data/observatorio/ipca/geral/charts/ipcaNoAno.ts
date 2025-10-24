@@ -29,7 +29,7 @@ export const processIpcaNoAno = (data: IpcaGeralHeaders[]) => {
     }, {});
   
     return Object.values(processedData).sort(
-      (a, b) => b.acumuladoAno - a.acumuladoAno
+      (a, b) => a.acumuladoAno - b.acumuladoAno
     );
   };
   

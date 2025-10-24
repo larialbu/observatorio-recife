@@ -11,18 +11,17 @@ import { processRawAccumulator } from "@/functions/process_data/observatorio/aer
 import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 
 
-const PassageirosPorNatureza = ({
+const CargasPorNatureza = ({
   data,
-  title = "Passageiros por Natureza do Voo",
+  title = "Cargas por Natureza do Voo",
 }: ChartBuild<any>) => {
 
   const [showPercentage, setShowPercentage] = useState(true);
 
- 
   const chartData = Object.entries((Object.entries(data?.anac?.['NATUREZA'] || []) || []).reduce((acc: any, [key, value]: any) => {
     if (!acc[key]) acc[key] = 0;
-    acc[key] += value['PASSAGEIRO'] || 0;
-    // acc[key] += value['CARGA'] || 0;
+    // acc[key] += value['PASSAGEIRO'] || 0;
+    acc[key] += value['CARGA'] || 0;
     // acc[key] += value['DECOLAGENS'] || 0;
 
     return acc;
@@ -51,4 +50,4 @@ const PassageirosPorNatureza = ({
   );
 };
 
-export default PassageirosPorNatureza;
+export default CargasPorNatureza;

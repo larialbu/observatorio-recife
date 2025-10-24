@@ -32,7 +32,7 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/aeroporto/embarque/CargasInternacionalEmbarque"
+          "@/components/@build/observatorio/charts/aeroporto/embarque/PassageirosIntEmbarque"
         )
     ),
     col: 'col-span-3 xl:col-span-4'
@@ -41,7 +41,7 @@ const charts = [
     Component: React.lazy(
       () =>
         import(
-          "@/components/@build/observatorio/charts/aeroporto/embarque/PassageirosIntEmbarque"
+          "@/components/@build/observatorio/charts/aeroporto/embarque/CargasInternacionalEmbarque"
         )
     ),
     col: 'col-span-3 xl:col-span-4'

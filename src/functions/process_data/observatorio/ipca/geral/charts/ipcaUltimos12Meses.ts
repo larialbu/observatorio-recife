@@ -27,7 +27,7 @@ export const processIpcaUltimos12Meses = (data: IpcaGeralHeaders[]) => {
     }, {});
   
     return Object.values(processedData).sort(
-      (a, b) => b.acumuladoUltimosMeses - a.acumuladoUltimosMeses
+      (a, b) => a.acumuladoUltimosMeses - b.acumuladoUltimosMeses
     );
   };
   
