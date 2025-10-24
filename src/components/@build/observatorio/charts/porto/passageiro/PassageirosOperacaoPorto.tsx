@@ -12,7 +12,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 
 const PassageirosOperacaoPorto = ({
   data,
-  title = "Passageiros por tipo de Operação",
+  title = "Vaiação Passageiros",
 }: ChartBuild<PortoPassageirosOutputData>) => {
   const [showPercentage, setShowPercentage] = useState(true);
   

@@ -106,12 +106,12 @@ useEffect(() => {
 
       <div className="flex flex-col gap-6">
        
-      <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper 2xl:!grid-cols-2">
+      <SortableDiv chartOrder={tableOrder} setChartOrder={setTableOrder} sortableContainerRef={sortableContainerTableRef} style="charts-items-wrapper">
         {tablesRender.map((arrChart, index: number) => {
 
         return arrChart.slice(0, 1).map(({ Component, col }) => {
             return (
-              <div key={index} className={`chart-content-wrapper ${tablesRender.length === 1 && col}`}>
+              <div key={index} className={`chart-content-wrapper ${col}`}>
               <React.Suspense fallback={<div>Carregando...</div>}>
                 <Component
                   porto={["Recife", ...tempFiltred][index]}
@@ -134,8 +134,6 @@ useEffect(() => {
 
               return (
                 <>
-                  <div className={`hidden 2xl:block ${index !== 4 && "!hidden"}`}></div>
-
                   <div key={index} className={`chart-content-wrapper ${col}`}>
                     <React.Suspense fallback={<div>Carregando...</div>}>
                       <Component

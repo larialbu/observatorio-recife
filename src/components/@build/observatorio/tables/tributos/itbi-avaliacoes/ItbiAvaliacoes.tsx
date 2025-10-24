@@ -31,7 +31,7 @@ const dataSorted = order ? aggregatedData.sort((a: any, b: any) => order.ordenat
     return <div>Nenhum dado econtrado</div>;
   }
 
-  const header = ['Mês', 'Logradouro', 'Bairro', 'Imóvel', 'Variação']
+  const header = ['Mês', 'Logradouro', 'Bairro', 'Imóvel', 'Valor Avaliação']
 
   const getRows = (values: any) => {
     const rows: string[][] = [];

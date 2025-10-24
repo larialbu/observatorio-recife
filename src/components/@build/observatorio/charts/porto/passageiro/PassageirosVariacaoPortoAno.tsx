@@ -13,7 +13,7 @@ import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 const PassageirosVariacaoPortoAno = ({
   data,
   colors = ColorPalette.default,
-  title = "Variação de Passageiros no Ano",
+  title = "Países Que Importam",
   months
 }: ChartBuild<PortoPassageirosOutputData>) => {
 const yearCur = data.passageiros?.current[0]?.['Ano'] || 'Dado não encontrado'

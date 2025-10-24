@@ -23,7 +23,7 @@ const charts = [
         "@/components/@build/observatorio/charts/porto/passageiro/PassageirosOperacaoPorto"
       )
     ),
-    col: 'col-span-3'
+    col: 'col-span-full'
   },
 ];
 
