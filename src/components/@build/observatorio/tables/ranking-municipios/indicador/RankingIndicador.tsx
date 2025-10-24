@@ -15,7 +15,7 @@ const RankingIndicador = ({
 
   // Filtra os dados com base no ano
   const aggregatedData = data
-    .filter((item: any) => item["Ano"].toString() === `2024`)
+    .filter((item: any) => item["Ano"].toString())
     .map((item: any) => ({
       Ano: item["Ano"],
       Município: item["Município"] || "Desconhecido",
