@@ -96,10 +96,10 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
   };
 
   useEffect(() => {
-    const blocks = getSplitedDataInBlocks(rows);
+    const blocks = getSplitedDataInBlocks(currentRows);
     setDataRead((getRows ? getRows(blocks[0]) : blocks[0]) || []);
     setBlocksCount(1);
-  }, [rows]);  
+  }, [currentRows]);  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -108,8 +108,8 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
 
      if (scrollTop + clientHeight >= scrollHeight) {
         setBlocksCount((prev) => {
-          if (prev < getSplitedDataInBlocks(rows).length) {
-            setDataRead(getRows ? getRows(rows.slice(0, (prev + 1) * 100)) : rows.slice(0, (prev + 1) * 100));
+          if (prev < getSplitedDataInBlocks(currentRows).length) {
+            setDataRead(getRows ? getRows(currentRows.slice(0, (prev + 1) * 100)) : currentRows.slice(0, (prev + 1) * 100));
             return prev + 1;
           }
           return prev;
