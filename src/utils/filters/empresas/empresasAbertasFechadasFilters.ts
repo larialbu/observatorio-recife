@@ -12,18 +12,6 @@ export const empresasAbertasFechadasFilters = {
         hash: monthHash        
       },
       {
-        label: "UF",
-        name: 'Estado',  
-        options: [],  
-        selected: [],
-      },
-      {
-        label: "Município",
-        name: 'Município',  
-        options: [],  
-        selected: [],
-      },
-      {
         label: "Natureza Jurídica",
         name: 'Tipo Empreendimento',
         options: [],  

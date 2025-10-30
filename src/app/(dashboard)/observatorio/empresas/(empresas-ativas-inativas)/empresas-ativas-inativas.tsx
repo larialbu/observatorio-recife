@@ -26,6 +26,13 @@ const EmpresasAtivasInativas = ({
   const params = ['nome_bairro', 'Grupo', 'desc_atividade', 'mes']
 
   const chartData = useMemo(() => {
+    console.log('Data received in EmpresasAtivasInativas:', data);
+
+    console.log('chartData:', {
+      ativas: geralAccFunction(data['ativas'], params),
+      inativas: geralAccFunction(data['inativas'], params) 
+    });
+
     return {
         ativas: geralAccFunction(data['ativas'], params),
         inativas: geralAccFunction(data['inativas'], params) 

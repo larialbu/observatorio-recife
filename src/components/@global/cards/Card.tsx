@@ -28,7 +28,7 @@ const Card = ({
       {/* Header: Local and Year */}
       <div className="flex justify-between items-center mb-3">
         <span className="text-xs font-light text-gray-600 dark:text-gray-400">
-          {local ? <span className="font-bold text-[14px]">{local}</span> : ""} - {year}
+          {local ? <span className="font-bold text-[14px]">{local} -</span> : ""} {year}
         </span>
       </div>
 

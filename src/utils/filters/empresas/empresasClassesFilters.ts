@@ -15,7 +15,7 @@ export const empresasClassesFilters = {
         label: "Municipio", 
         name: 'Capital do NE', 
         options: [],  
-        selected: [],
+        selected: ['Recife'],
       },      
       {
         label: "Grupo", 

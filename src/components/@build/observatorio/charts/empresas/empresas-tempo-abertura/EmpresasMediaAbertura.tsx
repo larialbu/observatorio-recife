@@ -4,16 +4,12 @@ import React from "react";
 
 import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
-import { getObjToArr } from "@/utils/formatters/getObjToArr";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
 import { empresasCapitalsDicts } from "@/utils/dicts/empresas/empresasCapitalsDicts";
 
 const EmpresasMediaAbertura = ({
   data,
-  color,
-//   municipio,
   title = "Tempo Médio Abertura de Empresas (Horas)",
-  year,
 }: any) => {
   const dataEmpresas = data['empresas'] || {}
 
@@ -25,7 +21,7 @@ const EmpresasMediaAbertura = ({
 
   const dataFiltred = dataFlat.filter((data: any) => data['mes'] === dataMonthCur && empresasCapitalsDicts[data['Municipio']])
 
-  const chartData = dataFiltred.map((data) => ({ label: data['Municipio'].split(' - ')[0], value: data?.['Tempo_Medio_Abertura'] || 0 }))?.sort((a, b) => b?.['value'] - a?.['value'])
+  const chartData = dataFiltred.map((data) => ({ label: data['Municipio'].split(' - ')[0], value: data?.['Tempo_Medio_Abertura'] || 0 }))?.sort((a, b) => a?.['value'] - b?.['value'])
 
   return (
     <div className="chart-wrapper">

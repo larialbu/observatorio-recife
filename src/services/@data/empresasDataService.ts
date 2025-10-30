@@ -121,6 +121,8 @@ export class EmpresasDataService {
       const filteredDataRawDataMunicipio = applyGenericFilters(fetchData, filters, ['Municipio']);
       const filteredDataRawDataMes = applyGenericFilters(fetchData, filters, ['mes']);
 
+      console.log('filters', filters);
+
       return {
         empresas: filteredData,
         rawData: {

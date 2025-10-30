@@ -1,28 +1,21 @@
 import Card from '@/components/@global/cards/Card'
-import { monthLongName } from '@/utils/formatters/@global/monthLongName'
 
 const EmpresasAtivasMesRecente = ({
   data,
   date,
-  title = `Empresas Ativas (mês)`,
+  title = `Empresas Ativas`,
   local = '',
   year,
   color,
 }: any) => {
-  const monthsData = Object.keys(data?.['ativas']?.['mes'] || {})
+  const allValues = Object.values(data?.['ativas']?.['mes'] || {}).reduce((acc: number, num: any) => acc + num, 0);
 
-  const curMonthData = monthsData.sort(
-    (a: any, b: any) => +b - +a,
-  )?.[0]
-
-  const curMonthName = monthLongName(+curMonthData)
-
-  const chartData = data?.['ativas']?.['mes']?.[curMonthData] || 0
+  const chartData = allValues || 0
 
   return (
     <Card
       local={local}
-      title={`${title.replace('mês', curMonthName)}`}
+      title={`${title}`}
       data={chartData}
       year={year}
       color={color}

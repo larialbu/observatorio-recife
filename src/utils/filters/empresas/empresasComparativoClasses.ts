@@ -12,12 +12,6 @@ export const empresasComparativoClasses = {
         hash: monthHash        
       },
       {
-        label: "Municipio", 
-        name: 'Capital do NE', 
-        options: [],  
-        selected: [],
-      },      
-      {
         label: "Grupo", 
         name: 'Grupamento',
         options: [],  
