@@ -1,15 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
-import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import PieChart from "@/components/@global/charts/PieChart";
+import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
 
 const EmpregosGeral = ({
   data,
   title = "Empregos Geral",
 }: any) => {
+  const [showPercentage, setShowPercentage] = useState(true);
   const empregos = data?.data?.['caged'] || []
   
   const result = empregos.reduce((acc: Record<string, number>, obj: Record<string, number>) => {
@@ -30,15 +32,20 @@ const EmpregosGeral = ({
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
-        <VerticalScrollableBarChart
+        <PieChart
           data={chartData}
           title={title}
-          xKey="label"
-          bars={[{ dataKey: "value", name: "Quantidade" }]}
+          underTitle={
+            <ShowPercentages
+              showPercentage={showPercentage}
+              setShowPercentage={setShowPercentage}
+            />
+          }
+          dataKey="value"
+          nameKey="label"
           colors={ColorPalette.default}
-          left={10}
-          height={300}  
-          heightPerCategory={50}
+          showPercentages={showPercentage}
+          tooltipEntry=""
         />
       </ChartGrabber>
     </div>

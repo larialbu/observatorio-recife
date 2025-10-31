@@ -5,11 +5,16 @@ import React from "react";
 import VerticalScrollableBarChart from "@/components/@global/charts/VerticalScrollableBarChart";
 import ChartGrabber from "@/components/@global/features/ChartGrabber";
 import ColorPalette from "@/utils/palettes/charts/ColorPalette";
+import PieChart from "@/components/@global/charts/PieChart";
+import { ShowPercentages } from "@/components/@global/features/ShowPercentages";
+import TreeMapChart from "@/components/@global/charts/TreeMapChart";
 
 const EmpresasGrupo = ({
   data,
   title = "Empresas Ativas Grupo de Atividade Econômico",
+  colors = ColorPalette.default,
 }: any) => {
+  
   const empresas = data?.data?.['empresas'] || []
 
   const result = empresas.reduce((acc: Record<string, number>, obj: Record<string, number>) => {
@@ -27,16 +32,7 @@ const EmpresasGrupo = ({
   return (
     <div className="chart-wrapper">
       <ChartGrabber>
-        <VerticalScrollableBarChart
-          data={chartData}
-          title={title}
-          xKey="label"
-          bars={[{ dataKey: "value", name: "Quantidade" }]}
-          colors={ColorPalette.default}
-          left={10}
-          height={300}  
-          heightPerCategory={50}
-        />
+        <TreeMapChart data={chartData} title={title} colors={colors} xKey={'label'} dataKey={'value'}/>
       </ChartGrabber>
     </div>
   );

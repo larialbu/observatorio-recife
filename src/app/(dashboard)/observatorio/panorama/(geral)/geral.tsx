@@ -39,7 +39,7 @@ const Geral = ({
                 </div>
               </div>
 
-              <div className="w-full mt-6">
+              <div className="w-full mt-10">
                 <React.Suspense fallback={<GraphSkeleton />}>
                   <ErrorBoundary>
                     <Component data={data as AnacChartData}/>
