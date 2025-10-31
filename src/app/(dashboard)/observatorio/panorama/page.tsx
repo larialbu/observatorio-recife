@@ -8,6 +8,7 @@ import { useDashboard } from "@/context/DashboardContext";
 
 import Geral from "./(geral)/geral";
 import { getChartDataModel } from "@/functions/process_data/observatorio/getChartDataModel";
+import { NavBarHome } from "@/components/home/NavBarHome";
 
 
 const AeroportosPage = () => {
@@ -84,7 +85,13 @@ const AeroportosPage = () => {
 
   return (
     <>
-     <div className="p-6 min-h-screen mt-48">
+    <div className="bg-[#F7F8FA]/80 w-full min-h-screen fixed">
+    </div>
+     <div className="p-6 min-h-screen mt-48 z-10">
+        <div className="-mt-20">
+          <NavBarHome />
+        </div>
+
         <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide dark:text-gray-200">
           Panorama do Recife
         </h1>
