@@ -1,8 +1,6 @@
 import { PanoramaData } from "@/@api/http/to-charts/panorama/PanoramaData";
-import { AeroportoDataResult, AnacAeroportoData } from "@/@types/observatorio/@data/aeroportoData";
+import { AeroportoDataResult } from "@/@types/observatorio/@data/aeroportoData";
 import { Filters, Service } from "@/@types/observatorio/shared";
-import { getRawData } from "@/utils/filters/@data/getRawData";
-import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
 
 export class PanoramaDataService implements Service<AeroportoDataResult> {
   private static instance: PanoramaDataService;
@@ -25,49 +23,113 @@ export class PanoramaDataService implements Service<AeroportoDataResult> {
   private getCacheKey(tab: string, filters: Filters): string {
     return `${tab}-${this.currentYear}-${JSON.stringify(filters.additionalFilters)}`;
   }
+ 
   
+  private async fetchWithFallback<T>(
+    fetchFn: (service: PanoramaData) => Promise<T[]>,
+    startYear: number,
+    minYear = 2018
+  ): Promise<T[]> {
+    let year = startYear;
+
+    while (year >= minYear) {
+      try {
+        const svc = new PanoramaData(String(year));
+        const data = await fetchFn(svc);
+
+        if (Array.isArray(data) && data.length > 0) {
+          console.warn(`✅ Dados encontrados para o ano ${year}`);
+          return data;
+        } else {
+          console.warn(`⚠️ Ano ${year} existe mas sem dados. Tentando ${year - 1}...`);
+        }
+      } catch (err) {
+        console.warn(`❌ Erro ao buscar ano ${year}. Tentando ${year - 1}...`, err);
+      }
+
+      year--;
+    }
+
+    console.warn(`❌ Nenhum dado encontrado até o ano mínimo (${minYear}). Retornando [].`);
+    return [];
+  }
+
 
   private async fetchGeralData(filters: Filters) {
-    const panoramaService = new PanoramaData('2024');
-    const years = filters.years as any; // Lista de anos a serem buscados
-   
-    const anac = (await panoramaService.fetchProcessedDataAnac()).filter(item => item['AEROPORTO NOME'] === 'Recife');
-    const pib = (await panoramaService.fetchProcessedDataPib()).filter((item) => item['Nome da Grande Região'] === 'Nordeste');
-    const balanca = (await panoramaService.fetchProcessedDataBalanca()).filter(item => item['Município'] === 'Recife - PE');
-    const empresas = await panoramaService.fetchProcessedEmpresasAtivas();
-    const rankingPromises = years.map((year: any) => {
-      const rankingService = new PanoramaData(year);
-      return rankingService.fetchProcessedGeralDataRanking().then((data) => {
-        return data; // Organiza os dados por ano
-      });
+    const startYear = Number(this.currentYear);
+    const years = filters.years as any;
+
+    const anac = (await this.fetchWithFallback(
+      (svc) => svc.fetchProcessedDataAnac(),
+      startYear
+    )).filter(item => item['AEROPORTO NOME'] === 'Recife');
+
+    console.log('Anac data fetched for years', years, anac);
+
+    const pib = (await this.fetchWithFallback(
+      (svc) => svc.fetchProcessedDataPib(),
+      startYear
+    )).filter(item => item['Nome da Grande Região'] === 'Nordeste');
+
+    console.log('PIB data fetched for years', years, pib);
+
+    const balanca = (await this.fetchWithFallback(
+      (svc) => svc.fetchProcessedDataBalanca(),
+      startYear
+    )).filter(item => item['Município'] === 'Recife - PE');
+
+    console.log('Balança data fetched for years', years, balanca);
+
+    const ipca = (await this.fetchWithFallback(
+      (svc) => svc.fetchProcessedGeralDataIpca(),
+      startYear
+    )).filter(item => item['Capital'] === 'Recife');
+
+    console.log('IPCA data fetched for years', years, ipca);
+
+
+    const empresas = await this.fetchWithFallback(
+      (svc) => svc.fetchProcessedEmpresasAtivas(),
+      startYear
+    );
+
+    console.log('Empresas data fetched for years', years, empresas);
+
+    const rankingPromises = years.map(async (year: any) => {
+      const svc = new PanoramaData(year);
+      return svc.fetchProcessedGeralDataRanking();
     });
-  
-    const ranking = (await Promise.all(rankingPromises)).flat().filter(item => item['Município'] === 'Recife');
 
+    const ranking = (await Promise.all(rankingPromises))
+      .flat()
+      .filter(item => item['Município'] === 'Recife');
 
-    const caged = (await panoramaService.fetchProcessedDataCaged()).filter(item => item['Municipio'] === 'Recife-PE');
-    const ipca = (await panoramaService.fetchProcessedGeralDataIpca()).filter(item => item['Capital'] === 'Recife');
- 
-    return { 
+    console.log('Ranking data fetched for years', years, ranking);  
+
+    const caged = (await this.fetchWithFallback(
+      (svc) => svc.fetchProcessedDataCaged(),
+      startYear
+    )).filter(item => item['Municipio'] === 'Recife-PE');
+
+    console.log('CAGED data fetched for years', years, caged);
+
+    console.log('Isso é para funcionar ->', {anac, pib, balanca, empresas, caged, ipca, ranking});
+
+    return {
       data: { anac, pib, balanca, empresas, caged, ipca, ranking },
-      id: 'panorama' 
+      id: 'panorama'
     } as any;
-    // } as AnacAeroportoData;
   }
 
   public async fetchDataForTab(tab: string, filters: Filters) {
-    // Agora usamos getCacheKey que recebe (tab, filters)
     const cacheKey = this.getCacheKey(tab, filters);
-  
-    // Se já existe no cache com as mesmas seleções:
+
     if (this.dataCache[cacheKey]) {
       return this.dataCache[cacheKey];
     }
-  
-    let data;
 
-    data = await this.fetchGeralData(filters);
-  
+    const data = await this.fetchGeralData(filters);
+
     this.dataCache[cacheKey] = data;
     return data;
   }
