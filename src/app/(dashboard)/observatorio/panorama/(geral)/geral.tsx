@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { AnacChartData } from "@/@types/observatorio/@fetch/aeroporto";
 import { SortableDiv } from "@/components/@global/features/SortableDiv";
@@ -8,8 +8,7 @@ import GraphSkeleton from "@/components/random_temp/GraphSkeleton";
 import ErrorBoundary from "@/utils/loader/errorBoundary";
 
 import charts from "./@imports/charts";
-import { geralAccGroupValuesFunction } from "@/functions/process_data/observatorio/rais/demografia/geralFuncition";
-
+import Link from "next/link";
 
 
 const Geral = ({
@@ -19,37 +18,36 @@ const Geral = ({
 }) => {
   const [chartOrder, setChartOrder] = useState(charts.map((_, index) => index));
   const sortableContainerRef = useRef<HTMLDivElement>(null);
-  const [chartData, setChartData] = useState({anac: {}, rawData: {}})
-
-  console.log('DATA nA PAG', data)
-
-  // useEffect(() => {
-  //   setChartData({
-  //     anac: geralAccGroupValuesFunction(data?.anac || [], ['AEROPORTO NOME', 'MÊS', 'NATUREZA'], ['DECOLAGENS', 'CARGA', 'PASSAGEIRO']), 
-  //     rawData: {
-  //       "AEROPORTO NOME": geralAccGroupValuesFunction(data?.rawData?.["AEROPORTO NOME"] || [], ['AEROPORTO NOME', 'MÊS', 'NATUREZA'], ['DECOLAGENS', 'CARGA', 'PASSAGEIRO']),
-  //       "MÊS": geralAccGroupValuesFunction(data?.rawData?.["MÊS"] || [], ['AEROPORTO NOME', 'MÊS', 'NATUREZA'], ['DECOLAGENS', 'CARGA', 'PASSAGEIRO'])
-  //     }
-  //   })
-  // }, [data])
-
   
   return (
     <div>
       <SortableDiv chartOrder={chartOrder} setChartOrder={setChartOrder} sortableContainerRef={sortableContainerRef} style="charts-items-wrapper">
         {chartOrder.map((index) => {
-          const { Component, col } = charts[index];
+          const { Component, col, goTo, icon, logo } = charts[index];
           return (
-            <div
+            <Link
+              href={goTo}
               key={index}
-              className={`chart-content-wrapper ${col}`}
+              className={`chart-content-wrapper hover:!cursor-pointer relative group ${col}`}
             >
-              <React.Suspense fallback={<GraphSkeleton />}>
-                <ErrorBoundary>
-                  <Component data={data as AnacChartData}    />
-                </ErrorBoundary>
-              </React.Suspense>
-            </div>
+
+              <div className="absolute w-[60px] h-[60px] top-2 left-2 z-10 group-hover:scale-105 hover:rotate-[-10deg] transition-all duration-300 ease-in-out">
+                <div className="rounded-full p-2 border-[2px] border-[#3b82f6]">
+                  {React.cloneElement(icon, {
+                      className: `${icon.props.className} transition-transform duration-300 ease-in-out`,
+                  })}
+                </div>
+              </div>
+
+              <div className="w-full mt-6">
+                <React.Suspense fallback={<GraphSkeleton />}>
+                  <ErrorBoundary>
+                    <Component data={data as AnacChartData}/>
+                  </ErrorBoundary>
+                </React.Suspense>
+              </div>
+              
+            </Link>
           );
         })}
       </SortableDiv>

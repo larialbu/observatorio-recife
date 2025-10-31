@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React, { useEffect, useRef } from "react";
 import { useReward } from "react-rewards";
+import { ExploreIcon } from "./ExploreIcon";
 
 export const ExploreItem = ({ item, bundleProgress, isDarkMode }: {
   item: any;
@@ -41,38 +42,8 @@ export const ExploreItem = ({ item, bundleProgress, isDarkMode }: {
           isLinkDisabled ? "pointer-events-none opacity-50" : ""
         }`}
       >
-        <div className="relative">
-          <div
-            className={`${isLinkDisabled ? "" : "hidden"} absolute -inset-0 rounded-full bg-blue-600 opacity-50 transition-all duration-300`}
-            style={{ clipPath: `inset(${100 - progresso}% 0 0 0)` }}
-          />
-          <div
-            className={`relative ${isLinkDisabled ? "grayscale dark:grayscale-0 dark:opacity-70" : ""} hover:rotate-[-5deg] border-2 border-[#0155AE] rounded-full dark:border-white transition-all duration-300 ease-in-out group-hover:scale-110 cursor-pointer select-none icon-content`}
-          >
-            <span
-              id={rewardId}
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: "1px",
-                height: "1px",
-                zIndex: "15"
-              }}
-            />
-            <div className="relative z-10 icon-wrapper">
-              {React.cloneElement(item.icon, {
-                className: `${item.icon.props.className} ${iconClassName} transition-transform duration-300 ease-in-out group-hover:scale-110`,
-              })}
-            </div>
-            <div className="logo-wrapper absolute z-0 bg-white rounded-full p-1 dark:bg-[#0C1B2B] transition-transform duration-300 ease-in-out group-hover:scale-110">
-              {React.cloneElement(item.logo, {
-                className: `${item.logo.props.className} ${iconClassName} w-full h-full`,
-              })}
-            </div>
-          </div>
-        </div>
+        <ExploreIcon progresso={progresso} isLinkDisabled={isLinkDisabled} rewardId={rewardId} icon={item.icon} logo={item.logo} iconClassName={iconClassName} />
+        
         <div className="text-[#0155AE] text-lg mt-2 font-light dark:text-white transition-all duration-300 ease-in-out z-50 dark:group-hover:text-[#ffffff]/80 group-hover:text-[#0155AE]/80">
           {item.label}
         </div>

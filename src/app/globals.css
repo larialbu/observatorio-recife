@@ -156,6 +156,28 @@
   transform: translateY(-20px);
 }
 
+.marquee {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  animation: marquee 50s linear infinite;
+}
+
+.marquee p {
+  margin-right: 4rem;
+  color: white;
+  font-size: 1rem;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(20%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
 @keyframes test {
   0%{opacity: 0;}
   10%{

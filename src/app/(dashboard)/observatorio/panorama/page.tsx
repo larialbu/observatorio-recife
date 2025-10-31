@@ -83,26 +83,47 @@ const AeroportosPage = () => {
   if (isLoading) return <LoadingScreen />;
 
   return (
-    <div className="p-6 min-h-screen mt-48">
-      <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide dark:text-gray-200">
-        Panorama do Recife
-      </h1>
-      <div className="flex justify-center gap-6 mb-8 flex-wrap">
-        {/* Botões de navegação */}
-        <button
-          onClick={() => handleNavigation("geral")}
-          className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
-            activeTab === "geral"
-              ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
-              : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
-          }`}
-        >
-          Resumo Geral
-        </button>
+    <>
+     <div className="p-6 min-h-screen mt-48">
+        <h1 className="text-4xl font-bold text-gray-800 text-center mb-8 tracking-wide dark:text-gray-200">
+          Panorama do Recife
+        </h1>
+        <div className="flex justify-center gap-6 mb-8 flex-wrap">
+          <button
+            onClick={() => handleNavigation("geral")}
+            className={`px-6 py-3 rounded-lg flex-1 sm:flex-0 min-w-[250px] max-w-[350px] text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg ${
+              activeTab === "geral"
+                ? "bg-gradient-to-r from-orange-500 to-orange-700 text-white"
+                : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"
+            }`}
+          >
+            Resumo Geral
+          </button>
+          
+        </div>
         
-      </div>
-      {renderContent()}
-    </div>
+        <div className="bg-gradient-to-r from-green-600 to-green-800 shadow-md rounded-lg px-4 py-3 mb-7 flex items-center justify-center">
+          <div className="overflow-hidden">
+            <div className="marquee">
+              <p>
+                O Observatório Econômico do Recife, iniciativa da Prefeitura em parceria com a Faculdade Senac, reúne dados abertos e análises
+                sobre a economia local – Recife tem 1,49 milhão de habitantes (9º do Brasil e 3º do Nordeste) e sua Região Metropolitana
+                soma 3,7 milhões (5ª maior do país) – É o 1º do Nordeste no Ranking Nacional de Competitividade dos Municípios – O PIB é de
+                R$ 54,9 bilhões (1º de PE, 3º do NE e 19º do Brasil), com destaque para o setor de serviços (60% da economia) – Em Setembro/25:
+                IPCA mensal de 0,56%, IPCA Acumulado no ano 3,64% e nos últimos 12 meses de 5,17% – Aeroporto do Recife com 821 mil passageiros
+                (-2,70% vs 2024) e taxa de desemprego no menor nível para um 2º trimestre desde 2015 – O Recife gerou 1.956 novas vagas de trabalho,
+                segundo dados divulgados pelo Novo Caged, relativo ao mês de agosto/2025, se destacando como primeira capital do nordeste em geração de
+                vagas e top 6 no Brasil – Banco Central manteve a Selic em 15% a.a. – O número de empresas ativas saltou 15% desde agosto/24,
+                alcançando 191 mil – Maior PIB Per Capita entre as capitais do NE.
+              </p>
+            </div>
+          </div>
+        </div>
+
+
+        {renderContent()}
+      </div>   
+    </>
   );
 };
 
