@@ -1,6 +1,7 @@
 import { PanoramaData } from "@/@api/http/to-charts/panorama/PanoramaData";
 import { AeroportoDataResult } from "@/@types/observatorio/@data/aeroportoData";
 import { Filters, Service } from "@/@types/observatorio/shared";
+import { applyGenericFilters } from "@/utils/filters/@features/applyGenericFilters";
 
 export class PanoramaDataService implements Service<AeroportoDataResult> {
   private static instance: PanoramaDataService;
@@ -65,6 +66,8 @@ export class PanoramaDataService implements Service<AeroportoDataResult> {
     )).filter(item => item['AEROPORTO NOME'] === 'Recife');
 
     console.log('Anac data fetched for years', years, anac);
+
+    // const sla = applyGenericFilters(anac, filters)
 
     const pib = (await this.fetchWithFallback(
       (svc) => svc.fetchProcessedDataPib(),

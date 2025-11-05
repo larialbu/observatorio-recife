@@ -22,7 +22,7 @@ export default function PowerBi() {
   }
 
   return (
-    <section className="w-full flex flex-col items-center justify-center relative mt-4">
+    <section className="w-full flex flex-col items-center justify-center relative mt-10">
       
       <div className="absolute top-[-25%] left-0 w-full h-full flex items-center justify-center z-[100]">
         <iframe
