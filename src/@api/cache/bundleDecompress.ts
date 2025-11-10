@@ -23,7 +23,7 @@ function cleanFilePath(filePath: string) {
 let wasmCache: ArrayBuffer | null = null;
 async function getWasmBinary(): Promise<ArrayBuffer> {
   if (!wasmCache) {
-    const wasmResponse = await fetch('/unrar.wasm');
+    const wasmResponse = await fetch('/unrar.wasm', { cache: 'no-store' });
     wasmCache = await wasmResponse.arrayBuffer();
   }
   return wasmCache;
@@ -149,7 +149,7 @@ export async function loadAndSyncBundles(
 }
 
 async function fetchWithProgress(url: string, onProgress: (percent: number) => void): Promise<ArrayBuffer> {
-  const response = await fetch(url);
+  const response = await fetch(url, { cache: 'no-store' });
   if (!response.ok) {
     throw new Error(`Erro ao baixar ${url}: ${response.status} ${response.statusText}`);
   }

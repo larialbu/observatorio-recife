@@ -57,7 +57,7 @@ export const NavBarHome: React.FC<NavBarHomeProps> = ({ simple }) => {
     <div
       className={`
         ${containerClass}
-        grid grid-cols-2 sm:grid-cols-[auto_auto] z-10 p-4 pr-2 sm:pr-4 pl-3 sm:pl-4 px-6 w-full relative
+        grid grid-cols-2 sm:grid-cols-[auto_auto] z-10 p-4 pb-1 pr-2 sm:pr-4 pl-3 sm:pl-4 px-6 w-full relative
       `}
     >
       <div className="flex items-center gap-4 md:gap-10">

@@ -11,7 +11,7 @@ export const processIpcaBrasilUltimos12Meses = (data: IpcaGeralHeaders[]) => {
       if (capital !== "Brasil") {
         return acc;
       }
-      const acumuladoUltimosMeses = item["IPCA - Variação acumulada em 12 meses"] || 0;
+      const acumuladoUltimosMeses = item["IPCA - Variação acumulada nos 12 meses(%)"] || 0;
   
       if (!acc[capital]) {
         acc[capital] = { 

@@ -12,7 +12,7 @@ export const processIpcaBrasilNoAno = (data: IpcaGeralHeaders[]) => {
       if (capital !== "Brasil") {
         return acc;
       }
-      const acumuladoAno = item["IPCA - Variação acumulado no ano"] || 0;
+      const acumuladoAno = item["IPCA - Variação acumulado no ano(%)"] || 0;
   
       if (!acc[capital]) {
         acc[capital] = { 

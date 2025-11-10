@@ -177,7 +177,7 @@ const Navbar = () => {
                     <label className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">Ano</label>
                      
                     <select
-                      value={filters.yearTemp || filters.year || filters.years && filters.years[filters.years.length - 1]}
+                      value={filters?.yearTemp || filters?.year || filters?.years && filters?.years[filters.years.length - 1]}
                       onChange={(e) => {
                         setTempFilters((prev) => ({ ...prev, year: e.target.value }));
                         changeYearFilters(e.target.value)

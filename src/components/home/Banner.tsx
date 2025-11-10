@@ -46,7 +46,7 @@ export const Banner: React.FC<BannerProps> = ({ onSearch }) => {
         <NavBarHome />
 
         <div className="flex flex-col justify-center items-center">
-          <div className="pt-32 pb-60 mb-[2.5em] gap-4 w-full flex flex-col px-3 justify-center items-center">
+          <div className="pt-2 pb-60 mb-[2.5em] gap-4 w-full flex flex-col px-3 justify-center items-center">
             <h1 className="text-white font-medium text-3xl   text-center">
               OBSERVATÓRIO ECONÔMICO DO RECIFE
             </h1>

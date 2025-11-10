@@ -2,9 +2,9 @@ export interface IpcaGeralHeaders {
     Ano: number;
     MÊS: number;
     Capital: string;
-    "IPCA - Variação mensal": number;
-    "IPCA - Variação acumulado no ano": number;
-    "IPCA - Variação acumulada em 12 meses": number;
+    "IPCA - Variação mensal(%)": number;
+    "IPCA - Variação acumulado no ano(%)": number;
+    "IPCA - Variação acumulada nos 12 meses(%)": number;
 }
 
 export interface IpcaGrupoHeaders {

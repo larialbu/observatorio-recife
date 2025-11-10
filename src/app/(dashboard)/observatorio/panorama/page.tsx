@@ -85,7 +85,7 @@ const AeroportosPage = () => {
 
   return (
     <>
-    <div className="bg-[#F7F8FA]/85 w-full min-h-screen fixed">
+    <div className="bg-[#F7F8FA]/90 w-full min-h-screen fixed">
     </div>
      <div className="p-6 min-h-screen mt-48 z-10">
         <div className="-mt-20">

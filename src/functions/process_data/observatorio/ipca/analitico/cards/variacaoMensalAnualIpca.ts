@@ -23,7 +23,7 @@ export const variacaoMensalAnualIpca = (data: IpcaGeralHeaders[], capital: strin
   // Retorna as informações necessárias
   return {
     mês: recentMonth.MÊS,
-    variaçãoMensal: recentMonth["IPCA - Variação mensal"],
-    variaçãoAcumuladaNoAno: recentMonth["IPCA - Variação acumulado no ano"],
+    variaçãoMensal: recentMonth["IPCA - Variação mensal(%)"],
+    variaçãoAcumuladaNoAno: recentMonth["IPCA - Variação acumulado no ano(%)"],
   };
 };

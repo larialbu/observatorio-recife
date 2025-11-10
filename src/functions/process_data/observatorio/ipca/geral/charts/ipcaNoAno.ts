@@ -13,7 +13,7 @@ export const processIpcaNoAno = (data: IpcaGeralHeaders[]) => {
       }
 
       const acumuladoAno = parseFloat(
-        (item["IPCA - Variação acumulado no ano"] || "0")
+        (item["IPCA - Variação acumulado no ano(%)"] || "0")
       );
   
       if (!acc[capital]) {

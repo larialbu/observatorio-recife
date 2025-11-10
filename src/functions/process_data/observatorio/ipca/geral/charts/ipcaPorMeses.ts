@@ -25,7 +25,7 @@ export const processVariacaoMensal = (
 
   // Popula a estrutura com as variações mensais de cada capital
   filteredData.forEach((item) => {
-    const variacaoMensal = item["IPCA - Variação mensal"] || 0;
+    const variacaoMensal = item["IPCA - Variação mensal(%)"] || 0;
     const mes = item["MÊS"].toString();
     const categoria = item["Capital"];
 

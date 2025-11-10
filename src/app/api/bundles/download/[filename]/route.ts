@@ -28,15 +28,15 @@ export async function GET(
       contentType = 'application/x-rar-compressed';
     }
     
-    return new NextResponse(fileBuffer, {
-      headers: {
-        'Content-Type': contentType,
-        'Content-Disposition': `attachment; filename="${decodedFilename}"`,
-        'Content-Length': fileBuffer.byteLength.toString(),
-        'Cache-Control': 'public, max-age=3600',
-      },
-    });
-    
+  return new NextResponse(fileBuffer, {
+    headers: {
+      'Content-Type': contentType,
+      'Content-Disposition': `attachment; filename="${decodedFilename}"`,
+      'Content-Length': fileBuffer.byteLength.toString(),
+      'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+    },
+  });
+      
   } catch (error) {
     console.error(`Erro ao baixar arquivo ${params.filename}:`, error);
     

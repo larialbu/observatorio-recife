@@ -73,11 +73,7 @@ export function openDatabase(dbName: string, storeName: string) {
         request.onerror = (e) => reject((e.target as IDBRequest).error);
       });
     }
-
-    ///////////////////////
-    ////////////
-    //////
-
+ 
     interface ManifestEntry {
       bundleKey: string;
       version: number;
