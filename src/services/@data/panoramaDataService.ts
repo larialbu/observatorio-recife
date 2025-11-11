@@ -99,9 +99,11 @@ export class PanoramaDataService implements Service<AeroportoDataResult> {
     console.log('Empresas data fetched for years', years, empresas);
 
     const rankingPromises = years.map(async (year: any) => {
-      const svc = new PanoramaData(year);
-      return svc.fetchProcessedGeralDataRanking();
+      // const svc = new PanoramaData(year);
+      return await this.fetchWithFallback((svc) => svc.fetchProcessedGeralDataRanking(), Number(year));
     });
+
+    console.log('RANKINGPROMISES', rankingPromises);
 
     const ranking = (await Promise.all(rankingPromises))
       .flat()

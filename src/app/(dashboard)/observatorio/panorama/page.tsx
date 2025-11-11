@@ -56,8 +56,7 @@ const AeroportosPage = () => {
     if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
-    console.log('panorama na PAGE.TSX ->', panorama);
-    if (!data || !(panorama?.anac || data?.data)) {
+    if (!data || !(panorama?.data?.anac)) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
