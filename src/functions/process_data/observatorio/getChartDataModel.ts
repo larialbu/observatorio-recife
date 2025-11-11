@@ -108,7 +108,16 @@ export const getChartDataModel = (data: any, id: string) => {
       },
 
       'panorama': () => {
-        return data
+        return { data: data?.data || {
+          anac: [],
+          pib: [],
+          balanca: [],
+          empresas: [],
+          caged: [],
+          ipca: [],
+          ranking: []
+        } 
+        }
       }
 
 //       .passageiros?.filteredData

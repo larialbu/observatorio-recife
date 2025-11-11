@@ -14,8 +14,7 @@ import { NavBarHome } from "@/components/home/NavBarHome";
 const AeroportosPage = () => {
   const searchParams = useSearchParams();
   const { isLoading, data, filters } = useDashboard();
-  const [anac, setAnac] = useState<any>({});
-  const [aena, setAena] = useState<any>({});
+  const [panorama, setPanorama] = useState<any>({});
   const [activeTab, setActiveTab] = useState("geral");
   const router = useRouter();
 
@@ -32,25 +31,21 @@ const AeroportosPage = () => {
   useEffect(() => {
       const intervalId = setInterval(() => {
         if (!data?.id) return 
-        const anacId = ['anac']
-        const aenaId = ['aena']
+        const panoramaId = ['panorama']
 
         const handler = getChartDataModel(data, data.id);
 
         if (handler) {
-          if (anacId.includes(data?.id)) {
-            setAnac(handler());
-          } else if (aenaId.includes(data?.id)) {
-            setAnac(handler());
+          if (panoramaId.includes(data?.id)) {
+            setPanorama(handler());
           }
-            setAnac(handler());
+            setPanorama(handler());
 
           handler()
           
           clearInterval(intervalId);
         } else {
-          setAnac({ anac: [], rawData: { "MÊS": [], "AEROPORTO NOME": []}  });
-          setAena({ passageiros: [], cargas: [], rawData: { passageiros: [], cargas: [] }  });
+          setPanorama({ panorama: [], rawData: { "MÊS": [], "AEROPORTO NOME": []}  });
         }
 
       }, 50);
@@ -61,18 +56,19 @@ const AeroportosPage = () => {
     if (isLoading) return <LoadingScreen />;
 
   const renderContent = () => {
-    if (!data || !(anac?.anac || aena?.passageiros || data?.data)) {
+    console.log('panorama na PAGE.TSX ->', panorama);
+    if (!data || !(panorama?.anac || data?.data)) {
       return <div className="text-center text-gray-600">Construindo gráficos...</div>;
     }
 
     switch (activeTab) {
       case "geral":
         return <Geral 
-          data={anac || {}}
+          data={panorama || {}}
         />;
       default:
         return <Geral 
-          data={anac || {}}
+          data={panorama || {}}
         />;
     }
   };
