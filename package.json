@@ -25,7 +25,7 @@
     "react-dom": "^18",
     "react-rewards": "^2.1.0",
     "react-tooltip": "^5.28.0",
-    "recharts": "^2.13.0-alpha.5",
+    "recharts": "^2.15.4",
     "sass": "^1.80.4",
     "sharp": "^0.33.5",
     "sortablejs": "^1.15.6",

@@ -1,4 +1,5 @@
 import { Service } from "@/@types/observatorio/shared";
+import { combustiveisDataService } from "@/services/@data/combustiveisDataService";
 import { aeroportoDataService } from "@/services/@data/aeroportoDataService";
 import { balancaDataService } from "@/services/@data/balancaComercialDataService";
 import { empregosDataService } from "@/services/@data/empregosDataService";
