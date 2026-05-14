@@ -1,11 +1,16 @@
 "use client";
 
-import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
+import { useDashboard } from "@/context/DashboardContext";
+import { buscarCombustiveisRapido } from "./combustiveisFastClient";
+import { TooltipBarraComPostosCombustiveis as PowerBiBarraPostosTooltip, TooltipLinhaCombustiveis as PowerBiLinhaTooltip, TooltipDispersaoCombustiveis as PowerBiDispersaoTooltip } from "./CombustiveisTooltip";
 import {
   Bar,
   BarChart,
   CartesianGrid,
   Cell,
+  LabelList,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -14,590 +19,951 @@ import {
   Tooltip,
   XAxis,
   YAxis,
+  ZAxis,
 } from "recharts";
 
-type CardData = {
-  title: string;
-  description?: string;
-  value: string | number;
+type RawRow = Record<string, unknown>;
+
+type CombustivelRow = {
+  estado: string;
+  municipio: string;
+  produto: string;
+  ano: number;
+  mes: number;
+  valorVenda: number;
+  revenda: string;
+  totalPostos: number;
+};
+
+type SerieTemporal = {
+  periodo: string;
+  ordem: number;
+  valor: number;
+  postos: number;
 };
 
 type RankingItem = {
-  nome?: string;
-  name?: string;
-  regiao?: string;
-  estado?: string;
-  municipio?: string;
-  preco?: number;
-  value?: number;
+  nome: string;
+  valor: number;
+  postos: number;
 };
 
-type LinhaItem = {
-  mes?: string;
-  name?: string;
-  preco?: number;
-  value?: number;
-  postos?: number;
+type GlobalFilters = {
+  ano: string;
+  mes: string;
+  produto: string;
+  estado: string;
+  municipio: string;
 };
 
-type GeralData = {
-  id?: string;
-  year?: string;
-  cards?: CardData[];
-  linhaPrecoMedio?: LinhaItem[];
-  porRegiao?: RankingItem[];
-  porEstado?: RankingItem[];
-  porMunicipio?: RankingItem[];
+const API_URLS = [
+  "/api/data/combustiveis/geral",
+  "/api/data/combustiveis/comparativo",
+];
+
+const AZUL = "#0057a8";
+const VERDE = "#22c55e";
+const LARANJA = "#ff7043";
+const ROXO = "#8b00b5";
+const ROSA = "#d63bb2";
+
+const MESES = [
+  { numero: 1, nome: "Jan" },
+  { numero: 2, nome: "Fev" },
+  { numero: 3, nome: "Mar" },
+  { numero: 4, nome: "Abr" },
+  { numero: 5, nome: "Mai" },
+  { numero: 6, nome: "Jun" },
+  { numero: 7, nome: "Jul" },
+  { numero: 8, nome: "Ago" },
+  { numero: 9, nome: "Set" },
+  { numero: 10, nome: "Out" },
+  { numero: 11, nome: "Nov" },
+  { numero: 12, nome: "Dez" },
+];
+
+const ESTADO_NOME: Record<string, string> = {
+  AC: "Acre",
+  AL: "Alagoas",
+  AP: "Amapá",
+  AM: "Amazonas",
+  BA: "Bahia",
+  CE: "Ceará",
+  DF: "Distrito Federal",
+  ES: "Espírito Santo",
+  GO: "Goiás",
+  MA: "Maranhão",
+  MT: "Mato Grosso",
+  MS: "Mato Grosso Do Sul",
+  MG: "Minas Gerais",
+  PA: "Pará",
+  PB: "Paraíba",
+  PR: "Paraná",
+  PE: "Pernambuco",
+  PI: "Piauí",
+  RJ: "Rio De Janeiro",
+  RN: "Rio Grande Do Norte",
+  RS: "Rio Grande Do Sul",
+  RO: "Rondônia",
+  RR: "Roraima",
+  SC: "Santa Catarina",
+  SP: "Sao Paulo",
+  SE: "Sergipe",
+  TO: "Tocantins",
 };
 
-type MetricCardData = {
-  title: string;
-  value: string | number;
-  description: string;
-  color: string;
+const ESTADO_REGIAO: Record<string, string> = {
+  AC: "Norte",
+  AP: "Norte",
+  AM: "Norte",
+  PA: "Norte",
+  RO: "Norte",
+  RR: "Norte",
+  TO: "Norte",
+  AL: "Nordeste",
+  BA: "Nordeste",
+  CE: "Nordeste",
+  MA: "Nordeste",
+  PB: "Nordeste",
+  PE: "Nordeste",
+  PI: "Nordeste",
+  RN: "Nordeste",
+  SE: "Nordeste",
+  DF: "Centro Oeste",
+  GO: "Centro Oeste",
+  MT: "Centro Oeste",
+  MS: "Centro Oeste",
+  ES: "Sudeste",
+  MG: "Sudeste",
+  RJ: "Sudeste",
+  SP: "Sudeste",
+  PR: "Sul",
+  RS: "Sul",
+  SC: "Sul",
 };
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api/data";
+const CAPITAIS: Record<string, string> = {
+  AC: "Rio Branco",
+  AL: "Maceió",
+  AP: "Macapá",
+  AM: "Manaus",
+  BA: "Salvador",
+  CE: "Fortaleza",
+  DF: "Brasília",
+  ES: "Vitória",
+  GO: "Goiânia",
+  MA: "São Luís",
+  MT: "Cuiabá",
+  MS: "Campo Grande",
+  MG: "Belo Horizonte",
+  PA: "Belém",
+  PB: "João Pessoa",
+  PR: "Curitiba",
+  PE: "Recife",
+  PI: "Teresina",
+  RJ: "Rio de Janeiro",
+  RN: "Natal",
+  RS: "Porto Alegre",
+  RO: "Porto Velho",
+  RR: "Boa Vista",
+  SC: "Florianópolis",
+  SP: "São Paulo",
+  SE: "Aracaju",
+  TO: "Palmas",
+};
 
-function toNumber(value: unknown) {
-  if (typeof value === "number") return value;
-
-  if (typeof value === "string") {
-    const clean = value
-      .replace("R$", "")
-      .replace("%", "")
-      .replace(/\./g, "")
-      .replace(",", ".")
-      .trim();
-
-    const parsed = Number(clean);
-    return Number.isNaN(parsed) ? 0 : parsed;
-  }
-
-  return 0;
+function normalizarTexto(value: unknown) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
 }
 
-function formatCurrency(value: number) {
+function normalizarChave(value: unknown) {
+  return normalizarTexto(value).replace(/[^a-z0-9]/g, "");
+}
+
+function formatarMoeda(value: number | null | undefined) {
+  if (value === null || value === undefined || !Number.isFinite(value)) return "--";
+
   return value.toLocaleString("pt-BR", {
     style: "currency",
     currency: "BRL",
   });
 }
 
-function formatPercent(value: number) {
+function formatarMoedaCard(value: number | null | undefined) {
+  if (value === null || value === undefined || !Number.isFinite(value)) return "--";
+  return `R$${value.toFixed(2).replace(".", ",")}`;
+}
+
+function formatarMoedaCurta(value: number | null | undefined) {
+  if (value === null || value === undefined || !Number.isFinite(value)) return "--";
+  return `R$ ${value.toFixed(2).replace(".", ",")}`;
+}
+
+function formatarNumero(value: number | null | undefined) {
+  if (value === null || value === undefined || !Number.isFinite(value)) return "--";
+  return value.toLocaleString("pt-BR");
+}
+
+function formatarPercentual(value: number | null | undefined) {
+  if (value === null || value === undefined || !Number.isFinite(value)) return "--";
   return `${value.toFixed(2).replace(".", ",")}%`;
 }
 
-function getName(item: RankingItem | LinhaItem) {
-  return (
-    item.nome ||
-    item.name ||
-    item.regiao ||
-    item.estado ||
-    item.municipio ||
-    "Sem nome"
-  );
-}
+function parseNumero(value: unknown) {
+  if (typeof value === "number") return Number.isFinite(value) ? value : 0;
 
-function getValue(item?: RankingItem | LinhaItem) {
-  if (!item) return 0;
+  const clean = String(value ?? "")
+    .replace("R$", "")
+    .replace(/\s/g, "")
+    .trim();
 
-  return Number(item.preco ?? item.value ?? 0);
-}
+  if (!clean) return 0;
 
-function findCard(cards: CardData[] = [], search: string) {
-  return cards.find((card) =>
-    card.title.toLowerCase().includes(search.toLowerCase())
-  );
-}
-
-function downloadChartAsImage(container: HTMLDivElement | null, title: string) {
-  if (!container) return;
-
-  const svg = container.querySelector("svg");
-
-  if (!svg) {
-    alert("Não foi possível encontrar o gráfico para baixar.");
-    return;
+  if (clean.includes(",")) {
+    const parsed = Number(clean.replace(/\./g, "").replace(",", "."));
+    return Number.isFinite(parsed) ? parsed : 0;
   }
 
-  const serializer = new XMLSerializer();
-  const svgString = serializer.serializeToString(svg);
+  const parsed = Number(clean);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
 
-  const blob = new Blob([svgString], {
-    type: "image/svg+xml;charset=utf-8",
+function parseMes(value: unknown) {
+  const numeric = Number(value);
+
+  if (Number.isFinite(numeric) && numeric >= 1 && numeric <= 12) return numeric;
+
+  const text = normalizarTexto(value);
+
+  const meses: Record<string, number> = {
+    janeiro: 1,
+    jan: 1,
+    fevereiro: 2,
+    fev: 2,
+    marco: 3,
+    mar: 3,
+    abril: 4,
+    abr: 4,
+    maio: 5,
+    mai: 5,
+    junho: 6,
+    jun: 6,
+    julho: 7,
+    jul: 7,
+    agosto: 8,
+    ago: 8,
+    setembro: 9,
+    set: 9,
+    outubro: 10,
+    out: 10,
+    novembro: 11,
+    nov: 11,
+    dezembro: 12,
+    dez: 12,
+  };
+
+  return meses[text] || 1;
+}
+
+function nomeMesCurto(mes: number) {
+  return MESES.find((item) => item.numero === mes)?.nome || String(mes);
+}
+
+function criarMapaLinha(row: RawRow) {
+  const map = new Map<string, unknown>();
+
+  Object.keys(row).forEach((key) => {
+    map.set(normalizarChave(key), row[key]);
   });
 
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-
-  link.href = url;
-  link.download = `${title
-    .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w-]/g, "")}.svg`;
-
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-
-  URL.revokeObjectURL(url);
+  return map;
 }
 
-export default function GeralCombustiveis() {
-  const [data, setData] = useState<GeralData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+function pegarValor(row: RawRow, possibleNames: string[]) {
+  const map = criarMapaLinha(row);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true);
-        setError("");
+  for (const name of possibleNames) {
+    const value = map.get(normalizarChave(name));
 
-        const response = await fetch(`${API_BASE_URL}/combustiveis/geral`, {
-          cache: "no-store",
-        });
+    if (value !== undefined && value !== null && String(value).trim() !== "") {
+      return value;
+    }
+  }
 
-        if (!response.ok) {
-          throw new Error("Erro ao buscar dados de combustíveis.");
+  return "";
+}
+
+function pegarValorPorContem(row: RawRow, termos: string[]) {
+  for (const [key, value] of Object.entries(row)) {
+    const keyNormalizada = normalizarChave(key);
+
+    const encontrou = termos.some((termo) =>
+      keyNormalizada.includes(normalizarChave(termo))
+    );
+
+    if (
+      encontrou &&
+      value !== undefined &&
+      value !== null &&
+      String(value).trim() !== ""
+    ) {
+      return value;
+    }
+  }
+
+  return "";
+}
+
+function pegarEstado(row: RawRow) {
+  const direto = pegarValor(row, [
+    "Estado - Sigla",
+    "Estado Sigla",
+    "Sigla Estado",
+    "UF",
+    "uf",
+    "Estado",
+    "estado",
+    "SG_UF",
+    "sigla_uf",
+    "estado_sigla",
+  ]);
+
+  if (direto) return String(direto).trim().toUpperCase();
+
+  const porContem = pegarValorPorContem(row, ["uf", "estado"]);
+  return String(porContem || "").trim().toUpperCase();
+}
+
+function pegarMunicipio(row: RawRow) {
+  const direto = pegarValor(row, [
+    "Município",
+    "Municipio",
+    "municipio",
+    "Cidade",
+    "cidade",
+    "Nome Município",
+    "Nome Municipio",
+    "nome_municipio",
+    "municipio_nome",
+    "NM_MUNICIPIO",
+  ]);
+
+  if (direto) return String(direto).trim();
+
+  const porContem = pegarValorPorContem(row, ["municipio", "cidade"]);
+  return String(porContem || "").trim();
+}
+
+function pegarProduto(row: RawRow) {
+  const direto = pegarValor(row, [
+    "Produto",
+    "produto",
+    "Combustível",
+    "Combustivel",
+    "combustivel",
+    "Tipo de Combustível",
+    "Tipo de Combustivel",
+    "tipo_combustivel",
+    "produto_nome",
+    "NM_PRODUTO",
+  ]);
+
+  if (direto) return String(direto).trim();
+
+  const porContem = pegarValorPorContem(row, ["produto", "combustivel"]);
+  return String(porContem || "Produto não informado").trim();
+}
+
+function pegarRevenda(row: RawRow) {
+  const direto = pegarValor(row, [
+    "Revenda",
+    "revenda",
+    "Nome da Revenda",
+    "Nome Revenda",
+    "Posto",
+    "posto",
+    "Estabelecimento",
+    "estabelecimento",
+    "razao_social",
+    "RAZAO SOCIAL",
+  ]);
+
+  if (direto) return String(direto).trim();
+
+  const porContem = pegarValorPorContem(row, [
+    "revenda",
+    "posto",
+    "estabelecimento",
+  ]);
+
+  return String(porContem || "").trim();
+}
+
+function pegarPreco(row: RawRow) {
+  const direto = pegarValor(row, [
+    "Valor de Venda",
+    "Valor Venda",
+    "valor_venda",
+    "valorVenda",
+    "Preço de Venda",
+    "Preco de Venda",
+    "preco_venda",
+    "Preço Médio de Revenda",
+    "Preco Medio de Revenda",
+    "preco_medio_revenda",
+    "precoMedioRevenda",
+    "Preço Médio",
+    "Preco Medio",
+    "preco_medio",
+    "precoMedio",
+    "preco",
+    "Preço",
+    "valor",
+    "media",
+    "vlr_venda",
+  ]);
+
+  const precoDireto = parseNumero(direto);
+
+  if (precoDireto > 0) return precoDireto;
+
+  const porContem = pegarValorPorContem(row, [
+    "preco",
+    "valor",
+    "venda",
+    "revenda",
+    "media",
+  ]);
+
+  return parseNumero(porContem);
+}
+
+function pegarTotalPostos(row: RawRow) {
+  const direto = pegarValor(row, [
+    "Total postos",
+    "Total Postos",
+    "total_postos",
+    "totalPostos",
+    "Postos pesquisados",
+    "postos pesquisados",
+    "Postos Pesquisados",
+    "Quantidade de postos",
+    "Quantidade de Postos",
+    "Qtd postos",
+    "Qtd Postos",
+    "qtd_postos",
+    "qtdPostos",
+    "Qtd. postos",
+    "Qtd. Postos",
+    "Quantidade de revendas",
+    "Quantidade de Revendas",
+    "qtd_revendas",
+    "qtdRevendas",
+    "Total revendas",
+    "Total Revendas",
+    "total_revendas",
+    "contagem",
+    "Contagem",
+    "count",
+    "Count",
+    "registros",
+    "Registros",
+  ]);
+
+  const numeroDireto = parseNumero(direto);
+
+  if (numeroDireto > 0) return numeroDireto;
+
+  const porContem = pegarValorPorContem(row, [
+    "totalpostos",
+    "postos",
+    "qtdpostos",
+    "quantidadepostos",
+    "revendas",
+    "qtdrevendas",
+    "totalrevendas",
+    "registros",
+    "contagem",
+    "count",
+  ]);
+
+  return parseNumero(porContem);
+}
+
+function pegarData(row: RawRow) {
+  const dataValue = pegarValor(row, [
+    "Data da Coleta",
+    "Data Coleta",
+    "data_coleta",
+    "Data",
+    "data",
+    "date",
+    "dt_coleta",
+    "DT_COLETA",
+  ]);
+
+  const anoValue = pegarValor(row, ["Ano", "ano", "year", "ANO"]);
+
+  const mesValue = pegarValor(row, [
+    "Mês",
+    "Mes",
+    "mes",
+    "month",
+    "MES",
+    "mes_numero",
+    "numero_mes",
+  ]);
+
+  let ano = Number(anoValue);
+  let mes = parseMes(mesValue);
+
+  const dataString = String(dataValue || "").trim();
+
+  if (dataString) {
+    const brDate = dataString.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+
+    if (brDate) {
+      mes = Number(brDate[2]);
+      ano = Number(brDate[3]);
+    } else {
+      const isoDate = dataString.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+
+      if (isoDate) {
+        ano = Number(isoDate[1]);
+        mes = Number(isoDate[2]);
+      } else {
+        const parsed = new Date(dataString);
+
+        if (!Number.isNaN(parsed.getTime())) {
+          mes = parsed.getMonth() + 1;
+          ano = parsed.getFullYear();
         }
-
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        console.error(err);
-        setError("Não foi possível carregar os dados de combustíveis.");
-      } finally {
-        setLoading(false);
       }
     }
-
-    fetchData();
-  }, []);
-
-  const processed = useMemo(() => {
-    const cards = data?.cards || [];
-    const linha = data?.linhaPrecoMedio || [];
-
-    const precoMedioCard = findCard(cards, "preço médio");
-    const mesAnteriorCard = findCard(cards, "mês anterior");
-    const variacaoCard = findCard(cards, "variação");
-    const precoMinimoCard = findCard(cards, "mínimo");
-    const precoMaximoCard = findCard(cards, "máximo");
-    const postosCard = findCard(cards, "postos");
-
-    const lastLine = linha[linha.length - 1];
-    const previousLine = linha[linha.length - 2];
-
-    const precoMedio =
-      toNumber(precoMedioCard?.value) || getValue(lastLine) || 0;
-
-    const mesAnterior =
-      toNumber(mesAnteriorCard?.value) ||
-      getValue(previousLine) ||
-      precoMedio ||
-      0;
-
-    const variacao =
-      variacaoCard?.value !== undefined
-        ? toNumber(variacaoCard.value)
-        : mesAnterior > 0
-        ? ((precoMedio - mesAnterior) / mesAnterior) * 100
-        : 0;
-
-    const precoMinimo = toNumber(precoMinimoCard?.value);
-    const precoMaximo = toNumber(precoMaximoCard?.value);
-    const postos = toNumber(postosCard?.value);
-
-    const linhaFormatada = linha.map((item, index) => ({
-      name: item.mes || item.name || `Mês ${index + 1}`,
-      preco: getValue(item),
-      postos: Number(item.postos ?? 80 + index * 35),
-    }));
-
-    return {
-      cards: [
-        {
-          title: "Preço médio",
-          value: formatCurrency(precoMedio),
-          description: "Preço médio de revenda",
-          color: "border-l-orange-500",
-        },
-        {
-          title: "Mês anterior",
-          value: formatCurrency(mesAnterior),
-          description: "Preço médio do mês anterior",
-          color: "border-l-blue-600",
-        },
-        {
-          title: "Variação",
-          value: formatPercent(variacao),
-          description: "Variação em relação ao mês anterior",
-          color: "border-l-green-500",
-        },
-        {
-          title: "Preço mínimo",
-          value: formatCurrency(precoMinimo),
-          description: "Menor preço encontrado",
-          color: "border-l-orange-500",
-        },
-        {
-          title: "Preço máximo",
-          value: formatCurrency(precoMaximo),
-          description: "Maior preço encontrado",
-          color: "border-l-blue-600",
-        },
-        {
-          title: "Postos pesquisados",
-          value: postos.toLocaleString("pt-BR"),
-          description: "Quantidade de postos analisados",
-          color: "border-l-green-500",
-        },
-      ] as MetricCardData[],
-
-      linha: linhaFormatada,
-
-      porRegiao: (data?.porRegiao || []).map((item) => ({
-        name: getName(item),
-        preco: getValue(item),
-      })),
-
-      porEstado: (data?.porEstado || []).map((item) => ({
-        name: getName(item),
-        preco: getValue(item),
-      })),
-
-      porMunicipio: (data?.porMunicipio || []).map((item) => ({
-        name: getName(item),
-        preco: getValue(item),
-      })),
-    };
-  }, [data]);
-
-  if (loading) {
-    return (
-      <div className="w-full rounded-xl bg-white p-8 text-sm text-gray-600 shadow-md dark:bg-[#0b1729] dark:text-gray-300">
-        Carregando dados de combustíveis...
-      </div>
-    );
   }
 
-  if (error) {
-    return (
-      <div className="w-full rounded-xl bg-white p-8 text-sm text-red-600 shadow-md dark:bg-[#0b1729]">
-        {error}
-      </div>
-    );
-  }
+  if (!mes || mes < 1 || mes > 12) mes = 1;
 
-  return (
-    <div className="w-full max-w-none space-y-6">
-      <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-        {processed.cards.map((card) => (
-          <MetricCard
-            key={card.title}
-            title={card.title}
-            value={card.value}
-            description={card.description}
-            color={card.color}
-          />
-        ))}
-      </div>
-
-      <div className="grid w-full grid-cols-1 gap-6 xl:grid-cols-12">
-        <ChartCard
-          title="Preço médio de revenda"
-          legend="Preço médio"
-          legendColor="#22c55e"
-          className="xl:col-span-9"
-        >
-          <ResponsiveContainer width="100%" height={360}>
-            <LineChart
-              data={processed.linha}
-              margin={{ top: 14, right: 28, left: 8, bottom: 14 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="#94a3b8" />
-
-              <XAxis
-                dataKey="name"
-                tick={{ fontSize: 13, fill: "#64748b" }}
-                axisLine={{ stroke: "#94a3b8" }}
-                tickLine={{ stroke: "#94a3b8" }}
-              />
-
-              <YAxis
-                tick={{ fontSize: 13, fill: "#64748b" }}
-                axisLine={{ stroke: "#94a3b8" }}
-                tickLine={{ stroke: "#94a3b8" }}
-                tickFormatter={(value) => formatCurrency(Number(value))}
-              />
-
-              <Tooltip
-                content={<LineTooltip />}
-                cursor={{ stroke: "#94a3b8", strokeWidth: 1 }}
-              />
-
-              <Line
-                type="monotone"
-                dataKey="preco"
-                name="Preço"
-                stroke="#22c55e"
-                strokeWidth={3}
-                dot={{
-                  r: 5,
-                  strokeWidth: 3,
-                  stroke: "#22c55e",
-                  fill: "#ffffff",
-                }}
-                activeDot={{ r: 8 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </ChartCard>
-
-        <ChartCard
-          title="Preço médio x Qtd de postos - Recife - PE"
-          legend="Postos"
-          legendColor="#22c55e"
-          className="xl:col-span-3"
-        >
-          <ResponsiveContainer width="100%" height={360}>
-            <ScatterChart margin={{ top: 14, right: 28, left: 8, bottom: 14 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#94a3b8" />
-
-              <XAxis
-                dataKey="preco"
-                name="Preço"
-                tick={{ fontSize: 13, fill: "#64748b" }}
-                axisLine={{ stroke: "#94a3b8" }}
-                tickLine={{ stroke: "#94a3b8" }}
-                tickFormatter={(value) => formatCurrency(Number(value))}
-              />
-
-              <YAxis
-                dataKey="postos"
-                name="Postos"
-                tick={{ fontSize: 13, fill: "#64748b" }}
-                axisLine={{ stroke: "#94a3b8" }}
-                tickLine={{ stroke: "#94a3b8" }}
-              />
-
-              <Tooltip content={<ScatterTooltip />} />
-
-              <Scatter data={processed.linha} fill="#22c55e" />
-            </ScatterChart>
-          </ResponsiveContainer>
-        </ChartCard>
-      </div>
-
-      <div className="grid w-full grid-cols-1 gap-6 xl:grid-cols-3">
-        <ChartCard
-          title="Preço médio por região"
-          legend="Preço médio"
-          legendColor="#0b5aa0"
-        >
-          <HorizontalBarChart data={processed.porRegiao} />
-        </ChartCard>
-
-        <ChartCard
-          title="Preço médio por estado"
-          legend="Preço médio"
-          legendColor="#0b5aa0"
-        >
-          <HorizontalBarChart data={processed.porEstado} highlight="PE" />
-        </ChartCard>
-
-        <ChartCard
-          title="Preço médio por município"
-          legend="Preço médio"
-          legendColor="#0b5aa0"
-        >
-          <HorizontalBarChart data={processed.porMunicipio} highlight="Recife" />
-        </ChartCard>
-      </div>
-    </div>
-  );
+  return {
+    ano: Number.isFinite(ano) ? ano : 0,
+    mes,
+  };
 }
 
-function MetricCard({
-  title,
-  value,
-  description,
-  color,
-}: {
-  title: string;
-  value: string | number;
-  description: string;
-  color: string;
-}) {
-  return (
-    <div
-      className={`min-h-[122px] rounded-xl border-l-[6px] ${color} bg-white px-5 py-4 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:bg-[#0b1729]`}
-    >
-      <h3 className="text-3xl font-extrabold tracking-tight text-[#04122b] dark:text-white">
-        {value}
-      </h3>
+function extrairRowsDeJson(data: unknown): RawRow[] {
+  if (Array.isArray(data)) return data as RawRow[];
+  if (!data || typeof data !== "object") return [];
 
-      <p className="mt-2 text-base font-semibold text-gray-700 dark:text-gray-200">
-        {title}
-      </p>
+  const obj = data as Record<string, unknown>;
 
-      <p className="mt-1 text-sm leading-snug text-gray-500 dark:text-gray-400">
-        {description}
-      </p>
-    </div>
-  );
-}
+  const possibleKeys = [
+    "data",
+    "rows",
+    "items",
+    "results",
+    "combustiveis",
+    "dados",
+    "result",
+    "records",
+    "values",
+  ];
 
-function ChartCard({
-  title,
-  legend,
-  legendColor,
-  children,
-  className = "",
-}: {
-  title: string;
-  legend?: string;
-  legendColor?: string;
-  children: ReactNode;
-  className?: string;
-}) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const cardRef = useRef<HTMLDivElement | null>(null);
+  for (const key of possibleKeys) {
+    const value = obj[key];
 
-  async function handleFullscreen() {
-    setMenuOpen(false);
+    if (Array.isArray(value)) return value as RawRow[];
 
-    if (!cardRef.current) return;
-
-    if (cardRef.current.requestFullscreen) {
-      await cardRef.current.requestFullscreen();
+    if (value && typeof value === "object") {
+      const nested = extrairRowsDeJson(value);
+      if (nested.length > 0) return nested;
     }
   }
 
-  function handleDownload() {
-    setMenuOpen(false);
-    downloadChartAsImage(cardRef.current, title);
-  }
+  return [];
+}
 
-  function handleHide() {
-    setMenuOpen(false);
-    setHidden(true);
-  }
+function normalizarDados(rows: RawRow[]): CombustivelRow[] {
+  return rows
+    .map((row) => {
+      const estado = pegarEstado(row);
+      const municipio = pegarMunicipio(row);
+      const produto = pegarProduto(row);
+      const valorVenda = pegarPreco(row);
+      const revenda = pegarRevenda(row);
+      const totalPostos = pegarTotalPostos(row);
+      const data = pegarData(row);
 
-  function handleAddToBoard() {
-    setMenuOpen(false);
+      return {
+        estado,
+        municipio,
+        produto,
+        valorVenda,
+        revenda,
+        ano: data.ano,
+        mes: data.mes,
+        totalPostos,
+      };
+    })
+    .filter((row) => {
+      return (
+        row.estado &&
+        row.municipio &&
+        row.produto &&
+        row.valorVenda > 0 &&
+        row.ano > 0
+      );
+    });
+}
 
-    window.dispatchEvent(
-      new CustomEvent("add-chart-to-board", {
-        detail: {
-          title,
-        },
-      })
-    );
+async function buscarDados() {
+  return buscarCombustiveisRapido(API_URLS);
+}
 
-    alert(`"${title}" foi adicionado ao quadro.`);
-  }
+function pesoLinha(row: CombustivelRow) {
+  return row.totalPostos && row.totalPostos > 0 ? row.totalPostos : 1;
+}
 
-  if (hidden) {
-    return (
-      <div
-        className={`rounded-xl border border-dashed border-gray-300 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-[#0b1729] ${className}`}
-      >
-        <div className="flex min-h-[240px] flex-col items-center justify-center gap-4 text-center">
-          <p className="text-base font-semibold text-gray-700 dark:text-gray-200">
-            Gráfico oculto
-          </p>
+function media(rows: CombustivelRow[]) {
+  if (rows.length === 0) return null;
 
-          <button
-            type="button"
-            onClick={() => setHidden(false)}
-            className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
-          >
-            Mostrar gráfico novamente
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const totalPeso = rows.reduce((sum, row) => sum + pesoLinha(row), 0);
+
+  if (totalPeso <= 0) return null;
+
+  const total = rows.reduce(
+    (sum, row) => sum + row.valorVenda * pesoLinha(row),
+    0
+  );
+
+  return total / totalPeso;
+}
+
+function totalPostos(rows: CombustivelRow[]) {
+  const totalDaColuna = rows.reduce((sum, row) => {
+    return sum + (row.totalPostos && row.totalPostos > 0 ? row.totalPostos : 0);
+  }, 0);
+
+  if (totalDaColuna > 0) return totalDaColuna;
+
+  return rows.length;
+}
+
+function uniqueSorted(values: string[]) {
+  return Array.from(new Set(values.filter(Boolean))).sort((a, b) =>
+    a.localeCompare(b, "pt-BR")
+  );
+}
+
+function isCapital(row: CombustivelRow) {
+  const capital = CAPITAIS[row.estado];
+
+  if (!capital) return false;
+
+  const municipioNorm = normalizarTexto(row.municipio);
+  const capitalNorm = normalizarTexto(capital);
 
   return (
-    <div
-      ref={cardRef}
-      className={`relative overflow-visible rounded-xl bg-white p-4 shadow-md transition-all duration-300 hover:shadow-xl dark:bg-[#0b1729] ${className}`}
-    >
-      <button
-        type="button"
-        onClick={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          setMenuOpen((current) => !current);
-        }}
-        className="absolute right-5 top-4 z-[999] rounded-md px-2 text-2xl font-bold leading-none text-gray-400 transition hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-[#13243a] dark:hover:text-white"
-        aria-label="Abrir menu do gráfico"
-      >
-        ...
-      </button>
+    municipioNorm === capitalNorm ||
+    municipioNorm.includes(capitalNorm) ||
+    capitalNorm.includes(municipioNorm)
+  );
+}
 
-      {menuOpen && (
-        <div className="absolute right-5 top-12 z-[1000] w-[230px] rounded-lg border border-gray-200 bg-white p-2 shadow-2xl dark:border-gray-600 dark:bg-[#0b1729]">
-          <button
-            type="button"
-            onClick={handleDownload}
-            className="block w-full rounded-md px-4 py-3 text-left text-sm font-medium text-gray-800 transition hover:bg-gray-100 dark:text-white dark:hover:bg-[#13243a]"
-          >
-            Baixar como imagem
-          </button>
+function valorFiltroGlobal(value: string | undefined | null) {
+  let clean = String(value ?? "").replace(/\s+/g, " ").trim();
 
-          <button
-            type="button"
-            onClick={handleFullscreen}
-            className="block w-full rounded-md px-4 py-3 text-left text-sm font-medium text-gray-800 transition hover:bg-gray-100 dark:text-white dark:hover:bg-[#13243a]"
-          >
-            Tela cheia
-          </button>
+  const marcadoresDeTextoDaPagina = [
+    "Fechar Filtros",
+    "Abrir Filtros",
+    "Preços de Combustíveis",
+    "Precos de Combustiveis",
+    "ANP Geral",
+    "Comparativo",
+    "Regional",
+    "Estadual",
+    "Municipal",
+    "Nenhum dado encontrado",
+    "Preço médio",
+    "Preco medio",
+  ];
 
-          <button
-            type="button"
-            onClick={handleHide}
-            className="block w-full rounded-md px-4 py-3 text-left text-sm font-medium text-gray-800 transition hover:bg-gray-100 dark:text-white dark:hover:bg-[#13243a]"
-          >
-            Esconder gráfico
-          </button>
+  for (const marcador of marcadoresDeTextoDaPagina) {
+    const index = normalizarTexto(clean).indexOf(normalizarTexto(marcador));
 
-          <button
-            type="button"
-            onClick={handleAddToBoard}
-            className="block w-full rounded-md px-4 py-3 text-left text-sm font-medium text-gray-800 transition hover:bg-gray-100 dark:text-white dark:hover:bg-[#13243a]"
-          >
-            Adicionar ao Quadro
-          </button>
-        </div>
-      )}
+    if (index > 0) {
+      clean = clean.slice(0, index).trim();
+    }
+  }
 
-      <div className="mb-3 pr-10 text-center">
-        <h2 className="text-xl font-extrabold text-[#04122b] dark:text-white">
+  const normalizado = normalizarTexto(clean);
+
+  if (
+    !clean ||
+    normalizado === "todos" ||
+    normalizado === "todo" ||
+    normalizado === "all" ||
+    normalizado === "undefined" ||
+    normalizado === "null"
+  ) {
+    return "todos";
+  }
+
+  return clean;
+}
+
+
+function normalizarMesFiltro(value: string | undefined | null) {
+  const clean = valorFiltroGlobal(value);
+
+  if (clean === "todos") return "todos";
+
+  const numeric = Number(clean);
+
+  if (Number.isFinite(numeric) && numeric >= 1 && numeric <= 12) {
+    return String(numeric);
+  }
+
+  const texto = normalizarTexto(clean);
+
+  const mapaMeses: Record<string, number> = {
+    janeiro: 1,
+    jan: 1,
+    fevereiro: 2,
+    fev: 2,
+    marco: 3,
+    mar: 3,
+    abril: 4,
+    abr: 4,
+    maio: 5,
+    mai: 5,
+    junho: 6,
+    jun: 6,
+    julho: 7,
+    jul: 7,
+    agosto: 8,
+    ago: 8,
+    setembro: 9,
+    set: 9,
+    outubro: 10,
+    out: 10,
+    novembro: 11,
+    nov: 11,
+    dezembro: 12,
+    dez: 12,
+  };
+
+  return mapaMeses[texto] ? String(mapaMeses[texto]) : "todos";
+}
+
+function mesBate(rowMes: number, filtroMes: string) {
+  if (filtroMes === "todos") return true;
+
+  return String(rowMes) === filtroMes;
+}
+
+type DashboardFilterState = {
+  year?: string;
+  years?: string[];
+  additionalFilters?: {
+    label: string;
+    selected?: string[];
+  }[];
+};
+
+function getFiltroAdicional(
+  filters: DashboardFilterState,
+  labels: string[]
+) {
+  const labelsNormalizadas = labels.map((label) => normalizarTexto(label));
+
+  const filter = filters.additionalFilters?.find((item) =>
+    labelsNormalizadas.includes(normalizarTexto(item.label))
+  );
+
+  return valorFiltroGlobal(filter?.selected?.[0]);
+}
+
+function useFiltrosGlobaisSelecionados() {
+  const { filters } = useDashboard() as { filters: DashboardFilterState };
+
+  return useMemo<GlobalFilters>(() => {
+    const ano =
+      valorFiltroGlobal(filters.year) !== "todos"
+        ? valorFiltroGlobal(filters.year)
+        : valorFiltroGlobal(filters.years?.[filters.years.length - 1]);
+
+    const mes = normalizarMesFiltro(
+      getFiltroAdicional(filters, ["Mês", "Mes"])
+    );
+
+    const produto = valorFiltroGlobal(
+      getFiltroAdicional(filters, ["PRODUTO", "Produto"])
+    );
+
+    const estadoRaw = valorFiltroGlobal(
+      getFiltroAdicional(filters, ["ESTADO", "Estado"])
+    );
+
+    const municipio = valorFiltroGlobal(
+      getFiltroAdicional(filters, ["MUNICÍPIO", "Municipio"])
+    );
+
+    return {
+      ano,
+      mes,
+      produto,
+      estado: estadoRaw === "todos" ? "todos" : estadoRaw.toUpperCase(),
+      municipio,
+    };
+  }, [filters]);
+}
+
+function municipioBate(rowMunicipio: string, filtroMunicipio: string) {
+  if (filtroMunicipio === "todos") return true;
+
+  const rowNorm = normalizarTexto(rowMunicipio);
+  const filtroNorm = normalizarTexto(filtroMunicipio);
+
+  if (!rowNorm || !filtroNorm) return false;
+
+  return (
+    rowNorm === filtroNorm ||
+    rowNorm.includes(filtroNorm) ||
+    filtroNorm.includes(rowNorm)
+  );
+}
+
+function produtoBate(rowProduto: string, filtroProduto: string) {
+  if (filtroProduto === "todos") return true;
+
+  const rowNorm = normalizarTexto(rowProduto);
+  const filtroNorm = normalizarTexto(filtroProduto);
+
+  return (
+    rowNorm === filtroNorm ||
+    rowNorm.includes(filtroNorm) ||
+    filtroNorm.includes(rowNorm)
+  );
+}
+
+function filtrarBase(
+  dados: CombustivelRow[],
+  ano: string,
+  mes: string,
+  produto: string,
+  estado: string,
+  municipio: string
+) {
+  return dados.filter((row) => {
+    const matchAno = ano === "todos" || String(row.ano) === ano;
+    const matchMes = mesBate(row.mes, mes);
+    const matchProduto = produtoBate(row.produto, produto);
+    const matchEstado = estado === "todos" || row.estado === estado;
+    const matchMunicipio = municipioBate(row.municipio, municipio);
+
+    return matchAno && matchMes && matchProduto && matchEstado && matchMunicipio;
+  });
+}
+
+function serieTemporal(rows: CombustivelRow[], anoSelecionado: string): SerieTemporal[] {
+  const map = new Map<
+    string,
+    {
+      periodo: string;
+      ordem: number;
+      total: number;
+      peso: number;
+      postos: number;
+    }
+  >();
+
+  rows.forEach((row) => {
+    const key =
+      anoSelecionado === "todos"
+        ? String(row.ano)
+        : String(row.mes).padStart(2, "0");
+
+    const periodo =
+      anoSelecionado === "todos" ? String(row.ano) : nomeMesCurto(row.mes);
+
+    const ordem = anoSelecionado === "todos" ? row.ano : row.mes;
+
+    const atual =
+      map.get(key) ||
+      {
+        periodo,
+        ordem,
+        total: 0,
+        peso: 0,
+        postos: 0,
+      };
+
+    const peso = pesoLinha(row);
+
+    atual.total += row.valorVenda * peso;
+    atual.peso += peso;
+    atual.postos += peso;
+
+    map.set(key, atual);
+  });
+
+  return Array.from(map.values())
+    .filter((item) => item.peso > 0)
+    .map((item) => ({
+      periodo: item.periodo,
+      ordem: item.ordem,
+      valor: Number((item.total / item.peso).toFixed(2)),
+      postos: item.postos,
+    }))
+    .sort((a, b) => a.ordem - b.ordem);
+}
+
+function rankingPor(rows: CombustivelRow[], getNome: (row: CombustivelRow) => string) {
+  const map = new Map<string, { total: number; peso: number; postos: number }>();
+
+  rows.forEach((row) => {
+    const nome = getNome(row);
+
+    if (!nome) return;
+
+    const atual = map.get(nome) || { total: 0, peso: 0, postos: 0 };
+    const peso = pesoLinha(row);
+
+    atual.total += row.valorVenda * peso;
+    atual.peso += peso;
+    atual.postos += peso;
+
+    map.set(nome, atual);
+  });
+
+  return Array.from(map.entries())
+    .filter(([, item]) => item.peso > 0)
+    .map(([nome, item]) => ({
+      nome,
+      valor: Number((item.total / item.peso).toFixed(2)),
+      postos: item.postos,
+    }))
+    .sort((a, b) => b.valor - a.valor);
+}
+
+function DashboardPanel({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="overflow-hidden rounded-md border border-slate-300 bg-white shadow-sm">
+      <div className="flex items-center justify-center bg-[#0057a8] px-4 py-2">
+        <h3 className="text-[15px] font-black tracking-wide text-white">
           {title}
-        </h2>
-
-        {legend && (
-          <div className="mx-auto mt-3 flex max-w-[520px] items-center justify-center rounded-md border border-gray-300 px-3 py-1.5 dark:border-gray-500">
-            <span
-              className="mr-2 h-3 w-3 rounded-full"
-              style={{ backgroundColor: legendColor || "#ff6b3a" }}
-            />
-
-            <span
-              className="text-xs font-bold"
-              style={{ color: legendColor || "#ff6b3a" }}
-            >
-              {legend}
-            </span>
-          </div>
-        )}
+        </h3>
       </div>
 
       {children}
@@ -605,140 +971,541 @@ function ChartCard({
   );
 }
 
-function HorizontalBarChart({
-  data,
-  highlight,
+function TopStat({
+  label,
+  value,
+  helper,
+  color,
 }: {
-  data: { name: string; preco: number }[];
-  highlight?: string;
+  label: string;
+  value: string;
+  helper: string;
+  color: string;
 }) {
-  const sorted = [...data].sort((a, b) => b.preco - a.preco).slice(0, 8);
+  return (
+    <div
+      className="min-h-[76px] border-l-4 bg-white px-4 py-3 shadow-sm"
+      style={{ borderLeftColor: color }}
+    >
+      <p className="text-xs font-black text-slate-900">{label}</p>
+      <p className="mt-1 text-[20px] font-black text-slate-900">{value}</p>
+      <p className="text-[11px] font-medium text-slate-500">{helper}</p>
+    </div>
+  );
+}
 
-  const maxValue = Math.max(...sorted.map((item) => item.preco), 0);
-  const niceMax = Math.max(8, Math.ceil(maxValue + 1));
+function RegionBlocks({ data }: { data: RankingItem[] }) {
+  const cores: Record<string, string> = {
+    Norte: LARANJA,
+    Nordeste: VERDE,
+    Sul: ROXO,
+    "Centro Oeste": ROSA,
+    Sudeste: AZUL,
+  };
+
+  const ordem = ["Norte", "Nordeste", "Sul", "Centro Oeste", "Sudeste"];
+
+  const ordenado = [...data].sort((a, b) => {
+    const indexA = ordem.indexOf(a.nome);
+    const indexB = ordem.indexOf(b.nome);
+
+    return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+  });
+
+  if (ordenado.length === 0) {
+    return (
+      <div className="flex h-[260px] items-center justify-center text-sm font-bold text-slate-500">
+        Sem dados para região.
+      </div>
+    );
+  }
 
   return (
-    <div className="h-[280px] w-full overflow-hidden">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          data={sorted}
-          layout="vertical"
-          margin={{
-            top: 20,
-            right: 24,
-            left: 4,
-            bottom: 10,
+    <div className="grid h-[260px] grid-cols-3 grid-rows-2 gap-0 p-3 text-white">
+      {ordenado.map((item) => (
+        <div
+          key={item.nome}
+          className="flex min-h-[110px] flex-col justify-between p-3"
+          style={{
+            backgroundColor:
+              item.nome === "Nordeste" ? LARANJA : cores[item.nome] || AZUL,
           }}
-          barCategoryGap={18}
         >
-          <CartesianGrid
-            strokeDasharray="3 3"
-            stroke="#b7c3d4"
-            horizontal
-            vertical
-          />
+          <span className="text-[14px] font-black">{item.nome}</span>
 
-          <XAxis
-            type="number"
-            orientation="top"
-            domain={[0, niceMax]}
-            tick={{ fontSize: 11, fill: "#64748b" }}
-            axisLine={{ stroke: "#94a3b8" }}
-            tickLine={{ stroke: "#94a3b8" }}
-            tickFormatter={(value) => formatCurrency(Number(value))}
-          />
+          <span className="text-[14px] font-black">
+            {item.valor.toFixed(2).replace(".", ",")}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
 
-          <YAxis
-            type="category"
-            dataKey="name"
-            width={112}
-            tick={{ fontSize: 11, fill: "#334155" }}
-            axisLine={{ stroke: "#94a3b8" }}
-            tickLine={false}
-          />
+function itemDeDestaque(nome: string) {
+  const nomeNormalizado = normalizarTexto(nome);
 
-          <Tooltip content={<BarTooltip />} />
+  return (
+    nomeNormalizado.includes("recife") ||
+    nomeNormalizado.includes("pernambuco") ||
+    nomeNormalizado === "pe" ||
+    nomeNormalizado.endsWith(" pe")
+  );
+}
 
-          <Bar
-            dataKey="preco"
-            barSize={18}
-            maxBarSize={18}
-            radius={[0, 5, 5, 0]}
+function calcularDominioRanking(data: RankingItem[]) {
+  if (data.length === 0) return [0, 10] as [number, number];
+
+  let menor = Number.POSITIVE_INFINITY;
+  let maior = Number.NEGATIVE_INFINITY;
+
+  for (const item of data) {
+    menor = Math.min(menor, item.valor);
+    maior = Math.max(maior, item.valor);
+  }
+
+  if (!Number.isFinite(menor)) menor = 0;
+  if (!Number.isFinite(maior)) maior = 10;
+
+  if (!Number.isFinite(menor) || !Number.isFinite(maior)) {
+    return [0, 10] as [number, number];
+  }
+
+  if (menor === maior) {
+    return [
+      Math.max(0, Number((menor - 0.5).toFixed(2))),
+      Number((maior + 0.5).toFixed(2)),
+    ] as [number, number];
+  }
+
+  const folga = Math.max((maior - menor) * 0.25, 0.15);
+
+  return [
+    Math.max(0, Number((menor - folga).toFixed(2))),
+    Number((maior + folga).toFixed(2)),
+  ] as [number, number];
+}
+
+function RankingChart({ data }: { data: RankingItem[] }) {
+  if (data.length === 0) {
+    return (
+      <div className="flex h-[260px] items-center justify-center text-sm font-bold text-slate-500">
+        Sem dados para o filtro.
+      </div>
+    );
+  }
+
+  const height = Math.max(300, data.length * 38);
+  const domain = calcularDominioRanking(data);
+
+  return (
+    <div className="max-h-[310px] overflow-y-auto px-3 py-3">
+      <div style={{ height }} className="min-w-[700px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={data}
+            layout="vertical"
+            margin={{ top: 8, right: 70, left: 34, bottom: 8 }}
+            barCategoryGap={12}
           >
-            {sorted.map((entry) => (
-              <Cell
-                key={entry.name}
-                fill={
-                  highlight &&
-                  entry.name.toLowerCase().includes(highlight.toLowerCase())
-                    ? "#ff6b3a"
-                    : "#0b5aa0"
-                }
+            <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+
+            <XAxis
+              type="number"
+              domain={domain}
+              tick={{ fontSize: 10 }}
+              tickFormatter={(value) => `R$ ${Number(value).toFixed(2)}`}
+            />
+
+            <YAxis
+              type="category"
+              dataKey="nome"
+              width={190}
+              interval={0}
+              tick={{ fontSize: 11, fill: "#555" }}
+            />
+
+            <Tooltip content={<PowerBiBarraPostosTooltip />} />
+
+            <Bar dataKey="valor" name="Preço médio" barSize={20}>
+              <LabelList
+                dataKey="valor"
+                position="right"
+                formatter={(value: number) => value.toFixed(2).replace(".", ",")}
+                style={{ fontSize: 11, fill: "#444", fontWeight: 700 }}
               />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+
+              {data.map((entry) => (
+                <Cell
+                  key={`ranking-${entry.nome}`}
+                  fill={itemDeDestaque(entry.nome) ? LARANJA : AZUL}
+                />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
 
-function LineTooltip({ active, payload, label }: any) {
-  if (!active || !payload?.length) return null;
+
+export default function GeralCombustiveis() {
+  const filtrosGlobais = useFiltrosGlobaisSelecionados();
+
+  const [dados, setDados] = useState<CombustivelRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [erro, setErro] = useState("");
+
+  useEffect(() => {
+    let ativo = true;
+
+    async function carregar() {
+      try {
+        setLoading(true);
+        setErro("");
+
+        const rawRows = await buscarDados();
+        const normalizados = normalizarDados(rawRows);
+
+        if (!ativo) return;
+
+        if (normalizados.length === 0) {
+          const colunas = rawRows[0]
+            ? Object.keys(rawRows[0]).join(", ")
+            : "nenhuma coluna";
+
+          throw new Error(
+            `Os dados foram carregados, mas nenhuma linha válida foi encontrada. Colunas recebidas: ${colunas}`
+          );
+        }
+
+        setDados(normalizados);
+      } catch (error) {
+        if (!ativo) return;
+
+        setErro(
+          error instanceof Error
+            ? error.message
+            : "Erro ao carregar a página geral de combustíveis."
+        );
+      } finally {
+        if (ativo) setLoading(false);
+      }
+    }
+
+    carregar();
+
+    return () => {
+      ativo = false;
+    };
+  }, []);
+
+  const ano = filtrosGlobais.ano;
+  const mes = filtrosGlobais.mes;
+  const produto = filtrosGlobais.produto;
+  const estado = filtrosGlobais.estado;
+  const municipio = filtrosGlobais.municipio;
+
+  const dadosFiltrados = useMemo(() => {
+    const filtroPrincipal = filtrarBase(dados, ano, mes, produto, estado, municipio);
+
+    if (filtroPrincipal.length > 0) {
+      return filtroPrincipal;
+    }
+
+    // Segurança para o caso do filtro global mandar MUNICÍPIO preenchido,
+    // mas ESTADO como "Todos". Exemplo: Fortaleza com Estado Todos.
+    // Aqui tentamos encontrar o município sem depender do estado.
+    if (municipio !== "todos" && estado === "todos") {
+      const filtroPorMunicipio = filtrarBase(
+        dados,
+        ano,
+        mes,
+        produto,
+        "todos",
+        municipio
+      );
+
+      if (filtroPorMunicipio.length > 0) {
+        return filtroPorMunicipio;
+      }
+    }
+
+    return filtroPrincipal;
+  }, [dados, ano, mes, produto, estado, municipio]);
+
+  const mediaAtual = useMemo(() => media(dadosFiltrados), [dadosFiltrados]);
+  const precoMinimo = useMemo(() => {
+    if (dadosFiltrados.length === 0) return null;
+
+    let menor = Number.POSITIVE_INFINITY;
+
+    for (const row of dadosFiltrados) {
+      if (row.valorVenda < menor) {
+        menor = row.valorVenda;
+      }
+    }
+
+    return Number.isFinite(menor) ? menor : null;
+  }, [dadosFiltrados]);
+
+  const precoMaximo = useMemo(() => {
+    if (dadosFiltrados.length === 0) return null;
+
+    let maior = Number.NEGATIVE_INFINITY;
+
+    for (const row of dadosFiltrados) {
+      if (row.valorVenda > maior) {
+        maior = row.valorVenda;
+      }
+    }
+
+    return Number.isFinite(maior) ? maior : null;
+  }, [dadosFiltrados]);
+
+  const serie = useMemo(() => {
+    return serieTemporal(dadosFiltrados, ano);
+  }, [dadosFiltrados, ano]);
+
+  const periodoAnterior = useMemo(() => {
+    if (serie.length < 2) return null;
+    return serie[serie.length - 2].valor;
+  }, [serie]);
+
+  const variacao = useMemo(() => {
+    if (mediaAtual === null || periodoAnterior === null || periodoAnterior === 0) {
+      return null;
+    }
+
+    return ((mediaAtual - periodoAnterior) / periodoAnterior) * 100;
+  }, [mediaAtual, periodoAnterior]);
+
+  const totalAtual = useMemo(() => totalPostos(dadosFiltrados), [dadosFiltrados]);
+
+  const scatterData = useMemo(() => {
+    if (dadosFiltrados.length === 0) return [];
+
+    return [
+      {
+        periodo: ano === "todos" ? "Todos" : ano,
+        preco: Number((mediaAtual || 0).toFixed(2)),
+        postos: totalAtual,
+      },
+    ];
+  }, [dadosFiltrados, ano, mediaAtual, totalAtual]);
+
+  const rankingRegiao = useMemo(() => {
+    return rankingPor(dadosFiltrados, (row) => ESTADO_REGIAO[row.estado] || "Sem região");
+  }, [dadosFiltrados]);
+
+  const rankingEstado = useMemo(() => {
+    return rankingPor(dadosFiltrados, (row) => ESTADO_NOME[row.estado] || row.estado);
+  }, [dadosFiltrados]);
+
+  const estadoInferido = useMemo(() => {
+    if (estado !== "todos") return estado;
+
+    if (municipio === "todos") return "Todos";
+
+    const rowEncontrada = dados.find((row) => municipioBate(row.municipio, municipio));
+
+    return rowEncontrada?.estado || "";
+  }, [dados, estado, municipio]);
+
+  const rankingCapital = useMemo(() => {
+    const capitalDoFiltroAtual = rankingPor(
+      dadosFiltrados.filter((row) => isCapital(row)),
+      (row) => {
+        const capitalNome = CAPITAIS[row.estado] || row.municipio;
+        return `${capitalNome} - ${row.estado}`;
+      }
+    );
+
+    if (capitalDoFiltroAtual.length > 0) {
+      return capitalDoFiltroAtual;
+    }
+
+    // Quando o filtro global vem com MUNICÍPIO preenchido, o conjunto filtrado
+    // pode ficar muito estreito. Para o gráfico "por capital" não ficar vazio,
+    // usamos as capitais do estado selecionado ou do estado inferido pelo município.
+    const estadoParaCapital =
+      estado !== "todos"
+        ? estado
+        : estadoInferido && estadoInferido !== "Todos"
+        ? estadoInferido
+        : "todos";
+
+    const baseCapitais = filtrarBase(
+      dados,
+      ano,
+      mes,
+      produto,
+      estadoParaCapital,
+      "todos"
+    ).filter((row) => isCapital(row));
+
+    return rankingPor(baseCapitais, (row) => {
+      const capitalNome = CAPITAIS[row.estado] || row.municipio;
+      return `${capitalNome} - ${row.estado}`;
+    });
+  }, [dados, dadosFiltrados, ano, mes, produto, estado, estadoInferido]);
+
+  const tituloLocal =
+    municipio !== "todos"
+      ? estadoInferido
+        ? `${municipio} - ${estadoInferido}`
+        : municipio
+      : estado !== "todos"
+      ? estado
+      : "Todos - Todos";
+
+  if (loading) {
+    return (
+      <section className="rounded-md bg-white p-6 shadow-sm">
+        <p className="text-sm font-black text-slate-700">
+          Carregando página geral de combustíveis...
+        </p>
+      </section>
+    );
+  }
+
+  if (erro) {
+    return (
+      <section className="rounded-md border border-red-200 bg-red-50 p-6">
+        <p className="text-sm font-black text-red-700">{erro}</p>
+      </section>
+    );
+  }
 
   return (
-    <div className="rounded-lg bg-white px-4 py-3 text-sm shadow-xl dark:bg-[#10233a]">
-      <p className="mb-2 font-bold text-[#2563eb]">Mês: {label}</p>
+    <section className="w-full space-y-4">
+      {dadosFiltrados.length === 0 && (
+        <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm font-bold text-amber-800">
+          Nenhum dado encontrado para: Ano {ano}, Mês {mes}, Produto {produto}, Estado {estado}, Município {municipio}.
+          Se o município estiver preenchido com Estado Todos, o sistema tenta localizar automaticamente.
+        </div>
+      )}
 
-      <p className="font-medium text-gray-700 dark:text-gray-200">
-        Preço:{" "}
-        <span className="font-extrabold text-[#22c55e]">
-          {formatCurrency(Number(payload[0].value))}
-        </span>
-      </p>
-    </div>
-  );
-}
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
+        <TopStat
+          label="Preço médio"
+          value={formatarMoedaCard(mediaAtual)}
+          helper="Preço médio de revenda"
+          color={LARANJA}
+        />
 
-function ScatterTooltip({ active, payload }: any) {
-  if (!active || !payload?.length) return null;
+        <TopStat
+          label="Mês anterior"
+          value={formatarMoedaCard(periodoAnterior)}
+          helper="Preço médio do mês anterior"
+          color="#2563eb"
+        />
 
-  const item = payload[0]?.payload;
+        <TopStat
+          label="Variação"
+          value={formatarPercentual(variacao)}
+          helper="Variação em relação ao mês anterior"
+          color={VERDE}
+        />
 
-  return (
-    <div className="rounded-lg bg-white px-4 py-3 text-sm shadow-xl dark:bg-[#10233a]">
-      <p className="mb-2 font-bold text-[#2563eb]">{item?.name}</p>
+        <TopStat
+          label="Preço mínimo"
+          value={formatarMoedaCard(precoMinimo)}
+          helper="Menor preço encontrado"
+          color={LARANJA}
+        />
 
-      <p className="font-medium text-gray-700 dark:text-gray-200">
-        Preço:{" "}
-        <span className="font-extrabold text-[#22c55e]">
-          {formatCurrency(Number(item?.preco || 0))}
-        </span>
-      </p>
+        <TopStat
+          label="Preço máximo"
+          value={formatarMoedaCard(precoMaximo)}
+          helper="Maior preço encontrado"
+          color="#2563eb"
+        />
 
-      <p className="font-medium text-gray-700 dark:text-gray-200">
-        Postos:{" "}
-        <span className="font-extrabold text-[#22c55e]">
-          {Number(item?.postos || 0).toLocaleString("pt-BR")}
-        </span>
-      </p>
-    </div>
-  );
-}
+        <TopStat
+          label="Postos pesquisados"
+          value={formatarNumero(totalAtual)}
+          helper="Quantidade de postos analisados"
+          color={VERDE}
+        />
+      </div>
 
-function BarTooltip({ active, payload, label }: any) {
-  if (!active || !payload?.length) return null;
+      <div className="grid gap-4 xl:grid-cols-2">
+        <DashboardPanel title="Preço médio de revenda">
+          <div className="mb-1 mt-2 flex items-center justify-center gap-2 text-sm font-bold text-slate-600">
+            <span className="uppercase">Preço médio</span>
+            <span className="inline-block h-3 w-3 rounded-full bg-green-500" />
+          </div>
 
-  return (
-    <div className="rounded-lg bg-white px-4 py-3 text-sm shadow-xl dark:bg-[#10233a]">
-      <p className="mb-2 font-bold text-[#2563eb]">{label}</p>
+          <div className="h-[310px] px-5 pb-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={serie} margin={{ top: 24, right: 24, left: 0, bottom: 8 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="periodo" tick={{ fontSize: 11 }} />
+                <YAxis
+                  tick={{ fontSize: 11 }}
+                  tickFormatter={(value) => `R$ ${Number(value).toFixed(2)}`}
+                />
+                <Tooltip content={<PowerBiLinhaTooltip />} />
+                <Line
+                  type="monotone"
+                  dataKey="valor"
+                  name="Preço médio"
+                  stroke={VERDE}
+                  strokeWidth={4}
+                  dot={{ r: 3 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </DashboardPanel>
 
-      <p className="font-medium text-gray-700 dark:text-gray-200">
-        Preço:{" "}
-        <span className="font-extrabold text-[#ff6b3a]">
-          {formatCurrency(Number(payload[0].value))}
-        </span>
-      </p>
-    </div>
+        <DashboardPanel title={`Preço médio x Qtd de postos - ${tituloLocal}`}>
+          <div className="mb-1 mt-2 flex items-center justify-center gap-2 text-sm font-bold text-slate-600">
+            <span>Postos</span>
+            <span className="inline-block h-3 w-3 rounded-full bg-green-500" />
+          </div>
+
+          <div className="h-[310px] px-5 pb-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <ScatterChart margin={{ top: 20, right: 28, bottom: 15, left: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  type="number"
+                  dataKey="preco"
+                  name="Preço médio"
+                  tick={{ fontSize: 11 }}
+                  tickFormatter={(value) => `R$ ${Number(value).toFixed(2)}`}
+                />
+                <YAxis
+                  type="number"
+                  dataKey="postos"
+                  name="Postos"
+                  tick={{ fontSize: 11 }}
+                />
+                <ZAxis range={[100, 180]} />
+                <Tooltip cursor={{ strokeDasharray: "3 3" }} content={<PowerBiDispersaoTooltip />} />
+                <Scatter name="Postos" data={scatterData} fill={VERDE} />
+              </ScatterChart>
+            </ResponsiveContainer>
+          </div>
+        </DashboardPanel>
+      </div>
+
+      <div className="grid gap-4 xl:grid-cols-3">
+        <DashboardPanel title="Preço médio por região">
+          <RegionBlocks data={rankingRegiao} />
+        </DashboardPanel>
+
+        <DashboardPanel title="Preço médio por estado">
+          <RankingChart data={rankingEstado} />
+        </DashboardPanel>
+
+        <DashboardPanel title="Preço médio por capital">
+          <RankingChart data={rankingCapital} />
+        </DashboardPanel>
+      </div>
+    </section>
   );
 }

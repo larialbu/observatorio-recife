@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+
 import GeralCombustiveis from "./components/GeralCombustiveis";
 import ComparativoCombustiveis from "./components/ComparativoCombustiveis";
 import RegionalCombustiveis from "./components/RegionalCombustiveis";
@@ -41,37 +42,47 @@ export default function CombustiveisPage() {
 
   const activeTab = searchParams.get("tab") || "geral";
 
-  const handleNavigation = (tab: string) => {
+  function handleNavigation(tab: string) {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("tab", tab);
 
-    router.push(`/observatorio/combustiveis?${params.toString()}`);
-  };
+    if (tab === "geral") {
+      params.delete("tab");
+    } else {
+      params.set("tab", tab);
+    }
 
-  const renderContent = () => {
+    const query = params.toString();
+
+    router.push(query ? `/observatorio/combustiveis?${query}` : "/observatorio/combustiveis");
+  }
+
+  function renderContent() {
     switch (activeTab) {
-      case "geral":
-        return <GeralCombustiveis />;
       case "comparativo":
         return <ComparativoCombustiveis />;
+
       case "regional":
         return <RegionalCombustiveis />;
+
       case "estadual":
         return <EstadualCombustiveis />;
+
       case "municipal":
         return <MunicipalCombustiveis />;
+
+      case "geral":
       default:
         return <GeralCombustiveis />;
     }
-  };
+  }
 
   return (
-    <main className="min-h-screen bg-[#f5f7fb] dark:bg-[#07111f]">
+    <main className="min-h-screen dark:bg-[#0B1117]">
       <section
         className="relative min-h-[540px] overflow-hidden bg-cover bg-center bg-no-repeat px-6 pb-10 pt-[250px] md:px-10"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(245,247,251,0.86), rgba(245,247,251,0.92)), url('/images/banners/aeroportos_banner.avif')",
+            "linear-gradient(rgba(245,247,251,0.86), rgba(245,247,251,0.92)), url('/images/banner/aeroportos_banner.avif')",
         }}
       >
         <div className="w-full">
@@ -87,7 +98,7 @@ export default function CombustiveisPage() {
                 <button
                   key={tab.key}
                   onClick={() => handleNavigation(tab.key)}
-                  className={`min-h-[52px] rounded-lg px-6 py-3 text-lg font-bold shadow-lg transition-all duration-300 ease-in-out hover:scale-[1.02] ${
+                  className={`h-[52px] rounded-lg px-6 py-3 text-lg font-bold shadow-lg transition-all duration-300 ease-in-out hover:scale-[1.02] ${
                     isActive
                       ? tab.activeClass
                       : "bg-gray-300 text-gray-500 dark:bg-gray-800 dark:text-gray-400"

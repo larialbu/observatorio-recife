@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "cross-env NODE_ENV=production node server.js",
+    "start": "next start -p 3000",
     "lint": "next lint"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "next": "14.2.5",
     "node-fetch": "^3.3.2",
     "node-unrar-js": "^2.0.0",
+    "parquetjs-lite": "^0.8.7",
     "react": "^18",
     "react-dom": "^18",
     "react-rewards": "^2.1.0",

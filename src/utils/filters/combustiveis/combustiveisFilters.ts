@@ -1,84 +1,108 @@
-import { monthHash } from "@/utils/hashs/monthHash";
+import { Filters } from "@/@types/observatorio/shared";
 
-export const combustiveisFilters = {
-  years: ["2019", "2020", "2021", "2022", "2023", "2024"],
+const anos = [
+  "Todos",
+  "2026",
+  "2025",
+  "2024",
+  "2023",
+  "2022",
+  "2021",
+  "2020",
+  "2019",
+];
+
+const meses = [
+  "Todos",
+  "Jan",
+  "Fev",
+  "Mar",
+  "Abr",
+  "Mai",
+  "Jun",
+  "Jul",
+  "Ago",
+  "Set",
+  "Out",
+  "Nov",
+  "Dez",
+];
+
+const produtos = [
+  "Todos",
+  "Gasolina Comum",
+  "Gasolina Aditivada",
+  "Etanol Hidratado",
+  "Gnv",
+  "Oleo Diesel",
+  "Oleo Diesel S10",
+  "Glp",
+];
+
+const estados = [
+  "Todos",
+  "AC",
+  "AL",
+  "AP",
+  "AM",
+  "BA",
+  "CE",
+  "DF",
+  "ES",
+  "GO",
+  "MA",
+  "MT",
+  "MS",
+  "MG",
+  "PA",
+  "PB",
+  "PR",
+  "PE",
+  "PI",
+  "RJ",
+  "RN",
+  "RS",
+  "RO",
+  "RR",
+  "SC",
+  "SP",
+  "SE",
+  "TO",
+];
+
+export const combustiveisFilters: Filters = {
+  years: anos,
 
   additionalFilters: [
     {
       label: "Mês",
-      options: [],
-      selected: [],
-      hash: monthHash,
-    },
-    {
-      label: "PRODUTO",
-      options: [
-        "Gasolina Comum",
-        "Gasolina Aditivada",
-        "Etanol Hidratado",
-        "Óleo Diesel S10",
-        "Óleo Diesel S500",
-        "GLP",
-        "GNV",
-      ],
-      selected: ["Óleo Diesel S10"],
+      options: meses,
+      selected: ["Todos"],
       allowMultiple: false,
     },
     {
-      label: "REGIÃO",
-      options: ["Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"],
-      selected: [],
+      label: "PRODUTO",
+      options: produtos,
+      selected: ["Gasolina Comum"],
       allowMultiple: false,
     },
     {
       label: "ESTADO",
-      options: [
-        "AC",
-        "AL",
-        "AM",
-        "AP",
-        "BA",
-        "CE",
-        "DF",
-        "ES",
-        "GO",
-        "MA",
-        "MG",
-        "MS",
-        "MT",
-        "PA",
-        "PB",
-        "PE",
-        "PI",
-        "PR",
-        "RJ",
-        "RN",
-        "RO",
-        "RR",
-        "RS",
-        "SC",
-        "SE",
-        "SP",
-        "TO",
-      ],
-      selected: ["PE"],
+      options: estados,
+      selected: ["Todos"],
       allowMultiple: false,
     },
     {
       label: "MUNICÍPIO",
-      options: [
-        "Recife",
-        "Olinda",
-        "Jaboatão dos Guararapes",
-        "Paulista",
-        "Camaragibe",
-        "Cabo de Santo Agostinho",
-        "Ipojuca",
-        "Caruaru",
-        "Petrolina",
-      ],
-      selected: ["Recife"],
+      options: ["Todos"],
+      selected: ["Todos"],
       allowMultiple: false,
     },
   ],
 };
+
+export const combustiveisGeralFilters = combustiveisFilters;
+export const combustiveisComparativoFilters = combustiveisFilters;
+export const combustiveisRegionalFilters = combustiveisFilters;
+export const combustiveisEstadualFilters = combustiveisFilters;
+export const combustiveisMunicipalFilters = combustiveisFilters;

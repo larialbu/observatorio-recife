@@ -1,145 +1,155 @@
-import { Service } from "@/@types/observatorio/shared";
-import { Filters } from "@/@types/observatorio/shared";
-
-type CombustiveisDataResult = {
-  id: string;
-  geral?: any;
-  comparativo?: any;
-  regional?: any;
-  estadual?: any;
-  municipal?: any;
+type AdditionalFilter = {
+  label?: string;
+  selected?: string[] | string;
 };
 
-export class CombustiveisDataService implements Service<CombustiveisDataResult> {
-  private static instance: CombustiveisDataService;
-  private currentYear: string = "2024";
-  private dataCache: Record<string, CombustiveisDataResult> = {};
+type FiltersLike = {
+  year?: string;
+  ano?: string;
+  years?: string[];
+  months?: any[];
+  additionalFilters?: AdditionalFilter[];
+};
 
-  private constructor() {}
-
-  public static getInstance(): CombustiveisDataService {
-    if (!CombustiveisDataService.instance) {
-      CombustiveisDataService.instance = new CombustiveisDataService();
-    }
-
-    return CombustiveisDataService.instance;
-  }
-
-  public setYear(year: string) {
-    this.currentYear = year;
-  }
-
-  private getCacheKey(tab: string, filters: Filters): string {
-    return `${tab}-${this.currentYear}-${JSON.stringify(filters)}`;
-  }
-
-  private async fetchFromBackend(endpoint: string, filters: Filters) {
-    const baseUrl = process.env.PUBLIC_API_BASE_URL;
-
-    const params = new URLSearchParams();
-
-    params.set("year", this.currentYear);
-
-    Object.entries(filters || {}).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== "") {
-        params.set(key, String(value));
-      }
-    });
-
-    const response = await fetch(
-      `${baseUrl}/combustiveis/${endpoint}?${params.toString()}`
-    );
-
-    if (!response.ok) {
-      throw new Error(`Erro ao buscar dados de combustíveis: ${endpoint}`);
-    }
-
-    return response.json();
-  }
-
-  private async fetchGeralData(
-    filters: Filters
-  ): Promise<CombustiveisDataResult> {
-    const geral = await this.fetchFromBackend("geral", filters);
-
-    return {
-      id: "combustiveis-geral",
-      geral,
-    };
-  }
-
-  private async fetchComparativoData(
-    filters: Filters
-  ): Promise<CombustiveisDataResult> {
-    const comparativo = await this.fetchFromBackend("comparativo", filters);
-
-    return {
-      id: "combustiveis-comparativo",
-      comparativo,
-    };
-  }
-
-  private async fetchRegionalData(
-    filters: Filters
-  ): Promise<CombustiveisDataResult> {
-    const regional = await this.fetchFromBackend("regional", filters);
-
-    return {
-      id: "combustiveis-regional",
-      regional,
-    };
-  }
-
-  private async fetchEstadualData(
-    filters: Filters
-  ): Promise<CombustiveisDataResult> {
-    const estadual = await this.fetchFromBackend("estadual", filters);
-
-    return {
-      id: "combustiveis-estadual",
-      estadual,
-    };
-  }
-
-  private async fetchMunicipalData(
-    filters: Filters
-  ): Promise<CombustiveisDataResult> {
-    const municipal = await this.fetchFromBackend("municipal", filters);
-
-    return {
-      id: "combustiveis-municipal",
-      municipal,
-    };
-  }
-
-  public async fetchDataForTab(
-    tab: string,
-    filters: Filters
-  ): Promise<CombustiveisDataResult> {
-    const cacheKey = this.getCacheKey(tab, filters);
-
-    if (this.dataCache[cacheKey]) {
-      return this.dataCache[cacheKey];
-    }
-
-    let data: CombustiveisDataResult;
-
-    if (tab === "comparativo") {
-      data = await this.fetchComparativoData(filters);
-    } else if (tab === "regional") {
-      data = await this.fetchRegionalData(filters);
-    } else if (tab === "estadual") {
-      data = await this.fetchEstadualData(filters);
-    } else if (tab === "municipal") {
-      data = await this.fetchMunicipalData(filters);
-    } else {
-      data = await this.fetchGeralData(filters);
-    }
-
-    this.dataCache[cacheKey] = data;
-
-    return data;
-  }
+function normalizeText(value?: string | null) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toUpperCase();
 }
 
-export const combustiveisDataService = CombustiveisDataService.getInstance();
+function getSelectedAdditionalFilter(
+  filters: FiltersLike | undefined,
+  label: string,
+  fallback = ""
+) {
+  const additionalFilters = filters?.additionalFilters || [];
+
+  const found = additionalFilters.find((item) =>
+    normalizeText(item.label).includes(normalizeText(label))
+  );
+
+  const selected = found?.selected;
+
+  if (Array.isArray(selected)) {
+    return String(selected[0] || fallback);
+  }
+
+  return String(selected || fallback);
+}
+
+function getSelectedMonths(filters: FiltersLike | undefined) {
+  const months: string[] = [];
+
+  if (Array.isArray(filters?.months)) {
+    filters.months.forEach((monthFilter: any) => {
+      const selected = monthFilter?.selected;
+
+      if (Array.isArray(selected)) {
+        months.push(...selected.map(String));
+      } else if (selected) {
+        months.push(String(selected));
+      }
+    });
+  }
+
+  const monthFromAdditionalFilters = getSelectedAdditionalFilter(filters, "MÊS", "");
+
+  if (monthFromAdditionalFilters) {
+    months.push(monthFromAdditionalFilters);
+  }
+
+  return Array.from(new Set(months.filter(Boolean)));
+}
+
+function getYearFromFilters(filters: FiltersLike | undefined) {
+  if (filters?.year) return String(filters.year);
+  if (filters?.ano) return String(filters.ano);
+
+  if (Array.isArray(filters?.years) && filters.years.length > 0) {
+    return String(filters.years[filters.years.length - 1]);
+  }
+
+  return "2024";
+}
+
+function extractFilters(arg1?: any, arg2?: any, arg3?: any): FiltersLike {
+  if (arg1?.filters) return arg1.filters;
+
+  if (arg3?.additionalFilters || arg3?.years || arg3?.year) {
+    return arg3;
+  }
+
+  if (arg2?.additionalFilters || arg2?.years || arg2?.year) {
+    return arg2;
+  }
+
+  if (arg1?.additionalFilters || arg1?.years || arg1?.year) {
+    return arg1;
+  }
+
+  return {};
+}
+
+export async function combustiveisDataService(
+  arg1?: any,
+  arg2?: any,
+  arg3?: any
+) {
+  const filters = extractFilters(arg1, arg2, arg3);
+
+  const year = getYearFromFilters(filters);
+
+  const produto = getSelectedAdditionalFilter(
+    filters,
+    "PRODUTO",
+    "Gasolina Comum"
+  );
+
+  const regiao = getSelectedAdditionalFilter(filters, "REGIÃO", "");
+  const estado = getSelectedAdditionalFilter(filters, "ESTADO", "PE");
+
+  const municipio = getSelectedAdditionalFilter(
+    filters,
+    "MUNICÍPIO",
+    "Recife"
+  );
+
+  const selectedMonths = getSelectedMonths(filters);
+
+  const params = new URLSearchParams();
+
+  params.set("year", year || "2024");
+  params.set("produto", produto || "Gasolina Comum");
+  params.set("estado", estado || "PE");
+
+  if (municipio && normalizeText(municipio) !== "TODOS") {
+    params.set("municipio", municipio);
+  }
+
+  if (regiao && normalizeText(regiao) !== "TODAS") {
+    params.set("regiao", regiao);
+  }
+
+  if (selectedMonths.length > 0) {
+    params.set("months", selectedMonths.join(","));
+  }
+
+  const response = await fetch(
+    `/api/data/combustiveis/geral?${params.toString()}`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => "");
+
+    throw new Error(errorText || "Erro ao carregar dados de combustíveis.");
+  }
+
+  return response.json();
+}
+
+export default combustiveisDataService;

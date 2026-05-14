@@ -1,27 +1,37 @@
 import { routeServicesMap } from "@/routes/routeServicesMap";
 
-export function getServiceForRoute(
-    pathname: string,
-    tab: string | null
-  ): any {
-    // Ex: "/observatorio/aeroportos"
-    const foundRouteKey = Object.keys(routeServicesMap).find((route) =>
-      pathname.includes(route)
-    );
-  
-    if (foundRouteKey) {
-      const servicesForTabs = routeServicesMap[foundRouteKey];
-      if (typeof servicesForTabs === "object" && tab && servicesForTabs[tab]) {
-        
-        return servicesForTabs[tab];
-      }
-  
-      // Se não achar tab específica, tenta alguma default, 
-      // ou retorna null se quiser um fallback
-      // ...
-    }
-  
-    // fallback
+/**
+ * Retorna o service correto de acordo com a rota e a aba atual.
+ * Exemplo:
+ * pathname: /observatorio/combustiveis
+ * tab: geral
+ */
+export function getServiceForRoute(pathname: string, tab: string | null): any {
+  const foundRouteKey = Object.keys(routeServicesMap)
+    .sort((a, b) => b.length - a.length)
+    .find((route) => pathname.includes(route));
+
+  if (!foundRouteKey) {
     return null;
   }
-  
+
+  const servicesForTabs = routeServicesMap[foundRouteKey];
+
+  if (!servicesForTabs || typeof servicesForTabs !== "object") {
+    return null;
+  }
+
+  const tabSelected = tab || "geral";
+
+  if (servicesForTabs[tabSelected]) {
+    return servicesForTabs[tabSelected];
+  }
+
+  if (servicesForTabs.geral) {
+    return servicesForTabs.geral;
+  }
+
+  const firstService = Object.values(servicesForTabs)[0];
+
+  return firstService || null;
+}
