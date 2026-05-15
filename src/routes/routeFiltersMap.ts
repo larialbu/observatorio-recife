@@ -1,79 +1,95 @@
-/** 
- * Aqui temos o nosso "mapa" de rotas para filtros. A ideia é colocar cada rota
- * como chave do objeto e, dentro dela, mapear as possíveis abas (tabs) para
- * diferentes conjuntos de filtros.
- */
-import { rankingIndicadorFilters } from "@/utils/filters/ranking/rankingIndicadorFilters";
-import { anacComparativoFilters } from "@/utils/filters/aeroporto/anacComparativoFilters";
-import { portoGeralFilters } from "@/utils/filters/porto/portoGeralFilters";
-import { balancaComercialAnaliticoFilters } from "@/utils/filters/balanca-comercial/balancaComercialAnaliticoFilters";
-import { portoComparativoFilters } from "@/utils/filters/porto/portoComparativoFilters";
-import { portoPassageiroFilters } from "@/utils/filters/porto/portoPassageiroFilters";
-import { pibGeralFilters } from "@/utils/filters/pib/pibGeralFilters";
-import { pibComparativoFilters } from "@/utils/filters/pib/pibComparativoFilters";
-import { pibCapitaFilters } from "@/utils/filters/pib/pibCapitaFilters";
-import { empregosCagedFilters } from "@/utils/filters/empregos/empregosCagedFilters";
-import { raisGeralFilters } from "@/utils/filters/rais/raisGeralFilters";
 import { Filters } from "@/@types/observatorio/shared";
+
+import { defaultFilters } from "@/utils/filters/defaultFilters";
+
 import { aenaFilters } from "@/utils/filters/aeroporto/aenaFilters";
 import { anacFilters } from "@/utils/filters/aeroporto/anacFilters";
-import { defaultFilters } from "@/utils/filters/defaultFilters";
+import { anacComparativoFilters } from "@/utils/filters/aeroporto/anacComparativoFilters";
+
+import { balancaComercialFilters } from "@/utils/filters/balanca-comercial/balancaComercialFilters";
+import { balancaComercialAnaliticoFilters } from "@/utils/filters/balanca-comercial/balancaComercialAnaliticoFilters";
+
+import { combustiveisFilters } from "@/utils/filters/combustiveis/combustiveisFilters";
+
+import { empregosCagedFilters } from "@/utils/filters/empregos/empregosCagedFilters";
 import { empregosDesempregoFilters } from "@/utils/filters/empregos/empregosDesempregoFilter";
-import { empresasGeralFilters } from "@/utils/filters/empresas/empresasGeralFilters";
+
+import { empresasAbertasFechadasFilters } from "@/utils/filters/empresas/empresasAbertasFechadasFilters";
 import { empresasAtivasFilters } from "@/utils/filters/empresas/empresasAtivasFilters";
+import { empresasAtivasInativasFilters } from "@/utils/filters/empresas/empresasAtivasInativasFilters";
+import { empresasClassesFilters } from "@/utils/filters/empresas/empresasClassesFilters";
+import { empresasComparativoClasses } from "@/utils/filters/empresas/empresasComparativoClasses";
+import { empresasGeralFilters } from "@/utils/filters/empresas/empresasGeralFilters";
 import { empresasInativasFilters } from "@/utils/filters/empresas/empresasInativasFilters";
+import { empresasNaturezasFilters } from "@/utils/filters/empresas/empresasNaturezasFilters";
+
 import { ipcaAnaliticoFilters } from "@/utils/filters/ipca/ipcaAnaliticoFilters";
 import { ipcaGeralFilters } from "@/utils/filters/ipca/ipcaGeralFilters";
 import { ipcaGruposFilters } from "@/utils/filters/ipca/ipcaGruposFilters";
+
 import { microCagedComparativoFilters } from "@/utils/filters/micro-caged/microCagedComparativoFilters";
 import { microCagedComparativoMedFilters } from "@/utils/filters/micro-caged/microCagedComparativoMedFilters";
 import { microCagedGeralFilters } from "@/utils/filters/micro-caged/microCagedGeralFilters";
+
+import { pibCapitaFilters } from "@/utils/filters/pib/pibCapitaFilters";
+import { pibComparativoFilters } from "@/utils/filters/pib/pibComparativoFilters";
+import { pibGeralFilters } from "@/utils/filters/pib/pibGeralFilters";
+
+import { portoComparativoFilters } from "@/utils/filters/porto/portoComparativoFilters";
+import { portoGeralFilters } from "@/utils/filters/porto/portoGeralFilters";
+import { portoPassageiroFilters } from "@/utils/filters/porto/portoPassageiroFilters";
+
+import { raisGeralFilters } from "@/utils/filters/rais/raisGeralFilters";
+
 import { rankingDimensaoFilters } from "@/utils/filters/ranking/rankingDimensaoFilters";
 import { rankingGeralFilters } from "@/utils/filters/ranking/rankingGeralFilters";
+import { rankingIndicadorFilters } from "@/utils/filters/ranking/rankingIndicadorFilters";
 import { rankingPilarFilters } from "@/utils/filters/ranking/rankingPilarFilters";
-
-import { balancaComercialFilters } from "../utils/filters/balanca-comercial/balancaComercialFilters";
-import { empresasAtivasInativasFilters } from "@/utils/filters/empresas/empresasAtivasInativasFilters";
-import { empresasNaturezasFilters } from "@/utils/filters/empresas/empresasNaturezasFilters";
-import { empresasClassesFilters } from "@/utils/filters/empresas/empresasClassesFilters";
-import { empresasComparativoClasses } from "@/utils/filters/empresas/empresasComparativoClasses";
-import { empresasAbertasFechadasFilters } from "@/utils/filters/empresas/empresasAbertasFechadasFilters";
-// Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 type TabFiltersMap = Record<string, Filters>;
 
 export const routeFiltersMap: Record<string, TabFiltersMap> = {
-    "/observatorio/ipca": {
-      geral: ipcaGeralFilters,
-      grupos: ipcaGruposFilters,
-      analitico: ipcaAnaliticoFilters,
-      // etc. Se quiser mesmo service, ok
-    },
+  "/observatorio/ipca": {
+    geral: ipcaGeralFilters,
+    grupos: ipcaGruposFilters,
+    analitico: ipcaAnaliticoFilters,
+  },
 
-    "/observatorio/portos": {
-      geral: portoGeralFilters,
-      operacao: portoGeralFilters,
-      comparativo: portoComparativoFilters,
-      passageiros: portoPassageiroFilters,
-      // etc. Se quiser mesmo service, ok
-    },
+  "/observatorio/portos": {
+    geral: portoGeralFilters,
+    operacao: portoGeralFilters,
+    comparativo: portoComparativoFilters,
+    passageiro: portoPassageiroFilters,
+    passageiros: portoPassageiroFilters,
+  },
 
-    "/observatorio/ranking": {
-      geral: rankingGeralFilters,
-      dimensao: rankingDimensaoFilters,
-      pilar: rankingPilarFilters,
-      indicador: rankingIndicadorFilters,
-      // etc. Se quiser mesmo service, ok
-    },
+  "/observatorio/porto": {
+    geral: portoGeralFilters,
+    operacao: portoGeralFilters,
+    comparativo: portoComparativoFilters,
+    passageiro: portoPassageiroFilters,
+    passageiros: portoPassageiroFilters,
+  },
+
+  "/observatorio/ranking": {
+    geral: rankingGeralFilters,
+    dimensao: rankingDimensaoFilters,
+    pilar: rankingPilarFilters,
+    indicador: rankingIndicadorFilters,
+  },
+
+  "/observatorio/ranking-municipios": {
+    geral: rankingGeralFilters,
+    dimensao: rankingDimensaoFilters,
+    pilar: rankingPilarFilters,
+    indicador: rankingIndicadorFilters,
+  },
 
   "/observatorio/aeroportos": {
-    // Se estivermos em /observatorio/aeroportos, podemos ter
-    // "geral" apontando para anacFilters, ou "aena" apontando para aenaFilters.
     geral: anacFilters,
     comparativo: anacComparativoFilters,
     embarque: anacFilters,
     aena: aenaFilters,
-    // Se existirem outras tabs, adicione aqui.
   },
 
   "/observatorio/pib": {
@@ -87,7 +103,7 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
       ...balancaComercialFilters,
     },
     analitico: {
-      ...balancaComercialAnaliticoFilters
+      ...balancaComercialAnaliticoFilters,
     },
   },
 
@@ -124,19 +140,16 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     "empresas-classes": empresasClassesFilters,
     "comparativo-empresas-classes": empresasComparativoClasses,
     "empresas-abertas-fechadas": empresasAbertasFechadasFilters,
-    "empresas-tempo-abertura": empresasAbertasFechadasFilters
-    // saldo: empresasGeralFilters,
-    // media: empresasGeralFilters,
-    // "comparativo-mov": empresasGeralFilters,
-    // "comparativo-med": empresasGeralFilters,
-    // salario: empresasGeralFilters,
+    "empresas-tempo-abertura": empresasAbertasFechadasFilters,
   },
 
-  // E assim por diante pra outras rotas...
+  "/observatorio/combustiveis": {
+    geral: combustiveisFilters,
+    comparativo: combustiveisFilters,
+    regional: combustiveisFilters,
+    estadual: combustiveisFilters,
+    municipal: combustiveisFilters,
+  },
 };
 
-/**
- * Se nenhuma rota ou aba for encontrada, usamos esse fallback
- * para não quebrar a aplicação.
- */
 export const fallbackFilters = defaultFilters;

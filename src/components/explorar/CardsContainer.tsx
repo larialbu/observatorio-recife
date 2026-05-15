@@ -46,6 +46,16 @@ export const CardsContainer: React.FC = () => {
             name: "Balança Comercial",
         },
         {
+            banner: "/images/banners/balanca_comercial_banner.avif",
+            title: "Combustíveis",
+            logo: "/images/logos/partners/prefeitura_recife_logo.png",
+            description: "Acompanhe os preços dos combustíveis em Recife e compare dados por região, estado e município.",
+            detailedDescription:
+                "O painel de combustíveis apresenta indicadores sobre preço médio, preço mínimo, preço máximo, quantidade de postos pesquisados e comparativos territoriais com base nos dados da ANP.",
+            route: "/observatorio/combustiveis?tab=geral",
+            name: "Combustíveis",
+        },
+        {
             banner: "/images/banners/ranking_banner.avif",
             title: "Ranking de Competitividade dos Municípios",
             logo: "/images/logos/partners/clp_logo.png",

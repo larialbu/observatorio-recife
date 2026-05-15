@@ -1,4 +1,3 @@
-import { Service } from "@/@types/observatorio/shared";
 import { aeroportoDataService } from "@/services/@data/aeroportoDataService";
 import { balancaDataService } from "@/services/@data/balancaComercialDataService";
 import { empregosDataService } from "@/services/@data/empregosDataService";
@@ -9,55 +8,59 @@ import { pibDataService } from "@/services/@data/pibDataService";
 import { portoDataService } from "@/services/@data/portoDataService";
 import { raisDataService } from "@/services/@data/raisDataService";
 import { rankingDataService } from "@/services/@data/rankingDataService";
+import { combustiveisDataService } from "@/services/@data/combustiveisDataService";
 
-export const routeServicesMap: Record<
-  string,
-  Record<string, Service<any>>
-> = {
+export const routeServicesMap: Record<string, Record<string, any>> = {
   "/observatorio/ipca": {
     geral: ipcaDataService,
     grupos: ipcaDataService,
     analitico: ipcaDataService,
-    // etc. Se quiser mesmo service, ok
   },
 
-    "/observatorio/portos": {
-      geral: portoDataService,
-      operacao: portoDataService,
-      comparativo: portoDataService,
-      passageiro: portoDataService,
-      // etc. Se quiser mesmo service, ok
-    },
+  "/observatorio/portos": {
+    geral: portoDataService,
+    operacao: portoDataService,
+    comparativo: portoDataService,
+    passageiro: portoDataService,
+    passageiros: portoDataService,
+  },
 
+  "/observatorio/porto": {
+    geral: portoDataService,
+    operacao: portoDataService,
+    comparativo: portoDataService,
+    passageiro: portoDataService,
+    passageiros: portoDataService,
+  },
 
   "/observatorio/ranking": {
     geral: rankingDataService,
     dimensao: rankingDataService,
     pilar: rankingDataService,
     indicador: rankingDataService,
-    // etc. Se quiser mesmo service, ok
   },
 
-  // Aeroportos
+  "/observatorio/ranking-municipios": {
+    geral: rankingDataService,
+    dimensao: rankingDataService,
+    pilar: rankingDataService,
+    indicador: rankingDataService,
+  },
+
   "/observatorio/aeroportos": {
     geral: aeroportoDataService,
     comparativo: aeroportoDataService,
     embarque: aeroportoDataService,
     aena: aeroportoDataService,
-    // etc. Se quiser mesmo service, ok
   },
 
-  // Pib
   "/observatorio/pib": {
-    // Se tiver tabs diferentes ("geral", "analitico", etc.), aponte para balancaDataService
     geral: pibDataService,
     comparativo: pibDataService,
     capita: pibDataService,
   },
 
-  // Balança Comercial
   "/observatorio/balanca-comercial": {
-    // Se tiver tabs diferentes ("geral", "analitico", etc.), aponte para balancaDataService
     geral: balancaDataService,
     analitico: balancaDataService,
   },
@@ -76,7 +79,7 @@ export const routeServicesMap: Record<
     estoque: raisDataService,
     remuneracao: raisDataService,
   },
-  
+
   "/observatorio/micro-caged": {
     geral: microCagedDataService,
     saldo: microCagedDataService,
@@ -95,13 +98,14 @@ export const routeServicesMap: Record<
     "empresas-classes": empresasDataService,
     "comparativo-empresas-classes": empresasDataService,
     "empresas-abertas-fechadas": empresasDataService,
-    "empresas-tempo-abertura": empresasDataService
-    // saldo: empresasGeralFilters,
-    // media: empresasGeralFilters,
-    // "comparativo-mov": empresasGeralFilters,
-    // "comparativo-med": empresasGeralFilters,
-    // salario: empresasGeralFilters,
+    "empresas-tempo-abertura": empresasDataService,
   },
-   
-  // E assim por diante ...
+
+  "/observatorio/combustiveis": {
+    geral: combustiveisDataService,
+    comparativo: combustiveisDataService,
+    regional: combustiveisDataService,
+    estadual: combustiveisDataService,
+    municipal: combustiveisDataService,
+  },
 };

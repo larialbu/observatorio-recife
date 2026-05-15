@@ -72,6 +72,18 @@ export const menuItems = [
           visible: ["admin", "teacher"],
         },
         {
+          label: "Combustíveis",
+          icon: (
+            <svg viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20.0417 67.8333V15.4167C20.0417 10.308 24.183 6.16667 29.2917 6.16667H44.7083C49.817 6.16667 53.9583 10.308 53.9583 15.4167V67.8333H20.0417ZM27.75 26.2083H46.25V13.875H27.75V26.2083ZM27.75 35.4583H46.25V31.625H27.75V35.4583ZM13.875 67.8333H60.125V61.6667H13.875V67.8333Z"/>
+              <path d="M53.9583 18.5H59.2C60.1604 18.5 61.0813 18.8815 61.7603 19.5605L67.1578 24.958C67.8368 25.637 68.2183 26.5579 68.2183 27.5183V52.4167C68.2183 57.5254 64.077 61.6667 58.9683 61.6667H57.0417V55.5H58.9683C60.6709 55.5 62.0517 54.1192 62.0517 52.4167V34.6875H57.8125C55.6838 34.6875 53.9583 32.962 53.9583 30.8333V18.5ZM60.125 25.1875V28.5208H62.0517V27.9908L59.7783 25.1875H60.125Z"/>
+            </svg>
+          ),
+          href: "/observatorio/combustiveis?tab=geral",
+          visible: ["admin", "teacher", "student", "parent"],
+        },
+
+        {
           label: "Ranking de Competitividade dos Municípios",
           icon: (
             <svg width="74" height="74" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">

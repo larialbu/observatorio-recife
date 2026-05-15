@@ -1,6 +1,66 @@
 import { label } from 'framer-motion/client';
 import React from 'react';
 
+
+function FuelIcon({ className = "" }: { className?: string }) {
+    return (
+        <svg
+            viewBox="0 0 74 74"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={className}
+        >
+            <path
+                d="M23 64V16C23 13.7909 24.7909 12 27 12H45C47.2091 12 49 13.7909 49 16V64"
+                stroke="#0155AE"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <rect
+                x="29"
+                y="20"
+                width="14"
+                height="14"
+                rx="2"
+                fill="#0155AE"
+            />
+            <path
+                d="M18 64H54"
+                stroke="#0155AE"
+                strokeWidth="5"
+                strokeLinecap="round"
+            />
+            <path
+                d="M49 27H55C57.2091 27 59 28.7909 59 31V48C59 51.3137 56.3137 54 53 54H49"
+                stroke="#0155AE"
+                strokeWidth="4.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M59 31L65 37V48"
+                stroke="#0155AE"
+                strokeWidth="4.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M31 44H42"
+                stroke="#0155AE"
+                strokeWidth="4.5"
+                strokeLinecap="round"
+            />
+            <path
+                d="M31 53H42"
+                stroke="#0155AE"
+                strokeWidth="4.5"
+                strokeLinecap="round"
+            />
+        </svg>
+    );
+}
+
 export const iconsExplore = [
     {
         items: [
@@ -434,6 +494,47 @@ export const iconsExplore = [
                   ],
                 bundleKey: "pib"
                   
+            },
+            {
+                id: 11,
+                label: "Preços de combustíveis",
+                icon: <FuelIcon />,
+                logo: (
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <text
+                            x="7"
+                            y="30"
+                            fill="#0155AE"
+                            fontSize="14"
+                            fontFamily="Arial, sans-serif"
+                            fontWeight="700"
+                        >
+                            ANP
+                        </text>
+                    </svg>
+                ),
+                href: "/observatorio/combustiveis?tab=geral",
+                visible: ["admin", "teacher", "student", "parent"],
+                tags: [
+                    "combustíveis",
+                    "combustiveis",
+                    "anp",
+                    "gasolina",
+                    "gasolina comum",
+                    "gasolina aditivada",
+                    "etanol",
+                    "diesel",
+                    "óleo diesel",
+                    "oleo diesel",
+                    "glp",
+                    "gnv",
+                    "postos",
+                    "preço médio",
+                    "preco medio",
+                    "revenda"
+                ],
+                bundleKey: "combustiveis",
+                alwaysEnabled: true
             },
             {
                 id: 9,

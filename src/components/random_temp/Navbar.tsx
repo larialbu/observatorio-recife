@@ -1,31 +1,241 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
 
-import { AdditionalFilter, Filters } from "@/@types/observatorio/shared";
+import {
+  AdditionalFilter,
+  Filters,
+} from "@/@types/observatorio/shared";
+
 import { useDashboard } from "@/context/DashboardContext";
 
 import { ChevronIcon } from "./ChevronIcon";
 import FocusHidden from "../@global/features/FocusHidden";
 
+type CombustivelFiltroRow = {
+  estado?: string;
+  municipio?: string;
+};
 
-const Navbar = () => {
+type DropdownState = Record<string, boolean>;
+type SearchState = Record<string, string>;
+
+function normalizarTexto(value: unknown) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase();
+}
+
+function isEstadoFilter(label: string) {
+  return normalizarTexto(label) === "estado";
+}
+
+function isMunicipioFilter(label: string) {
+  return normalizarTexto(label) === "municipio";
+}
+
+function arraysIguais(a: string[] = [], b: string[] = []) {
+  if (a.length !== b.length) return false;
+  return a.every((item, index) => item === b[index]);
+}
+
+function extrairRowsDeJson(data: unknown): CombustivelFiltroRow[] {
+  if (Array.isArray(data)) return data as CombustivelFiltroRow[];
+
+  if (!data || typeof data !== "object") return [];
+
+  const obj = data as Record<string, unknown>;
+  const possibleKeys = ["data", "rows", "items", "results", "dados"];
+
+  for (const key of possibleKeys) {
+    const value = obj[key];
+
+    if (Array.isArray(value)) {
+      return value as CombustivelFiltroRow[];
+    }
+
+    if (value && typeof value === "object") {
+      const nested = extrairRowsDeJson(value);
+
+      if (nested.length > 0) return nested;
+    }
+  }
+
+  return [];
+}
+
+function ordenarOpcoes(options: string[]) {
+  return [...options].sort((a, b) => {
+    if (a === "Todos") return -1;
+    if (b === "Todos") return 1;
+
+    const numA = Number(a);
+    const numB = Number(b);
+
+    if (Number.isFinite(numA) && Number.isFinite(numB)) {
+      return numA - numB;
+    }
+
+    return a.localeCompare(b, "pt-BR", { sensitivity: "base" });
+  });
+}
+
+function getResumoFiltro(filter: AdditionalFilter) {
+  const selected = filter.selected || [];
+
+  if (selected.length === 0) return "Nenhum selecionado";
+
+  if (selected.length === 1) {
+    const value = selected[0];
+
+    return filter.hash ? String(filter.hash[value] ?? value) : value;
+  }
+
+  return `${selected.length} selecionado(s)`;
+}
+
+export default function Navbar() {
+  const pathname = usePathname();
+  const isCombustiveisPage = pathname.includes("/observatorio/combustiveis");
+
   const { filters, applyFilters, resetFilters } = useDashboard();
 
-  const [tempFilters, setTempFilters] = useState(filters);
+  const [tempFilters, setTempFilters] = useState<Filters>(filters);
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [navVisible, setNavVisible] = useState(true);
-  const [dropdowns, setDropdowns] = useState<Record<string, boolean>>({});
-  const [searchTerms, setSearchTerms] = useState<Record<string, string>>({});
+  const [dropdowns, setDropdowns] = useState<DropdownState>({});
+  const [searchTerms, setSearchTerms] = useState<SearchState>({});
   const [showInitialMessage, setShowInitialMessage] = useState(true);
+  const [combustiveisRows, setCombustiveisRows] = useState<
+    CombustivelFiltroRow[]
+  >([]);
+
+  const estadoSelecionadoKey = useMemo(() => {
+    return (
+      tempFilters?.additionalFilters
+        ?.find((filter: AdditionalFilter) => isEstadoFilter(filter.label))
+        ?.selected?.join("|") || ""
+    );
+  }, [tempFilters]);
 
   useEffect(() => {
     setTempFilters(filters);
 
-    const hasAllowMultipleFalse = filters.additionalFilters?.some((f: AdditionalFilter) => f.allowMultiple === false);
-    
+    const hasAllowMultipleFalse = filters.additionalFilters?.some(
+      (filter: AdditionalFilter) => filter.allowMultiple === false
+    );
+
     setShowInitialMessage(!hasAllowMultipleFalse);
   }, [filters]);
+
+  useEffect(() => {
+    if (!isCombustiveisPage) return;
+
+    let ativo = true;
+
+    async function carregarMunicipiosCombustiveis() {
+      try {
+        const response = await fetch("/api/data/combustiveis/fast", {
+          cache: "force-cache",
+        });
+
+        if (!response.ok) {
+          console.error("Erro ao carregar municípios de combustíveis.");
+          return;
+        }
+
+        const json = await response.json();
+        const rows = extrairRowsDeJson(json);
+
+        if (ativo) {
+          setCombustiveisRows(rows);
+        }
+      } catch (error) {
+        console.error("Erro ao montar filtro de municípios:", error);
+      }
+    }
+
+    carregarMunicipiosCombustiveis();
+
+    return () => {
+      ativo = false;
+    };
+  }, [isCombustiveisPage]);
+
+  useEffect(() => {
+    if (!isCombustiveisPage) return;
+    if (!combustiveisRows.length) return;
+
+    setTempFilters((prev: Filters) => {
+      if (!prev?.additionalFilters?.length) return prev;
+
+      const estadoFilter = prev.additionalFilters.find((filter) =>
+        isEstadoFilter(filter.label)
+      );
+
+      const estadosSelecionados =
+        estadoFilter?.selected?.length &&
+        !estadoFilter.selected.includes("Todos")
+          ? estadoFilter.selected
+          : [];
+
+      const municipios = Array.from(
+        new Set(
+          combustiveisRows
+            .filter((row) => {
+              const estado = String(row.estado ?? "").trim();
+
+              if (estadosSelecionados.length === 0) return true;
+
+              return estadosSelecionados.includes(estado);
+            })
+            .map((row) => String(row.municipio ?? "").trim())
+            .filter(Boolean)
+        )
+      ).sort((a, b) => a.localeCompare(b, "pt-BR"));
+
+      const municipioOptions = ["Todos", ...municipios];
+
+      const additionalFiltersAtualizados = prev.additionalFilters.map(
+        (filter) => {
+          if (!isMunicipioFilter(filter.label)) return filter;
+
+          const selectedAtual = filter.selected?.length
+            ? filter.selected
+            : ["Todos"];
+
+          const selectedCorrigido = selectedAtual.includes("Todos")
+            ? ["Todos"]
+            : selectedAtual.filter((item) => municipioOptions.includes(item));
+
+          const selectedFinal = selectedCorrigido.length
+            ? selectedCorrigido
+            : ["Todos"];
+
+          if (
+            arraysIguais(filter.options, municipioOptions) &&
+            arraysIguais(filter.selected, selectedFinal)
+          ) {
+            return filter;
+          }
+
+          return {
+            ...filter,
+            options: municipioOptions,
+            selected: selectedFinal,
+          };
+        }
+      );
+
+      return {
+        ...prev,
+        additionalFilters: additionalFiltersAtualizados,
+      };
+    });
+  }, [isCombustiveisPage, combustiveisRows, estadoSelecionadoKey]);
 
   const hideInitialMessage = () => {
     if (showInitialMessage) {
@@ -38,47 +248,81 @@ const Navbar = () => {
   };
 
   const toggleDropdown = (label: string) => {
-    setDropdowns((prev) => ({ ...prev, [label]: !prev[label] }));
+    setDropdowns((prev) => ({
+      ...prev,
+      [label]: !prev[label],
+    }));
   };
 
   const handleCheckboxChange = (label: string, option: string) => {
     setTempFilters((prev: Filters) => {
-      const updated = prev.additionalFilters.map((f: AdditionalFilter) => {
-        if (f.label === label) {
-          const isAllowMultiple = f.allowMultiple !== false;
-          const isSelected = f.selected.includes(option);
+      const updated = prev.additionalFilters.map((filter: AdditionalFilter) => {
+        if (filter.label !== label) return filter;
 
+        const isAllowMultiple = filter.allowMultiple !== false;
+
+        if (!isAllowMultiple) {
           return {
-            ...f,
-            selected: isAllowMultiple
-              ? isSelected
-                ? f.selected.filter((x: string) => x !== option)
-                : [...f.selected, option]
-              : [option],
+            ...filter,
+            selected: [option],
           };
         }
-        return f;
+
+        if (option === "Todos") {
+          return {
+            ...filter,
+            selected: filter.selected.includes("Todos") ? [] : ["Todos"],
+          };
+        }
+
+        const selectedSemTodos = filter.selected.filter(
+          (item: string) => item !== "Todos"
+        );
+
+        const isSelected = selectedSemTodos.includes(option);
+
+        const selected = isSelected
+          ? selectedSemTodos.filter((item: string) => item !== option)
+          : [...selectedSemTodos, option];
+
+        return {
+          ...filter,
+          selected,
+        };
       });
-      return { ...prev, additionalFilters: updated };
+
+      return {
+        ...prev,
+        additionalFilters: updated,
+      };
     });
   };
 
   const handleSelectAll = (label: string) => {
     setTempFilters((prev: Filters) => {
-      const updated = prev.additionalFilters.map((f: AdditionalFilter) => {
-        if (f.label !== label) return f;
-        const allSelected = f.selected.length === f.options.length;
+      const updated = prev.additionalFilters.map((filter: AdditionalFilter) => {
+        if (filter.label !== label) return filter;
+
+        const allSelected = filter.selected.length === filter.options.length;
+
         return {
-          ...f,
-          selected: allSelected ? [] : [...f.options],
+          ...filter,
+          selected: allSelected ? [] : [...filter.options],
         };
       });
-      return { ...prev, additionalFilters: updated };
+
+      return {
+        ...prev,
+        additionalFilters: updated,
+      };
     });
   };
 
   const handleSearchChange = (label: string, value: string) => {
-    setSearchTerms((prev) => ({ ...prev, [label]: value }));
+    setSearchTerms((prev) => ({
+      ...prev,
+      [label]: value,
+    }));
   };
 
   const onApplyFilters = () => {
@@ -92,197 +336,211 @@ const Navbar = () => {
     resetFilters();
   };
 
+  const resumoAno =
+    filters.year || (filters.years && filters.years[filters.years.length - 1]);
+
   return (
     <>
-      {/* 
-        Navbar usando 'sticky top-0' para ficar fixada assim que a página rola.
-        Quando navVisible = false, aplicamos '-translate-y-full' para sumir.
-        Quando navVisible = true, aplicamos 'translate-y-0' para aparecer.
-      */}
-      <div
-      style={{ backdropFilter: "blur(2px)"}}
-        className={`
-          sticky top-0 z-40
-          bg-[#d6d6d686]
-          dark:bg-[#0c1b2b86]
-          flex flex-col py-4 px-4
-          items-start
+      {navVisible && (
+        <div className="sticky top-0 z-50 w-full bg-[#e5e7eb] px-4 py-2 shadow-sm dark:bg-[#07111f]">
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleFiltersVisible();
+            }}
+            className="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 dark:border-gray-600 dark:bg-[#0C1B2B] dark:text-gray-200"
+          >
+            {filtersVisible ? "Esconder Filtros" : "Exibir Filtros"}
+            <ChevronIcon up={filtersVisible} />
+          </button>
 
-          /* TRANSIÇÃO */
-          transition-all duration-700
+          <div className="mt-2 w-fit max-w-full rounded-lg bg-white px-4 py-4 shadow-md dark:bg-[#0C1B2B]">
+            <h3 className="mb-3 text-lg font-semibold text-slate-800 dark:text-white">
+              Filtros selecionados:
+            </h3>
 
-          /* Estados de aberto/fechado */
-          ${
-            navVisible
-              ? "translate-y-0 -mb-32"   // Navbar aparece
-              : "-translate-y-full -mb-72" // Navbar some
-          }
-        `
-      }
-      >
-        <div>
-        <button
-          onClick={(e) => {
-            e.stopPropagation(); // Impede a propagação do clique
-            toggleFiltersVisible();
-          }}
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-200 px-4 py-2 border bg-white dark:bg-[#0C1B2B] border-gray-300 dark:border-gray-600 rounded-md mb-2"
-        >
-          {filtersVisible ? "Esconder Filtros" : "Exibir Filtros"}
-          <ChevronIcon up={filtersVisible} />
-        </button>
+            <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-slate-600 dark:text-slate-300">
+              <span>
+                Ano: <strong>{resumoAno || "Todos"}</strong>
+              </span>
 
-          {/* Resumo dos filtros atuais */}
-          <div className="p-4 bg-white dark:bg-[#0C1B2B] shadow-md rounded-lg text-sm text-gray-700">
-            <span className="font-medium text-lg text-gray-800 dark:text-gray-100">Filtros selecionados:</span>
-            <ul className="flex flex-wrap gap-4 mt-2 dark:text-gray-300">
-              <li>
-                Ano: <strong>{filters.year || (filters.years && filters.years[filters.years.length - 1])}</strong>
-              </li>
-              {filters.additionalFilters?.map((f: AdditionalFilter) => {
-                if (f.selected?.length > 0) {
-                  const visible = f?.hash ? f.selected.map((item) => f.hash?.[item]).slice(0, 5).join(", ") : f.selected.slice(0, 5).join(", ");
-                  const remaining = f.selected.length - 5;
-                  return (
-                    <li key={f.label}>
-                      {f.label}: <strong>{visible}</strong>
-                      {remaining > 0 && <span> ... e outros {remaining}</span>}
-                    </li>
-                  );
-                }
-                return null;
+              {filters.additionalFilters?.map((filter: AdditionalFilter) => {
+                if (!filter.selected?.length) return null;
+
+                const visible = filter.hash
+                  ? filter.selected
+                      .map((item) => filter.hash?.[item] ?? item)
+                      .slice(0, 5)
+                      .join(", ")
+                  : filter.selected.slice(0, 5).join(", ");
+
+                const remaining = filter.selected.length - 5;
+
+                return (
+                  <span key={filter.label}>
+                    {filter.label}: <strong>{visible}</strong>
+                    {remaining > 0 && ` ... e outros ${remaining}`}
+                  </span>
+                );
               })}
-            </ul>
+            </div>
 
-            {/* Aviso inicial */}
             {showInitialMessage && (
-              <p className="mt-2 text-xs text-red-600">
-                Para consultar todos os dados: limpe, desselecione Recife ou&nbsp;
-                <button onClick={onResetFilters}>
-                  <u>clique aqui.</u>
+              <p className="mt-3 text-xs text-red-600">
+                Para consultar todos os dados: limpe, selecione Estado e
+                Município como Todos ou{" "}
+                <button
+                  type="button"
+                  onClick={onResetFilters}
+                  className="underline"
+                >
+                  clique aqui.
                 </button>
               </p>
             )}
           </div>
 
-          {/* Modal principal de filtros */}
           {filtersVisible && tempFilters && (
-          <FocusHidden open={filtersVisible} setOpen={setFiltersVisible}>
-            <div className="absolute rounded-lg border dark:border-gray-600 dark:bg-[#0C1B2B] bg-white p-6 shadow-sm z-50 mt-2">
-                <h2 className="mb-4 text-base font-semibold text-gray-800 dark:text-gray-200">Filtros</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {/* Seletor de Ano */}
-                  <div className="flex flex-col">
-                    <label className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">ANO</label>
+            <FocusHidden
+              open={filtersVisible}
+              setOpen={setFiltersVisible}
+              style="absolute left-3 z-50 mt-2 w-fit min-w-[920px] max-w-[1180px] rounded-md bg-white p-5 shadow-lg dark:bg-[#0C1B2B]"
+            >
+              <div className="w-full">
+                <h2 className="mb-5 text-lg font-semibold text-slate-800 dark:text-white">
+                  Filtros
+                </h2>
+
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-3 xl:grid-cols-[170px_170px_190px_190px_250px]">
+                  <div>
+                    <label className="mb-1 block text-xs font-bold uppercase text-slate-500 dark:text-slate-300">
+                      Ano
+                    </label>
+
                     <select
-                      value={tempFilters.year || filters.years && filters.years[filters.years.length - 1]}
-                      onChange={(e) => {
-                        setTempFilters((prev) => ({ ...prev, year: e.target.value }));
+                      value={
+                        tempFilters.year ||
+                        tempFilters.years?.[tempFilters.years.length - 1] ||
+                        ""
+                      }
+                      onChange={(event) => {
+                        setTempFilters((prev) => ({
+                          ...prev,
+                          year: event.target.value,
+                        }));
                       }}
-                      className="px-3 py-2 border text-sm rounded-md dark:bg-[#182e46] dark:border-gray-600 dark:text-gray-300"
+                      className="w-full rounded-md border px-3 py-2 text-sm dark:border-gray-600 dark:bg-[#182e46] dark:text-gray-300"
                     >
-                      {filters.years?.map((yr: string) => (
-                        <option key={yr} value={yr}>
-                          {yr}
+                      {tempFilters.years?.map((year: string) => (
+                        <option key={year} value={year}>
+                          {year}
                         </option>
                       ))}
                     </select>
                   </div>
 
-                  {/* Additional filters */}
-                  {tempFilters.additionalFilters?.map((f: AdditionalFilter) => (
-                    <div key={f.label} className="relative flex flex-col">
-                      <label className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">{f.label}</label>
-                      <button
-                        onClick={() => {
-                          toggleDropdown(f.label);
-                        }}
-                        className="w-full flex justify-between items-center px-3 py-2 border rounded-md text-sm"
-                      >
-                        <span className="text-gray-500">
-                          {f.selected?.length
-                            ? `${f.selected.length} selecionado(s)`
-                            : "Nenhum selecionado"}
-                        </span>
-                        <ChevronIcon up={dropdowns[f.label]} />
-                      </button>
+                  {tempFilters.additionalFilters?.map(
+                    (filter: AdditionalFilter) => {
+                      const searchTerm = searchTerms[filter.label] || "";
 
-                      {dropdowns[f.label] && (
-                        <FocusHidden
-                          open={dropdowns[f.label]}
-                          setOpen={(val) => setDropdowns((prev) => ({ ...prev, [f.label]: val }))}
-                        >
-                          <div className="absolute z-50 mt-1 p-4 bg-white dark:bg-[#243041] border dark:border-gray-600 shadow-md max-h-60 overflow-y-auto">
-                            <input
-                              type="text"
-                              placeholder="Pesquisar..."
-                              value={searchTerms[f.label] || ""}
-                              onChange={(e) => {
-                                handleSearchChange(f.label, e.target.value);
-                              }}
-                              className="border rounded mb-2 px-2 py-1 text-sm w-full dark:text-gray-300 dark:bg-[#152638] dark:border-gray-600"
-                            />
-                            <button
-                              onClick={() => {
-                                handleSelectAll(f.label);
-                              }}
-                              className="text-blue-600 font-medium hover:underline w-[max-content] block mb-2"
-                            >
-                              {f.selected.length === f.options.length
-                                ? "Desselecionar Todos"
-                                : "Selecionar Todos"}
-                            </button>
+                      const options = ordenarOpcoes(filter.options || []).filter(
+                        (option: string) => {
+                          return option
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase());
+                        }
+                      );
 
-                            {f.options
-                              .sort((a: string, b: string) => {
-                                // verifica se são números
-                                const numA = parseFloat(a);
-                                const numB = parseFloat(b);
+                      return (
+                        <div key={filter.label} className="relative">
+                          <label className="mb-1 block text-xs font-bold uppercase text-slate-500 dark:text-slate-300">
+                            {filter.label}
+                          </label>
 
-                                if (!isNaN(numA) && !isNaN(numB)) {
-                                  return numA - numB; // ordem numérica
+                          <button
+                            type="button"
+                            onClick={() => toggleDropdown(filter.label)}
+                            className="flex w-full items-center justify-between rounded-md border px-3 py-2 text-left text-sm text-slate-600 dark:border-gray-600 dark:bg-[#182e46] dark:text-gray-300"
+                          >
+                            <span>{getResumoFiltro(filter)}</span>
+                            <ChevronIcon up={dropdowns[filter.label]} />
+                          </button>
+
+                          {dropdowns[filter.label] && (
+                            <div className="absolute left-0 top-[68px] z-[999] max-h-72 w-full overflow-y-auto rounded-md border bg-white p-3 shadow-lg dark:border-gray-600 dark:bg-[#152638]">
+                              <input
+                                value={searchTerm}
+                                onChange={(event) =>
+                                  handleSearchChange(
+                                    filter.label,
+                                    event.target.value
+                                  )
                                 }
-                                return a.localeCompare(b, undefined, { sensitivity: "base" });
-                              })
-                              .filter((op: string) => {
-                                const searchTerm = searchTerms[f.label] || "";
-                              
-                                if (typeof op === "string") {
-                                  return op.toLowerCase().includes(searchTerm.toLowerCase());
-                                }
-                                return String(op).includes(searchTerm);
-                              })
-                              .map((op: string) => (
-                                <label key={op} className="flex items-center gap-2 py-1 text-sm dark:text-gray-300">
-                                  <input
-                                    type="checkbox"
-                                    checked={f.selected.includes(op)}
-                                    onChange={() => {
-                                      handleCheckboxChange(f.label, op);
-                                    }}
-                                    className="h-4 w-4 text-blue-600"
-                                  />
-                                  {f?.hash ? f.hash[`${op}`] : op}
-                                </label>
-                              ))}
-                          </div>
-                        </FocusHidden>
-                      )}
-                    </div>
-                  ))}
+                                placeholder="Pesquisar..."
+                                className="mb-2 w-full rounded border px-2 py-1 text-sm dark:border-gray-600 dark:bg-[#152638] dark:text-gray-300"
+                              />
+
+                              {filter.allowMultiple !== false && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleSelectAll(filter.label)}
+                                  className="mb-2 block w-max text-sm font-medium text-blue-600 hover:underline"
+                                >
+                                  {filter.selected.length ===
+                                  filter.options.length
+                                    ? "Desselecionar Todos"
+                                    : "Selecionar Todos"}
+                                </button>
+                              )}
+
+                              <div className="space-y-2">
+                                {options.map((option: string) => (
+                                  <label
+                                    key={`${filter.label}-${option}`}
+                                    className="flex cursor-pointer items-center gap-2 text-sm text-slate-700 dark:text-slate-300"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                      checked={filter.selected.includes(option)}
+                                      onChange={() =>
+                                        handleCheckboxChange(
+                                          filter.label,
+                                          option
+                                        )
+                                      }
+                                      className="h-4 w-4 text-blue-600"
+                                    />
+
+                                    <span>
+                                      {filter.hash
+                                        ? filter.hash[`${option}`] ?? option
+                                        : option}
+                                    </span>
+                                  </label>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    }
+                  )}
                 </div>
 
-                {/* Botões para confirmar ou limpar */}
-                <div className="flex justify-end gap-4 mt-4">
+                <div className="mt-6 flex justify-end gap-3">
                   <button
+                    type="button"
                     onClick={onResetFilters}
-                    className="bg-gray-100 px-4 py-2 rounded-md dark:bg-transparent dark:text-blue-500 dark:border dark:border-blue-500 hover:dark:bg-white hover:dark:bg-opacity-10" 
+                    className="rounded-md bg-gray-100 px-5 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200"
                   >
                     Limpar Filtros
                   </button>
+
                   <button
+                    type="button"
                     onClick={onApplyFilters}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-md"
+                    className="rounded-md bg-blue-600 px-5 py-2 text-sm font-medium text-white hover:bg-blue-700"
                   >
                     Confirmar Filtros
                   </button>
@@ -291,91 +549,27 @@ const Navbar = () => {
             </FocusHidden>
           )}
         </div>
+      )}
 
-        {/* Ícone (botão) para mostrar/ocultar a navbar */}
-        <div className="absolute top-[100%] right-[8%] px-4 bg-[#d6d6d686] dark:bg-[#0c1b2b86] rounded-b-lg" style={{ backdropFilter: "blur(5px)" }}>
-          {!navVisible && (
-            <button onClick={() => setNavVisible(true)} className="flex items-center">
-              <p
-                className="
-                  text-gray-800
-                  dark:text-gray-200
-                  relative 
-                  inline-block 
-                  font-medium 
-                  after:content-[''] 
-                  after:absolute 
-                  after:left-0 
-                  after:bottom-0 
-                  after:h-[1.5px] 
-                  after:w-0
-                  after:bg-current
-                  after:transition-[width] 
-                  after:duration-300
-                  hover:after:w-full
-                "
-              >
-                Abrir Filtros
-              </p>
-              <svg
-                width="25px"
-                height="45px"
-                viewBox="0 0 16 16"
-                xmlns="http://www.w3.org/2000/svg"
-                className="rotate-90 fill-gray-800 dark:fill-gray-200"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 
-                  .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
-                />
-              </svg>
-            </button>
-          )}
+      {!navVisible && (
+        <button
+          type="button"
+          onClick={() => setNavVisible(true)}
+          className="fixed right-8 top-0 z-50 rounded-b-md bg-gray-200 px-5 py-3 text-sm font-medium text-gray-700 shadow"
+        >
+          Abrir Filtros ↓
+        </button>
+      )}
 
-          {navVisible && (
-            <button onClick={() => setNavVisible(false)} className="flex items-center">
-              <p
-                className="
-                  text-gray-800
-                  dark:text-gray-200
-                  relative 
-                  inline-block 
-                  font-medium
-                  after:content-[''] 
-                  after:absolute 
-                  after:left-0 
-                  after:bottom-0 
-                  after:h-[1.5px] 
-                  after:w-0
-                  after:bg-current
-                  after:transition-[width] 
-                  after:duration-300
-                  hover:after:w-full
-                "
-              >
-                Fechar Filtros
-              </p>
-              <svg
-                width="25px"
-                height="45px"
-                viewBox="0 0 16 16"
-                xmlns="http://www.w3.org/2000/svg"
-                className="-rotate-90 fill-gray-800 dark:fill-gray-200"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 
-                  .708-.708l3 3a.5.5 0 0 1 0 
-                  .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
-                />
-              </svg>
-            </button>
-          )}
-        </div>
-      </div>
+      {navVisible && (
+        <button
+          type="button"
+          onClick={() => setNavVisible(false)}
+          className="fixed right-8 top-[170px] z-50 rounded-b-md bg-gray-200 px-5 py-3 text-sm font-medium text-gray-700 shadow"
+        >
+          Fechar Filtros ↑
+        </button>
+      )}
     </>
   );
-};
-
-export default Navbar;
+}
