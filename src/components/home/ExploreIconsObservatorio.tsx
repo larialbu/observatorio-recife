@@ -771,6 +771,42 @@ export const iconsExplore = [
                     "tributação sobre renda"
                 ],
                 bundleKey: "tributos"
+            },
+            {
+                id: 11,
+                label: "Combustíveis",
+                icon: (
+                    <svg className="icon-line" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g transform="scale(3.083333)">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0v-6.998a2 2 0 0 0-.59-1.42L18 5"/>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M14 21V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16"/>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2 21h13"/>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 9h11"/>
+                        </g>
+                    </svg>
+                ),
+                logo: (
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="25" cy="25" r="24" fill="#0155AE"/>
+                        <text x="25" y="30" textAnchor="middle" fontSize="13" fontWeight="700" fill="#FFFFFF" fontFamily="Arial, sans-serif">ANP</text>
+                    </svg>
+                ),
+                href: "/observatorio/combustiveis?tab=geral",
+                tags: [
+                    "combustiveis",
+                    "combustíveis",
+                    "preço da gasolina",
+                    "preço do diesel",
+                    "preço do etanol",
+                    "gnv",
+                    "glp",
+                    "postos de combustível",
+                    "revenda de combustíveis",
+                    "anp",
+                    "preço médio de revenda",
+                    "variação de preços",
+                    "mercado de combustíveis"
+                ]
             }
         ]
     }

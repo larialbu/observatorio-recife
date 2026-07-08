@@ -176,7 +176,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
 
 
   useEffect(() => {
-    const tab = searchParams.get("tab");
+    const tab = searchParams.get("tab") || "geral";
     const baseFilters = getFiltersForRoute(pathname, tab) as Filters;
     
     // Se os filtros não mudaram, não faz nada

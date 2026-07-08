@@ -2,5 +2,12 @@
 /.next
 
 .env
+.env.local
 /public/*.rar
 /public/manifest.json
+
+# build artifacts
+tsconfig.tsbuildinfo
+
+# temporary screenshot/debug scripts
+screenshot_*.js

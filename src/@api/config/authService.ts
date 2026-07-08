@@ -1,4 +1,4 @@
-const API_LOGIN_URL = `${process.env.NEXT_PUBLIC_API_BASE_LOGIN}/auth/login`;
+const API_LOGIN_URL = `${process.env.NEXT_PUBLIC_API_BASE_LOGIN}/api/auth/login`;
 const API_USERNAME = process.env.NEXT_PUBLIC_API_USERNAME!;
 const API_PASSWORD = process.env.NEXT_PUBLIC_API_PASSWORD!;
 

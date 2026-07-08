@@ -7,7 +7,7 @@ export const ExploreItem = ({ item, bundleProgress, isDarkMode }: {
   bundleProgress: any;
   isDarkMode: boolean;
 }) => {
-  const progresso = item.bundleKey ? bundleProgress[item.bundleKey] || 0 : 0;
+  const progresso = item.bundleKey ? bundleProgress[item.bundleKey] || 0 : 100;
   const isLinkDisabled = progresso < 100;
   const rewardId = `reward-${item.bundleKey}`;
   

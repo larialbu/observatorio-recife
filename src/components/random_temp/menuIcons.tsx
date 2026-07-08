@@ -176,6 +176,23 @@ export const menuItems = [
           href: "/observatorio/tributos",
           visible: ["admin", "teacher", "student", "parent"],
         },
+
+        // COMBUSTÍVEIS
+        {
+          label: "Combustíveis",
+          icon: (
+            <svg viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg" className="stroke-gray-500 dark:stroke-[#e5e7eb]">
+              <g transform="scale(3.083333)">
+                <path style={{ fill: 'none !important' }} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0v-6.998a2 2 0 0 0-.59-1.42L18 5"/>
+                <path style={{ fill: 'none !important' }} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" d="M14 21V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16"/>
+                <path style={{ fill: 'none !important' }} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" d="M2 21h13"/>
+                <path style={{ fill: 'none !important' }} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" d="M3 9h11"/>
+              </g>
+            </svg>
+          ),
+          href: "/observatorio/combustiveis?tab=geral",
+          visible: ["admin", "teacher", "student", "parent"],
+        },
       ],
     },
     {

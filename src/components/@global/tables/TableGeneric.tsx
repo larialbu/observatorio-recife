@@ -99,7 +99,7 @@ const TableGeneric: React.FC<PaginatedTableProps> = ({
           {searchIndexes.length > 0 && (
             <div className="mb-4 px-8 grid grid-cols-2 gap-4">
               {searchIndexes.map((index) => (
-                <div className="relative">
+                <div className="relative" key={index}>
                   <svg
                     className="absolute left-2 top-[50%] -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none"
                     fill="currentColor"

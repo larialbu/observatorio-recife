@@ -7,7 +7,8 @@ const Card = ({
   color,
   local,
   percent = false,
-  position = false
+  position = false,
+  minWidth = 310,
 }: {
   title: string;
   local?: string;
@@ -16,12 +17,13 @@ const Card = ({
   color: string | string[];
   percent?: boolean;
   position?: boolean;
+  minWidth?: number;
 }) => {
   return (
     // w-fit - w-full
     <div
-      className="rounded-lg  p-4 flex-1 shrink-0  min-w-[310px] w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#0C1B2B] shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out"
-      style={{ borderLeft: `8px solid ${color}` }}
+      className="rounded-lg  p-4 flex-1 shrink-0  w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#0C1B2B] shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out"
+      style={{ borderLeft: `8px solid ${color}`, minWidth: `${minWidth}px` }}
     >
       {/* Header: Local and Year */}
       <div className="flex justify-between items-center mb-3">

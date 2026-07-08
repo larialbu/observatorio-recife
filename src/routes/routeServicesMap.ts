@@ -9,6 +9,9 @@ import { pibDataService } from "@/services/@data/pibDataService";
 import { portoDataService } from "@/services/@data/portoDataService";
 import { raisDataService } from "@/services/@data/raisDataService";
 import { rankingDataService } from "@/services/@data/rankingDataService";
+import { combustiveisDataService } from "@/services/@data/combustiveisDataService";
+import { tributosDataService } from "@/services/@data/tributosDataService";
+import { capagDataService } from "@/services/@data/capagDataService";
 
 export const routeServicesMap: Record<
   string,
@@ -103,5 +106,26 @@ export const routeServicesMap: Record<
     // salario: empresasGeralFilters,
   },
    
+  "/observatorio/combustiveis": {
+    geral: combustiveisDataService,
+    comparativo: combustiveisDataService,
+    regional: combustiveisDataService,
+    estadual: combustiveisDataService,
+    municipal: combustiveisDataService,
+  },
+
+  "/observatorio/tributos": {
+    "itbi-contribuintes": tributosDataService,
+    "itbi-avaliacoes": tributosDataService,
+    "itbi-pesquisa": tributosDataService,
+    "iptu-contribuintes": tributosDataService,
+    "iptu-valores": tributosDataService,
+    "iptu-pesquisa": tributosDataService,
+  },
+
+  "/observatorio/capag": {
+    geral: capagDataService,
+  },
+
   // E assim por diante ...
 };

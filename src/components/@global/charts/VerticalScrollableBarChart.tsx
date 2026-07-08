@@ -12,7 +12,6 @@ import {
 } from "recharts";
 
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
-import { truncateTextFormatter } from "@/utils/formatters/@global/truncateTextFormatter";
 
 import CustomLegend from "../features/CustomLegend";
 import CustomTooltip from "../features/CustomTooltip";
@@ -20,12 +19,40 @@ import { resizeDiv } from "../features/resizeDiv";
 
 const splitDataInBlocks = (data: any[], blockSize: number = 100) => {
   const blocks: any[][] = [];
-  
+
   for (let i = 0; i < data.length; i += blockSize) {
     blocks.push(data.slice(i, i + blockSize));
   }
-  
+
   return blocks;
+};
+
+// Capitaliza o texto (siglas de 2 letras ficam em maiúsculo), sem cortar o nome
+const formatLabel = (value: string) => {
+  if (!value) return "";
+  if (value.length === 2) return value.toUpperCase();
+  const lower = value.toLowerCase();
+  return lower.charAt(0).toUpperCase() + lower.slice(1);
+};
+
+// Quebra o texto em múltiplas linhas para caber na largura do eixo sem cortar nada
+const wrapLabelLines = (text: string, maxCharsPerLine: number) => {
+  const words = text.split(" ").filter(Boolean);
+  const lines: string[] = [];
+  let current = "";
+
+  for (const word of words) {
+    const candidate = current ? `${current} ${word}` : word;
+    if (candidate.length > maxCharsPerLine && current) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = candidate;
+    }
+  }
+  if (current) lines.push(current);
+
+  return lines.length ? lines : [""];
 };
 
 const VerticalScrollableBarChart = ({
@@ -39,7 +66,8 @@ const VerticalScrollableBarChart = ({
   widthY = 100,
   left = -5,
   yFontSize = 12,
-  maxDescriptionLength = 20, // Definir limite de caracteres para o eixo Y
+  highlightValues = ["Recife"],
+  highlightColor,
 }: any) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -91,7 +119,36 @@ const VerticalScrollableBarChart = ({
     };
   }, [dataRead]); 
 
-  const totalHeight = Math.max(dataRead.length * heightPerCategory, 300);
+  const lineHeight = yFontSize + 3;
+  const charsPerLine = Math.max(6, Math.floor((widthY - 16) / (yFontSize * 0.62)));
+
+  const wrappedLabels = dataRead.reduce((acc: Record<string, string[]>, entry: any) => {
+    const raw = String(entry?.[xKey] ?? "");
+    if (!(raw in acc)) acc[raw] = wrapLabelLines(formatLabel(raw), charsPerLine);
+    return acc;
+  }, {} as Record<string, string[]>);
+
+  const maxLines = Object.values(wrappedLabels).reduce((max: number, lines: string[]) => Math.max(max, lines.length), 1);
+  const effectiveHeightPerCategory = Math.max(heightPerCategory, maxLines * lineHeight + 14);
+
+  const totalHeight = Math.max(dataRead.length * effectiveHeightPerCategory, 300);
+
+  const renderYAxisTick = ({ x, y, payload }: any) => {
+    const lines = wrappedLabels[String(payload.value)] ?? [formatLabel(String(payload.value))];
+    const startOffset = -((lines.length - 1) * lineHeight) / 2;
+
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text textAnchor="end" fontSize={yFontSize} fill="var(--yaxis-tick-color)">
+          {lines.map((line, i) => (
+            <tspan key={i} x={0} dy={i === 0 ? startOffset : lineHeight}>
+              {line}
+            </tspan>
+          ))}
+        </text>
+      </g>
+    );
+  };
 
   return (
     <div ref={containerRef} className="relative bg-white w-full dark:bg-[#0C1B2B]">
@@ -111,7 +168,7 @@ const VerticalScrollableBarChart = ({
               layout="vertical"
               margin={{ top: 0, right: 10, left: left, bottom: 5 }}
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.5} />
               <XAxis
                 type="number"
                 tickFormatter={yAxisFormatter}
@@ -121,11 +178,9 @@ const VerticalScrollableBarChart = ({
               <YAxis
                 type="category"
                 dataKey={xKey}
-                // altera o tamanho max da texto
-                tick={{ width: 110, fontSize: yFontSize, fill: "var(--yaxis-tick-color)" }}
+                tick={renderYAxisTick}
                 interval={0}
                 width={widthY}
-                tickFormatter={(value: string) => truncateTextFormatter(value, maxDescriptionLength)}
               />
               <Tooltip content={(e) => CustomTooltip({ ...e, customTooltipFormatter: tooltipFormatter })} />
 
@@ -159,12 +214,12 @@ const VerticalScrollableBarChart = ({
               /> */}
 
               {bars.map((bar: any, index: number) => (
-                <Bar key={index} dataKey={bar.dataKey} name={bar.name} fill={colors[0]}>
+                <Bar key={index} dataKey={bar.dataKey} name={bar.name} fill={colors[0]} radius={[0, 6, 6, 0]} maxBarSize={28}>
                   {dataRead.map((entry: any, dataIndex: number) => (
                     <Cell
                       key={`cell-${dataIndex}`}
-                      fill={entry[xKey]?.includes("Recife") 
-                        ? colors[(index % colors.length) + 1] 
+                      fill={highlightValues.some((v: string) => entry[xKey]?.includes(v))
+                        ? (highlightColor ?? colors[(index % colors.length) + 1])
                         : colors[index % colors.length]}
                     />
                   ))}

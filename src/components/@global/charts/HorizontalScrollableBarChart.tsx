@@ -5,15 +5,17 @@ import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/gra
 import CustomLegend from "../features/CustomLegend";
 import CustomTooltip from "../features/CustomTooltip";
 
-const HorizontalScrollableBarChart = ({ 
-  data, 
-  title, 
-  colors, 
-  xKey, 
+const HorizontalScrollableBarChart = ({
+  data,
+  title,
+  colors,
+  xKey,
   bars,
   widthMultiply,
   heightToPass,
-  tooltipEntry
+  tooltipEntry,
+  yDomain,
+  xAxisOrientation = "top",
 }: any) => {
   
   const customTooltipFormatter = (value: any) => {
@@ -30,16 +32,24 @@ const HorizontalScrollableBarChart = ({
           {/* Adding a larger width to the ResponsiveContainer */}
           <div style={{ width: data.length * widthMultiply + 'px' }}>
             <ResponsiveContainer width="100%" height={362}>
-              <RechartsBarChart data={data} margin={{ top: 20, right: 20, left: 13, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey={xKey} 
+              <RechartsBarChart
+                data={data}
+                margin={
+                  xAxisOrientation === "bottom"
+                    ? { top: 20, right: 20, left: 13, bottom: 20 }
+                    : { top: 20, right: 20, left: 13, bottom: 5 }
+                }
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.5} />
+                <XAxis
+                  dataKey={xKey}
                   tick={{ fontSize: 12, fill: "var(--yaxis-tick-color)" }}
-                  orientation="top"
+                  orientation={xAxisOrientation}
                 />
-                <YAxis 
+                <YAxis
                   tick={{ fontSize: 12, fill: "var(--yaxis-tick-color)" }}
                   tickFormatter={yAxisFormatter}
+                  domain={yDomain}
                 />
                 <Tooltip
               content={(e) => CustomTooltip({...e, customTooltipFormatter})}
@@ -51,7 +61,7 @@ const HorizontalScrollableBarChart = ({
                   iconSize={20}
                 />
                 {bars.map((bar: any, index: any) => (
-                  <Bar key={index} dataKey={bar.dataKey} fill={colors[index]} name={bar.name} />
+                  <Bar key={index} dataKey={bar.dataKey} fill={colors[index]} name={bar.name} radius={[6, 6, 0, 0]} maxBarSize={64} />
                 ))}
               </RechartsBarChart>
             </ResponsiveContainer>

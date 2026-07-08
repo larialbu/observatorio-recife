@@ -1,17 +1,19 @@
-import { BarChart as RechartsBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { BarChart as RechartsBarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 import { tooltipFormatter, yAxisFormatter } from "@/utils/formatters/@global/graphFormatter";
 
 import CustomLegend from "../features/CustomLegend";
 import CustomTooltip from "../features/CustomTooltip";
 
-const BarChart = ({ 
-  data, 
-  title, 
-  colors, 
-  xKey, 
+const BarChart = ({
+  data,
+  title,
+  colors,
+  xKey,
   bars,
-  tooltipEntry
+  tooltipEntry,
+  highlightValues = [],
+  highlightColor,
 }: any) => {
 
   const customTooltipFormatter = (value: any) => {
@@ -25,7 +27,7 @@ const BarChart = ({
         </div>
         <ResponsiveContainer width="100%" height={382}>
           <RechartsBarChart data={data} margin={{ top: 20, right: 20, left: 13, bottom: 5 }} style={{ stroke: "var(--yaxis-tick-color)" }}>
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.5} />
             <XAxis 
               dataKey={xKey} 
               tick={{ fontSize: 12, fill: "var(--yaxis-tick-color)" }}
@@ -44,7 +46,14 @@ const BarChart = ({
               iconSize={20}
             />
             {bars.map((bar: any, index: any) => (
-              <Bar key={index} dataKey={bar.dataKey} fill={colors[index]} name={bar.name} />
+              <Bar key={index} dataKey={bar.dataKey} fill={colors[index]} name={bar.name} radius={[6, 6, 0, 0]} maxBarSize={64}>
+                {highlightColor && data.map((entry: any, dataIndex: number) => (
+                  <Cell
+                    key={`cell-${dataIndex}`}
+                    fill={highlightValues.some((v: string) => entry[xKey]?.includes(v)) ? highlightColor : colors[index]}
+                  />
+                ))}
+              </Bar>
             ))}
           </RechartsBarChart>
         </ResponsiveContainer>

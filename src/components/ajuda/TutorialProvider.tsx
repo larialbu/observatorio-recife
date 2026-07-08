@@ -100,6 +100,7 @@ export const tutorialData: Record<string, TutorialItem> = {
         <h3 className="font-semibold mt-4">Nossas Fontes Incluem:</h3>
         <ul className="list-disc pl-5 mt-2 space-y-1 text-gray-700 dark:text-gray-300">
           <li><strong>Aviação:</strong> ANAC, Aena</li>
+          <li><strong>Combustíveis:</strong> ANP</li>
           <li><strong>Economia e Sociedade:</strong> IBGE, Novo Caged, Comex Stat</li>
           <li><strong>Transporte e Logística:</strong> Portos do Recife, ANTAQ</li>
           <li><strong>Setor Público e Empresarial:</strong> Prefeitura do Recife, Gov.br, Tesouro Nacional, BCB, CLP</li>

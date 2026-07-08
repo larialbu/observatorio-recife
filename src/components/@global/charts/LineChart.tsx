@@ -21,7 +21,8 @@ const LineChart = ({
   yAxis,
   lines,
   colors = [],
-  tooltipEntry
+  tooltipEntry,
+  height = 340,
 
 }: any) => {
 
@@ -34,14 +35,15 @@ const LineChart = ({
       <div className="flex flex-col items-center justify-center">
         <h3 className="text-center font-semibold w-[90%] text-gray-800 dark:text-gray-100">{title}</h3>
       </div>
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" height={height}>
         <RechartsLineChart
           data={data}
-          margin={{ top: 20, right: 20, left: 23, bottom: 5 }}
+          margin={{ top: 20, right: 30, left: 23, bottom: 10 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey={xKey} tick={{ fontSize: 12, fill: "var(--yaxis-tick-color)" }}/>
+          <XAxis dataKey={xKey} tick={{ fontSize: 12, fill: "var(--yaxis-tick-color)" }} />
           <YAxis
+            domain={[(dataMin: number) => parseFloat((dataMin * 0.98).toFixed(2)), (dataMax: number) => parseFloat((dataMax * 1.01).toFixed(2))]}
             tick={{ fontSize: 11, fill: "var(--yaxis-tick-color)" }}
             tickFormatter={yAxisFormatter}
             {...yAxis}
@@ -49,8 +51,8 @@ const LineChart = ({
           <Tooltip
             content={(e) => CustomTooltip({...e, customTooltipFormatter})}
           />
-          <Legend 
-            verticalAlign="top" 
+          <Legend
+            verticalAlign="top"
             align="center"
             content={({ payload }) => <CustomLegend payload={payload} />}
             iconSize={20}
@@ -61,9 +63,11 @@ const LineChart = ({
               type={line.type || "monotone"}
               dataKey={line.dataKey}
               stroke={colors[index] || "#000"}
-              strokeWidth={line.strokeWidth || 2}
-              dot={line.showDots !== false}
+              strokeWidth={line.strokeWidth || 3}
+              dot={line.showDots !== false ? { r: 5, strokeWidth: 2, stroke: colors[index] || "#000", fill: "#fff" } : false}
+              activeDot={{ r: 7 }}
               name={line.name}
+              connectNulls
             />
           ))}
         </RechartsLineChart>

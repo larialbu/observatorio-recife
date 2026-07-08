@@ -38,6 +38,18 @@ import { empresasNaturezasFilters } from "@/utils/filters/empresas/empresasNatur
 import { empresasClassesFilters } from "@/utils/filters/empresas/empresasClassesFilters";
 import { empresasComparativoClasses } from "@/utils/filters/empresas/empresasComparativoClasses";
 import { empresasAbertasFechadasFilters } from "@/utils/filters/empresas/empresasAbertasFechadasFilters";
+import { combustiveisGeralFilters } from "@/utils/filters/combustiveis/combustiveisGeralFilters";
+import { combustiveisComparativoFilters } from "@/utils/filters/combustiveis/combustiveisComparativoFilters";
+import { combustiveisRegionalFilters } from "@/utils/filters/combustiveis/combustiveisRegionalFilters";
+import { combustiveisEstadualFilters } from "@/utils/filters/combustiveis/combustiveisEstadualFilters";
+import { combustiveisMunicipalFilters } from "@/utils/filters/combustiveis/combustiveisMunicipalFilters";
+import { tributosItbiContribuintesFilters } from "@/utils/filters/tributos/tributosItbiContribuintesFilters";
+import { tributosItbiAvaliacoesFilters } from "@/utils/filters/tributos/tributosItbiAvaliacoesFilters";
+import { tributosItbiPesquisaFilters } from "@/utils/filters/tributos/tributosItbiPesquisaFilters";
+import { tributosIptuContribuintesFilters } from "@/utils/filters/tributos/tributosIptuContribuintesFilters";
+import { tributosIptuValoresFilters } from "@/utils/filters/tributos/tributosIptuValoresFilters";
+import { tributosIptuPesquisaFilters } from "@/utils/filters/tributos/tributosIptuPesquisaFilters";
+import { capagGeralFilters } from "@/utils/filters/capag/capagGeralFilters";
 // Se houver outros filtros específicos pra outras rotas, importe eles também.
 
 type TabFiltersMap = Record<string, Filters>;
@@ -130,6 +142,27 @@ export const routeFiltersMap: Record<string, TabFiltersMap> = {
     // "comparativo-mov": empresasGeralFilters,
     // "comparativo-med": empresasGeralFilters,
     // salario: empresasGeralFilters,
+  },
+
+  "/observatorio/combustiveis": {
+    geral: combustiveisGeralFilters,
+    comparativo: combustiveisComparativoFilters,
+    regional: combustiveisRegionalFilters,
+    estadual: combustiveisEstadualFilters,
+    municipal: combustiveisMunicipalFilters,
+  },
+
+  "/observatorio/tributos": {
+    "itbi-contribuintes": tributosItbiContribuintesFilters,
+    "itbi-avaliacoes": tributosItbiAvaliacoesFilters,
+    "itbi-pesquisa": tributosItbiPesquisaFilters,
+    "iptu-contribuintes": tributosIptuContribuintesFilters,
+    "iptu-valores": tributosIptuValoresFilters,
+    "iptu-pesquisa": tributosIptuPesquisaFilters,
+  },
+
+  "/observatorio/capag": {
+    geral: capagGeralFilters,
   },
 
   // E assim por diante pra outras rotas...

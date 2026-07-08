@@ -6,13 +6,18 @@ import { tooltipFormatter } from '@/utils/formatters/@global/graphFormatter';
 import CustomLegend from '../features/CustomLegend';
 import CustomTooltip from '../features/CustomTooltip';
 
-const CustomizedContent = ({ root, depth, x, y, width, height, index, payload, colors, rank, label }: any) => {
+const CustomizedContent = ({ root, depth, x, y, width, height, index, payload, colors, rank, label, highlightValues = [], highlightColor }: any) => {
     const MIN_SIZE = 70;
-    
+
     const adjustedWidth = Math.max(width, MIN_SIZE);
     const adjustedHeight = Math.max(height, MIN_SIZE);
 
     const shouldDisplayText = adjustedWidth > MIN_SIZE && adjustedHeight > MIN_SIZE;
+
+    const isHighlighted = highlightColor && highlightValues.some((v: string) => payload?.label?.includes(v));
+    const fill = depth < 2
+        ? (isHighlighted ? highlightColor : colors[Math.floor((index / (root?.children?.length || 1)) * 6)])
+        : '#ffffff00';
 
     return (
         <g>
@@ -22,7 +27,7 @@ const CustomizedContent = ({ root, depth, x, y, width, height, index, payload, c
                 width={adjustedWidth}
                 height={adjustedHeight}
                 style={{
-                    fill: depth < 2 ? colors[Math.floor((index / (root?.children?.length || 1)) * 6)] : '#ffffff00',
+                    fill,
                     strokeOpacity: 0,
                 }}
             />
@@ -40,10 +45,12 @@ const TreeMapChart = ({
     title, 
     colors, 
     xKey,
-    dataKey, 
+    dataKey,
     bars,
     tooltipEntry,
     integerInfos = true,
+    highlightValues = [],
+    highlightColor,
 }: any) => {
     const [percent, setPercent] = useState(false)
 
@@ -85,14 +92,17 @@ const TreeMapChart = ({
                 <div className={`flex flex-wrap gap-2 justify-center space-x-4 border -mt-2 mb-4 rounded-md pt-6 pb-3 px-2  `}>
                     {data?.map((entry: any, index: number) => {
                         const percentage = calculatePercentage(entry.value);
+                        const legendColor = (highlightColor && highlightValues.some((v: string) => entry.label?.includes(v)))
+                            ? highlightColor
+                            : colors[index];
 
                         return (
                             <div key={index} className="flex items-center justify-center gap-1 text-xs">
-                                <span className="h-3 w-3 rounded-full" style={{ backgroundColor: colors[index] }}></span>
+                                <span className="h-3 w-3 rounded-full" style={{ backgroundColor: legendColor }}></span>
                                 <span
                                     className="text-xs font-semibold"
                                     style={{
-                                        color: colors[index],
+                                        color: legendColor,
                                     }}
                                 >
                                     {entry.label} ({percent ? `${percentage}%` : entry.value.toFixed(integerInfos ? 0 : 2)})

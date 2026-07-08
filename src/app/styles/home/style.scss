@@ -201,9 +201,23 @@ header{
         }
 
         &.darkin{
-    
+
             path{
                 fill: white !important;
+            }
+        }
+
+        &.icon-line{
+            path, circle{
+                fill: none !important;
+                stroke: #0155AE;
+                stroke-width: 2;
+            }
+
+            &.darkin{
+                path, circle{
+                    stroke: white;
+                }
             }
         }
     }

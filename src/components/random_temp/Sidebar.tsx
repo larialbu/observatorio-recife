@@ -78,7 +78,7 @@ const Bar = ({
               fill="none"
               className="stroke-[#6b7280] dark:stroke-white"
             >
-              <path d="M4 12H20M4 8H20M4 16H12" />
+              <path d="M6 12H18M6 8H18M6 16H12" />
             </svg>
           )}
         </button>
